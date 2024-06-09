@@ -20,7 +20,6 @@ import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
@@ -105,11 +104,8 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.text.TextContent
 import net.minecraft.util.ActionResult
-import net.minecraft.util.Colors
-import net.minecraft.util.DyeColor
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import net.minecraft.util.Util
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
@@ -121,7 +117,7 @@ import java.util.*
 @Suppress("unused")
 open class PokemonEntity(
     world: World,
-    pokemon: Pokemon = Pokemon(),
+    pokemon: Pokemon = Pokemon().apply { isClient = world.isClient },
     type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,
 ) : TameableShoulderEntity(type, world), Poseable, Shearable, Schedulable {
     companion object {
@@ -163,6 +159,7 @@ open class PokemonEntity(
 
     var pokemon: Pokemon = pokemon
         set(value) {
+            value.isClient = this.world.isClient
             field = value
             delegate.changePokemon(value)
             stepHeight = behaviour.moving.stepHeight
@@ -497,15 +494,15 @@ open class PokemonEntity(
                     entityId = id // Doesn't really matter on the entity
                 )
             } else {
-                pokemon = Pokemon()
+                pokemon = this.createSidedPokemon()
                 health = 0F
             }
         } else {
             pokemon = try {
-                Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
+                this.createSidedPokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
             } catch (_: InvalidSpeciesException) {
                 health = 0F
-                Pokemon()
+                this.createSidedPokemon()
             }
         }
 
@@ -1220,8 +1217,6 @@ open class PokemonEntity(
         return !this.isBusy && !this.pokemon.isFainted() && !feature.enabled
     }
 
-
-
     override fun canUsePortals() = false
 
     override fun setAir(air: Int) {
@@ -1256,4 +1251,11 @@ open class PokemonEntity(
 
     /** Retrieves the battle theme associated with this Pokemon's Species/Form, or the default PVW theme if not found. */
     fun getBattleTheme() = Registries.SOUND_EVENT.get(this.form.battleTheme) ?: CobblemonSounds.PVW_BATTLE
+
+    /**
+     * A utility method to instance a [Pokemon] aware if the [world] is client sided or not.
+     *
+     * @return The side safe [Pokemon] with the [Pokemon.isClient] set.
+     */
+    private fun createSidedPokemon(): Pokemon = Pokemon().apply { isClient = this@PokemonEntity.world.isClient }
 }
