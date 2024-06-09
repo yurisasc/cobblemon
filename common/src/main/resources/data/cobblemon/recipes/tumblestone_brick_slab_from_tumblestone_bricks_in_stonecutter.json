@@ -1,8 +1,10 @@
 {
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "cobblemon:tumblestone_bricks"
-  },
-  "result": "cobblemon:tumblestone_brick_slab",
-  "count": 2
+    "type": "minecraft:stonecutting",
+    "ingredient": {
+        "item": "cobblemon:tumblestone_bricks"
+    },
+    "result": {
+        "id": "cobblemon:tumblestone_brick_slab"
+    },
+    "count": 2
 }
