@@ -36,6 +36,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
+import net.minecraft.state.property.Properties.WATERLOGGED
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
@@ -72,7 +73,6 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
 
         val POKEMON_ARGS = "gimmighoul"
         val LEVEL_RANGE = 5..30
-        val WATERLOGGED = BooleanProperty.of("waterlogged")
 
         val SOUTH_OUTLINE = VoxelShapes.union(
             VoxelShapes.cuboid(0.0, 0.0, 0.25, 1.0, 1.0, 0.9375)
