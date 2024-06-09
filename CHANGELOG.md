@@ -9,6 +9,7 @@
 - Fixed Pokemon spawning in non-full blocks like slabs.
 - Fixed Gilded Chests not dropping the chest itself when broken, only the contents.
 - Fixed Pokémon losing their Hidden Ability through evolution if the middle stage did not have a Hidden Ability.
+- Fixed Crumbling Arch not blending in with the world.
 
 ### Additions
 - Added extra visuals to early berry growth stages
