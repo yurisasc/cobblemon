@@ -22,9 +22,8 @@
             "item": "cobblemon:red_apricorn"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:friend_ball",
-        "count": 4
+    "result": {
+        "count": 4,
+        "id": "cobblemon:friend_ball"
     }
 }

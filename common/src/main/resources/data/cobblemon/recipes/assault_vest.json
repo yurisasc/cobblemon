@@ -3,7 +3,7 @@
     "pattern": [
         "P P",
         "WCW",
-		"WWW"
+        "WWW"
     ],
     "key": {
         "P": {
@@ -17,6 +17,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:assault_vest"
+        "id": "cobblemon:assault_vest"
     }
 }

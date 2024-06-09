@@ -10,11 +10,11 @@
         {
             "item": "minecraft:sweet_berries"
         },
-		{
-			"item": "cobblemon:pep_up_flower"
-		}
+        {
+            "item": "cobblemon:pep_up_flower"
+        }
     ],
     "result": {
-        "item": "cobblemon:fine_remedy"
+        "id": "cobblemon:fine_remedy"
     }
 }

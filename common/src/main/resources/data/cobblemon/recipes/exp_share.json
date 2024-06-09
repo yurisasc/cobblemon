@@ -3,7 +3,7 @@
     "pattern": [
         "GCG",
         "LHL",
-		"I I"
+        "I I"
     ],
     "key": {
         "I": {
@@ -23,6 +23,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:exp_share"
+        "id": "cobblemon:exp_share"
     }
 }

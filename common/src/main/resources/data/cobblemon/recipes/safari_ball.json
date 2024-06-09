@@ -22,9 +22,8 @@
             "item": "cobblemon:white_apricorn"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:safari_ball",
-        "count": 4
+    "result": {
+        "count": 4,
+        "id": "cobblemon:safari_ball"
     }
 }

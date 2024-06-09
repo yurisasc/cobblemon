@@ -15,8 +15,7 @@
             "tag": "minecraft:wool"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:display_case"
+    "result": {
+        "id": "cobblemon:display_case"
     }
 }

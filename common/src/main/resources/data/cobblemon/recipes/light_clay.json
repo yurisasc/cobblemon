@@ -3,7 +3,7 @@
     "pattern": [
         "GCG",
         "CEC",
-		"GCG"
+        "GCG"
     ],
     "key": {
         "G": {
@@ -17,6 +17,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:light_clay"
+        "id": "cobblemon:light_clay"
     }
 }

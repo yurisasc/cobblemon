@@ -3,7 +3,7 @@
     "pattern": [
         " S ",
         "S S",
-		"GGG"
+        "GGG"
     ],
     "key": {
         "G": {
@@ -14,6 +14,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:safety_goggles"
+        "id": "cobblemon:safety_goggles"
     }
 }
