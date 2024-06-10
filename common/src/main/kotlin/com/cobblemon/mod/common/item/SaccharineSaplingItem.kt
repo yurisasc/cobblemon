@@ -13,7 +13,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.item.AliasedBlockItem
 import net.minecraft.item.ItemPlacementContext
 
-class SaccharineSeedItem(block: SaccharineSaplingBlock) : AliasedBlockItem(block, Settings()) {
+class SaccharineSaplingItem(block: SaccharineSaplingBlock) : AliasedBlockItem(block, Settings()) {
 
     override fun getPlacementState(context: ItemPlacementContext): BlockState? {
 

@@ -282,7 +282,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val SACCHARINE_HANGING_SIGN = this.create("saccharine_hanging_sign", HangingSignItem(CobblemonBlocks.SACCHARINE_HANGING_SIGN, CobblemonBlocks.SACCHARINE_WALL_HANGING_SIGN, Item.Settings().maxCount(16)))
     @JvmField
-    val SACCHARINE_SEED = saccharineSeedItem("saccharine_seed", SaccharineSeedItem(CobblemonBlocks.SACCHARINE_SAPLING))
+    val SACCHARINE_SAPLING = saccharineSaplingItem("saccharine_sapling", SaccharineSaplingItem(CobblemonBlocks.SACCHARINE_SAPLING))
 
     @JvmField
     val SWEET_SAP = noSettingsItem("sweet_sap")
@@ -1169,9 +1169,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         return item
     }
 
-    private fun saccharineSeedItem(name: String, saccharineSeedItem: SaccharineSeedItem): SaccharineSeedItem {
-        val finalName = "saccharine_seed"
-        val item = this.create(finalName, saccharineSeedItem)
+    private fun saccharineSaplingItem(name: String, saccharineSaplingItem: SaccharineSaplingItem): SaccharineSaplingItem {
+        val finalName = "saccharine_sapling"
+        val item = this.create(finalName, saccharineSaplingItem)
         compostable(item, .65f)
         return item
     }

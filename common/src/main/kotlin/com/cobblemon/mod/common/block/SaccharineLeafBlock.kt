@@ -74,21 +74,22 @@ class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertiliza
 
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         // todo if a honey soaked leaf block is the first block below this block then over time age that leaf block
-        if (random.nextInt(100) == 0) {
+        if (random.nextInt(180) == 0) {
 
             // todo if leaf block is within 10 blocks of a lead soaked block then age it
             for (i in 1..10) {
 
                 val abovePos = pos.up(i)
                 val aboveState = world.getBlockState(abovePos)
-                val currentAge = state.get(AGE)
-
 
                 if (!aboveState.isAir) {
                     if ((aboveState.block is SaccharineLeafBlock && aboveState.get(AGE) == 2) ||
                             (aboveState.block is BeehiveBlock && aboveState.get(HONEY_LEVEL) == 5)) {
-                        // todo age the leaf block
-                        world.setBlockState(pos, state.with(AGE, currentAge + 1), 2)
+                        // todo remove age from top block
+                        world.setBlockState(abovePos, aboveState.with(AGE, 0), 2)
+
+                        // todo age the leaf bottom block
+                        world.setBlockState(pos, state.with(AGE, 2), 2)
                     }
                     break
                 }
