@@ -9,11 +9,17 @@
 package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
+import com.cobblemon.mod.common.block.SaccharineStrippedLogBlock.Companion
 import net.minecraft.block.*
-import net.minecraft.entity.ItemEntity
+import net.minecraft.block.BeehiveBlock.HONEY_LEVEL
+import net.minecraft.entity.*
 import net.minecraft.entity.ai.pathing.NavigationType
+import net.minecraft.entity.attribute.DefaultAttributeContainer
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.tag.BlockTags
@@ -23,18 +29,18 @@ import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.util.ActionResult
+import net.minecraft.util.Arm
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.World
-import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldView
+import net.minecraft.world.*
 
 @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
 class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertilizable {
@@ -47,8 +53,50 @@ class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertiliza
             .with(Properties.WATERLOGGED, false)
     }
 
-    override fun hasRandomTicks(state: BlockState) = state.get(AGE) == 2
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
+        val blockState = defaultState
+        val worldView = ctx.world
+        val blockPos = ctx.blockPos
+        return if (blockState.canPlaceAt(worldView, blockPos)) {
+            blockState.with(PERSISTENT, true).with(Properties.WATERLOGGED, worldView.getFluidState(blockPos).isOf(Fluids.WATER))
+        } else null
+    }
 
+    override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState? {
+        return if (!state.canPlaceAt(world, pos)) {
+            Blocks.AIR.defaultState
+        } else {
+            super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+        }
+    }
+
+    override fun hasRandomTicks(state: BlockState) = state.get(AGE) != 2
+
+    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+        // todo if a honey soaked leaf block is the first block below this block then over time age that leaf block
+        if (random.nextInt(100) == 0) {
+
+            // todo if leaf block is within 10 blocks of a lead soaked block then age it
+            for (i in 1..10) {
+
+                val abovePos = pos.up(i)
+                val aboveState = world.getBlockState(abovePos)
+                val currentAge = state.get(AGE)
+
+
+                if (!aboveState.isAir) {
+                    if ((aboveState.block is SaccharineLeafBlock && aboveState.get(AGE) == 2) ||
+                            (aboveState.block is BeehiveBlock && aboveState.get(HONEY_LEVEL) == 5)) {
+                        // todo age the leaf block
+                        world.setBlockState(pos, state.with(AGE, currentAge + 1), 2)
+                    }
+                    break
+                }
+            }
+        }
+
+        super.randomTick(state,  world, pos, random)
+    }
 
 
     @Deprecated("Deprecated in Java")
@@ -65,19 +113,7 @@ class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertiliza
         return super.getCollisionShape(state, world, pos, context)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
-        val blockState = defaultState
-        val worldView = ctx.world
-        val blockPos = ctx.blockPos
-        return if (blockState.canPlaceAt(worldView, blockPos)) blockState else null
-    }
-
-    override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState? {
-        return if (!state.canPlaceAt(world, pos)) Blocks.AIR.defaultState
-        else super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-    }
-
-    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = state.get(AGE) < MAX_AGE
+    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = false /*state.get(AGE) < MAX_AGE*/
 
     override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = true
 
@@ -174,6 +210,13 @@ class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertiliza
             world.setBlockState(pos, state.with(AGE, 0), 2)
 
             val currentAge = state.get(AGE)
+        } else if (player.getStackInHand(hand).isOf(Items.HONEY_BOTTLE) && state.get(AGE) != 2) {
+            // decrement stack if not in creative mode
+            if (!player.isCreative)
+                player.getStackInHand(hand).decrement(1)
+
+            // todo set age to 2
+            world.setBlockState(pos, state.with(AGE, 2), 2)
         }
 
         if (state.get(AGE) != MAX_AGE) {

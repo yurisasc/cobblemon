@@ -284,6 +284,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val SACCHARINE_SEED = saccharineSeedItem("saccharine_seed", SaccharineSeedItem(CobblemonBlocks.SACCHARINE_SAPLING))
 
+    @JvmField
+    val SWEET_SAP = noSettingsItem("sweet_sap")
 
     @JvmField
     val RESTORATION_TANK = blockItem("restoration_tank", CobblemonBlocks.RESTORATION_TANK)

@@ -8,26 +8,18 @@
 
 package com.cobblemon.mod.common.block
 
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
-import com.cobblemon.mod.common.block.SaccharineLeafBlock.Companion
-import com.cobblemon.mod.common.block.SaccharineLeafBlock.Companion.DISTANCE_MAX
-import com.cobblemon.mod.common.util.playSoundServer
-import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.block.*
 import net.minecraft.entity.ItemEntity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
+import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.util.ActionResult
@@ -35,24 +27,26 @@ import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Direction.Axis
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldView
-import net.minecraft.world.event.GameEvent
 
 @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
-class SaccharineStrippedLogBlock(settings: Settings) : LeavesBlock(settings) {
+class SaccharineStrippedLogBlock(settings: Settings) : PillarBlock(settings) {
 
     init {
         this.defaultState = this.stateManager.defaultState
             .with(AGE, MIN_AGE)
-            .with(DISTANCE, DISTANCE_MAX)
-            .with(PERSISTENT, false)
-            .with(Properties.WATERLOGGED, false)
+            .with(AXIS, Axis.Y)
+    }
+
+    override fun onPlaced(world: World?, pos: BlockPos?, state: BlockState?, placer: LivingEntity?, itemStack: ItemStack?) {
+        owner = placer
+        super.onPlaced(world, pos, state, placer, itemStack)
     }
 
     override fun hasRandomTicks(state: BlockState) = state.get(AGE) < MAX_AGE
@@ -63,7 +57,7 @@ class SaccharineStrippedLogBlock(settings: Settings) : LeavesBlock(settings) {
         // todo make it so that it only ages when connected to enough natural-tagged Saccharine Leaves (so, generated or grown, not player placed)
 
         // this code was for them aging as time goes on
-         if (world.random.nextInt(5) == 0) {
+         if (world.random.nextInt(5) == 0 && owner == null) {
 
             val currentAge = state.get(AGE)
             if (currentAge < MAX_AGE) {
@@ -92,12 +86,13 @@ class SaccharineStrippedLogBlock(settings: Settings) : LeavesBlock(settings) {
         return super.getCollisionShape(state, world, pos, context)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
+    /*override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
         val blockState = defaultState
         val worldView = ctx.world
         val blockPos = ctx.blockPos
+        return defaultState.with(PillarBlock.AXIS, ctx.side.axis) as BlockState
         return if (blockState.canPlaceAt(worldView, blockPos)) blockState else null
-    }
+    }*/
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState? {
         return if (!state.canPlaceAt(world, pos)) Blocks.AIR.defaultState
@@ -105,7 +100,7 @@ class SaccharineStrippedLogBlock(settings: Settings) : LeavesBlock(settings) {
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(AGE, DISTANCE, PERSISTENT, Properties.WATERLOGGED)
+        builder.add(AGE, AXIS)
     }
 
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
@@ -119,7 +114,7 @@ class SaccharineStrippedLogBlock(settings: Settings) : LeavesBlock(settings) {
                 player.getStackInHand(hand).decrement(1)
 
             // todo give player Sweet Sap item
-            player.giveItemStack(Items.HONEY_BOTTLE.defaultStack)
+            player.giveItemStack(CobblemonItems.SWEET_SAP.defaultStack)
 
             // todo reset AGE
             world.setBlockState(pos, state.with(AGE, 0), 2)
@@ -146,11 +141,11 @@ class SaccharineStrippedLogBlock(settings: Settings) : LeavesBlock(settings) {
     companion object {
 
         val AGE: IntProperty = Properties.AGE_1
-        val DISTANCE: IntProperty = Properties.DISTANCE_1_7
-        val PERSISTENT: BooleanProperty = Properties.PERSISTENT
+        val AXIS: EnumProperty<Axis> = Properties.AXIS
         const val MAX_AGE = Properties.AGE_1_MAX
         const val MIN_AGE = 0
-        const val DISTANCE_MAX = 7
+        var owner: LivingEntity? = null
+
 
         private val SHAPE: VoxelShape = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 16.0)
     }
