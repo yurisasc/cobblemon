@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.block.BerryBlock
+import com.cobblemon.mod.common.block.BugwortBlock
 import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.MintBlock.MintType
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
@@ -286,6 +287,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     @JvmField
     val SWEET_SAP = noSettingsItem("sweet_sap")
+    @JvmField
+    val BUGWORT = bugwortItem("bugwort", BugwortItem(CobblemonBlocks.BUGWORT))
+
 
     @JvmField
     val RESTORATION_TANK = blockItem("restoration_tank", CobblemonBlocks.RESTORATION_TANK)
@@ -1172,6 +1176,13 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     private fun saccharineSaplingItem(name: String, saccharineSaplingItem: SaccharineSaplingItem): SaccharineSaplingItem {
         val finalName = "saccharine_sapling"
         val item = this.create(finalName, saccharineSaplingItem)
+        compostable(item, .65f)
+        return item
+    }
+
+    private fun bugwortItem(name: String, bugwortItem: BugwortItem): BugwortItem {
+        val finalName = "bugwort"
+        val item = this.create(finalName, bugwortItem)
         compostable(item, .65f)
         return item
     }

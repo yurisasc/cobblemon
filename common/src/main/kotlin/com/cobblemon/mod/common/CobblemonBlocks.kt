@@ -200,6 +200,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val MEDICINAL_LEEK = this.create("medicinal_leek", MedicinalLeekBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DULL_RED).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MEDICINAL_LEEK_SOUNDS)))
     @JvmField
+    val BUGWORT = this.create("bugwort", BugwortBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.PALE_PURPLE).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MEDICINAL_LEEK_SOUNDS)))
+    @JvmField
     val ENERGY_ROOT = this.create("energy_root", EnergyRootBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DIRT_BROWN).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.ENERGY_ROOT_SOUNDS)))
     @JvmField
     val BIG_ROOT = this.create("big_root", BigRootBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DARK_GREEN).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.BIG_ROOT_SOUNDS)))

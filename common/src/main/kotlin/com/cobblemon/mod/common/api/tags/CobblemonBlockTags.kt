@@ -38,6 +38,7 @@ object CobblemonBlockTags {
     @JvmField val DRIPSTONE_REPLACEABLES = createTag("dripstone_replaceables")
     @JvmField val FLOWERS = createTag("flowers")
     @JvmField val MEDICINAL_LEEK_PLANTABLE = createTag("medicinal_leek_plantable")
+    @JvmField val BUGWORT_PLANTABLE = createTag("bugwort_plantable")
     @JvmField val MINTS = createTag("mints")
     @JvmField val ROOTS_SPREADABLE = createTag("roots_spreadable")
     @JvmField val SIGNS = createTag("signs")

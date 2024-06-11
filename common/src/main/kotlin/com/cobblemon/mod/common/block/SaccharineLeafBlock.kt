@@ -81,15 +81,16 @@ class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertiliza
 
                 val abovePos = pos.up(i)
                 val aboveState = world.getBlockState(abovePos)
+                val currentAge = state.get(AGE)
 
                 if (!aboveState.isAir) {
-                    if ((aboveState.block is SaccharineLeafBlock && aboveState.get(AGE) == 2) ||
-                            (aboveState.block is BeehiveBlock && aboveState.get(HONEY_LEVEL) == 5)) {
-                        // todo remove age from top block
-                        world.setBlockState(abovePos, aboveState.with(AGE, 0), 2)
+                    if ((aboveState.block is SaccharineLeafBlock && aboveState.get(AGE) > 0)/* ||
+                            (aboveState.block is BeehiveBlock && aboveState.get(HONEY_LEVEL) == 5)*/) {
+                        // todo -1 age from top block
+                        world.setBlockState(abovePos, aboveState.with(AGE, aboveState.get(AGE) - 1), 2)
 
-                        // todo age the leaf bottom block
-                        world.setBlockState(pos, state.with(AGE, 2), 2)
+                        // todo +1 age the leaf bottom block
+                        world.setBlockState(pos, state.with(AGE, currentAge + 1), 2)
                     }
                     break
                 }
@@ -131,7 +132,11 @@ class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertiliza
 
         if (state.get(AGE) == 2) {
             for (i in 0 until random.nextInt(1) + 1) {
-                this.spawnHoneyParticles(world, pos, state)
+                this.spawnHoneyParticles(world, pos, state, .75f)
+            }
+        } else if (state.get(AGE) == 1) {
+            for (i in 0 until random.nextInt(1) + 1) {
+                this.spawnHoneyParticles(world, pos, state, .9f)
             }
         }
 
@@ -151,8 +156,8 @@ class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertiliza
         return blockState.isIn(CobblemonBlockTags.SACCHARINE_LEAVES)
     }*/
 
-    private fun spawnHoneyParticles(world: World, pos: BlockPos, state: BlockState) {
-        if (state.fluidState.isEmpty && !(world.random.nextFloat() < 0.3f)) {
+    private fun spawnHoneyParticles(world: World, pos: BlockPos, state: BlockState, rate: Float) {
+        if (state.fluidState.isEmpty && !(world.random.nextFloat() < rate)) {
             val voxelShape = state.getCollisionShape(world, pos)
             val d = voxelShape.getMax(Direction.Axis.Y)
             if (d >= 1.0 && !state.isIn(BlockTags.IMPERMEABLE)) {

@@ -90,6 +90,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.VIVICHOKE_SEEDS)
 
         entries.add(CobblemonItems.SWEET_SAP)
+        entries.add(CobblemonItems.BUGWORT)
 
         entries.add(CobblemonItems.RED_APRICORN)
         entries.add(CobblemonItems.YELLOW_APRICORN)
