@@ -236,6 +236,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.RELIC_COIN_POUCH)
         entries.add(CobblemonItems.RELIC_COIN_SACK)
 
+        entries.add(CobblemonItems.SWEET_INCENSE)
         entries.add(CobblemonItems.DISPLAY_CASE)
         entries.add(CobblemonItems.APRICORN_LOG)
         entries.add(CobblemonItems.APRICORN_WOOD)

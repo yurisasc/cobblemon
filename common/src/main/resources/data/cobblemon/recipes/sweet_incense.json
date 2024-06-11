@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " Q ",
+        "QSQ",
+		"ICI"
+    ],
+    "key": {
+        "Q": {
+            "item": "minecraft:quartz_block"
+        },
+        "S": {
+            "item": "cobblemon:sweet_sap"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "C": {
+            "item": "minecraft:candle"
+        }
+    },
+    "result": {
+        "item": "cobblemon:sweet_incense"
+    }
+}

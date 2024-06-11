@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "cobblemon:block/sweet_incense_unlit"
+    },
+    "lit=true": {
+      "model": "cobblemon:block/sweet_incense_lit"
+    }
+  }
+}
