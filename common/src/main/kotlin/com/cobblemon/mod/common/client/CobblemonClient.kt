@@ -229,6 +229,7 @@ object CobblemonClient {
             CobblemonBlocks.SACCHARINE_HANGING_SIGN,
             CobblemonBlocks.SACCHARINE_WALL_HANGING_SIGN,
             CobblemonBlocks.SACCHARINE_SAPLING,
+            CobblemonBlocks.BUGWORT
         )
 
         this.createBoatModelLayers()

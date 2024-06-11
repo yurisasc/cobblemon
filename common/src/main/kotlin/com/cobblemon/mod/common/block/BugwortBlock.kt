@@ -8,12 +8,9 @@
 
 package com.cobblemon.mod.common.block
 
-import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonItems
-import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import net.minecraft.block.*
 import net.minecraft.item.ItemConvertible
-import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
@@ -57,11 +54,14 @@ class BugwortBlock(settings: Settings) : CropBlock(settings), Fertilizable {
         world.setBlockState(pos, state.with(this.ageProperty, (this.getAge(state) + 1).coerceAtMost(this.maxAge)), NOTIFY_LISTENERS)
     }
 
-    /*override fun canPlaceAt(state: BlockState?, world: WorldView?, pos: BlockPos?): Boolean {
-        val test = true
-        return true
-        // return super.canPlaceAt(state, world, pos)
-    }*/
+    override fun canPlantOnTop(floor: BlockState, world: BlockView?, pos: BlockPos?): Boolean {
+        return floor.isOf(Blocks.GRASS_BLOCK) || floor.isOf(Blocks.DIRT) || floor.isOf(Blocks.FARMLAND)
+    }
+
+    override fun canPlaceAt(state: BlockState?, world: WorldView?, pos: BlockPos?): Boolean {
+        val blockPos = pos!!.down()
+        return canPlantOnTop(world!!.getBlockState(blockPos), world, blockPos)
+    }
 
     override fun getGrowthAmount(world: World): Int = 1
 
