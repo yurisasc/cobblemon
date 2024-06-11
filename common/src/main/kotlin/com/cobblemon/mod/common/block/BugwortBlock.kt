@@ -57,11 +57,11 @@ class BugwortBlock(settings: Settings) : CropBlock(settings), Fertilizable {
         world.setBlockState(pos, state.with(this.ageProperty, (this.getAge(state) + 1).coerceAtMost(this.maxAge)), NOTIFY_LISTENERS)
     }
 
-    override fun canPlaceAt(state: BlockState?, world: WorldView?, pos: BlockPos?): Boolean {
+    /*override fun canPlaceAt(state: BlockState?, world: WorldView?, pos: BlockPos?): Boolean {
         val test = true
         return true
         // return super.canPlaceAt(state, world, pos)
-    }
+    }*/
 
     override fun getGrowthAmount(world: World): Int = 1
 

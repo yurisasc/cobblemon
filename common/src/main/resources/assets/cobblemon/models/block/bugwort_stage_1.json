@@ -1,6 +1,6 @@
 {
-  "parent": "cobblemon:block/bugwort_stage_3",
+  "parent": "minecraft:block/cross",
   "textures": {
-    "5": "cobblemon:block/bugwort_stage_1"
+    "cross": "cobblemon:block/bugwort_stage_1"
   }
 }
