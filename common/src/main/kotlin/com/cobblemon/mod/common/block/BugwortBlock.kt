@@ -10,11 +10,17 @@ package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.CobblemonItems
 import net.minecraft.block.*
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemConvertible
+import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
+import net.minecraft.util.ItemScatterer
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
@@ -61,6 +67,27 @@ class BugwortBlock(settings: Settings) : CropBlock(settings), Fertilizable {
     override fun canPlaceAt(state: BlockState?, world: WorldView?, pos: BlockPos?): Boolean {
         val blockPos = pos!!.down()
         return canPlantOnTop(world!!.getBlockState(blockPos), world, blockPos)
+    }
+
+    override fun onUse(
+        state: BlockState?,
+        world: World?,
+        pos: BlockPos?,
+        player: PlayerEntity?,
+        hand: Hand?,
+        hit: BlockHitResult?
+    ): ActionResult {
+        if (state != null && world != null && pos != null) {
+            // if bugwort is at max age then revert age to 0 and drop items
+            if (state.get(AGE) == 3) {
+
+                world.setBlockState(pos, state.with(this.ageProperty, (0).coerceAtMost(this.maxAge)), NOTIFY_LISTENERS)
+
+                Block.dropStack(world, pos, ItemStack(CobblemonItems.BUGWORT, kotlin.random.Random.nextInt(2, 4)))
+                return ActionResult.SUCCESS
+            }
+        }
+        return super.onUse(state, world, pos, player, hand, hit)
     }
 
     override fun getGrowthAmount(world: World): Int = 1

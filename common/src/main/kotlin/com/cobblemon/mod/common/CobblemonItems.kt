@@ -290,6 +290,10 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val BUGWORT = bugwortItem("bugwort", BugwortItem(CobblemonBlocks.BUGWORT))
 
+    @JvmField
+    val SCATTER_BANG = this.create("scatter_bang", ScatterBangItem(Item.Settings()))
+    @JvmField
+    val STICKY_GLOB = this.create("sticky_glob", StickyGlobItem(Item.Settings()))
 
     @JvmField
     val RESTORATION_TANK = blockItem("restoration_tank", CobblemonBlocks.RESTORATION_TANK)

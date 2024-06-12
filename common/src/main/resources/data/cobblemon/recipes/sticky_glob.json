@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "BS",
+        "SQ"
+    ],
+    "key": {
+        "B": {
+            "item": "cobblemon:bugwort"
+        },
+        "S": {
+            "item": "minecraft:string"
+        },
+        "Q": {
+            "item": "minecraft:slime_ball"
+        }
+    },
+    "result": {
+        "item": "cobblemon:sticky_glob"
+    }
+}

@@ -33,6 +33,15 @@ import net.minecraft.world.WorldAccess
 
 @Suppress("OVERRIDE_DEPRECATION")
 class SweetIncenseBlock(settings: Settings) : BlockWithEntity(settings), Waterloggable {
+    /*
+    This item, when placed, acts like a candle. It must be lit with a Flint n Steel or Fire Charge, and it can be “put out” by right-clicking on it. Small blue smoke particles will rise from the nub on the top of the block when lit.
+
+    This incense block has special effects on Pokémon spawns, but only when lit. When lit, Sweet Incense increases Pokémon spawn & despawn rates by 1.5x and raises spawn density by 25% in a 16 block radius (32 block diameter) (this number will need to be playtested).
+
+    This essentially means that the player will see a larger number of Pokémon at once, and a higher variety of Pokémon in a given span of time.
+
+     */
+
     init {
         this.defaultState = this.stateManager.defaultState
             .with(FACING, Direction.NORTH)

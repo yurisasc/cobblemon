@@ -91,6 +91,8 @@ object CobblemonItemGroups {
 
         entries.add(CobblemonItems.SWEET_SAP)
         entries.add(CobblemonItems.BUGWORT)
+        entries.add(CobblemonItems.SCATTER_BANG)
+        entries.add(CobblemonItems.STICKY_GLOB)
 
         entries.add(CobblemonItems.RED_APRICORN)
         entries.add(CobblemonItems.YELLOW_APRICORN)
