@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.text.yellow
+import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.dispatch.InstructionSet
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
@@ -146,14 +147,22 @@ object ShowdownInterpreter {
      fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor): Vec3d? {
         val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         var entityPos = if (actor is EntityBackedBattleActor<*>) actor.initialPos else null
-        val baseOffset = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.initialPos.let { pos ->
+        val opposingActor = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()
+        var baseOffset = opposingActor?.initialPos.let { pos ->
             pos?.subtract(entityPos)
         }
         if (baseOffset != null) {
+            val minDistance = if(opposingActor is PokemonBattleActor) 8.0 else 5.0
+            val length = baseOffset.length()
+            if(length < minDistance) {
+
+                val temp = baseOffset.multiply(minDistance / length) ?: baseOffset
+                entityPos = entityPos?.subtract(temp.subtract(baseOffset))
+                baseOffset = temp
+            }
             var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
             vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
 
-            // TODO: Enforce minimum distance between entities
             if(battle.format.battleType.pokemonPerSide == 1) { // Singles
                 entityPos = entityPos?.add(baseOffset.multiply(if(battle.isPvW) 0.4 else 0.3))?.add(vector.multiply(-2.0))
             } else if (battle.format.battleType.pokemonPerSide == 2) { // Doubles
