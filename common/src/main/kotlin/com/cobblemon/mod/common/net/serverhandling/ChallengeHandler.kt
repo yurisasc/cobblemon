@@ -40,6 +40,16 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
             }
             return@let it
         } ?: return
+
+        // Check los and range
+        if (!player.canSee(targetedEntity)
+                || !(player.pos.squaredDistanceTo(targetedEntity.pos)
+                        <= if (targetedEntity is PokemonEntity) RequestInteractionsHandler.MAX_PVP_WILD_DISTANCE_SQ
+                else RequestInteractionsHandler.MAX_PVP_DISTANCE_SQ)) {
+            player.sendMessage(lang("cobblemon.ui.interact.too_far").yellow())
+            return
+        }
+
         val leadingPokemon = player.party()[packet.selectedPokemonId]?.uuid ?: return
 
 

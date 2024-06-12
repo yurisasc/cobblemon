@@ -601,6 +601,7 @@
   "cobblemon.ui.interact.battle": "Battle",
   "cobblemon.ui.interact.accept": "Accept",
   "cobblemon.ui.interact.decline": "Decline",
+  "cobblemon.ui.interact.too_far": "You are too far away from the other player.",
   "cobblemon.ui.interact.mount.shoulder": "Shoulder",
   "cobblemon.ui.interact.team_leave": "Abandon team",
   "cobblemon.ui.interact.team_request": "Team up",

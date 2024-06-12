@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.serverhandling
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.api.text.aqua
+import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.TeamRequestNotificationPacket
@@ -33,6 +34,12 @@ object TeamRequestHandler : ServerNetworkPacketHandler<BattleTeamRequestPacket> 
             }
             return@let it
         } ?: return
+
+        // Check los and range
+        if (!player.canSee(targetedEntity) || !(player.pos.squaredDistanceTo(targetedEntity.pos) <= RequestInteractionsHandler.MAX_PVP_DISTANCE_SQ)) {
+            player.sendMessage(lang("cobblemon.ui.interact.too_far").yellow())
+            return
+        }
 
         when (targetedEntity) {
             is PokemonEntity -> {

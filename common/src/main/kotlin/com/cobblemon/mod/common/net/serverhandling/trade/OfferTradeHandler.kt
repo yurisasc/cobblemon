@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.serverhandling.trade
 
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.server.trade.OfferTradePacket
+import com.cobblemon.mod.common.net.serverhandling.RequestInteractionsHandler
 import com.cobblemon.mod.common.trade.TradeManager
 import com.cobblemon.mod.common.util.getPlayer
 import net.minecraft.server.MinecraftServer
@@ -17,8 +18,11 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 object OfferTradeHandler : ServerNetworkPacketHandler<OfferTradePacket> {
     override fun handle(packet: OfferTradePacket, server: MinecraftServer, player: ServerPlayerEntity) {
-        if(player.isSpectator) return
-
-        TradeManager.offerTrade(player, packet.offeredPlayerId.getPlayer() ?: return)
+        if (player.isSpectator) return
+        // Check if player has los and in an range
+        val targetPlayerEntity = packet.offeredPlayerId.getPlayer() ?: return
+        if (player.canSee(targetPlayerEntity) && player.pos.squaredDistanceTo(targetPlayerEntity.pos) <= RequestInteractionsHandler.MAX_TRADE_DISTANCE_SQ ) {
+            TradeManager.offerTrade(player, packet.offeredPlayerId.getPlayer() ?: return)
+        }
     }
 }
