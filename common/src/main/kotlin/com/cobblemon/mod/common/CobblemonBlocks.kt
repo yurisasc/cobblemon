@@ -655,6 +655,19 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     )
 
     @JvmField
+    val COOKING_POT = create(
+        "cooking_pot",
+        CookingPotBlock(
+            Settings.create()
+                .sounds(CobblemonSounds.DISPLAY_CASE_SOUNDS)
+                .nonOpaque()
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .mapColor(MapColor.STONE_GRAY)
+                .strength(0.3f)
+        )
+    )
+
+    @JvmField
     val SWEET_INCENSE = create(
         "sweet_incense",
         SweetIncenseBlock(

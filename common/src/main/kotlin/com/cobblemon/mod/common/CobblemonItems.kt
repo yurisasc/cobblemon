@@ -310,6 +310,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val DISPLAY_CASE = blockItem("display_case", CobblemonBlocks.DISPLAY_CASE)
     @JvmField
+    val COOKING_POT = blockItem("cooking_pot", CobblemonBlocks.COOKING_POT)
+    @JvmField
     val SWEET_INCENSE = blockItem("sweet_incense", CobblemonBlocks.SWEET_INCENSE)
 
     // Evolution items

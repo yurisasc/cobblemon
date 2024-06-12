@@ -26,6 +26,7 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
+import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -157,6 +158,8 @@ interface CobblemonImplementation {
      * @param dependencies
      */
     fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: ResourceType, dependencies: Collection<Identifier>)
+
+    fun registerScreenHandlerType(identifier: Identifier, screenHandlerType: ScreenHandlerType<*>)
 
     /**
      * TODO

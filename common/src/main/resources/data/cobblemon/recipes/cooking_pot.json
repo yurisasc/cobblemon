@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " C ",
+        "INI",
+        "NPN"
+    ],
+    "key": {
+        "C": {
+            "item": "minecraft:cauldron"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "N": {
+            "tag": "minecraft:iron_nugget"
+        },
+        "P": {
+            "tag": "minecraft:campfire"
+        }
+    },
+    "result":
+    {
+        "item": "cobblemon:cooking_pot"
+    }
+}

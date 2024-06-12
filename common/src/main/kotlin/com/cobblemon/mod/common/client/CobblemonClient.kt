@@ -222,6 +222,7 @@ object CobblemonClient {
             CobblemonBlocks.SKY_TUMBLESTONE_CLUSTER,
             CobblemonBlocks.GIMMIGHOUL_CHEST,
             CobblemonBlocks.DISPLAY_CASE,
+            CobblemonBlocks.COOKING_POT,
             CobblemonBlocks.SACCHARINE_DOOR,
             CobblemonBlocks.SACCHARINE_TRAPDOOR,
             CobblemonBlocks.SACCHARINE_SIGN,
@@ -261,6 +262,7 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.RESTORATION_TANK, ::RestorationTankRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.GILDED_CHEST, ::GildedChestBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.DISPLAY_CASE, ::DisplayCaseRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.COOKING_POT, ::CookingPotRenderer)
     }
 
     private fun registerEntityRenderers() {
