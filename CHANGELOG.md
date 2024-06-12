@@ -10,6 +10,7 @@
 - Fixed Gilded Chests not dropping the chest itself when broken, only the contents.
 - Fixed Pokémon losing their Hidden Ability through evolution if the middle stage did not have a Hidden Ability.
 - Fixed Chimchar and Monferno T posing whenever they sleep.
+- Fixed Crumbling Arch not blending in with the world.
 
 ### Additions
 - Added extra visuals to early berry growth stages
