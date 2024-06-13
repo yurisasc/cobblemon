@@ -25,7 +25,7 @@ class CookingPotBlockEntity(pos: BlockPos?, state: BlockState?) :
         return Text.translatable("container.furnace")
     }
 
-    override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory): ScreenHandler {
+    override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory?): ScreenHandler {
         return CookingPotScreenHandler(syncId, playerInventory, this, this.propertyDelegate)
     }
 }
