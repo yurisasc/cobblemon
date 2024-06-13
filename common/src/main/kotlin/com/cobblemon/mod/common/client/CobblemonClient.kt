@@ -50,10 +50,14 @@ import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockEntityModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.MiscModelRepository
+import com.cobblemon.mod.common.gui.CobblemonScreenHandlers
+import com.cobblemon.mod.common.gui.CobblemonScreenHandlers.COOKING_POT_SCREEN
+import com.cobblemon.mod.common.gui.cooking.CookingPotHandledScreen
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.screen.ingame.HandledScreens
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer
@@ -314,6 +318,13 @@ object CobblemonClient {
             this.implementation.registerLayer(CobblemonBoatRenderer.createBoatModelLayer(type, false), BoatEntityModel::getTexturedModelData)
             this.implementation.registerLayer(CobblemonBoatRenderer.createBoatModelLayer(type, true), ChestBoatEntityModel::getTexturedModelData)
         }
+    }
+
+    private fun registerHandledScreens() {
+        HandledScreens.register(
+            CobblemonScreenHandlers.COOKING_POT_SCREEN,
+            ::CookingPotHandledScreen
+        )
     }
 
 }
