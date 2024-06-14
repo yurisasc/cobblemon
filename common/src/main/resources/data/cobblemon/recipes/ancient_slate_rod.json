@@ -10,7 +10,7 @@
     "item": "cobblemon:ancient_slate_ball"
   },
   "result": {
-    "item": "cobblemon:ancient_slate_rod",
+    "id": "cobblemon:ancient_slate_rod",
     "count": 1
   }
 }

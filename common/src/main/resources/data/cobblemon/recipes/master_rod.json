@@ -10,7 +10,7 @@
     "item": "cobblemon:master_ball"
   },
   "result": {
-    "item": "cobblemon:master_rod",
+    "id": "cobblemon:master_rod",
     "count": 1
   }
 }

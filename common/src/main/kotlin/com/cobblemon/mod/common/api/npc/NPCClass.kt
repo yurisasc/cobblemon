@@ -17,10 +17,12 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.readMapK
+import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeMapK
+import com.cobblemon.mod.common.util.writeText
 import com.mojang.datafixers.util.Either
 import net.minecraft.entity.EntityDimensions
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
@@ -36,13 +38,13 @@ class NPCClass {
     lateinit var resourceIdentifier: Identifier
 
     var names = mutableListOf<MutableText>(lang("npc.name.default"))
-    var hitbox = EntityDimensions(0.6F, 1.8F, false)
+    var hitbox = EntityDimensions.changing(0.6F, 1.8F)
     var battleConfiguration = NPCBattleConfiguration()
     var interaction: Either<Identifier, ExpressionLike>? = null
     var variables = mutableMapOf<String, MoValue>()
 
-    fun encode(buffer: PacketByteBuf) {
-        buffer.writeCollection(names, PacketByteBuf::writeText)
+    fun encode(buffer: RegistryByteBuf) {
+        buffer.writeCollection(names) { _, v -> buffer.writeText(v) }
         buffer.writeFloat(this.hitbox.width)
         buffer.writeFloat(this.hitbox.height)
         buffer.writeBoolean(this.hitbox.fixed)
@@ -57,9 +59,12 @@ class NPCClass {
         }
     }
 
-    fun decode(buffer: PacketByteBuf) {
+    fun decode(buffer: RegistryByteBuf) {
         names = buffer.readList { buffer.readText().copy() }.toMutableList()
-        hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
+        val length = buffer.readFloat()
+        val width = buffer.readFloat()
+        val fixed = buffer.readBoolean()
+        hitbox = if (fixed) EntityDimensions.fixed(length, width) else EntityDimensions.changing(length, width)
         battleConfiguration = NPCBattleConfiguration()
         battleConfiguration.decode(buffer)
         interaction = buffer.readNullable {

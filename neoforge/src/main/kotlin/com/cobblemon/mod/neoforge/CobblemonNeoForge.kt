@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.UUIDSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
@@ -32,23 +33,31 @@ import com.cobblemon.mod.neoforge.brewing.CobblemonNeoForgeBrewingRegistry
 import com.cobblemon.mod.neoforge.client.CobblemonNeoForgeClient
 import com.cobblemon.mod.neoforge.event.NeoForgePlatformEventHandler
 import com.cobblemon.mod.neoforge.net.CobblemonNeoForgeNetworkManager
-import com.cobblemon.mod.neoforge.net.NeoForgePacketInfo
 import com.cobblemon.mod.neoforge.permission.ForgePermissionValidator
 import com.cobblemon.mod.neoforge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
-import net.minecraft.advancement.criterion.Criteria
-import net.minecraft.advancement.criterion.Criterion
+import java.io.File
+import java.util.UUID
+import java.util.concurrent.ExecutionException
+import kotlin.reflect.KClass
 import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
-import net.minecraft.item.*
-import net.minecraft.registry.Registry
+import net.minecraft.item.ItemConvertible
+import net.minecraft.item.ItemGroup
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
-import net.minecraft.resource.*
+import net.minecraft.resource.DirectoryResourcePack
+import net.minecraft.resource.ResourceManager
+import net.minecraft.resource.ResourcePack
+import net.minecraft.resource.ResourcePackInfo
+import net.minecraft.resource.ResourcePackPosition
+import net.minecraft.resource.ResourcePackProfile
 import net.minecraft.resource.ResourcePackProfile.PackFactory
+import net.minecraft.resource.ResourcePackSource
+import net.minecraft.resource.ResourceReloader
+import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -80,16 +89,11 @@ import net.neoforged.neoforge.event.level.BlockEvent
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent
 import net.neoforged.neoforge.event.village.VillagerTradesEvent
 import net.neoforged.neoforge.event.village.WandererTradesEvent
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
 import net.neoforged.neoforge.registries.RegisterEvent
 import net.neoforged.neoforge.server.ServerLifecycleHooks
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
-import java.io.File
-import java.util.*
-import java.util.concurrent.ExecutionException
-import kotlin.reflect.KClass
 
 @Mod(Cobblemon.MODID)
 class CobblemonNeoForge : CobblemonImplementation {
@@ -179,15 +183,15 @@ class CobblemonNeoForge : CobblemonImplementation {
             }
         }
 
-        event.register(RegistryKeys.SENSOR_TYPE) {
+        event.register(RegistryKeys.SENSOR_TYPE) { registry ->
             CobblemonSensors.sensors.forEach { (key, sensorType) ->
-                ForgeRegistries.SENSOR_TYPES.register(cobblemonResource(key), sensorType)
+                registry.register(cobblemonResource(key), sensorType)
             }
         }
 
-        event.register(RegistryKeys.MEMORY_MODULE_TYPE) {
+        event.register(RegistryKeys.MEMORY_MODULE_TYPE) { registry ->
             CobblemonMemories.memories.forEach { (key, memoryModuleType) ->
-                ForgeRegistries.MEMORY_MODULE_TYPES.register(cobblemonResource(key), memoryModuleType)
+                registry.register(cobblemonResource(key), memoryModuleType)
             }
         }
     }
@@ -237,8 +241,8 @@ class CobblemonNeoForge : CobblemonImplementation {
                 helper.register(StringSetDataSerializer.ID, StringSetDataSerializer)
                 helper.register(PoseTypeDataSerializer.ID, PoseTypeDataSerializer)
                 helper.register(IdentifierDataSerializer.ID, IdentifierDataSerializer)
+                helper.register(UUIDSetDataSerializer.ID, UUIDSetDataSerializer)
             }
-
         }
     }
 

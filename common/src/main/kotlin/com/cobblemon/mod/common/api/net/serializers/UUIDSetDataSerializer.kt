@@ -9,19 +9,22 @@
 package com.cobblemon.mod.common.api.net.serializers
 
 import com.cobblemon.mod.common.net.IntSize
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.entity.data.TrackedDataHandler
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.codec.PacketCodec
 
 object UUIDSetDataSerializer : TrackedDataHandler<Set<UUID>> {
-    override fun write(buffer: PacketByteBuf, set: Set<UUID>) {
+    val ID = cobblemonResource("uuidset")
+    fun write(buffer: RegistryByteBuf, set: Set<UUID>) {
         buffer.writeSizedInt(IntSize.U_BYTE, set.size)
         set.forEach(buffer::writeUuid)
     }
 
-    override fun read(buffer: PacketByteBuf): Set<UUID> {
+    fun read(buffer: RegistryByteBuf): Set<UUID> {
         val set = mutableSetOf<UUID>()
         repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
             set.add(buffer.readUuid())
@@ -30,4 +33,5 @@ object UUIDSetDataSerializer : TrackedDataHandler<Set<UUID>> {
     }
 
     override fun copy(set: Set<UUID>) = set.toSet()
+    override fun codec(): PacketCodec<RegistryByteBuf, Set<UUID>> = PacketCodec.ofStatic(::write, ::read)
 }

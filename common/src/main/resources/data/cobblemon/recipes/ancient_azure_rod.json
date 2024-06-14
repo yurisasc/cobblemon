@@ -10,7 +10,7 @@
     "item": "cobblemon:ancient_azure_ball"
   },
   "result": {
-    "item": "cobblemon:ancient_azure_rod",
+    "id": "cobblemon:ancient_azure_rod",
     "count": 1
   }
 }

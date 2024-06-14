@@ -10,7 +10,7 @@
     "item": "cobblemon:luxury_ball"
   },
   "result": {
-    "item": "cobblemon:luxury_rod",
+    "id": "cobblemon:luxury_rod",
     "count": 1
   }
 }

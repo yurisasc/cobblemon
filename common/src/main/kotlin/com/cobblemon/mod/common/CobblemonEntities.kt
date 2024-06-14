@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatEntity
 import com.cobblemon.mod.common.entity.boat.CobblemonChestBoatEntity
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
-import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.platform.PlatformRegistry
@@ -73,7 +73,7 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
     @JvmField
     val POKE_BOBBER: EntityType<PokeRodFishingBobberEntity> = this.create(
             POKE_BOBBER_KEY.path,
-            EntityType.Builder.create(::PokeRodFishingBobberEntity, SpawnGroup.MISC).setDimensions(0.5F, 0.5F).maxTrackingRange(10)
+            EntityType.Builder.create(::PokeRodFishingBobberEntity, SpawnGroup.MISC).dimensions(0.5F, 0.5F).maxTrackingRange(10)
                     .build(POKE_BOBBER_KEY.toString())
     )
 

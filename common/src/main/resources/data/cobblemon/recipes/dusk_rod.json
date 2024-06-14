@@ -10,7 +10,7 @@
     "item": "cobblemon:dusk_ball"
   },
   "result": {
-    "item": "cobblemon:dusk_rod",
+    "id": "cobblemon:dusk_rod",
     "count": 1
   }
 }

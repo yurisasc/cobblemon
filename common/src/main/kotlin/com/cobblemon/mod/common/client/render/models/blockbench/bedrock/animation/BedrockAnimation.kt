@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveDouble
@@ -101,22 +102,18 @@ class BedrockSoundKeyframe(
     override fun run(entity: Entity, state: PosableState) {
         val soundEvent = SoundEvent.of(sound) // Means we don't need to setup a sound registry entry for every single thing
         if (soundEvent != null) {
-            if (entity != null) {
-                MinecraftClient.getInstance().soundManager.play(
-                    PositionedSoundInstance(
-                        soundEvent,
-                        SoundCategory.NEUTRAL,
-                        1F,
-                        1F,
-                        entity.world.random,
-                        entity.x,
-                        entity.y,
-                        entity.z
-                    )
+            MinecraftClient.getInstance().soundManager.play(
+                PositionedSoundInstance(
+                    soundEvent,
+                    SoundCategory.NEUTRAL,
+                    1F,
+                    1F,
+                    entity.world.random,
+                    entity.x,
+                    entity.y,
+                    entity.z
                 )
-            } else {
-                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1F))
-            }
+            )
         }
     }
 }
@@ -174,7 +171,7 @@ data class BedrockAnimation(
                             roll += rotation.z.toFloat().toRadians()
                         }
                     } catch (e: Exception) {
-                        val exception = IllegalStateException("Bad animation for entity: ${(model.context.request(RenderContext.ENTITY))!!.displayName.string}", e)
+                        val exception = IllegalStateException("Bad animation for entity: ${(model.context.request(RenderContext.ENTITY))!!.effectiveName().string}", e)
                         val crash = CrashReport("Cobblemon encountered an unexpected crash", exception)
                         val section = crash.addElement("Animation Details")
                         section.add("Pose", state.currentPose!!)
@@ -185,12 +182,21 @@ data class BedrockAnimation(
                 }
 
                 if (!timeline.scale.isEmpty()) {
-                    var scale = timeline.scale.resolve(animationSeconds.toDouble(), runtime).multiply(intensity.toDouble())
-                    val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0)//.multiply(intensity.toDouble())
-                    scale = deviation.subtract(1.0, 1.0, 1.0).multiply(-1.0)
-                    part.xScale *= scale.x.toFloat()
-                    part.yScale *= scale.y.toFloat()
-                    part.zScale *= scale.z.toFloat()
+                    var scale = timeline.scale.resolve(animationSeconds.toDouble(), runtime)
+                    // If the goal is to make the invisible then kick that into gear after 0.5. Maybe could work better somehow else.
+                    if (scale == Vec3d.ZERO && intensity > 0.5) {
+                        part.xScale *= scale.x.toFloat()
+                        part.yScale *= scale.y.toFloat()
+                        part.zScale *= scale.z.toFloat()
+                    } else {
+                        // The deviation from 1 is what we want to multiply by the intensity of the animation.
+                        val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0)
+                        val weakenedDeviation = deviation.multiply(intensity.toDouble())
+                        scale = weakenedDeviation.subtract(1.0, 1.0, 1.0).multiply(-1.0)
+                        part.xScale *= scale.x.toFloat()
+                        part.yScale *= scale.y.toFloat()
+                        part.zScale *= scale.z.toFloat()
+                    }
                 }
             }
         }

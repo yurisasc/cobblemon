@@ -10,7 +10,7 @@
     "item": "cobblemon:great_ball"
   },
   "result": {
-    "item": "cobblemon:great_rod",
+    "id": "cobblemon:great_rod",
     "count": 1
   }
 }

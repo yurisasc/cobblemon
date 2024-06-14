@@ -10,7 +10,7 @@
     "item": "cobblemon:ancient_leaden_ball"
   },
   "result": {
-    "item": "cobblemon:ancient_leaden_rod",
+    "id": "cobblemon:ancient_leaden_rod",
     "count": 1
   }
 }

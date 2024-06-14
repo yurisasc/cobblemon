@@ -16,7 +16,8 @@ import net.minecraft.entity.Entity
 class PosableNPCModel : PosableEntityModel<NPCEntity>() {
     override fun setupEntityTypeContext(entity: Entity?) {
         super.setupEntityTypeContext(entity)
-        val entity = entity as? NPCEntity ?: return
-        context.put(RenderContext.ASPECTS, entity.aspects)
+        if (entity is NPCEntity) {
+            context.put(RenderContext.ASPECTS, entity.aspects)
+        }
     }
 }

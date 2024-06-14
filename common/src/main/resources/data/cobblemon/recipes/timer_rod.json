@@ -10,7 +10,7 @@
     "item": "cobblemon:timer_ball"
   },
   "result": {
-    "item": "cobblemon:timer_rod",
+    "id": "cobblemon:timer_rod",
     "count": 1
   }
 }

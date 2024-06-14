@@ -10,7 +10,7 @@
     "item": "cobblemon:ancient_origin_ball"
   },
   "result": {
-    "item": "cobblemon:ancient_origin_rod",
+    "id": "cobblemon:ancient_origin_rod",
     "count": 1
   }
 }

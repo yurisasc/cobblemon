@@ -259,12 +259,18 @@ open class PokemonEntity(
         .addFunction("is_wild") { DoubleValue(pokemon.isWild()) }
         .addFunction("is_shiny") { DoubleValue(pokemon.shiny) }
         .addFunction("form") { StringValue(pokemon.form.name) }
+        .addFunction("width") { DoubleValue(boundingBox.lengthX) }
+        .addFunction("height") { DoubleValue(boundingBox.lengthY) }
+        .addFunction("horizontal_velocity") { DoubleValue(velocity.horizontalLength()) }
+        .addFunction("vertical_velocity") { DoubleValue(velocity.y) }
         .addFunction("weight") { DoubleValue(pokemon.species.weight.toDouble()) }
         .addFunction("is_moving") { DoubleValue((moveControl as? PokemonMoveControl)?.isMoving == true) }
         .addFunction("is_flying") { DoubleValue(getBehaviourFlag(PokemonBehaviourFlag.FLYING)) }
         .addFunction("is_passenger") { DoubleValue(hasVehicle()) }
-        .addFunction("entity_size") { DoubleValue(boundingBox.run { if (xLength > yLength) xLength else yLength }) }
-        .addFunction("entity_radius") { DoubleValue(boundingBox.run { if (xLength > yLength) xLength else yLength } / 2) }
+        .addFunction("entity_width") { DoubleValue(boundingBox.lengthX) }
+        .addFunction("entity_height") { DoubleValue(boundingBox.lengthY) }
+        .addFunction("entity_size") { DoubleValue(boundingBox.run { if (lengthX > lengthY) lengthX else lengthY }) }
+        .addFunction("entity_radius") { DoubleValue(boundingBox.run { if (lengthX > lengthY) lengthX else lengthY } / 2) }
         .addFunction("has_aspect") { DoubleValue(it.getString(0) in aspects) }
 
     init {
@@ -690,7 +696,7 @@ open class PokemonEntity(
                 if (pokemon.aspects.any() { it.contains("mooshtank") }) {
                     player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
                     // if the Mooshtank ate a Flower beforehand
-                    if (pokemon.lastFlowerFed != ItemStack.EMPTY && pokemon.aspects.any() { it.contains("mooshtank-brown") }) {
+                    if (pokemon.lastFlowerFed != ItemStack.EMPTY && pokemon.aspects.any { it.contains("mooshtank-brown") }) {
                         when (pokemon.lastFlowerFed.item) {
                             Items.ALLIUM -> StatusEffects.FIRE_RESISTANCE to 80
                             Items.AZURE_BLUET -> StatusEffects.BLINDNESS to 160

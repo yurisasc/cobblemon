@@ -76,10 +76,6 @@ class PokemonRenderer(
             .withObfuscated(false)
     }
 
-    val context = RenderContext().also {
-        it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
-    }
-
     val ballContext = RenderContext().also {
         it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
     }
@@ -96,35 +92,9 @@ class PokemonRenderer(
         buffer: VertexConsumerProvider,
         packedLight: Int
     ) {
-        if(entity.hasPassengers() && !MinecraftClient.isFabulousGraphicsOrBetter()) {
-            DelayedPokemonRenders.append { matrix ->
-                matrix.push()
-
-                val prevX = entity.prevX + (entity.x - entity.prevX) * partialTicks
-                val prevY = entity.prevY + (entity.y - entity.prevY) * partialTicks
-                val prevZ = entity.prevZ + (entity.z - entity.prevZ) * partialTicks
-
-                matrix.translate(prevX, prevY, prevZ)
-                this.renderInternal(entity, entityYaw, partialTicks, matrix, buffer, packedLight)
-                matrix.pop()
-            }
-            return
-        }
-
-        this.renderInternal(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
-    }
-
-    private fun renderInternal(
-        entity: PokemonEntity,
-        entityYaw: Float,
-        partialTicks: Float,
-        poseMatrix: MatrixStack,
-        buffer: VertexConsumerProvider,
-        packedLight: Int
-    ) {
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F * (entity.delegate as PokemonClientDelegate).entityScaleModifier
         model.posableModel = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
-        model.posableModel.context = context
+        model.posableModel.context = model.context
         model.setupEntityTypeContext(entity)
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val modelNow = model.posableModel
@@ -144,6 +114,7 @@ class PokemonRenderer(
         }
 
         modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects))
+
 
         // TODO: Need a way to get a shader from a render layer, and need a way to get the renderlayer for the pokemon's main model
         // TODO: Need packet to sync evo time from server to client
@@ -172,15 +143,6 @@ class PokemonRenderer(
             this.renderLabelIfPresent(entity, entity.effectiveName(), poseMatrix, buffer, packedLight, partialTicks)
         }
 //        MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers.draw()
-    }
-
-    override fun getRenderLayer(
-        entity: PokemonEntity,
-        showBody: Boolean,
-        translucent: Boolean,
-        showOutline: Boolean
-    ): RenderLayer? {
-        return super.getRenderLayer(entity, showBody, entity.hasPassengers(), showOutline)
     }
 
     fun renderTransition(

@@ -38,6 +38,7 @@ class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, PosableEnt
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F
         val model = NPCModelRepository.getPoser(entity.npc.resourceIdentifier, aspects)
         this.model.posableModel = model
+        model.context = this.model.context
         this.model.setupEntityTypeContext(entity)
         this.model.context.put(RenderContext.TEXTURE, getTexture(entity))
         val clientDelegate = entity.delegate as NPCClientDelegate

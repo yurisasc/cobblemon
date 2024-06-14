@@ -17,12 +17,12 @@ import java.util.function.Consumer
 import kotlin.math.min
 import kotlin.random.Random
 import net.minecraft.client.util.ModelIdentifier
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.text.Text
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.shape.VoxelShape
-import kotlin.math.ceil
-import kotlin.math.floor
 
 fun cobblemonResource(path: String) = Identifier(Cobblemon.MODID, path)
 fun cobblemonModel(path: String, variant: String) = ModelIdentifier("cobblemon", path, variant)
@@ -78,21 +78,6 @@ fun isUuid(string: String) : Boolean {
     return Regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\$").matches(string)
 }
 
-fun VoxelShape.blockPositionsAsListRounded(): List<BlockPos> {
-    val result = mutableListOf<BlockPos>()
-    forEachBox { minX, minY, minZ, maxX, maxY, maxZ ->
-        for (x in floor(minX).toInt() until ceil(maxX).toInt()) {
-            for (y in floor(minY).toInt() until ceil(maxY).toInt()) {
-                for (z in floor(minZ).toInt() until ceil(maxZ).toInt()) {
-                    result.add(BlockPos(x, y, z))
-                }
-            }
-        }
-    }
-
-    return result
-}
-
 fun VoxelShape.blockPositionsAsList(): List<BlockPos> {
     val result = mutableListOf<BlockPos>()
     forEachBox { minX, minY, minZ, maxX, maxY, maxZ ->
@@ -131,3 +116,18 @@ val PosableState.isTouchingWater: Boolean
     get() = getEntity()?.isTouchingWater == true
 val PosableState.isTouchingWaterOrRain: Boolean
     get() = getEntity()?.isTouchingWaterOrRain == true
+
+fun Hand.toEquipmentSlot(): EquipmentSlot {
+    return when (this) {
+        Hand.MAIN_HAND -> EquipmentSlot.MAINHAND
+        Hand.OFF_HAND -> EquipmentSlot.OFFHAND
+    }
+}
+
+fun EquipmentSlot.toHand(): Hand {
+    return when (this) {
+        EquipmentSlot.MAINHAND -> Hand.MAIN_HAND
+        EquipmentSlot.OFFHAND -> Hand.OFF_HAND
+        else -> throw IllegalArgumentException("Invalid equipment slot: $this")
+    }
+}

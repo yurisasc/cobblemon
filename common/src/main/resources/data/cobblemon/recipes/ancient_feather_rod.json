@@ -10,7 +10,7 @@
     "item": "cobblemon:ancient_feather_ball"
   },
   "result": {
-    "item": "cobblemon:ancient_feather_rod",
+    "id": "cobblemon:ancient_feather_rod",
     "count": 1
   }
 }

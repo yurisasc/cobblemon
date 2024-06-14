@@ -10,7 +10,7 @@
     "item": "cobblemon:sport_ball"
   },
   "result": {
-    "item": "cobblemon:sport_rod",
+    "id": "cobblemon:sport_rod",
     "count": 1
   }
 }

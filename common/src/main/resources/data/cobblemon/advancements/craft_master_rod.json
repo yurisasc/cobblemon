@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:master_rod"
+      "id": "cobblemon:master_rod"
     },
     "title": {
       "translate": "advancements.cobblemon.craft_master_rod"

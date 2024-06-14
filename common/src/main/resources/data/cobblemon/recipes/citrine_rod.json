@@ -10,7 +10,7 @@
     "item": "cobblemon:citrine_ball"
   },
   "result": {
-    "item": "cobblemon:citrine_rod",
+    "id": "cobblemon:citrine_rod",
     "count": 1
   }
 }

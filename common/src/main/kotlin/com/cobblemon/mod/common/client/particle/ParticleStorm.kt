@@ -10,20 +10,17 @@ package com.cobblemon.mod.common.client.particle
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.species
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterAction
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.SnowstormParticle
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.particle.SnowstormParticleEffect
 import com.cobblemon.mod.common.util.math.geometry.transformDirection
 import kotlin.random.Random
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.particle.NoRenderParticle
-import net.minecraft.client.util.ParticleUtil.spawnParticle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.Vec3d
@@ -47,7 +44,7 @@ class ParticleStorm(
 ): NoRenderParticle(world, matrixWrapper.getOrigin().x, matrixWrapper.getOrigin().y, matrixWrapper.getOrigin().z) {
     fun spawn() {
         if (entity != null) {
-            runtime.environment.getQueryStruct()
+            runtime.environment.query
                 .addFunction("entity_width") { DoubleValue(entity.boundingBox.lengthX) }
                 .addFunction("entity_height") { DoubleValue(entity.boundingBox.lengthY) }
                 .addFunction("entity_size") { DoubleValue(entity.boundingBox.run { if (lengthX > lengthY) lengthX else lengthY }) }
@@ -61,6 +58,9 @@ class ParticleStorm(
                     val entityScale = pokeEntity?.scaleFactor ?: 1.0F
                     DoubleValue(baseScale * pokemonScale * entityScale)
                 }
+            if (entity is PosableEntity) {
+                runtime.environment.query.addFunction("entity") { entity.struct }
+            }
             // TODO replace with a generified call to if (entity is MoLangEntity) entity.applyVariables(env) or w/e
             runtime.environment.setSimpleVariable("entity_width", DoubleValue(entity.boundingBox.lengthX))
             runtime.environment.setSimpleVariable("entity_height", DoubleValue(entity.boundingBox.lengthY))

@@ -10,7 +10,7 @@
     "item": "cobblemon:nest_ball"
   },
   "result": {
-    "item": "cobblemon:nest_rod",
+    "id": "cobblemon:nest_rod",
     "count": 1
   }
 }

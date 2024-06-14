@@ -18,8 +18,11 @@ import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.writeText
 import com.mojang.datafixers.util.Either
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
@@ -40,7 +43,7 @@ class NPCConfigurationDTO : Encodable, Decodable {
         aspects = npcEntity.appliedAspects
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeText(npcName)
         buffer.writeIdentifier(npcClass)
         buffer.writeNullable(battle) { _, value -> value.encode(buffer) }
@@ -51,7 +54,7 @@ class NPCConfigurationDTO : Encodable, Decodable {
         buffer.writeCollection(aspects, PacketByteBuf::writeString)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         npcName = buffer.readText().copy()
         npcClass = buffer.readIdentifier()
         battle = buffer.readNullable { NPCBattleConfiguration().apply { decode(buffer) } }

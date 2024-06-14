@@ -34,6 +34,4 @@ object StringSetDataSerializer : TrackedDataHandler<Set<String>> {
 
     override fun copy(set: Set<String>) = set.toSet()
     override fun codec(): PacketCodec<in RegistryByteBuf, Set<String>> = PacketCodec.ofStatic(::write, ::read)
-
-
 }

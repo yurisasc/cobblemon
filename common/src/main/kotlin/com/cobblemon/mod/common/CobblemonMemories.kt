@@ -18,7 +18,7 @@ import net.minecraft.util.Uuids
 object CobblemonMemories {
     val memories = mutableMapOf<String, MemoryModuleType<*>>()
 
-    val BATTLING_POKEMON = register("battling_pokemon", ListCodec(Uuids.INT_STREAM_CODEC))
+    val BATTLING_POKEMON = register("battling_pokemon", ListCodec(Uuids.INT_STREAM_CODEC, 0, 31))
     val NPC_BATTLING = register("npc_battling", PrimitiveCodec.BOOL)
 
     fun <U> register(id: String, codec: Codec<U>): MemoryModuleType<U> {

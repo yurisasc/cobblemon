@@ -8,20 +8,23 @@
 
 package com.cobblemon.mod.common.advancement.criterion
 
-import com.google.gson.JsonObject
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.PrimitiveCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import java.util.Optional
+import net.minecraft.predicate.entity.EntityPredicate
 import net.minecraft.predicate.entity.LootContextPredicate
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
 
-class CastPokeRodCriterionCondition(id: Identifier, predicate: LootContextPredicate): SimpleCriterionCondition<Boolean>(id, predicate) {
-    var hasBait: Boolean = false
-
-    override fun toJson(json: JsonObject) {
-        json.addProperty("hasBait", hasBait)
-    }
-
-    override fun fromJson(json: JsonObject) {
-        hasBait = json.get("hasBait").asBoolean
+class CastPokeRodCriterionCondition(
+    playerCtx: Optional<LootContextPredicate>,
+    val hasBait: Boolean
+): SimpleCriterionCondition<Boolean>(playerCtx) {
+    companion object {
+        val CODEC: Codec<CastPokeRodCriterionCondition> = RecordCodecBuilder.create { it.group(
+            EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(CastPokeRodCriterionCondition::playerCtx),
+            PrimitiveCodec.BOOL.fieldOf("hasBait").forGetter(CastPokeRodCriterionCondition::hasBait)
+        ).apply(it, ::CastPokeRodCriterionCondition) }
     }
 
     override fun matches(player: ServerPlayerEntity, context: Boolean): Boolean {

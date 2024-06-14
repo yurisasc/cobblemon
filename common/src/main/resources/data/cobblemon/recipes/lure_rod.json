@@ -10,7 +10,7 @@
     "item": "cobblemon:lure_ball"
   },
   "result": {
-    "item": "cobblemon:lure_rod",
+    "id": "cobblemon:lure_rod",
     "count": 1
   }
 }

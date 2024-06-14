@@ -63,11 +63,16 @@ import net.minecraft.util.math.Vec3d
 abstract class PosableState : Schedulable {
     var currentModel: PosableModel? = null
         set(value) {
+            val changed = field != value
             field = value
-            if (value != null) {
+            if (value != null && changed) {
                 val entity = getEntity() as? PosableEntity ?: return
                 entity.struct.addFunctions(value.functions.functions)
                 runtime.environment.query.addFunctions(value.functions.functions)
+                // Locators need to be initialized asap, even if they aren't in perfect positions. The reason for this
+                // is that the locators might be called upon by frame 0 particle effects and if they aren't defined
+                // it'll crash. For non-entity states we don't give a shit though.
+                value.updateLocators(getEntity() ?: return, this)
             }
         }
     /** The name of the current pose. */

@@ -10,7 +10,7 @@
     "item": "cobblemon:roseate_ball"
   },
   "result": {
-    "item": "cobblemon:roseate_rod",
+    "id": "cobblemon:roseate_rod",
     "count": 1
   }
 }

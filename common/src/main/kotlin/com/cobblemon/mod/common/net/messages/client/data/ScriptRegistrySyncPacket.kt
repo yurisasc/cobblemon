@@ -12,20 +12,21 @@ import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.scripting.CobblemonScripts
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 
 class ScriptRegistrySyncPacket(entries: Collection<Map.Entry<Identifier, ExpressionLike>>) : DataRegistrySyncPacket<Map.Entry<Identifier, ExpressionLike>, ScriptRegistrySyncPacket>(entries){
     companion object {
         val ID = cobblemonResource("script_registry_sync")
+        fun decode(buffer: RegistryByteBuf): ScriptRegistrySyncPacket = ScriptRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 
-    override fun encodeEntry(buffer: PacketByteBuf, entry: Map.Entry<Identifier, ExpressionLike>) {
+    override fun encodeEntry(buffer: RegistryByteBuf, entry: Map.Entry<Identifier, ExpressionLike>) {
         buffer.writeIdentifier(entry.key)
         buffer.writeString(entry.value.toString())
     }
 
-    override fun decodeEntry(buffer: PacketByteBuf): Map.Entry<Identifier, ExpressionLike> {
+    override fun decodeEntry(buffer: RegistryByteBuf): Map.Entry<Identifier, ExpressionLike> {
         val key = buffer.readIdentifier()
         val value = buffer.readString().asExpressionLike()
         return object : Map.Entry<Identifier, ExpressionLike> {
@@ -39,5 +40,4 @@ class ScriptRegistrySyncPacket(entries: Collection<Map.Entry<Identifier, Express
     }
 
     override val id = ID
-    fun decode(buffer: PacketByteBuf): ScriptRegistrySyncPacket = ScriptRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
 }

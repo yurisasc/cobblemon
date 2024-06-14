@@ -22,7 +22,6 @@ import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.battles.BattleBuilder
-import com.cobblemon.mod.common.duck.SoundManagerDuck
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.loot.CobblemonLootTables
@@ -32,10 +31,16 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.toBlockPos
+import kotlin.math.sqrt
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
 import net.minecraft.client.MinecraftClient
-import net.minecraft.entity.*
+import net.minecraft.client.sound.SoundInstance
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.ExperienceOrbEntity
+import net.minecraft.entity.ItemEntity
+import net.minecraft.entity.MovementType
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
@@ -46,9 +51,9 @@ import net.minecraft.item.ItemStack
 import net.minecraft.loot.context.LootContextParameterSet
 import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.loot.context.LootContextTypes
-import net.minecraft.particle.DefaultParticleType
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.server.network.ServerPlayerEntity
@@ -64,7 +69,6 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
-import kotlin.math.sqrt
 
 
 class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity>, world: World) : FishingBobberEntity(type, world) {
@@ -103,9 +107,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     var randomPitch: Float = 0f
     var randomYaw: Float = 0f
     var lastBobberPos: Vec3d? = null
+    var castingSound: SoundInstance? = null
 
-    constructor(thrower: PlayerEntity, pokeRodId: Identifier, bait: ItemStack, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
+    constructor(thrower: PlayerEntity, pokeRodId: Identifier, bait: ItemStack, world: World, luckOfTheSea: Int, lure: Int, castSound: SoundInstance) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
+        castingSound = castSound
         luckOfTheSeaLevel = luckOfTheSea
         lureLevel = lure
         this.pokeRodId = pokeRodId
@@ -116,7 +122,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         dataTracker.set(CAUGHT_FISH, false)
 
         this.usedRod = pokeRodId
-
 
         val throwerPitch = thrower.pitch
         val throwerYaw = thrower.yaw
@@ -138,11 +143,12 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         prevPitch = pitch
     }
 
-    override fun initDataTracker() {
-        this.dataTracker.startTracking(HOOK_ENTITY_ID, 0)
-        this.dataTracker.startTracking(CAUGHT_FISH, false)
-        this.dataTracker.startTracking(POKEROD_ID, "")
-        this.dataTracker.startTracking(POKEBOBBER_BAIT, ItemStack.EMPTY)
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(HOOK_ENTITY_ID, 0)
+        builder.add(CAUGHT_FISH, false)
+        builder.add(POKEROD_ID, "")
+        builder.add(POKEBOBBER_BAIT, ItemStack.EMPTY)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -389,7 +395,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 val j = this.z + (MathHelper.cos(g) * h).toDouble() * 0.1 // randomized Z value
                 val blockState = serverWorld.getBlockState(BlockPos.ofFloored(d, e - 1.0, j))
                 if (blockState.isOf(Blocks.WATER)) {
-                    serverWorld.spawnParticles<DefaultParticleType>(ParticleTypes.SPLASH, d, e, j, 2 + random.nextInt(2), 0.10000000149011612, 0.0, 0.10000000149011612, 0.0)
+                    serverWorld.spawnParticles(ParticleTypes.SPLASH, d, e, j, 2 + random.nextInt(2), 0.10000000149011612, 0.0, 0.10000000149011612, 0.0)
                 }
             }
             if (this.waitCountdown <= 0) {
@@ -398,9 +404,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             }
         } else {
             if (isCast != true) {
-                // stop audio for the rod casting
-                (MinecraftClient.getInstance().getSoundManager() as SoundManagerDuck).stopSounds(CobblemonSounds.FISHING_ROD_CAST.id, SoundCategory.PLAYERS)
-
                 // When bobber lands on the water for the first time
                 world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_LAND, SoundCategory.NEUTRAL, 1.0F, 1.0F)
 
@@ -421,12 +424,26 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }
     }
 
+    fun stopCastingAudio () {
+        // stop audio for the rod casting
+        //(MinecraftClient.getInstance().getSoundManager() as SoundManagerDuck).stopSounds(CobblemonSounds.FISHING_ROD_CAST.id, SoundCategory.PLAYERS)
+
+        if (castingSound != null) {
+            (MinecraftClient.getInstance().getSoundManager()).stop(castingSound)
+
+            // reset casting sound
+            castingSound = null
+        }
+    }
+
     private fun removeIfInvalid(player: PlayerEntity): Boolean {
         val itemStack = player.mainHandStack
         val itemStack2 = player.offHandStack
         val bl = Registries.ITEM[this.usedRod] == itemStack.item //(itemStack.item is PokerodItem) // todo make this work again so the line breaks when you swap items
         val bl2 = Registries.ITEM[this.usedRod] == itemStack2.item //(itemStack2.item is PokerodItem) // todo make this work again so the line breaks when you swap items
         if (player.isRemoved || !player.isAlive || !bl && !bl2 || this.squaredDistanceTo(player) > 1024.0) {
+            if (world.isClient)
+                stopCastingAudio() // remove casting audio when user switches to different item in hotbar
             discard()
             isCast = false
             return true
@@ -489,8 +506,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
             // pause audio if the bobber is not moving anymore
             if (lastBobberPos == pos) {
-                // stop audio for the rod casting
-                (MinecraftClient.getInstance().getSoundManager() as SoundManagerDuck).stopSounds(CobblemonSounds.FISHING_ROD_CAST.id, SoundCategory.PLAYERS)
+                // stop audio for the rod casting if the position has not changed
+                if (world.isClient)
+                    stopCastingAudio()
             }
             lastBobberPos = pos
 
@@ -519,6 +537,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     return
                 }
                 if (state == State.BOBBING) {
+                    // stop casting audio once it lands in water
+                    if (castingSound != null && world.isClient) {
+                        stopCastingAudio()
+                    }
+
                     val vec3d = velocity
                     var d = this.y + vec3d.y - blockPos.y.toDouble() - f.toDouble()
                     if (Math.abs(d) < 0.01) {
@@ -557,6 +580,10 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     }
 
     override fun use(usedItem: ItemStack): Int {
+        // when reelimg in prematurely stop casting audio if it is playing
+        if (world.isClient)
+            stopCastingAudio()
+
         val playerEntity = this.playerOwner
         isCast = false
 
@@ -572,7 +599,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 // check if thing caught was an item
                 if (this.typeCaught == "ITEM") {
                     val lootContextParameterSet = LootContextParameterSet.Builder(world as ServerWorld).add(LootContextParameters.ORIGIN, pos).add(LootContextParameters.TOOL, usedItem).add(LootContextParameters.THIS_ENTITY, this).luck(this.luckOfTheSeaLevel.toFloat() + playerEntity.luck).build(LootContextTypes.FISHING)
-                    val lootTable = world.server!!.lootManager.getLootTable(CobblemonLootTables.FISHING_GAMEPLAY)
+                    val lootTable = world.registryManager.get(RegistryKeys.LOOT_TABLE).get(CobblemonLootTables.FISHING_GAMEPLAY)!!
                     val list: List<ItemStack> = lootTable.generateLoot(lootContextParameterSet)
                     Criteria.FISHING_ROD_HOOKED.trigger(playerEntity as ServerPlayerEntity?, usedItem, this, list)
                     val var7: Iterator<*> = list.iterator()
@@ -790,67 +817,67 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // function to return true of false if the given bait affects the attraction of certain Natures
     fun checkNatureAttact(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.NATURE }
     }
 
     // function to return true of false if the given bait affects the raising of IVs of a pokemon via fishing
     fun checkIVRaise(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.IV }
     }
 
     // function to return true of false if the given bait affects the pokemon with certain EV yields
     fun checkEVAttract(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.EV }
     }
 
     // function to return true of false if the given bait affects the pokemon gender
     fun checkBetterGenderOdds(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.GENDER_CHANCE }
     }
 
     // function to return true of false if the given bait affects time to expect a bite
     fun checkReduceBiteTime(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.BITE_TIME }
     }
 
     // function to return true of false if the given bait affects pokemon's level boost
     fun checkLevelBoost(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.LEVEL_RAISE }
     }
 
     // function to return true of false if the given bait affects pokemon's tera type
     fun checkTeraType(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.TERA }
     }
 
     // function to return true of false if the given bait affects pokemon's shiny chance
     fun checkShinyOdds(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.SHINY_REROLL }
     }
 
     // function to return true of false if the given bait affects pokemon's Hidden Ability
     fun checkHiddenAbilityOdds(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.HIDDEN_ABILITY_CHANCE }
     }
 
     // function to return true of false if the given bait to make it so a Pokemon is always reeled in
     fun checkPokemonFishRate(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.POKEMON_CHANCE }
     }
 
     // function to return true or false if the given bait will raise friendship of a caught mon
     fun checkFriendshipIncrease(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.FRIENDSHIP }
     }
 
@@ -865,7 +892,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         val speNaturesIds = listOf(Natures.TIMID, Natures.HASTY, Natures.JOLLY, Natures.NAIVE)
         val neutralNaturesIds = listOf(Natures.HARDY, Natures.DOCILE, Natures.BASHFUL, Natures.QUIRKY, Natures.SERIOUS)
 
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
         val natures = bait.effects.filter { it.type == FishingBait.Effects.NATURE }
         val randomNatureEffect = natures.random()
 
@@ -884,7 +911,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     // alter the IVs based on the bait effect
     fun alterIVAttempt(pokemon: Pokemon, stack: ItemStack) {
 
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
 
         // various IV effects
         val hpIVEffect = bait.effects.firstOrNull { it.type == FishingBait.Effects.IV && it.subcategory == cobblemonResource("hp")}
@@ -935,7 +962,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     // try to alter the gender based on the bait effect
     fun alterGenderAttempt(pokemon: Pokemon, stack: ItemStack) {
 
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
         val effect = bait.effects.first { it.type == FishingBait.Effects.GENDER_CHANCE }
         val gender = effect.subcategory ?: return
         if (!checkBaitSuccessRate(effect.chance))
@@ -950,7 +977,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // alter the level of the pokemon
     fun alterLevelAttempt(pokemon: Pokemon, stack: ItemStack) {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
         val effect = bait.effects.filter { it.type == FishingBait.Effects.LEVEL_RAISE }.random()
         if (!checkBaitSuccessRate(effect.chance)) return
 
@@ -965,7 +992,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 //        if (checkBaitSuccessRate(FishingBaits.getBaitSuccessChance(bait) ?: 0.0)) {
 //            pokemon.teraType = FishingBaits.getBaitSubcategory(bait)?.let { ElementalTypes.get(it.lowercase()) }!!
 //        }
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
         val effect = bait.effects.filter { it.type == FishingBait.Effects.TERA }.random()
         if (!checkBaitSuccessRate(effect.chance)) return
 
@@ -974,7 +1001,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // try to reroll for a shiny based on the bait effect
     fun alterShinyAttempt(pokemon: Pokemon, stack: ItemStack) {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
         val effect = bait.effects.filter { it.type == FishingBait.Effects.SHINY_REROLL }.random()
         if (!checkBaitSuccessRate(effect.chance)) return
         if (!pokemon.shiny) {
@@ -991,7 +1018,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // check if the bite time is reduced based on the bait bonus
     fun alterBiteTimeAttempt(waitCountdown: Int, stack: ItemStack): Int {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return waitCountdown
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return waitCountdown
         val effect = bait.effects.filter { it.type == FishingBait.Effects.BITE_TIME }.random()
         if (!checkBaitSuccessRate(effect.chance)) return waitCountdown
         return if (waitCountdown - waitCountdown * (effect.value) <= 0)
@@ -1002,7 +1029,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // chance to alter HA based on the berry effect
     fun alterHAAttempt(pokemon: Pokemon, stack: ItemStack) {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
         val effect = bait.effects.filter { it.type == FishingBait.Effects.HIDDEN_ABILITY_CHANCE }.random()
         if (checkBaitSuccessRate(effect.chance)) {
             giveHiddenAbility(pokemon)
@@ -1011,7 +1038,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // chance to alter Friendship upon reeling in
     fun alterFriendshipAttempt(pokemon: Pokemon, stack: ItemStack) {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
         val effect = bait.effects.filter { it.type == FishingBait.Effects.FRIENDSHIP }.random()
 
         if (checkBaitSuccessRate(effect.chance)) {
@@ -1040,7 +1067,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // check the chance of a pokemon to spawn and if it is affected by bait
     fun getPokemonSpawnChance(stack: ItemStack): Int {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return this.pokemonSpawnChance
+        val bait = FishingBaits.getFromRodItemStack(stack) ?: return this.pokemonSpawnChance
         val effectList = bait.effects.filter { it.type == FishingBait.Effects.POKEMON_CHANCE }
         if (effectList.isEmpty()) return this.pokemonSpawnChance
         val effect = effectList.random()

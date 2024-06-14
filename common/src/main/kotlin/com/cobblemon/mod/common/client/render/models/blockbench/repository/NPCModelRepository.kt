@@ -9,10 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.google.gson.JsonObject
 
 object NPCModelRepository : VaryingModelRepository<PosableModel>() {
     override val poserClass = PosableModel::class.java
@@ -25,16 +22,5 @@ object NPCModelRepository : VaryingModelRepository<PosableModel>() {
 
     override val fallback = cobblemonResource("npc")
     override val isForLivingEntityRenderer = true
-
-    override fun conditionParser(json: JsonObject): List<(PosableState) -> Boolean> {
-        val conditions = mutableListOf<(PosableState) -> Boolean>()
-        if (json.has("isBattle")) {
-            conditions.add { (it.getEntity() as? NPCEntity)?.isInBattle() == true }
-        } else if (json.has("isNotBattle")) {
-            conditions.add { (it.getEntity() as? NPCEntity)?.isInBattle() == false }
-        }
-        return conditions
-    }
-
     override fun registerInBuiltPosers() {}
 }

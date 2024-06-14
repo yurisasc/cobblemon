@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.client.render.block.GildedChestBlockRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.block.RestorationTankRenderer
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
+import com.cobblemon.mod.common.client.render.entity.PokeBobberEntityRenderer
 import com.cobblemon.mod.common.client.render.generic.GenericBedrockRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
@@ -39,8 +40,10 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Block
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockEntityModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.MiscModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.NPCModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cobblemon.mod.common.client.render.npc.NPCRenderer
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.sound.battle.BattleMusicController
@@ -78,6 +81,14 @@ object CobblemonClient {
     /** If true then we won't bother them anymore about choosing a starter even if it's a thing they can do. */
     var checkedStarterScreen = false
     var requests = ClientPlayerActionRequests()
+    var posableModelRepositories = listOf(
+        PokemonModelRepository,
+        PokeBallModelRepository,
+        NPCModelRepository,
+        FossilModelRepository,
+        BlockEntityModelRepository,
+        GenericBedrockEntityModelRepository
+    )
 
 
     val overlay: PartyOverlay by lazy { PartyOverlay() }
@@ -265,23 +276,30 @@ object CobblemonClient {
         this.implementation.registerEntityRenderer(CobblemonEntities.BOAT) { ctx -> CobblemonBoatRenderer(ctx, false) }
         LOGGER.info("Registering Boat with Chest renderer")
         this.implementation.registerEntityRenderer(CobblemonEntities.CHEST_BOAT) { ctx -> CobblemonBoatRenderer(ctx, true) }
+        LOGGER.info("Registering Generic Bedrock renderer")
+        this.implementation.registerEntityRenderer(CobblemonEntities.GENERIC_BEDROCK_ENTITY, ::GenericBedrockRenderer)
+        LOGGER.info("Registering NPC renderer")
+        this.implementation.registerEntityRenderer(CobblemonEntities.NPC, ::NPCRenderer)
         LOGGER.info("Registering Generic Bedrock Entity renderer")
         this.implementation.registerEntityRenderer(CobblemonEntities.GENERIC_BEDROCK_ENTITY, ::GenericBedrockRenderer)
+        LOGGER.info("Registering PokeRod Bobber renderer")
+        this.implementation.registerEntityRenderer(CobblemonEntities.POKE_BOBBER) { ctx -> PokeBobberEntityRenderer(ctx) }
+        LOGGER.info("Registering NPC renderer")
+        this.implementation.registerEntityRenderer(CobblemonEntities.NPC, ::NPCRenderer)
     }
 
     fun reloadCodedAssets(resourceManager: ResourceManager) {
         LOGGER.info("Loading assets...")
+        // Particles come first because animations need them.
         BedrockParticleEffectRepository.loadEffects(resourceManager)
+        // Animations come next because models need them.
         BedrockAnimationRepository.loadAnimations(
             resourceManager = resourceManager,
-            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + FossilModelRepository.animationDirectories + BlockEntityModelRepository.animationDirectories + GenericBedrockEntityModelRepository.animationDirectories
+            directories = posableModelRepositories.flatMap { it.animationDirectories }
         )
-        PokemonModelRepository.reload(resourceManager)
-        PokeBallModelRepository.reload(resourceManager)
+        posableModelRepositories.forEach { it.reload(resourceManager) }
+
         BerryModelRepository.reload(resourceManager)
-        FossilModelRepository.reload(resourceManager)
-        BlockEntityModelRepository.reload(resourceManager)
-        GenericBedrockEntityModelRepository.reload(resourceManager)
         MiscModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
     }

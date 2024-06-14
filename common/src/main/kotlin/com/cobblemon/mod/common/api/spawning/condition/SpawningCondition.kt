@@ -13,21 +13,16 @@ import com.cobblemon.mod.common.api.spawning.MoonPhaseRange
 import com.cobblemon.mod.common.api.spawning.TimeRange
 import com.cobblemon.mod.common.api.spawning.context.FishingSpawningContext
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
-import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
-import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.util.Merger
 import com.cobblemon.mod.common.util.math.orMax
 import com.cobblemon.mod.common.util.math.orMin
 import com.mojang.datafixers.util.Either
 import net.minecraft.enchantment.EnchantmentHelper
-import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.random.ChunkRandom
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.structure.Structure
-import kotlin.random.Random
 
 /**
  * The root of spawning conditions that can be applied to a spawning context. What type
@@ -65,8 +60,8 @@ abstract class SpawningCondition<T : SpawningContext> {
     var structures: MutableList<Either<Identifier, TagKey<Structure>>>? = null
     var minLureLevel: Int? = null
     var maxLureLevel: Int? = null
-    var bait: String? = null
-    var rodType: String? = null
+    var bait: Identifier? = null
+    var rodType: Identifier? = null
     var isSlimeChunk: Boolean? = null
 
     @Transient
@@ -128,15 +123,15 @@ abstract class SpawningCondition<T : SpawningContext> {
             if (maxLureLevel != null && EnchantmentHelper.getLure(pokerodStack) > maxLureLevel!!)
                 return false
         } else if (bait != null && ctx is FishingSpawningContext) { // check for the bait on the bobber
-            val pokerodBait = (ctx as FishingSpawningContext).rodBait
-
-            if (Registries.ITEM.getId(PokerodItem.getBait(pokerodBait)?.item).path != bait)
+            val pokerodBait = (ctx as FishingSpawningContext).rodBait?.item
+            if (pokerodBait != bait) {
                 return false
+            }
         } else if (rodType != null && ctx is FishingSpawningContext) { // check for the type of pokerod being used
             val pokerodItem = (ctx as FishingSpawningContext).rodItem
-
-            if (pokerodItem?.pokeRodId?.path != rodType)
+            if (pokerodItem?.pokeRodId != rodType) {
                 return false
+            }
         } else if (isSlimeChunk != null && isSlimeChunk != false) {
             val isSlimeChunk = ChunkRandom.getSlimeRandom(ctx.position.x shr 4, ctx.position.z shr 4, ctx.world.seed, 987234911L).nextInt(10) == 0
 

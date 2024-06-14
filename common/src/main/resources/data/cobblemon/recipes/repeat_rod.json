@@ -10,7 +10,7 @@
     "item": "cobblemon:repeat_ball"
   },
   "result": {
-    "item": "cobblemon:repeat_rod",
+    "id": "cobblemon:repeat_rod",
     "count": 1
   }
 }

@@ -31,6 +31,8 @@ class GenericBedrockRenderer(context: EntityRendererFactory.Context) : EntityRen
 
         val model = GenericBedrockEntityModelRepository.getPoser(entity.category, entity.aspects)
         this.model.posableModel = model
+        model.context = this.model.context
+        this.model.setupEntityTypeContext(entity)
         poseStack.push()
         poseStack.scale(1.0F, -1.0F, 1.0F)
         poseStack.scale(entity.scale, entity.scale, entity.scale)
