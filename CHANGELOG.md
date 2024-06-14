@@ -10,6 +10,8 @@
 - Fixed Gilded Chests not dropping the chest itself when broken, only the contents.
 - Fixed Pokémon losing their Hidden Ability through evolution if the middle stage did not have a Hidden Ability.
 - Fixed Chimchar and Monferno T posing whenever they sleep.
+- Fixed the Magby line not having any placeholder walk animations.
+- Fixed Duskull and Dusclops using skylight levels for their nether spawn data. There is no sun in the Nether!
 - Fixed Crumbling Arch not blending in with the world.
 
 ### Additions
