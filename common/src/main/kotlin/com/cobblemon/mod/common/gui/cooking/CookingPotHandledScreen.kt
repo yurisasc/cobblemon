@@ -20,9 +20,9 @@ class CookingPotHandledScreen(
     handler: CookingPotScreenHandler,
     inventory: PlayerInventory,
     title: Text?
-) : HandledScreen<CookingPotScreenHandler>(handler, inventory, title), RecipeBookProvider {
+) : HandledScreen<CookingPotScreenHandler>(handler, inventory, title), CookBookProvider {
 
-    private val recipeBook = RecipeBookWidget()
+    private val recipeBook = CookBookWidget()
     private var narrow = false
 
     companion object {
@@ -62,7 +62,7 @@ class CookingPotHandledScreen(
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         renderBackground(context)
-        if (recipeBook.isOpen && narrow) {
+        if (recipeBook.isOpen() && narrow) {
             drawBackground(context, delta, mouseX, mouseY)
             recipeBook.render(context, mouseX, mouseY, delta)
         } else {
@@ -92,7 +92,7 @@ class CookingPotHandledScreen(
     }
 
     override fun isPointWithinBounds(x: Int, y: Int, width: Int, height: Int, pointX: Double, pointY: Double): Boolean {
-        return (!narrow || !recipeBook.isOpen) && super.isPointWithinBounds(x, y, width, height, pointX, pointY)
+        return (!narrow || !recipeBook.isOpen()) && super.isPointWithinBounds(x, y, width, height, pointX, pointY)
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
@@ -100,7 +100,7 @@ class CookingPotHandledScreen(
             focused = recipeBook
             return true
         }
-        return if (narrow && recipeBook.isOpen) {
+        return if (narrow && recipeBook.isOpen()) {
             true
         } else super.mouseClicked(mouseX, mouseY, button)
     }
@@ -115,11 +115,11 @@ class CookingPotHandledScreen(
         recipeBook.slotClicked(slot)
     }
 
-    override fun refreshRecipeBook() {
+    override fun refreshCookBook() {
         recipeBook.refresh()
     }
 
-    override fun getRecipeBookWidget(): RecipeBookWidget {
+    override fun getCookBookWidget(): CookBookWidget {
         return recipeBook
     }
 }
