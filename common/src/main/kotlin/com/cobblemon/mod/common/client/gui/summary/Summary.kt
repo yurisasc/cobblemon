@@ -382,7 +382,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
                 if (movesWidget is MovesWidget && move != null) {
                     sideScreen = MoveSwapScreen(
                             x + 216,
-                            y + 23,
+                            y + 24,
                             movesWidget = movesWidget,
                             replacedMove = move
                     ).also { switchPane ->

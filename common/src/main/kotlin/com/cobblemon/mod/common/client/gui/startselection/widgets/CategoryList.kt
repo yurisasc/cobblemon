@@ -71,7 +71,9 @@ class CategoryList(
             x + width,
             y - height
         )
+        super.renderWidget(context, mouseX, mouseY, delta)
         context.disableScissor()
+        correctSize()
     }
 
     private fun correctSize() {

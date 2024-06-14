@@ -32,7 +32,7 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
 ) {
     companion object {
         const val WIDTH = 108
-        const val HEIGHT = 112
+        const val HEIGHT = 111
         const val SLOT_WIDTH = 91
 
         private val backgroundResource = cobblemonResource("textures/gui/summary/summary_scroll_background.png")
@@ -71,7 +71,7 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         )
         context.enableScissor(
             x,
-            y,
+            y - 1,
             x + width,
             y + height
         )
@@ -84,8 +84,8 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
             matrixStack = matrices,
             texture = scrollOverlayResource,
             x = listX,
-            y = listY - (scrollOverlayOffset / 2),
-            height = HEIGHT + scrollOverlayOffset + 1,
+            y = listY - (scrollOverlayOffset / 2) - 1,
+            height = HEIGHT + scrollOverlayOffset + 2,
             width = WIDTH
         )
 
@@ -132,6 +132,6 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     }
 
     private fun correctSize() {
-        setDimensionsAndPosition(WIDTH, HEIGHT, listX, listY + 1)
+        setDimensionsAndPosition(WIDTH, HEIGHT, listX, listY)
     }
 }
