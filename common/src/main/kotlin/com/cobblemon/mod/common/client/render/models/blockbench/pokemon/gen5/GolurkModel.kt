@@ -8,16 +8,19 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.ActiveAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GolurkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
+class GolurkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("golurk")
     override val head = getPart("head")
 
@@ -27,9 +30,11 @@ class GolurkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override var profileScale = 0.4F
     override var profileTranslation = Vec3d(0.0, 1.15, 0.0)
 
-    lateinit var standing: Pose
-    lateinit var walk: Pose
-    lateinit var sleep: Pose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golurk", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("golurk", "blink") }
@@ -39,7 +44,7 @@ class GolurkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 20,
             quirks = arrayOf(blink),
-            animations = arrayOf(
+            idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("golurk", "ground_idle")
             )
@@ -50,7 +55,7 @@ class GolurkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 20,
             quirks = arrayOf(blink),
-            animations = arrayOf(
+            idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("golurk", "ground_walk")
             )
@@ -60,11 +65,14 @@ class GolurkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "sleep",
             transformTicks = 20,
             poseType = PoseType.SLEEP,
-            animations = arrayOf(bedrock("golurk", "sleep"))
+            idleAnimations = arrayOf(bedrock("golurk", "sleep"))
         )
     }
 
-    override fun getFaintAnimation(state: PosableState): ActiveAnimation? {
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ): StatefulAnimation<PokemonEntity, ModelFrame>? {
         return if (state.isNotPosedIn(sleep)) bedrockStateful("golurk", "faint") else null
     }
 }

@@ -26,6 +26,7 @@ import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.util.math.MatrixStack.Entry
 import net.minecraft.item.ItemStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
@@ -59,7 +60,8 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
     RenderSystem.enableBlend()
     RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
-    val modelViewStack = matrixStack ?: RenderSystem.getModelViewStack()
+    //TODO Make sure this doesnt break anything
+    val modelViewStack = matrixStack ?: MatrixStack()
     modelViewStack.push()
     modelViewStack.translate(x, y, (zTranslation + 0).toDouble())
     modelViewStack.translate(8.0 * scale, 8.0 * scale, 0.0)
@@ -278,8 +280,7 @@ fun renderPart(
     val matrix4f = pose.positionMatrix
     val matrix3f = pose.normalMatrix
     renderQuad(
-        matrix4f,
-        matrix3f,
+        pose,
         vertexBuffer,
         red,
         green,
@@ -293,8 +294,7 @@ fun renderPart(
         p_112167_
     )
     renderQuad(
-        matrix4f,
-        matrix3f,
+        pose,
         vertexBuffer,
         red,
         green,
@@ -308,8 +308,7 @@ fun renderPart(
         p_112169_
     )
     renderQuad(
-        matrix4f,
-        matrix3f,
+        pose,
         vertexBuffer,
         red,
         green,
@@ -323,8 +322,7 @@ fun renderPart(
         p_112171_
     )
     renderQuad(
-        matrix4f,
-        matrix3f,
+        pose,
         vertexBuffer,
         red,
         green,
@@ -340,8 +338,7 @@ fun renderPart(
 }
 
 fun renderQuad(
-    matrixPos: Matrix4f,
-    matrixNormal: Matrix3f,
+    matrixEntry: Entry,
     buffer: VertexConsumer,
     red: Float,
     green: Float,
@@ -354,15 +351,14 @@ fun renderQuad(
     x2: Float,
     z2: Float
 ) {
-    addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMax, x1, z1, 1F, 0F)
-    addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMin, x1, z1, 1F, 1F)
-    addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMin, x2, z2, 0F, 1F)
-    addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMax, x2, z2, 0F, 0F)
+    addVertex(matrixEntry, buffer, red, green, blue, alpha, yMax, x1, z1, 1F, 0F)
+    addVertex(matrixEntry, buffer, red, green, blue, alpha, yMin, x1, z1, 1F, 1F)
+    addVertex(matrixEntry, buffer, red, green, blue, alpha, yMin, x2, z2, 0F, 1F)
+    addVertex(matrixEntry, buffer, red, green, blue, alpha, yMax, x2, z2, 0F, 0F)
 }
 
 fun addVertex(
-    matrixPos: Matrix4f,
-    matrixNormal: Matrix3f,
+    matrixEntry: MatrixStack.Entry,
     buffer: VertexConsumer,
     red: Float,
     green: Float,
@@ -375,11 +371,11 @@ fun addVertex(
     texV: Float
 ) {
     buffer
-        .vertex(matrixPos, x, y, z)
+        .vertex(matrixEntry.positionMatrix, x, y, z)
         .color(red, green, blue, alpha)
         .texture(texU, texV)
         .overlay(OverlayTexture.DEFAULT_UV)
         .light(15728880)
-        .normal(matrixNormal, 0.0f, 1.0f, 0.0f)
+        .normal(matrixEntry, 0.0f, 1.0f, 0.0f)
         .next()
 }

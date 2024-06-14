@@ -19,6 +19,8 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.net.messages.client.callback.OpenMoveCallbackPacket
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeString
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
@@ -117,14 +119,14 @@ class MoveSelectDTO(val moveTemplate: MoveTemplate, var enabled: Boolean, val pp
     constructor(move: Move, enabled: Boolean = true): this(moveTemplate = move.template, enabled = enabled, pp = move.currentPp, ppMax = move.maxPp)
     @JvmOverloads
     constructor(move: InBattleMove, enabled: Boolean = true): this(moveTemplate = Moves.getByNameOrDummy(move.move), enabled = enabled, pp = move.pp, ppMax = move.maxpp)
-    constructor(buffer: PacketByteBuf): this(
+    constructor(buffer: RegistryByteBuf): this(
         moveTemplate = Moves.getByNameOrDummy(buffer.readString()),
         enabled = buffer.readBoolean(),
         pp = buffer.readSizedInt(IntSize.BYTE),
         ppMax = buffer.readSizedInt(IntSize.BYTE)
     )
 
-    fun writeToBuffer(buffer: PacketByteBuf) {
+    fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(moveTemplate.name)
         buffer.writeBoolean(enabled)
         buffer.writeSizedInt(IntSize.BYTE, pp)

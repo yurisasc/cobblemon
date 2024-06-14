@@ -10,8 +10,9 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.Text
+import net.minecraft.text.TextCodecs
 
 /**
  * Sends messages to add to the battle message queue on the client.
@@ -25,12 +26,12 @@ class BattleMessagePacket(val messages: List<Text>) : NetworkPacket<BattleMessag
 
     constructor(vararg messages: Text): this(messages.toList())
 
-    override fun encode(buffer: PacketByteBuf) {
-        buffer.writeCollection(this.messages) { pb, value -> pb.writeText(value) }
+    override fun encode(buffer: RegistryByteBuf) {
+        buffer.writeCollection(this.messages) { pb, value -> TextCodecs.PACKET_CODEC.encode(buffer, value) }
     }
 
     companion object {
         val ID = cobblemonResource("battle_message")
-        fun decode(buffer: PacketByteBuf) = BattleMessagePacket(buffer.readList { it.readText() })
+        fun decode(buffer: RegistryByteBuf) = BattleMessagePacket(buffer.readList { TextCodecs.PACKET_CODEC.decode(buffer) })
     }
 }

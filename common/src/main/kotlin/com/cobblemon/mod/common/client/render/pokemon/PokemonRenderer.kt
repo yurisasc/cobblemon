@@ -32,6 +32,7 @@ import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity.Companion.SPAWN_DIRECTION
 import com.cobblemon.mod.common.pokeball.PokeBall
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.isLookingAt
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
@@ -46,7 +47,9 @@ import net.minecraft.client.render.entity.MobEntityRenderer
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
+import net.minecraft.text.Style
 import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.MathHelper
@@ -65,6 +68,12 @@ class PokemonRenderer(
         fun ease(x: Double): Double {
             return 1 - (1 - x).pow(3)
         }
+        private val LEVEL_LABEL_STYLE = Style.EMPTY.withColor(Formatting.WHITE)
+            .withBold(false)
+            .withItalic(false)
+            .withUnderline(false)
+            .withStrikethrough(false)
+            .withObfuscated(false)
     }
 
     val context = RenderContext().also {
@@ -160,7 +169,7 @@ class PokemonRenderer(
         modelNow.blue = 1F
         modelNow.resetLayerContext()
         if (this.shouldRenderLabel(entity)) {
-            this.renderLabelIfPresent(entity, entity.displayName, poseMatrix, buffer, packedLight)
+            this.renderLabelIfPresent(entity, entity.effectiveName(), poseMatrix, buffer, packedLight, partialTicks)
         }
 //        MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers.draw()
     }
@@ -356,7 +365,14 @@ class PokemonRenderer(
         return player.isLookingAt(entity) && delegate.phaseTarget == null
     }
 
-    override fun renderLabelIfPresent(entity: PokemonEntity, text: Text, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int) {
+    override fun renderLabelIfPresent(
+        entity: PokemonEntity,
+        text: Text,
+        matrices: MatrixStack,
+        vertexConsumers: VertexConsumerProvider,
+        light: Int,
+        tickDelta: Float
+    ) {
         if (entity.isInvisible) {
             return
         }
@@ -366,7 +382,7 @@ class PokemonRenderer(
             val scale = min(1.5, max(0.65, d.remap(DoubleRange(-16.0, 96.0), DoubleRange(0.0, 1.0))))
             val sizeScale = MathHelper.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.5, 1.0)
             val offsetScale = MathHelper.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.0,1.0)
-            val entityHeight = entity.boundingBox.yLength + 0.5f
+            val entityHeight = entity.boundingBox.lengthY + 0.5f
             matrices.push()
             matrices.translate(0.0, entityHeight, 0.0)
             matrices.multiply(dispatcher.rotation)
@@ -376,8 +392,11 @@ class PokemonRenderer(
             val opacity = (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25f) * 255.0f).toInt() shl 24
             var label = entity.name.copy()
             if (ServerSettings.displayEntityLevelLabel && entity.labelLevel() > 0) {
-                val levelLabel = lang("label.lv", entity.labelLevel())
-                label = label.add(" ").append(levelLabel)
+                // This a Style.EMPTY with a lot of effects set to false and color set to white, renderer inherits these from nick otherwise
+                val levelLabel = Text.literal(" ")
+                    .append(lang("label.lv", entity.labelLevel()))
+                    .setStyle(LEVEL_LABEL_STYLE)
+                label = label.append(levelLabel)
             }
             var h = (-textRenderer.getWidth(label) / 2).toFloat()
             val y = 0F

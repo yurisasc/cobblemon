@@ -12,8 +12,9 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
+import net.minecraft.text.TextCodecs
 
 // note: showdown calls it gameType, but in MC GameType would collide with plugins and shit a lot.
 
@@ -47,9 +48,9 @@ interface BattleType {
         get() = actorsPerSide * slotsPerActor
 
     companion object {
-        fun loadFromBuffer(buffer: PacketByteBuf): BattleType {
+        fun loadFromBuffer(buffer: RegistryByteBuf): BattleType {
             val name = buffer.readString()
-            val displayName = buffer.readText()
+            val displayName = TextCodecs.PACKET_CODEC.decode(buffer)
             val actorsPerSide = buffer.readSizedInt(IntSize.U_BYTE)
             val slotsPerActor = buffer.readSizedInt(IntSize.U_BYTE)
             return BattleTypes.makeBattleType(
@@ -60,9 +61,9 @@ interface BattleType {
             )
         }
     }
-    fun saveToBuffer(buffer: PacketByteBuf): PacketByteBuf {
+    fun saveToBuffer(buffer: RegistryByteBuf): RegistryByteBuf {
         buffer.writeString(name)
-        buffer.writeText(displayName)
+        TextCodecs.PACKET_CODEC.encode(buffer, displayName)
         buffer.writeSizedInt(IntSize.U_BYTE, actorsPerSide)
         buffer.writeSizedInt(IntSize.U_BYTE, slotsPerActor)
         return buffer

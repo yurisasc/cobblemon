@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:oran_berry"
+      "id": "cobblemon:oran_berry"
     },
     "title": {
       "translate": "advancements.cobblemon.obtain_berry"

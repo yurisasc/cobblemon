@@ -3,7 +3,7 @@
     "pattern": [
         " B ",
         "SMS",
-		"HSH"
+        "HSH"
     ],
     "key": {
         "B": {
@@ -20,6 +20,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:whipped_dream"
+        "id": "cobblemon:whipped_dream"
     }
 }

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:revive"
+      "id": "cobblemon:revive"
     },
     "title": {
       "translate": "advancements.cobblemon.use_revive"
@@ -16,19 +16,19 @@
     "use_revive": {
       "trigger": "cobblemon:pokemon_interact",
       "conditions": {
-        "item": "cobblemon:revive"
+        "id": "cobblemon:revive"
       }
     },
 	"use_max_revive": {
       "trigger": "cobblemon:pokemon_interact",
       "conditions": {
-        "item": "cobblemon:max_revive"
+        "id": "cobblemon:max_revive"
       }
     },
 	"use_revival_herb": {
       "trigger": "cobblemon:pokemon_interact",
       "conditions": {
-        "item": "cobblemon:revival_herb"
+        "id": "cobblemon:revival_herb"
       }
     }
   },

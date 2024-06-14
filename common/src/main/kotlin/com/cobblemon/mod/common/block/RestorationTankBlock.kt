@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
+import com.mojang.serialization.MapCodec
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -53,7 +54,6 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
             .with(ON, false)
     }
 
-
     fun getPositionOfOtherPart(state: BlockState, pos: BlockPos): BlockPos {
         return if (state.get(PART) == TankPart.BOTTOM) {
             pos.up()
@@ -72,15 +72,23 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
 
     private fun isBase(state: BlockState): Boolean = state.get(PART) == TankPart.BOTTOM
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
-        super.onBreak(world, pos, state, player)
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?): BlockState {
+        val result = super.onBreak(world, pos, state, player)
         if (!world.isClient) {
             val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
+
             if (otherPart.block is RestorationTankBlock) {
                 world.setBlockState(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultState, Block.NOTIFY_ALL)
-                world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, getPositionOfOtherPart(state, pos), getRawIdFromState(otherPart))
+                world.syncWorldEvent(
+                    player,
+                    WorldEvents.BLOCK_BROKEN,
+                    getPositionOfOtherPart(state, pos),
+                    getRawIdFromState(otherPart)
+                )
             }
         }
+
+        return result
     }
 
     override fun onPlaced(
@@ -98,16 +106,22 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+    override fun onUse(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        player: PlayerEntity,
+        hit: BlockHitResult
+    ): ActionResult? {
         if(state.get(PART) == TankPart.TOP) {
             // TankTop isn't reliably up to date on clients, need to look at the bottom half
             val tankBottomPos = pos.down()
             val tankBottomState = world.getBlockState(tankBottomPos)
             if(tankBottomState.block.equals(CobblemonBlocks.RESTORATION_TANK.asBlock()) && tankBottomState.get(PART) == TankPart.BOTTOM) {
-                return onUse(tankBottomState, world, tankBottomPos, player, hand, hit)
+                return super.onUse(tankBottomState, world, tankBottomPos, player, hit)
             }
         }
-        return super.onUse(state, world, pos, player, hand, hit)
+        return super.onUse(state, world, pos, player, hit)
     }
 
     override fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity {
@@ -221,14 +235,21 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
     }
 
     @Deprecated("Deprecated in Java")
-    override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
+    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean {
         return false
     }
 
+    override fun getCodec(): MapCodec<out BlockWithEntity> {
+        return CODEC
+    }
+
     companion object {
+        val CODEC = createCodec(::RestorationTankBlock)
+
         val PART = EnumProperty.of("part", TankPart::class.java)
         val TRIGGERED = Properties.TRIGGERED
         val ON = BooleanProperty.of("on")
+
         class DummyInventory : SimpleInventory(0), SidedInventory {
             override fun getAvailableSlots(side: Direction): IntArray {
                 return IntArray(0)

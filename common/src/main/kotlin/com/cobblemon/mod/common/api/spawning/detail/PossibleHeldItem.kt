@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.api.spawning.detail
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
+import net.minecraft.component.ComponentChanges
+import net.minecraft.component.ComponentMap
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
@@ -19,7 +21,7 @@ import net.minecraft.util.Identifier
 
 class PossibleHeldItem(
     val item: String,
-    val nbt: NbtCompound? = null,
+    val componentMap: ComponentMap? = null,
     val percentage: Double = 100.0
 ) {
     fun createStack(ctx: SpawningContext): ItemStack? {
@@ -44,8 +46,12 @@ class PossibleHeldItem(
 
         val stack = ItemStack(item, 1)
 
-        if (nbt != null) {
-            stack.nbt = nbt
+        if (componentMap != null) {
+            val componentBuilder = ComponentChanges.builder()
+            componentMap.forEach {
+                componentBuilder.add(it)
+            }
+            stack.applyChanges(componentBuilder.build())
         }
 
         return stack

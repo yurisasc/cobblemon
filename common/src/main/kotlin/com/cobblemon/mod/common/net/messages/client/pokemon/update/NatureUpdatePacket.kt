@@ -14,13 +14,16 @@ import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeNullable
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class NatureUpdatePacket(pokemon: () -> Pokemon, val nature: Nature?, val minted: Boolean) : PokemonUpdatePacket<NatureUpdatePacket>(pokemon) {
 
     override val id = ID
 
-    override fun encodeDetails(buffer: PacketByteBuf) {
+    override fun encodeDetails(buffer: RegistryByteBuf) {
         buffer.writeNullable(nature) { _, v -> buffer.writeIdentifier(v.name) }
         buffer.writeBoolean(this.minted)
     }
@@ -48,7 +51,7 @@ class NatureUpdatePacket(pokemon: () -> Pokemon, val nature: Nature?, val minted
 
     companion object {
         val ID = cobblemonResource("nature_update")
-        fun decode(buffer: PacketByteBuf) = NatureUpdatePacket(decodePokemon(buffer), buffer.readNullable { Natures.getNature(buffer.readIdentifier()) }, buffer.readBoolean())
+        fun decode(buffer: RegistryByteBuf) = NatureUpdatePacket(decodePokemon(buffer), buffer.readNullable { Natures.getNature(buffer.readIdentifier()) }, buffer.readBoolean())
     }
 
 }

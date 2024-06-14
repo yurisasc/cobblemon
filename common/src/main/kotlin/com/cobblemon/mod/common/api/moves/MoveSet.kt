@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.JsonObject
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
@@ -102,7 +103,7 @@ class MoveSet : Iterable<Move> {
     /**
      * Writes the MoveSet to Buffer
      */
-    fun saveToBuffer(buffer: PacketByteBuf) {
+    fun saveToBuffer(buffer: RegistryByteBuf) {
         buffer.writeSizedInt(IntSize.U_BYTE, getMoves().size)
         getMoves().forEach {
             it.saveToBuffer(buffer)
@@ -161,7 +162,7 @@ class MoveSet : Iterable<Move> {
     /**
      * Returns a MoveSet build from given Buffer
      */
-    fun loadFromBuffer(buffer: PacketByteBuf): MoveSet {
+    fun loadFromBuffer(buffer: RegistryByteBuf): MoveSet {
         doWithoutEmitting {
             clear()
             val amountMoves = buffer.readSizedInt(IntSize.U_BYTE)

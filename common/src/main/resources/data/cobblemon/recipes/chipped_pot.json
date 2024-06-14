@@ -3,7 +3,7 @@
     "pattern": [
         "IT ",
         "TBT",
-		"GGG"
+        "GGG"
     ],
     "key": {
         "G": {
@@ -20,6 +20,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:chipped_pot"
+        "id": "cobblemon:chipped_pot"
     }
 }

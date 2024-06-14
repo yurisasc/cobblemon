@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:healing_machine"
+      "id": "cobblemon:healing_machine"
     },
     "title": {
       "translate": "advancements.cobblemon.healing_machine"

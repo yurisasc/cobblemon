@@ -3,7 +3,7 @@
     "pattern": [
         "PTS",
         "TET",
-		"STP"
+        "STP"
     ],
     "key": {
         "S": {
@@ -20,6 +20,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:flame_orb"
+        "id": "cobblemon:flame_orb"
     }
 }

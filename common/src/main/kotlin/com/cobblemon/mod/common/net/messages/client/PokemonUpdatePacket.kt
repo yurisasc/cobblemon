@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.pokemon.Pokemon
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Base packet for all the single-field Pokémon update packets.
@@ -22,7 +22,7 @@ import net.minecraft.network.PacketByteBuf
  */
 abstract class PokemonUpdatePacket<T>(val pokemon: () -> Pokemon) : NetworkPacket<T> where T : NetworkPacket<T> {
 
-    final override fun encode(buffer: PacketByteBuf) {
+    final override fun encode(buffer: RegistryByteBuf) {
         val pokemon = pokemon()
         // This won't ever happen in instances where packets get sent out, but they protect us from NPEs on fields that require synchronization on load/save
         buffer.writeUuid(pokemon.storeCoordinates.get()?.store?.uuid ?: UUID.randomUUID())
@@ -30,7 +30,7 @@ abstract class PokemonUpdatePacket<T>(val pokemon: () -> Pokemon) : NetworkPacke
         encodeDetails(buffer)
     }
 
-    abstract fun encodeDetails(buffer: PacketByteBuf)
+    abstract fun encodeDetails(buffer: RegistryByteBuf)
 
     /** Applies the update to the located Pokémon. */
     abstract fun applyToPokemon()
@@ -40,10 +40,10 @@ abstract class PokemonUpdatePacket<T>(val pokemon: () -> Pokemon) : NetworkPacke
         /**
          * Reads the current Pokémon from the given [buffer].
          *
-         * @param buffer The [PacketByteBuf] being decoded.
+         * @param buffer The [ByteBuf] being decoded.
          * @return The [Pokemon] found.
          */
-        fun decodePokemon(buffer: PacketByteBuf) : () -> Pokemon {
+        fun decodePokemon(buffer: RegistryByteBuf) : () -> Pokemon {
             val storeId = buffer.readUuid()
             val pokemonId = buffer.readUuid()
             return { CobblemonClient.storage.locatePokemon(storeId, pokemonId)!! }

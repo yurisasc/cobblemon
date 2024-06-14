@@ -583,6 +583,7 @@
   "cobblemon.ui.generic.no": "No",
 
   "cobblemon.ui.pokenav.title": "PokéNav",
+  "cobblemon.ui.pokenav.narrator.backbutton": "Poke Nav button pressed",
   "cobblemon.ui.summary.title": "Summary",
   "cobblemon.ui.starter.title": "Starter Selection",
   "cobblemon.ui.starter.choosebutton": "I choose you!",
@@ -591,6 +592,7 @@
   "cobblemon.ui.starter.hasalreadychosen": "%1$s has already chosen a starter.",
   "cobblemon.ui.starter.skippedchoosing": "You have not yet selected a starter, but have already received a Pokémon. To select your starter, place all your Pokémon in a PC and then press \"%1$s\".",
   "cobblemon.ui.starter.choose_starter_title": "Check out the starters!",
+  "cobblemon.ui.starter.narrator.backbutton": "Back button pressed",
   "cobblemon.ui.starter.choose_starter_description": "Press the \"%1$s\" key",
   "cobblemon.ui.starter.chooseyourstarter": "Press %1$s to choose your Pokémon and begin your journey!",
   "cobblemon.ui.moves": "Moves",

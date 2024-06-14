@@ -90,7 +90,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (ctx.position.z < minZ.orMin() || ctx.position.z > maxZ.orMax()) {
             return false
-        } else if (dimensions != null && dimensions!!.isNotEmpty() && ctx.world.dimensionKey.value !in dimensions!!) {
+        } else if (dimensions != null && dimensions!!.isNotEmpty() && ctx.world.dimension.effects !in dimensions!!) {
             return false
         } else if (moonPhase != null && ctx.moonPhase !in moonPhase!!) {
             return false

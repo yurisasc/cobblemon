@@ -31,15 +31,14 @@ import org.joml.Quaternionf
 import org.joml.Vector3f
 
 class PasturePokemonScrollList(
-    val x: Int,
-    val y: Int,
+    val listX: Int,
+    val listY: Int,
     val parent: PastureWidget
 ) : AlwaysSelectedEntryListWidget<PasturePokemonScrollList.PastureSlot>(
     MinecraftClient.getInstance(),
     WIDTH, // width
     HEIGHT, // height
     0, // top
-    HEIGHT, // bottom
     SLOT_HEIGHT + SLOT_SPACING
 ) {
     companion object {
@@ -59,10 +58,10 @@ class PasturePokemonScrollList(
     override fun getRowWidth() = SLOT_WIDTH
 
     init {
+        this.x = listX
+        this.y = listY
         correctSize()
-        setRenderHorizontalShadows(false)
-        setRenderBackground(false)
-        setRenderSelection(false)
+        //setRenderBackground(false)
 
         parent.pasturePCGUIConfiguration.pasturedPokemon.subscribeIncludingCurrent {
             val children = children()
@@ -74,30 +73,36 @@ class PasturePokemonScrollList(
         }
     }
 
-    override fun getScrollbarPositionX() = left + width - 3
+    override fun getScrollbarX() = x + width - 3
 
     public override fun addEntry(entry: PastureSlot) = super.addEntry(entry)
     public override fun removeEntry(entry: PastureSlot) = super.removeEntry(entry)
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
 
+        context.matrices.push()
+//        context.matrices.translate(0F, 0F, -10F)
+
         context.enableScissor(
-            left,
-            top + 1,
-            left + width,
-            top + 1 + height
+            x,
+            y + 4,
+            x + width,
+            y - 1 + height
         )
 
-        super.render(context, mouseX, mouseY, partialTicks)
+
+        context.matrices.pop()
+        super.renderWidget(context, mouseX, mouseY, partialTicks)
+
         context.disableScissor()
 
         // Scroll Overlay
         blitk(
             matrixStack = context.matrices,
             texture = scrollOverlayResource,
-            x = left,
-            y = top - 12,
+            x = listX,
+            y = listY - 13,
             height = 131,
             width = WIDTH
         )
@@ -125,7 +130,7 @@ class PasturePokemonScrollList(
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
         if (scrolling) {
-            if (mouseY < top) {
+            if (mouseY < this.listY) {
                 scrollAmount = 0.0
             } else if (mouseY > bottom) {
                 scrollAmount = maxScroll.toDouble()
@@ -137,15 +142,17 @@ class PasturePokemonScrollList(
     }
 
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
-        scrolling = mouseX >= this.scrollbarPositionX.toDouble()
-                && mouseX < (this.scrollbarPositionX + 3).toDouble()
-                && mouseY >= top
+        scrolling = mouseX >= this.scrollbarX.toDouble()
+                && mouseX < (this.scrollbarX + 3).toDouble()
+                && mouseY >= listY
                 && mouseY < bottom
     }
 
+    override fun drawMenuListBackground(context: DrawContext?) {}
+
     private fun correctSize() {
-        updateSize(WIDTH, HEIGHT, y + 1, (y + 1) + (HEIGHT - 2))
-        setLeftPos(x)
+        setDimensionsAndPosition(WIDTH, HEIGHT, listX, (listY - 4))
+//        setX(listX)
     }
 
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + WIDTH)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + HEIGHT))

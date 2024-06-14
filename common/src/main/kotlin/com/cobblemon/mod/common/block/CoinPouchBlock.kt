@@ -8,13 +8,19 @@
 
 package com.cobblemon.mod.common.block
 
-import net.minecraft.block.*
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.PrimitiveCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
+import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.block.ShapeContext
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
@@ -51,6 +57,10 @@ class CoinPouchBlock(settings: Settings, val small: Boolean) : HorizontalFacingB
         return null
     }
 
+    override fun getCodec(): MapCodec<out HorizontalFacingBlock> {
+        return CODEC
+    }
+
     @Deprecated("Deprecated in Java")
     override fun getStateForNeighborUpdate(
         state: BlockState,
@@ -70,5 +80,10 @@ class CoinPouchBlock(settings: Settings, val small: Boolean) : HorizontalFacingB
 
     companion object {
         val NATURAL: BooleanProperty = BooleanProperty.of("natural")
+
+        val CODEC: MapCodec<CoinPouchBlock> = RecordCodecBuilder.mapCodec { it.group(
+            createSettingsCodec(),
+            PrimitiveCodec.BOOL.fieldOf("small").forGetter(CoinPouchBlock::small),
+            ).apply(it, ::CoinPouchBlock) }
     }
 }

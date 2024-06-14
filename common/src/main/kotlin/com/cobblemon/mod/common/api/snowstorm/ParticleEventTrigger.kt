@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import com.mojang.serialization.codecs.UnboundedMapCodec
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /*
  * The different references to events that can be triggered by an effect.
@@ -36,11 +36,11 @@ class SimpleEventTrigger(var event: String): Encodable, Decodable {
         }
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeString(event)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         event = buffer.readString()
     }
 
@@ -66,12 +66,12 @@ class EventTriggerTimeline(var map: MutableMap<Double, MutableList<String>>): En
         }
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeMap(map, { pb, k -> pb.writeDouble(k) }, { pb, v -> pb.writeCollection(v) { _, s -> pb.writeString(s) } })
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        map = buffer.readMap({ pb -> pb.readDouble() }, { pb -> pb.readList { pb.readString() } })
+    override fun decode(buffer: RegistryByteBuf) {
+        map = buffer.readMap({ pb -> pb.readDouble() }, { pb -> pb.readList { pb.readString() }.toMutableList() }).toMutableMap()
     }
 
     fun check(storm: ParticleStorm, particle: SnowstormParticle?, previousTime: Double, newTime: Double) {
@@ -100,14 +100,14 @@ class LoopingTravelDistanceEventTrigger(var distance: Double, var events: Mutabl
         }
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeDouble(distance)
         buffer.writeCollection(events) { _, s -> buffer.writeString(s) }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         distance = buffer.readDouble()
-        events = buffer.readList { buffer.readString() }
+        events = buffer.readList { buffer.readString() }.toMutableList()
     }
 
     fun check(storm: ParticleStorm, particle: SnowstormParticle?, previousDistance: Double, currentDistance: Double) {

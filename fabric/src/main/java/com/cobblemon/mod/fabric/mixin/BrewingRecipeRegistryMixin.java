@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class BrewingRecipeRegistryMixin {
 
     @Inject(method = "isValidIngredient", at = @At("RETURN"), cancellable = true)
-    private static void cobblemon$isValidIngredient(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    private void cobblemon$isValidIngredient(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValue()) {
             return;
         }
@@ -28,14 +28,16 @@ public class BrewingRecipeRegistryMixin {
     }
 
     @Inject(method = "hasRecipe", at = @At(value = "HEAD"), cancellable = true)
-    private static void cobblemon$hasRecipe(ItemStack input, ItemStack ingredient, CallbackInfoReturnable<Boolean> cir) {
+    private void cobblemon$hasRecipe(ItemStack input, ItemStack ingredient,
+        CallbackInfoReturnable<Boolean> cir) {
         if (CobblemonFabricBreweryRegistry.INSTANCE.hasRecipe(input, ingredient)) {
             cir.setReturnValue(true);
         }
     }
 
     @Inject(method = "craft", at = @At("RETURN"), cancellable = true)
-    private static void cobblemon$craft(ItemStack ingredient, ItemStack input, CallbackInfoReturnable<ItemStack> cir) {
+    private void cobblemon$craft(ItemStack ingredient, ItemStack input,
+        CallbackInfoReturnable<ItemStack> cir) {
         if (!cir.getReturnValue().isEmpty()) {
             final ItemStack result = CobblemonFabricBreweryRegistry.INSTANCE.recipeResultOf(input, ingredient);
             if (!result.isEmpty()) {

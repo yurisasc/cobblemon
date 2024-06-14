@@ -24,6 +24,6 @@
         }
     ],
     "result": {
-        "item": "cobblemon:hp_up"
+        "id": "cobblemon:hp_up"
     }
 }

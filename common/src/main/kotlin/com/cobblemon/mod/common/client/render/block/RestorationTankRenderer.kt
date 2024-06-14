@@ -62,7 +62,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
         if (connectionDir != null) {
             matrices.push()
             CONNECTOR_MODEL.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
-                cutoutBuffer.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
+                cutoutBuffer.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, 1f, light, OverlayTexture.DEFAULT_UV)
             }
             matrices.pop()
         }
@@ -82,7 +82,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
         else if (struct.hasCreatedPokemon) FLUID_MODELS[7]
         else FLUID_MODELS[fillLevel.coerceAtMost(FLUID_MODELS.size - 1) - 1]
         fluidModel.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
-            transparentBuffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
+            transparentBuffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, 1f, light, OverlayTexture.DEFAULT_UV)
         }
 
         matrices.pop()

@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.world.predicate
 
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.util.Optional
@@ -23,7 +24,7 @@ class AltitudePredicate(val min: Optional<Int>, val max: Optional<Int>) : BlockP
     override fun getType() = CobblemonBlockPredicates.ALTITUDE
 
     companion object {
-        val CODEC : Codec<AltitudePredicate> = RecordCodecBuilder.create {
+        val CODEC : MapCodec<AltitudePredicate> = RecordCodecBuilder.mapCodec {
             it.group(
                 PrimitiveCodec.INT.optionalFieldOf("min").forGetter(AltitudePredicate::min),
                 PrimitiveCodec.INT.optionalFieldOf("max").forGetter(AltitudePredicate::max)

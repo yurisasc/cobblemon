@@ -33,7 +33,7 @@ enum class StoreType(val storeFetcher: (ServerPlayerEntity) -> Collection<Pokemo
     override fun asString(): String = this.name.lowercase()
 
     companion object {
-        val CODEC: StringIdentifiable.Codec<StoreType> = StringIdentifiable.createCodec(::values)
+        val CODEC = StringIdentifiable.createCodec(::values)
     }
 
 }

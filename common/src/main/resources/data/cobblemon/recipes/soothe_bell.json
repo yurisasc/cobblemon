@@ -16,8 +16,7 @@
             "item": "minecraft:iron_nugget"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:soothe_bell"
+    "result": {
+        "id": "cobblemon:soothe_bell"
     }
 }

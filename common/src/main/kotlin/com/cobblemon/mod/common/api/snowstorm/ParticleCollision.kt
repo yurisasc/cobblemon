@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.util.getString
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 class ParticleCollision(
     var enabled: Expression = NumberExpression(0.0),
@@ -37,7 +37,7 @@ class ParticleCollision(
         }
     }
 
-    fun writeToBuffer(buffer: PacketByteBuf) {
+    fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(enabled.getString())
         buffer.writeString(radius.getString())
         buffer.writeString(friction.getString())
@@ -45,7 +45,7 @@ class ParticleCollision(
         buffer.writeBoolean(expiresOnContact)
     }
 
-    fun readFromBuffer(buffer: PacketByteBuf) {
+    fun readFromBuffer(buffer: RegistryByteBuf) {
         enabled = MoLang.createParser(buffer.readString()).parseExpression()
         radius = MoLang.createParser(buffer.readString()).parseExpression()
         friction = MoLang.createParser(buffer.readString()).parseExpression()

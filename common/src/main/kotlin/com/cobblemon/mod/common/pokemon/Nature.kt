@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.pokemon
 
 import com.cobblemon.mod.common.api.berry.Flavor
+import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
+import com.mojang.serialization.Codec
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper.floor
 
@@ -27,5 +29,12 @@ class Nature(
             decreasedStat -> floor(value * 0.9)
             else -> value
         }
+    }
+
+    companion object {
+        val CODEC: Codec<Nature> = Identifier.CODEC.xmap(
+            { Natures.getNature(it) },
+            { it.name }
+        )
     }
 }

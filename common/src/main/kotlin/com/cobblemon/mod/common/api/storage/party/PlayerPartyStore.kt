@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.api.storage.party
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
-import com.cobblemon.mod.common.advancement.criterion.PartyCheckContext
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
 import com.cobblemon.mod.common.api.pokemon.evolution.PassiveEvolution
 import com.cobblemon.mod.common.api.storage.pc.PCStore
@@ -63,7 +62,7 @@ open class PlayerPartyStore(
         pokemon.refreshOriginalTrainer()
 
         return if (super.add(pokemon)) {
-            pokemon.getOwnerPlayer()?.let { CobblemonCriteria.PARTY_CHECK.trigger(it, PartyCheckContext(this)) }
+            pokemon.getOwnerPlayer()?.let { CobblemonCriteria.PARTY_CHECK.trigger(it, this) }
             true
         } else {
             val player = playerUUID.getPlayer()
@@ -179,21 +178,21 @@ open class PlayerPartyStore(
         if (pokemon1 != null && pokemon2 != null) {
             val player = pokemon1.getOwnerPlayer()
             if (player != null) {
-                CobblemonCriteria.PARTY_CHECK.trigger(player, PartyCheckContext(this))
+                CobblemonCriteria.PARTY_CHECK.trigger(player, this)
             }
         } else if (pokemon1 != null || pokemon2 != null) {
             var player = pokemon1?.getOwnerPlayer()
             if (player != null) {
-                CobblemonCriteria.PARTY_CHECK.trigger(player, PartyCheckContext(this))
+                CobblemonCriteria.PARTY_CHECK.trigger(player, this)
             } else {
                 player = pokemon2!!.getOwnerPlayer()
-                CobblemonCriteria.PARTY_CHECK.trigger(player!!, PartyCheckContext(this))
+                CobblemonCriteria.PARTY_CHECK.trigger(player!!, this)
             }
         }
     }
 
     override fun set(position: PartyPosition, pokemon: Pokemon) {
         super.set(position, pokemon)
-        pokemon.getOwnerPlayer()?.let { CobblemonCriteria.PARTY_CHECK.trigger(it, PartyCheckContext(this)) }
+        pokemon.getOwnerPlayer()?.let { CobblemonCriteria.PARTY_CHECK.trigger(it, this) }
     }
 }

@@ -24,7 +24,6 @@ import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
-import com.cobblemon.mod.common.api.riding.RidingProperties
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.PoseType
@@ -32,11 +31,10 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.*
 import com.google.gson.annotations.SerializedName
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.entity.EntityDimensions
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
 class FormData(
@@ -105,11 +103,7 @@ class FormData(
     @SerializedName("battleTheme")
     private var _battleTheme: Identifier? = null,
     @SerializedName("lightingData")
-    private var _lightingData: LightingData? = null,
-
-    @SerializedName("riding")
-    private var _riding: RidingProperties? = null
-
+    private var _lightingData: LightingData? = null
 ) : Decodable, Encodable, ShowdownIdentifiable {
     @SerializedName("name")
     var name: String = name
@@ -186,9 +180,6 @@ class FormData(
     val weight: Float
         get() = _weight ?: species.weight
 
-    val riding: RidingProperties
-        get() = _riding ?: species.riding
-
     val labels: Set<String>
         get() = _labels ?: species.labels
 
@@ -251,13 +242,13 @@ class FormData(
 
     override fun hashCode(): Int = this.showdownId().hashCode()
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeString(this.name)
         buffer.writeCollection(this.aspects) { pb, aspect -> pb.writeString(aspect) }
         buffer.writeNullable(this._baseStats) { statsBuffer, map ->
             statsBuffer.writeMap(map,
-                { keyBuffer, stat -> Cobblemon.statProvider.encode(keyBuffer, stat)},
-                { valueBuffer, value -> valueBuffer.writeSizedInt(IntSize.U_SHORT, value) }
+                { _, stat -> Cobblemon.statProvider.encode(buffer, stat)},
+                { _, value -> buffer.writeSizedInt(IntSize.U_SHORT, value) }
             )
         }
         buffer.writeNullable(this._primaryType) { pb, type -> pb.writeString(type.name) }
@@ -271,23 +262,22 @@ class FormData(
             pb.writeFloat(hitbox.height)
             pb.writeBoolean(hitbox.fixed)
         }
-        buffer.writeNullable(this._moves) { pb, moves -> moves.encode(pb)}
+        buffer.writeNullable(this._moves) { _, moves -> moves.encode(buffer)}
         buffer.writeNullable(this._pokedex) { pb1, pokedex -> pb1.writeCollection(pokedex)  { pb2, line -> pb2.writeString(line) } }
         buffer.writeNullable(this.lightingData) { pb, data ->
             pb.writeInt(data.lightLevel)
             pb.writeEnumConstant(data.liquidGlowMode)
         }
-        buffer.writeNullable(this._riding) { _, properties -> properties.encode(buffer) }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         this.name = buffer.readString()
         this.aspects = buffer.readList { buffer.readString() }.toMutableList()
         buffer.readNullable { mapBuffer ->
             this._baseStats = mapBuffer.readMap(
-                { keyBuffer -> Cobblemon.statProvider.decode(keyBuffer) },
-                { valueBuffer -> valueBuffer.readSizedInt(IntSize.U_SHORT) }
-            )
+                { _ -> Cobblemon.statProvider.decode(buffer) },
+                { _ -> buffer.readSizedInt(IntSize.U_SHORT) }
+            ).toMutableMap()
         }
         this._primaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
         this._secondaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
@@ -296,12 +286,17 @@ class FormData(
         this._weight = buffer.readNullable { pb -> pb.readFloat() }
         this._baseScale = buffer.readNullable { pb -> pb.readFloat() }
         this._hitbox = buffer.readNullable { pb ->
-            EntityDimensions(pb.readFloat(), pb.readFloat(), pb.readBoolean())
+            val isFixed = pb.readBoolean()
+            if (isFixed) {
+                EntityDimensions.fixed(pb.readFloat(), pb.readFloat())
+            }
+            else {
+                EntityDimensions.changing(pb.readFloat(), pb.readFloat())
+            }
         }
-        this._moves = buffer.readNullable { pb -> Learnset().apply { decode(pb) }}
-        this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
+        this._moves = buffer.readNullable { _ -> Learnset().apply { decode(buffer) }}
+        this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }?.toMutableList()
         this._lightingData = buffer.readNullable { pb -> LightingData(pb.readInt(), pb.readEnumConstant(LightingData.LiquidGlowMode::class.java)) }
-        this._riding = buffer.readNullable { pb -> RidingProperties.decode(pb) }
     }
 
     /**

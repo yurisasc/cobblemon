@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "item": "cobblemon:vivichoke_seeds",
-        "count": 2
+        "count": 2,
+        "id": "cobblemon:vivichoke_seeds"
     }
 }

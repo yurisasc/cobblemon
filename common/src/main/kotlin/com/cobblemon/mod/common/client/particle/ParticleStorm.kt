@@ -10,17 +10,20 @@ package com.cobblemon.mod.common.client.particle
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.species
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterAction
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.SnowstormParticle
-import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.particle.SnowstormParticleEffect
 import com.cobblemon.mod.common.util.math.geometry.transformDirection
 import kotlin.random.Random
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.particle.NoRenderParticle
+import net.minecraft.client.util.ParticleUtil.spawnParticle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.Vec3d
@@ -44,11 +47,11 @@ class ParticleStorm(
 ): NoRenderParticle(world, matrixWrapper.getOrigin().x, matrixWrapper.getOrigin().y, matrixWrapper.getOrigin().z) {
     fun spawn() {
         if (entity != null) {
-            runtime.environment.query
-                .addFunction("entity_width") { DoubleValue(entity.boundingBox.xLength) }
-                .addFunction("entity_height") { DoubleValue(entity.boundingBox.yLength) }
-                .addFunction("entity_size") { DoubleValue(entity.boundingBox.run { if (xLength > yLength) xLength else yLength }) }
-                .addFunction("entity_radius") { DoubleValue(entity.boundingBox.run { if (xLength > yLength) xLength else yLength } / 2) }
+            runtime.environment.getQueryStruct()
+                .addFunction("entity_width") { DoubleValue(entity.boundingBox.lengthX) }
+                .addFunction("entity_height") { DoubleValue(entity.boundingBox.lengthY) }
+                .addFunction("entity_size") { DoubleValue(entity.boundingBox.run { if (lengthX > lengthY) lengthX else lengthY }) }
+                .addFunction("entity_radius") { DoubleValue(entity.boundingBox.run { if (lengthX > lengthY) lengthX else lengthY } / 2) }
                 .addFunction("entity_scale") {
                     val pokeEntity = entity as? PokemonEntity
                     val pokemon = pokeEntity?.pokemon
@@ -58,13 +61,10 @@ class ParticleStorm(
                     val entityScale = pokeEntity?.scaleFactor ?: 1.0F
                     DoubleValue(baseScale * pokemonScale * entityScale)
                 }
-            if (entity is PosableEntity) {
-                runtime.environment.query.addFunction("entity") { entity.struct }
-            }
             // TODO replace with a generified call to if (entity is MoLangEntity) entity.applyVariables(env) or w/e
-            runtime.environment.setSimpleVariable("entity_width", DoubleValue(entity.boundingBox.xLength))
-            runtime.environment.setSimpleVariable("entity_height", DoubleValue(entity.boundingBox.yLength))
-            val longerDiameter = entity.boundingBox.run { if (xLength > yLength) xLength else yLength }
+            runtime.environment.setSimpleVariable("entity_width", DoubleValue(entity.boundingBox.lengthX))
+            runtime.environment.setSimpleVariable("entity_height", DoubleValue(entity.boundingBox.lengthY))
+            val longerDiameter = entity.boundingBox.run { if (lengthX > lengthY) lengthX else lengthY }
             runtime.environment.setSimpleVariable("entity_size", DoubleValue(longerDiameter))
             runtime.environment.setSimpleVariable("entity_radius", DoubleValue(longerDiameter / 2))
             runtime.environment.setSimpleVariable("entity_scale", DoubleValue((entity as? PokemonEntity)?.scaleFactor ?: 1.0))

@@ -1,7 +1,7 @@
 {
 	"display": {
 		"icon": {
-			"item": "cobblemon:pokemon_model",
+			"id": "cobblemon:pokemon_model",
 			"nbt": "{\"species\":\"cobblemon:vivillon\",\"aspects\":[\"vivillon-wings-meadow\"]}"
 		},
 		"title": {

@@ -9,11 +9,11 @@
 package com.cobblemon.mod.common.api.snowstorm
 
 import com.mojang.serialization.Codec
-import com.mojang.serialization.codecs.ListCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import com.mojang.serialization.codecs.UnboundedMapCodec
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 
 /**
@@ -38,7 +38,7 @@ class BedrockParticleEffect(
                 Identifier.CODEC.fieldOf("id").forGetter { it.id },
                 BedrockParticleEmitter.CODEC.fieldOf("emitter").forGetter { it.emitter },
                 BedrockParticle.CODEC.fieldOf("particle").forGetter { it.particle },
-                ListCodec(MoLangCurve.codec).fieldOf("curves").forGetter { it.curves },
+                MoLangCurve.codec.listOf().fieldOf("curves").forGetter { it.curves },
                 ParticleSpace.CODEC.fieldOf("space").forGetter { it.space },
                 UnboundedMapCodec(PrimitiveCodec.STRING, ParticleEvent.CODEC).fieldOf("events").forGetter { it.events }
             ).apply(instance) { id, emitter, particle, curves, space, events ->
@@ -54,7 +54,7 @@ class BedrockParticleEffect(
         }
     }
 
-    fun writeToBuffer(buffer: PacketByteBuf) {
+    fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(id)
         emitter.writeToBuffer(buffer)
         particle.writeToBuffer(buffer)
@@ -63,7 +63,7 @@ class BedrockParticleEffect(
         buffer.writeMap(events, { _, v -> buffer.writeString(v) }) { _, event -> event.encode(buffer) }
     }
 
-    fun readFromBuffer(buffer: PacketByteBuf) {
+    fun readFromBuffer(buffer: RegistryByteBuf) {
         id = buffer.readIdentifier()
         emitter.readFromBuffer(buffer)
         particle.readFromBuffer(buffer)

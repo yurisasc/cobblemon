@@ -10,9 +10,9 @@ package com.cobblemon.mod.common.net.messages.client
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
-import java.util.UUID
 import java.util.EnumSet
+import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Used to populate the player interaction menu
@@ -29,7 +29,7 @@ class PlayerInteractOptionsPacket(
     ) : NetworkPacket<PlayerInteractOptionsPacket> {
     companion object {
         val ID = cobblemonResource("player_interactions")
-        fun decode(buffer: PacketByteBuf) = PlayerInteractOptionsPacket(
+        fun decode(buffer: RegistryByteBuf) = PlayerInteractOptionsPacket(
             buffer.readEnumSet(Options::class.java),
             buffer.readUuid(),
             buffer.readInt(),
@@ -38,7 +38,7 @@ class PlayerInteractOptionsPacket(
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeEnumSet(options, Options::class.java)
         buffer.writeUuid(targetId)
         buffer.writeInt(numericTargetId)
