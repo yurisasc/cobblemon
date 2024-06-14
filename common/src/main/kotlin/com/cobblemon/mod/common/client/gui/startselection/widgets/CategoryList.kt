@@ -27,8 +27,8 @@ class CategoryList(
     private val entryWidth: Int,
     entryHeight: Int,
     private val categories: List<RenderableStarterCategory>,
-    x: Int,
-    y: Int,
+    val listX: Int,
+    val listY: Int,
     private val minecraft: MinecraftClient = MinecraftClient.getInstance(),
     private val starterSelectionScreen: StarterSelectionScreen
 ) : AlwaysSelectedEntryListWidget<CategoryList.Category>(
@@ -47,8 +47,8 @@ class CategoryList(
     }
 
     init {
-        this.x = x
-        this.y = y
+        this.x = listX
+        this.y = listY
         this.correctSize()
         //this.setRenderBackground(false)
     }
@@ -59,6 +59,7 @@ class CategoryList(
         Category(it)
     }
 
+    override fun drawMenuListBackground(context: DrawContext?) {}
     override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (!entriesCreated) {
             createEntries().forEach { addEntry(it) }
@@ -68,20 +69,19 @@ class CategoryList(
             x,
             y,
             x + width,
-            y + height
+            y - height
         )
         context.disableScissor()
     }
 
     private fun correctSize() {
-        this.setDimensionsAndPosition(this.paneWidth, this.paneHeight, this.y, this.y + this.paneHeight)
-        this.setX(this.x)
+        this.setDimensionsAndPosition(this.paneWidth, this.paneHeight, this.listX, this.listY)
     }
 
     private fun scale(n: Int): Int = (this.client.window.scaleFactor * n).toInt()
     override fun getRowWidth() = this.entryWidth
     override fun getScrollbarX(): Int {
-        return this.x + this.width - 5
+        return this.listX + this.width - 5
     }
 
 
