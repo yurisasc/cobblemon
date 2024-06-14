@@ -49,7 +49,7 @@ class CookingPotHandledScreen(
         )
         addSelectableChild(recipeBook)
         setInitialFocus(recipeBook)
-        titleX = 42
+        titleX = 39
         titleY = -10
         playerInventoryTitleX = 8
         playerInventoryTitleY = 88

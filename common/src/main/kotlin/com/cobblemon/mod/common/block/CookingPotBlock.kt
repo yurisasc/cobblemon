@@ -101,7 +101,7 @@ class CookingPotBlock(settings: Settings?) : BlockWithEntity(settings), Waterlog
         }
     }
 
-    private val TITLE: Text = Text.of("Cooking Pot")
+    private val TITLE: Text = Text.of("Campfire Pot")
 
     init {
         defaultState = this.stateManager.defaultState.with(FACING, Direction.NORTH)

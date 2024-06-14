@@ -38,7 +38,7 @@ class CookBookAnimatedResultButton : ClickableWidget(0, 0, 25, 25, ScreenTexts.E
     fun showResultCollection(resultCollection: RecipeResultCollection, results: CookBookResults) {
         this.resultCollection = resultCollection
         this.craftingScreenHandler = results.getClientValue().player?.currentScreenHandler as AbstractRecipeScreenHandler<*>
-        this.recipeBook = results.getRecipeBookValue()
+        this.recipeBook = results.getCookBookValue()
         val list = resultCollection.getResults(this.recipeBook.isFilteringCraftable(this.craftingScreenHandler))
         for (recipe in list) {
             if (this.recipeBook.shouldDisplay(recipe)) {

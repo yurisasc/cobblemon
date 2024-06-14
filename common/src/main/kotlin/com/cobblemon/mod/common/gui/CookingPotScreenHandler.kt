@@ -94,7 +94,7 @@ class CookingPotScreenHandler : AbstractRecipeScreenHandler<RecipeInputInventory
         val craftingGridOffsetY = 10
         val craftingOutputOffsetX = 16
         val craftingOutputOffsetY = 10
-        val playerInventoryOffsetX = 18
+        val playerInventoryOffsetX = 0
         val playerInventoryOffsetY = 16
 
         addSlot(CraftingResultSlot(playerInventory.player, input, result, 0, 124 + craftingOutputOffsetX, 35 + craftingOutputOffsetY))

@@ -177,7 +177,7 @@ class CookBookResults {
         return client
     }
 
-    fun getRecipeBookValue(): RecipeBook {
+    fun getCookBookValue(): RecipeBook {
         return recipeBook
     }
 
