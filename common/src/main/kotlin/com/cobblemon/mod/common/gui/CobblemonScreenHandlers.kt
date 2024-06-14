@@ -1,19 +1,15 @@
 package com.cobblemon.mod.common.gui
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.block.entity.CookingPotBlockEntity
 import com.cobblemon.mod.common.mixin.invoker.ScreenHandlerTypeInvoker
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.registry.Registries
 import net.minecraft.resource.featuretoggle.FeatureFlags
 import net.minecraft.screen.ScreenHandlerType.Factory
-import net.minecraft.resource.featuretoggle.FeatureSet
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerContext
 import net.minecraft.screen.ScreenHandlerType
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
 
 object CobblemonScreenHandlers {
     //val TMM_SCREEN = register(cobblemonResource("tmm_screen"), ::TMMScreenHandler)

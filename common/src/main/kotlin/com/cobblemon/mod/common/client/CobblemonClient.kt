@@ -114,6 +114,7 @@ object CobblemonClient {
         //registerColors()
         registerFlywheelRenderers()
         this.registerEntityRenderers()
+        registerHandledScreens()
         Berries.observable.subscribe {
             BerryModelRepository.patchModels()
         }

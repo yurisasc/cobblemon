@@ -2,7 +2,6 @@ package com.cobblemon.mod.common.gui
 
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.CookingPotBlockEntity
-import net.minecraft.block.Blocks
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.CraftingInventory
@@ -11,7 +10,6 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.RecipeInputInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket
-import net.minecraft.recipe.CraftingRecipe
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeMatcher
 import net.minecraft.recipe.RecipeType
@@ -19,11 +17,10 @@ import net.minecraft.recipe.book.RecipeBookCategory
 import net.minecraft.screen.AbstractRecipeScreenHandler
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerContext
-import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.screen.slot.CraftingResultSlot
 import net.minecraft.screen.slot.Slot
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.math.BlockPos
+import net.minecraft.text.MutableText
 import net.minecraft.world.World
 
 class CookingPotScreenHandler : AbstractRecipeScreenHandler<RecipeInputInventory> {
@@ -73,7 +70,7 @@ class CookingPotScreenHandler : AbstractRecipeScreenHandler<RecipeInputInventory
     }
 
     constructor(syncId: Int, playerInventory: PlayerInventory, context: ScreenHandlerContext) :
-            super(ScreenHandlerType.CRAFTING, syncId) {
+            super(CobblemonScreenHandlers.COOKING_POT_SCREEN, syncId) {
         this.context = context
         this.player = playerInventory.player
         this.input = CraftingInventory(this, 3, 3)
@@ -82,7 +79,7 @@ class CookingPotScreenHandler : AbstractRecipeScreenHandler<RecipeInputInventory
     }
 
     constructor(syncId: Int, playerInventory: PlayerInventory, cookingPotInventory: CookingPotBlockEntity.CookingPotBlockInventory, cookingPotBlockEntity: CookingPotBlockEntity) :
-            super(ScreenHandlerType.CRAFTING, syncId) {
+            super(CobblemonScreenHandlers.COOKING_POT_SCREEN, syncId) {
         this.context = ScreenHandlerContext.EMPTY
         this.player = playerInventory.player
         this.input = CraftingInventory(this, 3, 3)
@@ -91,20 +88,30 @@ class CookingPotScreenHandler : AbstractRecipeScreenHandler<RecipeInputInventory
         initializeSlots(playerInventory)
     }
 
+
     private fun initializeSlots(playerInventory: PlayerInventory) {
-        addSlot(CraftingResultSlot(playerInventory.player, input, result, 0, 124, 35))
+        val craftingGridOffsetX = 14
+        val craftingGridOffsetY = 10
+        val craftingOutputOffsetX = 16
+        val craftingOutputOffsetY = 10
+        val playerInventoryOffsetX = 18
+        val playerInventoryOffsetY = 16
+
+        addSlot(CraftingResultSlot(playerInventory.player, input, result, 0, 124 + craftingOutputOffsetX, 35 + craftingOutputOffsetY))
+
+
         for (i in 0..2) {
             for (j in 0..2) {
-                addSlot(Slot(input, j + i * 3, 30 + j * 18, 17 + i * 18))
+                addSlot(Slot(input, j + i * 3, 30 + craftingGridOffsetX + j * 18, 17 + craftingGridOffsetY + i * 18))
             }
         }
         for (i in 0..2) {
             for (j in 0..8) {
-                addSlot(Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18))
+                addSlot(Slot(playerInventory, j + i * 9 + 9, 8 + playerInventoryOffsetX + j * 18, 84 + playerInventoryOffsetY+ i * 18))
             }
         }
         for (i in 0..8) {
-            addSlot(Slot(playerInventory, i, 8 + i * 18, 142))
+            addSlot(Slot(playerInventory, i, 8 + playerInventoryOffsetX + i * 18, 142 + playerInventoryOffsetY))
         }
     }
 

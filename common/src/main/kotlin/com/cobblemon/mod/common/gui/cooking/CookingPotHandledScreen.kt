@@ -1,6 +1,9 @@
 package com.cobblemon.mod.common.gui.cooking
 
+import com.cobblemon.mod.common.api.gui.blitk
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.gui.CookingPotScreenHandler
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider
@@ -23,25 +26,33 @@ class CookingPotHandledScreen(
     private var narrow = false
 
     companion object {
-        private val TEXTURE = Identifier("textures/gui/container/crafting_table.png")
+        //private val TEXTURE = Identifier("textures/gui/container/crafting_table.png")
+        val TEXTURE = cobblemonResource("textures/gui/cooking/cooking_pot.png")
         private val RECIPE_BUTTON_TEXTURE = Identifier("textures/gui/recipe_button.png")
+        val TEXTURE_HEIGHT = 198
+        val TEXTURE_WIDTH = 176
     }
 
     override fun init() {
         super.init()
         narrow = width < 379
+        val recipeBookOffsetX = 12
+        val recipeBookOffsetY = 40
         recipeBook.initialize(width, height, client, narrow, handler as AbstractRecipeScreenHandler<*>)
-        x = recipeBook.findLeftEdge(width, backgroundWidth)
+        x = recipeBook.findLeftEdge(width, TEXTURE_WIDTH)
         addDrawableChild(
-            TexturedButtonWidget(x + 5, height / 2 - 49, 20, 18, 0, 0, 19, RECIPE_BUTTON_TEXTURE) {
+            TexturedButtonWidget(x + recipeBookOffsetX, height / 2 - recipeBookOffsetY, 20, 18, 0, 0, 19, RECIPE_BUTTON_TEXTURE) {
                 recipeBook.toggleOpen()
-                x = recipeBook.findLeftEdge(width, backgroundWidth)
-                it.setPosition(x + 5, height / 2 - 49)
+                x = recipeBook.findLeftEdge(width, TEXTURE_WIDTH)
+                it.setPosition(x + recipeBookOffsetX, height / 2 - recipeBookOffsetY)
             }
         )
         addSelectableChild(recipeBook)
         setInitialFocus(recipeBook)
-        titleX = 29
+        titleX = 42
+        titleY = -10
+        playerInventoryTitleX = 8
+        playerInventoryTitleY = 88
     }
 
     override fun handledScreenTick() {
@@ -65,8 +76,19 @@ class CookingPotHandledScreen(
 
     override fun drawBackground(context: DrawContext, delta: Float, mouseX: Int, mouseY: Int) {
         val i = x
-        val j = (height - backgroundHeight) / 2
-        context.drawTexture(TEXTURE, i, j, 0, 0, backgroundWidth, backgroundHeight)
+        val j = (height - TEXTURE_HEIGHT) / 2
+
+        blitk(
+            matrixStack = context.matrices,
+            texture = TEXTURE,
+            x = x, // horizontal placement of GUI
+            y = (height - TEXTURE_HEIGHT) / 2, // vertical placement of GUI
+
+            width = TEXTURE_WIDTH * 1.0, // scale of the GUI width
+            height = TEXTURE_HEIGHT * 1.0 // scale of the GUI height
+        )
+
+        //context.drawTexture(TEXTURE, i, j, 0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT)
     }
 
     override fun isPointWithinBounds(x: Int, y: Int, width: Int, height: Int, pointX: Double, pointY: Double): Boolean {
