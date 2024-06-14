@@ -74,6 +74,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
     private lateinit var starterRoundaboutRight: StarterRoundabout
 
     override fun applyBlur(delta: Float) { }
+    override fun renderDarkening(context: DrawContext?) {}
 
     override fun init() {
         super.init()
@@ -98,7 +99,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
                 topOffset = 6,
                 entryHeight = 20, entryWidth = 57,
                 categories = categories,
-                x = x - 2, y = y + 8,
+                listX = x - 2, listY = y + 8,
                 starterSelectionScreen = this
             )
         )

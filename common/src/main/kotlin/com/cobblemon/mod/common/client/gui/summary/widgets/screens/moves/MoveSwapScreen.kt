@@ -36,7 +36,7 @@ class MoveSwapScreen(
     y,
     lang("ui.moves.switch"),
     SLOT_HEIGHT + SLOT_SPACING
-    ) {
+) {
     companion object {
         const val SLOT_HEIGHT = 18
         const val SLOT_SPACING = 3

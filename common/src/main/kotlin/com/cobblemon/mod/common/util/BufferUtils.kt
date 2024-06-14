@@ -36,10 +36,8 @@ import net.minecraft.text.TextCodecs
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
 
-fun PacketByteBuf.readItemStack(): ItemStack {
-    val dataResult = NbtOps.INSTANCE.withDecoder(ItemStack.CODEC).apply(this.readNbt()).result().getOrNull()
-        ?: throw IllegalArgumentException("Failed to read item from packet")
-    return dataResult.first
+fun RegistryByteBuf.readItemStack(): ItemStack {
+    return ItemStack.OPTIONAL_PACKET_CODEC.decode(this)
 }
 
 fun RegistryByteBuf.writeItemStack(itemStack: ItemStack?) {

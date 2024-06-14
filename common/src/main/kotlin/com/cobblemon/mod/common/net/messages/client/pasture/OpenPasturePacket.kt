@@ -85,7 +85,7 @@ class OpenPasturePacket(val pcId: UUID, val pastureId: UUID, val limit: Int, val
             val pastureId = buffer.readUuid()
             val limit = buffer.readSizedInt(IntSize.U_BYTE)
             val dtos = mutableListOf<PasturePokemonDataDTO>()
-            repeat(times = buffer.readUnsignedByte().toInt()) {
+            repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
                 dtos.add(PasturePokemonDataDTO.decode(buffer))
             }
             val permissions = PasturePermissions.decode(buffer)

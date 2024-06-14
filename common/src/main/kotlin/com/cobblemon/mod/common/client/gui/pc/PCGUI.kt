@@ -72,6 +72,7 @@ class PCGUI(
     var selectPointerOffsetIncrement = false
 
     override fun applyBlur(delta: Float) { }
+    override fun renderDarkening(context: DrawContext?) {}
 
     override fun init() {
         val x = (width - BASE_WIDTH) / 2

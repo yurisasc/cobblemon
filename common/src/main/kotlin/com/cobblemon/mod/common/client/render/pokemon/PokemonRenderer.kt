@@ -47,7 +47,9 @@ import net.minecraft.client.render.entity.MobEntityRenderer
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
+import net.minecraft.text.Style
 import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.MathHelper
@@ -66,6 +68,12 @@ class PokemonRenderer(
         fun ease(x: Double): Double {
             return 1 - (1 - x).pow(3)
         }
+        private val LEVEL_LABEL_STYLE = Style.EMPTY.withColor(Formatting.WHITE)
+            .withBold(false)
+            .withItalic(false)
+            .withUnderline(false)
+            .withStrikethrough(false)
+            .withObfuscated(false)
     }
 
     val ballContext = RenderContext().also {
@@ -346,8 +354,11 @@ class PokemonRenderer(
             val opacity = (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25f) * 255.0f).toInt() shl 24
             var label = entity.name.copy()
             if (ServerSettings.displayEntityLevelLabel && entity.labelLevel() > 0) {
-                val levelLabel = lang("label.lv", entity.labelLevel())
-                label = label.add(" ").append(levelLabel)
+                // This a Style.EMPTY with a lot of effects set to false and color set to white, renderer inherits these from nick otherwise
+                val levelLabel = Text.literal(" ")
+                    .append(lang("label.lv", entity.labelLevel()))
+                    .setStyle(LEVEL_LABEL_STYLE)
+                label = label.append(levelLabel)
             }
             var h = (-textRenderer.getWidth(label) / 2).toFloat()
             val y = 0F

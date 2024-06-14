@@ -259,7 +259,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
         blockPos: BlockPos,
         player: PlayerEntity,
         blockHitResult: BlockHitResult
-    ): ActionResult? {
+    ): ActionResult {
         if (player !is ServerPlayerEntity) return ActionResult.SUCCESS
 
         val basePos = getBasePosition(blockState, blockPos)

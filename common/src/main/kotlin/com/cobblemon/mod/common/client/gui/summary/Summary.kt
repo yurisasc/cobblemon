@@ -382,7 +382,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
                 if (movesWidget is MovesWidget && move != null) {
                     sideScreen = MoveSwapScreen(
                             x + 216,
-                            y + 22,
+                            y + 24,
                             movesWidget = movesWidget,
                             replacedMove = move
                     ).also { switchPane ->
@@ -413,8 +413,11 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         }
     }
 
+    override fun renderDarkening(context: DrawContext?) {}
+
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        //this.renderBackground(context)
+//        this.renderBackground(context, mouseX, mouseY, delta)
+//        super.render(context, mouseX, mouseY, delta)
         schedulingTracker.update(delta / 20F)
 
         val x = (width - BASE_WIDTH) / 2
