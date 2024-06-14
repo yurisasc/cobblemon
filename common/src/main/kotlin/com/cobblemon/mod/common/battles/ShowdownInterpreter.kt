@@ -147,15 +147,13 @@ object ShowdownInterpreter {
      fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor): Vec3d? {
         val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         var entityPos = if (actor is EntityBackedBattleActor<*>) actor.initialPos else null
-        val opposingActor = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()
-        var baseOffset = opposingActor?.initialPos.let { pos ->
+        var baseOffset = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.initialPos.let { pos ->
             pos?.subtract(entityPos)
         }
         if (baseOffset != null) {
-            val minDistance = if(opposingActor is PokemonBattleActor) 8.0 else 5.0
+            val minDistance = if(battle.isPvW) 8.0 else 5.0
             val length = baseOffset.length()
-            if(length < minDistance) {
-
+            if (length < minDistance) {
                 val temp = baseOffset.multiply(minDistance / length) ?: baseOffset
                 entityPos = entityPos?.subtract(temp.subtract(baseOffset))
                 baseOffset = temp
@@ -163,11 +161,11 @@ object ShowdownInterpreter {
             var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
             vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
 
-            if(battle.format.battleType.pokemonPerSide == 1) { // Singles
-                entityPos = entityPos?.add(baseOffset.multiply(if(battle.isPvW) 0.4 else 0.3))?.add(vector.multiply(-2.0))
+            if (battle.format.battleType.pokemonPerSide == 1) { // Singles
+                entityPos = entityPos?.add(baseOffset.multiply(if (battle.isPvW) 0.4 else 0.3))?.add(vector.multiply(-2.0))
             } else if (battle.format.battleType.pokemonPerSide == 2) { // Doubles
                 if (battle.actors.first() !== battle.actors.last()) {
-                    val offsetB = if(pnx[2] == 'a') vector.multiply(-1.0) else vector
+                    val offsetB = if (pnx[2] == 'a') vector.multiply(-1.0) else vector
                     entityPos = entityPos?.add(baseOffset.multiply(0.33))?.add(offsetB.multiply(2.5))
                 }
             } else if (battle.format.battleType.pokemonPerSide == 3) { // Triples
