@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
@@ -79,7 +79,7 @@ interface RideController : Encodable, Decodable {
     fun canJump(entity: PokemonEntity, driver: PlayerEntity) : Boolean
     fun jumpForce(entity: PokemonEntity, driver: PlayerEntity, jumpStrength: Int) : Vec3d
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(this.key)
     }
 }

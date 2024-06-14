@@ -34,7 +34,7 @@ class FilterRuleComponent : SpawnRuleComponent {
 
     val spawnSelector: SpawnDetailSelector = AllSpawnDetailSelector
     val contextSelector: SpawningContextSelector = AllSpawningContextSelector
-    val allow: Expression = BooleanExpression(DoubleValue.ONE)
+    val allow: Expression = BooleanExpression(false)
 
     override fun affectSpawnable(detail: SpawnDetail, ctx: SpawningContext): Boolean {
         return if (spawnSelector.selects(detail) && contextSelector.selects(ctx)) {

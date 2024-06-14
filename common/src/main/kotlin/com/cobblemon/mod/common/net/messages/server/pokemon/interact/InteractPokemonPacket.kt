@@ -24,14 +24,15 @@ import java.util.UUID
  * @author Village
  * @since January 7th, 2023
  */
-class InteractPokemonPacket(val pokemonID: UUID, val mountShoulder: Boolean) : NetworkPacket<InteractPokemonPacket> {
+class InteractPokemonPacket(val pokemonID: UUID, val mountShoulder: Boolean, val ride: Boolean) : NetworkPacket<InteractPokemonPacket> {
     override val id = ID
     override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writeBoolean(mountShoulder)
+        buffer.writeBoolean(ride)
     }
     companion object {
         val ID = cobblemonResource("interact_pokemon")
-        fun decode(buffer: RegistryByteBuf) = InteractPokemonPacket(buffer.readUuid(), buffer.readBoolean())
+        fun decode(buffer: RegistryByteBuf) = InteractPokemonPacket(buffer.readUuid(), buffer.readBoolean(), buffer.readBoolean())
     }
 }

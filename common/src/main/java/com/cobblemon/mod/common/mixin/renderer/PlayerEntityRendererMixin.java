@@ -25,10 +25,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerEntityRendererMixin {
     @Inject(
-            method = "setupTransforms(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/client/util/math/MatrixStack;FFF)V",
+            method = "setupTransforms(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/client/util/math/MatrixStack;FFFF)V",
             at = @At("HEAD")
     )
-    private void doABibarelRoll$modifyRoll(AbstractClientPlayerEntity player, MatrixStack poseStack, float a, float b, float partialTicks, CallbackInfo ci) {
+    private void doABibarelRoll$modifyRoll(AbstractClientPlayerEntity player, MatrixStack poseStack, float a, float b, float partialTicks, float i, CallbackInfo ci) {
         if (player.hasVehicle()) {
             var vehicle = player.getVehicle();
             if (vehicle instanceof PokemonEntity entity) {

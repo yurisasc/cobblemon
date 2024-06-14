@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.util.adapters.riding.RideControllerAdapter
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.getString
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 class RidingProperties(
     val seats: List<Seat> = listOf(),
@@ -21,7 +22,7 @@ class RidingProperties(
     val controllers: List<RideController> = listOf()
 ) {
     companion object {
-        fun decode(buffer: PacketByteBuf): RidingProperties {
+        fun decode(buffer: RegistryByteBuf): RidingProperties {
             val seats: List<Seat> = buffer.readList { _ -> Seat.decode(buffer) }
             val conditions = buffer.readList { buffer.readString().asExpression() }
             val controllers: List<RideController> = buffer.readList { _ ->
@@ -38,7 +39,7 @@ class RidingProperties(
     val canRide: Boolean
         get() = seats.isNotEmpty() && controllers.isNotEmpty()
 
-    fun encode(buffer: PacketByteBuf) {
+    fun encode(buffer: RegistryByteBuf) {
         buffer.writeCollection(seats) { _, seat -> seat.encode(buffer) }
         buffer.writeCollection(conditions) { _, condition -> buffer.writeString(condition.getString()) }
         buffer.writeCollection(controllers) { _, controller -> controller.encode(buffer) }

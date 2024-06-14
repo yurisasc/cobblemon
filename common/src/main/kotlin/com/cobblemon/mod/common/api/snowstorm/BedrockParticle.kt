@@ -34,7 +34,7 @@ class BedrockParticle(
     var sizeX: Expression = NumberExpression(0.15),
     var sizeY: Expression = NumberExpression(0.15),
     var maxAge: Expression = NumberExpression(1.0),
-    var killExpression: Expression = BooleanExpression(DoubleValue.ZERO),
+    var killExpression: Expression = BooleanExpression(false),
     var updateExpressions: MutableList<Expression> = mutableListOf(),
     var renderExpressions: MutableList<Expression> = mutableListOf(),
     var motion: ParticleMotion = StaticParticleMotion(),

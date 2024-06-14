@@ -20,6 +20,7 @@ import kotlin.math.min
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
@@ -79,13 +80,13 @@ class GenericLiquidController : RideController {
         TODO("Not yet implemented")
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         super.encode(buffer)
         buffer.writeFloat(this.speed)
         buffer.writeFloat(this.acceleration)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         this.speed = buffer.readFloat()
         this.acceleration = buffer.readFloat()
     }

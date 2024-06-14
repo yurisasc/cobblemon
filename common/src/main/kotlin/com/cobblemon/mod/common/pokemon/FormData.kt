@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
+import com.cobblemon.mod.common.api.riding.RidingProperties
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.PoseType
@@ -91,6 +92,8 @@ class FormData(
     private var _height: Float? = null,
     @SerializedName("weight")
     private var _weight: Float? = null,
+    @SerializedName("riding")
+    private var _riding: RidingProperties? = null,
     val requiredMove: String? = null,
     val requiredItem: String? = null,
     /** For forms that can accept different items (e.g. Arceus-Grass: Meadow Plate or Grassium-Z). */
@@ -167,6 +170,8 @@ class FormData(
 
     val eggGroups: Set<EggGroup>
         get() = _eggGroups ?: species.eggGroups
+    val riding: RidingProperties
+        get() = _riding ?: species.riding
 
     /**
      * The height in decimeters
@@ -268,6 +273,7 @@ class FormData(
             pb.writeInt(data.lightLevel)
             pb.writeEnumConstant(data.liquidGlowMode)
         }
+        buffer.writeNullable(_riding) { pb, riding -> riding.encode(buffer) }
     }
 
     override fun decode(buffer: RegistryByteBuf) {
@@ -297,6 +303,7 @@ class FormData(
         this._moves = buffer.readNullable { _ -> Learnset().apply { decode(buffer) }}
         this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }?.toMutableList()
         this._lightingData = buffer.readNullable { pb -> LightingData(pb.readInt(), pb.readEnumConstant(LightingData.LiquidGlowMode::class.java)) }
+        this._riding = buffer.readNullable { pb -> RidingProperties.decode(buffer) }
     }
 
     /**

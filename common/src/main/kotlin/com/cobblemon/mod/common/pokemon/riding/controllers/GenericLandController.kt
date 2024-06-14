@@ -23,6 +23,7 @@ import com.cobblemon.mod.common.util.resolveFloat
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
@@ -107,7 +108,7 @@ class GenericLandController : RideController {
         return Vec3d(jumpVector[0].toDouble(), jumpVector[1].toDouble(), jumpVector[2].toDouble())
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         super.encode(buffer)
         buffer.writeString(this.speed.getString())
         buffer.writeString(this.canJump.getString())
@@ -116,7 +117,7 @@ class GenericLandController : RideController {
         buffer.writeString(this.jumpVector[2].getString())
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         this.speed = buffer.readString().asExpression()
         this.canJump = buffer.readString().asExpression()
         this.jumpVector = listOf(

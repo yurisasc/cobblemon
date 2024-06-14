@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.api.riding
 
 import com.cobblemon.mod.common.api.net.Encodable
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -19,7 +19,7 @@ data class Seat(
     val locator: String = "seat1",
     val offset: Vec3d = Vec3d.ZERO
 ) : Encodable {
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeString(locator)
         buffer.writeDouble(this.offset.x)
         buffer.writeDouble(this.offset.y)
@@ -27,7 +27,7 @@ data class Seat(
     }
 
     companion object {
-        fun decode(buffer: PacketByteBuf) : Seat {
+        fun decode(buffer: RegistryByteBuf) : Seat {
             return Seat(
                 buffer.readString(),
                 Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble())
