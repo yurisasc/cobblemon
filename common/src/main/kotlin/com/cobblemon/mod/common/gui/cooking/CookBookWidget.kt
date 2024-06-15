@@ -52,9 +52,9 @@ class CookBookWidget : RecipeGridAligner<Ingredient>, Drawable, Element, Selecta
     var parentWidth = 0
     var parentHeight = 0
     val ghostSlots = RecipeBookGhostSlots()
-    val tabButtons: ArrayList<RecipeGroupButtonWidget> = Lists.newArrayList<RecipeGroupButtonWidget>()
+    val tabButtons: ArrayList<CookingRecipeGroupButtonWidget> = Lists.newArrayList<CookingRecipeGroupButtonWidget>()
     @Nullable
-    var currentTab: RecipeGroupButtonWidget? = null
+    var currentTab: CookingRecipeGroupButtonWidget? = null
     lateinit var toggleCraftableButton: ToggleButtonWidget
     lateinit var craftingScreenHandler: AbstractRecipeScreenHandler<*>
     lateinit var client: MinecraftClient
@@ -113,11 +113,11 @@ class CookBookWidget : RecipeGridAligner<Ingredient>, Drawable, Element, Selecta
         val var4 = RecipeBookGroup.getGroups(craftingScreenHandler.category).iterator()
         while (var4.hasNext()) {
             val recipeBookGroup = var4.next() as RecipeBookGroup
-            tabButtons.add(RecipeGroupButtonWidget(recipeBookGroup))
+            tabButtons.add(CookingRecipeGroupButtonWidget(recipeBookGroup))
         }
         if (currentTab != null) {
             currentTab = tabButtons.stream().filter { button ->
-                button.category == currentTab?.category
+                button.category == currentTab?.getCategoryValue()
             }.findFirst().orElse(null)
         }
         if (currentTab == null) {
