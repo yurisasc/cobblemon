@@ -123,8 +123,13 @@ import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.item.Items
 import net.minecraft.item.NameTagItem
+import net.minecraft.loot.context.LootContextParameterSet
+import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.registry.RegistryKey
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.Identifier
 import net.minecraft.util.WorldSavePath
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -262,6 +267,45 @@ object Cobblemon {
                 increment += increment * 0.5F
             }
             event.newFriendship = event.pokemon.friendship + increment.roundToInt()
+        }
+
+        CobblemonEvents.BATTLE_VICTORY.subscribe(Priority.NORMAL) { evt ->
+            val world = evt.winners.flatMap { it.pokemonList }.firstNotNullOfOrNull { it.entity?.world }
+            if (world?.server == null) return@subscribe
+            for (winner in evt.winners) {
+                val position = winner.pokemonList.firstNotNullOf { it.entity }.blockPos
+                val vecPos = Vec3d(position.x.toDouble(), position.y.toDouble(), position.z.toDouble())
+                for (battlePokemon in winner.pokemonList) {
+                    val pokemon = battlePokemon.effectedPokemon
+//                    println("Rolling for ${pokemon.ability.name} on ${pokemon.getDisplayName().string}")
+
+                    if (!pokemon.heldItem().isEmpty) {
+//                        println("${pokemon.getDisplayName().string} is already holding an item")
+                        continue
+                    }
+
+                    val identifier = Identifier("cobblemon", "gameplay/abilities/postbattle/${pokemon.ability.name}")
+                    val lootManager = world.server!!.lootManager
+                    val lootTable = lootManager.getLootTable(identifier)
+                    val list = lootTable.generateLoot(
+                        LootContextParameterSet(
+                            world as ServerWorld,
+                            mapOf(
+                                LootContextParameters.ORIGIN to vecPos
+                            ),
+                            mapOf(),
+                            0F
+                        )
+                    )
+
+                    if (list.isEmpty) {
+//                        println("Attempted to roll for ability ${pokemon.ability.name} but nothing dropped.")
+                        continue
+                    }
+
+                    pokemon.swapHeldItem(list.first())
+                }
+            }
         }
 
         HeldItemProvider.register(CobblemonHeldItemManager, Priority.LOWEST)
