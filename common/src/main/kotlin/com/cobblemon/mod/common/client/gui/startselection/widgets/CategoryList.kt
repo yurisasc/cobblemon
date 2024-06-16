@@ -16,6 +16,8 @@ import com.cobblemon.mod.common.config.starter.RenderableStarterCategory
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.navigation.GuiNavigation
+import net.minecraft.client.gui.navigation.GuiNavigationPath
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.text.Text
@@ -50,10 +52,9 @@ class CategoryList(
         this.x = listX
         this.y = listY
         this.correctSize()
+        createEntries().forEach { addEntry(it) }
         //this.setRenderBackground(false)
     }
-
-    private var entriesCreated = false
 
     private fun createEntries() = categories.map {
         Category(it)
@@ -61,18 +62,7 @@ class CategoryList(
 
     override fun drawMenuListBackground(context: DrawContext?) {}
     override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        if (!entriesCreated) {
-            createEntries().forEach { addEntry(it) }
-            entriesCreated = true
-        }
-        context.enableScissor(
-            x,
-            y,
-            x + width,
-            y - height
-        )
         super.renderWidget(context, mouseX, mouseY, delta)
-        context.disableScissor()
         correctSize()
     }
 
