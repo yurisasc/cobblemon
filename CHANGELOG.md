@@ -11,6 +11,7 @@
 - Fixed Pokémon losing their Hidden Ability through evolution if the middle stage did not have a Hidden Ability.
 - Fixed Crumbling Arch not blending in with the world.
 - Fixed Energy Root applying being usable on a fainted Pokemon.
+- Fixed Pokémon entity not spawning when starting a battle while recalling said Pokémon
 
 ### Additions
 - Added extra visuals to early berry growth stages
