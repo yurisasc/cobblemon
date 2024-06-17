@@ -173,7 +173,7 @@ object Natures {
     fun getNature(identifier: String): Nature? {
         val nature = getNature(cobblemonResource(identifier))
         if(nature != null) return nature
-        return getNature(Identifier(identifier))
+        return getNature(Identifier.of(identifier))
     }
 
     /**

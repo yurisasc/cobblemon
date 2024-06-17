@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.util.math.orMax
 import com.cobblemon.mod.common.util.math.orMin
 import com.mojang.datafixers.util.Either
 import net.minecraft.enchantment.EnchantmentHelper
+import net.minecraft.enchantment.Enchantments
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.random.ChunkRandom
@@ -117,11 +118,12 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (minLureLevel != null && ctx is FishingSpawningContext) { // check for the lureLevel of the rod
             val pokerodStack = (ctx as FishingSpawningContext).rodStack
-
-            if (EnchantmentHelper.getLure(pokerodStack) < minLureLevel!!)
+            val lureLevel = EnchantmentHelper.getLevel(ctx.enchantmentRegistry.getEntry(Enchantments.LURE).get(), pokerodStack)
+            if (lureLevel < minLureLevel!!) {
                 return false
-            if (maxLureLevel != null && EnchantmentHelper.getLure(pokerodStack) > maxLureLevel!!)
+            } else if (maxLureLevel != null && lureLevel > maxLureLevel!!) {
                 return false
+            }
         } else if (bait != null && ctx is FishingSpawningContext) { // check for the bait on the bobber
             val pokerodBait = (ctx as FishingSpawningContext).rodBait?.item
             if (pokerodBait != bait) {

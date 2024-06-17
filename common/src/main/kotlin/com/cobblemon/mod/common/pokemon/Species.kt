@@ -289,7 +289,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         val CODEC: Codec<Species> = Codec.STRING.xmap(
             // TODO: 1.21 uses the one below
             //{ speciesId -> PokemonSpecies.getByIdentifier(Identifier.of(speciesId)) },
-            { speciesId -> PokemonSpecies.getByIdentifier(Identifier(speciesId)) },
+            { speciesId -> PokemonSpecies.getByIdentifier(Identifier.of(speciesId)) },
             { it.resourceIdentifier.toString() }
         )
     }

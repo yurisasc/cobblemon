@@ -32,6 +32,7 @@ import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
@@ -99,7 +100,7 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound) {
-        this.category = Identifier(nbt.getString(DataKeys.GENERIC_BEDROCK_CATEGORY))
+        this.category = Identifier.of(nbt.getString(DataKeys.GENERIC_BEDROCK_CATEGORY))
         this.aspects = nbt.getList(DataKeys.GENERIC_BEDROCK_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
         this.dataTracker.set(POSE_TYPE, PoseType.values()[nbt.getByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE).toInt()])
         this.scale = nbt.getFloat(DataKeys.GENERIC_BEDROCK_SCALE)
@@ -125,7 +126,7 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
     override fun getDimensions(pose: EntityPose) = EntityDimensions.changing(colliderWidth, colliderHeight).scaled(scale)
     override fun getCurrentPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
 
-    override fun createSpawnPacket() = CustomPayloadS2CPacket(
+    override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry) = CustomPayloadS2CPacket(
         SpawnGenericBedrockPacket(
             category = category,
             aspects = aspects,
@@ -134,7 +135,7 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
             width = colliderWidth,
             height = colliderHeight,
             startAge = if (syncAge) age else 0,
-            vanillaSpawnPacket = super.createSpawnPacket() as EntitySpawnS2CPacket
+            vanillaSpawnPacket = super.createSpawnPacket(entityTrackerEntry) as EntitySpawnS2CPacket
         )
     ) as Packet<ClientPlayPacketListener>
 

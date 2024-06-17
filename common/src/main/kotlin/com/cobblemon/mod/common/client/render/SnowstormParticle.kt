@@ -215,29 +215,25 @@ class SnowstormParticle(
 
         val p = if (storm.effect.particle.environmentLighting) getBrightness(tickDelta) else (15 shl 20 or (15 shl 4))
         vertexConsumer
-            .vertex(particleVertices[0].x.toDouble(), particleVertices[0].y.toDouble(), particleVertices[0].z.toDouble())
+            .vertex(particleVertices[0].x, particleVertices[0].y, particleVertices[0].z)
             .texture(maxU, maxV)
             .color(colour.x, colour.y, colour.z, colour.w)
             .light(p)
-            .next()
         vertexConsumer
-            .vertex(particleVertices[1].x.toDouble(), particleVertices[1].y.toDouble(), particleVertices[1].z.toDouble())
+            .vertex(particleVertices[1].x, particleVertices[1].y, particleVertices[1].z)
             .texture(maxU, minV)
             .color(colour.x, colour.y, colour.z, colour.w)
             .light(p)
-            .next()
         vertexConsumer
-            .vertex(particleVertices[2].x.toDouble(), particleVertices[2].y.toDouble(), particleVertices[2].z.toDouble())
+            .vertex(particleVertices[2].x, particleVertices[2].y, particleVertices[2].z)
             .texture(minU, minV)
             .color(colour.x, colour.y, colour.z, colour.w)
             .light(p)
-            .next()
         vertexConsumer
-            .vertex(particleVertices[3].x.toDouble(), particleVertices[3].y.toDouble(), particleVertices[3].z.toDouble())
+            .vertex(particleVertices[3].x, particleVertices[3].y, particleVertices[3].z)
             .texture(minU, maxV)
             .color(colour.x, colour.y, colour.z, colour.w)
             .light(p)
-            .next()
     }
 
     fun runExpirationEvents() {

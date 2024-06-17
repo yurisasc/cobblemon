@@ -89,12 +89,11 @@ fun drawRectangle(
     minV: Float,
     maxV: Float
 ) {
-    val bufferbuilder = Tessellator.getInstance().buffer
-    bufferbuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE)
-    bufferbuilder.vertex(matrix, x, endY, blitOffset).texture(minU, maxV).next()
-    bufferbuilder.vertex(matrix, endX, endY, blitOffset).texture(maxU, maxV).next()
-    bufferbuilder.vertex(matrix, endX, y, blitOffset).texture(maxU, minV).next()
-    bufferbuilder.vertex(matrix, x, y, blitOffset).texture(minU, minV).next()
+    val bufferbuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE)
+    bufferbuilder.vertex(matrix, x, endY, blitOffset).texture(minU, maxV)
+    bufferbuilder.vertex(matrix, endX, endY, blitOffset).texture(maxU, maxV)
+    bufferbuilder.vertex(matrix, endX, y, blitOffset).texture(maxU, minV)
+    bufferbuilder.vertex(matrix, x, y, blitOffset).texture(minU, minV)
     // TODO: Figure out if this is correct replacement.
     // OLD: BufferRenderer.draw(bufferbuilder)
     BufferRenderer.drawWithGlobalProgram(bufferbuilder.end())
@@ -246,7 +245,7 @@ fun drawPosablePortrait(
     val packedLight = LightmapTextureManager.pack(11, 7)
 
     model.withLayerContext(immediate, state, repository.getLayers(identifier, aspects)) {
-        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
         immediate.draw()
     }
 
@@ -305,7 +304,7 @@ fun drawProfile(
     val packedLight = LightmapTextureManager.pack(11, 7)
 
     model.withLayerContext(bufferSource, state, repository.getLayers(resourceIdentifier, aspects)) {
-        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
         bufferSource.draw()
     }
     model.setDefault()

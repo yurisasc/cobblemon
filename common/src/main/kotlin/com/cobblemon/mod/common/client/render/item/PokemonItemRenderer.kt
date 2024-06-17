@@ -73,7 +73,12 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         // x = red, y = green, z = blue, w = alpha
         val tint = pokemonItem.tint(stack)
         model.withLayerContext(vertexConsumers, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
-            model.render(context, matrices, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, tint.x, tint.y, tint.z, tint.w)
+            val tintRed = (tint.x * 255).toInt()
+            val tintGreen = (tint.y * 255).toInt()
+            val tintBlue = (tint.z * 255).toInt()
+            val tintAlpha = (tint.w * 255).toInt()
+            val color = (tintAlpha shl 24) or (tintRed shl 16) or (tintGreen shl 8) or tintBlue
+            model.render(context, matrices, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, color)
         }
 
         model.setDefault()

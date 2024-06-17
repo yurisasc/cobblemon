@@ -150,9 +150,9 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
                 limbSwingAmount = limbSwingAmount,
                 ageInTicks = livingEntity.age.toFloat()
             )
-            model.render(context, matrixStack, vertexConsumer, packedLight, i, 1.0f, 1.0f, 1.0f, 1.0f)
+            model.render(context, matrixStack, vertexConsumer, packedLight, i, -0x1)
             model.withLayerContext(buffer, state, PokemonModelRepository.getLayers(shoulderData.species.resourceIdentifier, shoulderData.aspects)) {
-                model.render(context, matrixStack, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+                model.render(context, matrixStack, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
             }
             model.setDefault()
             matrixStack.pop()
@@ -172,7 +172,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             val pokemon = Pokemon().apply { isClient = true }.loadFromNBT(shoulderNbt.getCompound(DataKeys.POKEMON))
             return ShoulderData(pokemonUUID, pokemon.species, pokemon.form, pokemon.aspects, pokemon.scaleModifier)
         }
-        val species = PokemonSpecies.getByIdentifier(Identifier(shoulderNbt.getString(DataKeys.SHOULDER_SPECIES)))
+        val species = PokemonSpecies.getByIdentifier(Identifier.of(shoulderNbt.getString(DataKeys.SHOULDER_SPECIES)))
             ?: return null
 
         val formName = shoulderNbt.getString(DataKeys.SHOULDER_FORM)

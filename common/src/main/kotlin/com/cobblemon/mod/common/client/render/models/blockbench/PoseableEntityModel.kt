@@ -42,14 +42,11 @@ abstract class PosableEntityModel<T : Entity>(
         buffer: VertexConsumer,
         packedLight: Int,
         packedOverlay: Int,
-        r: Float,
-        g: Float,
-        b: Float,
-        a: Float
+        color: Int
     ) {
         val entity = context.request(RenderContext.ENTITY)
         val overlay = getOverlayTexture(entity) ?: packedOverlay
-        posableModel.render(context, stack, buffer, packedLight, overlay, r, g, b, a)
+        posableModel.render(context, stack, buffer, packedLight, overlay, color)
     }
 
     open fun getOverlayTexture(entity: Entity?): Int? {

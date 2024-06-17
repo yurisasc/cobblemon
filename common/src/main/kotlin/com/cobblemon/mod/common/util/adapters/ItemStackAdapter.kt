@@ -25,7 +25,7 @@ import net.minecraft.util.Identifier
  */
 //object ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> {
 //
-//    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): ItemStack = (if (json.isJsonPrimitive) ItemStack(Registry.ITEM.get(Identifier(json.asString.lowercase()))) else ItemStack.fromNbt(json.asNbt() as NbtCompound))!!
+//    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): ItemStack = (if (json.isJsonPrimitive) ItemStack(Registry.ITEM.get(Identifier.of(json.asString.lowercase()))) else ItemStack.fromNbt(json.asNbt() as NbtCompound))!!
 //
 //    override fun serialize(src: ItemStack, typeOfSrc: Type, context: JsonSerializationContext) = src.saveToJson()
 //

@@ -127,7 +127,8 @@ object MoLangFunctions {
                 val x = params.getDouble(0)
                 val y = params.getDouble(1)
                 val z = params.getDouble(2)
-                player.teleport(x, y, z)
+                val playParticleEffects = params.getBooleanOrNull(3) ?: false
+                player.teleport(x, y, z, playParticleEffects)
             }
             map.put("heal") { params ->
                 val amount = params.getDoubleOrNull(0) ?: player.maxHealth
@@ -260,11 +261,11 @@ object MoLangFunctions {
             stringify = { it.key.get().value.toString() }
         )
         value.functions.put("is_in") {
-            val tag = TagKey.of(key, Identifier(it.getString(0).replace("#", "")))
+            val tag = TagKey.of(key, Identifier.of(it.getString(0).replace("#", "")))
             return@put DoubleValue(if (value.obj.isIn(tag)) 1.0 else 0.0)
         }
         value.functions.put("is_of") {
-            val identifier = Identifier(it.getString(0))
+            val identifier = Identifier.of(it.getString(0))
             return@put DoubleValue(if (value.obj.matchesId(identifier)) 1.0 else 0.0)
         }
         return value

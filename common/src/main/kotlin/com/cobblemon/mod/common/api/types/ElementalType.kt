@@ -25,5 +25,5 @@ class ElementalType(
     val displayName: MutableText,
     val hue: Int,
     val textureXMultiplier: Int,
-    val resourceLocation: Identifier = Identifier(Cobblemon.MODID, "ui/types.png")
+    val resourceLocation: Identifier = Identifier.of(Cobblemon.MODID, "ui/types.png")
 )

@@ -44,7 +44,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
 
     override fun onTick() {
         if (secondsSinceActioned < 100) {
-            secondsSinceActioned += MinecraftClient.getInstance().tickDelta
+            secondsSinceActioned += MinecraftClient.getInstance().renderTickCounter.getTickDelta(false)
         }
 
         super.onTick()

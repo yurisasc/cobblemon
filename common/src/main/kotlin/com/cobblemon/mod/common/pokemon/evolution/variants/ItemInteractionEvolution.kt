@@ -43,7 +43,7 @@ open class ItemInteractionEvolution(
         id = "id",
         result = PokemonProperties(),
         shedder = null,
-        requiredContext = NbtItemPredicate(ItemIdentifierCondition(Identifier("minecraft", "fish")), null),
+        requiredContext = NbtItemPredicate(ItemIdentifierCondition(Identifier.of("minecraft", "fish")), null),
         optional = true,
         consumeHeldItem = true,
         requirements = mutableSetOf(),

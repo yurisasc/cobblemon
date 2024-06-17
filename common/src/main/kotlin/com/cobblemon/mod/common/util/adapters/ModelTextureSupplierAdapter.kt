@@ -28,12 +28,12 @@ import net.minecraft.util.Identifier
 object ModelTextureSupplierAdapter : JsonDeserializer<ModelTextureSupplier> {
     override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): ModelTextureSupplier {
         if (json.isJsonPrimitive) {
-            return StaticModelTextureSupplier(Identifier(json.asString))
+            return StaticModelTextureSupplier(Identifier.of(json.asString))
         } else if (json.isJsonObject) {
             val jsonObject = json as JsonObject
             val loop = jsonObject.get("loop")?.asBoolean ?: true
             val fps = jsonObject.get("fps")?.asFloat ?: 1F
-            val frames = jsonObject.get("frames")?.asJsonArray?.map { Identifier(it.asString) }
+            val frames = jsonObject.get("frames")?.asJsonArray?.map { Identifier.of(it.asString) }
                 ?: throw IllegalArgumentException("Animated textures require a 'frames' value.")
             return AnimatedModelTextureSupplier(
                 loop = loop,
