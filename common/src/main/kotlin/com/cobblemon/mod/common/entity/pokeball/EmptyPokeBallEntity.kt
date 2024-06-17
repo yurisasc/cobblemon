@@ -120,6 +120,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
         .addFunction("ball_type") { StringValue(pokeBall.name.toString()) }
 
     override fun initDataTracker(builder: DataTracker.Builder) {
+        pokeBall = PokeBalls.POKE_BALL
         super.initDataTracker(builder)
         builder.add(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
         builder.add(ASPECTS, emptySet())
