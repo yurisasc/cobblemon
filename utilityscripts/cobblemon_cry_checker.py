@@ -9,8 +9,6 @@ from scriptutils import printCobblemonHeader, print_list_filtered, print_cobblem
     print_cobblemon_script_footer, print_problems_and_paths, print_warning, sanitize_pokemon, print_separator
 
 DEFAULT_POKEMON_MODELS_PATH = "../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/"
-
-# Download the CSV file
 ASSETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSTisDTkJvV0GzKV1zKjAPdMAQAO7znWxjEWXrM1gZPUVmsTU91oy54aJGMpbbvOqAOg03ER1wl7eeA/pub?gid=0&single=true&output=csv"
 
 
@@ -63,6 +61,7 @@ def main(print_missing_models=True, print_missing_animations=True):
                                                                                                          cries_in_game,
                                                                                                          pokemon_in_game,
                                                                                                          cries_on_repo):
+        # Skip pokemon that are not in the game yet
         if this_pokemon_in_game == "❌":
             continue
         cry_in_game = str(cry_in_game).strip()  # remove whitespace
