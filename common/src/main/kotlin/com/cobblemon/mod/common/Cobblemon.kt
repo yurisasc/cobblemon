@@ -123,6 +123,7 @@ import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.item.Items
 import net.minecraft.item.NameTagItem
+import net.minecraft.loot.LootDataType
 import net.minecraft.loot.context.LootContextParameterSet
 import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.registry.RegistryKey
@@ -286,7 +287,14 @@ object Cobblemon {
 
                     val identifier = Identifier("cobblemon", "gameplay/abilities/postbattle/${pokemon.ability.name}")
                     val lootManager = world.server!!.lootManager
+
+                    if (!lootManager.getIds(LootDataType.LOOT_TABLES).contains(identifier)) {
+//                        println("${pokemon.ability.name} doesn't have a postbattle loot table")
+                        continue
+                    }
+
                     val lootTable = lootManager.getLootTable(identifier)
+
                     val list = lootTable.generateLoot(
                         LootContextParameterSet(
                             world as ServerWorld,
