@@ -88,9 +88,6 @@ def main(print_missing_models=True, print_missing_animations=True):
             'sound_effects_and_keyframes': False,
         }
         # Construct the path to the model file
-        if pokemon_name == "Rattata [Alolan]":
-            print(pokemon_name)
-        # Try to convert gen_number to an integer and handle ValueError
         try:
             if pokemon_form:
                 # Check if the form is a regional form or F or M, if not, use the default model file
