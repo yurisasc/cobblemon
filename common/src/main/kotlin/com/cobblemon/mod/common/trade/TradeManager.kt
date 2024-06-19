@@ -98,11 +98,11 @@ object TradeManager {
         party2.add(pokemon1)
         party1.add(pokemon2)
 
-        pokemon1.evolutions.filterIsInstance<TradeEvolution>().firstOrNull {
+        pokemon1.lockedEvolutions.filterIsInstance<TradeEvolution>().firstOrNull {
             it.attemptEvolution(pokemon1, pokemon2)
         }
 
-        pokemon2.evolutions.filterIsInstance<TradeEvolution>().firstOrNull {
+        pokemon2.lockedEvolutions.filterIsInstance<TradeEvolution>().firstOrNull {
             it.attemptEvolution(pokemon2, pokemon1)
         }
         CobblemonEvents.TRADE_COMPLETED.post(TradeCompletedEvent(player1, pokemon2, player2, pokemon1))

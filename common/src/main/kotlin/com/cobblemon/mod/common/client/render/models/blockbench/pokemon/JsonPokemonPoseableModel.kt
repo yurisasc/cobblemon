@@ -39,6 +39,7 @@ import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import java.util.function.Supplier
+import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -49,7 +50,8 @@ import net.minecraft.util.math.Vec3d
  * @author Hiroku
  * @since August 7th, 2022
  */
-class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableModel(), HeadedFrame {
+class JsonPokemonPoseableModel(rootPart: Bone) : PokemonPoseableModel(), HeadedFrame {
+    override val rootPart = (rootPart as ModelPart).children.entries.first().let { rootPart.registerChildWithAllChildren(it.key) }
     companion object {
         val gson = GsonBuilder()
             .setPrettyPrinting()
@@ -86,30 +88,12 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
     override val head: Bone by lazy { headJoint?.let { getPart(it) } ?: rootPart }
 
-
-    @SerializedName("portraitScale")
-    private val _portraitScale: Float? = null
-    @SerializedName("portraitTranslation")
-    private val _portraitTranslation: Vec3d? = null
-
-    @SerializedName("profileScale")
-    private val _profileScale: Float? = null
-    @SerializedName("profileTranslation")
-    private val _profileTranslation: Vec3d? = null
-
     //Some weirdness going on here, vars have to be initialized, gson doesn't like multiple fields with the same name
-    @Transient
+    //Idk, works fine with Blastoise
     override var portraitScale = 1F
-        get() = _portraitScale ?: 1F
-    @Transient
     override var portraitTranslation = Vec3d.ZERO
-        get() = _portraitTranslation ?: Vec3d(0.0, 0.0, 0.0)
-    @Transient
     override var profileScale = 1F
-        get() = _profileScale ?: 1F
-    @Transient
     override var profileTranslation = Vec3d.ZERO
-        get() = _profileTranslation ?: Vec3d(0.0, 0.0, 0.0)
 
 
     val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
@@ -148,6 +132,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
         override fun createInstance(type: Type): JsonPokemonPoseableModel {
             return JsonPokemonPoseableModel(modelPart!!).also {
                 model = it
+                modelPart as ModelPart
                 it.loadAllNamedChildren(modelPart!!)
             }
         }
