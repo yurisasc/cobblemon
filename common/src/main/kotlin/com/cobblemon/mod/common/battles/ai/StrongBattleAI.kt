@@ -307,8 +307,9 @@ class ActiveTracker {
     )
 }
 
-class StrongBattleAI() : BattleAI {
+class StrongBattleAI(skill: Int) : BattleAI {
 
+    private val skill = if (skill < 0) 0 else if (skill > 5) 5 else skill
     private val entryHazards = listOf("spikes", "stealthrock", "stickyweb", "toxicspikes")
     private val antiHazardsMoves = listOf("rapidspin", "defog", "tidyup")
     private val antiBoostMoves = listOf("slearsmog","haze")
@@ -402,6 +403,50 @@ class StrongBattleAI() : BattleAI {
             "spe" -> pokemon.evs.getOrDefault(Stats.SPEED)
             else -> 0
         }
+    }
+
+    // skill check that will be used for if the AI will make a successful Move decision
+    fun checkSkillLevel(skillLevel: Int): Boolean {
+        val randomNumber = Random.nextInt(6)
+        // Check if the random number is less than the skill level
+        return randomNumber < skillLevel
+    }
+
+    // skill check that will be used for if the AI will make a successful Switch Out decision
+    fun checkSwitchOutSkill(skillLevel: Int): Boolean {
+        // Generate a random number between 0 and 1
+        val randomNumber = Random.nextDouble()
+
+        // Determine the chance skill check will succeed based on skill level
+        val chance = when (skillLevel) {
+            in 0..2 -> 0.0
+            3 -> 0.20
+            4 -> 0.60
+            5 -> 1.00
+            else -> 0.0 // if skillLevel is out of expected range
+        }
+
+        // Check if the random number is less than the chance
+        return randomNumber < chance
+    }
+
+    // skill check that will be used for if the AI will make a successful Use Item decision
+    fun checkUseItemSkill(skillLevel: Int): Boolean {
+        // Generate a random number between 0 and 1
+        val randomNumber = Random.nextDouble()
+
+        // Determine the chance skill check will succeed based on skill level
+        val chance = when (skillLevel) {
+            in 0..1 -> 0.0
+            2 -> 0.25
+            3 -> 0.5
+            4 -> 0.75
+            5 -> 1.00
+            else -> 0.0 // if skillLevel is out of expected range
+        }
+
+        // Check if the random number is less than the chance
+        return randomNumber < chance
     }
 
     // old function definition
@@ -622,6 +667,23 @@ class StrongBattleAI() : BattleAI {
             if (move.mustBeUsed())
                 return chooseMove(move, activeBattlePokemon)
 
+
+        // todo Check for Skill of AI and see if they will make a smart move
+        if (!checkSkillLevel(skill)){
+            // todo choose random move
+            if (moveset == null) {
+                return PassActionResponse
+            }
+            val move = moveset.moves
+                    .filter { it.canBeUsed() }
+                    .filter { it.mustBeUsed() || it.target.targetList(activeBattlePokemon)?.isEmpty() != true }
+                    .randomOrNull()
+                    ?: return MoveActionResponse("struggle")
+
+            return chooseMove(move, activeBattlePokemon)
+        }
+
+
         // todo update side conditions each turn
         //fun updateSideConditions =
 
@@ -630,7 +692,7 @@ class StrongBattleAI() : BattleAI {
         // todo try to caclulate if it is worth it to use status moves somehow
 
         // switch out
-        if (shouldSwitchOut(request, battle, activeBattlePokemon )) {
+        if (checkSwitchOutSkill(skill) && shouldSwitchOut(request, battle, activeBattlePokemon )) {
             val availableSwitches = p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
             val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(activeBattlePokemon, request, battle, it.effectedPokemon) }
             /*availableSwitches.forEach {
@@ -658,6 +720,13 @@ class StrongBattleAI() : BattleAI {
             val nRemainingMons = activeTracker.p2Active.nRemainingMons
             val nOppRemainingMons = activeTracker.p1Active.nRemainingMons
 
+            // Sleep Talk when asleep
+            if (activeNPCPokemonStatus == "slp")
+                for (move in moveset.moves.filter { !it.disabled }) {
+                    if (move.id == "sleeptalk")
+                        return chooseMove(move, activeBattlePokemon)
+                }
+
             // Fake Out
             allMoves?.firstOrNull { it.pp > 0 && it.id == "fakeout" && mon.firstTurn == 1 && !opponent.pokemon?.types?.contains(ElementalTypes.GHOST)!! }?.let {
                 mon.firstTurn = 0
@@ -665,13 +734,6 @@ class StrongBattleAI() : BattleAI {
             }
 
             mon.firstTurn = 0
-
-            // Sleep Talk when asleep
-            if (activeNPCPokemonStatus == "slp")
-                for (move in moveset.moves.filter { !it.disabled }) {
-                    if (move.id == "sleeptalk")
-                        return chooseMove(move, activeBattlePokemon)
-                }
 
 
             // Explosion/Self destruct

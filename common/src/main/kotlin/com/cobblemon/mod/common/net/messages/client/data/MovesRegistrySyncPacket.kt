@@ -47,10 +47,11 @@ class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacke
         val priority = buffer.readInt()
         val critRatio = buffer.readDouble()
         val effectChances = arrayListOf<Double>()
+        val flags = mutableSetOf<String>()
         repeat(buffer.readVarInt()) {
             effectChances += buffer.readDouble()
         }
-        return MoveTemplate(name, num, type, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances.toTypedArray())
+        return MoveTemplate(name, num, type, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances.toTypedArray(), flags)
     }
 
     override fun synchronizeDecoded(entries: Collection<MoveTemplate>) {

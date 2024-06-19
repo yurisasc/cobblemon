@@ -31,7 +31,7 @@ open class PokemonBattleActor(
     val pokemon: BattlePokemon,
     override val fleeDistance: Float,
     //artificialDecider: BattleAI = RandomBattleAI()
-    artificialDecider: BattleAI = StrongBattleAI()
+    artificialDecider: BattleAI = StrongBattleAI(0)
 ) : AIBattleActor(uuid, listOf(pokemon), artificialDecider), EntityBackedBattleActor<PokemonEntity>, FleeableBattleActor {
     override fun getName() = pokemon.effectedPokemon.species.translatedName
     override fun nameOwned(name: String): MutableText = Text.literal(name)

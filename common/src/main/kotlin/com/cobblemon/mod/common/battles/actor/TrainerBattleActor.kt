@@ -22,7 +22,8 @@ class TrainerBattleActor(
         val trainerName: String,
         uuid: UUID,
         pokemonList: List<BattlePokemon>,
-        artificialDecider: BattleAI = StrongBattleAI()
+        skill: Int,
+        artificialDecider: BattleAI = StrongBattleAI(skill)
 ) : AIBattleActor(uuid, pokemonList, artificialDecider) {
     override fun getName() = trainerName.asTranslated()
     override fun nameOwned(name: String): MutableText = battleLang("owned_pokemon", this.getName(), name)

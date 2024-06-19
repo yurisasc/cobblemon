@@ -21,7 +21,7 @@ import java.util.UUID
 abstract class AIBattleActor(
     gameId: UUID,
     pokemonList: List<BattlePokemon>,
-    val battleAI: BattleAI = StrongBattleAI()
+    val battleAI: BattleAI = StrongBattleAI(0)
 ) : BattleActor(gameId, pokemonList.toMutableList()) {
     override fun sendUpdate(packet: NetworkPacket<*>) {
         super.sendUpdate(packet)
