@@ -2249,7 +2249,7 @@ object BattleBuilder {
             "leon" -> TrainerBattleActor("Leon", npcUUID, npcParty.toList(), skill, battleAIType)
             "sillysun" -> TrainerBattleActor("Freshest Rice", npcUUID, npcParty.toList(), skill, battleAIType)
             "futuremons" -> TrainerBattleActor("Xcavalier", npcUUID, npcParty.toList(), skill, battleAIType)
-            //"sunster" -> TrainerBattleActor("Sunster", npcUUID, npcParty.toList(), skill, battleAIType)
+             //"sunster" -> TrainerBattleActor("Sunster", npcUUID, npcParty.toList(), skill, battleAIType)
             "rainster" -> TrainerBattleActor("Rainster", npcUUID, npcParty.toList(), skill, battleAIType)
 
             else -> TrainerBattleActor("Master of Crabs", npcUUID, npcParty.toList(), skill, battleAIType)
