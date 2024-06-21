@@ -103,6 +103,9 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
         )
     }
 
+    override fun renderBackground(context: DrawContext?, mouseX: Int, mouseY: Int, delta: Float) {}
+    override fun applyBlur(delta: Float) {}
+
     override fun init() {
         super.init()
 
@@ -135,8 +138,8 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
         dialogueBox = DialogueBox(
             dialogueScreen = this,
             messages = dialogueDTO.currentPageDTO.lines,
-            x = (centerX - BOX_WIDTH / 2F).toInt(),
-            y = boxMinY.toInt(),
+            listX = (centerX - BOX_WIDTH / 2F).toInt(),
+            listY = boxMinY.toInt(),
             frameWidth = BOX_WIDTH,
             height = BOX_HEIGHT
         )
