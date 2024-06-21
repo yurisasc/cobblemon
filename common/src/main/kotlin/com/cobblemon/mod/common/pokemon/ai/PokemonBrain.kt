@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.pokemon.ai
 import com.cobblemon.mod.common.CobblemonActivities
 import com.cobblemon.mod.common.CobblemonMemories
 import com.cobblemon.mod.common.CobblemonSensors
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.ai.*
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -63,6 +64,7 @@ object PokemonBrain {
 //            CobblemonMemories.BATTLING_POKEMON,
         MemoryModuleType.HURT_BY,
         MemoryModuleType.HURT_BY_ENTITY,
+        MemoryModuleType.NEAREST_PLAYERS,
         MemoryModuleType.NEAREST_VISIBLE_PLAYER,
         MemoryModuleType.ANGRY_AT,
         MemoryModuleType.ATTACK_COOLING_DOWN,
@@ -131,13 +133,13 @@ object PokemonBrain {
         add(0 toDF MoveToAttackTargetTask.create())
         add(0 toDF MoveToOwnerTask.create(completionRange = 4, maxDistance = 14F, teleportDistance = 24F))
         add(0 toDF WalkTowardsParentSpeciesTask.create(ADULT_FOLLOW_RANGE, 0.4f))
-        //add(0 toDF HuntPlayerTask()) // commenting this out to test other things
+//        add(0 toDF HuntPlayerTask()) // commenting this out to test other things
 
 
-        if (pokemon.primaryType == ElementalTypes.GRASS) {
+        if (pokemon.species.primaryType.name.equals("grass", true)){
             add(1 toDF FertilizerTask())
         }
-        if (pokemon.primaryType == ElementalTypes.FIRE) {
+        if (pokemon.species.primaryType.name.equals("fire", true)) {
             add(1 toDF IgniteTask())
         }
         if (pokemon.form.behaviour.moving.swim.canBreatheUnderwater) {

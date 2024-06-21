@@ -61,6 +61,7 @@ import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import com.google.common.collect.ImmutableMap
+import com.mojang.serialization.DataResult
 import com.mojang.serialization.Dynamic
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.brain.Brain
@@ -164,19 +165,7 @@ open class PokemonEntity(
             stepHeight = behaviour.moving.stepHeight
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
             this.updateEyeHeight()
-
-            //todo: not sure if this is correct
-            val nbtOps = NbtOps.INSTANCE
-            brain = deserializeBrain(
-                Dynamic(
-                    nbtOps, nbtOps.createMap(
-                        ImmutableMap.of<NbtElement, NbtElement>(
-                            nbtOps.createString("memories"),
-                            nbtOps.emptyMap() as NbtElement
-                        )
-                    ) as NbtElement
-                )
-            )
+            this.refreshBrain()
         }
 
     var despawner: Despawner<PokemonEntity> = Cobblemon.bestSpawner.defaultPokemonDespawner
@@ -244,6 +233,7 @@ open class PokemonEntity(
     init {
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
+        initializeBrain()
         calculateDimensions()
     }
 
@@ -352,7 +342,7 @@ open class PokemonEntity(
 
     override fun mobTick() {
         super.mobTick()
-        getBrain().tick(world as ServerWorld, this)
+        this.getBrain().tick(world as ServerWorld, this)
     }
 
     fun setMoveControl(moveControl: MoveControl) {
@@ -462,6 +452,10 @@ open class PokemonEntity(
         if (!countsTowardsSpawnCap) {
             nbt.putBoolean(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP, false)
         }
+        val dataResult: DataResult<NbtElement> = this.brain.encode(NbtOps.INSTANCE)
+        dataResult.resultOrPartial(::error).ifPresent { brain ->
+            nbt.put("Brain", brain)
+        }
 
         // save active effects
         nbt.put(DataKeys.ENTITY_EFFECTS, effects.saveToNbt())
@@ -536,6 +530,10 @@ open class PokemonEntity(
             countsTowardsSpawnCap = nbt.getBoolean(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP)
         }
 
+        if (nbt.contains("Brain", 10)) {
+            this.brain = this.deserializeBrain(Dynamic(NbtOps.INSTANCE, nbt.get("Brain")))
+        }
+
         CobblemonEvents.POKEMON_ENTITY_LOAD.postThen(
             event = PokemonEntityLoadEvent(this, nbt),
             ifSucceeded = {},
@@ -555,13 +553,34 @@ open class PokemonEntity(
     override fun deserializeBrain(dynamic: Dynamic<*>): Brain<*> {
         var target = pokemon
 
-        // todo: can happen with new pokemon, ctor isn't finished at this point.
+        // todo: can happen with new pokemon, actor isn't finished at this point.
         if (target == null) {
             LOGGER.warn("could not make brain for pokemon {}", pos)
             target = Pokemon()
         }
 
         return PokemonBrain.makeBrain(target, createBrainProfile().deserialize(dynamic))
+    }
+
+    private fun initializeBrain() {
+        val nbtOps = NbtOps.INSTANCE
+        this.brain = this.deserializeBrain(
+            Dynamic(
+                nbtOps, nbtOps.createMap(
+                    ImmutableMap.of<NbtElement, NbtElement>(
+                        nbtOps.createString("memories"),
+                        nbtOps.emptyMap() as NbtElement
+                    )
+                ) as NbtElement
+            )
+        )
+    }
+
+    private fun refreshBrain() {
+        if (pokemon == null) {
+            val brain = this.deserializeBrain(Dynamic(NbtOps.INSTANCE, NbtCompound()))
+            this.brain = brain
+        } else initializeBrain()
     }
 
     // cast is safe, mojang do the same thing.
@@ -998,11 +1017,13 @@ open class PokemonEntity(
     override fun remove(reason: RemovalReason) {
         val stateEntity = (pokemon.state as? ActivePokemonState)?.entity
         super.remove(reason)
+
         if (stateEntity == this) {
             pokemon.state = InactivePokemonState()
         }
         subscriptions.forEach(ObservableSubscription<*>::unsubscribe)
         removalObservable.emit(reason)
+        this.brain.forgetAll()
 
         if (reason.shouldDestroy() && pokemon.tetheringId != null) {
             pokemon.tetheringId = null
