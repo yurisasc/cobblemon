@@ -21,7 +21,7 @@ object ParticleMaterials {
         override fun begin(tessellator: Tessellator, textureManager: TextureManager): BufferBuilder {
             RenderSystem.enableBlend()
             RenderSystem.depthMask(true)
-            RenderSystem.setShader { CobblemonShaders.PARTICLE_BLEND }
+            RenderSystem.setShader { CobblemonShaders.PARTICLE_CUTOUT }
             RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE)
             RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
             return tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
@@ -36,7 +36,7 @@ object ParticleMaterials {
             RenderSystem.depthMask(true)
             RenderSystem.setShader { CobblemonShaders.PARTICLE_BLEND }
             RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE)
-            RenderSystem.blendFunc(GlStateManager.SrcFactor.DST_COLOR, GlStateManager.DstFactor.ZERO)
+            RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
             return tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
         }
 
@@ -49,7 +49,7 @@ object ParticleMaterials {
             RenderSystem.depthMask(true)
             RenderSystem.setShader { CobblemonShaders.PARTICLE_BLEND }
             RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE)
-            RenderSystem.blendFunc(GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE)
+            RenderSystem.blendFunc(GlStateManager.SrcFactor.DST_COLOR, GlStateManager.DstFactor.ZERO)
             return tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
         }
 
@@ -62,7 +62,7 @@ object ParticleMaterials {
             RenderSystem.depthMask(true)
             RenderSystem.setShader { CobblemonShaders.PARTICLE_BLEND }
             RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE)
-            RenderSystem.blendFunc(GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO)
+            RenderSystem.blendFunc(GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE)
             return tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
         }
 
