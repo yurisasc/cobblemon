@@ -432,7 +432,7 @@ open class PokemonProperties {
                 } else {
                     PokemonSpecies.getByIdentifier(this.asIdentifierDefaultingNamespace()) ?: return@run
                 }
-                if (properties.species != species.toString()) {
+                if (properties.species != species.resourceIdentifier.toString()) {
                     return false
                 }
             } catch (_: InvalidIdentifierException) {}

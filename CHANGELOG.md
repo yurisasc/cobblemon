@@ -13,6 +13,9 @@
 - Fixed the Magby line not having any placeholder walk animations.
 - Fixed Duskull and Dusclops using skylight levels for their nether spawn data. There is no sun in the Nether!
 - Fixed Crumbling Arch not blending in with the world.
+- Fixed Energy Root applying being usable on a fainted Pokemon.
+- Fixed Pokémon entity not spawning when starting a battle while recalling said Pokémon
+- Fixed species comparison not using namespace for both sides in PokemonProperties.isSubsetOf.
 
 ### Additions
 - Added extra visuals to early berry growth stages
