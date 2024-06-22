@@ -32,6 +32,7 @@ import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
 import org.joml.AxisAngle4d
@@ -153,6 +154,8 @@ class SnowstormParticle(
             ParticleMaterial.ADD -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE)
         }
 
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
+
         vertexConsumer as BufferBuilder
 
         val vec3d = camera.pos
@@ -184,16 +187,15 @@ class SnowstormParticle(
             cameraYaw = camera.yaw,
             cameraPitch = camera.pitch,
             viewDirection = viewDirection
-        )
-
+        ).mul(RotationAxis.POSITIVE_Y.rotationDegrees(180F))
         val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat() / 1.5.toFloat()
         val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat() / 1.5.toFloat()
 
         val particleVertices = arrayOf(
-            Vector3f(-xSize, -ySize, 0.0f),
-            Vector3f(-xSize, ySize, 0.0f),
+            Vector3f(xSize, -ySize, 0.0f),
             Vector3f(xSize, ySize, 0.0f),
-            Vector3f(xSize, -ySize, 0.0f)
+            Vector3f(-xSize, ySize, 0.0f),
+            Vector3f(-xSize, -ySize, 0.0f)
         )
 
         for (k in 0..3) {
