@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.mixin;
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +27,7 @@ public class GameRendererMixin {
             method = "render",
             at = @At(value = "TAIL")
     )
-    public void render(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
+    public void render(RenderTickCounter counter, boolean tick, CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         long newTime = System.currentTimeMillis();
         // Don't play scheduled animations when the game is paused

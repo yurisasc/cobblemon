@@ -58,7 +58,7 @@ object SnowstormParticleReader {
         val spaceJson = componentsJson.get("minecraft:emitter_local_space")?.asJsonObject
         val particleLifetimeEventsJson = componentsJson.get("minecraft:particle_lifetime_events")?.asJsonObject
 
-        val id = Identifier(descJson.get("identifier").asString)
+        val id = Identifier.of(descJson.get("identifier").asString)
         val maxAge = particleLifetimeJson?.get("max_lifetime")?.asString?.asExpression() ?: 0.0.asExpression()
         val killExpression = particleLifetimeJson?.get("expiration_expression")?.asString?.asExpression() ?: 0.0.asExpression()
         val material = ParticleMaterial.valueOf(basicRenderParametersJson.get("material").asString.substringAfter("_").uppercase())

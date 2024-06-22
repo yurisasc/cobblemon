@@ -457,6 +457,13 @@
   "itemGroup.cobblemon.evolution_item": "Evolution Items",
   "itemGroup.cobblemon.archaeology": "Archaeology",
 
+  "block.cobblemon.black_apricorn": "Black Apricorn",
+  "block.cobblemon.blue_apricorn": "Blue Apricorn",
+  "block.cobblemon.green_apricorn": "Green Apricorn",
+  "block.cobblemon.pink_apricorn": "Pink Apricorn",
+  "block.cobblemon.red_apricorn": "Red Apricorn",
+  "block.cobblemon.white_apricorn": "White Apricorn",
+  "block.cobblemon.yellow_apricorn": "Yellow Apricorn",
   "block.cobblemon.apricorn_log": "Apricorn Log",
   "block.cobblemon.stripped_apricorn_log": "Stripped Apricorn Log",
   "block.cobblemon.apricorn_wood": "Apricorn Wood",

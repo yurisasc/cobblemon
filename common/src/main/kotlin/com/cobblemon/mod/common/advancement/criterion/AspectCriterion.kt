@@ -43,7 +43,7 @@ class AspectCriterion(
 //}
 //
 //class AspectCriterionCondition(id: Identifier, predicate: LootContextPredicate) : SimpleCriterionCondition<MutableMap<Identifier, MutableSet<String>>>(id, predicate) {
-//    var pokemon = Identifier("cobblemon:pikachu")
+//    var pokemon = Identifier.of("cobblemon:pikachu")
 //    var aspects = mutableListOf<String>()
 //    override fun toJson(json: JsonObject) {
 //        json.add("aspects", JsonArray(aspects.size).also {

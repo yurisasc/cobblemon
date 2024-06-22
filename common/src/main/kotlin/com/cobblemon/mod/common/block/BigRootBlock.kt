@@ -40,8 +40,8 @@ class BigRootBlock(settings: Settings) : RootBlock(settings) {
         val stack = player.getStackInHand(Hand.MAIN_HAND)
         if (stack.isOf(Items.SHEARS)) {
             this.attemptShear(world, state, pos) {
-                player.getStackInHand(Hand.MAIN_HAND).damage(1, player, EquipmentSlot.MAINHAND)
-                player.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND)
+                player.sendEquipmentBreakStatus(stack.item, EquipmentSlot.MAINHAND)
+                stack.damage(1, player, EquipmentSlot.MAINHAND)
             }
             return ActionResult.success(world.isClient)
         }

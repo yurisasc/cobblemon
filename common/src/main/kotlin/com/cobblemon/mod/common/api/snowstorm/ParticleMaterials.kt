@@ -17,87 +17,55 @@ import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.texture.TextureManager
 
 object ParticleMaterials {
-
     val ALPHA = object : ParticleTextureSheet {
-        override fun begin(builder: BufferBuilder, textureManager: TextureManager) {
-            RenderSystem.disableBlend()
+        override fun begin(tessellator: Tessellator, textureManager: TextureManager): BufferBuilder {
+            RenderSystem.enableBlend()
             RenderSystem.depthMask(true)
             RenderSystem.setShader { CobblemonShaders.PARTICLE_CUTOUT }
             RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE)
-
-
-            builder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
+            RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
+            return tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
         }
 
-        override fun draw(tessellator: Tessellator) {
-            tessellator.draw()
-        }
-
-        override fun toString(): String {
-            return "ALPHA"
-        }
+        override fun toString() = "ALPHA"
     }
 
     val ADD = object : ParticleTextureSheet {
-        override fun begin(builder: BufferBuilder, textureManager: TextureManager) {
+        override fun begin(tessellator: Tessellator, textureManager: TextureManager): BufferBuilder {
             RenderSystem.enableBlend()
             RenderSystem.depthMask(true)
             RenderSystem.setShader { CobblemonShaders.PARTICLE_BLEND }
             RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE)
-
             RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
-
-            builder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
+            return tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
         }
 
-        override fun draw(tessellator: Tessellator) {
-            tessellator.draw()
-        }
-
-        override fun toString(): String {
-            return "ADD"
-        }
+        override fun toString() = "ADD"
     }
 
     val BLEND = object : ParticleTextureSheet {
-        override fun begin(builder: BufferBuilder, textureManager: TextureManager) {
+        override fun begin(tessellator: Tessellator, textureManager: TextureManager): BufferBuilder {
             RenderSystem.enableBlend()
             RenderSystem.depthMask(true)
             RenderSystem.setShader { CobblemonShaders.PARTICLE_BLEND }
             RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE)
-
             RenderSystem.blendFunc(GlStateManager.SrcFactor.DST_COLOR, GlStateManager.DstFactor.ZERO)
-
-            builder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
+            return tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
         }
 
-        override fun draw(tessellator: Tessellator) {
-            tessellator.draw()
-        }
-
-        override fun toString(): String {
-            return "BLEND"
-        }
+        override fun toString() = "BLEND"
     }
 
     val OPAQUE = object : ParticleTextureSheet {
-        override fun begin(builder: BufferBuilder, textureManager: TextureManager) {
+        override fun begin(tessellator: Tessellator, textureManager: TextureManager): BufferBuilder {
             RenderSystem.enableBlend()
             RenderSystem.depthMask(true)
             RenderSystem.setShader { CobblemonShaders.PARTICLE_BLEND }
             RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE)
-
             RenderSystem.blendFunc(GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE)
-
-            builder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
+            return tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT)
         }
 
-        override fun draw(tessellator: Tessellator) {
-            tessellator.draw()
-        }
-
-        override fun toString(): String {
-            return "OPAQUE"
-        }
+        override fun toString() =  "OPAQUE"
     }
 }

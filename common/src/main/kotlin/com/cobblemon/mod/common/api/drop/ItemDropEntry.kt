@@ -39,7 +39,7 @@ open class ItemDropEntry : DropEntry {
     open val quantityRange: IntRange? = null
     override val maxSelectableTimes = 1
     open val dropMethod: ItemDropMethod? = null
-    open val item = Identifier("minecraft:fish")
+    open val item = Identifier.of("minecraft:fish")
     open val components: ComponentMap? = null
 
     override fun drop(entity: LivingEntity?, world: ServerWorld, pos: Vec3d, player: ServerPlayerEntity?) {

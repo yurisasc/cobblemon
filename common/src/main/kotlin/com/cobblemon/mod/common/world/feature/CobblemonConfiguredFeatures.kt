@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.world.feature
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.world.gen.feature.ConfiguredFeature
 import net.minecraft.world.gen.feature.ConfiguredFeatures
 
@@ -41,6 +43,6 @@ object CobblemonConfiguredFeatures {
     @JvmField
     val BERRY_GROVE_KEY = of("berry_groves")
 
-    private fun of(id: String): RegistryKey<ConfiguredFeature<*, *>> = ConfiguredFeatures.of("${Cobblemon.MODID}:$id")
+    private fun of(id: String): RegistryKey<ConfiguredFeature<*, *>> = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, cobblemonResource(id))
 
 }

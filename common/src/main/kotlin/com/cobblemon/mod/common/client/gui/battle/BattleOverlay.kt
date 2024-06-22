@@ -48,6 +48,7 @@ import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderTickCounter
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.MathHelper.ceil
@@ -91,7 +92,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()), Schedulable {
 
     override val schedulingTracker = SchedulingTracker()
 
-    override fun render(context: DrawContext, tickDelta: Float) {
+    override fun render(context: DrawContext, tickCounter: RenderTickCounter) {
+        val tickDelta = tickCounter.getTickDelta(false)
         schedulingTracker.update(tickDelta / 20F)
         passedSeconds += tickDelta / 20
         if (passedSeconds > 100) {
@@ -425,7 +427,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()), Schedulable {
         val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
         val buffer = immediate.getBuffer(renderType)
         val packedLight = LightmapTextureManager.pack(11, 7)
-        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
 
         immediate.draw()
 

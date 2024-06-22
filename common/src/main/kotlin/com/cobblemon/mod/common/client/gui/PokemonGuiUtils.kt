@@ -92,7 +92,7 @@ fun drawProfilePokemon(
     val packedLight = LightmapTextureManager.pack(11, 7)
 
     model.withLayerContext(bufferSource, state, PokemonModelRepository.getLayers(species, aspects)) {
-        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
         bufferSource.draw()
     }
     model.setDefault()

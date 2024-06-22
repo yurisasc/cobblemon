@@ -35,21 +35,6 @@ import net.minecraft.util.math.RotationAxis
 import org.joml.Matrix3f
 import org.joml.Matrix4f
 
-fun renderImage(texture: Identifier, x: Double, y: Double, height: Double, width: Double) {
-    val textureManager = MinecraftClient.getInstance().textureManager
-
-    val buffer = Tessellator.getInstance().buffer
-    buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE)
-    textureManager.bindTexture(texture)
-
-    buffer.vertex(x, y + height, 0.0).texture(0f, 1f).next()
-    buffer.vertex(x + width, y + height, 0.0).texture(1f, 1f).next()
-    buffer.vertex(x + width, y, 0.0).texture(1f, 0f).next()
-    buffer.vertex(x, y, 0.0).texture(0f, 0f).next()
-
-    Tessellator.getInstance().draw()
-}
-
 fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: Double = 1.0, zTranslation: Float = 100.0F, matrixStack: MatrixStack? = null) {
     val itemRenderer = MinecraftClient.getInstance().itemRenderer
     val textureManager = MinecraftClient.getInstance().textureManager
@@ -358,7 +343,7 @@ fun renderQuad(
 }
 
 fun addVertex(
-    matrixEntry: MatrixStack.Entry,
+    matrixEntry: Entry,
     buffer: VertexConsumer,
     red: Float,
     green: Float,
@@ -377,5 +362,4 @@ fun addVertex(
         .overlay(OverlayTexture.DEFAULT_UV)
         .light(15728880)
         .normal(matrixEntry, 0.0f, 1.0f, 0.0f)
-        .next()
 }

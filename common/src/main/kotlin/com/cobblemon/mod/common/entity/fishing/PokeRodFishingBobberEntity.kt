@@ -339,7 +339,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     serverWorld.spawnParticles(ParticleTypes.FISHING, offsetX, offsetY, j, 0, l.toDouble(), 0.01, -k.toDouble(), 1.0)
                     serverWorld.spawnParticles(ParticleTypes.FISHING, offsetX, offsetY, j, 0, -l.toDouble(), 0.01, k.toDouble(), 1.0)
                     // create tiny splash particles for fishing trail
-                    //particleEntityHandler(this, Identifier("cobblemon","bob_splash"))
+                    //particleEntityHandler(this, Identifier.of("cobblemon","bob_splash"))
                 }
             } else {
                 //playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25f, 1.0f + (random.nextFloat() - random.nextFloat()) * 0.4f)
@@ -347,7 +347,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 world.playSound(null, this.blockPos, CobblemonSounds.FISHING_NOTIFICATION, SoundCategory.BLOCKS, 1.0F, 1.0F)
 
                 // create tiny splash particle when there is a bite
-                particleEntityHandler(this, Identifier("cobblemon","bob_splash"))
+                particleEntityHandler(this, Identifier.of("cobblemon","bob_splash"))
 
                 val m = this.y + 0.5
                 serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
@@ -408,7 +408,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_LAND, SoundCategory.NEUTRAL, 1.0F, 1.0F)
 
                 // create tiny splash particle
-                particleEntityHandler(this, Identifier("cobblemon","bob_splash"))
+                particleEntityHandler(this, Identifier.of("cobblemon","bob_splash"))
 
                 isCast = true
             }
@@ -718,14 +718,14 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 }
 
                 // create accessory splash particle when you fish something up
-                particleEntityHandler(this, Identifier("cobblemon","accessory_fish_splash"))
+                particleEntityHandler(this, Identifier.of("cobblemon","accessory_fish_splash"))
 
                 if (spawnedPokemon.pokemon.species.weight.toDouble() < 900.0) { // if weight value of Pokemon is less than 200 lbs (in hectograms) which we store weight as) then reel it in to the player
                     // play sound for small splash when this weight class is fished up
                     world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F)
 
                     // create small splash particle for small pokemon
-                    particleEntityHandler(this, Identifier("cobblemon","small_fish_splash"))
+                    particleEntityHandler(this, Identifier.of("cobblemon","small_fish_splash"))
 
                     // direction and position
                     val rad = Math.toRadians(player.yaw.toDouble() + 180)
@@ -739,7 +739,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 }
                 else { // it is a big lad and you cannot reel it in
                     // create big splash particle for large pokemon
-                    particleEntityHandler(this, Identifier("cobblemon","big_fish_splash"))
+                    particleEntityHandler(this, Identifier.of("cobblemon","big_fish_splash"))
 
                     world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_BIG, SoundCategory.BLOCKS, 1.0F, 1.0F)
 

@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.sherds
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.block.DecoratedPotPattern
 import net.minecraft.item.Item
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -20,7 +21,7 @@ import net.minecraft.util.Identifier
 @Suppress("Unused")
 object CobblemonSherds {
     val allSherds = mutableListOf<CobblemonSherd>()
-    val sherdToPattern = mutableMapOf<Item, RegistryKey<String>>()
+    val sherdToPattern = mutableMapOf<Item, RegistryKey<DecoratedPotPattern>>()
 
     val BYGONE_SHERD = addSherd(cobblemonResource("bygone_pottery_pattern"), CobblemonItems.BYGONE_SHERD)
 
@@ -48,7 +49,7 @@ object CobblemonSherds {
             Registry.register(
                 registry,
                 regKey,
-                sherd.patternId.path
+                DecoratedPotPattern(sherd.item.registryEntry.registryKey().value) // TODO check me
             )
         }
     }

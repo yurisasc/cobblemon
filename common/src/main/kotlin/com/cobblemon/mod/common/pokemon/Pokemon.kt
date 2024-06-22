@@ -957,8 +957,8 @@ open class Pokemon : ShowdownIdentifiable {
         uuid = nbt.getUuid(DataKeys.POKEMON_UUID)
         try {
             val rawID = nbt.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER).replace("pokemonCobblemon", "cobblemon")
-            species = PokemonSpecies.getByIdentifier(Identifier(rawID))
-                ?: throw InvalidSpeciesException(Identifier(rawID))
+            species = PokemonSpecies.getByIdentifier(Identifier.of(rawID))
+                ?: throw InvalidSpeciesException(Identifier.of(rawID))
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to read a species identifier from NBT")
         }
@@ -968,9 +968,9 @@ open class Pokemon : ShowdownIdentifiable {
         experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE).takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
         friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt().coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonFriendship)
         gender = Gender.valueOf(nbt.getString(DataKeys.POKEMON_GENDER).takeIf { it.isNotBlank() } ?: Gender.MALE.name)
-        currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
         evs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_EVS))
+        currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         moveSet.loadFromNBT(nbt)
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         if (nbt.contains(DataKeys.POKEMON_ABILITY, COMPOUND_TYPE.toInt())) {
@@ -990,7 +990,7 @@ open class Pokemon : ShowdownIdentifiable {
         faintedTimer = nbt.getInt(DataKeys.POKEMON_FAINTED_TIMER)
         healTimer = nbt.getInt(DataKeys.POKEMON_HEALING_TIMER)
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
-        caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
+        caughtBall = PokeBalls.getPokeBall(Identifier.of(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
         val propertiesList = nbt.getList(DataKeys.POKEMON_DATA, NbtString.STRING_TYPE.toInt())
         val properties = PokemonProperties.parse(propertiesList.joinToString(separator = " ") { it.asString() }, " ")
@@ -1001,9 +1001,9 @@ open class Pokemon : ShowdownIdentifiable {
             features.removeIf { it.name == feature.name }
             features.add(feature)
         }
-        this.nature = nbt.getString(DataKeys.POKEMON_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
+        this.nature = nbt.getString(DataKeys.POKEMON_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier.of(it))!! } ?: Natures.getRandomNature()
         if (nbt.contains(DataKeys.POKEMON_MINTED_NATURE)) {
-            this.mintedNature = nbt.getString(DataKeys.POKEMON_MINTED_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier(it)) }
+            this.mintedNature = nbt.getString(DataKeys.POKEMON_MINTED_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier.of(it)) }
         }
         this.forcedAspects = nbt.getList(DataKeys.POKEMON_FORCED_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
         updateAspects()
@@ -1080,8 +1080,8 @@ open class Pokemon : ShowdownIdentifiable {
         uuid = UUID.fromString(json.get(DataKeys.POKEMON_UUID).asString)
         try {
             val rawID = json.get(DataKeys.POKEMON_SPECIES_IDENTIFIER).asString.replace("pokemonCobblemon", "cobblemon")
-            species = PokemonSpecies.getByIdentifier(Identifier(rawID))
-                ?: throw InvalidSpeciesException(Identifier(rawID))
+            species = PokemonSpecies.getByIdentifier(Identifier.of(rawID))
+                ?: throw InvalidSpeciesException(Identifier.of(rawID))
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
@@ -1122,7 +1122,7 @@ open class Pokemon : ShowdownIdentifiable {
             status = PersistentStatusContainer.loadFromJSON(statusJson)
         }
         val ballName = json.get(DataKeys.POKEMON_CAUGHT_BALL).asString
-        caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
+        caughtBall = PokeBalls.getPokeBall(Identifier.of(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
         healTimer = json.get(DataKeys.POKEMON_HEALING_TIMER).asInt
@@ -1135,9 +1135,9 @@ open class Pokemon : ShowdownIdentifiable {
             features.removeIf { it.name == feature.name }
             features.add(feature)
         }
-        this.nature = json.get(DataKeys.POKEMON_NATURE).asString?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
+        this.nature = json.get(DataKeys.POKEMON_NATURE).asString?.let { Natures.getNature(Identifier.of(it))!! } ?: Natures.getRandomNature()
         if (json.has(DataKeys.POKEMON_MINTED_NATURE)) {
-            this.mintedNature = json.get(DataKeys.POKEMON_MINTED_NATURE).asString?.let { Natures.getNature(Identifier(it)) }
+            this.mintedNature = json.get(DataKeys.POKEMON_MINTED_NATURE).asString?.let { Natures.getNature(Identifier.of(it)) }
         }
         this.forcedAspects = json.getAsJsonArray(DataKeys.POKEMON_FORCED_ASPECTS)?.map { it.asString }?.toSet() ?: emptySet()
         updateAspects()

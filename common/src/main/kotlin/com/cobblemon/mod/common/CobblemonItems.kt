@@ -51,7 +51,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.SignItem
 import net.minecraft.item.SmithingTemplateItem
-import net.minecraft.item.StewItem
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -426,7 +425,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val BRAISED_VIVICHOKE = create("braised_vivichoke", Item(Item.Settings().food(FoodComponent.Builder().nutrition(6).saturationModifier(0.6f).build())))
     @JvmField
-    val VIVICHOKE_DIP = create("vivichoke_dip", object : StewItem(Settings().maxCount(1)
+    val VIVICHOKE_DIP = create("vivichoke_dip", object : Item(Settings().maxCount(1)
         .food(FoodComponent.Builder()
             .nutrition(10)
             .saturationModifier(1.2F)
@@ -467,7 +466,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val HEAL_POWDER = create("heal_powder", HealPowderItem())
     @JvmField
-    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().nutrition(8).saturationModifier(0.6f).build()).maxCount(1)))
+    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", Item(Item.Settings().food(FoodComponent.Builder().nutrition(8).saturationModifier(0.6f).build()).maxCount(1)))
     @JvmField
     val REVIVE = create("revive", ReviveItem(max = false))
     @JvmField

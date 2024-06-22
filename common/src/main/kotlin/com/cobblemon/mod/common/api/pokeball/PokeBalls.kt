@@ -254,5 +254,4 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         val identifier = cobblemonResource(name)
         return this.custom[identifier] ?: this.defaults[identifier]!!
     }
-
 }

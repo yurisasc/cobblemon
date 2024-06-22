@@ -574,21 +574,27 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         buffer: VertexConsumer,
         packedLight: Int,
         packedOverlay: Int,
-        r: Float,
-        g: Float,
-        b: Float,
-        a: Float
+        color: Int
     ) {
+        val r = (color shr 16 and 255) / 255F
+        val g = (color shr 8 and 255) / 255F
+        val b = (color and 255) / 255F
+        val a = (color shr 24 and 255) / 255F
+
+        val r2 = r * red
+        val g2 = g * green
+        val b2 = b * blue
+        val a2 = a * alpha
+
+        val color2 = (a2 * 255).toInt() shl 24 or ((r2 * 255).toInt() shl 16) or ((g2 * 255).toInt() shl 8) or (b2 * 255).toInt()
+
         rootPart.render(
             context,
             stack,
             buffer,
             packedLight,
             packedOverlay,
-            red * r,
-            green * g,
-            blue * b,
-            alpha * a
+            color2
         )
 
         val provider = bufferProvider
@@ -597,6 +603,13 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
                 val texture = layer.texture?.invoke(currentState?.animationSeconds ?: 0F) ?: continue
                 val renderLayer = getLayer(texture, layer.emissive, layer.translucent)
                 val consumer = provider.getBuffer(renderLayer)
+                val tint = layer.tint
+                val tintRed = (tint.x * 255).toInt()
+                val tintGreen = (tint.y * 255).toInt()
+                val tintBlue = (tint.z * 255).toInt()
+                val tintAlpha = (tint.w * 255).toInt()
+                val tintColor = tintAlpha shl 24 or (tintRed shl 16) or (tintGreen shl 8) or tintBlue
+
                 stack.push()
                 rootPart.render(
                     context,
@@ -604,10 +617,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
                     consumer,
                     packedLight,
                     packedOverlay,
-                    layer.tint.x,
-                    layer.tint.y,
-                    layer.tint.z,
-                    layer.tint.w
+                    tintColor
                 )
                 stack.pop()
             }

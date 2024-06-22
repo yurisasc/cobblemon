@@ -149,7 +149,7 @@ class HealingMachineBlockEntity(
                     continue
                 }
                 val actualIndex = key.toIntOrNull() ?: index
-                val pokeBall = PokeBalls.getPokeBall(Identifier(pokeBallId))
+                val pokeBall = PokeBalls.getPokeBall(Identifier.of(pokeBallId))
                 if (pokeBall != null) {
                     this.pokeBallMap[actualIndex] = pokeBall
                 }

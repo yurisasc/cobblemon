@@ -26,11 +26,11 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.shape.VoxelShape
 
-fun cobblemonResource(path: String) = Identifier(Cobblemon.MODID, path)
-fun cobblemonModel(path: String, variant: String) = ModelIdentifier("cobblemon", path, variant)
+fun cobblemonResource(path: String) = Identifier.of(Cobblemon.MODID, path)
+fun cobblemonModel(path: String, variant: String) = ModelIdentifier(cobblemonResource(path), variant)
 
 fun String.asTranslated() = Text.translatable(this)
-fun String.asResource() = Identifier(this)
+fun String.asResource() = Identifier.of(this)
 fun String.asTranslated(vararg data: Any) = Text.translatable(this, *data)
 fun String.isInt() = this.toIntOrNull() != null
 fun String.isHigherVersion(other: String): Boolean {

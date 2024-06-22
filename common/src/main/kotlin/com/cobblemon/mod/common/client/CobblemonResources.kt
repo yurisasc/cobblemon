@@ -22,5 +22,5 @@ object CobblemonResources {
     /**
      * Fonts
      */
-    val DEFAULT_LARGE = Identifier("uniform")
+    val DEFAULT_LARGE = Identifier.of("uniform")
 }

@@ -278,12 +278,12 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
-        npc = NPCClasses.getByIdentifier(Identifier(nbt.getString(DataKeys.NPC_CLASS))) ?: NPCClasses.classes.first()
+        npc = NPCClasses.getByIdentifier(Identifier.of(nbt.getString(DataKeys.NPC_CLASS))) ?: NPCClasses.classes.first()
         data = MoLangFunctions.readMoValueFromNBT(nbt.getCompound(DataKeys.NPC_DATA)) as VariableStruct
         appliedAspects.addAll(nbt.getList(DataKeys.NPC_ASPECTS, NbtList.STRING_TYPE.toInt()).map { it.asString() })
         nbt.getString(DataKeys.NPC_INTERACTION).takeIf { it.isNotBlank() }?.let {
-            if (Identifier.isValid(it)) {
-                interaction = Either.left(Identifier(it))
+            if (Identifier.tryParse(it) != null) {
+                interaction = Either.left(Identifier.of(it))
             } else {
                 interaction = Either.right(it.asExpressionLike())
             }

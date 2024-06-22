@@ -107,8 +107,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
     }
 
     fun renderBabyToBuffer(entity: BerryBlockEntity, light: Int, overlay: Int, buffer: VertexBuffer) {
-        val bufferBuilder = Tessellator.getInstance().buffer
-        bufferBuilder.begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
+        val bufferBuilder = Tessellator.getInstance().begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
         val berry = entity.berry() ?: return
         val model = BerryModelRepository.modelOf(berry.fruitModelIdentifier) ?: return
         val pos = berry.stageOnePositioning.position
@@ -135,8 +134,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             return
         }
         val isFlower = age == BerryBlock.FLOWER_AGE
-        val bufferBuilder = Tessellator.getInstance().buffer
-        bufferBuilder.begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
+        val bufferBuilder = Tessellator.getInstance().begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
         for ((berry, growthPoint) in entity.berryAndGrowthPoint()) {
             val model = (if (isFlower) BerryModelRepository.modelOf(berry.flowerModelIdentifier) else BerryModelRepository.modelOf(berry.fruitModelIdentifier)) ?: continue
             model.setAngles(

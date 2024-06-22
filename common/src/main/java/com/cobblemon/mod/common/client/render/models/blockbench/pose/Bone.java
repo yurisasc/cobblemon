@@ -42,10 +42,7 @@ public interface Bone {
      * @param buffer The vertex consumer deployed by the renderer
      * @param packedLight The light level to be applied to the bone
      * @param packedOverlay The overlay value to be applied to the bone
-     * @param r A value representing the amount of red coloring that should be applied on the RGB scale
-     * @param g A value representing the amount of green coloring that should be applied on the RGB scale
-     * @param b A value representing the amount of blue coloring that should be applied on the RGB scale
-     * @param a The alpha value to apply to the model based on the RGB scale
+     * @param color RGBA packed integer color value
      *
      * @since 1.4.0
      */
@@ -55,10 +52,7 @@ public interface Bone {
             VertexConsumer buffer,
             int packedLight,
             int packedOverlay,
-            float r,
-            float g,
-            float b,
-            float a
+            int color
     );
 
     /**

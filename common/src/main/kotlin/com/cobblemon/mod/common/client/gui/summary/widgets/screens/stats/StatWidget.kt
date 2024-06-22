@@ -100,11 +100,10 @@ class StatWidget(
     ) {
         CobblemonResources.WHITE.let { RenderSystem.setShaderTexture(0, it) }
         RenderSystem.setShaderColor(colour.x, colour.y, colour.z, 0.6F)
-        val bufferBuilder = Tessellator.getInstance().buffer
-        bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION)
-        bufferBuilder.vertex(v1.x.toDouble(), v1.y.toDouble(), 10.0).next()
-        bufferBuilder.vertex(v2.x.toDouble(), v2.y.toDouble(), 10.0).next()
-        bufferBuilder.vertex(v3.x.toDouble(), v3.y.toDouble(), 10.0).next()
+        val bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION)
+        bufferBuilder.vertex(v1.x, v1.y, 10F)
+        bufferBuilder.vertex(v2.x, v2.y, 10F)
+        bufferBuilder.vertex(v3.x, v3.y, 10F)
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
         RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
     }

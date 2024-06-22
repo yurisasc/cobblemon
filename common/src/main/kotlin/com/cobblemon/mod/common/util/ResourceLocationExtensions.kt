@@ -33,7 +33,7 @@ fun Identifier.extractTo(directory : File) {
  */
 fun String.asIdentifierDefaultingNamespace(namespace: String = Cobblemon.MODID): Identifier {
     val id = this.lowercase()
-    return if (id.contains(":")) Identifier(id.substringBefore(":"), id.substringAfter(":")) else Identifier(namespace, id)
+    return if (id.contains(":")) Identifier.of(id.substringBefore(":"), id.substringAfter(":")) else Identifier.of(namespace, id)
 }
 
 /**

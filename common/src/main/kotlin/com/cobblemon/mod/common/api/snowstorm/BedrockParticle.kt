@@ -28,7 +28,7 @@ import net.minecraft.util.Identifier
  * @since January 4th, 2023
  */
 class BedrockParticle(
-    var texture: Identifier = Identifier("minecraft:textures/particles/bubble.png"),
+    var texture: Identifier = Identifier.of("minecraft:textures/particles/bubble.png"),
     var material: ParticleMaterial = ParticleMaterial.ALPHA,
     var uvMode: ParticleUVMode = StaticParticleUVMode(),
     var sizeX: Expression = NumberExpression(0.15),

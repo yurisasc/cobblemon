@@ -71,6 +71,7 @@ import net.minecraft.world.World
 import java.util.concurrent.CompletableFuture
 import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
 import net.minecraft.network.packet.s2c.play.BundleS2CPacket
+import net.minecraft.server.network.EntityTrackerEntry
 
 class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, Schedulable {
     enum class CaptureState {
@@ -119,6 +120,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
         .addFunction("ball_type") { StringValue(pokeBall.name.toString()) }
 
     override fun initDataTracker(builder: DataTracker.Builder) {
+        pokeBall = PokeBalls.POKE_BALL
         super.initDataTracker(builder)
         builder.add(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
         builder.add(ASPECTS, emptySet())
@@ -470,9 +472,9 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
         return PoseType.NONE
     }
 
-    override fun canUsePortals() = false
+    override fun canUsePortals(allowVehicles: Boolean) = false
 
-    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CustomPayloadS2CPacket(SpawnPokeballPacket(this.pokeBall, this.aspects, super.createSpawnPacket() as EntitySpawnS2CPacket)) as Packet<ClientPlayPacketListener>
+    override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry): Packet<ClientPlayPacketListener> = CustomPayloadS2CPacket(SpawnPokeballPacket(this.pokeBall, this.aspects, super.createSpawnPacket(entityTrackerEntry) as EntitySpawnS2CPacket)) as Packet<ClientPlayPacketListener>
 
     override fun waterDrag(): Float = this.pokeBall.waterDragValue
 

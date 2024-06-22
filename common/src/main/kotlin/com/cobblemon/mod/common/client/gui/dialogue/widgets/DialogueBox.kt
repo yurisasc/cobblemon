@@ -30,8 +30,8 @@ import net.minecraft.util.Language
  */
 class DialogueBox(
     val dialogueScreen: DialogueScreen,
-    x: Int = 0,
-    y: Int = 0,
+    val listX: Int = 0,
+    val listY: Int = 0,
     val frameWidth: Int,
     height: Int,
     messages: List<MutableText>
@@ -52,10 +52,7 @@ class DialogueBox(
         get() = y
 
     init {
-        this.x = x
-        this.y = y
         correctSize()
-        //setRenderBackground(false)
 
         val textRenderer = MinecraftClient.getInstance().textRenderer
 
@@ -64,10 +61,25 @@ class DialogueBox(
             .forEach { addEntry(DialogueLine(it)) }
     }
 
+    override fun drawMenuListBackground(context: DrawContext) {}
+    override fun drawSelectionHighlight(context: DrawContext, y: Int, entryWidth: Int, entryHeight: Int, borderColor: Int, fillColor: Int) {}
+    override fun renderHeader(context: DrawContext?, x: Int, y: Int) {
+//        super.renderHeader(context, x, y)
+    }
+
+    override fun drawHeaderAndFooterSeparators(context: DrawContext?) {}
+
+    override fun renderDecorations(context: DrawContext?, mouseX: Int, mouseY: Int) {
+//        super.renderDecorations(context, mouseX, mouseY)
+    }
+
     private fun correctSize() {
         val textBoxHeight = height
-        setDimensionsAndPosition(width, textBoxHeight, appropriateY + 6, appropriateY + 6 + textBoxHeight)
-        setX(appropriateX + 8)
+        setDimensions(width, textBoxHeight)
+        x = listX + 8
+        y = listY + 6
+//        setDimensionsAndPosition(width, textBoxHeight, appropriateY + 6, appropriateY + 6 + textBoxHeight)
+//        setX(appropriateX + 8)
     }
 
     companion object {
@@ -97,15 +109,15 @@ class DialogueBox(
         blitk(
             matrixStack = context.matrices,
             texture = boxResource,
-            x = this.x - 8,
-            y = appropriateY - 1,
-            height = height + 12, // used to be FRAME_HEIGHT as below
+            x = x - 8,
+            y = y - 7,
+            height = height + 12,
             width = frameWidth,
             alpha = opacity
         )
 
 
-        super.render(context, mouseX, mouseY, partialTicks)
+        super.renderWidget(context, mouseX, mouseY, partialTicks)
 //        context.disableScissor()
     }
 
@@ -113,9 +125,9 @@ class DialogueBox(
         val textBoxHeight = height
         context.enableScissor(
             this.x,
-            appropriateY + 7,
+            appropriateY,
             this.x + width - 10,
-            appropriateY + 7 + textBoxHeight
+            appropriateY + textBoxHeight
         )
     }
 
@@ -166,6 +178,19 @@ class DialogueBox(
 
     class DialogueLine(val line: OrderedText) : Entry<DialogueLine>() {
         override fun getNarration() = "".text()
+        override fun drawBorder(
+            context: DrawContext?,
+            index: Int,
+            y: Int,
+            x: Int,
+            entryWidth: Int,
+            entryHeight: Int,
+            mouseX: Int,
+            mouseY: Int,
+            hovered: Boolean,
+            tickDelta: Float
+        ) {}
+
         override fun render(
             context: DrawContext,
             index: Int,

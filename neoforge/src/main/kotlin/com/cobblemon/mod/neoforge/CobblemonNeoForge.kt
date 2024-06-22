@@ -229,7 +229,7 @@ class CobblemonNeoForge : CobblemonImplementation {
     override fun registerDataComponents() {
         MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonItemComponents.registryKey) { helper ->
-                CobblemonItemComponents.register { identifier, dataComponentType ->  helper.register(identifier, dataComponentType)}
+                CobblemonItemComponents.register { identifier, ComponentType ->  helper.register(identifier, ComponentType)}
             }
         }
     }
@@ -383,7 +383,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
             resource.inputStream.use { stream ->
                 stream.bufferedReader().use { reader ->
-                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    val resolvedIdentifier = Identifier.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
                     try {
                         data[resolvedIdentifier] = registry.gson.fromJson(reader, registry.typeToken.type)
                     } catch (exception: Exception) {

@@ -23,8 +23,8 @@ import net.minecraft.util.Identifier
  */
 object IdentifierDataSerializer : TrackedDataHandler<Identifier> {
     val ID = cobblemonResource("identifier")
-    override fun copy(value: Identifier) = Identifier(value.namespace, value.path)
-    fun read(buf: PacketByteBuf) = Identifier(buf.readString(), buf.readString())
+    override fun copy(value: Identifier) = Identifier.of(value.namespace, value.path)
+    fun read(buf: PacketByteBuf) = Identifier.of(buf.readString(), buf.readString())
     fun write(buf: PacketByteBuf, value: Identifier) {
         buf.writeString(value.namespace)
         buf.writeString(value.path)

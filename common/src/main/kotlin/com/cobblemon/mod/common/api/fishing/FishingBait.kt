@@ -39,8 +39,8 @@ data class FishingBait(
 
         companion object {
             fun fromNbt(nbt: NbtCompound): Effect {
-                val type = Identifier(nbt.getString("Type"))
-                val subcategory = if (nbt.contains("Subcategory")) Identifier(nbt.getString("Subcategory")) else null
+                val type = Identifier.of(nbt.getString("Type"))
+                val subcategory = if (nbt.contains("Subcategory")) Identifier.of(nbt.getString("Subcategory")) else null
                 val chance = nbt.getDouble("Chance")
                 val value = nbt.getDouble("Value")
                 return Effect(type, subcategory, chance, value)
@@ -59,7 +59,7 @@ data class FishingBait(
 
     companion object {
         fun fromNbt(nbt: NbtCompound): FishingBait {
-            val item = Identifier(nbt.getString("Item"))
+            val item = Identifier.of(nbt.getString("Item"))
             val effectsList = nbt.getList("Effects", 10) // 10 is the type for NbtCompound
             val effects = mutableListOf<Effect>()
             for (i in 0 until effectsList.size) {

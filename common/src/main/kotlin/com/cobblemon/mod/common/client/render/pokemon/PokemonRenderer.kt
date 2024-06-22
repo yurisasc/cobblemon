@@ -413,7 +413,7 @@ class PokemonRenderer(
 //        model.animateModel(null, 0f, 0F, 0F)
         val buffer = ItemRenderer.getDirectItemGlintConsumer(buff, RenderLayer.getEntityCutout(texture), false, false)
 //        matrixStack.scale(scale, scale, scale)
-        model.render(ballContext, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(ballContext, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
         model.green = 1f
         model.blue = 1f
         model.red = 1f

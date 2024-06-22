@@ -301,7 +301,7 @@ object CobblemonFabric : CobblemonImplementation {
 
                 resource.inputStream.use { stream ->
                     stream.bufferedReader().use { reader ->
-                        val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                        val resolvedIdentifier = Identifier.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
                         try {
                             data[resolvedIdentifier] = registry.gson.fromJson(reader, registry.typeToken.type)
                         } catch (exception: Exception) {
@@ -337,7 +337,7 @@ object CobblemonFabric : CobblemonImplementation {
 
                 orderedResources[0].inputStream.use { stream ->
                     stream.bufferedReader().use { reader ->
-                        val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                        val resolvedIdentifier = Identifier.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
                         try {
                             data[resolvedIdentifier] = registry.gson.fromJson(reader, registry.typeToken.type)
                         } catch (exception: Exception) {
