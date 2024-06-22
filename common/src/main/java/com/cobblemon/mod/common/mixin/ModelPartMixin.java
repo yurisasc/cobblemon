@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Mixin(ModelPart.class)
 public abstract class ModelPartMixin implements Bone {
-    @Shadow public abstract void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha);
+    @Shadow public abstract void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color);
 
     @Shadow public abstract void rotate(MatrixStack matrixStack);
 
@@ -36,8 +36,8 @@ public abstract class ModelPartMixin implements Bone {
     }
 
     @Override
-    public void render(RenderContext context, MatrixStack stack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
-        this.render(stack, buffer, packedLight, packedOverlay, r, g, b, a);
+    public void render(RenderContext context, MatrixStack stack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
+        this.render(stack, buffer, packedLight, packedOverlay, color);
     }
 
     @Override

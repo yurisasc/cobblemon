@@ -33,9 +33,9 @@ class EitherIdentifierOrTagAdapter<E, T : Registry<E>>(val registryKey: Registry
     ): Either<Identifier, TagKey<E>> {
         val string = element.asString
         return if (string.startsWith("#")) {
-            Either.right(TagKey.of(registryKey, Identifier(string.substring(1))))
+            Either.right(TagKey.of(registryKey, Identifier.of(string.substring(1))))
         } else {
-            Either.left(Identifier(string))
+            Either.left(Identifier.of(string))
         }
     }
 }

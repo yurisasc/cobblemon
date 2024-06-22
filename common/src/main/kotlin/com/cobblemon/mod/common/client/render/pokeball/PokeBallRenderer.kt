@@ -48,7 +48,7 @@ class PokeBallRenderer(context: EntityRendererFactory.Context) : EntityRenderer<
         state.updatePartialTicks(partialTicks)
         model.setLayerContext(buffer, state, PokemonModelRepository.getLayers(entity.pokeBall.name, entity.aspects))
         this.model.setAngles(entity, 0f, 0f, entity.age + partialTicks, 0F, 0F)
-        this.model.render(poseStack, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f)
+        this.model.render(poseStack, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
 
         model.green = 1F
         model.blue = 1F

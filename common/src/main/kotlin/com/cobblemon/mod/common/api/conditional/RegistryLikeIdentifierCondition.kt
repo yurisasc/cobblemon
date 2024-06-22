@@ -22,7 +22,7 @@ open class RegistryLikeIdentifierCondition<T>(val identifier: Identifier) : Regi
     companion object {
         fun <T> resolver(
             constructor: (Identifier) -> RegistryLikeIdentifierCondition<T>
-        ): (JsonElement) -> RegistryLikeIdentifierCondition<T>? = { constructor(Identifier(it.asString)) }
+        ): (JsonElement) -> RegistryLikeIdentifierCondition<T>? = { constructor(Identifier.of(it.asString)) }
     }
     override fun fits(t: T, registry: Registry<T>) = registry.getId(t) == identifier
 }

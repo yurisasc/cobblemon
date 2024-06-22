@@ -1,5 +1,5 @@
 modLoader="kotlinforforge" #mandatory
-loaderVersion="[3,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+loaderVersion="[5.3,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 license="MPL2.0"
 issueTrackerURL="https://gitlab.com/cable-mc/cobblemon/-/issues"
 
@@ -9,7 +9,7 @@ version="${version}" #mandatory
 displayName="Cobblemon" #mandatory
 displayURL="https://cobblemon.com/"
 #logoFile="examplemod.png" #optional
-credits="Thanks to Mojang, Blockbench, Smogon, Sam Cao, and the many community contributors"
+credits="Thanks to Mojang, Blockbench, Smogon, and the many community contributors"
 authors="The Cobblemon Team"
 description='''
  Adds Pokémon to the world, letting you find, battle, capture, and evolve them.

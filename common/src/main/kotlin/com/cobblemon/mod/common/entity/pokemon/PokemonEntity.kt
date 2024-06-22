@@ -105,6 +105,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.FluidTags
+import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
@@ -588,7 +589,7 @@ open class PokemonEntity(
         )
     }
 
-    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CustomPayloadS2CPacket(SpawnPokemonPacket(this, super.createSpawnPacket() as EntitySpawnS2CPacket)) as Packet<ClientPlayPacketListener>
+    override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry): Packet<ClientPlayPacketListener> = CustomPayloadS2CPacket(SpawnPokemonPacket(this, super.createSpawnPacket(entityTrackerEntry) as EntitySpawnS2CPacket)) as Packet<ClientPlayPacketListener>
 
     override fun getPathfindingPenalty(nodeType: PathNodeType): Float {
         return if (nodeType == PathNodeType.OPEN) 2F else super.getPathfindingPenalty(nodeType)
@@ -623,7 +624,7 @@ open class PokemonEntity(
 
         goalSelector.add(1, PokemonBreatheAirGoal(this))
         goalSelector.add(2, PokemonFloatToSurfaceGoal(this))
-        goalSelector.add(3, PokemonFollowOwnerGoal(this, 1.0, 8F, 2F, false))
+        goalSelector.add(3, PokemonFollowOwnerGoal(this, 1.0, 8F, 2F))
         goalSelector.add(4, PokemonMoveIntoFluidGoal(this))
         goalSelector.add(5, SleepOnTrainerGoal(this))
         goalSelector.add(5, WildRestGoal(this))
@@ -875,7 +876,7 @@ open class PokemonEntity(
 
     override fun playAmbientSound() {
         if (!this.isSilent || this.busyLocks.filterIsInstance<EmptyPokeBallEntity>().isEmpty()) {
-            val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
+            val sound = Identifier.of(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
             // ToDo distance to travel is currently hardcoded to default we can maybe find a way to work around this down the line
             UnvalidatedPlaySoundS2CPacket(sound, this.soundCategory, this.x, this.y, this.z, this.soundVolume, this.soundPitch)
                 .sendToPlayersAround(this.x, this.y, this.z, 16.0, this.world.registryKey)
@@ -1048,14 +1049,14 @@ open class PokemonEntity(
         }
     }
 
-    override fun drop(source: DamageSource?) {
+    override fun drop(world: ServerWorld, source: DamageSource?) {
         if (pokemon.isWild()) {
-            super.drop(source)
+            super.drop(world, source)
             delegate.drop(source)
         }
     }
 
-    override fun dropXp() {
+    override fun dropXp(attacker: Entity?) {
         // Copied over the entire function because it's the simplest way to switch out the gamerule check
         if (
             world is ServerWorld && !this.isExperienceDroppingDisabled &&
@@ -1204,10 +1205,6 @@ open class PokemonEntity(
 
     override fun breed(world: ServerWorld, other: AnimalEntity) {}
 
-    override fun method_48926(): EntityView {
-        return this.world
-    }
-
     override fun sheared(shearedSoundCategory: SoundCategory) {
         this.world.playSoundFromEntity(null, this,SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0F, 1.0F)
         val feature = this.pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) ?: return
@@ -1248,7 +1245,7 @@ open class PokemonEntity(
         return !this.isBusy && !this.pokemon.isFainted() && !feature.enabled
     }
 
-    override fun canUsePortals() = false
+    override fun canUsePortals(allowsVehicles: Boolean) = false
 
     override fun setAir(air: Int) {
         if (this.isBattling) {
@@ -1276,9 +1273,10 @@ open class PokemonEntity(
 //        }
     }
 
-    override fun canBeLeashedBy(player: PlayerEntity): Boolean {
-        return this.ownerUuid == null || this.ownerUuid == player.uuid
-    }
+    override fun canBeLeashed() = true
+//    override fun canBeLeashedBy(player: PlayerEntity): Boolean {
+//        return this.ownerUuid == null || this.ownerUuid == player.uuid
+//    }
 
     /** Retrieves the battle theme associated with this Pokemon's Species/Form, or the default PVW theme if not found. */
     fun getBattleTheme() = Registries.SOUND_EVENT.get(this.form.battleTheme) ?: CobblemonSounds.PVW_BATTLE

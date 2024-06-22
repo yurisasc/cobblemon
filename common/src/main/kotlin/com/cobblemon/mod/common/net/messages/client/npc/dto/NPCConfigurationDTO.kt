@@ -60,7 +60,7 @@ class NPCConfigurationDTO : Encodable, Decodable {
         battle = buffer.readNullable { NPCBattleConfiguration().apply { decode(buffer) } }
         interaction = buffer.readNullable {
             if (buffer.readBoolean()) {
-                Either.left(Identifier(buffer.readString()))
+                Either.left(Identifier.of(buffer.readString()))
             } else {
                 Either.right(buffer.readString().asExpressionLike())
             }

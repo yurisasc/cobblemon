@@ -349,11 +349,10 @@ abstract class PosableState : Schedulable {
     fun runEffects(entity: Entity, previousAge: Int, newAge: Int) {
         val previousSeconds = previousAge / 20F
         val currentSeconds = newAge / 20F
-
+        allActiveAnimations.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
+        primaryAnimation?.animation?.applyEffects(entity, this, previousSeconds, currentSeconds)
         currentModel?.let { model ->
             val pose = currentPose?.let { model.poses[it] }
-            allActiveAnimations.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
-            primaryAnimation?.animation?.applyEffects(entity, this, previousSeconds, currentSeconds)
             // Effects start playing from pose animations as long as the intensity is above 0.5. Pretty sloppy honestly.
             pose?.animations
                 ?.filter { shouldIdleRun(it, 0.5F) && it.condition(this) }

@@ -243,7 +243,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
                 .texture(u.toFloat(), v.toFloat())
                 .overlay(OverlayTexture.DEFAULT_UV)
                 .light(light)
-                .normal(entry, 0.0f, 1.0f, 0.0f).next()
+                .normal(entry, 0.0f, 1.0f, 0.0f)
         }
 
         @JvmStatic
@@ -284,7 +284,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
 
 
             // Add the vertex for the start of this segment
-            vertexBuffer.vertex(matrixEntry.positionMatrix, startX, startY, startZ).color(colorObj.red, colorObj.green, colorObj.blue, 255).normal(matrixEntry, deltaXSegment, deltaYSegment, deltaZSegment).next()
+            vertexBuffer.vertex(matrixEntry.positionMatrix, startX, startY, startZ).color(colorObj.red, colorObj.green, colorObj.blue, 255).normal(matrixEntry, deltaXSegment, deltaYSegment, deltaZSegment)
         }
     }
 

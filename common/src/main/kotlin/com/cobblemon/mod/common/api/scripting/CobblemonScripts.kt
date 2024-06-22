@@ -39,7 +39,7 @@ object CobblemonScripts : DataRegistry {
         manager.findResources("molang") { path -> path.endsWith(MOLANG_EXTENSION) }.forEach { (identifier, resource) ->
             resource.inputStream.use { stream ->
                 stream.bufferedReader().use { reader ->
-                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    val resolvedIdentifier = Identifier.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
                     try {
                         val expression = reader.readText().asExpressionLike()
                         if (identifier.path.startsWith("molang/client/")) {

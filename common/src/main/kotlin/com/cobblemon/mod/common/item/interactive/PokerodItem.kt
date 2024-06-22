@@ -21,15 +21,17 @@ import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.item.RodBaitComponent
 import com.cobblemon.mod.common.item.berry.BerryItem
 import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.util.enchantmentRegistry
 import com.cobblemon.mod.common.util.itemRegistry
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toEquipmentSlot
-import net.minecraft.client.item.TooltipType
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.enchantment.EnchantmentHelper
+import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.FishingRodItem
 import net.minecraft.item.ItemStack
+import net.minecraft.item.tooltip.TooltipType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.stat.Stats
@@ -150,8 +152,8 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
             )
 
             if (!world.isClient) {
-                i = EnchantmentHelper.getLure(itemStack)
-                val j = EnchantmentHelper.getLuckOfTheSea(itemStack)
+                val lureLevel = EnchantmentHelper.getLevel(world.enchantmentRegistry.getEntry(Enchantments.LURE).get(), itemStack)
+                val luckLevel = EnchantmentHelper.getLevel(world.enchantmentRegistry.getEntry(Enchantments.LUCK_OF_THE_SEA).get(), itemStack)
 
                 /*// play the Rod casting sound and set it
                 world.playSound(null as PlayerEntity?, user.x, user.y, user.z, CobblemonSounds.FISHING_ROD_CAST, SoundCategory.PLAYERS, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.4f + 0.8f))
@@ -169,7 +171,7 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
                 )*/
 
 
-                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, offHandBait?.toItemStack(world.itemRegistry) ?: ItemStack.EMPTY, world, j, i, castingSoundInstance)
+                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, offHandBait?.toItemStack(world.itemRegistry) ?: ItemStack.EMPTY, world, luckLevel, lureLevel, castingSoundInstance)
 
                 // Set the casting sound to the bobber entity
                 //bobberEntity.castingSound = castingSoundInstance

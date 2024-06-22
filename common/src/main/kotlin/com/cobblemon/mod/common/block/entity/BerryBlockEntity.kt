@@ -249,7 +249,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     }
 
     override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup?) {
-        this.berryIdentifier = Identifier(nbt.getString(BERRY).takeIf { it.isNotBlank() } ?: "cobblemon:pecha")
+        this.berryIdentifier = Identifier.of(nbt.getString(BERRY).takeIf { it.isNotBlank() } ?: "cobblemon:pecha")
         this.wasLoading = true
         this.growthPoints.clear()
         this.growthTimer = nbt.getInt(GROWTH_TIMER).coerceAtLeast(0)
@@ -258,7 +258,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         nbt.getList(GROWTH_POINTS, NbtList.STRING_TYPE.toInt()).filterIsInstance<NbtString>().forEach { element ->
             // In case some 3rd party mutates the NBT incorrectly
             try {
-                val identifier = Identifier(element.asString())
+                val identifier = Identifier.of(element.asString())
                 this.growthPoints += identifier
             } catch (ignored: InvalidIdentifierException) {}
         }

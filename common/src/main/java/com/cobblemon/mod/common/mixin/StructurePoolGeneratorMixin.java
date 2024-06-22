@@ -93,7 +93,7 @@ public abstract class StructurePoolGeneratorMixin {
         generatedStructureGroupCounts = new HashMap<>();
     }
 
-    @ModifyVariable(method = "generatePiece(Lnet/minecraft/structure/PoolStructurePiece;Lorg/apache/commons/lang3/mutable/MutableObject;IZLnet/minecraft/world/HeightLimitView;Lnet/minecraft/world/gen/noise/NoiseConfig;Lnet/minecraft/structure/pool/alias/StructurePoolAliasLookup;)V", at = @At("STORE"), ordinal = 1)
+    @ModifyVariable(method = "generatePiece", at = @At("STORE"), ordinal = 1)
     private Iterator<StructurePoolElement> reduceStructurePoolElementIterator(Iterator<StructurePoolElement> iterator) {
         List<StructurePoolElement> reducedList = new ArrayList<>();
 
@@ -113,7 +113,7 @@ public abstract class StructurePoolGeneratorMixin {
         return reducedList.iterator();
     }
 
-    @ModifyVariable(method = "generatePiece(Lnet/minecraft/structure/PoolStructurePiece;Lorg/apache/commons/lang3/mutable/MutableObject;IZLnet/minecraft/world/HeightLimitView;Lnet/minecraft/world/gen/noise/NoiseConfig;Lnet/minecraft/structure/pool/alias/StructurePoolAliasLookup;)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+    @ModifyVariable(method = "generatePiece", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private PoolStructurePiece injected(PoolStructurePiece poolStructurePiece) {
         Identifier structureLocationKey = getCobblemonOnlyLocation(poolStructurePiece.getPoolElement());
         if (structureLocationKey != null) {

@@ -114,12 +114,9 @@ class PotionBaseEffect(
         }
 
         override fun update(entity: LivingEntity, overwriteCallback: Runnable): Boolean {
-            //TODO: FIX THIS
-            /*
-            if (this.effectType.canApplyUpdateEffect(entity.age, this.amplifier)) {
+            if (this.effectType.value().canApplyUpdateEffect(entity.age, this.amplifier)) {
                 this.onApplied(entity)
             }
-             */
             this.upgrade?.let {
                 if (--it.duration == 0) {
                     this.upgrade = null
@@ -130,7 +127,7 @@ class PotionBaseEffect(
         }
 
         override fun onApplied(entity: LivingEntity) {
-            //this.effectType.applyUpdateEffect(entity, this.upgrade?.amplifier ?: this.amplifier)
+            this.effectType.value().applyUpdateEffect(entity, this.upgrade?.amplifier ?: this.amplifier)
         }
 
         @Suppress("CAST_NEVER_SUCCEEDS")

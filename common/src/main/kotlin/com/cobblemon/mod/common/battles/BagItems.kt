@@ -53,7 +53,7 @@ object BagItems : DataRegistry {
         manager.findResources("bag_items") { it.path.endsWith(".js") }.forEach { (identifier, resource) ->
             resource.inputStream.use { stream ->
                 stream.bufferedReader().use { reader ->
-                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    val resolvedIdentifier = Identifier.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
                     val js = reader.readText()
                     bagItemsScripts[resolvedIdentifier.path] = js
                 }

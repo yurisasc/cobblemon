@@ -34,6 +34,7 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.render.RenderTickCounter
 import net.minecraft.client.toast.AdvancementToast
 import net.minecraft.client.toast.Toast
 import net.minecraft.util.math.MathHelper
@@ -82,7 +83,8 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
         attachedToast = false
     }
 
-    override fun render(context: DrawContext, partialDeltaTicks: Float) {
+    override fun render(context: DrawContext, tickCounter: RenderTickCounter) {
+        val partialDeltaTicks = tickCounter.getTickDelta(false)
         val minecraft = MinecraftClient.getInstance()
 
         // Hiding if a Screen is open and not exempt

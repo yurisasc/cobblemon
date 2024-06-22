@@ -63,9 +63,9 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
             limbSwingAmount = 0F,
             ageInTicks = state.animationSeconds * 20
         )
-        model.render(context, matrices, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
+        model.render(context, matrices, vertexConsumer, light, overlay, -0x1)
         model.withLayerContext(vertexConsumers, state, BlockEntityModelRepository.getLayers(poserId, aspects)) {
-            model.render(context, matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+            model.render(context, matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, -0x1)
         }
         model.setDefault()
         matrices.pop()

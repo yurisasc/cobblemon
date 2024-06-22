@@ -74,7 +74,7 @@ object CobblemonModelPredicateRegistry {
         )
 
         rods.forEach { rod ->
-            ModelPredicateProviderRegistry.register(rod, Identifier("cast"), ClampedModelPredicateProvider { stack, world, entity, seed ->
+            ModelPredicateProviderRegistry.register(rod, Identifier.of("cast"), ClampedModelPredicateProvider { stack, world, entity, seed ->
                 if (entity == null) {
                     0.0f
                 } else {

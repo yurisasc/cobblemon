@@ -25,7 +25,7 @@ import net.minecraft.util.Identifier
  * @since January 2nd, 2023
  */
 class BedrockParticleEffect(
-    var id: Identifier = Identifier("effect"),
+    var id: Identifier = Identifier.of("effect"),
     var emitter: BedrockParticleEmitter = BedrockParticleEmitter(),
     var particle: BedrockParticle = BedrockParticle(),
     var curves: MutableList<MoLangCurve> = mutableListOf(),

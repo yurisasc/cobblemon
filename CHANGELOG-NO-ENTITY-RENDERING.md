@@ -9,6 +9,7 @@
 - Fixed some Pokémon photos in display cases flashing if the Pokémon has gender differences.
 - Fixed Bidoof and Jigglypuff sleep animations stopping after some time, causing them to be 'asleep' while T-posing menacingly.
 - Fixed entities not changing poses unless you're looking at them.
+- Fixed cries not playing on send-out if the Pokémon is off-screen.
 
 ### Developer
 - Rebuilt large swaths of the model animation code to simplify it.
