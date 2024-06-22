@@ -407,9 +407,12 @@ class StrongBattleAI(skill: Int) : BattleAI {
 
     // skill check that will be used for if the AI will make a successful Move decision
     fun checkSkillLevel(skillLevel: Int): Boolean {
-        val randomNumber = Random.nextInt(6)
-        // Check if the random number is less than the skill level
-        return randomNumber < skillLevel
+        if (skillLevel == 5) {
+            return true
+        }
+        val randomNumber = Random.nextInt(100)
+        // Map skill level to the desired probability
+        return randomNumber < skillLevel * 20
     }
 
     // skill check that will be used for if the AI will make a successful Switch Out decision
@@ -427,7 +430,7 @@ class StrongBattleAI(skill: Int) : BattleAI {
         }
 
         // Check if the random number is less than the chance
-        return randomNumber < chance
+        return randomNumber <= chance
     }
 
     // skill check that will be used for if the AI will make a successful Use Item decision
