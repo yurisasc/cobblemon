@@ -156,8 +156,6 @@ class SnowstormParticle(
 
         RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
 
-        vertexConsumer as BufferBuilder
-
         val vec3d = camera.pos
 
         val interpLocalX = MathHelper.lerp(tickDelta.toDouble(), prevLocalX, localX)
@@ -187,7 +185,7 @@ class SnowstormParticle(
             cameraYaw = camera.yaw,
             cameraPitch = camera.pitch,
             viewDirection = viewDirection
-        ).mul(RotationAxis.POSITIVE_Y.rotationDegrees(180F))
+        )
         val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat() / 1.5.toFloat()
         val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat() / 1.5.toFloat()
 
