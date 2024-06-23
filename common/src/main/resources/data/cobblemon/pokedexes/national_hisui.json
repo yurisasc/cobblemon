@@ -2,43 +2,43 @@
   "identifier": "cobblemon:national_hisui",
   "pokemon_list": [
     {
-      "name": "cobblemon:wyrdeer",
+      "identifier": "cobblemon:wyrdeer",
       "forms": [
         "normal"
       ]
     },
     {
-      "name": "cobblemon:kleavor",
+      "identifier": "cobblemon:kleavor",
       "forms": [
         "normal"
       ]
     },
     {
-      "name": "cobblemon:ursaluna",
+      "identifier": "cobblemon:ursaluna",
       "forms": [
         "normal"
       ]
     },
     {
-      "name": "cobblemon:basculegion",
+      "identifier": "cobblemon:basculegion",
       "forms": [
         "normal"
       ]
     },
     {
-      "name": "cobblemon:sneasler",
+      "identifier": "cobblemon:sneasler",
       "forms": [
         "normal"
       ]
     },
     {
-      "name": "cobblemon:overqwil",
+      "identifier": "cobblemon:overqwil",
       "forms": [
         "normal"
       ]
     },
     {
-      "name": "cobblemon:enamorus",
+      "identifier": "cobblemon:enamorus",
       "forms": [
         "normal"
       ]
