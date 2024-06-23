@@ -12,6 +12,9 @@
 - Fixed Chimchar and Monferno T posing whenever they sleep.
 - Fixed the Magby line not having any placeholder walk animations.
 - Fixed Duskull and Dusclops using skylight levels for their nether spawn data. There is no sun in the Nether!
+- Fixed Hisuian Zoroark using base Zoroark stats. 
+- Fixed Bellossom clipping into the player head when shoulder mounted.
+- Fixed Shroomish's look range to prevent it from looking higher than it should. 
 - Fixed Crumbling Arch not blending in with the world.
 - Fixed Energy Root applying being usable on a fainted Pokemon.
 - Fixed Pokémon entity not spawning when starting a battle while recalling said Pokémon
@@ -28,7 +31,8 @@
 - Altered the item model for Medicinal Leeks and Roasted Leeks to be held like sticks and other rod items. 
 - Adjusted some berry balance values like yield and growth times
 - Changes to mulch buffs/durations
-- Dreepy is now shoulder mountable
+- Weedle, Caterpie, Spearow, Smoochum, Mew, Murkrow, Larvitar, Taillow, Plusle, Minun, Beldum, Starly, Buneary, Combee, Pachirisu, Pidove, Petilil, Hisui Bias Petilil, Zorua, Hisuian Zorua, Elgyem, Fletchling, Skrelp, Klefki, Fomantis, Morelull, Dreepy, Shroodle, Tatsugiri, Glimmet, Roaming Gimmighoul are now shoulder mountable
+- Chikorita's ability to look around removed due to the awkwardness of it.
 
 ### Developer
 
