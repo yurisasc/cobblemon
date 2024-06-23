@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.block
 
+import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
-import com.cobblemon.mod.common.client.render.block.BerryBlockEntityRenderState
-import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlases
+import com.cobblemon.mod.common.client.CobblemonBakingOverrides
 import com.cobblemon.mod.common.client.render.layer.CobblemonRenderLayers
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.setPosition
@@ -19,25 +19,32 @@ import com.cobblemon.mod.common.util.math.geometry.Axis
 import com.cobblemon.mod.common.util.toVec3d
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gl.ShaderProgram
 import net.minecraft.client.gl.VertexBuffer
 import net.minecraft.client.render.GameRenderer
-import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
-import org.joml.Matrix4f
-import org.joml.Vector3f
 
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
+
+    val mulchModels = mutableMapOf(
+        MulchVariant.COARSE to CobblemonBakingOverrides.COARSE_MULCH,
+        MulchVariant.GROWTH to CobblemonBakingOverrides.GROWTH_MULCH,
+        MulchVariant.HUMID to CobblemonBakingOverrides.HUMID_MULCH,
+        MulchVariant.LOAMY to CobblemonBakingOverrides.LOAMY_MULCH,
+        MulchVariant.PEAT to CobblemonBakingOverrides.PEAT_MULCH,
+        MulchVariant.RICH to CobblemonBakingOverrides.RICH_MULCH,
+        MulchVariant.SANDY to CobblemonBakingOverrides.SANDY_MULCH,
+        MulchVariant.SURPRISE to CobblemonBakingOverrides.SURPRISE_MULCH,
+        MulchVariant.NONE to null
+    )
+
 
     override fun isInRenderDistance(blockEntity: BerryBlockEntity, pos: Vec3d): Boolean {
         return super.isInRenderDistance(blockEntity, pos)
@@ -82,7 +89,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         matrices.push()
         //Mulch is rendered on a different layer than the actual berries so
         val mulchBuf = vertexConsumers.getBuffer(RenderLayer.getCutout())
-        val model = entity.mulchVariant.model
+        val model = mulchModels[entity.mulchVariant]
         model?.let {
             it.getModel().getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
                 mulchBuf.quad(matrices.peek(), quad, 1F, 1F, 1F, light, overlay)
