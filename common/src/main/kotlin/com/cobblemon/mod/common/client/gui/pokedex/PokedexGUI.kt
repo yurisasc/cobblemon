@@ -91,6 +91,9 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
     lateinit var tabInfoElement: Element
     var tabInfoIndex = TAB_DESCRIPTION
 
+    override fun applyBlur(delta: Float) {}
+    override fun renderDarkening(context: DrawContext) {}
+
     public override fun init() {
         super.init()
         clearChildren()
@@ -126,7 +129,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.matrices
-        renderBackground(context)
+        renderBackground(context, mouseX, mouseY, delta)
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2

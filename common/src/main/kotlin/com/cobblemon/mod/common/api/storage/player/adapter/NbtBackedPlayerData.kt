@@ -28,12 +28,7 @@ abstract class NbtBackedPlayerData<T : InstancedPlayerData>(
         file.parentFile.mkdirs()
         val os = DataOutputStream(FileOutputStream(filePath(playerData.uuid)))
         val encodeResult = NbtOps.INSTANCE.withEncoder(codec).apply(playerData)
-        encodeResult.get().ifLeft {
-            NbtIo.write(it, os)
-        }.ifRight {
-            Cobblemon.LOGGER.error("Error encoding pokedex for player uuid ${playerData.uuid}")
-            Cobblemon.LOGGER.error(it.message())
-        }
+        NbtIo.write(encodeResult.result().get(), os)
         os.flush()
         os.close()
     }
@@ -42,13 +37,13 @@ abstract class NbtBackedPlayerData<T : InstancedPlayerData>(
         val playerFile = filePath(uuid)
         playerFile.parentFile.mkdirs()
         return if (playerFile.exists()) {
-            val input = NbtIo.read(playerFile)
+            val input = NbtIo.read(playerFile.toPath())
             val decodeResult = NbtOps.INSTANCE.withDecoder(codec).apply(input)
-            decodeResult.get().ifRight {
+            decodeResult.getPartialOrThrow {
                 Cobblemon.LOGGER.error("Error decoding pokedex for player uuid ${uuid}")
-                Cobblemon.LOGGER.error(it.message())
+                Cobblemon.LOGGER.error(it)
                 throw UnsupportedOperationException()
-            }.left().get().first
+            }.first
         } else {
             defaultData.invoke(uuid).also(::save)
         }

@@ -44,6 +44,7 @@ import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.getDoubleOrNull
 import com.cobblemon.mod.common.util.getStringOrNull
 import com.cobblemon.mod.common.util.plus
+import com.cobblemon.mod.common.util.toRGBA
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.RenderPhase
@@ -576,10 +577,11 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         packedOverlay: Int,
         color: Int
     ) {
-        val r = (color shr 16 and 255) / 255F
-        val g = (color shr 8 and 255) / 255F
-        val b = (color and 255) / 255F
-        val a = (color shr 24 and 255) / 255F
+        val rgba = color.toRGBA()
+        val r = rgba.x
+        val g = rgba.y
+        val b = rgba.z
+        val a = rgba.w
 
         val r2 = r * red
         val g2 = g * green

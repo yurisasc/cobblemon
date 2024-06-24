@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 
 class DexPokemonData(
@@ -55,7 +56,7 @@ class DexPokemonData(
         )
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(identifier)
         buffer.writeInt(forms.size)
         forms.forEach {
@@ -71,7 +72,7 @@ class DexPokemonData(
         buffer.writeBoolean(skipAutoNumbering)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         identifier = buffer.readIdentifier()
         val formsOrderListSize = buffer.readInt()
         for(i in 0 until formsOrderListSize){

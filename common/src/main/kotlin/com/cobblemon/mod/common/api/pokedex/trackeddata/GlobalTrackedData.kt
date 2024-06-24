@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.dynamic.Codecs
@@ -67,7 +68,7 @@ abstract class GlobalTrackedData {
             TrackedDataTypes.classToVariant[obj::class] ?: throw UnsupportedOperationException("No variant string found for ${obj::class.qualifiedName}")
         })
         {
-            TrackedDataTypes.variantToCodec[it] as? Codec<out GlobalTrackedData> ?: throw UnsupportedOperationException("No codec found for variant $it")
+            TrackedDataTypes.variantToCodec[it] as? MapCodec<out GlobalTrackedData> ?: throw UnsupportedOperationException("No codec found for variant $it")
         }
 
         fun decode(buf: PacketByteBuf): GlobalTrackedData {

@@ -34,11 +34,11 @@ object DexDataAdapter: JsonDeserializer<DexData> {
         val containedDexesArray = json.getAsJsonArray("contained_dexes")
         val containedDexes : MutableList<Identifier> = mutableListOf()
         if(containedDexesArray != null) {
-            containedDexes.addAll(containedDexesArray.map { Identifier(it.asString) })
+            containedDexes.addAll(containedDexesArray.map { Identifier.of(it.asString) })
         }
 
         return DexData(
-            identifier = Identifier(json.get("identifier").asString),
+            identifier = Identifier.of(json.get("identifier").asString),
             enabled = json.getAsJsonPrimitive("enabled")?.asBoolean ?: true,
             containedDexes = containedDexes,
             pokemonList = pokemonList,

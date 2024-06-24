@@ -23,6 +23,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.shape.VoxelShape
+import org.joml.Vector4f
 
 fun cobblemonResource(path: String) = Identifier.of(Cobblemon.MODID, path)
 fun cobblemonModel(path: String, variant: String) = ModelIdentifier(cobblemonResource(path), variant)
@@ -130,4 +131,16 @@ fun EquipmentSlot.toHand(): Hand {
         EquipmentSlot.OFFHAND -> Hand.OFF_HAND
         else -> throw IllegalArgumentException("Invalid equipment slot: $this")
     }
+}
+
+fun toHex(red: Float, green: Float, blue: Float, alpha: Float): Int {
+    return ((alpha * 255).toInt() shl 24) or ((red * 255).toInt() shl 16) or ((green * 255).toInt() shl 8) or (blue * 255).toInt()
+}
+
+fun Int.toRGBA(): Vector4f {
+    val red = (this shr 16 and 255) / 255.0f
+    val green = (this shr 8 and 255) / 255.0f
+    val blue = (this and 255) / 255.0f
+    val alpha = (this shr 24 and 255) / 255.0f
+    return Vector4f(red, green, blue, alpha)
 }

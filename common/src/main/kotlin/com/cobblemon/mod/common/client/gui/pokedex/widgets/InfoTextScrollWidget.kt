@@ -31,7 +31,7 @@ import net.minecraft.util.math.MathHelper
 
 abstract class InfoTextScrollWidget(val pX: Int, val pY: Int): ScrollingWidget<InfoTextScrollWidget.TextSlot>(
     left = pX,
-    top = pY,
+    top = pY - POKEMON_DESCRIPTION_HEIGHT,
     width = HALF_OVERLAY_WIDTH,
     height = POKEMON_DESCRIPTION_HEIGHT
 ) {
@@ -39,8 +39,8 @@ abstract class InfoTextScrollWidget(val pX: Int, val pY: Int): ScrollingWidget<I
         private val scrollBorder = cobblemonResource("textures/gui/pokedex/info_scroll_border.png")
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        super.render(context, mouseX, mouseY, delta)
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        super.renderWidget(context, mouseX, mouseY, delta)
 
         blitk(
             matrixStack = context.matrices,
@@ -72,22 +72,22 @@ abstract class InfoTextScrollWidget(val pX: Int, val pY: Int): ScrollingWidget<I
     }
 
     override fun renderScrollbar(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        val xLeft = this.scrollbarPositionX
+        val xLeft = this.scrollbarX
         val xRight = xLeft + 3
 
-        val barHeight = this.bottom - this.top
+        val barHeight = this.bottom - this.y
 
         var yBottom = ((barHeight * barHeight).toFloat() / this.maxPosition.toFloat()).toInt()
         yBottom = MathHelper.clamp(yBottom, 32, barHeight - 8)
-        var yTop = scrollAmount.toInt() * (barHeight - yBottom) / this.maxScroll + this.top
-        if (yTop < this.top) {
-            yTop = this.top
+        var yTop = scrollAmount.toInt() * (barHeight - yBottom) / this.maxScroll + this.y
+        if (yTop < this.y) {
+            yTop = this.y
         }
 
-        context.fill(xLeft + 1, this.top + 1, xRight - 1, this.bottom - 1, ColorHelper.Argb.getArgb(255, 126, 231, 229)) // background
+        context.fill(xLeft + 1, this.y + 1, xRight - 1, this.bottom - 1, ColorHelper.Argb.getArgb(255, 126, 231, 229)) // background
         context.fill(xLeft,yTop + 1, xRight, yTop + yBottom - 1, ColorHelper.Argb.getArgb(255, 58, 150, 182)) // base
     }
-    override fun getScrollbarPositionX(): Int {
+    override fun getScrollbarX(): Int {
         return left + width - scrollBarWidth
     }
 

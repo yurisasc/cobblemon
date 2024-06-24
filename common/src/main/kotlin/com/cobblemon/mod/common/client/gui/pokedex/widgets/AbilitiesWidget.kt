@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
 
-class AbilitiesWidget(val x: Int, val y: Int): InfoTextScrollWidget(pX = x, pY = y) {
+class AbilitiesWidget(x: Int, y: Int): InfoTextScrollWidget(pX = x, pY = y) {
     companion object {
         private val arrowLeft = cobblemonResource("textures/gui/pokedex/info_arrow_left.png")
         private val arrowRight = cobblemonResource("textures/gui/pokedex/info_arrow_right.png")
@@ -58,7 +58,7 @@ class AbilitiesWidget(val x: Int, val y: Int): InfoTextScrollWidget(pX = x, pY =
         setAbility()
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (!abilitiesAvailable()) return
 
         drawScaledText(
@@ -70,7 +70,7 @@ class AbilitiesWidget(val x: Int, val y: Int): InfoTextScrollWidget(pX = x, pY =
             shadow = true
         )
 
-        super.render(context, mouseX, mouseY, delta)
+        super.renderWidget(context, mouseX, mouseY, delta)
     }
 
     fun setAbility() {

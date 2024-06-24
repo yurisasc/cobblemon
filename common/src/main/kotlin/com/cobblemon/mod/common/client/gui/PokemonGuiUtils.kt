@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Pokem
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
+import com.cobblemon.mod.common.util.toHex
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.DiffuseLighting
@@ -118,9 +119,9 @@ fun drawProfilePokemon(
     RenderSystem.setShaderLights(light1, light2)
     val packedLight = LightmapTextureManager.pack(11, 7)
 
-    DO RGB
+    val colour = toHex(r, g, b, a)
     model.withLayerContext(bufferSource, state, PokemonModelRepository.getLayers(species, aspects)) {
-        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, colour)
         bufferSource.draw()
     }
     model.setDefault()

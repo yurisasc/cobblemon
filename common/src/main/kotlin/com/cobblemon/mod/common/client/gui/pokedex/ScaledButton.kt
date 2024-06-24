@@ -35,7 +35,7 @@ class ScaledButton(
     override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
     }
 
-    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val matrices = context.matrices
 
         if (resource != null) {

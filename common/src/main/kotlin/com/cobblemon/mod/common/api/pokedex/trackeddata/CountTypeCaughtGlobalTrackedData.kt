@@ -58,10 +58,10 @@ class CountTypeCaughtGlobalTrackedData(
 
     companion object {
         val ID = cobblemonResource("count_type")
-        val CODEC: Codec<CountTypeCaughtGlobalTrackedData> = RecordCodecBuilder.create { instance ->
+        val CODEC = RecordCodecBuilder.mapCodec<CountTypeCaughtGlobalTrackedData> { instance ->
             instance.group(
-            PrimitiveCodec.STRING.fieldOf("type").forGetter { it.type },
-            PrimitiveCodec.INT.fieldOf("numOfType").forGetter { it.numOfType }
+                PrimitiveCodec.STRING.fieldOf("type").forGetter { it.type },
+                PrimitiveCodec.INT.fieldOf("numOfType").forGetter { it.numOfType }
             ).apply(instance, ::CountTypeCaughtGlobalTrackedData)
         }
         fun decode(buf: PacketByteBuf): CountTypeCaughtGlobalTrackedData {

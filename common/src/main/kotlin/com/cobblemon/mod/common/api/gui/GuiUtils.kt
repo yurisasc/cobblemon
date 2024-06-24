@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.VaryingModelRepository
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.toHex
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
@@ -263,9 +264,9 @@ fun drawPosablePortrait(
     val buffer = immediate.getBuffer(renderType)
     val packedLight = LightmapTextureManager.pack(11, 7)
 
-    DO THE RGB
+    val colour = toHex(r, g, b, a)
     model.withLayerContext(immediate, state, repository.getLayers(identifier, aspects)) {
-        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, colour)
         immediate.draw()
     }
 

@@ -44,7 +44,7 @@ class SearchWidget(
         }
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.matrices
 
         blitk(
@@ -76,7 +76,7 @@ class SearchWidget(
 //            )
 //        }
 
-        if (cursor != text.length) setCursorToEnd()
+        if (cursor != text.length) setCursorToEnd(false)
 
         val input = if (isFocused) "${text}_".text()
             else (if(text.isEmpty()) Text.translatable("cobblemon.ui.pokedex.search") else text.text())

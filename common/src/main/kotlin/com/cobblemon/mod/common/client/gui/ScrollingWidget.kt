@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.gui
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.mixin.accessor.EntryListWidgetAccessor
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
@@ -19,65 +18,63 @@ import net.minecraft.client.render.RenderLayer
 import net.minecraft.util.math.MathHelper
 
 abstract class ScrollingWidget<T : AlwaysSelectedEntryListWidget.Entry<T>>(
-    top : Int = 0,
-    left: Int = 0,
-    width : Int = 10,
+    top: Int = 0,
+    val left: Int = 0,
+    width: Int = 10,
     height: Int = 10,
-    slotHeight : Int = 10,
-    val scrollBarWidth : Int = 5
+    slotHeight: Int = 10,
+    val scrollBarWidth: Int = 5
 ) : AlwaysSelectedEntryListWidget<T>(
     MinecraftClient.getInstance(),
     width, // Width
     height, // Height
     top, // Top
-    top + height, // Bottom
     slotHeight // Slot Height
-){
-    init {
-        setRenderHorizontalShadows(false)
-        setRenderBackground(false)
-        setRenderSelection(false)
+) {
+    override fun drawMenuListBackground(context: DrawContext) {}
+    override fun drawSelectionHighlight(context: DrawContext, y: Int, entryWidth: Int, entryHeight: Int, borderColor: Int, fillColor: Int) {}
+    override fun renderDecorations(context: DrawContext, mouseX: Int, mouseY: Int) {}
 
-        updateSize(width, height, top, top + height)
+
+    init {
+        setDimensionsAndPosition(width, height, top, top + height)
         setLeft(left)
     }
 
-    override fun updateSize(width: Int, height: Int, top: Int, bottom: Int) {
+    final override fun setDimensionsAndPosition(width: Int, height: Int, top: Int, bottom: Int) {
         this.width = width
         this.height = height
-        this.top = top
-        this.bottom = bottom
-        this.right = left + width
+        this.y = bottom
+        this.x = left + width
     }
 
     fun setLeft(left: Int){
-        this.left = left
-        this.right = left + width
+        this.x = left
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        this.renderBackground(context)
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val asAccessor = this as EntryListWidgetAccessor
         this.hoveredEntry = if (this.isMouseOver(mouseX.toDouble(), mouseY.toDouble())) this.getEntryAtPosition(
             mouseX.toDouble(),
             mouseY.toDouble()
         ) else null
-        if (asAccessor.renderBackground) {
+        val renderBackground = false
+        if (renderBackground) {
             context.setShaderColor(0.125f, 0.125f, 0.125f, 1.0f)
             context.drawTexture(
-                Screen.OPTIONS_BACKGROUND_TEXTURE,
+                Screen.MENU_BACKGROUND_TEXTURE,
                 this.left,
-                this.top,
+                this.y,
                 right.toFloat(),
                 (this.bottom + scrollAmount.toInt()).toFloat(),
                 this.right - this.left,
-                this.bottom - this.top, 32, 32
+                this.bottom - this.y, 32, 32
             )
             context.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f)
         }
 
         val l1 = this.rowLeft
-        val l = this.top + 4 - scrollAmount.toInt()
+        val l = this.y + 4 - scrollAmount.toInt()
 
         this.enableScissor(context)
         if (asAccessor.renderHeader) {
@@ -87,7 +84,8 @@ abstract class ScrollingWidget<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         this.renderList(context, mouseX, mouseY, delta)
         context.disableScissor()
 
-        if (asAccessor.renderHorizontalShadows) {
+        val renderHorizontalShadows = false
+        if (renderHorizontalShadows) {
             this.renderHorizontalShadows(context, mouseX, mouseY, delta)
         }
 
@@ -101,19 +99,19 @@ abstract class ScrollingWidget<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     }
 
     open fun renderScrollbar(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float){
-        val xLeft = this.scrollbarPositionX
+        val xLeft = this.scrollbarX
         val xRight = xLeft + scrollBarWidth
 
-        val barHeight = this.bottom - this.top
+        val barHeight = this.bottom - this.y
 
         var j2 = ((barHeight * barHeight).toFloat() / this.maxPosition.toFloat()).toInt()
         j2 = MathHelper.clamp(j2, 32, barHeight - 8)
-        var k1 = scrollAmount.toInt() * (barHeight - j2) / this.maxScroll + this.top
-        if (k1 < this.top) {
-            k1 = this.top
+        var k1 = scrollAmount.toInt() * (barHeight - j2) / this.maxScroll + this.y
+        if (k1 < this.y) {
+            k1 = this.y
         }
 
-        context.fill(xLeft, this.top, xRight, this.bottom, -16777216)
+        context.fill(xLeft, this.y, xRight, this.bottom, -16777216)
         context.fill(xLeft, k1, xRight, k1 + j2, -8355712)
         context.fill(xLeft ,k1, xRight - 1, k1 + j2 - 1, -4144960)
     }
@@ -121,13 +119,13 @@ abstract class ScrollingWidget<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     open fun renderHorizontalShadows(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float){
         context.setShaderColor(0.25f, 0.25f, 0.25f, 1.0f)
         context.drawTexture(
-            Screen.OPTIONS_BACKGROUND_TEXTURE,
+            Screen.MENU_BACKGROUND_TEXTURE,
             this.left, 0, 0.0f, 0.0f,
             this.width,
-            this.top, 32, 32
+            this.y, 32, 32
         )
         context.drawTexture(
-            Screen.OPTIONS_BACKGROUND_TEXTURE,
+            Screen.MENU_BACKGROUND_TEXTURE,
             this.left,
             this.bottom, 0.0f,
             bottom.toFloat(),
@@ -138,9 +136,9 @@ abstract class ScrollingWidget<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         context.fillGradient(
             RenderLayer.getGuiOverlay(),
             this.left,
-            this.top,
+            this.y,
             this.right,
-            this.top + 4, -16777216, 0, 0
+            this.y + 4, -16777216, 0, 0
         )
         context.fillGradient(
             RenderLayer.getGuiOverlay(),
@@ -160,7 +158,7 @@ abstract class ScrollingWidget<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         for (m in 0 until l) {
             val n = this.getRowTop(m)
             val o = this.getRowBottom(m)
-            if (o >= this.top && n <= this.bottom) {
+            if (o >= this.y && n <= this.bottom) {
                 this.renderEntry(context!!, mouseX, mouseY, delta, m, i, n, j, k)
             }
         }
@@ -197,14 +195,14 @@ abstract class ScrollingWidget<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     }
 
     override fun getRowTop(index: Int): Int {
-        return this.top - scrollAmount.toInt() + (index * this.itemHeight)
+        return this.y - scrollAmount.toInt() + (index * this.itemHeight)
     }
 
     override fun getRowBottom(index: Int): Int {
         return this.getRowTop(index) + this.itemHeight
     }
 
-    override fun getScrollbarPositionX() = this.left + this.width - this.scrollBarWidth
+    override fun getScrollbarX(): Int = this.left + this.width - this.scrollBarWidth
 
     abstract class Slot<T : Slot<T>>(): Entry<T>() {
         // Override render to show each individual element

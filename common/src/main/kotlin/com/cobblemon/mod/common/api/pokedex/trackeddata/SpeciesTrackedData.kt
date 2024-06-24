@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
@@ -64,7 +65,7 @@ abstract class SpeciesTrackedData(val speciesFilter: String) {
         val CODEC: Codec<SpeciesTrackedData> = Identifier.CODEC.dispatch("variant", {
             TrackedDataTypes.classToVariant[it::class]
         }) {
-            TrackedDataTypes.variantToCodec[it] as Codec<out SpeciesTrackedData>
+            TrackedDataTypes.variantToCodec[it] as MapCodec<out SpeciesTrackedData>
         }
     }
 }

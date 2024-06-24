@@ -47,11 +47,11 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 pokedexData.onPokemonSeen(species, form)
                 player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
                 PokedexUIPacket(type, species).sendToPlayer(player)
-                player.playSound(CobblemonSounds.POKEDEX_SCAN, SoundCategory.PLAYERS, 1F, 1F)
+                player.playSoundToPlayer(CobblemonSounds.POKEDEX_SCAN, SoundCategory.PLAYERS, 1F, 1F)
             } else {
                 PokedexUIPacket(type).sendToPlayer(player)
             }
-            player.playSound(CobblemonSounds.POKEDEX_SHOW, SoundCategory.PLAYERS, 1F, 1F)
+            player.playSoundToPlayer(CobblemonSounds.POKEDEX_SHOW, SoundCategory.PLAYERS, 1F, 1F)
         }
 
         return TypedActionResult.success(itemStack, world.isClient)

@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.client.net.gui.PokedexUIPacketHandler
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 
 /**
@@ -23,7 +24,7 @@ class PokedexUIPacket(val type: String, val initSpecies: Identifier? = null): Ne
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeString(type)
         buffer.writeNullable(initSpecies) { pb, value -> pb.writeIdentifier(value) }
     }
@@ -31,6 +32,6 @@ class PokedexUIPacket(val type: String, val initSpecies: Identifier? = null): Ne
     companion object {
         val ID = cobblemonResource("pokedex_ui")
 
-        fun decode(buffer: PacketByteBuf) = PokedexUIPacket(buffer.readString(), buffer.readNullable { it.readIdentifier() })
+        fun decode(buffer: RegistryByteBuf) = PokedexUIPacket(buffer.readString(), buffer.readNullable { it.readIdentifier() })
     }
 }

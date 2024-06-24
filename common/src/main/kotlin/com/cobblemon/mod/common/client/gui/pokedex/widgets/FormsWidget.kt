@@ -40,11 +40,11 @@ class FormsWidget (val pX: Int, val pY: Int, val setFormData : (String) -> (Unit
         }
     }
 
-    override fun getScrollbarPositionX(): Int {
+    override fun getScrollbarX(): Int {
         return left + width - scrollBarWidth
     }
 
-    override fun getMaxScroll() = max(this.height.toDouble(), (this.maxPosition - (this.bottom - this.top - 4)).toDouble()).toInt()
+    override fun getMaxScroll() = max(this.height.toDouble(), (this.maxPosition - (this.bottom - this.y - 4)).toDouble()).toInt()
 
     class FormSlot(val form : String, val setFormData: (String) -> Unit) : Slot<FormSlot>() {
 

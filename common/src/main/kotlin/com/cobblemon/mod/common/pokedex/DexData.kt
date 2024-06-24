@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryCategory
 import com.cobblemon.mod.common.api.pokedex.PokedexJSONRegistry
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 
 class DexData (
@@ -42,7 +43,7 @@ class DexData (
         }
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(identifier)
         buffer.writeBoolean(overrideCategories)
         buffer.writeBoolean(enabled)
@@ -56,7 +57,7 @@ class DexData (
         }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         identifier = buffer.readIdentifier()
         overrideCategories = buffer.readBoolean()
         enabled = buffer.readBoolean()

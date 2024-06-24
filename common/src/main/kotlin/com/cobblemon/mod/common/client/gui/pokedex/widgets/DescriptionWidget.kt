@@ -16,14 +16,14 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
 
-class DescriptionWidget(val x: Int, val y: Int): InfoTextScrollWidget(pX = x, pY = y) {
+class DescriptionWidget(descX: Int, descY: Int): InfoTextScrollWidget(pX = descX, pY = descY) {
     companion object {
         private val unknownIcon = cobblemonResource("textures/gui/pokedex/pokedex_slot_unknown.png")
     }
 
     var showPlaceholder: Boolean = false
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         drawScaledText(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
@@ -43,7 +43,7 @@ class DescriptionWidget(val x: Int, val y: Int): InfoTextScrollWidget(pX = x, pY
                 height = 10
             )
         } else {
-            super.render(context, mouseX, mouseY, delta)
+            super.renderWidget(context, mouseX, mouseY, delta)
         }
     }
 }

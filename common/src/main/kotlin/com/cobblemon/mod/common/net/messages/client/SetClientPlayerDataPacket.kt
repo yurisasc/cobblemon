@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.api.storage.player.client.ClientInstancedPlayerData
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet to update some [InstancedPlayerData] on the client
@@ -29,7 +30,7 @@ class SetClientPlayerDataPacket(
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeEnumConstant(type)
         buffer.writeBoolean(isIncremental)
         playerData.encode(buffer)
@@ -37,7 +38,7 @@ class SetClientPlayerDataPacket(
 
     companion object {
         val ID = cobblemonResource("set_client_playerdata")
-        fun decode(buffer: PacketByteBuf): SetClientPlayerDataPacket {
+        fun decode(buffer: RegistryByteBuf): SetClientPlayerDataPacket {
             val type = buffer.readEnumConstant(PlayerInstancedDataStoreType::class.java)
             val isIncremental = buffer.readBoolean()
             val result = type.decoder.invoke(buffer)

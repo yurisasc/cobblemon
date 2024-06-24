@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.pokedex.trackeddata
 
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import kotlin.reflect.KClass
@@ -17,13 +18,13 @@ import kotlin.reflect.KClass
 //What class goes to what string
 object TrackedDataTypes {
     val classToVariant = mutableMapOf<KClass<*>, Identifier>()
-    val variantToCodec = mutableMapOf<Identifier, Codec<*>>()
+    val variantToCodec = mutableMapOf<Identifier, MapCodec<*>>()
     val variantToDecoder = mutableMapOf<Identifier, (PacketByteBuf) -> GlobalTrackedData>()
     init {
         register(CountTypeCaughtGlobalTrackedData.ID, CountTypeCaughtGlobalTrackedData::class, CountTypeCaughtGlobalTrackedData.CODEC, CountTypeCaughtGlobalTrackedData::decode)
     }
 
-    fun register(variant: Identifier, classObj: KClass<*>, codec: Codec<*>, decoder: (PacketByteBuf) -> GlobalTrackedData) {
+    fun register(variant: Identifier, classObj: KClass<*>, codec: MapCodec<*>, decoder: (PacketByteBuf) -> GlobalTrackedData) {
         classToVariant[classObj] = variant
         variantToCodec[variant] = codec
         variantToDecoder[variant] = decoder
