@@ -11,9 +11,12 @@ package com.cobblemon.mod.common.loot
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.loot.LootPool
+import net.minecraft.loot.LootTable
 import net.minecraft.loot.LootTables
 import net.minecraft.loot.entry.LootTableEntry
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
 import org.jetbrains.annotations.ApiStatus
 
@@ -54,8 +57,14 @@ object LootInjector {
         LootTables.SIMPLE_DUNGEON_CHEST,
         LootTables.SPAWN_BONUS_CHEST,
         LootTables.STRONGHOLD_CORRIDOR_CHEST,
-        LootTables.WOODLAND_MANSION_CHEST
+        LootTables.WOODLAND_MANSION_CHEST,
+        LootTables.FISHING_TREASURE_GAMEPLAY,
+        LootTables.FISHING_JUNK_GAMEPLAY
     ).apply { addAll(villageHouseLootTables) }
+
+    private val injectionIds = injections.map {it.value}.toSet()
+
+    private val villageInjectionIds = villageHouseLootTables.map { it.value }.toSet()
 
     /**
      * Attempts to inject a Cobblemon injection loot table to a loot table being loaded.
@@ -66,7 +75,7 @@ object LootInjector {
      * @return If the injection was made.
      */
     fun attemptInjection(id: Identifier, provider: (LootPool.Builder) -> Unit): Boolean {
-        if (!this.injections.contains(id)) {
+        if (!this.injectionIds.contains(id)) {
             return false
         }
         val resulting = this.convertToPotentialInjected(id)
@@ -82,7 +91,7 @@ object LootInjector {
      * @return The [Identifier] for the expected Cobblemon injection.
      */
     private fun convertToPotentialInjected(source: Identifier): Identifier {
-        if (this.villageHouseLootTables.contains(source)) {
+        if (this.villageInjectionIds.contains(source)) {
             return VILLAGE_HOUSE
         }
         return cobblemonResource("$PREFIX${source.path}")
@@ -96,7 +105,11 @@ object LootInjector {
      */
     private fun injectLootPool(resulting: Identifier): LootPool.Builder {
         return LootPool.builder()
-            .with(LootTableEntry.builder(resulting).weight(1))
+            .with(
+                LootTableEntry
+                    .builder(RegistryKey.of(RegistryKeys.LOOT_TABLE, resulting))
+                    .weight(1)
+            )
             .bonusRolls(UniformLootNumberProvider.create(0F, 1F))
     }
 

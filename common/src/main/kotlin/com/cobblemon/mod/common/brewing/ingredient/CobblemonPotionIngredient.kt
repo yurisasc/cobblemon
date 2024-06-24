@@ -8,25 +8,26 @@
 
 package com.cobblemon.mod.common.brewing.ingredient
 
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.PotionContentsComponent
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.potion.Potion
-import net.minecraft.potion.PotionUtil
+import net.minecraft.registry.entry.RegistryEntry
 import org.jetbrains.annotations.ApiStatus
 
 @ApiStatus.Internal
-class CobblemonPotionIngredient(val potion: Potion) : CobblemonIngredient {
+class CobblemonPotionIngredient(val potion: RegistryEntry<Potion>) : CobblemonIngredient {
 
     override fun matches(stack: ItemStack): Boolean {
-        val potion = PotionUtil.getPotion(stack)
-        return potion == this.potion
+        return stack.get(DataComponentTypes.POTION_CONTENTS)?.matches(potion) ?: false
     }
 
     override fun matchingStacks(): List<ItemStack> {
         val list = arrayListOf<ItemStack>()
-        list += PotionUtil.setPotion(Items.POTION.defaultStack, this.potion)
-        list += PotionUtil.setPotion(Items.SPLASH_POTION.defaultStack, this.potion)
-        list += PotionUtil.setPotion(Items.LINGERING_POTION.defaultStack, this.potion)
+        list += PotionContentsComponent.createStack(Items.POTION, potion)
+        list += PotionContentsComponent.createStack(Items.SPLASH_POTION, potion)
+        list += PotionContentsComponent.createStack(Items.LINGERING_POTION, potion)
         return list
     }
 

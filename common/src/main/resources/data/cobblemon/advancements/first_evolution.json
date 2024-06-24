@@ -2,7 +2,7 @@
   "parent": "cobblemon:first_catch",
   "display": {
     "icon": {
-      "item": "cobblemon:rare_candy"
+      "id": "cobblemon:rare_candy"
     },
     "title": {
       "translate": "advancements.cobblemon.first_evolution"

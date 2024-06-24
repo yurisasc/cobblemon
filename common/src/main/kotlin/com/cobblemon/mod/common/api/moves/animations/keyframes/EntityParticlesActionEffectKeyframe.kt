@@ -8,13 +8,12 @@
 
 package com.cobblemon.mod.common.api.moves.animations.keyframes
 
-import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
 import com.cobblemon.mod.common.api.moves.animations.EntityProvider
 import com.cobblemon.mod.common.api.moves.animations.UsersProvider
 import com.cobblemon.mod.common.api.scheduling.delayedFuture
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityParticlePacket
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
@@ -40,17 +39,17 @@ class EntityParticlesActionEffectKeyframe : ConditionalActionEffectKeyframe(), E
             .flatMap { prov -> prov.entities.filter { test(context, it, isUser = prov is UsersProvider) } }
 
         val effectIdentifier = try {
-            effect?.asExpressionLike()?.resolveString(context.runtime)
+            effect?.asExpressionLike()?.resolveString(context.runtime)?.takeIf { it != "0.0" } ?: effect
         } catch (e: Exception) {
             effect
         }?.asIdentifierDefaultingNamespace() ?: return skip()
 
-        entities.filter { it is Poseable }.forEach { entity ->
+        entities.filter { it is PosableEntity }.forEach { entity ->
             val packet = SpawnSnowstormEntityParticlePacket(effectIdentifier, entity.id, locator)
             val players = (entity.world as ServerWorld).getPlayers { it.distanceTo(entity) <= visibilityRange }
             packet.sendToPlayers(players)
         }
 
-        return delayedFuture(seconds = delay.resolveFloat(context.runtime), serverThread = true)
+        return delayedFuture(seconds = delay.resolveFloat(context.runtime))
     }
 }

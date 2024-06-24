@@ -10,8 +10,10 @@ package com.cobblemon.mod.common.net.messages.server.pasture
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeUuid
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Packet sent to the server to indicate that all pastured Pokémon should be removed.
@@ -22,11 +24,11 @@ import net.minecraft.network.PacketByteBuf
 class UnpastureAllPokemonPacket(val pastureId: UUID) : NetworkPacket<UnpastureAllPokemonPacket> {
     companion object {
         val ID = cobblemonResource("unpasture_all_pokemon")
-        fun decode(buffer: PacketByteBuf) = UnpastureAllPokemonPacket(buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = UnpastureAllPokemonPacket(buffer.readUuid())
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pastureId)
     }
 }

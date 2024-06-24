@@ -5,16 +5,10 @@
             "item": "minecraft:bone_meal"
         },
         {
-            "item": "minecraft:bone_meal"
-        },
-        {
-            "item": "minecraft:bone_meal"
-        },
-        {
             "item": "cobblemon:mulch_base"
         }
     ],
     "result": {
-        "item": "cobblemon:growth_mulch"
+        "id": "cobblemon:growth_mulch"
     }
 }

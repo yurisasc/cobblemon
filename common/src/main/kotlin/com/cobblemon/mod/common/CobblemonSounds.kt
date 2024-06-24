@@ -127,13 +127,30 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val FOSSIL_MACHINE_UNPROTECTED = this.create("fossil_machine.unprotected")
 
     @JvmField
-    val COIN_POUCH_BREAK = this.create("coin_pouch.break")
+    val RELIC_COIN_SACK_BREAK = this.create("relic_coin_sack.break")
     @JvmField
-    val COIN_POUCH_HIT = this.create("coin_pouch.hit")
+    val RELIC_COIN_SACK_HIT = this.create("relic_coin_sack.hit")
     @JvmField
-    val COIN_POUCH_STEP = this.create("coin_pouch.step")
+    val RELIC_COIN_SACK_STEP = this.create("relic_coin_sack.step")
     @JvmField
-    val COIN_POUCH_PLACE = this.create("coin_pouch.place")
+    val RELIC_COIN_SACK_PLACE = this.create("relic_coin_sack.place")
+    @JvmField
+    val RELIC_COIN_POUCH_BREAK = this.create("relic_coin_pouch.break")
+    @JvmField
+    val RELIC_COIN_POUCH_PLACE = this.create("relic_coin_pouch.place")
+
+    @JvmField
+    val FISHING_NOTIFICATION = this.create("fishing.notification")
+    @JvmField
+    val FISHING_SPLASH_BIG = this.create("fishing.splash_big")
+    @JvmField
+    val FISHING_SPLASH_SMALL = this.create("fishing.splash_small")
+    @JvmField
+    val FISHING_BOBBER_LAND = this.create("fishing.bobber_land")
+    @JvmField
+    val FISHING_ROD_CAST = this.create("fishing.rod_cast")
+    @JvmField
+    val FISHING_ROD_REEL_IN = this.create("fishing.rod_reel_in")
     @JvmField
     val TUMBLESTONE_BREAK = this.create("tumblestone.break")
     @JvmField
@@ -194,13 +211,22 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val GILDED_CHEST_PLACE = this.create("gilded_chest.place")
 
     @JvmField
-    val COIN_POUCH_SOUNDS = BlockSoundGroup(1f, 1f,
-        COIN_POUCH_BREAK,
-        COIN_POUCH_STEP,
-        COIN_POUCH_PLACE,
-        COIN_POUCH_HIT,
-        COIN_POUCH_STEP
+    val RELIC_COIN_SACK_SOUNDS = BlockSoundGroup(1f, 1f,
+        RELIC_COIN_SACK_BREAK,
+        RELIC_COIN_SACK_STEP,
+        RELIC_COIN_SACK_PLACE,
+        RELIC_COIN_SACK_HIT,
+        RELIC_COIN_SACK_STEP
     )
+    @JvmField
+    val RELIC_COIN_POUCH_SOUNDS = BlockSoundGroup(1f, 1f,
+        RELIC_COIN_POUCH_BREAK,
+        RELIC_COIN_SACK_STEP,
+        RELIC_COIN_POUCH_PLACE,
+        RELIC_COIN_SACK_HIT,
+        RELIC_COIN_SACK_STEP
+    )
+
     @JvmField
     val IMPACT_NORMAL = this.create("impact.normal")
     @JvmField

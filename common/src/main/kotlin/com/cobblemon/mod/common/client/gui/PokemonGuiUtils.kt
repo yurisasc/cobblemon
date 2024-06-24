@@ -9,17 +9,17 @@
 package com.cobblemon.mod.common.client.gui
 
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import org.joml.Quaternionf
@@ -30,7 +30,7 @@ fun drawProfilePokemon(
     matrixStack: MatrixStack,
     rotation: Quaternionf,
     poseType: PoseType = PoseType.PROFILE,
-    state: PoseableEntityState<PokemonEntity>?,
+    state: PosableState,
     partialTicks: Float,
     scale: Float = 20F,
     applyProfileTransform: Boolean = true,
@@ -62,7 +62,7 @@ fun drawProfilePokemon(
     matrixStack: MatrixStack,
     rotation: Quaternionf,
     poseType: PoseType = PoseType.PROFILE,
-    state: PoseableEntityState<PokemonEntity>?,
+    state: PosableState,
     partialTicks: Float,
     scale: Float = 20F,
     applyProfileTransform: Boolean = true,
@@ -73,28 +73,29 @@ fun drawProfilePokemon(
     a: Float = 1F
 ) {
     val model = PokemonModelRepository.getPoser(species, aspects)
-    val texture = PokemonModelRepository.getTexture(species, aspects, state?.animationSeconds ?: 0F)
+    val texture = PokemonModelRepository.getTexture(species, aspects, state.animationSeconds)
 
     val context = RenderContext()
-    PokemonModelRepository.getTextureNoSubstitute(species, aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
+    model.context = context
+    PokemonModelRepository.getTextureNoSubstitute(species, aspects, 0f).let { context.put(RenderContext.TEXTURE, it) }
     val baseScale = PokemonSpecies.getByIdentifier(species)!!.getForm(aspects).baseScale
     context.put(RenderContext.SCALE, baseScale)
     context.put(RenderContext.SPECIES, species)
     context.put(RenderContext.ASPECTS, aspects)
+    context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.PROFILE)
+    context.put(RenderContext.POSABLE_STATE, state)
 
-    val renderType = model.getLayer(texture)
+    state.currentModel = model
+    state.currentAspects = aspects
+
+    val renderType = RenderLayer.getEntityCutout(texture)
 
     RenderSystem.applyModelViewMatrix()
     matrixStack.scale(scale, scale, -scale)
 
-    if (state != null) {
-        model.getPose(poseType)?.let { state.setPose(it.poseName) }
-        state.timeEnteredPose = 0F
-        state.updatePartialTicks(partialTicks)
-        model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
-    } else {
-        model.setupAnimStateless(poseType)
-    }
+    state.setPoseToFirstSuitable(poseType)
+    state.updatePartialTicks(partialTicks)
+    model.applyAnimations(null, state, 0F, 0F, 0F, 0F, 0F)
 
     if (applyProfileTransform) {
         matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
@@ -103,7 +104,6 @@ fun drawProfilePokemon(
         matrixStack.translate(0F, 0F, -4.0F)
         if (applyBaseScale) matrixStack.scale(baseScale, baseScale, 1 / baseScale)
     }
-
     matrixStack.multiply(rotation)
     DiffuseLighting.method_34742()
     val entityRenderDispatcher = MinecraftClient.getInstance().entityRenderDispatcher
@@ -118,8 +118,9 @@ fun drawProfilePokemon(
     RenderSystem.setShaderLights(light1, light2)
     val packedLight = LightmapTextureManager.pack(11, 7)
 
+    DO RGB
     model.withLayerContext(bufferSource, state, PokemonModelRepository.getLayers(species, aspects)) {
-        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, r, g, b, a)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
         bufferSource.draw()
     }
     model.setDefault()

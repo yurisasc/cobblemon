@@ -10,11 +10,13 @@ package com.cobblemon.mod.common
 
 import com.bedrockk.molang.Expression
 import com.cobblemon.mod.common.api.data.DataRegistry
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.mechanics.BerriesMechanic
 import com.cobblemon.mod.common.mechanics.PotionsMechanic
 import com.cobblemon.mod.common.mechanics.RemediesMechanic
 import com.cobblemon.mod.common.util.adapters.ExpressionAdapter
+import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
 import net.minecraft.resource.ResourceManager
@@ -29,6 +31,7 @@ object CobblemonMechanics : DataRegistry {
     val gson = GsonBuilder()
         .setPrettyPrinting()
         .registerTypeAdapter(Expression::class.java, ExpressionAdapter)
+        .registerTypeAdapter(ExpressionLike::class.java, ExpressionLikeAdapter)
         .create()
 
     var remedies = RemediesMechanic()

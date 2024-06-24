@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.entity.pokemon
 
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
@@ -19,6 +20,7 @@ import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
+import com.cobblemon.mod.common.util.getIsSubmerged
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.update
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
@@ -92,9 +94,27 @@ class PokemonServerDelegate : PokemonSideDelegate {
             speed = 0.1F
             entity.despawner.beginTracking(this)
         }
+        updateTrackedValues()
     }
 
     fun getBattle() = entity.battleId?.let(BattleRegistry::getBattle)
+
+    fun updateTrackedValues() {
+        val trackedSpecies = mock?.species ?: entity.pokemon.species.resourceIdentifier.toString()
+        val trackedNickname =  mock?.nickname ?: entity.pokemon.nickname ?: Text.empty()
+        val trackedAspects = mock?.aspects ?: entity.pokemon.aspects
+
+        entity.dataTracker.set(PokemonEntity.SPECIES, trackedSpecies)
+        if (entity.dataTracker.get(PokemonEntity.NICKNAME) != trackedNickname) {
+            entity.dataTracker.set(PokemonEntity.NICKNAME, trackedNickname)
+        }
+        entity.dataTracker.set(PokemonEntity.ASPECTS, trackedAspects)
+        entity.dataTracker.set(PokemonEntity.LABEL_LEVEL, entity.pokemon.level)
+        entity.dataTracker.set(PokemonEntity.MOVING, entity.velocity.multiply(1.0, if (entity.isOnGround) 0.0 else 1.0, 1.0).length() > 0.005F)
+        entity.dataTracker.set(PokemonEntity.FRIENDSHIP, entity.pokemon.friendship)
+
+        updatePoseType()
+    }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
         super.onTrackedDataSet(data)
@@ -114,12 +134,16 @@ class PokemonServerDelegate : PokemonSideDelegate {
         }
 
         if (entity.ownerUuid != null && entity.pokemon.storeCoordinates.get() == null) {
-            entity.discard()
+            return entity.discard()
+        } else if (entity.pokemon.isNPCOwned() && entity.owner?.isAlive != true) {
+            return entity.discard()
+        } else if (entity.pokemon.isNPCOwned() && entity.ownerUuid == null) {
+            entity.ownerUuid = entity.pokemon.getOwnerUUID()
         }
 
         val tethering = entity.tethering
         if (tethering != null && entity.pokemon.tetheringId != tethering.tetheringId) {
-            entity.discard()
+            return entity.discard()
         }
 
 //        if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
@@ -162,19 +186,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.remove(Entity.RemovalReason.DISCARDED)
         }
 
-        val trackedSpecies = mock?.species ?: entity.pokemon.species.resourceIdentifier.toString()
-        val trackedNickname =  mock?.nickname ?: entity.pokemon.nickname ?: Text.empty()
-        val trackedAspects = mock?.aspects ?: entity.pokemon.aspects
-
-        entity.dataTracker.set(PokemonEntity.SPECIES, trackedSpecies)
-        if (entity.dataTracker.get(PokemonEntity.NICKNAME) != trackedNickname) {
-            entity.dataTracker.set(PokemonEntity.NICKNAME, trackedNickname)
-        }
-        entity.dataTracker.set(PokemonEntity.ASPECTS, trackedAspects)
-        entity.dataTracker.set(PokemonEntity.LABEL_LEVEL, entity.pokemon.level)
-        entity.dataTracker.set(PokemonEntity.MOVING, entity.velocity.multiply(1.0, if (entity.isOnGround) 0.0 else 1.0, 1.0).length() > 0.005F)
-
-        updatePoseType()
+        updateTrackedValues()
     }
 
     fun updatePoseType() {
@@ -207,22 +219,27 @@ class PokemonServerDelegate : PokemonSideDelegate {
 
     override fun updatePostDeath() {
         // clear active effects before proceeding
+        val owner = entity.owner
+        if (!entity.dataTracker.get(PokemonEntity.DYING_EFFECTS_STARTED)) {
+            entity.dataTracker.set(PokemonEntity.DYING_EFFECTS_STARTED, true)
+            if (owner is PokemonSender && entity.beamMode == -1) {
+                entity.recallWithAnimation()
+            }
+        }
         if (entity.deathTime == 0) {
             entity.effects.wipe()
             entity.deathTime = 1
             return
-        }
-        else if (entity.effects.progress?.isDone == false) {
+        } else if (entity.effects.progress?.isDone == false) {
             return
         }
 
-        entity.dataTracker.set(PokemonEntity.DYING_EFFECTS_STARTED, true)
         ++entity.deathTime
 
         if (entity.deathTime == 30) {
-            val owner = entity.owner
-            if (owner != null) {
+            if (owner != null && owner !is PokemonSender) {
                 entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
+//                entity.recallWithAnimation()
                 entity.dataTracker.set(PokemonEntity.PHASING_TARGET_ID, owner.id)
                 entity.dataTracker.set(PokemonEntity.BEAM_MODE, 3)
             }

@@ -9,12 +9,22 @@
 package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
-import com.cobblemon.mod.common.integration.adorn.AdornCompatibility
+import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.UUIDSetDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
-import com.cobblemon.mod.common.platform.events.*
+import com.cobblemon.mod.common.platform.events.ChangeDimensionEvent
+import com.cobblemon.mod.common.platform.events.PlatformEvents
+import com.cobblemon.mod.common.platform.events.ServerEvent
+import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
+import com.cobblemon.mod.common.platform.events.ServerTickEvent
+import com.cobblemon.mod.common.sherds.CobblemonSherds
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
@@ -27,6 +37,11 @@ import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProc
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import com.mojang.brigadier.arguments.ArgumentType
+import java.io.File
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ExecutionException
+import java.util.concurrent.Executor
+import kotlin.reflect.KClass
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
@@ -53,10 +68,9 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.advancement.criterion.Criteria
-import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.item.ItemConvertible
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -75,12 +89,6 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
-import java.io.File
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.ExecutionException
-import java.util.concurrent.Executor
-import kotlin.reflect.KClass
-import net.minecraft.entity.ai.brain.Activity
 
 object CobblemonFabric : CobblemonImplementation {
 
@@ -88,18 +96,25 @@ object CobblemonFabric : CobblemonImplementation {
 
     private var server: MinecraftServer? = null
 
-    override val networkManager: NetworkManager = CobblemonFabricNetworkManager
+    override val networkManager = CobblemonFabricNetworkManager
 
     fun initialize() {
         Cobblemon.preInitialize(this)
-        this.networkManager.registerServerBound()
 
         Cobblemon.initialize()
+        networkManager.registerMessages()
+        networkManager.registerServerHandlers()
+
+        //This has to be registered elsewhere on forge so we cant do it in common
+        CobblemonSherds.registerSherds()
 
         CobblemonBlockPredicates.touch()
         CobblemonPlacementModifierTypes.touch()
         CobblemonProcessorTypes.touch()
         CobblemonActivities.activities.forEach { Registry.register(Registries.ACTIVITY, cobblemonResource(it.id), it) }
+        CobblemonSensors.sensors.forEach { (key, sensorType) -> Registry.register(Registries.SENSOR_TYPE, cobblemonResource(key), sensorType) }
+        CobblemonMemories.memories.forEach { (key, memoryModuleType) -> Registry.register(Registries.MEMORY_MODULE_TYPE, cobblemonResource(key), memoryModuleType) }
+
         EntitySleepEvents.STOP_SLEEPING.register { playerEntity, _ ->
             if (playerEntity !is ServerPlayerEntity) {
                 return@register
@@ -165,8 +180,8 @@ object CobblemonFabric : CobblemonImplementation {
             return@register ActionResult.PASS
         }
 
-        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, _ ->
-            LootInjector.attemptInjection(id, tableBuilder::pool)
+        LootTableEvents.MODIFY.register { id, tableBuilder, source ->
+            LootInjector.attemptInjection(id.value, tableBuilder::pool)
         }
 
         CommandRegistrationCallback.EVENT.register(CobblemonCommands::register)
@@ -192,6 +207,18 @@ object CobblemonFabric : CobblemonImplementation {
 
     override fun registerSoundEvents() {
         CobblemonSounds.register { identifier, sound -> Registry.register(CobblemonSounds.registry, identifier, sound) }
+    }
+
+    override fun registerDataComponents() {
+        CobblemonItemComponents.register()
+    }
+
+    override fun registerEntityDataSerializers() {
+        TrackedDataHandlerRegistry.register(Vec3DataSerializer)
+        TrackedDataHandlerRegistry.register(StringSetDataSerializer)
+        TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
+        TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
+        TrackedDataHandlerRegistry.register(UUIDSetDataSerializer)
     }
 
     override fun registerItems() {
@@ -251,7 +278,11 @@ object CobblemonFabric : CobblemonImplementation {
 
     override fun <T : GameRules.Rule<T>> registerGameRule(name: String, category: GameRules.Category, type: GameRules.Type<T>): GameRules.Key<T> = GameRuleRegistry.register(name, category, type)
 
-    override fun <T : Criterion<*>> registerCriteria(criteria: T): T = Criteria.register(criteria)
+    override fun registerCriteria() {
+        CobblemonCriteria.register { id, obj ->
+            Registry.register(Registries.CRITERION, id, obj)
+        }
+    }
 
     override fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: ResourceType, dependencies: Collection<Identifier>) {
         ResourceManagerHelper.get(type).registerReloadListener(CobblemonReloadListener(identifier, reloader, dependencies))
@@ -270,7 +301,7 @@ object CobblemonFabric : CobblemonImplementation {
 
                 resource.inputStream.use { stream ->
                     stream.bufferedReader().use { reader ->
-                        val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                        val resolvedIdentifier = Identifier.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
                         try {
                             data[resolvedIdentifier] = registry.gson.fromJson(reader, registry.typeToken.type)
                         } catch (exception: Exception) {
@@ -292,8 +323,8 @@ object CobblemonFabric : CobblemonImplementation {
                 }
 
                 val orderedResources = if (resources.size > 1) {
-                    val sorted = resources.sortedBy { it.resourcePackName.replace("file/", "") }.toMutableList()
-                    val fabric = sorted.find { it.resourcePackName == "fabric" }
+                    val sorted = resources.sortedBy { it.packId.replace("file/", "") }.toMutableList()
+                    val fabric = sorted.find { it.packId == "fabric" }
 
                     if (fabric != null) {
                         sorted.remove(fabric)
@@ -306,7 +337,7 @@ object CobblemonFabric : CobblemonImplementation {
 
                 orderedResources[0].inputStream.use { stream ->
                     stream.bufferedReader().use { reader ->
-                        val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                        val resolvedIdentifier = Identifier.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
                         try {
                             data[resolvedIdentifier] = registry.gson.fromJson(reader, registry.typeToken.type)
                         } catch (exception: Exception) {
@@ -334,9 +365,7 @@ object CobblemonFabric : CobblemonImplementation {
     }
 
     private fun attemptModCompat() {
-        if (this.isModInstalled("adorn")) {
-            registerBuiltinResourcePack(cobblemonResource("adorncompatibility"), Text.literal("Adorn Compatibility"), ResourcePackActivationBehaviour.ALWAYS_ENABLED)
-        }
+
     }
 
     private class CobblemonReloadListener(private val identifier: Identifier, private val reloader: ResourceReloader, private val dependencies: Collection<Identifier>) : IdentifiableResourceReloadListener {
@@ -367,7 +396,5 @@ object CobblemonFabric : CobblemonImplementation {
         override fun putLast(item: ItemConvertible) {
             this.fabricItemGroupEntries.add(item)
         }
-
     }
-
 }

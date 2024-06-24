@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.api.item.PokemonSelectingItem
 import com.cobblemon.mod.common.api.pokemon.status.Status
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.block.BerryBlock
-import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.entity.player.PlayerEntity
@@ -48,7 +47,7 @@ class StatusCuringBerryItem(block: BerryBlock, vararg val status: Status): Berry
         val currentStatus = pokemon.status?.status
         return if (currentStatus != null && (status.isEmpty() || currentStatus in status)) {
             pokemon.status = null
-            player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
+            player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
             if (!player.isCreative) {
                 stack.decrement(1)
             }
@@ -60,7 +59,7 @@ class StatusCuringBerryItem(block: BerryBlock, vararg val status: Status): Berry
 
     override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
-        player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
+        player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {

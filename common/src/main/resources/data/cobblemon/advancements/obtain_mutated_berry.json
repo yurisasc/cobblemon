@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:surprise_mulch"
+      "id": "cobblemon:surprise_mulch"
     },
     "title": {
       "translate": "advancements.cobblemon.obtain_mutated_berry"

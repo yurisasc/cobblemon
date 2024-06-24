@@ -30,6 +30,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.TRADE_COMPLETED
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.UUIDSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.permission.PermissionValidator
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
@@ -52,8 +53,13 @@ import com.cobblemon.mod.common.api.scheduling.ServerRealTimeTaskTracker
 import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
+import com.cobblemon.mod.common.api.spawning.WorldSlice
 import com.cobblemon.mod.common.api.spawning.context.AreaContextResolver
+import com.cobblemon.mod.common.api.spawning.context.AreaSpawningContext
+import com.cobblemon.mod.common.api.spawning.context.calculators.AreaSpawningContextCalculator
+import com.cobblemon.mod.common.api.spawning.context.calculators.AreaSpawningInput
 import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
+import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import com.cobblemon.mod.common.api.starter.StarterHandler
 import com.cobblemon.mod.common.api.storage.PokemonStoreManager
 import com.cobblemon.mod.common.api.storage.adapter.conversions.ReforgedConversion
@@ -105,20 +111,15 @@ import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
 import com.cobblemon.mod.common.pokemon.evolution.variants.BlockClickEvolution
 import com.cobblemon.mod.common.pokemon.feature.TagSeasonResolver
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
+import com.cobblemon.mod.common.pokemon.properties.AspectPropertyType
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
+import com.cobblemon.mod.common.pokemon.properties.UnaspectPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
-import com.cobblemon.mod.common.sherds.CobblemonSherds
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.trade.TradeManager
-import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.ifDedicatedServer
-import com.cobblemon.mod.common.util.isLaterVersion
-import com.cobblemon.mod.common.util.party
-import com.cobblemon.mod.common.util.removeAmountIf
-import com.cobblemon.mod.common.util.server
+import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
@@ -131,6 +132,7 @@ import net.minecraft.item.Items
 import net.minecraft.item.NameTagItem
 import net.minecraft.registry.RegistryKey
 import net.minecraft.util.WorldSavePath
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -188,6 +190,7 @@ object Cobblemon {
 
         implementation.registerPermissionValidator()
         implementation.registerSoundEvents()
+        implementation.registerDataComponents()
         implementation.registerBlocks()
         implementation.registerItems()
         implementation.registerEntityTypes()
@@ -195,6 +198,8 @@ object Cobblemon {
         implementation.registerBlockEntityTypes()
         implementation.registerWorldGenFeatures()
         implementation.registerParticles()
+        implementation.registerEntityDataSerializers()
+        implementation.registerCriteria()
 
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
@@ -208,7 +213,6 @@ object Cobblemon {
         CobblemonPlacedFeatures.register()
         this.registerArgumentTypes()
 
-        CobblemonCriteria // Init the fields and register the criteria
         CobblemonGameRules // Init fields and register
 
         ShoulderEffectRegistry.register()
@@ -240,7 +244,7 @@ object Cobblemon {
             val player = event.player
             val block = player.world.getBlockState(event.pos).block
             player.party().forEach { pokemon ->
-                pokemon.evolutions
+                pokemon.lockedEvolutions
                     .filterIsInstance<BlockClickEvolution>()
                     .forEach { evolution ->
                         evolution.attemptEvolution(pokemon, BlockClickEvolution.BlockInteractionContext(block, player.world))
@@ -254,11 +258,6 @@ object Cobblemon {
         PlatformEvents.CHANGE_DIMENSION.subscribe {
             it.player.party().forEach { pokemon -> pokemon.entity?.recallWithAnimation() }
         }
-
-        TrackedDataHandlerRegistry.register(Vec3DataSerializer)
-        TrackedDataHandlerRegistry.register(StringSetDataSerializer)
-        TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
-        TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
 
         // Lowest priority because this applies after luxury ball bonus as of gen 4
         CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(Priority.LOWEST) { event ->
@@ -296,6 +295,8 @@ object Cobblemon {
         CustomPokemonProperty.register(UncatchableProperty)
         CustomPokemonProperty.register(PokemonFlagProperty)
         CustomPokemonProperty.register(HiddenAbilityPropertyType)
+        CustomPokemonProperty.register(AspectPropertyType)
+        CustomPokemonProperty.register(UnaspectPropertyType)
 
         ifDedicatedServer {
             isDedicatedServer = true
@@ -397,36 +398,6 @@ object Cobblemon {
         EVOLUTION_COMPLETE.subscribe(Priority.LOWEST) { event ->
             AdvancementHandler.onEvolve(event)
             PokedexHandler.onEvolve(event)
-            val pokemon = event.pokemon
-            val ninjaskIdentifier = cobblemonResource("ninjask")
-            // Ensure the config option is enabled and that the result was a ninjask and that shedinja exists
-            if (this.config.ninjaskCreatesShedinja && pokemon.species.resourceIdentifier == ninjaskIdentifier && PokemonSpecies.getByIdentifier(Pokemon.SHEDINJA) != null) {
-                val player = pokemon.getOwnerPlayer() ?: return@subscribe
-                if (player.isCreative || player.inventory.containsAny { it.item is PokeBallItem }) {
-                    var pokeball = Items.AIR
-                    player.inventory.combinedInventory.forEach {
-                        it.forEach {
-                            itemStack -> if (itemStack.item is PokeBallItem && pokeball == Items.AIR) {
-                                pokeball = itemStack.item as PokeBallItem
-                            }
-                        }
-                    }
-                    if (!player.isCreative) {
-                        player.inventory.removeAmountIf(1) { it.item is PokeBallItem }
-                    }
-                    if (pokeball == Items.AIR) {
-                        pokeball = CobblemonItems.POKE_BALL
-                    }
-                    val properties = event.evolution.result.copy()
-                    properties.species = Pokemon.SHEDINJA.toString()
-                    val product = pokemon.clone()
-                    product.removeHeldItem()
-                    properties.apply(product)
-                    product.caughtBall = (pokeball as PokeBallItem).pokeBall
-                    pokemon.storeCoordinates.get()?.store?.add(product)
-                    CobblemonCriteria.EVOLVE_POKEMON.trigger(player, EvolvePokemonContext(event.pokemon.preEvolution!!.species.resourceIdentifier, product.species.resourceIdentifier, playerDataManager.getGenericData(player).advancementData.totalEvolvedCount))
-                }
-            }
         }
         LEVEL_UP_EVENT.subscribe { AdvancementHandler.onLevelUp(it) }
         TRADE_COMPLETED.subscribe {
@@ -447,7 +418,8 @@ object Cobblemon {
             ).ifSuccessful { it.mute = true }
         }
 
-        CobblemonSherds.registerSherds()
+        //To whomever is merging, this is moved out of Cobblemon and into the CobblemonImplementations
+        //CobblemonSherds.registerSherds()
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {

@@ -49,6 +49,7 @@ object DataKeys {
     const val POKEMON_DMAX_LEVEL = "DmaxLevel"
     const val POKEMON_GMAX_FACTOR = "GmaxFactor"
     const val POKEMON_TRADEABLE = "Tradeable"
+    const val POKEMON_FORCED_ASPECTS = "ForcedAspects"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"
@@ -139,6 +140,7 @@ object DataKeys {
     // Features
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
+    const val CAN_BE_COLORED = "color"
 
     // Variants
     const val IS_MOOSHTANK = "mooshtank"
@@ -173,6 +175,7 @@ object DataKeys {
     const val PROTECTED_TIME_LEFT = "ProtectedTimeLeft"
     const val FORMED = "Formed"
     const val CREATED_POKEMON = "CreatedPokemon"
+    const val HAS_CREATED_POKEMON = "HasCreatedPokemon"
     const val FOSSIL_OWNER = "FossilOwner"
     const val FOSSIL_STATE = "FossilState"
 
@@ -185,4 +188,16 @@ object DataKeys {
     const val GENERIC_BEDROCK_COLLIDER_HEIGHT = "Height"
     const val GENERIC_BEDROCK_SYNC_AGE = "SyncAge"
 
+    // NPCs
+    const val NPC_CLASS = "NPCClass"
+    const val NPC_BATTLE_CONFIGURATION = "NPCBattleConfiguration"
+    const val NPC_CAN_CHALLENGE = "CanChallenge"
+    const val NPC_SIMULTANEOUS_BATTLES = "SimultaneousBattles"
+    const val NPC_HEAL_AFTERWARDS = "HealAfterwards"
+    const val NPC_PARTY = "Party"
+    const val NPC_PARTY_TYPE = "PartyType"
+    const val NPC_PARTY_POKEMON = "Pokemon"
+    const val NPC_ASPECTS = "AppliedAspects"
+    const val NPC_DATA = "Data"
+    const val NPC_INTERACTION = "Interaction"
 }

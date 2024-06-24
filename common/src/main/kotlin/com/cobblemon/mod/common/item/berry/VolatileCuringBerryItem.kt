@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.item.PokemonSelectingItem
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.block.BerryBlock
-import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.item.ItemStack
@@ -41,6 +40,6 @@ class VolatileCuringBerryItem(block: BerryBlock, val volatileStatus: String): Be
 
     override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
-        player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
+        player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
     }
 }

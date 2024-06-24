@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:cyan_mint_leaf"
+      "id": "cobblemon:cyan_mint_leaf"
     },
     "title": {
       "translate": "advancements.cobblemon.obtain_mint"

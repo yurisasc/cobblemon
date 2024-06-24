@@ -8,15 +8,15 @@
 
 package com.cobblemon.mod.common.entity.generic
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.cobblemon.mod.common.CobblemonEntities
-import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnGenericBedrockPacket
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -24,16 +24,19 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
+import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
+import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
-class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDROCK_ENTITY, world), Poseable, Schedulable {
+class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDROCK_ENTITY, world), PosableEntity, Schedulable {
     companion object {
         val CATEGORY = DataTracker.registerData(GenericBedrockEntity::class.java, IdentifierDataSerializer)
         val ASPECTS = DataTracker.registerData(GenericBedrockEntity::class.java, StringSetDataSerializer)
@@ -49,6 +52,8 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
     } else {
         GenericBedrockServerDelegate()
     }
+
+    override val struct: QueryStruct = QueryStruct(hashMapOf())
 
     var category: Identifier
         get() = this.dataTracker.get(CATEGORY)
@@ -83,15 +88,19 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
 
     var syncAge = false
 
-    override fun initDataTracker() {
-        this.dataTracker.startTracking(CATEGORY, cobblemonResource("generic"))
-        this.dataTracker.startTracking(ASPECTS, emptySet())
-        this.dataTracker.startTracking(SCALE, 1F)
-        this.dataTracker.startTracking(POSE_TYPE, PoseType.NONE)
+    init {
+        addPosableFunctions(struct)
+    }
+
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        builder.add(CATEGORY, cobblemonResource("generic"))
+        builder.add(ASPECTS, emptySet())
+        builder.add(SCALE, 1F)
+        builder.add(POSE_TYPE, PoseType.NONE)
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound) {
-        this.category = Identifier(nbt.getString(DataKeys.GENERIC_BEDROCK_CATEGORY))
+        this.category = Identifier.of(nbt.getString(DataKeys.GENERIC_BEDROCK_CATEGORY))
         this.aspects = nbt.getList(DataKeys.GENERIC_BEDROCK_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
         this.dataTracker.set(POSE_TYPE, PoseType.values()[nbt.getByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE).toInt()])
         this.scale = nbt.getFloat(DataKeys.GENERIC_BEDROCK_SCALE)
@@ -117,7 +126,7 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
     override fun getDimensions(pose: EntityPose) = EntityDimensions.changing(colliderWidth, colliderHeight).scaled(scale)
     override fun getCurrentPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
 
-    override fun createSpawnPacket() = CobblemonNetwork.asVanillaClientBound(
+    override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry) = CustomPayloadS2CPacket(
         SpawnGenericBedrockPacket(
             category = category,
             aspects = aspects,
@@ -126,9 +135,9 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
             width = colliderWidth,
             height = colliderHeight,
             startAge = if (syncAge) age else 0,
-            vanillaSpawnPacket = super.createSpawnPacket() as EntitySpawnS2CPacket
+            vanillaSpawnPacket = super.createSpawnPacket(entityTrackerEntry) as EntitySpawnS2CPacket
         )
-    )
+    ) as Packet<ClientPlayPacketListener>
 
     override fun tick() {
         super.tick()

@@ -9,14 +9,13 @@
 package com.cobblemon.mod.common.client.net.effect
 
 import com.bedrockk.molang.runtime.MoLangRuntime
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityParticlePacket
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.Entity
@@ -25,13 +24,13 @@ object SpawnSnowstormEntityParticleHandler : ClientNetworkPacketHandler<SpawnSno
     override fun handle(packet: SpawnSnowstormEntityParticlePacket, client: MinecraftClient) {
         val world = MinecraftClient.getInstance().world ?: return
         val effect = BedrockParticleEffectRepository.getEffect(packet.effectId) ?: return
-        val entity = world.getEntityById(packet.entityId) as? Poseable ?: return
+        val entity = world.getEntityById(packet.entityId) as? PosableEntity ?: return
         entity as Entity
-        val state = entity.delegate as PoseableEntityState<*>
+        val state = entity.delegate as PosableState
         val matrixWrapper = state.locatorStates[packet.locator] ?: state.locatorStates["root"]!!
 
         val particleRuntime = MoLangRuntime().setup().setupClient()
-        particleRuntime.environment.getQueryStruct().addFunction("entity") { state.runtime.environment.getQueryStruct() }
+        particleRuntime.environment.query.addFunction("entity") { state.runtime.environment.query }
 
         val storm = ParticleStorm(
             effect = effect,

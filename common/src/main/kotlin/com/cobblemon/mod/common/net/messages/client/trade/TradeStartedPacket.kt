@@ -14,12 +14,10 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.*
 import java.util.UUID
 import net.minecraft.item.ItemStack
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
@@ -46,7 +44,7 @@ class TradeStartedPacket(
         val tradeable: Boolean
     ) {
         companion object {
-            fun decode(buffer: PacketByteBuf) = TradeablePokemon(
+            fun decode(buffer: RegistryByteBuf) = TradeablePokemon(
                 buffer.readUuid(),
                 buffer.readIdentifier(),
                 buffer.readList { it.readString() }.toSet(),
@@ -67,7 +65,7 @@ class TradeStartedPacket(
             pokemon.tradeable
         )
 
-        fun encode(buffer: PacketByteBuf) {
+        fun encode(buffer: RegistryByteBuf) {
             buffer.writeUuid(pokemonId)
             buffer.writeIdentifier(species)
             buffer.writeCollection(aspects) { _, v -> buffer.writeString(v) }
@@ -85,7 +83,7 @@ class TradeStartedPacket(
 
     companion object {
         val ID = cobblemonResource("trade_started")
-        fun decode(buffer: PacketByteBuf) = TradeStartedPacket(
+        fun decode(buffer: RegistryByteBuf) = TradeStartedPacket(
             buffer.readUuid(),
             buffer.readText().copy(),
             buffer.readList { buffer.readNullable { TradeablePokemon.decode(buffer) } }
@@ -93,7 +91,7 @@ class TradeStartedPacket(
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(traderId)
         buffer.writeText(traderName)
         buffer.writeCollection(traderParty) { _, v -> buffer.writeNullable(v) { _, v2 -> v2.encode(buffer) } }

@@ -13,11 +13,13 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.item.PokemonSelectingItem
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.genericRuntime
 import com.cobblemon.mod.common.util.giveOrDropItemStack
 import com.cobblemon.mod.common.util.resolveInt
@@ -55,7 +57,7 @@ class PotionItem(val type: PotionType) : CobblemonItem(Settings()), PokemonSelec
         if (type.curesStatus) {
             pokemon.status = null
         }
-        player.playSound(CobblemonSounds.MEDICINE_SPRAY_USE, SoundCategory.PLAYERS, 1F, 1F)
+        player.playSound(CobblemonSounds.MEDICINE_SPRAY_USE, 1F, 1F)
         if (!player.isCreative) {
             stack.decrement(1)
             player.giveOrDropItemStack(ItemStack(Items.GLASS_BOTTLE))
@@ -65,11 +67,11 @@ class PotionItem(val type: PotionType) : CobblemonItem(Settings()), PokemonSelec
 
     override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
-        player.playSound(CobblemonSounds.MEDICINE_SPRAY_USE, SoundCategory.PLAYERS, 1F, 1F)
+        player.playSound(CobblemonSounds.MEDICINE_SPRAY_USE, 1F, 1F)
     }
 }
 
-enum class PotionType(val amountToHeal: () -> Expression, val curesStatus: Boolean) : BagItem {
+enum class PotionType(val amountToHeal: () -> ExpressionLike, val curesStatus: Boolean) : BagItem {
     POTION({ com.cobblemon.mod.common.CobblemonMechanics.potions.potionRestoreAmount }, false) {
         override val itemName = "item.cobblemon.potion"
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "potion ${genericRuntime.resolveInt(amountToHeal(), battlePokemon)}"
@@ -85,12 +87,12 @@ enum class PotionType(val amountToHeal: () -> Expression, val curesStatus: Boole
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "potion ${genericRuntime.resolveInt(amountToHeal(), battlePokemon)}"
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) =  target.health < target.maxHealth && target.health > 0
     },
-    MAX_POTION({ 999999.0.asExpression() }, false) {
+    MAX_POTION({ 999999.0.asExpressionLike() }, false) {
         override val itemName = "item.cobblemon.max_potion"
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "potion ${battlePokemon.maxHealth - battlePokemon.health}"
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) =  target.health < target.maxHealth && target.health > 0
     },
-    FULL_RESTORE({ 999999.0.asExpression() }, true) {
+    FULL_RESTORE({ 999999.0.asExpressionLike() }, true) {
         override val itemName = "item.cobblemon.full_restore"
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "full_restore"
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) =  target.health < target.maxHealth && target.health > 0

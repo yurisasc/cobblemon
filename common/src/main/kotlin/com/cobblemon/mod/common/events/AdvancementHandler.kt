@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.block.TumblestoneBlock
 import com.cobblemon.mod.common.item.TumblestoneItem
 import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.getPlayer
 import java.util.*
 
@@ -39,7 +40,7 @@ object AdvancementHandler {
         }
         if (event.pokemon.shiny) {
             advancementData.updateTotalShinyCaptureCount()
-            CobblemonCriteria.CATCH_SHINY_POKEMON.trigger(event.player, advancementData.totalShinyCaptureCount)
+            CobblemonCriteria.CATCH_SHINY_POKEMON.trigger(event.player, CountableContext(advancementData.totalShinyCaptureCount))
         }
         CobblemonCriteria.COLLECT_ASPECT.trigger(event.player, advancementData.aspectsCollected)
         Cobblemon.playerDataManager.saveSingle(playerData, PlayerInstancedDataStoreType.GENERAL)
@@ -72,7 +73,7 @@ object AdvancementHandler {
                 CobblemonCriteria.COLLECT_ASPECT.trigger(player, advancementData.aspectsCollected)
             }
             else {
-                Cobblemon.LOGGER.warn("Evolution triggered by ${player.displayName} has missing evolution data for ${event.pokemon.species.resourceIdentifier}. Incomplete evolution data: ${event.evolution.id}, please report to the datapack creator!")
+                Cobblemon.LOGGER.warn("Evolution triggered by ${player.effectiveName().string} has missing evolution data for ${event.pokemon.species.resourceIdentifier}. Incomplete evolution data: ${event.evolution.id}, please report to the datapack creator!")
             }
         }
     }
@@ -88,14 +89,12 @@ object AdvancementHandler {
                         event.battle.actors.forEach { battleActor ->
                             if (!event.winners.contains(battleActor) && battleActor.type == ActorType.WILD) {
                                 battleActor.pokemonList.forEach { battlePokemon ->
-                                    battlePokemon.entity?.pokemon?.let {
-                                        advancementData.updateTotalDefeatedCount(it)
-                                    }
+                                    advancementData.updateTotalDefeatedCount(battlePokemon.originalPokemon)
                                 }
                             }
                         }
                         Cobblemon.playerDataManager.saveSingle(playerData, PlayerInstancedDataStoreType.GENERAL)
-                        CobblemonCriteria.DEFEAT_POKEMON.trigger(player, advancementData.totalBattleVictoryCount)
+                        CobblemonCriteria.DEFEAT_POKEMON.trigger(player, CountableContext(advancementData.totalBattleVictoryCount))
                     }
             }
         }
@@ -112,7 +111,7 @@ object AdvancementHandler {
                 if (event.battle.isPvN)
                     advancementData.updateTotalPvNBattleVictoryCount()
                 Cobblemon.playerDataManager.saveSingle(playerData, PlayerInstancedDataStoreType.GENERAL)
-                CobblemonCriteria.WIN_BATTLE.trigger(player, BattleCountableContext(advancementData.totalBattleVictoryCount, event.battle))
+                CobblemonCriteria.WIN_BATTLE.trigger(player, BattleCountableContext(event.battle, advancementData.totalBattleVictoryCount))
             }
 
     }

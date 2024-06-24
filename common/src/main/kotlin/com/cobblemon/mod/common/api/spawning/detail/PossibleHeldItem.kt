@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.api.spawning.detail
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
+import net.minecraft.component.ComponentChanges
+import net.minecraft.component.ComponentMap
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
@@ -19,13 +21,13 @@ import net.minecraft.util.Identifier
 
 class PossibleHeldItem(
     val item: String,
-    val nbt: NbtCompound? = null,
+    val componentMap: ComponentMap? = null,
     val percentage: Double = 100.0
 ) {
     fun createStack(ctx: SpawningContext): ItemStack? {
         val itemRegistry = ctx.world.registryManager.get(RegistryKeys.ITEM)
         val item = if (item.startsWith("#")) {
-            val tag = TagKey.of(RegistryKeys.ITEM, Identifier(item.substring(1)))
+            val tag = TagKey.of(RegistryKeys.ITEM, Identifier.of(item.substring(1)))
 
             val opt = itemRegistry.getEntryList(tag)
             if (opt.isPresent && opt.get().size() > 0) {
@@ -36,7 +38,7 @@ class PossibleHeldItem(
                 null
             }
         } else {
-            itemRegistry.get(Identifier(item))?.takeIf { it != Items.AIR }
+            itemRegistry.get(Identifier.of(item))?.takeIf { it != Items.AIR }
         } ?: return run {
             LOGGER.error("Unable to find matching spawn held item for ID: $item")
             null
@@ -44,8 +46,12 @@ class PossibleHeldItem(
 
         val stack = ItemStack(item, 1)
 
-        if (nbt != null) {
-            stack.nbt = nbt
+        if (componentMap != null) {
+            val componentBuilder = ComponentChanges.builder()
+            componentMap.forEach {
+                componentBuilder.add(it)
+            }
+            stack.applyChanges(componentBuilder.build())
         }
 
         return stack

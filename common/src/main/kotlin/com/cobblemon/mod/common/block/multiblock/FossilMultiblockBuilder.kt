@@ -161,7 +161,7 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
         val RESTORATION_TANK_PRED = BlockPredicate.Builder.create()
             .nbt(NBT_TO_CHECK)
             .blocks(CobblemonBlocks.RESTORATION_TANK)
-            .state(StatePredicate.Builder.create().exactMatch(RestorationTankBlock.PART, RestorationTankBlock.TankPart.BOTTOM).build())
+            .state(StatePredicate.Builder.create().exactMatch(RestorationTankBlock.PART, RestorationTankBlock.TankPart.BOTTOM))
             .build()
         //lol thanks mojang for not allowing nbt puts to be chained
     }

@@ -50,8 +50,11 @@ class PokeBallItem(
         world.spawnEntity(pokeBallEntity)
     }
 
+    /*
     override fun isFireproof(): Boolean {
         return pokeBall.name == PokeBalls.MASTER_BALL.name || super.isFireproof()
     }
+
+     */
 
 }

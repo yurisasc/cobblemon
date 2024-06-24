@@ -5,16 +5,10 @@
             "item": "minecraft:moss_block"
         },
         {
-            "item": "minecraft:moss_block"
-        },
-        {
-            "item": "minecraft:moss_block"
-        },
-        {
             "item": "cobblemon:mulch_base"
         }
     ],
     "result": {
-        "item": "cobblemon:peat_mulch"
+        "id": "cobblemon:peat_mulch"
     }
 }

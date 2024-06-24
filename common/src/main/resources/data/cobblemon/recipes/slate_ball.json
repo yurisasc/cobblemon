@@ -22,9 +22,8 @@
             "item": "cobblemon:black_apricorn"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:slate_ball",
-        "count": 4
+    "result": {
+        "count": 4,
+        "id": "cobblemon:slate_ball"
     }
 }

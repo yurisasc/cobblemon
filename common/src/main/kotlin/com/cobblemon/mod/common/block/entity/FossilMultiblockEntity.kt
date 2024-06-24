@@ -16,8 +16,10 @@ import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilde
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 
@@ -38,18 +40,14 @@ open class FossilMultiblockEntity(
             }
         }
         get() {
-            return if (field != null) {
-                field
-            } else if (masterBlockPos != null && masterBlockPos != pos) {
+            if(masterBlockPos != null && masterBlockPos != pos) {
                 val chunkPos = ChunkPos(masterBlockPos)
                 if (world?.chunkManager?.isChunkLoaded(chunkPos.x, chunkPos.z) == true) {
                     val entity: FossilMultiblockEntity? = world?.getBlockEntity(masterBlockPos) as FossilMultiblockEntity?
                     field = entity?.multiblockStructure
                 }
-                field
-            } else {
-                null
             }
+            return field
         }
 
     override fun markRemoved() {
@@ -59,7 +57,7 @@ open class FossilMultiblockEntity(
         }
     }
 
-    override fun readNbt(nbt: NbtCompound) {
+    override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
         val oldMultiblockStructure = this.multiblockStructure as? FossilMultiblockStructure
         multiblockStructure = if (nbt.contains(DataKeys.MULTIBLOCK_STORAGE)) {
             if(oldMultiblockStructure?.fossilState != null) {
@@ -67,15 +65,15 @@ open class FossilMultiblockEntity(
                 // Otherwise the fetus animation gets interrupted on every block update
                 val animAge = oldMultiblockStructure.fossilState.peekAge() // If someone knows a better way to fetch the age, please do.
                 val partialTicks = oldMultiblockStructure.fossilState.getPartialTicks()
-                FossilMultiblockStructure.fromNbt(nbt.getCompound(DataKeys.MULTIBLOCK_STORAGE), animAge, partialTicks )
+                FossilMultiblockStructure.fromNbt(nbt.getCompound(DataKeys.MULTIBLOCK_STORAGE), registryLookup, animAge, partialTicks)
             } else {
-                FossilMultiblockStructure.fromNbt(nbt.getCompound(DataKeys.MULTIBLOCK_STORAGE))
+                FossilMultiblockStructure.fromNbt(nbt.getCompound(DataKeys.MULTIBLOCK_STORAGE), registryLookup)
             }
         } else {
             null
         }
         masterBlockPos = if (nbt.contains(DataKeys.CONTROLLER_BLOCK)) {
-            NbtHelper.toBlockPos(nbt.getCompound(DataKeys.CONTROLLER_BLOCK))
+            NbtHelper.toBlockPos(nbt, DataKeys.CONTROLLER_BLOCK).get()
         } else {
             null
         }

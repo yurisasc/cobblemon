@@ -5,16 +5,10 @@
             "item": "minecraft:sand"
         },
         {
-            "item": "minecraft:sand"
-        },
-        {
-            "item": "minecraft:sand"
-        },
-        {
             "item": "cobblemon:mulch_base"
         }
     ],
     "result": {
-        "item": "cobblemon:sandy_mulch"
+        "id": "cobblemon:sandy_mulch"
     }
 }

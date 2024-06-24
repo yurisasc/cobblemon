@@ -23,16 +23,16 @@ import net.minecraft.structure.processor.StructureProcessorLists
 import net.minecraft.util.Identifier
 
 object CobblemonStructures {
-    private val EMPTY_PROCESSOR_LIST_KEY = RegistryKey.of(RegistryKeys.PROCESSOR_LIST, Identifier("minecraft", "empty"))
+    private val EMPTY_PROCESSOR_LIST_KEY = RegistryKey.of(RegistryKeys.PROCESSOR_LIST, Identifier.of("minecraft", "empty"))
     private const val pokecenterWeight = 35
     private const val berryFarmWeight = 1
     private const val longPathWeight = 10
 
-    val plainsHousesPoolLocation = Identifier("minecraft", "village/plains/houses")
-    val desertHousesPoolLocation = Identifier("minecraft", "village/desert/houses")
-    val savannaHousesPoolLocation = Identifier("minecraft", "village/savanna/houses")
-    val snowyHousesPoolLocation = Identifier("minecraft", "village/snowy/houses")
-    val taigaHousesPoolLocation = Identifier("minecraft", "village/taiga/houses")
+    val plainsHousesPoolLocation = Identifier.of("minecraft", "village/plains/houses")
+    val desertHousesPoolLocation = Identifier.of("minecraft", "village/desert/houses")
+    val savannaHousesPoolLocation = Identifier.of("minecraft", "village/savanna/houses")
+    val snowyHousesPoolLocation = Identifier.of("minecraft", "village/snowy/houses")
+    val taigaHousesPoolLocation = Identifier.of("minecraft", "village/taiga/houses")
 
     fun registerJigsaws(server: MinecraftServer) {
         val templatePoolRegistry = server.registryManager.get(RegistryKeys.TEMPLATE_POOL)
@@ -206,11 +206,11 @@ object CobblemonStructures {
         templatePoolRegistry: Registry<StructurePool>,
         processorListRegistry: Registry<StructureProcessorList>
     ) {
-        val plainsStreetsPoolLocation = Identifier("minecraft:village/plains/streets")
-        val desertStreetsPoolLocation = Identifier("minecraft:village/desert/streets")
-        val savannaStreetsPoolLocation = Identifier("minecraft:village/savanna/streets")
-        val snowyStreetsPoolLocation = Identifier("minecraft:village/snowy/streets")
-        val taigaStreetsPoolLocation = Identifier("minecraft:village/taiga/streets")
+        val plainsStreetsPoolLocation = Identifier.of("minecraft:village/plains/streets")
+        val desertStreetsPoolLocation = Identifier.of("minecraft:village/desert/streets")
+        val savannaStreetsPoolLocation = Identifier.of("minecraft:village/savanna/streets")
+        val snowyStreetsPoolLocation = Identifier.of("minecraft:village/snowy/streets")
+        val taigaStreetsPoolLocation = Identifier.of("minecraft:village/taiga/streets")
         addLegacyBuildingToPool(
             templatePoolRegistry,
             processorListRegistry,

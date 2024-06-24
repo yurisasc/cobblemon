@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.storage.pc
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.api.net.UnsplittablePacket
 import com.cobblemon.mod.common.api.storage.pc.PCBox
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.net.messages.PokemonDTO
@@ -18,7 +19,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeMapK
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Sets an entire box of Pokémon in the client side representation of a PC. This is used
@@ -30,13 +31,13 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since June 18th, 2022
  */
-class SetPCBoxPokemonPacket internal constructor(val storeID: UUID, val boxNumber: Int, val pokemon: Map<Int, PokemonDTO>) : NetworkPacket<SetPCBoxPokemonPacket> {
+class SetPCBoxPokemonPacket internal constructor(val storeID: UUID, val boxNumber: Int, val pokemon: Map<Int, PokemonDTO>) : NetworkPacket<SetPCBoxPokemonPacket>, UnsplittablePacket {
 
     override val id = ID
 
     constructor(box: PCBox): this(box.pc.uuid, box.boxNumber, box.getNonEmptySlots().map { it.key to PokemonDTO(it.value, toClient = true) }.toMap())
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(storeID)
         buffer.writeSizedInt(IntSize.U_BYTE, boxNumber)
         buffer.writeMapK(map = pokemon) { (slot, pokemon) ->
@@ -47,7 +48,7 @@ class SetPCBoxPokemonPacket internal constructor(val storeID: UUID, val boxNumbe
 
     companion object {
         val ID = cobblemonResource("set_pc_box")
-        fun decode(buffer: PacketByteBuf): SetPCBoxPokemonPacket {
+        fun decode(buffer: RegistryByteBuf): SetPCBoxPokemonPacket {
             val storeID = buffer.readUuid()
             val boxNumber = buffer.readSizedInt(IntSize.U_BYTE)
             val pokemonMap = mutableMapOf<Int, PokemonDTO>()

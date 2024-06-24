@@ -49,6 +49,7 @@ object CobblemonCommands {
         PokemonRestartCommand.register(dispatcher)
         BedrockParticleCommand.register(dispatcher)
         OpenDialogueCommand.register(dispatcher)
+        NPCEditCommand.register(dispatcher)
 
         // Possibly lock down registration if and only if under dev environment or running in an environment
         // with a certain system environment variable set

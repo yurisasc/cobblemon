@@ -16,20 +16,21 @@ import com.cobblemon.mod.common.config.starter.RenderableStarterCategory
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.navigation.GuiNavigation
+import net.minecraft.client.gui.navigation.GuiNavigationPath
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 class CategoryList(
     private val paneWidth: Int,
     private val paneHeight: Int,
     topOffset: Int,
-    bottomOffset: Int,
     private val entryWidth: Int,
     entryHeight: Int,
     private val categories: List<RenderableStarterCategory>,
-    val x: Int, val y: Int,
+    val listX: Int,
+    val listY: Int,
     private val minecraft: MinecraftClient = MinecraftClient.getInstance(),
     private val starterSelectionScreen: StarterSelectionScreen
 ) : AlwaysSelectedEntryListWidget<CategoryList.Category>(
@@ -37,7 +38,6 @@ class CategoryList(
     paneWidth,
     paneHeight,
     topOffset,
-    bottomOffset,
     entryHeight
 ) {
 
@@ -49,42 +49,31 @@ class CategoryList(
     }
 
     init {
+        this.x = listX
+        this.y = listY
         this.correctSize()
-        this.setRenderHorizontalShadows(false)
-        this.setRenderBackground(false)
-        this.setRenderSelection(false)
+        createEntries().forEach { addEntry(it) }
+        //this.setRenderBackground(false)
     }
-
-    private var entriesCreated = false
 
     private fun createEntries() = categories.map {
         Category(it)
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        if (!entriesCreated) {
-            createEntries().forEach { addEntry(it) }
-            entriesCreated = true
-        }
-        context.enableScissor(
-            x,
-            y,
-            x + width,
-            y + height
-        )
-        super.render(context, mouseX, mouseY, delta)
-        context.disableScissor()
+    override fun drawMenuListBackground(context: DrawContext?) {}
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        super.renderWidget(context, mouseX, mouseY, delta)
+        correctSize()
     }
 
     private fun correctSize() {
-        this.updateSize(this.paneWidth, this.paneHeight, this.y, this.y + this.paneHeight)
-        this.setLeftPos(this.x)
+        this.setDimensionsAndPosition(this.paneWidth, this.paneHeight, this.listX, this.listY)
     }
 
     private fun scale(n: Int): Int = (this.client.window.scaleFactor * n).toInt()
     override fun getRowWidth() = this.entryWidth
-    override fun getScrollbarPositionX(): Int {
-        return this.left + this.width - 5
+    override fun getScrollbarX(): Int {
+        return this.listX + this.width - 5
     }
 
 

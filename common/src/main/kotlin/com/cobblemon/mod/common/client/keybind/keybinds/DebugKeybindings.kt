@@ -27,7 +27,7 @@ object DebugKeybindings {
         TranslateDownKeybinding(),
         PrintModelSettingsKeybinding()
     )
-    class ScaleUpKeybinding(): CobblemonKeyBinding(
+    class ScaleUpKeybinding: CobblemonKeyBinding(
         "key.cobblemon.scaleportraitup",
         InputUtil.Type.KEYSYM,
         InputUtil.GLFW_KEY_EQUAL,
@@ -42,7 +42,7 @@ object DebugKeybindings {
 
         }
     }
-    class ScaleDownKeybinding(): CobblemonKeyBinding(
+    class ScaleDownKeybinding: CobblemonKeyBinding(
         "key.cobblemon.scaleportraitdown",
         InputUtil.Type.KEYSYM,
         InputUtil.GLFW_KEY_MINUS,
@@ -73,7 +73,7 @@ object DebugKeybindings {
 
         }
     }
-    class TranslateDownKeybinding(): CobblemonKeyBinding(
+    class TranslateDownKeybinding: CobblemonKeyBinding(
         "key.cobblemon.translateportraitdown",
         InputUtil.Type.KEYSYM,
         InputUtil.GLFW_KEY_K,
@@ -89,7 +89,7 @@ object DebugKeybindings {
         }
     }
 
-    class TranslateLeftKeybinding(): CobblemonKeyBinding(
+    class TranslateLeftKeybinding: CobblemonKeyBinding(
         "key.cobblemon.translateportraitleft",
         InputUtil.Type.KEYSYM,
         InputUtil.GLFW_KEY_J,
@@ -105,7 +105,7 @@ object DebugKeybindings {
         }
     }
 
-    class TranslateRightKeybinding(): CobblemonKeyBinding(
+    class TranslateRightKeybinding: CobblemonKeyBinding(
         "key.cobblemon.translateportraitright",
         InputUtil.Type.KEYSYM,
         InputUtil.GLFW_KEY_L,
@@ -120,7 +120,7 @@ object DebugKeybindings {
         }
     }
 
-    class PrintModelSettingsKeybinding() : CobblemonKeyBinding(
+    class PrintModelSettingsKeybinding : CobblemonKeyBinding(
         "key.cobblemon.printmodelsettings",
         InputUtil.Type.KEYSYM,
         InputUtil.GLFW_KEY_PERIOD,

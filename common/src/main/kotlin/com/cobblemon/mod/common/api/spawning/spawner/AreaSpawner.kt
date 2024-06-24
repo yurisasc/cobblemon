@@ -107,7 +107,7 @@ abstract class AreaSpawner(
         val above = chunk.getBlockState(startPos.setY(y + 1))
 
         // Above must be non-solid
-         if (!above.canPathfindThrough(world, startPos, NavigationType.AIR)) {
+         if (!above.canPathfindThrough(NavigationType.AIR)) {
              return false
          }
         // Position must be non-air

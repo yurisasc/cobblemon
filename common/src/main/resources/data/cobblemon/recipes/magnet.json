@@ -3,7 +3,7 @@
     "pattern": [
         "III",
         "I I",
-		"R B"
+        "R B"
     ],
     "key": {
         "I": {
@@ -17,6 +17,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:magnet"
+        "id": "cobblemon:magnet"
     }
 }

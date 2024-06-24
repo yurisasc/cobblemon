@@ -15,6 +15,8 @@ import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.block.*
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -111,7 +113,7 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
             else super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
     }
 
-    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = state.get(AGE) < MAX_AGE
+    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState) = state.get(AGE) < MAX_AGE
 
     override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = true
 
@@ -123,11 +125,17 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
         builder.add(FACING, AGE)
     }
 
-    override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
+    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean = false
 
-    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+    override fun onUse(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        player: PlayerEntity,
+        hit: BlockHitResult
+    ): ActionResult? {
         if (state.get(AGE) != MAX_AGE) {
-            return super.onUse(state, world, pos, player, hand, hit)
+            return super.onUse(state, world, pos, player, hit)
         }
 
         doHarvest(world, state, pos, player)
@@ -143,7 +151,7 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
     }
 
     // We need to point back to the actual apricorn item, see SweetBerryBushBlock for example
-    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = ItemStack(this.apricorn.item())
+    override fun getPickStack(world: WorldView, pos: BlockPos, state: BlockState) = ItemStack(this.apricorn.item())
 
     private fun doHarvest(world: World, state: BlockState, pos: BlockPos, player: PlayerEntity) {
         val resetState = this.harvest(world, state, pos)
@@ -188,7 +196,15 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
         return true
     }
 
+    override fun getCodec(): MapCodec<out HorizontalFacingBlock> {
+        return CODEC
+    }
+
     companion object {
+        val CODEC: MapCodec<ApricornBlock> = RecordCodecBuilder.mapCodec { it.group(
+            createSettingsCodec(),
+            Apricorn.CODEC.fieldOf("apricorn").forGetter(ApricornBlock::apricorn)
+        ).apply(it, ::ApricornBlock) }
 
         val AGE: IntProperty = Properties.AGE_3
         const val MAX_AGE = Properties.AGE_3_MAX

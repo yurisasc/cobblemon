@@ -3,7 +3,7 @@
     "pattern": [
         "  I",
         "PCP",
-		"I  "
+        "I  "
     ],
     "key": {
         "I": {
@@ -17,6 +17,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:link_cable"
+        "id": "cobblemon:link_cable"
     }
 }

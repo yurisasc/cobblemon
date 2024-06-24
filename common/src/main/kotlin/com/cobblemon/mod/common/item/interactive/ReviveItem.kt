@@ -70,7 +70,7 @@ class ReviveItem(val max: Boolean): CobblemonItem(Settings()) {
                         canSelect = { bagItem.canUse(battle, it) }
                     ) { bp ->
                         if (actor.canFitForcedAction() && bp.health <= 0 && battle.turn == turn && stack.isHeld(player)) {
-                            player.playSound(CobblemonSounds.ITEM_USE, SoundCategory.PLAYERS, 1F, 1F)
+                            player.playSound(CobblemonSounds.ITEM_USE, 1F, 1F)
                             actor.forceChoose(BagItemActionResponse(bagItem = bagItem, target = bp, data = bp.uuid.toString()))
                             if (!player.isCreative) {
                                 stack.decrement(1)

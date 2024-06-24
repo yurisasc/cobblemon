@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.particle
 
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.ast.NumberExpression
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.snowstorm.*
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asExpressionLike
@@ -43,6 +44,7 @@ object SnowstormParticleReader {
         val emitterShapeEntityBoundingBoxJson = componentsJson.get("minecraft:emitter_shape_entity_aabb")?.asJsonObject
         val emitterLifetimeEventsJson = componentsJson.get("minecraft:emitter_lifetime_events")?.asJsonObject
         val dynamicMotionJson = componentsJson.get("minecraft:particle_motion_dynamic")?.asJsonObject
+        val parametricMotionJson = componentsJson.get("minecraft:particle_motion_parametric")?.asJsonObject
         val particleAppearanceJson = componentsJson.get("minecraft:particle_appearance_billboard").asJsonObject
         val sizeJson = particleAppearanceJson.get("size")?.asJsonArray
         val particleLifetimeJson = componentsJson.get("minecraft:particle_lifetime_expression")?.asJsonObject
@@ -56,7 +58,7 @@ object SnowstormParticleReader {
         val spaceJson = componentsJson.get("minecraft:emitter_local_space")?.asJsonObject
         val particleLifetimeEventsJson = componentsJson.get("minecraft:particle_lifetime_events")?.asJsonObject
 
-        val id = Identifier(descJson.get("identifier").asString)
+        val id = Identifier.of(descJson.get("identifier").asString)
         val maxAge = particleLifetimeJson?.get("max_lifetime")?.asString?.asExpression() ?: 0.0.asExpression()
         val killExpression = particleLifetimeJson?.get("expiration_expression")?.asString?.asExpression() ?: 0.0.asExpression()
         val material = ParticleMaterial.valueOf(basicRenderParametersJson.get("material").asString.substringAfter("_").uppercase())
@@ -234,12 +236,21 @@ object SnowstormParticleReader {
         val motion = if (dynamicMotionJson != null) {
             val accelerationExpressions = dynamicMotionJson.get("linear_acceleration")?.asJsonArray?.map { it.asString.asExpression() }
                 ?: listOf(0.0.asExpression(), 0.0.asExpression(), 0.0.asExpression())
-            val drag= dynamicMotionJson.get("linear_drag_coefficient")?.asString?.asExpression() ?: 0.0.asExpression()
+            val drag = dynamicMotionJson.get("linear_drag_coefficient")?.asString?.asExpression() ?: 0.0.asExpression()
             DynamicParticleMotion(
                 direction = direction!!,
                 speed = speed,
                 acceleration = Triple(accelerationExpressions[0], accelerationExpressions[1], accelerationExpressions[2]),
                 drag = drag
+            )
+        } else if (parametricMotionJson != null) {
+            val offsetExpressions = parametricMotionJson.get("relative_position")?.asJsonArray?.map { it.asString.asExpression() }
+                ?: listOf(0.0.asExpression(), 0.0.asExpression(), 0.0.asExpression())
+            val directionExpressions = parametricMotionJson.get("direction")?.asJsonArray?.map { it.asString.asExpression() }
+                ?: listOf(0.0.asExpression(), 0.0.asExpression(), 0.0.asExpression())
+            ParametricParticleMotion(
+                offset = Triple(offsetExpressions[0], offsetExpressions[1], offsetExpressions[2]),
+                direction = Triple(directionExpressions[0], directionExpressions[1], directionExpressions[2])
             )
         } else {
             StaticParticleMotion()
@@ -282,9 +293,9 @@ object SnowstormParticleReader {
                 stepV = stepUV[1].asString.asExpression(),
                 textureSizeX = uvModeJson.get("texture_width")?.asInt ?: 128,
                 textureSizeY = uvModeJson.get("texture_height")?.asInt ?: 128,
-                maxFrame = flipbook.get("max_frame")?.asString?.asExpression() ?: NumberExpression(0.0),
+                maxFrame = flipbook.get("max_frame")?.asString?.asExpression() ?: 0.0.asExpression(),
                 loop = flipbook.get("loop")?.asBoolean ?: false,
-                fps = flipbook.get("frames_per_second")?.asString?.asExpression() ?: NumberExpression(0.0),
+                fps = flipbook.get("frames_per_second")?.asString?.asExpression() ?: 0.0.asExpression(),
                 stretchToLifetime = flipbook.get("stretch_to_lifetime")?.asBoolean ?: false
             )
         } else {
@@ -299,12 +310,19 @@ object SnowstormParticleReader {
                 textureSizeY = uvModeJson.get("texture_height")?.asInt ?: 128
             )
         }
-        val rotation = DynamicParticleRotation(
-            startRotation = startRotation,
-            speed = rotationSpeed,
-            acceleration = dynamicMotionJson?.get("rotation_acceleration")?.asString?.asExpression() ?: 0.0.asExpression(),
-            drag = dynamicMotionJson?.get("rotation_drag_coefficient")?.asString?.asExpression() ?: 0.0.asExpression()
-        )
+
+        val motionJson = dynamicMotionJson ?: parametricMotionJson
+        val parametricParticleRotation = motionJson?.get("rotation")?.asString?.asExpression()
+        val rotation = if (parametricParticleRotation != null) {
+            ParametricParticleRotation(expression = parametricParticleRotation)
+        } else {
+            DynamicParticleRotation(
+                startRotation = startRotation,
+                speed = rotationSpeed,
+                acceleration = dynamicMotionJson?.get("rotation_acceleration")?.asString?.asExpression() ?: 0.0.asExpression(),
+                drag = dynamicMotionJson?.get("rotation_drag_coefficient")?.asString?.asExpression() ?: 0.0.asExpression()
+            )
+        }
         val tinting = if (colourJson is JsonObject) {
             GradientParticleTinting(
                 interpolant = colourJson.get("interpolant").asString.asExpression(),
@@ -331,10 +349,10 @@ object SnowstormParticleReader {
                 NumberExpression(0.1)
             }
             ParticleCollision(
-                enabled = it.get("enabled")?.asString?.asExpression() ?: NumberExpression(if (collides) 1.0 else 0.0),
+                enabled = it.get("enabled")?.asString?.asExpression() ?: (if (collides) 1.0 else 0.0).asExpression(),
                 radius = radius,
-                friction = it.get("collision_drag")?.asString?.asExpression() ?: NumberExpression(10.0),
-                bounciness = it.get("coefficient_of_restitution")?.asString?.asExpression() ?: NumberExpression(0.0),
+                friction = it.get("collision_drag")?.asString?.asExpression() ?: 10.0.asExpression(),
+                bounciness = it.get("coefficient_of_restitution")?.asString?.asExpression() ?: 0.0.asExpression(),
                 expiresOnContact = it.get("expire_on_contact")?.asBoolean ?: false
             )
         } ?: ParticleCollision()

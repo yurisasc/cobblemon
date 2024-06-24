@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -19,7 +20,7 @@ import net.minecraft.network.PacketByteBuf
  * @since January 13th, 2022
  */
 abstract class BooleanUpdatePacket<T : NetworkPacket<T>>(pokemon: () -> Pokemon, value: Boolean) : SingleUpdatePacket<Boolean, T>(pokemon, value) {
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: RegistryByteBuf) {
         buffer.writeBoolean(this.value)
     }
 }

@@ -32,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.points.BeforeStringInvoke;
 @Mixin(ModelLoader.class)
 public abstract class ModelLoaderMixin {
 
-    @Shadow protected abstract void addModel(ModelIdentifier modelId);
+    @Shadow protected abstract void addModelToBake(ModelIdentifier modelId, UnbakedModel unbakedModel);
 
     @Final
     @Shadow
@@ -53,8 +53,9 @@ public abstract class ModelLoaderMixin {
         CallbackInfo ci) {
         CobblemonBakingOverrides.INSTANCE.getModels().forEach(bakingOverride -> {
             try {
-                this.unbakedModels.put(bakingOverride.getModelIdentifier(), this.loadModelFromJson(bakingOverride.getModelLocation()));
-                this.addModel(bakingOverride.getModelIdentifier());
+                JsonUnbakedModel unbakedModel = this.loadModelFromJson(bakingOverride.getModelLocation());
+                this.unbakedModels.put(bakingOverride.getModelIdentifier().id(), unbakedModel);
+                this.addModelToBake(bakingOverride.getModelIdentifier(), unbakedModel);
             } catch (IOException e) {
                 LOGGER.error("Error loading a Cobblemon BakedModel:", e);
                 throw new RuntimeException(e);

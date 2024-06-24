@@ -14,8 +14,6 @@ import utilities.ACCESS_WIDENER
 plugins {
     id("java")
     id("java-library")
-    id("net.kyori.indra")
-    id("net.kyori.indra.git")
 
     id("org.cadixdev.licenser")
     id("dev.architectury.loom")
@@ -27,10 +25,9 @@ group = rootProject.group
 version = rootProject.version
 description = rootProject.description
 
-indra {
-    javaVersions {
-        minimumToolchain(17)
-        target(17)
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
@@ -52,24 +49,26 @@ architectury {
 loom {
     silentMojangMappingsLicense()
     accessWidenerPath.set(project(":common").file(ACCESS_WIDENER))
-
-    mixin {
-        defaultRefmapName.set("cobblemon-${project.name}-refmap.json")
-    }
 }
 
 dependencies {
     minecraft("net.minecraft:minecraft:${rootProject.property("mc_version")}")
-    mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}:v2")
+    mappings(loom.layered() {
+        mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}:v2")
+        mappings("dev.architectury:yarn-mappings-patch-neoforge:${rootProject.property("yarn_arch_patch_version")}")
+    })
+
 }
 
 tasks {
     withType<JavaCompile> {
+        options.encoding = "UTF-8"
+        options.release.set(21)
         options.compilerArgs.add("-Xlint:-processing,-classfile,-serial")
     }
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+        kotlinOptions.jvmTarget = "21"
     }
 
     withType<Jar> {

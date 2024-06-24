@@ -10,7 +10,9 @@ package com.cobblemon.mod.common.world.feature.ore
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
@@ -90,7 +92,8 @@ object CobblemonOrePlacedFeatures {
     }
 
     private fun of(id: String, validBiomes: TagKey<Biome>): RegistryKey<PlacedFeature> {
-        val feature = PlacedFeatures.of("${Cobblemon.MODID}:ore/$id")
+        val feature = RegistryKey.of(
+            RegistryKeys.PLACED_FEATURE, cobblemonResource("ore/$id"))
         features += FeatureHolder(feature, validBiomes)
         return feature
     }

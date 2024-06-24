@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.api.tags.CobblemonItemTags;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.CompoundTagExtensionsKt;
 import com.cobblemon.mod.common.util.DataKeys;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -138,7 +139,7 @@ public abstract class PlayerMixin extends LivingEntity {
             shift = At.Shift.AFTER
         )
     )
-    public void onEatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
+    public void onEatFood(World world, ItemStack stack, FoodComponent foodComponent, CallbackInfoReturnable<ItemStack> cir) {
         if (!getWorld().isClient) {
             if (stack.isIn(CobblemonItemTags.LEAVES_LEFTOVERS) && getWorld().random.nextDouble() < Cobblemon.config.getAppleLeftoversChance()) {
                 ItemStack leftovers = new ItemStack(CobblemonItems.LEFTOVERS);

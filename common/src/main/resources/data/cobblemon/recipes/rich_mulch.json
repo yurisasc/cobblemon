@@ -5,16 +5,10 @@
             "item": "minecraft:blaze_powder"
         },
         {
-            "item": "minecraft:blaze_powder"
-        },
-        {
-            "item": "minecraft:blaze_powder"
-        },
-        {
             "item": "cobblemon:mulch_base"
         }
     ],
     "result": {
-        "item": "cobblemon:rich_mulch"
+        "id": "cobblemon:rich_mulch"
     }
 }

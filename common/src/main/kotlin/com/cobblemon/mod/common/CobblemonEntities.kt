@@ -11,7 +11,9 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatEntity
 import com.cobblemon.mod.common.entity.boat.CobblemonChestBoatEntity
+import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.platform.PlatformRegistry
@@ -53,7 +55,7 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
     @JvmField
     val BOAT: EntityType<CobblemonBoatEntity> = this.create(
         BOAT_KEY.path,
-        EntityType.Builder.create(::CobblemonBoatEntity, SpawnGroup.MISC).setDimensions(1.375F, 0.5625F).maxTrackingRange(10)
+        EntityType.Builder.create(::CobblemonBoatEntity, SpawnGroup.MISC).dimensions(1.375F, 0.5625F).maxTrackingRange(10)
             .build(BOAT_KEY.toString())
     )
 
@@ -62,8 +64,17 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
     @JvmField
     val CHEST_BOAT: EntityType<CobblemonChestBoatEntity> = this.create(
         CHEST_BOAT_KEY.path,
-        EntityType.Builder.create(::CobblemonChestBoatEntity, SpawnGroup.MISC).setDimensions(1.375F, 0.5625F).maxTrackingRange(10)
+        EntityType.Builder.create(::CobblemonChestBoatEntity, SpawnGroup.MISC).dimensions(1.375F, 0.5625F).maxTrackingRange(10)
             .build(CHEST_BOAT_KEY.toString())
+    )
+
+    @JvmField
+    val POKE_BOBBER_KEY = cobblemonResource("poke_bobber")
+    @JvmField
+    val POKE_BOBBER: EntityType<PokeRodFishingBobberEntity> = this.create(
+            POKE_BOBBER_KEY.path,
+            EntityType.Builder.create(::PokeRodFishingBobberEntity, SpawnGroup.MISC).dimensions(0.5F, 0.5F).maxTrackingRange(10)
+                    .build(POKE_BOBBER_KEY.toString())
     )
 
     @JvmField
@@ -75,8 +86,16 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
             .build(GENERIC_BEDROCK_ENTITY_KEY.toString())
     )
 
+    @JvmField
+    val NPC_KEY = cobblemonResource("npc")
+    @JvmField
+    val NPC: EntityType<NPCEntity> = create(
+        NPC_KEY.path,
+        EntityType.Builder.create({ _, world -> NPCEntity(world) }, SpawnGroup.CREATURE).build("$NPC_KEY")
+    )
+
     fun registerAttributes(consumer: (EntityType<out LivingEntity>, DefaultAttributeContainer.Builder) -> Unit) {
         consumer(POKEMON, PokemonEntity.createAttributes())
+        consumer(NPC, NPCEntity.createAttributes())
     }
-
 }

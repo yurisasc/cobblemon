@@ -22,9 +22,8 @@
             "item": "cobblemon:black_apricorn"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:heavy_ball",
-        "count": 4
+    "result": {
+        "count": 4,
+        "id": "cobblemon:heavy_ball"
     }
 }

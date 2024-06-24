@@ -3,7 +3,7 @@
     "pattern": [
         "GTA",
         "TET",
-		"ATG"
+        "ATG"
     ],
     "key": {
         "A": {
@@ -20,6 +20,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:life_orb"
+        "id": "cobblemon:life_orb"
     }
 }

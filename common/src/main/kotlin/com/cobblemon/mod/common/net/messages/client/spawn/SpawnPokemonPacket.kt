@@ -16,9 +16,12 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.writeText
 import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
@@ -39,6 +42,7 @@ class SpawnPokemonPacket(
     private val hideLabel: Boolean,
     private val caughtBall: Identifier,
     private val spawnYaw: Float,
+    private val friendship: Int,
     vanillaSpawnPacket: EntitySpawnS2CPacket
 ) : SpawnExtraDataEntityPacket<SpawnPokemonPacket, PokemonEntity>(vanillaSpawnPacket) {
 
@@ -60,10 +64,11 @@ class SpawnPokemonPacket(
         entity.dataTracker.get(PokemonEntity.HIDE_LABEL),
         entity.pokemon.caughtBall.name,
         entity.dataTracker.get(PokemonEntity.SPAWN_DIRECTION),
+        entity.dataTracker.get(PokemonEntity.FRIENDSHIP),
         vanillaSpawnPacket
     )
 
-    override fun encodeEntityData(buffer: PacketByteBuf) {
+    override fun encodeEntityData(buffer: RegistryByteBuf) {
         buffer.writeNullable(ownerId) { _, v -> buffer.writeUuid(v) }
         buffer.writeFloat(this.scaleModifier)
         buffer.writeIdentifier(this.species.resourceIdentifier)
@@ -79,6 +84,7 @@ class SpawnPokemonPacket(
         buffer.writeBoolean(this.hideLabel)
         buffer.writeIdentifier(this.caughtBall)
         buffer.writeFloat(this.spawnYaw)
+        buffer.writeInt(this.friendship)
     }
 
     override fun applyData(entity: PokemonEntity) {
@@ -87,7 +93,7 @@ class SpawnPokemonPacket(
             scaleModifier = this@SpawnPokemonPacket.scaleModifier
             species = this@SpawnPokemonPacket.species
             form = this@SpawnPokemonPacket.form
-            aspects = this@SpawnPokemonPacket.aspects
+            forcedAspects = this@SpawnPokemonPacket.aspects
             nickname = this@SpawnPokemonPacket.nickname
             PokeBalls.getPokeBall(this@SpawnPokemonPacket.caughtBall)?.let { caughtBall = it }
         }
@@ -101,13 +107,14 @@ class SpawnPokemonPacket(
         entity.dataTracker.set(PokemonEntity.UNBATTLEABLE, unbattlable)
         entity.dataTracker.set(PokemonEntity.HIDE_LABEL, hideLabel)
         entity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, spawnYaw)
+        entity.dataTracker.set(PokemonEntity.FRIENDSHIP, friendship)
     }
 
     override fun checkType(entity: Entity): Boolean = entity is PokemonEntity
 
     companion object {
         val ID = cobblemonResource("spawn_pokemon_entity")
-        fun decode(buffer: PacketByteBuf): SpawnPokemonPacket {
+        fun decode(buffer: RegistryByteBuf): SpawnPokemonPacket {
             val ownerId = buffer.readNullable { buffer.readUuid() }
             val scaleModifier = buffer.readFloat()
             val species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
@@ -124,9 +131,10 @@ class SpawnPokemonPacket(
             val hideLabel = buffer.readBoolean()
             val caughtBall = buffer.readIdentifier()
             val spawnAngle = buffer.readFloat()
+            val friendship = buffer.readInt()
             val vanillaPacket = decodeVanillaPacket(buffer)
 
-            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, battleId, phasingTargetId, beamModeEmitter, nickname, labelLevel, poseType, unbattlable, hideLabel, caughtBall, spawnAngle, vanillaPacket)
+            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, battleId, phasingTargetId, beamModeEmitter, nickname, labelLevel, poseType, unbattlable, hideLabel, caughtBall, spawnAngle, friendship, vanillaPacket)
         }
     }
 

@@ -54,7 +54,7 @@ class PersistentStatusContainer(
             }
 
             // Return null if status doesn't exist
-            val status = Statuses.getStatus(Identifier(statusId)) ?: return null
+            val status = Statuses.getStatus(Identifier.of(statusId)) ?: return null
             // Return null if not a persistent status
             if (status !is PersistentStatus) return null
             return PersistentStatusContainer(status, activeSeconds)
@@ -70,7 +70,7 @@ class PersistentStatusContainer(
             }
 
             // Return null if status doesn't exist
-            val status = Statuses.getStatus(Identifier(statusId)) ?: return null
+            val status = Statuses.getStatus(Identifier.of(statusId)) ?: return null
             // Return null if not a persistent status
             if (status !is PersistentStatus) return null
             return PersistentStatusContainer(status, activeSeconds)

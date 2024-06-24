@@ -3,7 +3,7 @@
     "pattern": [
         " S ",
         "BIF",
-		" P "
+        " P "
     ],
     "key": {
         "B": {
@@ -23,6 +23,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:weakness_policy"
+        "id": "cobblemon:weakness_policy"
     }
 }

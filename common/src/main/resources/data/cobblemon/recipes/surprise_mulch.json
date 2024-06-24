@@ -5,16 +5,10 @@
             "item": "minecraft:glistering_melon_slice"
         },
         {
-            "item": "minecraft:glistering_melon_slice"
-        },
-        {
-            "item": "minecraft:glistering_melon_slice"
-        },
-        {
             "item": "cobblemon:mulch_base"
         }
     ],
     "result": {
-        "item": "cobblemon:surprise_mulch"
+        "id": "cobblemon:surprise_mulch"
     }
 }

@@ -16,6 +16,7 @@ import java.nio.file.Path
 import java.util.UUID
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtIo
+import net.minecraft.nbt.NbtSizeTracker
 import net.minecraft.util.WorldSavePath
 
 object NbtMoLangDataStoreFactory : MoLangDataStoreFactory {
@@ -61,13 +62,13 @@ object NbtMoLangDataStoreFactory : MoLangDataStoreFactory {
             cache[uuid]!!
         else {
             val file = this.file(uuid)
-            if (!file.exists()) {
+            if (!file.toFile().exists()) {
                 val data = VariableStruct()
                 cache[uuid] = data
                 return data
             }
 
-            val nbt = NbtIo.readCompressed(file(uuid))
+            val nbt = NbtIo.readCompressed(file(uuid), NbtSizeTracker.ofUnlimitedBytes())
 
             // If it's not a VariableStruct then someone's fucked around and will subsequently find out
             val data = readMoValueFromNBT(nbt) as VariableStruct
@@ -80,10 +81,10 @@ object NbtMoLangDataStoreFactory : MoLangDataStoreFactory {
         val file = file(uuid)
         val data = cache[uuid] ?: return
         val nbt = writeMoValueToNBT(data)!! as NbtCompound
-        file.parentFile.mkdirs()
+        file.toFile().parentFile.mkdirs()
         NbtIo.writeCompressed(nbt, file)
         dirty -= uuid
     }
 
-    private fun file(uuid: UUID) = savePath.resolve("playermolangdata/${uuid.toString().substring(0, 2)}/$uuid.dat").toFile()
+    private fun file(uuid: UUID) = savePath.resolve("playermolangdata/${uuid.toString().substring(0, 2)}/$uuid.dat")
 }

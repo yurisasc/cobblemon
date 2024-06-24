@@ -5,16 +5,10 @@
             "item": "minecraft:coarse_dirt"
         },
         {
-            "item": "minecraft:coarse_dirt"
-        },
-        {
-            "item": "minecraft:coarse_dirt"
-        },
-        {
             "item": "cobblemon:mulch_base"
         }
     ],
     "result": {
-        "item": "cobblemon:coarse_mulch"
+        "id": "cobblemon:coarse_mulch"
     }
 }

@@ -3,7 +3,7 @@
     "pattern": [
         "SPS",
         "LAF",
-		"MPM"
+        "MPM"
     ],
     "key": {
         "P": {
@@ -26,6 +26,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:sachet"
+        "id": "cobblemon:sachet"
     }
 }

@@ -24,6 +24,6 @@ import net.minecraft.util.Identifier
  * @since January 24th, 2022
  */
 object IdentifierAdapter : JsonSerializer<Identifier>, JsonDeserializer<Identifier> {
-    override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext) = Identifier(json.asString)
+    override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext) = Identifier.of(json.asString)
     override fun serialize(src: Identifier, type: Type, ctx: JsonSerializationContext) = JsonPrimitive(src.toString())
 }

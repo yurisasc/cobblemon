@@ -14,7 +14,14 @@ import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
 import com.cobblemon.mod.common.client.gui.summary.featurerenderers.SummarySpeciesFeatureRenderer
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
+import net.minecraft.network.RegistryByteBuf
 import kotlin.random.Random
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
@@ -55,11 +62,11 @@ open class FlagSpeciesFeature(override val name: String) : SynchronizedSpeciesFe
         return this
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
         buffer.writeBoolean(enabled)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun loadFromBuffer(buffer: PacketByteBuf) {
         enabled = buffer.readBoolean()
     }
 
@@ -91,19 +98,19 @@ class FlagSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<FlagSpecie
 
     override fun invoke(buffer: PacketByteBuf, name: String): FlagSpeciesFeature? {
         return if (name in keys) {
-            FlagSpeciesFeature(name).also { it.decode(buffer) }
+            FlagSpeciesFeature(name).also { it.loadFromBuffer(buffer) }
         } else {
             null
         }
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
         buffer.writeCollection(keys) { _, value -> buffer.writeString(value) }
         buffer.writeNullable(default) { _, value -> buffer.writeString(value) }
         buffer.writeBoolean(isAspect)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun loadFromBuffer(buffer: PacketByteBuf) {
         keys = buffer.readList { it.readString() }
         default = buffer.readNullable { it.readString() }
         isAspect = buffer.readBoolean()

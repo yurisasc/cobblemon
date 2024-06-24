@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render
 
-import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.ModAPI
@@ -33,6 +32,7 @@ import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
 import org.joml.AxisAngle4d
@@ -61,12 +61,10 @@ class SnowstormParticle(
 
     var texture = storm.effect.particle.texture
 
-    var variableStruct = (storm.runtime.environment.structs["variable"] as VariableStruct);
-
-    val random1 = variableStruct.map["particle_random_1"]
-    val random2 = variableStruct.map["particle_random_2"]
-    val random3 = variableStruct.map["particle_random_3"]
-    val random4 = variableStruct.map["particle_random_4"]
+    val random1 = storm.runtime.environment.variable.map["particle_random_1"]
+    val random2 = storm.runtime.environment.variable.map["particle_random_2"]
+    val random3 = storm.runtime.environment.variable.map["particle_random_3"]
+    val random4 = storm.runtime.environment.variable.map["particle_random_4"]
 
     var localX = x - storm.getX()
     var localY = y - storm.getY()
@@ -110,15 +108,15 @@ class SnowstormParticle(
     }
 
     private fun applyRandoms() {
-        variableStruct.setDirectly("particle_random_1", random1)
-        variableStruct.setDirectly("particle_random_2", random2)
-        variableStruct.setDirectly("particle_random_3", random3)
-        variableStruct.setDirectly("particle_random_4", random4)
+        storm.runtime.environment.variable.setDirectly("particle_random_1", random1)
+        storm.runtime.environment.variable.setDirectly("particle_random_2", random2)
+        storm.runtime.environment.variable.setDirectly("particle_random_3", random3)
+        storm.runtime.environment.variable.setDirectly("particle_random_4", random4)
     }
 
     init {
         setVelocity(initialVelocity.x, initialVelocity.y, initialVelocity.z)
-        angle = storm.effect.particle.rotation.getInitialRotation(storm.runtime).toFloat()
+        angle = -storm.effect.particle.rotation.getInitialRotation(storm.runtime).toFloat()
         prevAngle = angle
         angularVelocity = storm.effect.particle.rotation.getInitialAngularVelocity(storm.runtime)
         velocityMultiplier = 1F
@@ -156,7 +154,7 @@ class SnowstormParticle(
             ParticleMaterial.ADD -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE)
         }
 
-        vertexConsumer as BufferBuilder
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
 
         val vec3d = camera.pos
 
@@ -188,15 +186,14 @@ class SnowstormParticle(
             cameraPitch = camera.pitch,
             viewDirection = viewDirection
         )
-
         val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat() / 1.5.toFloat()
         val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat() / 1.5.toFloat()
 
         val particleVertices = arrayOf(
-            Vector3f(-xSize, -ySize, 0.0f),
-            Vector3f(-xSize, ySize, 0.0f),
+            Vector3f(xSize, -ySize, 0.0f),
             Vector3f(xSize, ySize, 0.0f),
-            Vector3f(xSize, -ySize, 0.0f)
+            Vector3f(-xSize, ySize, 0.0f),
+            Vector3f(-xSize, -ySize, 0.0f)
         )
 
         for (k in 0..3) {
@@ -218,29 +215,25 @@ class SnowstormParticle(
 
         val p = if (storm.effect.particle.environmentLighting) getBrightness(tickDelta) else (15 shl 20 or (15 shl 4))
         vertexConsumer
-            .vertex(particleVertices[0].x.toDouble(), particleVertices[0].y.toDouble(), particleVertices[0].z.toDouble())
+            .vertex(particleVertices[0].x, particleVertices[0].y, particleVertices[0].z)
             .texture(maxU, maxV)
             .color(colour.x, colour.y, colour.z, colour.w)
             .light(p)
-            .next()
         vertexConsumer
-            .vertex(particleVertices[1].x.toDouble(), particleVertices[1].y.toDouble(), particleVertices[1].z.toDouble())
+            .vertex(particleVertices[1].x, particleVertices[1].y, particleVertices[1].z)
             .texture(maxU, minV)
             .color(colour.x, colour.y, colour.z, colour.w)
             .light(p)
-            .next()
         vertexConsumer
-            .vertex(particleVertices[2].x.toDouble(), particleVertices[2].y.toDouble(), particleVertices[2].z.toDouble())
+            .vertex(particleVertices[2].x, particleVertices[2].y, particleVertices[2].z)
             .texture(minU, minV)
             .color(colour.x, colour.y, colour.z, colour.w)
             .light(p)
-            .next()
         vertexConsumer
-            .vertex(particleVertices[3].x.toDouble(), particleVertices[3].y.toDouble(), particleVertices[3].z.toDouble())
+            .vertex(particleVertices[3].x, particleVertices[3].y, particleVertices[3].z)
             .texture(minU, maxV)
             .color(colour.x, colour.y, colour.z, colour.w)
             .light(p)
-            .next()
     }
 
     fun runExpirationEvents() {
@@ -256,24 +249,20 @@ class SnowstormParticle(
         setParticleAgeInRuntime()
         storm.effect.curves.forEach { it.apply(storm.runtime) }
         storm.runtime.execute(storm.effect.particle.updateExpressions)
-        angularVelocity += storm.effect.particle.rotation.getAngularAcceleration(storm.runtime, angularVelocity) / 20
+        angularVelocity = storm.effect.particle.rotation.getAngularVelocity(storm.runtime, -angle.toDouble(), angularVelocity) / 20
 
-        if (age > maxAge || storm.runtime.resolveBoolean(storm.effect.particle.killExpression)) {
+        if (age >= maxAge || storm.runtime.resolveBoolean(storm.effect.particle.killExpression)) {
             runExpirationEvents()
             markDead()
             return
         } else {
-            val acceleration = storm.effect.particle.motion.getAcceleration(
-                storm.runtime,
-                Vec3d(velocityX, velocityY, velocityZ).multiply(20.0) // Uses blocks per second, not blocks per tick
-            ).multiply(1 / 20.0).multiply(1 / 20.0) // blocks per second per second -> blocks per tick per tick
-
-            velocityX += acceleration.x
-            velocityY += acceleration.y
-            velocityZ += acceleration.z
-
+            val velocity = storm.effect.particle.motion.getVelocity(storm.runtime, this, Vec3d(velocityX, velocityY, velocityZ))
+            velocityX = velocity.x
+            velocityY = velocity.y
+            velocityZ = velocity.z
             prevAngle = angle
-            angle = prevAngle + angularVelocity.toFloat()
+            // Subtract because Bedrock particles are counter-clockwise and Java Edition is clockwise.
+            angle = prevAngle - angularVelocity.toFloat()
         }
 
         viewDirection = storm.effect.particle.viewDirection.getDirection(
@@ -518,8 +507,8 @@ class SnowstormParticle(
 
 
     private fun setParticleAgeInRuntime() {
-        variableStruct.setDirectly("particle_age", DoubleValue(age / 20.0))
-        variableStruct.setDirectly("particle_lifetime", DoubleValue(maxAge / 20.0))
+        storm.runtime.environment.variable.setDirectly("particle_age", DoubleValue(age / 20.0))
+        storm.runtime.environment.variable.setDirectly("particle_lifetime", DoubleValue(maxAge / 20.0))
     }
 
     override fun getType() = particleTextureSheet

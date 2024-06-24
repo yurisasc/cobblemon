@@ -3,7 +3,7 @@
     "pattern": [
         "SSS",
         "LHL",
-		"G G"
+        "G G"
     ],
     "key": {
         "G": {
@@ -20,6 +20,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:rocky_helmet"
+        "id": "cobblemon:rocky_helmet"
     }
 }
