@@ -8,33 +8,35 @@
 
 package com.cobblemon.mod.common.client.gui.pokedex
 
-import net.minecraft.text.Text
-
 object PokedexGUIConstants {
-    const val BASE_WIDTH = 350
-    const val BASE_HEIGHT = 200
-    const val HEADER_HEIGHT = 15
-    const val SPACER = 5
-    const val MARGIN = 2
-    const val SCROLL_HEIGHT = 180
-    const val SCROLL_WIDTH = 90
-    const val POKEMON_PORTRAIT_HEIGHT = 105
-    const val POKEMON_PORTRAIT_WIDTH = 245
-    const val POKEMON_DESCRIPTION_WIDTH = 160
-    const val POKEMON_DESCRIPTION_HEIGHT = 70
+    const val BASE_WIDTH = 345
+    const val BASE_HEIGHT = 207
+    const val HALF_OVERLAY_WIDTH = 139
+    const val HALF_OVERLAY_HEIGHT = 163
+    const val HEADER_BAR_HEIGHT = 11
+    const val POKEMON_DESCRIPTION_HEIGHT = 42
+    const val POKEMON_DESCRIPTION_PADDING = 9
+
+    const val TAB_ICON_SIZE = 16
+
     const val POKEMON_FORMS_WIDTH = 80
     const val POKEMON_FORMS_HEIGHT = 70
-    const val PORTRAIT_SIZE = 66
+
     const val SCALE = 0.5F
-    const val SCROLL_SLOT_COUNT = 9
-    const val SCROLL_SLOT_HEIGHT = SCROLL_HEIGHT / SCROLL_SLOT_COUNT
-    const val SCROLL_BAR_WIDTH = 5
-    const val SEARCH_HEIGHT = SCROLL_SLOT_HEIGHT
-    const val SEARCH_WIDTH = BASE_WIDTH
 
     //PokemonInfoWidget
-    const val TEXT_HEIGHT = 10
-    const val HEIGHT_Y_POSITION = POKEMON_PORTRAIT_HEIGHT - TEXT_HEIGHT * 3
-    const val WEIGHT_Y_POSITION = POKEMON_PORTRAIT_HEIGHT - TEXT_HEIGHT * 2
-    const val ANIMATION_BUTTON_Y_POSITION = POKEMON_PORTRAIT_HEIGHT - TEXT_HEIGHT
+    const val POKEMON_PORTRAIT_WIDTH = 137
+    const val POKEMON_PORTRAIT_HEIGHT = 68
+    const val PORTRAIT_POKE_BALL_WIDTH = 109
+    const val PORTRAIT_POKE_BALL_HEIGHT = 68
+    const val SCROLL_BAR_WIDTH = 5
+    const val TAB_DESCRIPTION = 0
+    const val TAB_ABILITIES = 1
+    const val TAB_SIZE = 2
+    const val TAB_STATS = 3
+
+    // RowScrollingWidget
+    const val SCROLL_BASE_HEIGHT = 141
+    const val SCROLL_SLOT_SIZE = 25
+    const val SCROLL_SLOT_SPACING = 2
 }

@@ -153,6 +153,21 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val ANCIENT_ORIGIN_BALL = pokeBallItem(PokeBalls.ANCIENT_ORIGIN_BALL)
 
     @JvmField
+    val POKEDEX_BLACK = create("pokedex_black", PokedexItem("black"))
+    @JvmField
+    val POKEDEX_BLUE = create("pokedex_blue", PokedexItem("blue"))
+    @JvmField
+    val POKEDEX_GREEN = create("pokedex_green", PokedexItem("green"))
+    @JvmField
+    val POKEDEX_PINK = create("pokedex_pink", PokedexItem("pink"))
+    @JvmField
+    val POKEDEX_RED = create("pokedex_red", PokedexItem("red"))
+    @JvmField
+    val POKEDEX_WHITE = create("pokedex_white", PokedexItem("white"))
+    @JvmField
+    val POKEDEX_YELLOW = create("pokedex_yellow", PokedexItem("yellow"))
+
+    @JvmField
     val VIVICHOKE = compostableItem("vivichoke")
 
     @JvmField

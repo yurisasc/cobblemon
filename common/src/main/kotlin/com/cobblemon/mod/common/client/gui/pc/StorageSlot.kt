@@ -66,6 +66,7 @@ open class StorageSlot(
         matrices.push()
         matrices.translate(posX + (SIZE / 2.0), posY + 1.0, 0.0)
         matrices.scale(2.5F, 2.5F, 1F)
+
         drawProfilePokemon(
             renderablePokemon = pokemon.asRenderablePokemon(),
             matrixStack = matrices,

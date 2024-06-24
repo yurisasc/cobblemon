@@ -29,9 +29,12 @@ fun drawProfilePokemon(
     renderablePokemon: RenderablePokemon,
     matrixStack: MatrixStack,
     rotation: Quaternionf,
+    poseType: PoseType = PoseType.PROFILE,
     state: PoseableEntityState<PokemonEntity>?,
     partialTicks: Float,
     scale: Float = 20F,
+    applyProfileTransform: Boolean = true,
+    applyBaseScale: Boolean = false,
     r: Float = 1F,
     g: Float = 1F,
     b: Float = 1F,
@@ -41,9 +44,12 @@ fun drawProfilePokemon(
     aspects = renderablePokemon.aspects,
     matrixStack = matrixStack,
     rotation = rotation,
+    poseType = poseType,
     state = state,
     partialTicks = partialTicks,
     scale = scale,
+    applyProfileTransform = applyProfileTransform,
+    applyBaseScale = applyBaseScale,
     r = r,
     g = g,
     b = b,
@@ -55,9 +61,12 @@ fun drawProfilePokemon(
     aspects: Set<String>,
     matrixStack: MatrixStack,
     rotation: Quaternionf,
+    poseType: PoseType = PoseType.PROFILE,
     state: PoseableEntityState<PokemonEntity>?,
     partialTicks: Float,
     scale: Float = 20F,
+    applyProfileTransform: Boolean = true,
+    applyBaseScale: Boolean = false,
     r: Float = 1F,
     g: Float = 1F,
     b: Float = 1F,
@@ -68,7 +77,8 @@ fun drawProfilePokemon(
 
     val context = RenderContext()
     PokemonModelRepository.getTextureNoSubstitute(species, aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
-    context.put(RenderContext.SCALE, PokemonSpecies.getByIdentifier(species)!!.getForm(aspects).baseScale)
+    val baseScale = PokemonSpecies.getByIdentifier(species)!!.getForm(aspects).baseScale
+    context.put(RenderContext.SCALE, baseScale)
     context.put(RenderContext.SPECIES, species)
     context.put(RenderContext.ASPECTS, aspects)
 
@@ -78,15 +88,21 @@ fun drawProfilePokemon(
     matrixStack.scale(scale, scale, -scale)
 
     if (state != null) {
-        model.getPose(PoseType.PROFILE)?.let { state.setPose(it.poseName) }
+        model.getPose(poseType)?.let { state.setPose(it.poseName) }
         state.timeEnteredPose = 0F
         state.updatePartialTicks(partialTicks)
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
     } else {
-        model.setupAnimStateless(PoseType.PROFILE)
+        model.setupAnimStateless(poseType)
     }
-    matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
-    matrixStack.scale(model.profileScale, model.profileScale, 1 / model.profileScale)
+
+    if (applyProfileTransform) {
+        matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
+        matrixStack.scale(model.profileScale, model.profileScale, 1 / model.profileScale)
+    } else {
+        matrixStack.translate(0F, 0F, -4.0F)
+        if (applyBaseScale) matrixStack.scale(baseScale, baseScale, 1 / baseScale)
+    }
 
     matrixStack.multiply(rotation)
     DiffuseLighting.method_34742()

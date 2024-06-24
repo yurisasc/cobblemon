@@ -62,6 +62,11 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val POKE_BALL_TRAIL = this.create("poke_ball.trail")
 
     @JvmField
+    val POKEDEX_SHOW = this.create("item.pokedex.show")
+    @JvmField
+    val POKEDEX_SCAN = this.create("item.pokedex.scan")
+
+    @JvmField
     val ITEM_USE = this.create("item.use")
     @JvmField
     val CAN_EVOLVE = this.create("pokemon.can_evolve")

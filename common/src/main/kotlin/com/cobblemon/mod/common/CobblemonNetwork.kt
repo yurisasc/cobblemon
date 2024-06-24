@@ -26,6 +26,7 @@ import com.cobblemon.mod.common.client.net.dialogue.DialogueOpenedHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormEntityParticleHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
+import com.cobblemon.mod.common.client.net.gui.PokedexUIPacketHandler
 import com.cobblemon.mod.common.client.net.gui.SummaryUIPacketHandler
 import com.cobblemon.mod.common.client.net.pasture.ClosePastureHandler
 import com.cobblemon.mod.common.client.net.pasture.OpenPastureHandler
@@ -109,6 +110,7 @@ import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotification
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeUpdatedPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
+import com.cobblemon.mod.common.net.messages.client.ui.PokedexUIPacket
 import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
 import com.cobblemon.mod.common.net.messages.server.*
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
@@ -257,7 +259,7 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(SummaryUIPacket.ID, SummaryUIPacket::decode, SummaryUIPacketHandler)
         this.createClientBound(InteractPokemonUIPacket.ID, InteractPokemonUIPacket::decode, InteractPokemonUIPacketHandler)
         this.createClientBound(PlayerInteractOptionsPacket.ID, PlayerInteractOptionsPacket::decode, PlayerInteractOptionsHandler)
-        //this.createClientBound(PokedexUIPacket.ID, PokedexUIPacket::decode, PokedexUIPacketHandler)
+        this.createClientBound(PokedexUIPacket.ID, PokedexUIPacket::decode, PokedexUIPacketHandler)
 
         // Starter packets
         this.createClientBound(OpenStarterUIPacket.ID, OpenStarterUIPacket::decode, StarterUIPacketHandler)

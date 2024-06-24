@@ -9,18 +9,28 @@
 package com.cobblemon.mod.common.net.messages.client.ui
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.client.net.gui.PokedexUIPacketHandler
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 
-class PokedexUIPacket internal constructor(): NetworkPacket<PokedexUIPacket> {
+/**
+ * Tells the client to open the Pokédex interface.
+ *
+ * Handled by [PokedexUIPacketHandler].
+ */
+class PokedexUIPacket(val type: String, val initSpecies: Identifier? = null): NetworkPacket<PokedexUIPacket> {
 
     override val id = ID
 
     override fun encode(buffer: PacketByteBuf) {
-
+        buffer.writeString(type)
+        buffer.writeNullable(initSpecies) { pb, value -> pb.writeIdentifier(value) }
     }
 
     companion object {
         val ID = cobblemonResource("pokedex_ui")
+
+        fun decode(buffer: PacketByteBuf) = PokedexUIPacket(buffer.readString(), buffer.readNullable { it.readIdentifier() })
     }
 }

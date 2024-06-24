@@ -21,6 +21,7 @@ import net.minecraft.util.Identifier
 object CobblemonBakingOverrides {
     val models = mutableListOf<BakingOverride>()
 
+    // Blocks
     val RESTORATION_TANK_FLUID_BUBBLING = registerOverride(
         cobblemonResource("block/restoration_tank_fluid_bubbling"),
         cobblemonModel("restoration_tank_fluid_bubbling", "none")
@@ -61,6 +62,48 @@ object CobblemonBakingOverrides {
         cobblemonResource("block/restoration_tank_connector"),
         cobblemonModel("restoration_tank_connector", "none")
     )
+
+    // Items
+    val POKEDEX_BLACK = registerOverride(
+        cobblemonResource("item/pokedex_black_model"),
+        cobblemonModel("pokedex_black_model", "inventory")
+    )
+    val POKEDEX_BLUE = registerOverride(
+        cobblemonResource("item/pokedex_blue_model"),
+        cobblemonModel("pokedex_blue_model", "inventory")
+    )
+    val POKEDEX_GREEN = registerOverride(
+        cobblemonResource("item/pokedex_green_model"),
+        cobblemonModel("pokedex_green_model", "inventory")
+    )
+    val POKEDEX_PINK = registerOverride(
+        cobblemonResource("item/pokedex_pink_model"),
+        cobblemonModel("pokedex_pink_model", "inventory")
+    )
+    val POKEDEX_RED = registerOverride(
+        cobblemonResource("item/pokedex_red_model"),
+        cobblemonModel("pokedex_red_model", "inventory")
+    )
+    val POKEDEX_WHITE = registerOverride(
+        cobblemonResource("item/pokedex_white_model"),
+        cobblemonModel("pokedex_white_model", "inventory")
+    )
+    val POKEDEX_YELLOW = registerOverride(
+        cobblemonResource("item/pokedex_yellow_model"),
+        cobblemonModel("pokedex_yellow_model", "inventory")
+    )
+
+    fun getPokedexOverride(type: String): BakingOverride {
+        when (type) {
+            "black" -> return POKEDEX_BLACK
+            "blue" -> return POKEDEX_BLUE
+            "green" -> return POKEDEX_GREEN
+            "pink" -> return POKEDEX_PINK
+            "white" -> return POKEDEX_WHITE
+            "yellow" -> return POKEDEX_YELLOW
+        }
+        return POKEDEX_RED
+    }
 
     fun registerOverride(modelLocation: Identifier, modelIdentifier: ModelIdentifier): BakingOverride {
         val result = BakingOverride(modelLocation, modelIdentifier)

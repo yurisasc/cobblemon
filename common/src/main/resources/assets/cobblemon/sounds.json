@@ -71,6 +71,12 @@
   "item.use": {
     "sounds": [ "cobblemon:use_item" ]
   },
+  "item.pokedex.show": {
+    "sounds": [ "cobblemon:item/pokedex/pokedex_show" ]
+  },
+  "item.pokedex.scan": {
+    "sounds": [ "cobblemon:item/pokedex/pokedex_scan" ]
+  },
   "pokemon.can_evolve": {
     "sounds": [ "cobblemon:pokemon/evolution_notification"]
   },
