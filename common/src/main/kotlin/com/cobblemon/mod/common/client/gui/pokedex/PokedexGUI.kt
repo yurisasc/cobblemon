@@ -404,7 +404,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
                 }
                 TAB_SIZE -> {
                     if (::pokemonInfoWidget.isInitialized && pokemonInfoWidget.renderablePokemon != null) {
-                        (tabInfoElement as SizeWidget).height = form.height
+                        (tabInfoElement as SizeWidget).pokemonHeight = form.height
                         (tabInfoElement as SizeWidget).weight = form.weight
                         (tabInfoElement as SizeWidget).baseScale = form.baseScale
                         (tabInfoElement as SizeWidget).renderablePokemon = pokemonInfoWidget.renderablePokemon!!

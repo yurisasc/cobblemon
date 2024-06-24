@@ -90,6 +90,24 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     open var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
 
     open var profileScale = 1F
+
+    /*
+     * Hello future Hiro, this is past Hiro. You've gotten forgetful in your old age.
+     *
+     * The profile translation is not actually necessary. The reason why you thought it was necessary
+     * is that there is a 1.5 block offset applied by living-entity-renderer-intended models due to
+     * Mojang quirks, and you thought that the profile translation would be necessary to counteract that.
+     * Without it, applying different scales to a model appears to scale from a different source point
+     * instead of scaling it from the feet of the model. What a pain!
+     *
+     * You can weasel out of that by pre-emptively translating in the opposite direction. The Y value
+     * will be form.baseScale * {the scale you passed into drawProfilePokemon} * {profileScale} * 1.5.
+     * Minor refactoring will be necessary to get all the things you need in the same place.
+     *
+     * Doesn't apply to portraits because there is some artistic positioning going on there. You also can't nix
+     * the profileScale because we use that to fit the model into the GUI - to-scale Wailord in the GUI is not
+     * a good user experience.
+     */
     open var profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     var red = 1F
