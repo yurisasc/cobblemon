@@ -222,4 +222,7 @@ class CobblemonConfig {
 
     @NodeCategory(Category.Debug)
     var enableDebugKeys = false
+
+    @NodeCategory(Category.Pokemon)
+    val captureXpMultiplier = 1.0
 }

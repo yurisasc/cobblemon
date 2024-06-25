@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.pokemon.experience
 
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.command.CommandSource
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
@@ -44,3 +45,7 @@ open class BattleExperienceSource(
     val battle: PokemonBattle,
     val facedPokemon: List<BattlePokemon>
 ) : ExperienceSource
+
+open class CaptureExperienceSource(
+    val capturedPokemon: Pokemon
+): ExperienceSource
