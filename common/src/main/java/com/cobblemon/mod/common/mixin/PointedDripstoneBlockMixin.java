@@ -9,9 +9,9 @@
 package com.cobblemon.mod.common.mixin;
 
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.PointedDripstoneBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.PointedDripstoneBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -26,7 +26,7 @@ public abstract class PointedDripstoneBlockMixin {
             slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/block/Blocks;DRIPSTONE_BLOCK:Lnet/minecraft/block/Block;"))
     )
     private static boolean cobblemon$validateMoonStoneDripstone(BlockState instance, Block block) {
-        return instance.isIn(CobblemonBlockTags.DRIPSTONE_GROWABLE);
+        return instance.is(CobblemonBlockTags.DRIPSTONE_GROWABLE);
     }
 
 }

@@ -9,18 +9,17 @@
 package com.cobblemon.mod.common.mixin.pokeball;
 
 import com.cobblemon.mod.common.item.PokeBallItem;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.item.ItemModels;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformation;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.ItemModelShaper;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -32,16 +31,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
 
-    @Shadow @Final private ItemModels models;
+    @Shadow @Final private ItemModelShaper models;
 
-    @Shadow public abstract void renderItem(ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model);
+    @Shadow public abstract void renderItem(ItemStack stack, ItemDisplayContext renderMode, boolean leftHanded, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, BakedModel model);
 
     @Inject(method = "getModel", at = @At("HEAD"), cancellable = true)
-    private void cobblemon$bakePokeballModel(ItemStack stack, World world, LivingEntity entity, int seed, CallbackInfoReturnable<BakedModel> cir) {
+    private void cobblemon$bakePokeballModel(ItemStack stack, Level world, LivingEntity entity, int seed, CallbackInfoReturnable<BakedModel> cir) {
         if (stack.getItem() instanceof PokeBallItem pokeBallItem) {
-            BakedModel model = this.models.getModelManager().getModel(new ModelIdentifier(pokeBallItem.getPokeBall().getModel3d(), "inventory"));
-            ClientWorld clientWorld = world instanceof ClientWorld ? (ClientWorld) world : null;
-            BakedModel overriddenModel = model.getOverrides().apply(model, stack, clientWorld, entity, seed);
+            BakedModel model = this.models.getModelManager().getModel(new ModelResourceLocation(pokeBallItem.getPokeBall().getModel3d(), "inventory"));
+            ClientLevel clientWorld = world instanceof ClientLevel ? (ClientLevel) world : null;
+            BakedModel overriddenModel = model.getOverrides().resolve(model, stack, clientWorld, entity, seed);
             cir.setReturnValue(overriddenModel == null ? this.models.getModelManager().getMissingModel() : overriddenModel);
         }
     }
@@ -51,10 +50,10 @@ public abstract class ItemRendererMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void cobblemon$determinePokeballModel(ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo ci) {
-        boolean shouldBe2d = renderMode == ModelTransformationMode.GUI || renderMode == ModelTransformationMode.FIXED;
+    private void cobblemon$determinePokeballModel(ItemStack stack, ItemDisplayContext renderMode, boolean leftHanded, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo ci) {
+        boolean shouldBe2d = renderMode == ItemDisplayContext.GUI || renderMode == ItemDisplayContext.FIXED;
         if (shouldBe2d && stack.getItem() instanceof PokeBallItem pokeBallItem) {
-            BakedModel replacementModel = this.models.getModelManager().getModel(new ModelIdentifier(pokeBallItem.getPokeBall().getModel2d(), "inventory"));
+            BakedModel replacementModel = this.models.getModelManager().getModel(new ModelResourceLocation(pokeBallItem.getPokeBall().getModel2d(), "inventory"));
             if (!model.equals(replacementModel)) {
                 ci.cancel();
                 renderItem(stack, renderMode, leftHanded, matrices, vertexConsumers, light, overlay, replacementModel);

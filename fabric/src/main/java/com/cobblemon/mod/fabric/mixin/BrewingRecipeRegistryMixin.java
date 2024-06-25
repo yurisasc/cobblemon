@@ -9,14 +9,14 @@
 package com.cobblemon.mod.fabric.mixin;
 
 import com.cobblemon.mod.fabric.brewing.CobblemonFabricBreweryRegistry;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.BrewingRecipeRegistry;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.PotionBrewing;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(BrewingRecipeRegistry.class)
+@Mixin(PotionBrewing.class)
 public class BrewingRecipeRegistryMixin {
 
     @Inject(method = "isValidIngredient", at = @At("RETURN"), cancellable = true)

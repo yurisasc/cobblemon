@@ -9,7 +9,11 @@
 package com.cobblemon.mod.common.mixin.invoker;
 
 import net.minecraft.block.*;
-import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.material.MapColor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
@@ -23,7 +27,7 @@ public interface BlocksInvoker {
     }
 
     @Invoker("createLeavesBlock")
-    static Block createLeavesBlock(BlockSoundGroup soundGroup) {
+    static Block createLeavesBlock(SoundType soundGroup) {
         throw new UnsupportedOperationException();
     }
 

@@ -9,8 +9,8 @@
 package com.cobblemon.mod.fabric.mixin;
 
 import com.cobblemon.mod.fabric.brewing.CobblemonFabricBreweryRegistry;
-import net.minecraft.block.entity.BrewingStandBlockEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BrewingStandBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,7 +28,7 @@ public abstract class BrewingStandBlockEntityMixin
         final BrewingStandBlockEntity entity = (BrewingStandBlockEntity) (Object) this;
         if (slot < 3 && !cir.getReturnValue())
         {
-            if (entity.getStack(slot).isEmpty() && CobblemonFabricBreweryRegistry.INSTANCE.isValidPotionSlot(stack))
+            if (entity.getItem(slot).isEmpty() && CobblemonFabricBreweryRegistry.INSTANCE.isValidPotionSlot(stack))
                 cir.setReturnValue(true);
         }
     }

@@ -9,9 +9,9 @@
 package com.cobblemon.mod.common.mixin;
 
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffectRegistry;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,10 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LivingEntityMixin {
 
     @Inject(method = "onStatusEffectRemoved", at = @At(value = "TAIL"))
-    private void cobblemon$onStatusEffectRemoved(StatusEffectInstance effect, CallbackInfo ci) {
+    private void cobblemon$onStatusEffectRemoved(MobEffectInstance effect, CallbackInfo ci) {
         final LivingEntity entity = (LivingEntity) (Object) this;
-        if (entity instanceof ServerPlayerEntity) {
-            ShoulderEffectRegistry.INSTANCE.onEffectEnd((ServerPlayerEntity) entity);
+        if (entity instanceof ServerPlayer) {
+            ShoulderEffectRegistry.INSTANCE.onEffectEnd((ServerPlayer) entity);
         }
     }
 

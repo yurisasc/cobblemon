@@ -9,10 +9,10 @@
 package com.cobblemon.mod.common.mixin;
 
 import com.cobblemon.mod.common.block.PreEmptsExplosion;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -28,7 +28,7 @@ public class ExplosionMixin {
                     ordinal = 0
             )
     )
-    public BlockState cobblemon$whenExploded(World world, BlockPos pos) {
+    public BlockState cobblemon$whenExploded(Level world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
         if(blockState.getBlock() instanceof PreEmptsExplosion preExplosionBlock) {
             preExplosionBlock.whenExploded(world, blockState, pos);
