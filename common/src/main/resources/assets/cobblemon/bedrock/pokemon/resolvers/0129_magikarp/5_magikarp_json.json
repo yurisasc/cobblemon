@@ -1,0 +1,22 @@
+{
+    "species": "cobblemon:magikarp",
+    "order": 0,
+    "variations": [
+      {
+        "aspects": [],
+        "poser": "cobblemon:magikarptest"
+      },
+      {
+        "aspects": [
+          "female"
+        ],
+        "poser": "cobblemon:magikarptest"
+      },
+      {
+        "aspects": [
+          "shiny"
+        ],
+        "poser": "cobblemon:magikarptest"
+      }
+    ]
+  }
