@@ -58,7 +58,7 @@ open class BedrockActiveAnimation(
         }
     }
 
-    override fun applyEffects(entity: Entity, state: PosableState, previousSeconds: Float, newSeconds: Float) {
+    override fun applyEffects(entity: Entity?, state: PosableState, previousSeconds: Float, newSeconds: Float) {
         if (startedSeconds == -1F) {
             startedSeconds = state.animationSeconds
         }
