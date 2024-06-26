@@ -82,7 +82,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
     private var selectedPokemon: DexPokemonData? = null
     private var selectedForm: FormData? = null
 
-    private lateinit var scrollScreen: EntriesScrollingWidget<EntriesScrollingWidget.PokemonScrollSlotRow>
+    private lateinit var scrollScreen: EntriesScrollingWidget
     private lateinit var pokemonInfoWidget: PokemonInfoWidget
     private lateinit var searchWidget: SearchWidget
 
