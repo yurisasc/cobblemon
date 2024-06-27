@@ -341,8 +341,9 @@ open class PokemonEntity(
     }
 
     override fun mobTick() {
-        super.mobTick()
         this.getBrain().tick(world as ServerWorld, this)
+        PokemonBrain.updateActivities(this)
+        super.mobTick()
     }
 
     fun setMoveControl(moveControl: MoveControl) {

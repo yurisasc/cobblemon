@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.entity.pokemon.ai.tasks
 
+import com.cobblemon.mod.common.CobblemonMemories
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.google.common.collect.ImmutableMap
 import net.minecraft.block.CropBlock
@@ -41,42 +42,12 @@ class FertilizerTask : MultiTickTask<PokemonEntity>(
     private var pos = Optional.empty<BlockPos>()
 
     override fun shouldRun(world: ServerWorld, entity: PokemonEntity): Boolean {
-        this.pos = findBoneMealPos(world, entity)
+        this.pos = entity.brain.getOptionalRegisteredMemory(CobblemonMemories.NEARBY_GROWABLE_CROPS)
         return pos.isPresent
     }
 
     override fun shouldKeepRunning(world: ServerWorld, entity: PokemonEntity, time: Long): Boolean {
         return duration < MAX_DURATION && pos.isPresent
-    }
-
-    private fun findBoneMealPos(world: ServerWorld, entity: PokemonEntity): Optional<BlockPos> {
-        val mutable = BlockPos.Mutable()
-        var optional = Optional.empty<BlockPos>()
-        var i = 0
-
-        //todo(broccoli): cleanup
-        for (j in -1..1) {
-            for (k in -1..1) {
-                for (l in -1..1) {
-                    mutable[entity.blockPos, j, k] = l
-                    if (canBoneMeal(mutable, world)) {
-                        ++i
-                        if (world.random.nextInt(i) == 0) {
-                            optional = Optional.of(mutable.toImmutable())
-                        }
-                    }
-                }
-            }
-        }
-
-        return optional
-    }
-
-    private fun canBoneMeal(pos: BlockPos, world: ServerWorld): Boolean {
-        val blockState = world.getBlockState(pos)
-        val block = blockState.block
-
-        return block is CropBlock && !block.isMature(blockState)
     }
 
     override fun run(world: ServerWorld, entity: PokemonEntity, time: Long) {
@@ -109,7 +80,7 @@ class FertilizerTask : MultiTickTask<PokemonEntity>(
         if (time >= this.startTime && blockPos.isWithinDistance(entity.pos, 1.0)) {
             if (BoneMealItem.useOnFertilizable(createBoneMealStack(), world, blockPos)) {
                 world.syncWorldEvent(1505, blockPos, 0)
-                pos = this.findBoneMealPos(world, entity)
+                pos = entity.brain.getOptionalRegisteredMemory(CobblemonMemories.NEARBY_GROWABLE_CROPS)
                 addLookWalkTargets(entity)
                 startTime = time + 40L
             }

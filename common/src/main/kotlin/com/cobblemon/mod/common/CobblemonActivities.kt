@@ -15,6 +15,7 @@ object CobblemonActivities {
     val BATTLING_ACTIVITY = Activity("pokemon_battle")
     val POKEMON_SLEEPING_ACTIVITY = Activity("pokemon_sleeping")
     val POKEMON_COMBAT_ACTIVITY = Activity("pokemon_combat")
+    val POKEMON_GROW_CROP = Activity("pokemon_grow_crop")
 
     fun register(activity: Activity): Activity {
         activities.add(activity)

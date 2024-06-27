@@ -20,13 +20,16 @@ import com.cobblemon.mod.common.entity.pokemon.ai.tasks.WakeUpTask
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.toDF
 import com.google.common.collect.ImmutableList
+import com.google.common.collect.ImmutableSet
 import com.mojang.datafixers.util.Pair
 import net.minecraft.entity.ai.brain.Activity
 import net.minecraft.entity.ai.brain.Brain
+import net.minecraft.entity.ai.brain.MemoryModuleState
 import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.entity.ai.brain.sensor.Sensor
 import net.minecraft.entity.ai.brain.sensor.SensorType
 import net.minecraft.entity.ai.brain.task.*
+import net.minecraft.entity.mob.HoglinEntity
 import net.minecraft.util.math.intprovider.UniformIntProvider
 
 // brain sensors / memory definitions split from PokemonEntity
@@ -44,6 +47,7 @@ object PokemonBrain {
         CobblemonSensors.POKEMON_DROWSY,
         CobblemonSensors.POKEMON_ADULT,
         SensorType.IS_IN_WATER,
+        CobblemonSensors.NEARBY_GROWABLE_CROPS
 
 //            CobblemonSensors.BATTLING_POKEMON,
 //            CobblemonSensors.NPC_BATTLING
@@ -75,7 +79,8 @@ object PokemonBrain {
         CobblemonMemories.TARGETED_BATTLE_POKEMON,
         MemoryModuleType.NEAREST_VISIBLE_ADULT,
         MemoryModuleType.IS_IN_WATER,
-        MemoryModuleType.DISTURBANCE_LOCATION
+        MemoryModuleType.DISTURBANCE_LOCATION,
+        CobblemonMemories.NEARBY_GROWABLE_CROPS
     )
 
     fun makeBrain(pokemon: Pokemon, brain: Brain<out PokemonEntity>): Brain<*> {
@@ -95,12 +100,38 @@ object PokemonBrain {
             CobblemonActivities.POKEMON_SLEEPING_ACTIVITY,
             ImmutableList.copyOf(sleepingTasks())
         )
+        brain.setTaskList(
+            Activity.FIGHT,
+            0,
+            ImmutableList.of(
+                MeleeAttackTask.create(10)
+            ),
+            MemoryModuleType.ATTACK_TARGET
+        )
+        brain.setTaskList(
+            CobblemonActivities.POKEMON_GROW_CROP,
+            ImmutableList.copyOf(growingPlantTasks(pokemon)),
+            ImmutableSet.of(Pair.of(MemoryModuleType.LOOK_TARGET, MemoryModuleState.VALUE_PRESENT))
+        )
 
         brain.setCoreActivities(setOf(Activity.CORE))
         brain.setDefaultActivity(Activity.IDLE)
         brain.resetPossibleActivities()
 
         return brain
+    }
+
+    fun updateActivities(pokemon:PokemonEntity) {
+        pokemon.brain.resetPossibleActivities(
+            ImmutableList.of(
+                Activity.CORE,
+                Activity.IDLE,
+                Activity.FIGHT,
+                CobblemonActivities.BATTLING_ACTIVITY,
+                CobblemonActivities.POKEMON_SLEEPING_ACTIVITY,
+                CobblemonActivities.POKEMON_GROW_CROP
+            )
+        )
     }
 
     private fun coreTasks(pokemon: Pokemon) = buildList<Pair<Int, Task<in PokemonEntity>>> {
@@ -134,11 +165,8 @@ object PokemonBrain {
         add(0 toDF MoveToOwnerTask.create(completionRange = 4, maxDistance = 14F, teleportDistance = 24F))
         add(0 toDF WalkTowardsParentSpeciesTask.create(ADULT_FOLLOW_RANGE, 0.4f))
 //        add(0 toDF HuntPlayerTask()) // commenting this out to test other things
+        add(1 toDF FertilizerTask())
 
-
-        if (pokemon.species.primaryType.name.equals("grass", true)){
-            add(1 toDF FertilizerTask())
-        }
         if (pokemon.species.primaryType.name.equals("fire", true)) {
             add(1 toDF IgniteTask())
         }
@@ -163,5 +191,9 @@ object PokemonBrain {
     private fun sleepingTasks() = buildList<Pair<Int, Task<in PokemonEntity>>> {
         add(1 toDF WakeUpTask.create())
     }
-
+    private fun growingPlantTasks(pokemon: Pokemon) = buildList<Pair<Int, Task<in PokemonEntity>>> {
+        if (pokemon.species.primaryType.name.equals("grass", true)){
+            add(1 toDF FertilizerTask())
+        }
+    }
 }

@@ -15,6 +15,7 @@ import java.util.Optional
 import java.util.UUID
 import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.util.Uuids
+import net.minecraft.util.math.BlockPos
 
 object CobblemonMemories {
     val memories = mutableMapOf<String, MemoryModuleType<*>>()
@@ -25,6 +26,7 @@ object CobblemonMemories {
     val REST_PATH_COOLDOWN = register("rest_path_cooldown", PrimitiveCodec.BOOL)
     val TARGETED_BATTLE_POKEMON = register<UUID>("targeted_battle_pokemon")
     val NEAREST_VISIBLE_ATTACKER = register<LivingEntity>("nearest_visible_attacker")
+    val NEARBY_GROWABLE_CROPS = register<BlockPos>("nearby_growable_crops")
 
     fun <U> register(id: String, codec: Codec<U>): MemoryModuleType<U> {
         val memoryModule = MemoryModuleType(Optional.of(codec))
