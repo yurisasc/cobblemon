@@ -28,7 +28,8 @@ class InteractWheelButton(
     y: Int,
     private val isEnabled: Boolean,
     private val colour: () -> Vector3f?,
-    onPress: PressAction
+    onPress: PressAction,
+    private val canHover: (Double, Double) -> Boolean
 ) : ButtonWidget(x, y, BUTTON_SIZE, BUTTON_SIZE, Text.literal("Interact"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
@@ -92,7 +93,7 @@ class InteractWheelButton(
         val xMax = xMin + BUTTON_SIZE
         val yMin = y.toFloat()
         val yMax = yMin + BUTTON_SIZE
-        return mouseX in xMin..xMax && mouseY in yMin..yMax
+        return canHover(mouseX.toDouble(), mouseY.toDouble()) && mouseX in xMin..xMax && mouseY in yMin..yMax
     }
 
     override fun getTooltip(): Tooltip? {
