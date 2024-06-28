@@ -133,7 +133,7 @@ class DamageInstruction(
                     x = pokemonEntity.x,
                     y = pokemonEntity.y,
                     z = pokemonEntity.z,
-                    worldKey = pokemonEntity.world.registryKey,
+                    worldKey = pokemonEntity.level().dimension(),
                     distance = 50.0
                 )
             }
@@ -143,7 +143,7 @@ class DamageInstruction(
                     x = pokemonEntity.x,
                     y = pokemonEntity.y,
                     z = pokemonEntity.z,
-                    worldKey = pokemonEntity.world.registryKey,
+                    worldKey = pokemonEntity.level().dimension(),
                     distance = 50.0
                 )
             }

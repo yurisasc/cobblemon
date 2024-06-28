@@ -144,7 +144,7 @@ import net.minecraft.nbt.NbtString
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.PlainTextContent
 import net.minecraft.util.Hand
 import net.minecraft.resources.ResourceLocation
@@ -232,13 +232,13 @@ open class Pokemon : ShowdownIdentifiable {
         _evs.emit(evs)
     }
 
-    var nickname: MutableText? = null
+    var nickname: MutableComponent? = null
         set(value) {
             field = value
             _nickname.emit(value)
         }
 
-    fun getDisplayName(): MutableText = nickname?.copy()?.takeIf { it.content != PlainTextContent.EMPTY } ?: species.translatedName.copy()
+    fun getDisplayName(): MutableComponent = nickname?.copy()?.takeIf { it.content != PlainTextContent.EMPTY } ?: species.translatedName.copy()
 
     var level = 1
         set(value) {
@@ -1751,7 +1751,7 @@ open class Pokemon : ShowdownIdentifiable {
 
     private val _form = registerObservable(SimpleObservable<FormData>()) { FormUpdatePacket({ this }, it) }
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket({ this }, it) }
-    private val _nickname = registerObservable(SimpleObservable<MutableText?>()) { NicknameUpdatePacket({ this }, it) }
+    private val _nickname = registerObservable(SimpleObservable<MutableComponent?>()) { NicknameUpdatePacket({ this }, it) }
     private val _experience = registerObservable(SimpleObservable<Int>()) { ExperienceUpdatePacket({ this }, it) }
     private val _friendship = registerObservable(SimpleObservable<Int>()) { FriendshipUpdatePacket({ this }, it) }
     private val _currentHealth = registerObservable(SimpleObservable<Int>()) { HealthUpdatePacket({ this }, it) }

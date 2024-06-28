@@ -14,12 +14,12 @@ import com.cobblemon.mod.common.api.gui.drawCenteredText
 import com.cobblemon.mod.common.client.gui.dialogue.DialogueScreen
 import com.cobblemon.mod.common.net.messages.server.dialogue.InputToDialoguePacket
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
 class DialogueOptionWidget(
     val dialogueScreen: DialogueScreen,
-    val text: MutableText,
+    val text: MutableComponent,
     val value: String,
     val selectable: Boolean,
     x: Int,

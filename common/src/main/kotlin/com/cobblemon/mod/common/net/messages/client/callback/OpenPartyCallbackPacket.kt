@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.TextCodecs
 
 /**
@@ -24,7 +24,7 @@ import net.minecraft.text.TextCodecs
  */
 class OpenPartyCallbackPacket(
     val uuid: UUID,
-    val title: MutableText,
+    val title: MutableComponent,
 //    val usePortraits: Boolean,
 //    val animate: Boolean,
     val pokemon: List<PartySelectPokemonDTO>

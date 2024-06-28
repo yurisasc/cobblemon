@@ -68,8 +68,9 @@ import net.minecraft.world.level.Level
 import java.util.concurrent.CompletableFuture
 import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
 import net.minecraft.server.network.EntityTrackerEntry
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile
 
-class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, Schedulable {
+class EmptyPokeBallEntity : ThrowableItemProjectile, PosableEntity, WaterDragModifier, Schedulable {
     enum class CaptureState {
         NOT,
         HIT,

@@ -62,8 +62,8 @@ class GraalShowdownUnbundler {
             }
 
             if (extract) {
-                ResourceLocation.of(Cobblemon.MODID, "showdown.zip").extractTo(showdownZip)
-                ResourceLocation.of(Cobblemon.MODID, "showdown.json").extractTo(showdownMetadataFile)
+                ResourceLocation.fromNamespaceAndPath(Cobblemon.MODID, "showdown.zip").extractTo(showdownZip)
+                ResourceLocation.fromNamespaceAndPath(Cobblemon.MODID, "showdown.json").extractTo(showdownMetadataFile)
                 FileUtils.unzipFile(showdownZip.toPath(), showdownDir.toPath())
                 showdownZip.delete()
             }

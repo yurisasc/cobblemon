@@ -28,7 +28,7 @@ import com.cobblemon.mod.common.util.writeMapK
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.TextCodecs
 
 /**
@@ -102,7 +102,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
             val actors = mutableListOf<BattleActorDTO>()
             repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
                 val uuid = buffer.readUuid()
-                val displayName = TextCodecs.PACKET_CODEC.decode(buffer) as MutableText
+                val displayName = TextCodecs.PACKET_CODEC.decode(buffer) as MutableComponent
                 val showdownId = buffer.readString()
                 val activePokemon = mutableListOf<ActiveBattlePokemonDTO?>()
                 repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
@@ -138,7 +138,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
 
     data class BattleActorDTO(
         val uuid: UUID,
-        val displayName: MutableText,
+        val displayName: MutableComponent,
         val showdownId: String,
         val activePokemon: List<ActiveBattlePokemonDTO?>,
         val type: ActorType
@@ -146,7 +146,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
 
     data class ActiveBattlePokemonDTO(
         val uuid: UUID,
-        val displayName: MutableText,
+        val displayName: MutableComponent,
         val properties: PokemonProperties,
         val aspects: Set<String>,
         val status: PersistentStatus?,

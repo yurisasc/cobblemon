@@ -22,11 +22,11 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.sound.SoundEvent
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component
 
 class MoveSelectConfiguration(
-    val title: MutableText,
+    val title: MutableComponent,
     val moves: List<MoveSelectDTO>,
     val onCancel: (MoveSelectGUI) -> Unit,
     val onBack: (MoveSelectGUI) -> Unit,
@@ -46,7 +46,7 @@ class MoveSelectGUI(
     var closed = false
 
     constructor(
-        title: MutableText,
+        title: MutableComponent,
         moves: List<MoveSelectDTO>,
         uuid: UUID
     ): this(

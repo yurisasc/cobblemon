@@ -23,7 +23,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
 class SpawnPokemonPacket(
@@ -35,7 +35,7 @@ class SpawnPokemonPacket(
     private val battleId: UUID?,
     private val phasingTargetId: Int,
     private val beamMode: Byte,
-    private val nickname: MutableText?,
+    private val nickname: MutableComponent?,
     private val labelLevel: Int,
     private val poseType: PoseType,
     private val unbattlable: Boolean,

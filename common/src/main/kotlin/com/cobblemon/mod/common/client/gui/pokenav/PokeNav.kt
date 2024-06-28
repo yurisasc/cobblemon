@@ -23,7 +23,7 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.InputUtil
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
@@ -288,7 +288,7 @@ class PokeNav : Screen(Component.translatable("cobblemon.ui.pokenav.title")) {
     private fun insertButton(
         identifier: ResourceLocation,
         onPress: ButtonWidget.PressAction,
-        text: MutableText,
+        text: MutableComponent,
         canClick: () -> Boolean = { true }
     ) {
         val insertion = this.findNextInsertion()

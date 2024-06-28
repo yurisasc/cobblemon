@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.writeCollection
 import com.cobblemon.mod.common.util.writeUuid
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.TextCodecs
 import java.util.UUID
 
@@ -24,7 +24,7 @@ import java.util.UUID
  * @author Hiroku
  * @since June 30th, 2023
  */
-class OpenMoveCallbackPacket(val uuid: UUID, val title: MutableText, val moves: List<MoveSelectDTO>) : NetworkPacket<OpenMoveCallbackPacket> {
+class OpenMoveCallbackPacket(val uuid: UUID, val title: MutableComponent, val moves: List<MoveSelectDTO>) : NetworkPacket<OpenMoveCallbackPacket> {
     companion object {
         val ID = cobblemonResource("open_move_callback")
         fun decode(buffer: RegistryByteBuf) = OpenMoveCallbackPacket(

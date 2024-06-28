@@ -19,10 +19,9 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.narration.NarrationElementOutput
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
 class BattleGeneralActionSelection(
@@ -75,7 +74,7 @@ class BattleGeneralActionSelection(
         }
     }
 
-    private fun addOption(rank: Int, text: MutableText, texture: ResourceLocation, onClick: () -> Unit) {
+    private fun addOption(rank: Int, text: MutableComponent, texture: ResourceLocation, onClick: () -> Unit) {
         val startY = Minecraft.getInstance().window.scaledHeight - BattleGUI.OPTION_VERTICAL_OFFSET
         val x = if (rank % 2 == 0) BattleGUI.OPTION_ROOT_X else BattleGUI.OPTION_ROOT_X + BattleGUI.OPTION_HORIZONTAL_SPACING + BattleOptionTile.OPTION_WIDTH
         val y = if (rank > 1) startY + BattleOptionTile.OPTION_HEIGHT + BattleGUI.OPTION_HORIZONTAL_SPACING else startY

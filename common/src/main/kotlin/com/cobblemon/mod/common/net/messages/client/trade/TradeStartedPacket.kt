@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.util.*
 import java.util.UUID
 import net.minecraft.world.item.ItemStack
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
 /**
@@ -31,7 +31,7 @@ import net.minecraft.resources.ResourceLocation
  */
 class TradeStartedPacket(
     val traderId: UUID,
-    val traderName: MutableText,
+    val traderName: MutableComponent,
     val traderParty: List<TradeablePokemon?>
 ) : NetworkPacket<TradeStartedPacket> {
     class TradeablePokemon(

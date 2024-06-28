@@ -50,7 +50,7 @@ import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.RenderTickCounter
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.RotationAxis
 import org.joml.Vector3f
@@ -196,7 +196,7 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
         species: Species,
         level: Int,
         aspects: Set<String>,
-        displayName: MutableText,
+        displayName: MutableComponent,
         gender: Gender,
         status: PersistentStatus?,
         state: PosableState,

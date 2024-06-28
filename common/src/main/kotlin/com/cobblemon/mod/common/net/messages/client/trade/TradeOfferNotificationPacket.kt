@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.util.writeText
 import com.cobblemon.mod.common.util.writeUuid
 import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 
 /**
  * Packet sent to the client to notify a player that someone requested to trade with them.
@@ -24,7 +24,7 @@ import net.minecraft.text.MutableText
  * @author Hiroku
  * @since March 6th, 2023
  */
-class TradeOfferNotificationPacket(val tradeOfferId: UUID, val traderId: UUID, val traderName: MutableText): NetworkPacket<TradeOfferNotificationPacket> {
+class TradeOfferNotificationPacket(val tradeOfferId: UUID, val traderId: UUID, val traderName: MutableComponent): NetworkPacket<TradeOfferNotificationPacket> {
     override val id = ID
     override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(tradeOfferId)

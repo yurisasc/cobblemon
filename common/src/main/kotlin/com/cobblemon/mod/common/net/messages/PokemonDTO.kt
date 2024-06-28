@@ -38,7 +38,7 @@ import java.util.UUID
 import net.minecraft.world.item.ItemStack
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.TextCodecs
 import net.minecraft.resources.ResourceLocation
 import java.util.Optional
@@ -55,7 +55,7 @@ class PokemonDTO : Encodable, Decodable {
     var toClient = false
     var uuid = UUID.randomUUID()
     lateinit var species: ResourceLocation
-    var nickname: MutableText? = null
+    var nickname: MutableComponent? = null
     var form = ""
     var level = 1
     var experience = 1
@@ -183,7 +183,7 @@ class PokemonDTO : Encodable, Decodable {
         toClient = buffer.readBoolean()
         uuid = buffer.readUuid()
         species = buffer.readIdentifier()
-        nickname = TextCodecs.OPTIONAL_PACKET_CODEC.decode(buffer).map { it::copy as MutableText }.orElse(null)
+        nickname = TextCodecs.OPTIONAL_PACKET_CODEC.decode(buffer).map { it::copy as MutableComponent }.orElse(null)
         form = buffer.readString()
         experience = buffer.readInt()
         level = buffer.readSizedInt(IntSize.U_SHORT)

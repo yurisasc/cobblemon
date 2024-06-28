@@ -25,7 +25,6 @@ import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.Waterloggable
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.mob.PiglinBrain
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
@@ -38,7 +37,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.WATERLOGGED
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
@@ -139,7 +138,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BaseEnti
         Direction.EAST to -90.0F
     )
 
-    override fun getName(): MutableText {
+    override fun getName(): MutableComponent {
         return if (isFake()) Component.translatable("block.cobblemon.gilded_chest") else super.getName()
     }
 

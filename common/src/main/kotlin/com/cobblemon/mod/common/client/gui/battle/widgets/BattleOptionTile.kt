@@ -19,14 +19,14 @@ import net.minecraft.client.gui.components.Renderable
 import net.minecraft.client.gui.components.events.GuiEventListener
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.screen.narration.NarrationPart
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 class BattleOptionTile(
     val battleGUI: BattleGUI,
     val x: Int,
     val y: Int,
     val resource: ResourceLocation,
-    val text: MutableText,
+    val text: MutableComponent,
     val onClick: () -> Unit
 ) : Renderable, GuiEventListener, Selectable {
     companion object {

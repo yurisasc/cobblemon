@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.screens.stats.StatWid
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.phys.Vec3
@@ -30,7 +30,7 @@ import net.minecraft.world.phys.Vec3
  */
 class BarSummarySpeciesFeatureRenderer(
     override val name: String,
-    val displayName: MutableText,
+    val displayName: MutableComponent,
     val min: Int,
     val max: Int,
     val colour: Vec3,

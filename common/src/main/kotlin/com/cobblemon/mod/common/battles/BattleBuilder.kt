@@ -18,17 +18,28 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.npc.NPCBattleActor
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.util.battleLang
-import com.cobblemon.mod.common.util.effectiveName
-import com.cobblemon.mod.common.util.getBattleTheme
-import com.cobblemon.mod.common.util.getPlayer
-import com.cobblemon.mod.common.util.party
-import com.cobblemon.mod.common.util.update
-import net.minecraft.entity.Entity
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.text.MutableText
+import com.cobblemon.mod.common.util.*
 import net.minecraft.network.chat.Component
-import java.util.UUID
+import net.minecraft.network.chat.MutableComponent
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.Entity
+import java.util.*
+import kotlin.collections.HashMap
+import kotlin.collections.Iterable
+import kotlin.collections.MutableSet
+import kotlin.collections.all
+import kotlin.collections.filterIsInstance
+import kotlin.collections.first
+import kotlin.collections.flatMap
+import kotlin.collections.forEach
+import kotlin.collections.isNotEmpty
+import kotlin.collections.listOf
+import kotlin.collections.mapNotNull
+import kotlin.collections.mutableSetOf
+import kotlin.collections.plus
+import kotlin.collections.plusAssign
+import kotlin.collections.set
+import kotlin.collections.sortedBy
 
 object BattleBuilder {
     @JvmOverloads
@@ -206,7 +217,7 @@ object BattleBuilder {
             ).ifSuccessful { battle ->
                 // TODO NPC battle themes
 //                playerActor.battleTheme = pokemonEntity.getBattleTheme()
-                npcEntity.dataTracker.update(NPCEntity.BATTLE_IDS) { it + battle.battleId }
+                npcEntity.entityData.update(NPCEntity.BATTLE_IDS) { it + battle.battleId }
                 result = SuccessfulBattleStart(battle)
             }
             result
@@ -236,21 +247,21 @@ class SuccessfulBattleStart(
 
 interface BattleStartError {
 
-    fun getMessageFor(entity: Entity): MutableText
+    fun getMessageFor(entity: Entity): MutableComponent
 
     companion object {
         fun alreadyInBattle(player: ServerPlayer) = AlreadyInBattleError(player.uuid, player.effectiveName())
         fun alreadyInBattle(pokemonEntity: PokemonEntity) = AlreadyInBattleError(pokemonEntity.uuid, pokemonEntity.effectiveName())
         fun alreadyInBattle(actor: BattleActor) = AlreadyInBattleError(actor.uuid, actor.getName())
 
-        fun targetIsBusy(targetName: MutableText) = BusyError(targetName)
+        fun targetIsBusy(targetName: MutableComponent) = BusyError(targetName)
         fun insufficientPokemon(
             player: ServerPlayer,
             requiredCount: Int,
             hadCount: Int
         ) = InsufficientPokemonError(player, requiredCount, hadCount)
 
-        fun canceledByEvent(reason: MutableText?) = CanceledError(reason)
+        fun canceledByEvent(reason: MutableComponent?) = CanceledError(reason)
     }
 }
 
@@ -259,7 +270,7 @@ enum class CommonBattleStartError : BattleStartError {
 }
 
 class CanceledError(
-    val reason: MutableText?
+    val reason: MutableComponent?
 ): BattleStartError {
     override fun getMessageFor(entity: Entity) = reason ?: battleLang("error.canceled")
 }
@@ -269,7 +280,7 @@ class InsufficientPokemonError(
     val requiredCount: Int,
     val hadCount: Int
 ) : BattleStartError {
-    override fun getMessageFor(entity: Entity): MutableText {
+    override fun getMessageFor(entity: Entity): MutableComponent {
         return if (player == entity) {
             val key = if (hadCount == 0) "no_pokemon" else "insufficient_pokemon.personal"
             battleLang(
@@ -291,7 +302,7 @@ class AlreadyInBattleError(
     val actorUUID: UUID,
     val name: Component
 ): BattleStartError {
-    override fun getMessageFor(entity: Entity): MutableText {
+    override fun getMessageFor(entity: Entity): MutableComponent {
         return if (actorUUID == entity.uuid) {
             battleLang("error.in_battle.personal")
         } else {
@@ -300,7 +311,7 @@ class AlreadyInBattleError(
     }
 }
 class BusyError(
-    val targetName: MutableText
+    val targetName: MutableComponent
 ): BattleStartError {
     override fun getMessageFor(entity: Entity) = battleLang("errors.busy", targetName)
 }
@@ -325,8 +336,8 @@ open class ErroredBattleStart(
         return this
     }
 
-    fun sendTo(entity: Entity, transformer: (MutableText) -> (MutableText) = { it }) {
-        errors.forEach { entity.sendMessage(transformer(it.getMessageFor(entity))) }
+    fun sendTo(entity: Entity, transformer: (MutableComponent) -> (MutableComponent) = { it }) {
+        errors.forEach { entity.sendSystemMessage(transformer(it.getMessageFor(entity))) }
     }
 
     inline fun <reified T : BattleStartError> ifHasError(action: () -> Unit): ErroredBattleStart {

@@ -16,10 +16,10 @@ import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeString
 import com.cobblemon.mod.common.util.writeText
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 
 class DialogueOptionDTO(
-    var text: MutableText = "".text(),
+    var text: MutableComponent = "".text(),
     var value: String = "",
     var selectable: Boolean = true
 ): Encodable, Decodable {

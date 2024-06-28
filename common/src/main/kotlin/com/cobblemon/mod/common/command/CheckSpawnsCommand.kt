@@ -32,7 +32,7 @@ import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.util.math.MathHelper
 
 object CheckSpawnsCommand {
@@ -78,8 +78,8 @@ object CheckSpawnsCommand {
 
         val spawnProbabilities = spawner.getSpawningSelector().getProbabilities(spawner, contexts)
 
-        val spawnNames = mutableMapOf<String, MutableText>()
-        val namedProbabilities = mutableMapOf<MutableText, Float>()
+        val spawnNames = mutableMapOf<String, MutableComponent>()
+        val namedProbabilities = mutableMapOf<MutableComponent, Float>()
 
         spawnProbabilities.entries.forEach {
             val nameText = it.key.getName()
@@ -93,7 +93,7 @@ object CheckSpawnsCommand {
         }
 
         val sortedEntries = namedProbabilities.entries.sortedByDescending { it.value }
-        val messages = mutableListOf<MutableText>()
+        val messages = mutableListOf<MutableComponent>()
         sortedEntries.forEach { (name, percentage) ->
             val message = name + ": " + applyColour("${df.format(percentage)}%".text(), percentage)
 //            player.sendMessage()
@@ -114,7 +114,7 @@ object CheckSpawnsCommand {
         return Command.SINGLE_SUCCESS
     }
 
-    fun applyColour(name: MutableText, percentage: Float): MutableText {
+    fun applyColour(name: MutableComponent, percentage: Float): MutableComponent {
         return if (percentage < PURPLE_THRESHOLD) {
             name.lightPurple()
         } else if (percentage < RED_THRESHOLD) {

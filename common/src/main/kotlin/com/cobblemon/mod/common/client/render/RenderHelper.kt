@@ -25,7 +25,7 @@ import net.minecraft.client.renderer.texture.TextureAtlas
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.client.util.math.MatrixStack.Entry
 import net.minecraft.world.item.ItemStack
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.OrderedText
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.RotationAxis
@@ -101,7 +101,7 @@ fun getDepletableRedGreen(
 fun drawScaledText(
     context: GuiGraphics,
     font: ResourceLocation? = null,
-    text: MutableText,
+    text: MutableComponent,
     x: Number,
     y: Number,
     scale: Float = 1F,

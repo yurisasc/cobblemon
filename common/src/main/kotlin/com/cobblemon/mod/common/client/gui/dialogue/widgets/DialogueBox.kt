@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.OrderedText
 import net.minecraft.util.Language
 
@@ -34,7 +34,7 @@ class DialogueBox(
     val listY: Int = 0,
     val frameWidth: Int,
     height: Int,
-    messages: List<MutableText>
+    messages: List<MutableComponent>
 ): AlwaysSelectedEntryListWidget<DialogueBox.DialogueLine>(
     Minecraft.getInstance(),
     frameWidth - 14,

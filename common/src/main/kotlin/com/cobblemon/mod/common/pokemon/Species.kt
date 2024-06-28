@@ -37,13 +37,13 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import com.mojang.serialization.Codec
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
 class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var name: String = "Bulbasaur"
-    val translatedName: MutableText
+    val translatedName: MutableComponent
         get() = Component.translatable("${this.resourceIdentifier.namespace}.species.${this.unformattedShowdownId()}.name")
     var nationalPokedexNumber = 1
 

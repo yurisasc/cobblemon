@@ -16,12 +16,12 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 
 abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     val listX: Int,
     val listY: Int,
-    val label: MutableText,
+    val label: MutableComponent,
     slotHeight: Int
 ) : AlwaysSelectedEntryListWidget<T>(
     Minecraft.getInstance(),

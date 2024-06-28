@@ -16,11 +16,11 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 
 class SummaryTab(
     pX: Int, pY: Int,
-    val label: MutableText,
+    val label: MutableComponent,
     onPress: PressAction
 ): ButtonWidget(pX, pY, 50, 13, label, onPress, DEFAULT_NARRATION_SUPPLIER) {
     private var isActive = false

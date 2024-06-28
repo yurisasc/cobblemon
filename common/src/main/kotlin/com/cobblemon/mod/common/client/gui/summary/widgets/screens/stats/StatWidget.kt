@@ -32,7 +32,7 @@ import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.chat.Component
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.util.math.Vec2f
@@ -437,7 +437,7 @@ class StatWidget(
         return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
 
-    private fun getStatValueAsText(stat: Stat): MutableText {
+    private fun getStatValueAsText(stat: Stat): MutableComponent {
         val value = when(statTabIndex) {
             STATS -> if (stat == Stats.HP) "${pokemon.currentHealth} / ${pokemon.hp}" else pokemon.getStat(stat).toString()
             BASE -> pokemon.form.baseStats[stat].toString()
@@ -488,12 +488,12 @@ class StatWidget(
         context: GuiGraphics,
         offsetY: Double = 0.0,
         enableColour: Boolean = true,
-        hp: MutableText,
-        spAtk: MutableText,
-        atk: MutableText,
-        spDef: MutableText,
-        def: MutableText,
-        speed: MutableText
+        hp: MutableComponent,
+        spAtk: MutableComponent,
+        atk: MutableComponent,
+        spDef: MutableComponent,
+        def: MutableComponent,
+        speed: MutableComponent
     ) {
         drawScaledText(
             context = context,

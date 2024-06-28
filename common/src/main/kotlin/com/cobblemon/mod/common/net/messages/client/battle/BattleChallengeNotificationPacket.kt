@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.TextCodecs
 
 /**
@@ -29,7 +29,7 @@ import net.minecraft.text.TextCodecs
 class BattleChallengeNotificationPacket(
     val battleChallengeId: UUID,
     val challengerId: UUID,
-    val challengerName: MutableText
+    val challengerName: MutableComponent
 ): NetworkPacket<BattleChallengeNotificationPacket> {
     override val id = ID
     override fun encode(buffer: RegistryByteBuf) {

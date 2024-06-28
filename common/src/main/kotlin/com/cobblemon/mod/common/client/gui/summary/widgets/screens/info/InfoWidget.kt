@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 
 
 class InfoWidget(
@@ -89,7 +89,7 @@ class InfoWidget(
         typeWidget.render(context, pMouseX, pMouseY, pPartialTicks)
 
         // Original Trainer
-        val otName: MutableText = Text.literal(pokemon.originalTrainerName ?: "")
+        val otName: MutableComponent = Text.literal(pokemon.originalTrainerName ?: "")
         val otWidget = InfoOneLineWidget(
             pX = x,
             pY = y + 3 * ROW_HEIGHT,

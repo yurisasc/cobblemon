@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.api.text.text
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.TextFieldWidget
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.PlainTextContent.Literal
 import net.minecraft.resources.ResourceLocation
 
@@ -71,7 +71,7 @@ class SimpleNPCTextInputWidget(
         val scale = 0.8F
         context.matrices.scale(scale, scale, 1F)
         if (wrap) {
-            val wrappedLines = Minecraft.getInstance().textRenderer.wrapLines(MutableText.of(Literal(text)), ((width - 8) / scale).toInt())
+            val wrappedLines = Minecraft.getInstance().textRenderer.wrapLines(MutableComponent.of(Literal(text)), ((width - 8) / scale).toInt())
             for ((index, line) in wrappedLines.withIndex()) {
                 context.drawText(
                     Minecraft.getInstance().textRenderer,

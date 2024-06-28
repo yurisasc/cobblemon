@@ -18,7 +18,7 @@ import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import java.util.concurrent.CompletableFuture
 import net.minecraft.command.CommandSource
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component
 class MoveArgumentType: ArgumentType<MoveTemplate> {
 
@@ -36,7 +36,7 @@ class MoveArgumentType: ArgumentType<MoveTemplate> {
     companion object {
 
         val EXAMPLES: List<String> = listOf("tackle")
-        val INVALID_MOVE: MutableText = Component.translatable("cobblemon.command.pokespawn.invalid-move")
+        val INVALID_MOVE: MutableComponent = Component.translatable("cobblemon.command.pokespawn.invalid-move")
 
         fun move() = MoveArgumentType()
 

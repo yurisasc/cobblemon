@@ -21,11 +21,11 @@ import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeString
 import com.cobblemon.mod.common.util.writeText
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 
 class DialoguePageDTO : Encodable, Decodable {
     var speaker: String? = null
-    var lines: MutableList<MutableText> = mutableListOf()
+    var lines: MutableList<MutableComponent> = mutableListOf()
     // Later can include some face data probably
     var clientActions = mutableListOf<String>()
 

@@ -18,7 +18,7 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
@@ -28,7 +28,7 @@ class SummaryButton(
     val buttonWidth: Number,
     val buttonHeight: Number,
     val clickAction: PressAction,
-    private val text: MutableText = Component.empty(),
+    private val text: MutableComponent = Component.empty(),
     private val resource: ResourceLocation,
     private val activeResource: ResourceLocation? = null,
     private val renderRequirement: ((button: SummaryButton) -> Boolean) = { true },

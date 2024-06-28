@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.battles.ai.RandomBattleAI
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import java.util.UUID
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component
 
 class MultiPokemonBattleActor(
@@ -23,7 +23,7 @@ class MultiPokemonBattleActor(
     artificialDecider: BattleAI = RandomBattleAI(),
     uuid: UUID = UUID.randomUUID()
 ) : AIBattleActor(uuid, pokemonList, artificialDecider) {
-    override fun getName(): MutableText = "Wild Pokémon".text() // TODO probably remove by making it nullable
-    override fun nameOwned(name: String): MutableText = Component.literal(name)
+    override fun getName(): MutableComponent = "Wild Pokémon".text() // TODO probably remove by making it nullable
+    override fun nameOwned(name: String): MutableComponent = Component.literal(name)
     override val type = ActorType.WILD
 }

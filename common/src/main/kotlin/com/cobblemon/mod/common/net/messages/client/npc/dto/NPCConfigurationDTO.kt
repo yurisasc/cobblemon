@@ -23,11 +23,11 @@ import com.cobblemon.mod.common.util.writeText
 import com.mojang.datafixers.util.Either
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
 class NPCConfigurationDTO : Encodable, Decodable {
-    var npcName: MutableText = "".text()
+    var npcName: MutableComponent = "".text()
     var npcClass: ResourceLocation = cobblemonResource("default")
     var battle: NPCBattleConfiguration? = null
     var interaction: Either<ResourceLocation, ExpressionLike>? = null

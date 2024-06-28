@@ -12,16 +12,17 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.PrioritizedList
 import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.battles.BagItems.bagItems
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.item.battle.BagItemConvertible
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.io.File
-import net.minecraft.world.item.ItemStack
-import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceType
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.packs.PackType
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.world.item.ItemStack
+import java.io.File
 
 /**
  * A registry for [BagItem]s that could be parsed from [ItemStack]s. This registry is used as the resource loading
@@ -32,7 +33,7 @@ import net.minecraft.resources.ResourceLocation
  */
 object BagItems : DataRegistry {
     override val id = cobblemonResource("bag_items")
-    override val type = ResourceType.SERVER_DATA
+    override val type = PackType.SERVER_DATA
     override val observable = SimpleObservable<BagItems>()
     override fun sync(player: ServerPlayer) {}
 
@@ -50,10 +51,10 @@ object BagItems : DataRegistry {
     }
 
     override fun reload(manager: ResourceManager) {
-        manager.findResources("bag_items") { it.path.endsWith(".js") }.forEach { (identifier, resource) ->
-            resource.inputStream.use { stream ->
+        manager.listResources("bag_items") { it.path.endsWith(".js") }.forEach { (identifier, resource) ->
+            resource.open().use { stream ->
                 stream.bufferedReader().use { reader ->
-                    val resolvedIdentifier = ResourceLocation.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    val resolvedIdentifier = ResourceLocation.fromNamespaceAndPath(identifier.namespace, File(identifier.path).nameWithoutExtension)
                     val js = reader.readText()
                     bagItemsScripts[resolvedIdentifier.path] = js
                 }

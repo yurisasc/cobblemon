@@ -8,16 +8,16 @@
 
 package com.cobblemon.mod.common.util
 
-import net.minecraft.block.Blocks
-import net.minecraft.entity.Entity
-import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedData
-import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.core.BlockPos
+import net.minecraft.network.syncher.EntityDataAccessor
+import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
-import net.minecraft.world.phys.Vec3
 import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.Vec3
 
 fun Entity.effectiveName() = this.displayName ?: this.name
 
@@ -170,10 +170,10 @@ fun Entity.setPositionSafely(pos: Vec3): Boolean {
         if (collides) break
     }
     if (collides) {
-        this.setPosition(pos)
+        this.setPos(pos)
         return true
     } else {
-        this.setPosition(result)
+        this.setPos(result)
         return true
     }
 }
@@ -181,12 +181,12 @@ fun Entity.setPositionSafely(pos: Vec3): Boolean {
 fun Entity.isStandingOnSandOrRedSand(): Boolean {
     val sandDepth = 2 // Define the depth you want to check
     for (a in 1..sandDepth) {
-        val sandBlockState = this.world.getBlockState(blockPos.down(a))
+        val sandBlockState = this.level().getBlockState(blockPosition().below(a))
         val sandBlock = sandBlockState.block
-        if (sandBlock == Blocks.SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.world, blockPos.down(a))) {
+        if (sandBlock == Blocks.SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.level(), blockPosition().below(a))) {
             return true
         }
-        if (sandBlock == Blocks.RED_SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.world, blockPos.down(a))) {
+        if (sandBlock == Blocks.RED_SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.level(), blockPosition().below(a))) {
             return true
         }
     }
@@ -194,16 +194,16 @@ fun Entity.isStandingOnSandOrRedSand(): Boolean {
 }
 
 fun Entity.isDusk(): Boolean {
-    val time = world.timeOfDay % 24000
+    val time = level().dayTime % 24000
     return time in 12000..13000
 }
 
 fun Entity.isStandingOnSand(): Boolean {
     val sandDepth = 2 // Define the depth you want to check
     for (a in 1..sandDepth) {
-        val sandBlockState = this.world.getBlockState(blockPos.down(a))
+        val sandBlockState = this.level().getBlockState(blockPosition().below(a))
         val sandBlock = sandBlockState.block
-        if (sandBlock == Blocks.SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.world, blockPos.down(a))) {
+        if (sandBlock == Blocks.SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.level(), blockPosition().down(a))) {
             return true
         }
     }
@@ -213,9 +213,9 @@ fun Entity.isStandingOnSand(): Boolean {
 fun Entity.isStandingOnRedSand(): Boolean {
     val redSandDepth = 2 // Define the depth you want to check
     for (i in 1..redSandDepth) {
-        val redSandBlockState = this.world.getBlockState(blockPos.down(i))
+        val redSandBlockState = this.level().getBlockState(blockPosition().below(i))
         val redSandBlock = redSandBlockState.block
-        if (redSandBlock == Blocks.RED_SAND && !redSandBlockState.isAir && redSandBlockState.isFullCube(this.world, blockPos.down(i))) {
+        if (redSandBlock == Blocks.RED_SAND && !redSandBlockState.isAir && redSandBlockState.isFullCube(this.level(), blockPosition().down(i))) {
             return true
         }
     }
@@ -223,7 +223,7 @@ fun Entity.isStandingOnRedSand(): Boolean {
 }
 
 fun Entity.distanceTo(pos: BlockPos): Double {
-    val difference = pos.toVec3d().subtract(this.pos)
+    val difference = pos.toVec3d().subtract(this.position())
     return difference.length()
 }
 
@@ -248,7 +248,7 @@ fun Entity.closestPosition(positions: Iterable<BlockPos>, filter: (BlockPos) -> 
 
 fun Entity.getIsSubmerged() = isInLava || isUnderWater
 
-fun <T> DataTracker.update(data: TrackedData<T>, mutator: (T) -> T) {
+fun <T> SynchedEntityData.update(data: EntityDataAccessor<T>, mutator: (T) -> T) {
     val value = get(data)
     val newValue = mutator(value)
     if (value != newValue) {

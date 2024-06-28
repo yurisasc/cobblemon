@@ -38,7 +38,7 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
 import net.minecraft.sound.SoundEvent
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 
 /**
  * Notes for Village:
@@ -49,7 +49,7 @@ import net.minecraft.text.MutableText
 class TradeGUI(
     val trade: ClientTrade,
     val traderId: UUID,
-    val traderName: MutableText,
+    val traderName: MutableComponent,
     val traderParty: MutableList<TradeablePokemon?>,
     val party: MutableList<TradeablePokemon?>
 ): Screen(lang("trade.gui.title")) {

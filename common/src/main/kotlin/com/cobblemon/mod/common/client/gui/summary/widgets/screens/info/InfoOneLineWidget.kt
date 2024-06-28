@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component
 
 class InfoOneLineWidget(
@@ -20,8 +20,8 @@ class InfoOneLineWidget(
     pY: Int,
     width: Int,
     height: Int = ROW_HEIGHT,
-    private val label: MutableText,
-    private val value: MutableText,
+    private val label: MutableComponent,
+    private val value: MutableComponent,
 ) : SoundlessWidget(pX, pY, width, height, Component.literal("InfoOneLineWidget")) {
     companion object {
         private val FONT = CobblemonResources.DEFAULT_LARGE
