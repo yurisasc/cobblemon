@@ -9,6 +9,23 @@
 - Added property chaining support for duplicate CustomPokemonPropertyType elements.
 - Added aspect and unaspect PokemonProperty arguments (which also includes commands such as /pokemonedit, /spawnpokemon, and /givepokemon) to allow forcing or un-forcing an aspect on a Pokémon.
 
+### Pokémon Added
+#### Gen 2
+- Ledyba
+- Ledian
+- Sunkern
+- Sunflora
+- Wobbuffet
+- Girafarig
+
+#### Gen 3
+- Wynaut
+
+#### Gen 9
+- Finizen
+- Palafin
+- Farigiraf
+
 ### Developer
 - SpawnCause is now an implementation of SpawningInfluence.
 - Added "forcedAspects" to Pokemon to make it easier to easily add basic aspects to a Pokémon in a way that persists. We already know that everyone is going to overuse this.
