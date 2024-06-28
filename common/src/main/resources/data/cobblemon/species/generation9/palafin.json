@@ -110,6 +110,7 @@
   "preEvolution": "finizen",
   "evolutions": [],
   "cannotDynamax": false,
+  "features": ["hero"],
   "forms": [
     {
       "name": "Hero",
