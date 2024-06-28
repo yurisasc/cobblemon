@@ -8,6 +8,7 @@
   },
   "poses": {
     "battle-standing": {
+      "poseName": "battle-standing",
       "poseTypes": ["STAND"],
       "isBattle": true,
       "animations": [
@@ -19,6 +20,7 @@
       ]
     },
     "standing": {
+      "poseName": "standing",
       "poseTypes": ["STAND", "NONE", "PORTRAIT", "PROFILE", "FLOAT"],
       "isBattle": false,
       "animations": [
@@ -30,6 +32,7 @@
       ]
     },
     "walking": {
+      "poseName": "walking",
       "poseTypes": ["WALK", "SWIM"],
       "animations": [
         "q.look('head_ai')",
@@ -38,6 +41,7 @@
       "quirks": ["q.bedrock_quirk('ledyba', 'blink')"]
     },
     "hover": {
+      "poseName": "hover",
       "poseTypes": ["HOVER"],
       "animations": [
         "q.look('head_ai')",
@@ -48,6 +52,7 @@
       ]
     },
     "fly": {
+      "poseName": "fly",
       "poseTypes": ["FLY"],
       "animations": [
         "q.look('head_ai')",
@@ -56,6 +61,7 @@
       "quirks": ["q.bedrock_quirk('ledyba', 'blink')"]
     },
     "sleep": {
+      "poseName": "sleep",
       "poseTypes": ["SLEEP"],
       "animations": ["q.bedrock('ledyba', 'sleep')"]
     }
