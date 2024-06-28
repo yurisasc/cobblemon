@@ -479,7 +479,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DESTINY_KNOT)
         entries.add(CobblemonItems.DRAGON_FANG)
         entries.add(CobblemonItems.EJECT_BUTTON)
-//        entries.add(CobblemonItems.EJECT_PACK)
+        entries.add(CobblemonItems.EJECT_PACK)
         entries.add(CobblemonItems.EVERSTONE)
         entries.add(CobblemonItems.EVIOLITE)
         entries.add(CobblemonItems.EXPERT_BELT)
@@ -526,6 +526,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.RING_TARGET)
         entries.add(CobblemonItems.ROCKY_HELMET)
         entries.add(CobblemonItems.SAFETY_GOGGLES)
+        entries.add(CobblemonItems.SCOPE_LENS)
         entries.add(CobblemonItems.SHARP_BEAK)
         entries.add(CobblemonItems.SHELL_BELL)
         entries.add(CobblemonItems.SILK_SCARF)
@@ -536,11 +537,16 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.SOOTHE_BELL)
         entries.add(CobblemonItems.SPELL_TAG)
         entries.add(CobblemonItems.STICKY_BARB)
+        entries.add(CobblemonItems.TERRAIN_EXTENDER)
+        entries.add(CobblemonItems.THROAT_SPRAY)
         entries.add(CobblemonItems.TOXIC_ORB)
         entries.add(CobblemonItems.TWISTED_SPOON)
+        entries.add(CobblemonItems.UTILITY_UMBRELLA)
         entries.add(CobblemonItems.WEAKNESS_POLICY)
         entries.add(CobblemonItems.WHITE_HERB)
+        entries.add(CobblemonItems.WIDE_LENS)
         entries.add(CobblemonItems.WISE_GLASSES)
+        entries.add(CobblemonItems.ZOOM_LENS)
 
         entries.add(CobblemonItems.MEDICINAL_LEEK)
         entries.add(Items.BONE)
@@ -564,6 +570,11 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DARK_GEM)
         entries.add(CobblemonItems.STEEL_GEM)
         entries.add(CobblemonItems.FAIRY_GEM)
+
+        entries.add(CobblemonItems.ELECTRIC_SEED)
+        entries.add(CobblemonItems.GRASSY_SEED)
+        entries.add(CobblemonItems.MISTY_SEED)
+        entries.add(CobblemonItems.PSYCHIC_SEED)
     }
 
     private fun pokeballentries(displayContext: DisplayContext, entries: Entries) {
