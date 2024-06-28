@@ -6,6 +6,7 @@
     "animations": { },
     "poses": {
       "standing": {
+        "poseName": "standing",
         "poseTypes": ["STAND", "WALK", "NONE", "PORTRAIT", "PROFILE", "FLOAT", "HOVER", "SWIM", "FLY"],
         "animations": [
           "q.bedrock('sunkern', 'ground_idle')"
