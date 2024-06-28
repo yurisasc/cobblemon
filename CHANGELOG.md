@@ -16,6 +16,7 @@
 - Fixed Energy Root applying being usable on a fainted Pokemon.
 - Fixed Pokémon entity not spawning when starting a battle while recalling said Pokémon
 - Fixed species comparison not using namespace for both sides in PokemonProperties.isSubsetOf.
+- Fixed PokemonProperties#asString prefixing nicknames with a '$'
 
 ### Additions
 - Added extra visuals to early berry growth stages
