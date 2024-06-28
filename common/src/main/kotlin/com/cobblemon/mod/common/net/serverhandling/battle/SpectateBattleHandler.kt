@@ -39,7 +39,7 @@ object SpectateBattleHandler : ServerNetworkPacketHandler<SpectateBattlePacket> 
             // Check los and range
             val targetedPlayerEntity = packet.targetedEntityId.getPlayer() ?: return
             if (!player.canSee(targetedPlayerEntity) || !(player.pos.squaredDistanceTo(targetedPlayerEntity.pos) <= RequestInteractionsHandler.MAX_PVP_DISTANCE_SQ)) {
-                player.sendMessage(lang("cobblemon.ui.interact.too_far").yellow())
+                player.sendMessage(lang("ui.interact.too_far").yellow())
                 return
             }
             battle.spectators.add(player.uuid)
