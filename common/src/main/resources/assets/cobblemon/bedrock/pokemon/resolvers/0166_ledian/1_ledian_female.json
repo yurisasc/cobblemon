@@ -5,13 +5,6 @@
     {
       "aspects": ["female"],
       "model": "cobblemon:ledian_female.geo"
-    },
-    {
-      "aspects": [
-        "shiny",
-        "female"
-      ],
-      "model": "cobblemon:ledian_female.geo"
     }
   ]
 }
