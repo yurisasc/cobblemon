@@ -1,23 +1,52 @@
 {
-  "portraitScale": 1.3,
-  "portraitTranslation": [-0.7, 2.1, 0],
-  "profileScale": 0.45,
-  "profileTranslation": [-0.1, 1.0, 0],
-  "animations": { },
+  "portraitScale": 1.57,
+  "portraitTranslation": [-0.01, 0.37, 0],
+  "profileScale": 0.75,
+  "profileTranslation": [0, 0.67, 0],
+  "animations": {
+    "cry": "q.bedrock_stateful('ledian', 'cry')"
+  },
   "poses": {
-    "hover": {
-      "poseTypes": ["HOVER", "STAND", "NONE", "PORTRAIT", "PROFILE"],
+    "battle-standing": {
+      "poseTypes": ["STAND"],
+      "isBattle": true,
       "animations": [
-        "q.look('head')",
+        "q.look('head_ai')",
+        "q.bedrock('ledian', 'battle_idle')"
+      ]
+    },
+    "standing": {
+      "poseTypes": ["STAND", "NONE", "PORTRAIT", "PROFILE", "FLOAT"],
+      "isBattle": false,
+      "animations": [
+        "q.look('head_ai')",
         "q.bedrock('ledian', 'ground_idle')"
       ]
     },
-    "flying": {
-      "poseTypes": ["FLY", "WALK", "SWIM"],
+    "walking": {
+      "poseTypes": ["WALK", "SWIM"],
       "animations": [
-        "q.look('head')",
-        "q.bedrock('ledian', 'ground_idle')"
+        "q.look('head_ai')",
+        "q.bedrock('ledian', 'ground_walk')"
       ]
+    },
+    "hover": {
+      "poseTypes": ["HOVER"],
+      "animations": [
+        "q.look('head_ai')",
+        "q.bedrock('ledian', 'air_idle')"
+      ]
+    },
+    "fly": {
+      "poseTypes": ["FLY"],
+      "animations": [
+        "q.look('head_ai')",
+        "q.bedrock('ledian', 'air_fly')"
+      ]
+    },
+    "sleep": {
+      "poseTypes": ["SLEEP"],
+      "animations": ["q.bedrock('ledian', 'sleep')"]
     }
   }
 }
