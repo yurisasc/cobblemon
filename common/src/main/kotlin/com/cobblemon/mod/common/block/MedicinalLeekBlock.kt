@@ -14,16 +14,18 @@ import com.mojang.serialization.MapCodec
 import net.minecraft.block.*
 import net.minecraft.item.ItemConvertible
 import net.minecraft.registry.tag.FluidTags
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
-import net.minecraft.world.WorldView
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
 
 @Suppress("OVERRIDE_DEPRECATION")
 class MedicinalLeekBlock(settings: Settings) : CropBlock(settings) {
@@ -40,7 +42,7 @@ class MedicinalLeekBlock(settings: Settings) : CropBlock(settings) {
 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape = AGE_TO_SHAPE[this.getAge(state)]
 
-    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+    override fun randomTick(state: BlockState, world: ServerLevel, pos: BlockPos, random: Random) {
         // This is specified as growing fast like sugar cane
         // They have 15 age stages until they grow upwards, this is an attempt at a chance based but likely event
         if (this.isMature(state) || random.nextInt(4) != 0) {
@@ -51,15 +53,15 @@ class MedicinalLeekBlock(settings: Settings) : CropBlock(settings) {
 
     // These 3 are still around for the sake of compatibility, vanilla won't trigger it but some mods might
     // We implement applyGrowth & getGrowthAmount for them
-    override fun isFertilizable(world: WorldView?, pos: BlockPos?, state: BlockState?): Boolean = !this.isMature(state)
+    override fun isFertilizable(world: LevelReader?, pos: BlockPos?, state: BlockState?): Boolean = !this.isMature(state)
 
-    override fun applyGrowth(world: World, pos: BlockPos, state: BlockState) {
+    override fun applyGrowth(world: Level, pos: BlockPos, state: BlockState) {
         world.setBlockState(pos, state.with(this.ageProperty, (this.getAge(state) + 1).coerceAtMost(this.maxAge)), NOTIFY_LISTENERS)
     }
 
-    override fun getGrowthAmount(world: World): Int = 1
+    override fun getGrowthAmount(world: Level): Int = 1
 
-    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
+    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
         // We don't care about the sky & light level, sugar cane doesn't either
         return this.canPlantOnTop(state, world, pos)
     }

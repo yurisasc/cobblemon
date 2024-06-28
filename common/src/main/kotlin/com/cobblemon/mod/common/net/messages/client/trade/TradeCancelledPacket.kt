@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.client.trade
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Packet sent to close the trade GUI as the trade was cancelled (programmatically, by log-off, or by player action).

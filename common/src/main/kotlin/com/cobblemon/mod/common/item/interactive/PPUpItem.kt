@@ -13,20 +13,19 @@ import com.cobblemon.mod.common.api.item.PokemonAndMoveSelectingItem
 import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
-import net.minecraft.world.World
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.level.Level
 
 class PPUpItem(val amount: Int) : CobblemonItem(Settings()), PokemonAndMoveSelectingItem {
     override val bagItem = null
     override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.moveSet.any(::canUseOnMove)
     override fun canUseOnMove(move: Move) = move.raisedPpStages < 3
     override fun applyToPokemon(
-        player: ServerPlayerEntity,
+        player: ServerPlayer,
         stack: ItemStack,
         pokemon: Pokemon,
         move: Move
@@ -39,10 +38,10 @@ class PPUpItem(val amount: Int) : CobblemonItem(Settings()), PokemonAndMoveSelec
         }
     }
 
-    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-        if (user is ServerPlayerEntity) {
+    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+        if (user is ServerPlayer) {
             use(user, user.getStackInHand(hand))?.let { return it }
         }
-        return TypedActionResult.success(user.getStackInHand(hand))
+        return InteractionResultHolder.success(user.getStackInHand(hand))
     }
 }

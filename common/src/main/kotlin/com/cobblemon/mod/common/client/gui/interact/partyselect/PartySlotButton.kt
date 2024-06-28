@@ -23,12 +23,12 @@ import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.gui.widget.ButtonWidget.NarrationSupplier
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.item.ItemStack
-import net.minecraft.text.Text
+import net.minecraft.world.item.ItemStack
+import net.minecraft.network.chat.Component
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -42,7 +42,7 @@ class PartySlotButton(
     val enabled: Boolean = true,
     val parent: PartySelectGUI,
     onPress: PressAction
-) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("Pokemon"), onPress, NarrationSupplier { "".text() }) {
+) : ButtonWidget(x, y, WIDTH, HEIGHT, Component.literal("Pokemon"), onPress, NarrationSupplier { "".text() }) {
 
     companion object {
         private val slotResource = cobblemonResource("textures/gui/interact/party_select_slot.png")
@@ -57,7 +57,7 @@ class PartySlotButton(
 
     private val renderablePokemon = pokemon.asRenderablePokemon().also { it.aspects = aspects }
 
-    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height && enabled
         val alpha = if (enabled) 1.0 else 0.5
         val matrices = context.matrices

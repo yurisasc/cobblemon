@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readEnumConstant
 import com.cobblemon.mod.common.util.writeEnumConstant
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class GenderUpdatePacket(pokemon: () -> Pokemon, value: Gender): SingleUpdatePacket<Gender, GenderUpdatePacket>(pokemon, value) {
     override val id = ID

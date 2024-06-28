@@ -13,13 +13,14 @@ import com.cobblemon.mod.common.api.npc.NPCClass
 import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 // We do not need to know every single attribute as a client, as such, we only sync the aspects that matter
 class NPCRegistrySyncPacket(npcs: Collection<NPCClass>) : DataRegistrySyncPacket<NPCClass, NPCRegistrySyncPacket>(npcs) {
 
     override val id = ID
 
-    override fun encodeEntry(buffer: RegistryByteBuf, entry: NPCClass) {
+    override fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: NPCClass) {
         try {
             buffer.writeIdentifier(entry.resourceIdentifier)
             entry.encode(buffer)
@@ -28,7 +29,7 @@ class NPCRegistrySyncPacket(npcs: Collection<NPCClass>) : DataRegistrySyncPacket
         }
     }
 
-    override fun decodeEntry(buffer: RegistryByteBuf): NPCClass? {
+    override fun decodeEntry(buffer: RegistryFriendlyByteBuf): NPCClass? {
         val identifier = buffer.readIdentifier()
         val npc = NPCClass()
         npc.resourceIdentifier = identifier

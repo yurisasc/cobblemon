@@ -19,7 +19,7 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object TakePokemon {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
@@ -56,7 +56,7 @@ object TakePokemon {
 
             party.remove(pokemon)
             if (context.source.entity != target) {
-                if (context.source.entity is ServerPlayerEntity) {
+                if (context.source.entity is ServerPlayer) {
                     val player = context.source.player ?: return Command.SINGLE_SUCCESS
                     val toParty = player.party()
                     toParty.add(pokemon)

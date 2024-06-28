@@ -20,43 +20,46 @@ import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.block.BlockState
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
-import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.*
 import net.minecraft.world.RaycastContext
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.Vec3
 import java.util.*
 import kotlin.math.min
 
 // Stuff like getting their party
-fun ServerPlayerEntity.party() = Cobblemon.storage.getParty(this)
-fun ServerPlayerEntity.pc() = Cobblemon.storage.getPC(this.uuid)
-val ServerPlayerEntity.activeDialogue: ActiveDialogue?
+fun ServerPlayer.party() = Cobblemon.storage.getParty(this)
+fun ServerPlayer.pc() = Cobblemon.storage.getPC(this.uuid)
+val ServerPlayer.activeDialogue: ActiveDialogue?
     get() = DialogueManager.activeDialogues[uuid]
-val ServerPlayerEntity.isInDialogue: Boolean
+val ServerPlayer.isInDialogue: Boolean
     get() = DialogueManager.activeDialogues.containsKey(uuid)
-fun ServerPlayerEntity.closeDialogue() {
+fun ServerPlayer.closeDialogue() {
     DialogueManager.stopDialogue(this)
 }
-fun ServerPlayerEntity.openDialogue(dialogue: Dialogue) {
+fun ServerPlayer.openDialogue(dialogue: Dialogue) {
     DialogueManager.startDialogue(this, dialogue)
 }
-fun ServerPlayerEntity.openDialogue(activeDialogue: ActiveDialogue) {
+fun ServerPlayer.openDialogue(activeDialogue: ActiveDialogue) {
     DialogueManager.startDialogue(activeDialogue)
 }
-fun ServerPlayerEntity.extraData(key: String) = Cobblemon.playerData.get(this).extraData[key]
-fun ServerPlayerEntity.hasKeyItem(key: Identifier) = Cobblemon.playerData.get(this).keyItems.contains(key)
-fun UUID.getPlayer() = server()?.playerManager?.getPlayer(this)
+fun ServerPlayer.extraData(key: String) = Cobblemon.playerData.get(this).extraData[key]
+fun ServerPlayer.hasKeyItem(key: ResourceLocation) = Cobblemon.playerData.get(this).keyItems.contains(key)
+fun UUID.getPlayer() = server()?.playerList?.getPlayer(this)
 
-fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
+fun ServerPlayer.onLogout(handler: () -> Unit) {
     PlatformEvents.SERVER_PLAYER_LOGOUT.pipe(filter { it.player.uuid == uuid }, takeFirst()).subscribe { handler() }
 }
 
@@ -66,16 +69,16 @@ fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
  *
  * @return If the attempt to heal was successful.
  */
-fun ServerPlayerEntity.didSleep(): Boolean {
-    if (sleepTimer != 100 || world.timeOfDay.toInt() % 24000 != 0 || this.isInBattle()) {
+fun ServerPlayer.didSleep(): Boolean {
+    if (sleepTimer != 100 || level().dayTime.toInt() % 24000 != 0 || this.isInBattle()) {
         return false
     }
     party().didSleep()
     return true
 }
 
-fun ServerPlayerEntity.isInBattle() = BattleRegistry.getBattleByParticipatingPlayer(this) != null
-fun ServerPlayerEntity.getBattleState(): Pair<PokemonBattle, BattleActor>? {
+fun ServerPlayer.isInBattle() = BattleRegistry.getBattleByParticipatingPlayer(this) != null
+fun ServerPlayer.getBattleState(): Pair<PokemonBattle, BattleActor>? {
     val battle = BattleRegistry.getBattleByParticipatingPlayer(this)
     if (battle != null) {
         val actor = battle.getActor(this)
@@ -88,14 +91,14 @@ fun ServerPlayerEntity.getBattleState(): Pair<PokemonBattle, BattleActor>? {
 
 // TODO Player extension for queueing next login?
 class TraceResult(
-    val location: Vec3d,
+    val location: Vec3,
     val blockPos: BlockPos,
     val direction: Direction
 )
 
 fun Entity.isLookingAt(other: Entity, maxDistance: Float = 10F, stepDistance: Float = 0.01F): Boolean {
     var step = stepDistance
-    val startPos = eyePos
+    val startPos = eyePosition
     val direction = rotationVector
 
     while (step <= maxDistance) {
@@ -109,11 +112,11 @@ fun Entity.isLookingAt(other: Entity, maxDistance: Float = 10F, stepDistance: Fl
     return false
 }
 class EntityTraceResult<T : Entity>(
-    val location: Vec3d,
+    val location: Vec3,
     val entities: Iterable<T>
 )
 
-fun <T : Entity> PlayerEntity.traceFirstEntityCollision(
+fun <T : Entity> Player.traceFirstEntityCollision(
     maxDistance: Float = 10F,
     stepDistance: Float = 0.05F,
     entityClass: Class<T>,
@@ -127,7 +130,7 @@ fun <T : Entity> PlayerEntity.traceFirstEntityCollision(
     )?.let { it.entities.minByOrNull { it.distanceTo(this) } }
 }
 
-fun <T : Entity> PlayerEntity.traceEntityCollision(
+fun <T : Entity> Player.traceEntityCollision(
     maxDistance: Float = 10F,
     stepDistance: Float = 0.05F,
     entityClass: Class<T>,
@@ -136,9 +139,9 @@ fun <T : Entity> PlayerEntity.traceEntityCollision(
     var step = stepDistance
     val startPos = eyePos
     val direction = rotationVector
-    val maxDistanceVector = Vec3d(1.0, 1.0, 1.0).multiply(maxDistance.toDouble())
+    val maxDistanceVector = Vec3(1.0, 1.0, 1.0).multiply(maxDistance.toDouble())
 
-    val entities = world.getOtherEntities(
+    val entities = world.getEntities(
         null,
         Box(startPos.subtract(maxDistanceVector), startPos.add(maxDistanceVector)),
         { entityClass.isInstance(it) }
@@ -158,13 +161,13 @@ fun <T : Entity> PlayerEntity.traceEntityCollision(
     return null
 }
 
-fun PlayerEntity.traceBlockCollision(
+fun Player.traceBlockCollision(
     maxDistance: Float = 10F,
     stepDistance: Float = 0.05F,
     blockFilter: (BlockState) -> Boolean = { it.isSolid }
 ): TraceResult? {
     var step = stepDistance
-    val startPos = eyePos
+    val startPos = eyePosition
     val direction = rotationVector
 
     var lastBlockPos = startPos.toBlockPos()
@@ -196,7 +199,7 @@ fun PlayerEntity.traceBlockCollision(
     return null
 }
 
-fun findDirectionForIntercept(p0: Vec3d, p1: Vec3d, blockPos: BlockPos): Direction {
+fun findDirectionForIntercept(p0: Vec3, p1: Vec3, blockPos: BlockPos): Direction {
     val xFunc: (Double) -> Double = { p0.x + (p1.x - p0.x) * it }
     val yFunc: (Double) -> Double = { p0.y + (p1.y - p0.y) * it }
     val zFunc: (Double) -> Double = { p0.z + (p1.z - p0.z) * it }
@@ -255,7 +258,7 @@ fun findDirectionForIntercept(p0: Vec3d, p1: Vec3d, blockPos: BlockPos): Directi
     return minDirection
 }
 
-fun ServerPlayerEntity.raycast(maxDistance: Float, fluidHandling: RaycastContext.FluidHandling?): BlockHitResult {
+fun ServerPlayer.raycast(maxDistance: Float, fluidHandling: RaycastContext.FluidHandling?): BlockHitResult {
     val f = pitch
     val g = yaw
     val vec3d = eyePos
@@ -269,7 +272,7 @@ fun ServerPlayerEntity.raycast(maxDistance: Float, fluidHandling: RaycastContext
     return world.raycast(RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, fluidHandling, this))
 }
 
-fun ServerPlayerEntity.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropHeight: Double, fluidHandling: RaycastContext.FluidHandling?): Vec3d? {
+fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropHeight: Double, fluidHandling: RaycastContext.FluidHandling?): Vec3? {
     // Crazy math stuff, don't worry about it
     val f = pitch
     val g = yaw
@@ -291,7 +294,7 @@ fun ServerPlayerEntity.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double,
         val stepDistance = 0.05
         var step = minDrop
         var stepDrop = minDrop
-        var stepPos: Vec3d
+        var stepPos: Vec3
         var traceHeight: Double
         var smallestHeight = dropHeight
         var fallLoc: TraceResult? = null
@@ -331,11 +334,19 @@ fun ServerPlayerEntity.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double,
         return if (traceDown == null || !pokemon.isPositionSafe(world, traceDown.blockPos)) {
             null
         } else {
-            return Vec3d(traceDown.location.x, traceDown.blockPos.up().toVec3d().y, traceDown.location.z)
+            return Vec3(
+                traceDown.location.x,
+                traceDown.blockPos.up().toVec3d().y,
+                traceDown.location.z
+            )
         }
     } else if (!this.world.getBlockState(result.blockPos.up()).isSolid && pokemon.isPositionSafe(world, result.blockPos)) {
         // If the player is targeting the top of a block, and the block above it isn't solid, it will spawn on that block
-        return Vec3d(result.pos.x, result.blockPos.up().toVec3d().y, result.pos.z)
+        return Vec3(
+            result.pos.x,
+            result.blockPos.up().toVec3d().y,
+            result.pos.z
+        )
     }
     return null
 }
@@ -350,7 +361,7 @@ fun PlayerInventory.usableItems() = offHand + main
  * @param stack The [ItemStack] being given.
  * @param playSound If the pickup sound should be played for any successfully added items.
  */
-fun PlayerEntity.giveOrDropItemStack(stack: ItemStack, playSound: Boolean = true) {
+fun Player.giveOrDropItemStack(stack: ItemStack, playSound: Boolean = true) {
     val inserted = this.inventory.insertStack(stack)
     if (inserted && stack.isEmpty) {
         stack.count = 1
@@ -369,4 +380,4 @@ fun PlayerEntity.giveOrDropItemStack(stack: ItemStack, playSound: Boolean = true
 }
 
 /** Retrieves the battle theme associated with this player, or the default PVP theme if null. */
-fun ServerPlayerEntity.getBattleTheme() = Cobblemon.playerData.get(this).battleTheme?.let { Registries.SOUND_EVENT.get(it) } ?: CobblemonSounds.PVP_BATTLE
+fun ServerPlayer.getBattleTheme() = Cobblemon.playerData.get(this).battleTheme?.let { Registries.SOUND_EVENT.get(it) } ?: CobblemonSounds.PVP_BATTLE

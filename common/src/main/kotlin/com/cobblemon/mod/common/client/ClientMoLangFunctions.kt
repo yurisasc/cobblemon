@@ -15,7 +15,7 @@ import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.sound.SoundEvent
 
@@ -28,16 +28,16 @@ object ClientMoLangFunctions {
             val soundEvent = SoundEvent.of(params.getString(0).asIdentifierDefaultingNamespace())
             if (soundEvent != null) {
                 val pitch = if (params.contains(2)) params.getDouble(2).toFloat() else 1F
-                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, pitch))
+                Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, pitch))
             }
         },
         "is_time" to java.util.function.Function { params ->
-            val time = (MinecraftClient.getInstance().world?.timeOfDay ?: 0) % 24000
+            val time = (Minecraft.getInstance().world?.timeOfDay ?: 0) % 24000
             val min = params.getInt(0)
             val max = params.getInt(1)
             time in min..max
         },
-        "say" to java.util.function.Function { params -> MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text()) ?: Unit },
+        "say" to java.util.function.Function { params -> Minecraft.getInstance().player?.sendMessage(params.getString(0).text()) ?: Unit },
     )
 
     fun MoLangRuntime.setupClient(): MoLangRuntime {

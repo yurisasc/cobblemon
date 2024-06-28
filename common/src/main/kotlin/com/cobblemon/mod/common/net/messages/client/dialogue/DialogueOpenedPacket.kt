@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.messages.client.dialogue.dto.DialogueDTO
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class DialogueOpenedPacket(val dialogueDTO: DialogueDTO) : NetworkPacket<DialogueOpenedPacket> {
     companion object {

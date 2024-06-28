@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.pokemon.evolution.requirements
 
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.template.EntityQueryRequirement
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 class WeatherRequirement : EntityQueryRequirement {
     companion object {
         const val ADAPTER_VARIANT = "weather"

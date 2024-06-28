@@ -15,18 +15,18 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Pokem
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.RotationAxis
 
 class PokeBallRenderer(context: EntityRendererFactory.Context) : EntityRenderer<EmptyPokeBallEntity>(context) {
     val model = PosablePokeBallModel()
-    override fun getTexture(pEntity: EmptyPokeBallEntity): Identifier {
+    override fun getTexture(pEntity: EmptyPokeBallEntity): ResourceLocation {
         return PokeBallModelRepository.getTexture(pEntity.pokeBall.name, pEntity.aspects, (pEntity.delegate as EmptyPokeBallClientDelegate).animationSeconds)
     }
 
@@ -39,7 +39,7 @@ class PokeBallRenderer(context: EntityRendererFactory.Context) : EntityRenderer<
         poseStack.push()
         poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yaw))
         poseStack.scale(0.7F, -0.7F, -0.7F)
-        val vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(buffer, RenderLayer.getEntityCutout(getTexture(entity)), false, false)
+        val vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(buffer, RenderType.getEntityCutout(getTexture(entity)), false, false)
 
         val state = entity.delegate as EmptyPokeBallClientDelegate
         this.model.context.put(RenderContext.POSABLE_STATE, state)

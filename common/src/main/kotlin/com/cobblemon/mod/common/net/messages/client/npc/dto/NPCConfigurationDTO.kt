@@ -21,16 +21,16 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeText
 import com.mojang.datafixers.util.Either
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 class NPCConfigurationDTO : Encodable, Decodable {
     var npcName: MutableText = "".text()
-    var npcClass: Identifier = cobblemonResource("default")
+    var npcClass: ResourceLocation = cobblemonResource("default")
     var battle: NPCBattleConfiguration? = null
-    var interaction: Either<Identifier, ExpressionLike>? = null
+    var interaction: Either<ResourceLocation, ExpressionLike>? = null
     var aspects: MutableSet<String> = mutableSetOf()
 
     constructor()
@@ -51,7 +51,7 @@ class NPCConfigurationDTO : Encodable, Decodable {
             buffer.writeBoolean(value.map({ true }, { false }))
             buffer.writeString(value.map({ it.toString() }, { it.toString() }))
         }
-        buffer.writeCollection(aspects, PacketByteBuf::writeString)
+        buffer.writeCollection(aspects, RegistryFriendlyByteBuf::writeString)
     }
 
     override fun decode(buffer: RegistryByteBuf) {
@@ -60,7 +60,7 @@ class NPCConfigurationDTO : Encodable, Decodable {
         battle = buffer.readNullable { NPCBattleConfiguration().apply { decode(buffer) } }
         interaction = buffer.readNullable {
             if (buffer.readBoolean()) {
-                Either.left(Identifier.of(buffer.readString()))
+                Either.left(ResourceLocation.of(buffer.readString()))
             } else {
                 Either.right(buffer.readString().asExpressionLike())
             }

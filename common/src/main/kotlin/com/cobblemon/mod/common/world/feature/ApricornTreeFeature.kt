@@ -15,12 +15,12 @@ import com.cobblemon.mod.common.block.ApricornBlock
 import com.cobblemon.mod.common.util.randomNoCopy
 import com.google.common.collect.Lists
 import kotlin.random.Random.Default.nextInt
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.LeavesBlock
 import net.minecraft.registry.tag.BlockTags
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Direction.*
 import net.minecraft.util.math.random.Random

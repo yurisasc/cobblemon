@@ -17,9 +17,9 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 class BenchedMoves : Iterable<BenchedMove> {
     val observable = SimpleObservable<BenchedMoves>()
@@ -51,8 +51,8 @@ class BenchedMoves : Iterable<BenchedMove> {
     fun remove(moveTemplate: MoveTemplate) = doThenEmit { benchedMoves.removeIf { it.moveTemplate == moveTemplate } }
     override fun iterator() = benchedMoves.iterator()
 
-    fun saveToNBT(nbt: NbtList): NbtList {
-        nbt.addAll(benchedMoves.map { it.saveToNBT(NbtCompound()) })
+    fun saveToNBT(nbt: ListTag): ListTag {
+        nbt.addAll(benchedMoves.map { it.saveToNBT(CompoundTag()) })
         return nbt
     }
 
@@ -62,15 +62,15 @@ class BenchedMoves : Iterable<BenchedMove> {
         return json
     }
 
-    fun saveToBuffer(buffer: RegistryByteBuf) {
+    fun saveToBuffer(buffer: RegistryFriendlyByteBuf) {
         buffer.writeShort(benchedMoves.size)
         benchedMoves.forEach { it.saveToBuffer(buffer) }
     }
 
-    fun loadFromNBT(nbt: NbtList): BenchedMoves {
+    fun loadFromNBT(nbt: ListTag): BenchedMoves {
         doThenEmit {
             clear()
-            nbt.forEach { benchedMoves.add(BenchedMove.loadFromNBT(it as NbtCompound)) }
+            nbt.forEach { benchedMoves.add(BenchedMove.loadFromNBT(it as CompoundTag)) }
         }
 
         return this
@@ -84,7 +84,7 @@ class BenchedMoves : Iterable<BenchedMove> {
         return this
     }
 
-    fun loadFromBuffer(buffer: RegistryByteBuf): BenchedMoves {
+    fun loadFromBuffer(buffer: RegistryFriendlyByteBuf): BenchedMoves {
         doThenEmit {
             clear()
             repeat(times = buffer.readShort().toInt()) {
@@ -96,7 +96,7 @@ class BenchedMoves : Iterable<BenchedMove> {
 }
 
 data class BenchedMove(val moveTemplate: MoveTemplate, val ppRaisedStages: Int) {
-    fun saveToNBT(nbt: NbtCompound): NbtCompound {
+    fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putString(DataKeys.POKEMON_MOVESET_MOVENAME, moveTemplate.name)
         nbt.putByte(DataKeys.POKEMON_MOVESET_RAISED_PP_STAGES, ppRaisedStages.toByte())
         return nbt
@@ -108,13 +108,13 @@ data class BenchedMove(val moveTemplate: MoveTemplate, val ppRaisedStages: Int) 
         return json
     }
 
-    fun saveToBuffer(buffer: RegistryByteBuf) {
+    fun saveToBuffer(buffer: RegistryFriendlyByteBuf) {
         buffer.writeString(moveTemplate.name)
         buffer.writeSizedInt(IntSize.U_BYTE, ppRaisedStages)
     }
 
     companion object {
-        fun loadFromNBT(nbt: NbtCompound): BenchedMove {
+        fun loadFromNBT(nbt: CompoundTag): BenchedMove {
             val name = nbt.getString(DataKeys.POKEMON_MOVESET_MOVENAME)
             return BenchedMove(
                 Moves.getByName(name) ?: MoveTemplate.dummy(name),
@@ -130,7 +130,7 @@ data class BenchedMove(val moveTemplate: MoveTemplate, val ppRaisedStages: Int) 
             )
         }
 
-        fun loadFromBuffer(buffer: RegistryByteBuf): BenchedMove {
+        fun loadFromBuffer(buffer: RegistryFriendlyByteBuf): BenchedMove {
             val name = buffer.readString()
             return BenchedMove(
                 Moves.getByName(name) ?: MoveTemplate.dummy(name),

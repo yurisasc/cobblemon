@@ -14,13 +14,12 @@ import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.api.multiblock.MultiblockStructure
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
 import com.cobblemon.mod.common.util.DataKeys
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.core.HolderLookup
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtHelper
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.ChunkPos
 
 open class FossilMultiblockEntity(
@@ -57,7 +56,7 @@ open class FossilMultiblockEntity(
         }
     }
 
-    override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+    override fun readNbt(nbt: CompoundTag, registryLookup: HolderLookup.Provider) {
         val oldMultiblockStructure = this.multiblockStructure as? FossilMultiblockStructure
         multiblockStructure = if (nbt.contains(DataKeys.MULTIBLOCK_STORAGE)) {
             if(oldMultiblockStructure?.fossilState != null) {

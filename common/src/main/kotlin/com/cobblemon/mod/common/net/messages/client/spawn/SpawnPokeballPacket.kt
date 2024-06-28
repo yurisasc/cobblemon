@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.entity.Entity
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 class SpawnPokeballPacket(
     val pokeBall: PokeBall,
@@ -23,7 +23,7 @@ class SpawnPokeballPacket(
     vanillaSpawnPacket: EntitySpawnS2CPacket
 ) : SpawnExtraDataEntityPacket<SpawnPokeballPacket, EmptyPokeBallEntity>(vanillaSpawnPacket) {
 
-    override val id: Identifier = ID
+    override val id: ResourceLocation = ID
 
     override fun encodeEntityData(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(this.pokeBall.name)

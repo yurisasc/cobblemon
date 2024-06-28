@@ -13,8 +13,9 @@ import com.cobblemon.mod.common.item.PokeBallItem
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.*
 import net.minecraft.block.HorizontalFacingBlock.*
+import net.minecraft.core.BlockPos
 import net.minecraft.entity.ai.pathing.NavigationType
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
@@ -23,14 +24,17 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.world.BlockView
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.WorldAccess
+import net.minecraft.world.level.block.BaseEntityBlock
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.pathfinder.PathComputationType
 
 @Suppress("OVERRIDE_DEPRECATION")
-class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
+class DisplayCaseBlock(settings: Settings) : BaseEntityBlock(settings) {
     init {
         this.defaultState = this.stateManager.defaultState
             .with(FACING, Direction.NORTH)
@@ -78,9 +82,9 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun onUse(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
-        player: PlayerEntity,
+        player: Player,
         hit: BlockHitResult
     ): ActionResult {
         val entity = world.getBlockEntity(pos) as DisplayCaseBlockEntity
@@ -91,7 +95,7 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
         return result
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity): BlockState {
+    override fun onBreak(world: Level, pos: BlockPos, state: BlockState, player: Player): BlockState {
         val entity = world.getBlockEntity(pos) as DisplayCaseBlockEntity
         if (!entity.getStack().isEmpty && !player.isCreative) {
             ItemScatterer.spawn(world, pos, entity.inv)
@@ -99,9 +103,9 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
         return super.onBreak(world, pos, state, player)
     }
 
-    override fun getRenderType(state: BlockState?) = BlockRenderType.MODEL
+    override fun getRenderShape(state: BlockState) = RenderShape.MODEL
 
-    override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
+    override fun getComparatorOutput(state: BlockState, world: Level, pos: BlockPos): Int {
         val stack = (world.getBlockEntity(pos) as DisplayCaseBlockEntity).getStack()
 
         if (stack.isEmpty) return 0
@@ -115,7 +119,7 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
         return CODEC
     }
 
-    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean = false
+    override fun isPathfindable(state: BlockState, type: PathComputationType): Boolean = false
 
     companion object {
         val CODEC = createCodec(::DisplayCaseBlock)

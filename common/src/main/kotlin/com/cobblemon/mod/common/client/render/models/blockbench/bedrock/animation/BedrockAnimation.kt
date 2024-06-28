@@ -23,17 +23,17 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveDouble
 import java.util.SortedMap
 import java.util.TreeMap
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.crash.CrashException
 import net.minecraft.util.crash.CrashReport
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 data class BedrockAnimationGroup(
     val formatVersion: String,
@@ -97,12 +97,12 @@ class BedrockParticleKeyframe(
 
 class BedrockSoundKeyframe(
     seconds: Float,
-    val sound: Identifier
+    val sound: ResourceLocation
 ): BedrockEffectKeyframe(seconds) {
     override fun run(entity: Entity, state: PosableState) {
         val soundEvent = SoundEvent.of(sound) // Means we don't need to setup a sound registry entry for every single thing
         if (soundEvent != null) {
-            MinecraftClient.getInstance().soundManager.play(
+            Minecraft.getInstance().soundManager.play(
                 PositionedSoundInstance(
                     soundEvent,
                     SoundCategory.NEUTRAL,
@@ -184,7 +184,7 @@ data class BedrockAnimation(
                 if (!timeline.scale.isEmpty()) {
                     var scale = timeline.scale.resolve(animationSeconds.toDouble(), runtime)
                     // If the goal is to make the invisible then kick that into gear after 0.5. Maybe could work better somehow else.
-                    if (scale == Vec3d.ZERO && intensity > 0.5) {
+                    if (scale == Vec3.ZERO && intensity > 0.5) {
                         part.xScale *= scale.x.toFloat()
                         part.yScale *= scale.y.toFloat()
                         part.zScale *= scale.z.toFloat()
@@ -216,12 +216,12 @@ data class BedrockAnimation(
 }
 
 interface BedrockBoneValue {
-    fun resolve(time: Double, runtime: MoLangRuntime): Vec3d
+    fun resolve(time: Double, runtime: MoLangRuntime): Vec3
     fun isEmpty(): Boolean
 }
 
 object EmptyBoneValue : BedrockBoneValue {
-    override fun resolve(time: Double, runtime: MoLangRuntime) = Vec3d.ZERO
+    override fun resolve(time: Double, runtime: MoLangRuntime) = Vec3.ZERO
     override fun isEmpty() = true
 }
 
@@ -238,12 +238,12 @@ class MolangBoneValue(
 ) : BedrockBoneValue {
     val yMul = if (transformation == Transformation.POSITION) -1 else 1
     override fun isEmpty() = false
-    override fun resolve(time: Double, runtime: MoLangRuntime): Vec3d {
+    override fun resolve(time: Double, runtime: MoLangRuntime): Vec3 {
         val environment = runtime.environment
         environment.setSimpleVariable("anim_time", DoubleValue(time))
-        environment.setSimpleVariable("camera_rotation_x", DoubleValue(MinecraftClient.getInstance().gameRenderer.camera.rotation.x.toDouble()))
-        environment.setSimpleVariable("camera_rotation_y", DoubleValue(MinecraftClient.getInstance().gameRenderer.camera.rotation.y.toDouble()))
-        return Vec3d(
+        environment.setSimpleVariable("camera_rotation_x", DoubleValue(Minecraft.getInstance().gameRenderer.camera.rotation.x.toDouble()))
+        environment.setSimpleVariable("camera_rotation_y", DoubleValue(Minecraft.getInstance().gameRenderer.camera.rotation.y.toDouble()))
+        return Vec3(
             runtime.resolveDouble(x),
             runtime.resolveDouble(y) * yMul,
             runtime.resolveDouble(z)
@@ -258,7 +258,7 @@ class BedrockKeyFrameBoneValue : TreeMap<Double, BedrockAnimationKeyFrame>(), Be
         return if (key != null) this[key] else null
     }
 
-    override fun resolve(time: Double, runtime: MoLangRuntime): Vec3d {
+    override fun resolve(time: Double, runtime: MoLangRuntime): Vec3 {
         var afterIndex : Int? = keys.indexOfFirst { it > time }
         if (afterIndex == -1) afterIndex = null
         val beforeIndex = when (afterIndex) {
@@ -269,8 +269,8 @@ class BedrockKeyFrameBoneValue : TreeMap<Double, BedrockAnimationKeyFrame>(), Be
         val after = getAtIndex(afterIndex)
         val before = getAtIndex(beforeIndex)
 
-        val afterData = after?.pre?.resolve(time, runtime) ?: Vec3d.ZERO
-        val beforeData = before?.post?.resolve(time, runtime) ?: Vec3d.ZERO
+        val afterData = after?.pre?.resolve(time, runtime) ?: Vec3.ZERO
+        val beforeData = before?.post?.resolve(time, runtime) ?: Vec3.ZERO
 
         if (before != null || after != null) {
             if (before != null && before.interpolationType == InterpolationType.SMOOTH || after != null && after.interpolationType == InterpolationType.SMOOTH) {
@@ -289,9 +289,17 @@ class BedrockKeyFrameBoneValue : TreeMap<Double, BedrockAnimationKeyFrame>(), Be
             else {
                 when {
                     before != null && after != null -> {
-                        return Vec3d(
-                            beforeData.x + (afterData.x - beforeData.x) * linearLerpAlpha(before.time, after.time, time),
-                            beforeData.y + (afterData.y - beforeData.y) * linearLerpAlpha(before.time, after.time, time),
+                        return Vec3(
+                            beforeData.x + (afterData.x - beforeData.x) * linearLerpAlpha(
+                                before.time,
+                                after.time,
+                                time
+                            ),
+                            beforeData.y + (afterData.y - beforeData.y) * linearLerpAlpha(
+                                before.time,
+                                after.time,
+                                time
+                            ),
                             beforeData.z + (afterData.z - beforeData.z) * linearLerpAlpha(before.time, after.time, time)
                         )
                     }
@@ -301,7 +309,7 @@ class BedrockKeyFrameBoneValue : TreeMap<Double, BedrockAnimationKeyFrame>(), Be
             }
         }
         else {
-            return Vec3d(0.0, 0.0, 0.0)
+            return Vec3(0.0, 0.0, 0.0)
         }
     }
 

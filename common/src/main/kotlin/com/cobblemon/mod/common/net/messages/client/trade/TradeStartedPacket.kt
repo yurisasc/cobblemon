@@ -16,10 +16,10 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.*
 import java.util.UUID
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 /**
  * A packet that initializes a trade with a player. Information about the other party is included.
@@ -36,7 +36,7 @@ class TradeStartedPacket(
 ) : NetworkPacket<TradeStartedPacket> {
     class TradeablePokemon(
         val pokemonId: UUID,
-        val species: Identifier,
+        val species: ResourceLocation,
         val aspects: Set<String>,
         val level: Int,
         val gender: Gender,

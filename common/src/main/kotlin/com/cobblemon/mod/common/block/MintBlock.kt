@@ -13,26 +13,26 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.item.MintLeafItem
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.CropBlock
 import net.minecraft.block.Fertilizable
 import net.minecraft.block.ShapeContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.registry.tag.BlockTags
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.util.StringIdentifiable
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
-import net.minecraft.world.WorldView
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelReader
 
 @Suppress("OVERRIDE_DEPRECATION", "MemberVisibilityCanBePrivate")
 class MintBlock(private val mintType: MintType, settings: Settings) : CropBlock(settings), Fertilizable {
@@ -45,14 +45,14 @@ class MintBlock(private val mintType: MintType, settings: Settings) : CropBlock(
 
     // DO NOT use withAge
     // Explanation for these 2 beautiful copy pasta are basically that we need to keep the blockstate and that's not possible with the default impl :(
-    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+    override fun randomTick(state: BlockState, world: ServerLevel, pos: BlockPos, random: Random) {
         if (world.getBaseLightLevel(pos, 0) < 9 || this.isMature(state) || random.nextInt(8) != 0) {
             return
         }
         this.applyGrowth(world, pos, state, false)
     }
 
-    override fun applyGrowth(world: World, pos: BlockPos, state: BlockState) {
+    override fun applyGrowth(world: Level, pos: BlockPos, state: BlockState) {
         this.applyGrowth(world, pos, state, true)
     }
 
@@ -61,7 +61,7 @@ class MintBlock(private val mintType: MintType, settings: Settings) : CropBlock(
         builder.add(IS_WILD)
     }
 
-    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
+    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
         val floor = world.getBlockState(pos.down())
         // A bit of a copy pasta but we don't have access to the BlockState being attempted to be placed above on the canPlantOnTop
         return (world.getBaseLightLevel(pos, 0) >= 8 || world.isSkyVisible(pos)) && ((this.isWild(state) && floor.isIn(BlockTags.DIRT)) || this.canPlantOnTop(floor, world, pos))
@@ -69,13 +69,13 @@ class MintBlock(private val mintType: MintType, settings: Settings) : CropBlock(
 
     override fun getSeedsItem(): ItemConvertible = this.mintType.getSeed()
 
-    override fun getGrowthAmount(world: World): Int = 1
+    override fun getGrowthAmount(world: Level): Int = 1
 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape = AGE_TO_SHAPE[this.getAge(state)]
 
     fun isWild(state: BlockState): Boolean = state.get(IS_WILD)
 
-    private fun applyGrowth(world: World, pos: BlockPos, state: BlockState, useRandomGrowthAmount: Boolean) {
+    private fun applyGrowth(world: Level, pos: BlockPos, state: BlockState, useRandomGrowthAmount: Boolean) {
         val growthAmount = if (useRandomGrowthAmount) this.getGrowthAmount(world) else 1
         val newAge = (this.getAge(state) + growthAmount).coerceAtMost(MATURE_AGE)
         world.setBlockState(pos, state.with(AGE, newAge), NOTIFY_LISTENERS)

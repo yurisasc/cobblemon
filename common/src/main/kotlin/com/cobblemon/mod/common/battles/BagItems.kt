@@ -17,11 +17,11 @@ import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.item.battle.BagItemConvertible
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.io.File
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.resources.ResourceLocation
 
 /**
  * A registry for [BagItem]s that could be parsed from [ItemStack]s. This registry is used as the resource loading
@@ -34,7 +34,7 @@ object BagItems : DataRegistry {
     override val id = cobblemonResource("bag_items")
     override val type = ResourceType.SERVER_DATA
     override val observable = SimpleObservable<BagItems>()
-    override fun sync(player: ServerPlayerEntity) {}
+    override fun sync(player: ServerPlayer) {}
 
     val bagItems = PrioritizedList<BagItemConvertible>()
     internal val bagItemsScripts = mutableMapOf<String, String>() // itemId to JavaScript
@@ -53,7 +53,7 @@ object BagItems : DataRegistry {
         manager.findResources("bag_items") { it.path.endsWith(".js") }.forEach { (identifier, resource) ->
             resource.inputStream.use { stream ->
                 stream.bufferedReader().use { reader ->
-                    val resolvedIdentifier = Identifier.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    val resolvedIdentifier = ResourceLocation.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
                     val js = reader.readText()
                     bagItemsScripts[resolvedIdentifier.path] = js
                 }

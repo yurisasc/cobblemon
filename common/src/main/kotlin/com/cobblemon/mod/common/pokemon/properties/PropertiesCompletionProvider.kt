@@ -29,7 +29,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import java.util.concurrent.CompletableFuture
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 /**
  * A data registry responsible for providing tab completion for Pokemon properties.
@@ -50,7 +50,7 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.reload()
     }
 
-    override fun sync(player: ServerPlayerEntity) {
+    override fun sync(player: ServerPlayer) {
         PropertiesCompletionRegistrySyncPacket(this.providers).sendToPlayer(player)
     }
 

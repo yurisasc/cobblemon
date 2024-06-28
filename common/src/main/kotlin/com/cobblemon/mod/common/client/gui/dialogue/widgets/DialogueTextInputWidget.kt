@@ -15,8 +15,8 @@ import com.cobblemon.mod.common.client.gui.dialogue.DialogueScreen
 import com.cobblemon.mod.common.net.messages.client.dialogue.dto.DialogueInputDTO
 import com.cobblemon.mod.common.net.messages.server.dialogue.InputToDialoguePacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.TextFieldWidget
 import net.minecraft.client.util.InputUtil
@@ -30,7 +30,7 @@ class DialogueTextInputWidget(
     height: Int,
     maxLength: Int = 100
 ) : TextFieldWidget(
-    MinecraftClient.getInstance().textRenderer,
+    Minecraft.getInstance().textRenderer,
     x,
     y,
     width,
@@ -55,7 +55,7 @@ class DialogueTextInputWidget(
         }
     }
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         if (dialogueScreen.dialogueDTO.dialogueInput.inputType != DialogueInputDTO.InputType.TEXT || dialogueScreen.waitingForServerUpdate) {
             return
         }

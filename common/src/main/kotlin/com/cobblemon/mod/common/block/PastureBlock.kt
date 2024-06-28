@@ -23,9 +23,7 @@ import com.cobblemon.mod.common.util.toVec3d
 import com.cobblemon.mod.common.util.voxelShape
 import com.mojang.serialization.MapCodec
 import java.util.UUID
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.Block
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
@@ -34,37 +32,40 @@ import net.minecraft.block.Waterloggable
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.world.item.ItemStack
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldEvents
-import net.minecraft.world.WorldView
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.BaseEntityBlock
+import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.pathfinder.PathComputationType
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
-class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterloggable, PreEmptsExplosion {
+class PastureBlock(properties: Settings): BaseEntityBlock(properties), Waterloggable, PreEmptsExplosion {
     companion object {
         val CODEC = createCodec(::PastureBlock)
 
@@ -142,7 +143,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
             .with(ON, false)
     }
 
-    override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
+    override fun getRenderShape(state: BlockState) = RenderShape.MODEL
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
         val abovePosition = blockPlaceContext.blockPos.up()
         val world = blockPlaceContext.world
@@ -156,7 +157,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
         return null
     }
 
-    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
+    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
         return true
     }
 
@@ -182,9 +183,9 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
         return CODEC
     }
 
-    override fun canPathfindThrough(
-        blockState: BlockState?,
-        pathComputationType: NavigationType?
+    override fun isPathfindable(
+        blockState: BlockState,
+        pathComputationType: PathComputationType
     ): Boolean = false
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
@@ -204,7 +205,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
         }
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?): BlockState {
+    override fun onBreak(world: Level, pos: BlockPos, state: BlockState, player: Player?): BlockState {
         checkBreakEntity(world, state, pos)
         if (!world.isClient && player?.isCreative == true) {
             var blockPos: BlockPos = BlockPos.ORIGIN
@@ -220,16 +221,16 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
         return super.onBreak(world, pos, state, player)
     }
 
-    override fun whenExploded(world: World, state: BlockState, pos: BlockPos) {
+    override fun whenExploded(world: Level, state: BlockState, pos: BlockPos) {
         val blockEntity = world.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
         blockEntity.onBroken()
     }
 
-    override fun <T : BlockEntity?> getTicker(world: World, state: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
+    override fun <T : BlockEntity?> getTicker(world: Level, state: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
         return validateTicker(type, CobblemonBlockEntities.PASTURE, PokemonPastureBlockEntity.TICKER::tick)
     }
 
-    override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack?) {
+    override fun onPlaced(world: Level, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack?) {
         world.setBlockState(
             pos.up(),
             state.with(PART, PasturePart.TOP).with(WATERLOGGED, world.getFluidState((pos.up())).fluid == Fluids.WATER) as BlockState,
@@ -238,7 +239,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
         world.updateNeighbors(pos, Blocks.AIR)
         state.updateNeighbors(world, pos, 3)
 
-        if (world is ServerWorld && placer is ServerPlayerEntity) {
+        if (world is ServerLevel && placer is ServerPlayer) {
             val blockEntity = world.getBlockEntity(pos) as? PokemonPastureBlockEntity ?: return
             blockEntity.ownerId = placer.uuid
             blockEntity.ownerName = placer.gameProfile.name
@@ -249,12 +250,12 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
     @Deprecated("Deprecated in Java")
     override fun onUse(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
-        player: PlayerEntity,
+        player: Player,
         hit: BlockHitResult
     ): ActionResult? {
-        if (player is ServerPlayerEntity && !player.isInBattle()) {
+        if (player is ServerPlayer && !player.isInBattle()) {
             val basePos = getBasePosition(state, pos)
 
             // Remove any duplicate block entities that may exist
@@ -279,7 +280,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
                 )
             )
 
-            PastureLinkManager.createLink(player.uuid, PastureLink(linkId, pcId, Identifier.tryParse(world.dimensionEntry.idAsString)!!, getBasePosition(state, pos), perms))
+            PastureLinkManager.createLink(player.uuid, PastureLink(linkId, pcId, ResourceLocation.tryParse(world.dimensionEntry.idAsString)!!, getBasePosition(state, pos), perms))
 
             world.playSoundServer(
                 position = pos.toVec3d(),
@@ -319,7 +320,7 @@ class PastureBlock(properties: Settings): BlockWithEntity(properties), Waterlogg
         return blockState.rotate(mirror.getRotation(blockState.get(HorizontalFacingBlock.FACING)))
     }
 
-    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos?, newState: BlockState, moved: Boolean) {
+    override fun onStateReplaced(state: BlockState, world: Level, pos: BlockPos?, newState: BlockState, moved: Boolean) {
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
     }
 

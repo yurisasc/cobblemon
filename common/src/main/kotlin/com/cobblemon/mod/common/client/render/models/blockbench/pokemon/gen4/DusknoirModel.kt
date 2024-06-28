@@ -14,17 +14,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPo
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class DusknoirModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dusknoir")
     override val head = getPart("eye")
 
     override var portraitScale = 1.65F
-    override var portraitTranslation = Vec3d(-0.9, 2.65, 0.0)
+    override var portraitTranslation = Vec3(-0.9, 2.65, 0.0)
 
     override var profileScale = 0.5F
-    override var profileTranslation = Vec3d(-0.2, 1.25, 0.0)
+    override var profileTranslation = Vec3(-0.2, 1.25, 0.0)
 
 //    lateinit var hover: CobblemonPose
 //    lateinit var fly: CobblemonPose

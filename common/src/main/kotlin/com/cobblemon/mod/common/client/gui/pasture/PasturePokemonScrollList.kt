@@ -24,8 +24,8 @@ import com.cobblemon.mod.common.net.messages.server.pasture.UnpasturePokemonPack
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -35,7 +35,7 @@ class PasturePokemonScrollList(
     val listY: Int,
     val parent: PastureWidget
 ) : AlwaysSelectedEntryListWidget<PasturePokemonScrollList.PastureSlot>(
-    MinecraftClient.getInstance(),
+    Minecraft.getInstance(),
     WIDTH, // width
     HEIGHT, // height
     0, // top
@@ -78,7 +78,7 @@ class PasturePokemonScrollList(
     public override fun addEntry(entry: PastureSlot) = super.addEntry(entry)
     public override fun removeEntry(entry: PastureSlot) = super.removeEntry(entry)
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
 
         context.matrices.push()
@@ -148,7 +148,7 @@ class PasturePokemonScrollList(
                 && mouseY < bottom
     }
 
-    override fun drawMenuListBackground(context: DrawContext?) {}
+    override fun drawMenuListBackground(context: GuiGraphics?) {}
 
     private fun correctSize() {
         setDimensionsAndPosition(WIDTH, HEIGHT, listX, (listY - 4))
@@ -158,7 +158,7 @@ class PasturePokemonScrollList(
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + WIDTH)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + HEIGHT))
 
     class PastureSlot(val pokemon: OpenPasturePacket.PasturePokemonDataDTO, private val parent: PastureWidget) : Entry<PastureSlot>() {
-        val client: MinecraftClient = MinecraftClient.getInstance()
+        val client: Minecraft = Minecraft.getInstance()
         val state = FloatingState()
 
         fun isOwned() = client.player?.uuid == pokemon.playerId
@@ -179,7 +179,7 @@ class PasturePokemonScrollList(
         override fun getNarration() = pokemon.displayName
 
         override fun render(
-            context: DrawContext,
+            context: GuiGraphics,
             index: Int,
             rowTop: Int,
             rowLeft: Int,

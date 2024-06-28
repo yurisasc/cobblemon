@@ -12,19 +12,17 @@ import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
-import net.minecraft.block.BlockState
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.core.HolderLookup
+import net.minecraft.world.entity.player.Player
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
-import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.item.ItemStack
 import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.collection.DefaultedList
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
 
 class RestorationTankBlockEntity(
@@ -33,12 +31,12 @@ class RestorationTankBlockEntity(
 ) : FossilMultiblockEntity(pos, state, multiblockBuilder, CobblemonBlockEntities.RESTORATION_TANK)  {
     val inv = RestorationTankInventory(this)
 
-    override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+    override fun writeNbt(nbt: CompoundTag, registryLookup: HolderLookup.Provider) {
         super.writeNbt(nbt, registryLookup)
         Inventories.writeNbt(nbt, inv.items, registryLookup)
     }
 
-    override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+    override fun readNbt(nbt: CompoundTag, registryLookup: HolderLookup.Provider) {
         super.readNbt(nbt, registryLookup)
         Inventories.readNbt(nbt, inv.items, registryLookup)
     }
@@ -115,7 +113,7 @@ class RestorationTankBlockEntity(
             }
         }
 
-        override fun canPlayerUse(player: PlayerEntity?): Boolean {
+        override fun canPlayerUse(player: Player?): Boolean {
             return false
         }
 

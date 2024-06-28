@@ -25,15 +25,14 @@ import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.isHeld
 import com.cobblemon.mod.common.util.isInBattle
 import com.cobblemon.mod.common.util.party
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.registry.Registries
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.SoundCategory
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
-import net.minecraft.world.World
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.level.Level
 import kotlin.math.ceil
 
 /**
@@ -49,11 +48,11 @@ class ReviveItem(val max: Boolean): CobblemonItem(Settings()) {
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "revive ${ if (max) "1" else "0.5" }"
     }
 
-    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-        if (world !is ServerWorld) {
-            return TypedActionResult.success(user.getStackInHand(hand))
+    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+        if (world !is ServerLevel) {
+            return InteractionResultHolder.success(user.getStackInHand(hand))
         } else {
-            val player = user as ServerPlayerEntity
+            val player = user as ServerPlayer
             val stack = user.getStackInHand(hand)
             val battle = BattleRegistry.getBattleByParticipatingPlayer(player)
             if (battle != null) {
@@ -61,7 +60,7 @@ class ReviveItem(val max: Boolean): CobblemonItem(Settings()) {
                 val battlePokemon = actor.pokemonList
                 if (!actor.canFitForcedAction()) {
                     player.sendMessage(battleLang("bagitem.cannot").red(), true)
-                    return TypedActionResult.consume(stack)
+                    return InteractionResultHolder.consume(stack)
                 } else {
                     val turn = battle.turn
                     PartySelectCallbacks.createBattleSelect(
@@ -95,7 +94,7 @@ class ReviveItem(val max: Boolean): CobblemonItem(Settings()) {
                     }
                 }
             }
-            return TypedActionResult.success(stack)
+            return InteractionResultHolder.success(stack)
         }
     }
 }

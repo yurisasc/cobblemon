@@ -9,22 +9,22 @@
 package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.block.VivichokeBlock
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.AliasedBlockItem
-import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.item.PlaceableOnWaterItem
 import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.RaycastContext
-import net.minecraft.world.World
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemNameBlockItem
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
 
-class VivichokeItem(block: VivichokeBlock) : AliasedBlockItem(block, Settings()) {
-    override fun use(world: World?, user: PlayerEntity, hand: Hand?): TypedActionResult<ItemStack?> {
+class VivichokeItem(block: VivichokeBlock) : ItemNameBlockItem(block, Properties()) {
+    override fun use(world: Level?, user: Player, hand: InteractionHand?): InteractionResultHolder<ItemStack?> {
         val blockHitResult = PlaceableOnWaterItem.raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY)
         val blockHitResult2 = blockHitResult.withBlockPos(blockHitResult.blockPos.up())
         val actionResult: ActionResult = super.useOnBlock(ItemUsageContext(user, hand, blockHitResult2))
-        return TypedActionResult(actionResult, user.getStackInHand(hand))
+        return InteractionResultHolder(actionResult, user.getStackInHand(hand))
     }
 }

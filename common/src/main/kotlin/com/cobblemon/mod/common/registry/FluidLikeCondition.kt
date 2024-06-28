@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeIdentifierCondition
 import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 /**
  * A tag condition for fluids. Built off of [RegistryLikeTagCondition].
@@ -27,4 +27,4 @@ class FluidTagCondition(tag: TagKey<Fluid>) : RegistryLikeTagCondition<Fluid>(ta
  * @author Hiroku
  * @since December 15th, 2022
  */
-class FluidIdentifierCondition(identifier: Identifier) : RegistryLikeIdentifierCondition<Fluid>(identifier)
+class FluidIdentifierCondition(identifier: ResourceLocation) : RegistryLikeIdentifierCondition<Fluid>(identifier)

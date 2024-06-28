@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.pokemon.evolution.requirements
 import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.template.EntityQueryRequirement
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.world.gen.structure.Structure
 

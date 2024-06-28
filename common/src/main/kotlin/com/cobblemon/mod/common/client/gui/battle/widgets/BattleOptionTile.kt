@@ -12,24 +12,23 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.render.drawScaledText
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.Drawable
-import net.minecraft.client.gui.Element
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.Selectable.SelectionType.HOVERED
+import net.minecraft.client.gui.components.Renderable
+import net.minecraft.client.gui.components.events.GuiEventListener
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.screen.narration.NarrationPart
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 class BattleOptionTile(
     val battleGUI: BattleGUI,
     val x: Int,
     val y: Int,
-    val resource: Identifier,
+    val resource: ResourceLocation,
     val text: MutableText,
     val onClick: () -> Unit
-) : Drawable, Element, Selectable {
+) : Renderable, GuiEventListener, Selectable {
     companion object {
         const val  OPTION_WIDTH = 90
         const val OPTION_HEIGHT = 26
@@ -37,7 +36,7 @@ class BattleOptionTile(
 
     private var focused = false
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         val opacity = CobblemonClient.battleOverlay.opacityRatio
         if (opacity < 0.1) {
             return

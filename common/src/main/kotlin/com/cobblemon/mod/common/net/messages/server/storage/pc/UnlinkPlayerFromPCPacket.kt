@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.UnlinkPlayerFromPCHandler
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Packet sent to remove the PC link for the player.

@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeUuid
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**

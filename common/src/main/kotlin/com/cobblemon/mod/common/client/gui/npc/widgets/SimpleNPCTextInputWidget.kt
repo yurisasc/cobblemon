@@ -11,16 +11,16 @@ package com.cobblemon.mod.common.client.gui.npc.widgets
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawCenteredText
 import com.cobblemon.mod.common.api.text.text
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.TextFieldWidget
 import net.minecraft.text.MutableText
 import net.minecraft.text.PlainTextContent.Literal
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 class SimpleNPCTextInputWidget(
     getter: () -> String,
-    val texture: Identifier,
+    val texture: ResourceLocation,
     private val setter: (String) -> Unit,
     x: Int,
     y: Int,
@@ -29,7 +29,7 @@ class SimpleNPCTextInputWidget(
     maxLength: Int = 100,
     val wrap: Boolean = false
 ) : TextFieldWidget(
-    MinecraftClient.getInstance().textRenderer,
+    Minecraft.getInstance().textRenderer,
     x,
     y,
     width,
@@ -53,7 +53,7 @@ class SimpleNPCTextInputWidget(
         }
     }
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         if (cursor != text.length) {
             setCursorToEnd(false)
         }
@@ -71,10 +71,10 @@ class SimpleNPCTextInputWidget(
         val scale = 0.8F
         context.matrices.scale(scale, scale, 1F)
         if (wrap) {
-            val wrappedLines = MinecraftClient.getInstance().textRenderer.wrapLines(MutableText.of(Literal(text)), ((width - 8) / scale).toInt())
+            val wrappedLines = Minecraft.getInstance().textRenderer.wrapLines(MutableText.of(Literal(text)), ((width - 8) / scale).toInt())
             for ((index, line) in wrappedLines.withIndex()) {
                 context.drawText(
-                    MinecraftClient.getInstance().textRenderer,
+                    Minecraft.getInstance().textRenderer,
                     line,
                     ((x + 4) / scale).toInt(),
                     ((y + index * 10 + 5) / scale).toInt(),

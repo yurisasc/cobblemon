@@ -18,49 +18,50 @@ import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toVec3d
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.Block
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.Waterloggable
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.mob.PiglinBrain
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.screen.ScreenHandler
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
-import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Properties.WATERLOGGED
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
-import net.minecraft.util.Identifier
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.BaseEntityBlock
+import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.pathfinder.PathComputationType
 
 @Suppress("OVERRIDE_DEPRECATION")
-class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWithEntity(settings), Waterloggable {
+class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BaseEntityBlock(settings), Waterloggable {
 
     init {
         defaultState = defaultState
@@ -139,14 +140,14 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     )
 
     override fun getName(): MutableText {
-        return if (isFake()) Text.translatable("block.cobblemon.gilded_chest") else super.getName()
+        return if (isFake()) Component.translatable("block.cobblemon.gilded_chest") else super.getName()
     }
 
     fun isFake() = (type == Type.FAKE)
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity): BlockState {
+    override fun onBreak(world: Level, pos: BlockPos, state: BlockState, player: Player): BlockState {
         if (!world.isClient) {
-            if (isFake() && (player is ServerPlayerEntity)) {
+            if (isFake() && (player is ServerPlayer)) {
                 spawnPokemon(world, pos, state, player)
             }
             val bEntity = world.getBlockEntity(pos) as? GildedChestBlockEntity
@@ -158,7 +159,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         return Blocks.AIR.defaultState
     }
 
-    private fun spawnPokemon(world: World, pos: BlockPos, state: BlockState, player: ServerPlayerEntity) : ActionResult {
+    private fun spawnPokemon(world: Level, pos: BlockPos, state: BlockState, player: ServerPlayer) : ActionResult {
         val properties = "$POKEMON_ARGS lvl=${LEVEL_RANGE.random()}"
         val pokemon = PokemonProperties.parse(properties)
         val entity = pokemon.createEntity(world)
@@ -189,13 +190,13 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
 
     override fun onUse(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
-        player: PlayerEntity,
+        player: Player,
         hit: BlockHitResult
     ): ActionResult? {
         if (isFake()) {
-            if (player is ServerPlayerEntity) {
+            if (player is ServerPlayer) {
                 return spawnPokemon(world, pos, state, player)
             } else {
                 return ActionResult.SUCCESS
@@ -212,7 +213,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
 
     override fun onStateReplaced(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
         newState: BlockState,
         moved: Boolean
@@ -225,7 +226,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         }
     }
 
-    override fun getRenderType(state: BlockState?) = BlockRenderType.ENTITYBLOCK_ANIMATED
+    override fun getRenderShape(state: BlockState) = RenderShape.ENTITYBLOCK_ANIMATED
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
         return defaultState
@@ -246,7 +247,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         return true
     }
 
-    override fun getComparatorOutput(state: BlockState?, world: World, pos: BlockPos?): Int {
+    override fun getComparatorOutput(state: BlockState?, world: Level, pos: BlockPos?): Int {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
     }
 
@@ -254,7 +255,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         return state.rotate(mirror.getRotation(state.get(Properties.HORIZONTAL_FACING) as Direction))
     }
 
-    enum class Type(val poserId: Identifier): StringIdentifiable {
+    enum class Type(val poserId: ResourceLocation): StringIdentifiable {
         RED(cobblemonResource("gilded_chest")),
         BLUE(cobblemonResource("blue_gilded_chest")),
         GREEN(cobblemonResource("green_gilded_chest")),
@@ -274,7 +275,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     }
 
     @Deprecated("Deprecated in Java")
-    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean {
+    override fun isPathfindable(state: BlockState?, type: PathComputationType): Boolean {
         return false
     }
 
@@ -283,7 +284,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     }
 
     override fun onPlaced(
-        world: World,
+        world: Level,
         pos: BlockPos,
         state: BlockState,
         placer: LivingEntity?,
@@ -300,7 +301,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
 
     override fun scheduledTick(
         state: BlockState?,
-        world: ServerWorld?,
+        world: ServerLevel?,
         pos: BlockPos?,
         random: Random?
     ) {

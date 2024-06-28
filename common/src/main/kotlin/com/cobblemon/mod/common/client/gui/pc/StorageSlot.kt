@@ -19,11 +19,11 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -31,7 +31,7 @@ open class StorageSlot(
     x: Int, y: Int,
     private val parent: StorageWidget,
     onPress: PressAction
-) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("StorageSlot"), onPress, DEFAULT_NARRATION_SUPPLIER) {
+) : ButtonWidget(x, y, SIZE, SIZE, Component.literal("StorageSlot"), onPress, DEFAULT_NARRATION_SUPPLIER) {
     val state = FloatingState()
 
     companion object {
@@ -48,13 +48,13 @@ open class StorageSlot(
     override fun playDownSound(soundManager: SoundManager) {
     }
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         if (shouldRender()) {
             renderSlot(context, x, y, delta)
         }
     }
 
-    fun renderSlot(context: DrawContext, posX: Int, posY: Int, partialTicks: Float) {
+    fun renderSlot(context: GuiGraphics, posX: Int, posY: Int, partialTicks: Float) {
         val pokemon = getPokemon() ?: return
         val matrices = context.matrices
         context.enableScissor(
@@ -157,7 +157,7 @@ open class StorageSlot(
                 && config.permissions.canPasture
                 && config.canSelect(pokemon)
                 && config.pasturedPokemon.get().size < config.limit
-                && config.pasturedPokemon.get().count { it.playerId == MinecraftClient.getInstance().player!!.uuid } < config.permissions.maxPokemon
+                && config.pasturedPokemon.get().count { it.playerId == Minecraft.getInstance().player!!.uuid } < config.permissions.maxPokemon
             ) {
                 blitk(
                     matrixStack = matrices,

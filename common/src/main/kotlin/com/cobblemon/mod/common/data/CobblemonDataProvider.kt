@@ -45,8 +45,8 @@ import java.util.UUID
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
 import net.minecraft.resource.SynchronousResourceReloader
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.resources.ResourceLocation
 
 object CobblemonDataProvider : DataProvider {
 
@@ -106,9 +106,9 @@ object CobblemonDataProvider : DataProvider {
         return registry
     }
 
-    override fun fromIdentifier(registryIdentifier: Identifier): DataRegistry? = this.registries.find { it.id == registryIdentifier }
+    override fun fromIdentifier(registryIdentifier: ResourceLocation): DataRegistry? = this.registries.find { it.id == registryIdentifier }
 
-    override fun sync(player: ServerPlayerEntity) {
+    override fun sync(player: ServerPlayer) {
         if (!player.networkHandler.connection.isLocal) {
             this.registries.forEach { registry -> registry.sync(player) }
         }
@@ -118,7 +118,7 @@ object CobblemonDataProvider : DataProvider {
         waitingActions.forEach { it() }
     }
 
-    override fun doAfterSync(player: ServerPlayerEntity, action: () -> Unit) {
+    override fun doAfterSync(player: ServerPlayer, action: () -> Unit) {
         if (player.uuid in synchronizedPlayerIds) {
             action()
         } else {

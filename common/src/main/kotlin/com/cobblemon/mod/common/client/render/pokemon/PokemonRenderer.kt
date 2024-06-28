@@ -39,22 +39,22 @@ import com.cobblemon.mod.common.util.math.DoubleRange
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
 import kotlin.math.*
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.*
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
 import net.minecraft.client.render.item.ItemRenderer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.text.Style
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 import net.minecraft.util.Formatting
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.MathConstants.PI
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 import org.joml.Math
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -80,7 +80,7 @@ class PokemonRenderer(
         it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
     }
 
-    override fun getTexture(entity: PokemonEntity): Identifier {
+    override fun getTexture(entity: PokemonEntity): ResourceLocation {
         return PokemonModelRepository.getTexture(entity.pokemon.species.resourceIdentifier, entity.aspects, (entity.delegate as PokemonClientDelegate).animationSeconds)
     }
 
@@ -170,7 +170,7 @@ class PokemonRenderer(
         var beamSourcePosition = if (phaseTarget is PosableEntity) {
             (phaseTarget.delegate as PosableState).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
         } else {
-            if (phaseTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
+            if (phaseTarget.uuid == Minecraft.getInstance().player?.uuid) {
                 val lookVec = phaseTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
                 phaseTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))
             } else {
@@ -186,7 +186,7 @@ class PokemonRenderer(
             beamSourcePosition = clientDelegate.sendOutPosition!!
         }
         val offsetDirection = beamSourcePosition.subtract(entity.pos).normalize().multiply(-clientDelegate.ballOffset.toDouble())
-        val facingDir: Vec3d
+        val facingDir: Vec3
         with(beamSourcePosition.subtract(entity.pos)) {
             var newOffset = offsetDirection.multiply(2.0)
             val distance = beamSourcePosition.distanceTo(entity.pos)
@@ -239,13 +239,13 @@ class PokemonRenderer(
      * @param colour The colour of the beam.
      * @param buffer The vertex consumer provider.
      */
-    fun renderBeam(matrixStack: MatrixStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, buffer: VertexConsumerProvider, offset: Vec3d) {
+    fun renderBeam(matrixStack: MatrixStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, buffer: VertexConsumerProvider, offset: Vec3) {
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val pokemonPosition = entity.pos.add(0.0, entity.height / 2.0 * clientDelegate.entityScaleModifier.toDouble(), 0.0)
         var beamSourcePosition = if (beamTarget is EmptyPokeBallEntity) {
             (beamTarget.delegate as PokeBallPosableState).locatorStates["beam"]?.getOrigin() ?: beamTarget.pos
         } else {
-            if (beamTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
+            if (beamTarget.uuid == Minecraft.getInstance().player?.uuid) {
                 val lookVec = beamTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
                 beamTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))
             } else if (beamTarget is NPCEntity) {
@@ -322,14 +322,14 @@ class PokemonRenderer(
         if (entity.dataTracker.get(PokemonEntity.HIDE_LABEL)) {
             return false
         }
-        val player = MinecraftClient.getInstance().player ?: return false
+        val player = Minecraft.getInstance().player ?: return false
         val delegate = entity.delegate as? PokemonClientDelegate ?: return false
         return player.isLookingAt(entity) && delegate.phaseTarget == null
     }
 
     override fun renderLabelIfPresent(
         entity: PokemonEntity,
-        text: Text,
+        text: Component,
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
         light: Int,
@@ -338,7 +338,7 @@ class PokemonRenderer(
         if (entity.isInvisible) {
             return
         }
-        val player = MinecraftClient.getInstance().player ?: return
+        val player = Minecraft.getInstance().player ?: return
         val d = this.dispatcher.getSquaredDistanceToCamera(entity)
         if (d <= 4096.0){
             val scale = min(1.5, max(0.65, d.remap(DoubleRange(-16.0, 96.0), DoubleRange(0.0, 1.0))))
@@ -351,11 +351,11 @@ class PokemonRenderer(
             matrices.translate(0.0,0.0+(offsetScale/2),-(scale+offsetScale))
             matrices.scale((-0.025*sizeScale).toFloat(), (-0.025*sizeScale).toFloat(), 1 * sizeScale.toFloat())
             val matrix4f = matrices.peek().positionMatrix
-            val opacity = (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25f) * 255.0f).toInt() shl 24
+            val opacity = (Minecraft.getInstance().options.getTextBackgroundOpacity(0.25f) * 255.0f).toInt() shl 24
             var label = entity.name.copy()
             if (ServerSettings.displayEntityLevelLabel && entity.labelLevel() > 0) {
                 // This a Style.EMPTY with a lot of effects set to false and color set to white, renderer inherits these from nick otherwise
-                val levelLabel = Text.literal(" ")
+                val levelLabel = Component.literal(" ")
                     .append(lang("label.lv", entity.labelLevel()))
                     .setStyle(LEVEL_LABEL_STYLE)
                 label = label.append(levelLabel)
@@ -411,7 +411,7 @@ class PokemonRenderer(
         ballContext.put(RenderContext.POSABLE_STATE, state)
         model.applyAnimations(null, state, 0F, 0F, 0F, 0F, 0F)
 //        model.animateModel(null, 0f, 0F, 0F)
-        val buffer = ItemRenderer.getDirectItemGlintConsumer(buff, RenderLayer.getEntityCutout(texture), false, false)
+        val buffer = ItemRenderer.getDirectItemGlintConsumer(buff, RenderType.getEntityCutout(texture), false, false)
 //        matrixStack.scale(scale, scale, scale)
         model.render(ballContext, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
         model.green = 1f

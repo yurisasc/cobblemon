@@ -14,10 +14,10 @@ import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.resolve
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 
 object RunPosableMoLangHandler : ClientNetworkPacketHandler<RunPosableMoLangPacket> {
-    override fun handle(packet: RunPosableMoLangPacket, client: MinecraftClient) {
+    override fun handle(packet: RunPosableMoLangPacket, client: Minecraft) {
         val world = client.world ?: return
         val entity = world.getEntityById(packet.entityId) ?: return
         if (entity is PosableEntity) {

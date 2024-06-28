@@ -10,17 +10,15 @@ package com.cobblemon.mod.common.particle
 
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.ast.NumberExpression
-import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.snowstorm.*
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.normalizeToArray
-import com.cobblemon.mod.common.util.singularToPluralList
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import org.joml.Vector4f
 
 object SnowstormParticleReader {
@@ -58,7 +56,7 @@ object SnowstormParticleReader {
         val spaceJson = componentsJson.get("minecraft:emitter_local_space")?.asJsonObject
         val particleLifetimeEventsJson = componentsJson.get("minecraft:particle_lifetime_events")?.asJsonObject
 
-        val id = Identifier.of(descJson.get("identifier").asString)
+        val id = ResourceLocation.of(descJson.get("identifier").asString)
         val maxAge = particleLifetimeJson?.get("max_lifetime")?.asString?.asExpression() ?: 0.0.asExpression()
         val killExpression = particleLifetimeJson?.get("expiration_expression")?.asString?.asExpression() ?: 0.0.asExpression()
         val material = ParticleMaterial.valueOf(basicRenderParametersJson.get("material").asString.substringAfter("_").uppercase())

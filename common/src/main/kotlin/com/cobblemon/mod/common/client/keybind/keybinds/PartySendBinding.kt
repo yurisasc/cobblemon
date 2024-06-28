@@ -19,11 +19,11 @@ import com.cobblemon.mod.common.net.messages.server.RequestPlayerInteractionsPac
 import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.util.InputUtil
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 
 object PartySendBinding : CobblemonBlockingKeyBinding(
     "key.cobblemon.throwpartypokemon",
@@ -44,7 +44,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
 
     override fun onTick() {
         if (secondsSinceActioned < 100) {
-            secondsSinceActioned += MinecraftClient.getInstance().renderTickCounter.getTickDelta(false)
+            secondsSinceActioned += Minecraft.getInstance().renderTickCounter.getTickDelta(false)
         }
 
         super.onTick()
@@ -59,7 +59,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
         }
 
         canApplyChange = true
-        val player = MinecraftClient.getInstance().player ?: return
+        val player = Minecraft.getInstance().player ?: return
 
         if (player.isSpectator) return
 
@@ -67,12 +67,12 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
         if (battle != null) {
             battle.minimised = !battle.minimised
             if (!battle.minimised) {
-                MinecraftClient.getInstance().setScreen(BattleGUI())
+                Minecraft.getInstance().setScreen(BattleGUI())
             }
             return
         }
 
-        if (CobblemonClient.storage.selectedSlot != -1 && MinecraftClient.getInstance().currentScreen == null) {
+        if (CobblemonClient.storage.selectedSlot != -1 && Minecraft.getInstance().currentScreen == null) {
             val pokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot)
             if (pokemon != null && pokemon.currentHealth > 0) {
                 val targetEntity = player.traceFirstEntityCollision(entityClass = LivingEntity::class.java, ignoreEntity = player)
@@ -88,7 +88,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
 
     private fun processEntityTarget(player: ClientPlayerEntity, pokemon: Pokemon, entity: LivingEntity) {
         when (entity) {
-            is PlayerEntity -> {
+            is Player -> {
                 //This sends a packet to the server with the id of the player
                 //The server sends a packet back that opens the player interaction menu with the proper options
                 sendToServer(RequestPlayerInteractionsPacket(entity.uuid, entity.id, pokemon.uuid))

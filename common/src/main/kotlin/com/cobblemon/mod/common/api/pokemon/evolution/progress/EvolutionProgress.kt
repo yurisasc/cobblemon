@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
 import com.cobblemon.mod.common.api.serialization.DataSerializer
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.util.Identifier
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Represents a container of progression towards the completion of an evolution requirement.
@@ -24,14 +24,14 @@ import net.minecraft.util.Identifier
  * @author Licious
  * @since January 27th, 2023
  */
-interface EvolutionProgress<T> : DataSerializer<NbtCompound, JsonObject> {
+interface EvolutionProgress<T> : DataSerializer<CompoundTag, JsonObject> {
 
     /**
      * Returns the unique ID of the evolution progress.
      *
-     * @return The [Identifier] of this [EvolutionProgress].
+     * @return The [ResourceLocation] of this [EvolutionProgress].
      */
-    fun id(): Identifier
+    fun id(): ResourceLocation
 
     /**
      * Gets the current progress of type [T].

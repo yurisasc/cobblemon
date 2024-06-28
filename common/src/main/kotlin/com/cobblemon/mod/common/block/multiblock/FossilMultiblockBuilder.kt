@@ -17,12 +17,12 @@ import com.cobblemon.mod.common.block.RestorationTankBlock
 import com.cobblemon.mod.common.api.multiblock.condition.BlockRelativeCondition
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.blockPositionsAsList
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.predicate.BlockPredicate
 import net.minecraft.predicate.StatePredicate
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.sound.SoundCategory
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
@@ -61,7 +61,7 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
         )
     )
 
-    override fun form(world: ServerWorld) {
+    override fun form(world: ServerLevel) {
         //We want to create a MultiblockStructure here and pass a reference to it in every constituent block's entity
         val blocks = boundingBox.blockPositionsAsList()
         val dirsToCheck = listOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
@@ -146,7 +146,7 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
 
     companion object {
         val NBT_TO_CHECK = run {
-            val nbt = NbtCompound()
+            val nbt = CompoundTag()
             nbt.putBoolean(DataKeys.FORMED, false)
             return@run nbt
         }

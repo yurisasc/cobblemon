@@ -19,11 +19,11 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import java.security.InvalidParameterException
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.sound.SoundEvent
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 class PartyWidget(
     pX: Int,
@@ -31,7 +31,7 @@ class PartyWidget(
     val isParty: Boolean,
     val summary: Summary,
     private val partyList: List<Pokemon?>
-) : SoundlessWidget(pX, pY, WIDTH, HEIGHT, Text.literal("PartyOverlay")) {
+) : SoundlessWidget(pX, pY, WIDTH, HEIGHT, Component.literal("PartyOverlay")) {
 
     companion object {
         const val WIDTH = 114
@@ -63,7 +63,7 @@ class PartyWidget(
                 swapSource = null
                 draggedSlot = null
             }
-            MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+            Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
         }
     )
 
@@ -100,7 +100,7 @@ class PartyWidget(
         }
     }
 
-    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val matrices = context.matrices
         blitk(
             matrixStack = matrices,
@@ -214,7 +214,7 @@ class PartyWidget(
     }
 
     fun playSound(soundEvent: SoundEvent) {
-        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+        Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 
     fun isWithinScreen(mouseX: Double, mouseY: Double): Boolean = mouseX.toInt() in x..(x + WIDTH)

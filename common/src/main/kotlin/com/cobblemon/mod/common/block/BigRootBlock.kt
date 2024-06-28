@@ -9,22 +9,22 @@
 package com.cobblemon.mod.common.block
 
 import com.mojang.serialization.MapCodec
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
 import net.minecraft.entity.EquipmentSlot
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 class BigRootBlock(settings: Settings) : RootBlock(settings) {
@@ -32,9 +32,9 @@ class BigRootBlock(settings: Settings) : RootBlock(settings) {
 
     override fun onUse(
         state: BlockState,
-        world: World,
+        world: Level,
         pos: BlockPos,
-        player: PlayerEntity,
+        player: Player,
         hit: BlockHitResult
     ): ActionResult? {
         val stack = player.getStackInHand(Hand.MAIN_HAND)

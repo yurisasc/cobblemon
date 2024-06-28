@@ -10,10 +10,10 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
@@ -55,7 +55,7 @@ class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Con
             poseStack.push()
             val offset = offsets[index]
             poseStack.translate(offset.first, 0.4, offset.second)
-            MinecraftClient.getInstance().itemRenderer.renderItem(pokeBall.stack(), ModelTransformationMode.GROUND, light, overlay, poseStack, multiBufferSource, blockEntity.world, 0)
+            Minecraft.getInstance().itemRenderer.renderItem(pokeBall.stack(), ModelTransformationMode.GROUND, light, overlay, poseStack, multiBufferSource, blockEntity.world, 0)
             poseStack.pop()
         }
         poseStack.pop()

@@ -9,7 +9,7 @@
 package com.cobblemon.mod.fabric.brewing
 
 import com.cobblemon.mod.common.brewing.BrewingRecipes
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 
 object CobblemonFabricBreweryRegistry {
 

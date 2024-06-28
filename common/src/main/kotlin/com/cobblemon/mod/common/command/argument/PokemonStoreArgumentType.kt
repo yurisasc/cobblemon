@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.util.pc
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.argument.EnumArgumentType
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.StringIdentifiable
 
 class PokemonStoreArgumentType : EnumArgumentType<StoreType>(StoreType.CODEC, StoreType::values) {
@@ -24,7 +24,7 @@ class PokemonStoreArgumentType : EnumArgumentType<StoreType>(StoreType.CODEC, St
     }
 }
 
-enum class StoreType(val storeFetcher: (ServerPlayerEntity) -> Collection<Pokemon>) : StringIdentifiable {
+enum class StoreType(val storeFetcher: (ServerPlayer) -> Collection<Pokemon>) : StringIdentifiable {
 
     PARTY({ player -> player.party().filterNotNull() }),
     PC({ player -> player.pc().filterNotNull() }),

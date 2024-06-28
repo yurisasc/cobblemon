@@ -31,15 +31,15 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.MovingSoundInstance
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.Vec3d
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.phys.Vec3
 
 class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
     companion object {
@@ -67,8 +67,8 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
     var ballDone = false
     var ballOffset = 0f
     var ballRotOffset = 0f
-    var sendOutPosition: Vec3d? = null
-    var sendOutOffset: Vec3d? = null
+    var sendOutPosition: Vec3? = null
+    var sendOutOffset: Vec3? = null
     var playedSendOutSound: Boolean = false
     var playedThrowingSound: Boolean = false
 
@@ -84,7 +84,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
         super.onTrackedDataSet(data)
         if (this::currentEntity.isInitialized) {
             if (data == PokemonEntity.SPECIES) {
-                val identifier = Identifier.of(currentEntity.dataTracker.get(PokemonEntity.SPECIES))
+                val identifier = ResourceLocation.of(currentEntity.dataTracker.get(PokemonEntity.SPECIES))
                 currentPose = null
                 currentEntity.pokemon.species = PokemonSpecies.getByIdentifier(identifier)!! // TODO exception handling
                 // force a model update - handles edge case where the PosableState's tracked PosableModel isn't updated until the LivingEntityRenderer render is run
@@ -132,7 +132,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
                                 it.swingHand(it.activeHand ?: Hand.MAIN_HAND)
                             }
                         }
-                        val client = MinecraftClient.getInstance()
+                        val client = Minecraft.getInstance()
                         val sound = MovingSoundInstance(SoundEvent.of(CobblemonSounds.POKE_BALL_TRAIL.id), SoundCategory.PLAYERS, { sendOutPosition?.add(sendOutOffset) }, 0.1f, 1f, false, 20, 0)
                         if (!playedThrowingSound){
                             client.soundManager.play(sound)
@@ -162,7 +162,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
                                             val matrix = MatrixStack()
                                             matrix.translate(newPos.x, newPos.y, newPos.z)
                                             wrapper.updateMatrix(matrix.peek().positionMatrix)
-                                            val world = MinecraftClient.getInstance().world ?: return@let
+                                            val world = Minecraft.getInstance().world ?: return@let
                                             ParticleStorm(effect, wrapper, world).spawn()
                                             val ballsparks = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsparks"))
                                             val ballsendsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsendsparkle"))
@@ -195,7 +195,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
                         entityScaleModifier = 0F
                         currentEntity.isInvisible = false
                         val soundPos = currentEntity.pos
-                        val client = MinecraftClient.getInstance()
+                        val client = Minecraft.getInstance()
 
                         if (client.soundManager.get(CobblemonSounds.POKE_BALL_SEND_OUT.id) != null && !playedSendOutSound) {
                             client.world?.playSound(

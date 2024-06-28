@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.net.messages.client.data.DataRegistrySyncPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 
 class FishingBaitRegistrySyncPacket(fishingBaits: List<FishingBait>) : DataRegistrySyncPacket<FishingBait, FishingBaitRegistrySyncPacket>(fishingBaits) {
@@ -23,11 +24,11 @@ class FishingBaitRegistrySyncPacket(fishingBaits: List<FishingBait>) : DataRegis
 
 
     override val id = ID
-    override fun encodeEntry(buffer: RegistryByteBuf, entry: FishingBait) {
+    override fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: FishingBait) {
         buffer.writeIdentifier(entry.item)
     }
 
-    override fun decodeEntry(buffer: RegistryByteBuf): FishingBait {
+    override fun decodeEntry(buffer: RegistryFriendlyByteBuf): FishingBait {
         // server handles the effects so client doesnt need to know them
         return FishingBait(buffer.readIdentifier(), emptyList())
     }

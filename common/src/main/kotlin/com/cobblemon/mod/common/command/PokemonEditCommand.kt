@@ -22,7 +22,7 @@ import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object PokemonEditCommand {
 
@@ -58,7 +58,7 @@ object PokemonEditCommand {
         dispatcher.register(otherCommand.alias(ALIAS_OTHER))
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity): Int {
+    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayer): Int {
         val pokemon = PartySlotArgumentType.getPokemonOf(context, SLOT, player)
         val oldName = pokemon.species.translatedName
         val properties = PokemonPropertiesArgumentType.getPokemonProperties(context, PROPERTIES)

@@ -15,8 +15,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.UseMoveRequirement
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.util.Identifier
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.resources.ResourceLocation
 
 /**
  * An [EvolutionProgress] meant to keep track of the amount of times a specific move in battle.
@@ -28,7 +28,7 @@ class UseMoveEvolutionProgress : EvolutionProgress<UseMoveEvolutionProgress.Prog
 
     private var progress = Progress(MoveTemplate.dummy(""), 0)
 
-    override fun id(): Identifier = ID
+    override fun id(): ResourceLocation = ID
 
     override fun currentProgress(): Progress = this.progress
 
@@ -42,15 +42,15 @@ class UseMoveEvolutionProgress : EvolutionProgress<UseMoveEvolutionProgress.Prog
 
     override fun shouldKeep(pokemon: Pokemon): Boolean = supports(pokemon, this.progress.move)
 
-    override fun loadFromNBT(nbt: NbtCompound) {
+    override fun loadFromNBT(nbt: CompoundTag) {
         val moveId = nbt.getString(MOVE)
         val move = Moves.getByName(moveId) ?: return
         val amount = nbt.getInt(AMOUNT)
         this.updateProgress(Progress(move, amount))
     }
 
-    override fun saveToNBT(): NbtCompound {
-        val nbt = NbtCompound()
+    override fun saveToNBT(): CompoundTag {
+        val nbt = CompoundTag()
         nbt.putString(MOVE, this.currentProgress().move.name)
         nbt.putInt(AMOUNT, this.currentProgress().amount)
         return nbt

@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.entity.pokemon.ai.goals
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.entity.pokemon.PokemonBehaviourFlag
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.entity.ai.goal.LookAtEntityGoal
 
 /**

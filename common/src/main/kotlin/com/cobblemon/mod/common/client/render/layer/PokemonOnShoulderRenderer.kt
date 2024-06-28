@@ -21,21 +21,20 @@ import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.isPokemonEntity
 import java.util.UUID
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.world.entity.player.Player
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtElement
-import net.minecraft.util.Identifier
-import net.minecraft.util.Pair
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.RotationAxis
 
-class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRendererContext<T, PlayerEntityModel<T>>) : FeatureRenderer<T, PlayerEntityModel<T>>(renderLayerParent) {
+class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: FeatureRendererContext<T, PlayerEntityModel<T>>) : FeatureRenderer<T, PlayerEntityModel<T>>(renderLayerParent) {
 
     val context = RenderContext().also {
         it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
@@ -139,7 +138,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             state.updatePartialTicks(partialTicks)
             context.put(RenderContext.POSABLE_STATE, state)
             state.currentModel = model
-            val vertexConsumer = buffer.getBuffer(RenderLayer.getEntityCutout(PokemonModelRepository.getTexture(shoulderData.species.resourceIdentifier, shoulderData.aspects, state.animationSeconds)))
+            val vertexConsumer = buffer.getBuffer(RenderType.getEntityCutout(PokemonModelRepository.getTexture(shoulderData.species.resourceIdentifier, shoulderData.aspects, state.animationSeconds)))
             val i = LivingEntityRenderer.getOverlay(livingEntity, 0.0f)
 
             model.applyAnimations(
@@ -160,20 +159,20 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
         }
     }
 
-    private fun extractUuid(shoulderNbt: NbtCompound): UUID {
+    private fun extractUuid(shoulderNbt: CompoundTag): UUID {
         if (!shoulderNbt.contains(DataKeys.SHOULDER_UUID)) {
             return shoulderNbt.getCompound(DataKeys.POKEMON).getUuid(DataKeys.POKEMON_UUID)
         }
         return shoulderNbt.getUuid(DataKeys.SHOULDER_UUID)
     }
 
-    private fun extractData(shoulderNbt: NbtCompound, pokemonUUID: UUID): ShoulderData? {
+    private fun extractData(shoulderNbt: CompoundTag, pokemonUUID: UUID): ShoulderData? {
         // To not crash with existing ones, this will still have the aspect issue
         if (!shoulderNbt.contains(DataKeys.SHOULDER_SPECIES)) {
             val pokemon = Pokemon().apply { isClient = true }.loadFromNBT(shoulderNbt.getCompound(DataKeys.POKEMON))
             return ShoulderData(pokemonUUID, pokemon.species, pokemon.form, pokemon.aspects, pokemon.scaleModifier)
         }
-        val species = PokemonSpecies.getByIdentifier(Identifier.of(shoulderNbt.getString(DataKeys.SHOULDER_SPECIES)))
+        val species = PokemonSpecies.getByIdentifier(ResourceLocation.of(shoulderNbt.getString(DataKeys.SHOULDER_SPECIES)))
             ?: return null
 
         val formName = shoulderNbt.getString(DataKeys.SHOULDER_FORM)
@@ -207,7 +206,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
          * @return A [Pair] with [Pair.left] and [Pair.right] being the respective shoulder.
          */
         @JvmStatic
-        fun shoulderDataOf(player: PlayerEntity): Pair<ShoulderData?, ShoulderData?> {
+        fun shoulderDataOf(player: Player): Pair<ShoulderData?, ShoulderData?> {
             val cache = playerCache[player.uuid] ?: return Pair(null, null)
             return Pair(cache.lastKnownLeft, cache.lastKnownRight)
         }

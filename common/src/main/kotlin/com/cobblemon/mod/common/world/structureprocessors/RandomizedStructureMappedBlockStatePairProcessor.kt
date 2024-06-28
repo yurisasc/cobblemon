@@ -10,19 +10,18 @@ package com.cobblemon.mod.common.world.structureprocessors
 
 import com.cobblemon.mod.common.util.codec.pairCodec
 import com.cobblemon.mod.common.world.placementmodifier.BlockStateTransformer
-import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.Block
 import net.minecraft.registry.Registries
 import net.minecraft.structure.StructurePlacementData
 import net.minecraft.structure.StructureTemplate
 import net.minecraft.structure.processor.StructureProcessor
 import net.minecraft.structure.rule.RuleTest
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.random.Random
-import net.minecraft.world.WorldView
+import net.minecraft.world.level.LevelReader
 
 /**
  * A [StructureProcessor] that picks a [Block] pair per structure to replace other blocks with
@@ -43,7 +42,7 @@ class RandomizedStructureMappedBlockStatePairProcessor(
     val probability: Float = 1.0f
 ) : StructureProcessor() {
     override fun process(
-        world: WorldView,
+        world: LevelReader,
         pos: BlockPos,
         pivot: BlockPos,
         originalBlockInfo: StructureTemplate.StructureBlockInfo,

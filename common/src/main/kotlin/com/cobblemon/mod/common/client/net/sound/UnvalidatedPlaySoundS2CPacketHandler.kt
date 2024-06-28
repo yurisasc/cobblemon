@@ -10,11 +10,11 @@ package com.cobblemon.mod.common.client.net.sound
 
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.sound.SoundEvent
 
 internal object UnvalidatedPlaySoundS2CPacketHandler : ClientNetworkPacketHandler<UnvalidatedPlaySoundS2CPacket> {
-    override fun handle(packet: UnvalidatedPlaySoundS2CPacket, client: MinecraftClient) {
+    override fun handle(packet: UnvalidatedPlaySoundS2CPacket, client: Minecraft) {
         client.executeSync {
             // This prevents clients that might not have the required resources installed from getting spammed about missing sound
             if (client.soundManager.get(packet.sound) != null) {

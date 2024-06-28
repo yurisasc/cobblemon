@@ -35,13 +35,12 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import io.netty.buffer.Unpooled
 import java.util.UUID
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtOps
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.world.item.ItemStack
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.TextCodecs
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import java.util.Optional
 
 /**
@@ -55,7 +54,7 @@ import java.util.Optional
 class PokemonDTO : Encodable, Decodable {
     var toClient = false
     var uuid = UUID.randomUUID()
-    lateinit var species: Identifier
+    lateinit var species: ResourceLocation
     var nickname: MutableText? = null
     var form = ""
     var level = 1
@@ -69,14 +68,14 @@ class PokemonDTO : Encodable, Decodable {
     var scaleModifier = 0F
     var ability = ""
     var shiny = false
-    var status: Identifier? = null
+    var status: ResourceLocation? = null
     lateinit var state: PokemonState
-    lateinit var caughtBall: Identifier
+    lateinit var caughtBall: ResourceLocation
     var benchedMoves = BenchedMoves()
     var aspects = setOf<String>()
-    lateinit var evolutionBuffer: PacketByteBuf
-    lateinit var nature: Identifier
-    var mintNature: Identifier? = null
+    lateinit var evolutionBuffer: RegistryFriendlyByteBuf
+    lateinit var nature: ResourceLocation
+    var mintNature: ResourceLocation? = null
     var heldItem: ItemStack = ItemStack.EMPTY
     var tetheringId: UUID? = null
     var teraType = ""
@@ -84,7 +83,7 @@ class PokemonDTO : Encodable, Decodable {
     var gmaxFactor = false
     var tradeable = true
     //    var features: List<SynchronizedSpeciesFeature> = emptyList()
-    lateinit var featuresBuffer: PacketByteBuf
+    lateinit var featuresBuffer: RegistryFriendlyByteBuf
     var originalTrainerType: OriginalTrainerType = OriginalTrainerType.NONE
     var originalTrainer: String? = null
     var originalTrainerName: String? = null
@@ -112,7 +111,7 @@ class PokemonDTO : Encodable, Decodable {
         this.caughtBall = pokemon.caughtBall.name
         this.benchedMoves = pokemon.benchedMoves
         this.aspects = pokemon.aspects
-        evolutionBuffer = PacketByteBuf(Unpooled.buffer())
+        evolutionBuffer = RegistryFriendlyByteBuf(Unpooled.buffer())
         pokemon.evolutionProxy.saveToBuffer(evolutionBuffer, toClient)
         this.nature = pokemon.nature.name
         this.mintNature = pokemon.mintedNature?.name
@@ -122,7 +121,7 @@ class PokemonDTO : Encodable, Decodable {
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
-        this.featuresBuffer = PacketByteBuf(Unpooled.buffer())
+        this.featuresBuffer = RegistryFriendlyByteBuf(Unpooled.buffer())
         val visibleFeatures = pokemon.features
             .filterIsInstance<SynchronizedSpeciesFeature>()
             .filter { (SpeciesFeatures.getFeature(it.name) as? SynchronizedSpeciesFeatureProvider<*>)?.visible == true }
@@ -207,7 +206,8 @@ class PokemonDTO : Encodable, Decodable {
         }
         this.aspects = aspects
         val bytesToRead = buffer.readSizedInt(IntSize.U_SHORT)
-        evolutionBuffer = PacketByteBuf(buffer.readBytes(bytesToRead))
+        evolutionBuffer =
+            RegistryFriendlyByteBuf(buffer.readBytes(bytesToRead))
         nature = buffer.readIdentifier()
         mintNature = buffer.readNullable { buffer.readIdentifier() }
         heldItem = ItemStack.OPTIONAL_PACKET_CODEC.decode(buffer)
@@ -218,7 +218,8 @@ class PokemonDTO : Encodable, Decodable {
         tradeable = buffer.readBoolean()
 
         val featureBytesToRead = buffer.readSizedInt(IntSize.U_SHORT)
-        featuresBuffer = PacketByteBuf(buffer.readBytes(featureBytesToRead))
+        featuresBuffer =
+            RegistryFriendlyByteBuf(buffer.readBytes(featureBytesToRead))
         originalTrainerType = OriginalTrainerType.valueOf(buffer.readString())
         originalTrainer = buffer.readNullable { buffer.readString() }
         originalTrainerName = buffer.readNullable { buffer.readString() }

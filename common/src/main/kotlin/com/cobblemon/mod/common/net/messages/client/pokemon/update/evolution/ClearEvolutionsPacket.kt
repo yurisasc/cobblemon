@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class ClearEvolutionsPacket(pokemon: () -> Pokemon) : PokemonUpdatePacket<ClearEvolutionsPacket>(pokemon) {
 

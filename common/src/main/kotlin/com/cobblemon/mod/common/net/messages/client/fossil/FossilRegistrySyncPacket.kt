@@ -18,8 +18,7 @@ import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeIdentifier
 import com.cobblemon.mod.common.util.writeString
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
-
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 
 class FossilRegistrySyncPacket(fossils: List<Fossil>) : DataRegistrySyncPacket<Fossil, FossilRegistrySyncPacket>(fossils) {
@@ -30,12 +29,12 @@ class FossilRegistrySyncPacket(fossils: List<Fossil>) : DataRegistrySyncPacket<F
 
 
     override val id = ID
-    override fun encodeEntry(buffer: RegistryByteBuf, entry: Fossil) {
+    override fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: Fossil) {
         buffer.writeIdentifier(entry.identifier)
         buffer.writeString(Fossils.gson.toJson(entry.result, PokemonProperties::class.java))
     }
 
-    override fun decodeEntry(buffer: RegistryByteBuf): Fossil {
+    override fun decodeEntry(buffer: RegistryFriendlyByteBuf): Fossil {
         return Fossil (
                 identifier = buffer.readIdentifier(),
                 result = Fossils.gson.fromJson(buffer.readString(), PokemonProperties::class.java),

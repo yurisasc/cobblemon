@@ -14,7 +14,7 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 object ReloadShowdownCommand {
 
@@ -31,7 +31,7 @@ object ReloadShowdownCommand {
             ShowdownService.service.openConnection()
             ShowdownService.service.registerSpecies()
             ShowdownService.service.registerBagItems()
-            context.source.sendMessage(Text.of("Reloaded showdown"))
+            context.source.sendMessage(Component.of("Reloaded showdown"))
         } catch (e: Exception) {
             e.printStackTrace()
         }

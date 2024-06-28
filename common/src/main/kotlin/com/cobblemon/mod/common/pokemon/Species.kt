@@ -38,13 +38,13 @@ import com.mojang.serialization.Codec
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var name: String = "Bulbasaur"
     val translatedName: MutableText
-        get() = Text.translatable("${this.resourceIdentifier.namespace}.species.${this.unformattedShowdownId()}.name")
+        get() = Component.translatable("${this.resourceIdentifier.namespace}.species.${this.unformattedShowdownId()}.name")
     var nationalPokedexNumber = 1
 
     var baseStats = hashMapOf<Stat, Int>()
@@ -126,12 +126,12 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         private set
 
     @Transient
-    lateinit var resourceIdentifier: Identifier
+    lateinit var resourceIdentifier: ResourceLocation
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
 
-    var battleTheme: Identifier = CobblemonSounds.PVW_BATTLE.id
+    var battleTheme: ResourceLocation = CobblemonSounds.PVW_BATTLE.id
 
     var lightingData: LightingData? = null
         private set
@@ -289,7 +289,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         val CODEC: Codec<Species> = Codec.STRING.xmap(
             // TODO: 1.21 uses the one below
             //{ speciesId -> PokemonSpecies.getByIdentifier(Identifier.of(speciesId)) },
-            { speciesId -> PokemonSpecies.getByIdentifier(Identifier.of(speciesId)) },
+            { speciesId -> PokemonSpecies.getByIdentifier(ResourceLocation.of(speciesId)) },
             { it.resourceIdentifier.toString() }
         )
     }

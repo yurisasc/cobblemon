@@ -39,9 +39,8 @@ import java.util.function.Function
 import net.minecraft.client.model.ModelPart
 import net.minecraft.resource.Resource
 import net.minecraft.resource.ResourceManager
-import net.minecraft.util.Identifier
-import net.minecraft.util.Pair
-import net.minecraft.util.math.Vec3d
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.phys.Vec3
 
 /**
  * A repository for [PosableModel]s. Can be parameterized with [PosableModel] itself or a subclass.
@@ -54,9 +53,9 @@ import net.minecraft.util.math.Vec3d
  */
 abstract class VaryingModelRepository<T : PosableModel> {
     abstract val poserClass: Class<T>
-    val posers = mutableMapOf<Identifier, (Bone) -> T>()
-    val variations = mutableMapOf<Identifier, VaryingRenderableResolver<T>>()
-    val texturedModels = mutableMapOf<Identifier, (isForLivingEntityRenderer: Boolean) -> Bone>()
+    val posers = mutableMapOf<ResourceLocation, (Bone) -> T>()
+    val variations = mutableMapOf<ResourceLocation, VaryingRenderableResolver<T>>()
+    val texturedModels = mutableMapOf<ResourceLocation, (isForLivingEntityRenderer: Boolean) -> Bone>()
 
     abstract val title: String
     abstract val type: String
@@ -64,7 +63,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
     abstract val poserDirectories: List<String>
     abstract val modelDirectories: List<String>
     abstract val animationDirectories: List<String>
-    abstract val fallback: Identifier
+    abstract val fallback: ResourceLocation
     /** When using the living entity renderer in Java Edition, a root joint 24F (1.5) Y offset is necessary. I've no fucking idea why. */
     abstract val isForLivingEntityRenderer: Boolean
 
@@ -72,7 +71,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
         GsonBuilder()
             .setPrettyPrinting()
             .disableHtmlEscaping()
-            .registerTypeAdapter(Vec3d::class.java, Vec3dAdapter)
+            .registerTypeAdapter(Vec3::class.java, Vec3dAdapter)
             .registerTypeAdapter(Expression::class.java, ExpressionAdapter)
             .registerTypeAdapter(ExpressionLike::class.java, ExpressionLikeAdapter)
             .also { configureGson(it) }
@@ -132,7 +131,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
                 .forEach { (identifier, resource) ->
                     resource.inputStream.use { stream ->
                         val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                        val resolvedIdentifier = Identifier.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                        val resolvedIdentifier = ResourceLocation.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
                         posers[resolvedIdentifier] = loadJsonPoser(json)
                     }
                 }
@@ -145,7 +144,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
 
     fun registerVariations(resourceManager: ResourceManager) {
         var variationCount = 0
-        val nameToModelVariationSets = mutableMapOf<Identifier, MutableList<ModelVariationSet>>()
+        val nameToModelVariationSets = mutableMapOf<ResourceLocation, MutableList<ModelVariationSet>>()
         for (directory in variationDirectories) {
             resourceManager
                 .findResources(directory) { path -> path.endsWith(".json") }
@@ -195,7 +194,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
         registerVariations(resourceManager)
     }
 
-    fun getPoser(name: Identifier, aspects: Set<String>): T {
+    fun getPoser(name: ResourceLocation, aspects: Set<String>): T {
         try {
             val poser = this.variations[name]?.getPoser(aspects)
             if (poser != null) {
@@ -207,7 +206,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
         return this.variations[fallback]!!.getPoser(aspects)
     }
 
-    fun getTexture(name: Identifier, aspects: Set<String>, animationSeconds: Float = 0F): Identifier {
+    fun getTexture(name: ResourceLocation, aspects: Set<String>, animationSeconds: Float = 0F): ResourceLocation {
         try {
             val texture = this.variations[name]?.getTexture(aspects, animationSeconds)
             if (texture != null && texture.exists()) {
@@ -217,7 +216,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
         return this.variations[fallback]!!.getTexture(aspects, animationSeconds)
     }
 
-    fun getTextureNoSubstitute(name: Identifier, aspects: Set<String>, animationSeconds: Float = 0F): Identifier? {
+    fun getTextureNoSubstitute(name: ResourceLocation, aspects: Set<String>, animationSeconds: Float = 0F): ResourceLocation? {
         try {
             val texture = this.variations[name]?.getTexture(aspects, animationSeconds)
             if (texture != null && texture.exists()) {
@@ -227,7 +226,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
         return null
     }
 
-    fun getLayers(name: Identifier, aspects: Set<String>): Iterable<ModelLayer> {
+    fun getLayers(name: ResourceLocation, aspects: Set<String>): Iterable<ModelLayer> {
         try {
             val layers = this.variations[name]?.getLayers(aspects)
             if (layers != null) {
@@ -238,7 +237,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
     }
 
     companion object {
-        fun registerFactory(id: String, factory: BiFunction<Identifier, Resource, Pair<Identifier, Function<Boolean, Bone>>>) {
+        fun registerFactory(id: String, factory: BiFunction<ResourceLocation, Resource, Pair<ResourceLocation, Function<Boolean, Bone>>>) {
             MODEL_FACTORIES[id] = factory
         }
 
@@ -246,11 +245,11 @@ abstract class VaryingModelRepository<T : PosableModel> {
             Needs to be java function to work with non kotlin sidemods.
             - Waterpicker
          */
-        private var MODEL_FACTORIES = mutableMapOf<String, BiFunction<Identifier, Resource, Pair<Identifier, Function<Boolean, Bone>>>>().also {
-            it[".geo.json"] = BiFunction<Identifier, Resource, Pair<Identifier, Function<Boolean, Bone>>> { identifier: Identifier, resource: Resource ->
+        private var MODEL_FACTORIES = mutableMapOf<String, BiFunction<ResourceLocation, Resource, Pair<ResourceLocation, Function<Boolean, Bone>>>>().also {
+            it[".geo.json"] = BiFunction<ResourceLocation, Resource, Pair<ResourceLocation, Function<Boolean, Bone>>> { identifier: ResourceLocation, resource: Resource ->
                 resource.inputStream.use { stream ->
                     val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                    val resolvedIdentifier = Identifier.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    val resolvedIdentifier = ResourceLocation.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
 
                     val texturedModel = TexturedModel.from(json)
                     val boneCreator: Function<Boolean, Bone> = Function { texturedModel.create(it).createModel() }

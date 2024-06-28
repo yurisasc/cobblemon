@@ -10,13 +10,13 @@ package com.cobblemon.mod.common.net.messages.client.spawn
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.mixin.invoker.ClientPlayNetworkHandlerInvoker
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
 import net.minecraft.network.NetworkThreadUtils
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 abstract class SpawnExtraDataEntityPacket<T: NetworkPacket<T>, E : Entity>(private val vanillaSpawnPacket: EntitySpawnS2CPacket) : NetworkPacket<T> {
     override fun encode(buffer: RegistryByteBuf) {
@@ -30,7 +30,7 @@ abstract class SpawnExtraDataEntityPacket<T: NetworkPacket<T>, E : Entity>(priva
 
     abstract fun checkType(entity: Entity): Boolean
 
-    fun spawnAndApply(client: MinecraftClient) {
+    fun spawnAndApply(client: Minecraft) {
         client.execute {
             val player = client.player ?: return@execute
             val world = player.world as? ClientWorld ?: return@execute
@@ -41,7 +41,11 @@ abstract class SpawnExtraDataEntityPacket<T: NetworkPacket<T>, E : Entity>(priva
             val entityType = this.vanillaSpawnPacket.entityType
             val entity = entityType.create(world) ?: return@execute
             entity.onSpawnPacket(this.vanillaSpawnPacket)
-            entity.velocity = Vec3d(this.vanillaSpawnPacket.velocityX, this.vanillaSpawnPacket.velocityY, this.vanillaSpawnPacket.velocityZ)
+            entity.velocity = Vec3(
+                this.vanillaSpawnPacket.velocityX,
+                this.vanillaSpawnPacket.velocityY,
+                this.vanillaSpawnPacket.velocityZ
+            )
             // Cobblemon start
             if (this.checkType(entity)) {
                 this.applyData(entity as E)

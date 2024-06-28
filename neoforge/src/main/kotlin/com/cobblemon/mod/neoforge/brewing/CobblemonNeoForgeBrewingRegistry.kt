@@ -8,19 +8,10 @@
 
 package com.cobblemon.mod.neoforge.brewing
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.brewing.BrewingRecipes
-import com.cobblemon.mod.common.brewing.ingredient.CobblemonIngredient
 import com.cobblemon.mod.common.brewing.ingredient.CobblemonItemIngredient
 import com.cobblemon.mod.common.brewing.ingredient.CobblemonPotionIngredient
-import com.mojang.serialization.Codec
-import net.minecraft.item.ItemStack
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.potion.Potions
-import net.minecraft.recipe.Ingredient
-import net.minecraft.util.Identifier
-import net.neoforged.neoforge.common.brewing.BrewingRecipe
-import net.neoforged.neoforge.common.brewing.BrewingRecipeRegistry
+import net.minecraft.world.item.ItemStack
 import net.neoforged.neoforge.common.brewing.IBrewingRecipe
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent
 

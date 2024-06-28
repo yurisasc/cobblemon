@@ -17,7 +17,7 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object FriendshipCommand {
 
@@ -30,7 +30,7 @@ object FriendshipCommand {
             ))
     }
 
-    private fun execute(source: ServerCommandSource, target: ServerPlayerEntity, pokemon: Pokemon) : Int {
+    private fun execute(source: ServerCommandSource, target: ServerPlayer, pokemon: Pokemon) : Int {
         source.sendFeedback({ commandLang("friendship", pokemon.getDisplayName(), pokemon.friendship) }, true)
         return Command.SINGLE_SUCCESS
     }

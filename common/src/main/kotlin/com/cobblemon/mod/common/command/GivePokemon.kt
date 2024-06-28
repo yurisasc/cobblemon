@@ -23,7 +23,7 @@ import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object GivePokemon {
 
@@ -49,7 +49,7 @@ object GivePokemon {
         dispatcher.register(otherCommand.alias(ALIAS_OTHER))
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity): Int {
+    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayer): Int {
         try {
             val pokemonProperties = PokemonPropertiesArgumentType.getPokemonProperties(context, PROPERTIES)
             if (pokemonProperties.species == null) {

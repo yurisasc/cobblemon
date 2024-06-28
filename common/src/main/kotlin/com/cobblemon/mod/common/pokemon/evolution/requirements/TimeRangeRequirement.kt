@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequi
 import com.cobblemon.mod.common.api.spawning.TimeRange
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.template.EntityQueryRequirement
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 
 /**
  * An [EvolutionRequirement] for when the current time must be in the provided [TimeRange].

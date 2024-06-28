@@ -17,10 +17,10 @@ import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
 import com.cobblemon.mod.common.net.messages.server.pasture.PasturePokemonPacket
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object PasturePokemonHandler : ServerNetworkPacketHandler<PasturePokemonPacket> {
-    override fun handle(packet: PasturePokemonPacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: PasturePokemonPacket, server: MinecraftServer, player: ServerPlayer) {
         val pastureLink = PastureLinkManager.getLinkByPlayer(player) ?: return
         if (pastureLink.linkId != packet.pastureId) {
             return player.sendPacket(ClosePasturePacket())

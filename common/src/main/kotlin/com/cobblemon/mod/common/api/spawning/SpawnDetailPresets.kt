@@ -23,13 +23,13 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.mojang.datafixers.util.Either
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.Block
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.ResourceType
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.structure.Structure
 
@@ -54,7 +54,7 @@ object SpawnDetailPresets : JsonDataRegistry<SpawnDetailPreset> {
         .registerTypeAdapter(
             TypeToken.getParameterized(
                 Either::class.java,
-                Identifier::class.java,
+                ResourceLocation::class.java,
                 TypeToken.getParameterized(
                     TagKey::class.java,
                     Structure::class.java
@@ -63,7 +63,7 @@ object SpawnDetailPresets : JsonDataRegistry<SpawnDetailPreset> {
             EitherIdentifierOrTagAdapter(RegistryKeys.STRUCTURE)
         )
         .registerTypeAdapter(SpawnDetailPreset::class.java, SpawnDetailPresetAdapter)
-        .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
+        .registerTypeAdapter(ResourceLocation::class.java, IdentifierAdapter)
         .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
         .registerTypeAdapter(TimeRange::class.java, IntRangesAdapter(TimeRange.timeRanges) { TimeRange(*it) })
         .registerTypeAdapter(MoonPhaseRange::class.java, IntRangesAdapter(MoonPhaseRange.moonPhaseRanges) { MoonPhaseRange(*it) })
@@ -83,10 +83,10 @@ object SpawnDetailPresets : JsonDataRegistry<SpawnDetailPreset> {
     override val type = ResourceType.SERVER_DATA
     override val observable = SimpleObservable<SpawnDetailPresets>()
 
-    var presets = mutableMapOf<Identifier, SpawnDetailPreset>()
+    var presets = mutableMapOf<ResourceLocation, SpawnDetailPreset>()
 
-    override fun sync(player: ServerPlayerEntity) {}
-    override fun reload(data: Map<Identifier, SpawnDetailPreset>) {
+    override fun sync(player: ServerPlayer) {}
+    override fun reload(data: Map<ResourceLocation, SpawnDetailPreset>) {
         this.presets = data.toMutableMap()
         Cobblemon.LOGGER.info("Loaded ${presets.size} spawn detail presets.")
     }

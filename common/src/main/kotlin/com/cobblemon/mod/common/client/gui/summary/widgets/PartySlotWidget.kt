@@ -22,9 +22,9 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -36,7 +36,7 @@ class PartySlotWidget(
     private val pokemon: Pokemon?,
     private val index: Int,
     private val isClientPartyMember: Boolean,
-) : SoundlessWidget(pX.toInt(), pY.toInt(), WIDTH, HEIGHT, Text.literal("PartyMember")) {
+) : SoundlessWidget(pX.toInt(), pY.toInt(), WIDTH, HEIGHT, Component.literal("PartyMember")) {
     val state = FloatingState()
     companion object {
         const val WIDTH = 46
@@ -50,7 +50,7 @@ class PartySlotWidget(
         val genderIconFemale = cobblemonResource("textures/gui/party/party_gender_female.png")
     }
 
-    private fun getSlotTexture(pokemon: Pokemon?): Identifier {
+    private fun getSlotTexture(pokemon: Pokemon?): ResourceLocation {
         if (pokemon != null) {
             if (pokemon.isFainted()) return slotFaintedResource
             return slotResource
@@ -69,7 +69,7 @@ class PartySlotWidget(
         return 0
     }
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height
         val matrices = context.matrices
         val isDraggedSlot = partyWidget.swapEnabled && partyWidget.swapSource == index

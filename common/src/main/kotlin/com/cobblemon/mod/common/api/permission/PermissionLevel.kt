@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common.api.permission
 
-import net.minecraft.server.command.CommandManager
-
 /**
  * Represents the different permission levels used in Minecraft.
  * See the Minecraft Wiki [entry](https://minecraft.fandom.com/wiki/Permission_level) for more information.

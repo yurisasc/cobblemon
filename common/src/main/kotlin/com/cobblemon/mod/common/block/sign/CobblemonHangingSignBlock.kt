@@ -9,11 +9,11 @@
 package com.cobblemon.mod.common.block.sign
 
 import com.cobblemon.mod.common.block.entity.CobblemonHangingSignBlockEntity
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.HangingSignBlock
 import net.minecraft.block.WoodType
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 
 class CobblemonHangingSignBlock(settings: Settings, woodType: WoodType) : HangingSignBlock(woodType, settings) {
 

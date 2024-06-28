@@ -16,31 +16,30 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryHarvestEvent
 import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.block.BerryBlock
-import com.cobblemon.mod.common.block.BerryBlock.Companion.getMulch
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.registry.RegistryWrapper
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.Identifier
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.InvalidIdentifierException
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.Level
 import net.minecraft.world.event.GameEvent
 
 class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.BERRY, pos, state) {
-    lateinit var berryIdentifier: Identifier
+    lateinit var berryIdentifier: ResourceLocation
     private val ticksPerMinute = 1200
     var renderState: RenderState? = null
     //The time left for the tree until its either age 3 or age 5 (check block state, if we are at age 0<x<3 unti 3 otherwise until 5)
@@ -62,7 +61,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             }
             field = value
         }
-    private val growthPoints = arrayListOf<Identifier>()
+    private val growthPoints = arrayListOf<ResourceLocation>()
     var mulchVariant = MulchVariant.NONE
 
     /**
@@ -86,7 +85,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             markDirty()
         }
 
-    constructor(pos: BlockPos, state: BlockState, berryIdentifier: Identifier): this(pos, state) {
+    constructor(pos: BlockPos, state: BlockState, berryIdentifier: ResourceLocation): this(pos, state) {
         this.berryIdentifier = berryIdentifier
         resetGrowTimers(pos, state)
         if (state.get(BerryBlock.WAS_GENERATED) && state.get(BerryBlock.AGE) >= 4) {
@@ -94,7 +93,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         }
     }
 
-    fun decrementMulchDuration(world: World, pos: BlockPos, state: BlockState) {
+    fun decrementMulchDuration(world: Level, pos: BlockPos, state: BlockState) {
         if (mulchVariant == MulchVariant.NONE || mulchVariant.duration == -1) {
             return
         }
@@ -109,7 +108,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         }
     }
 
-    fun setMulch(mulch: MulchVariant, world: World, state: BlockState, pos: BlockPos) {
+    fun setMulch(mulch: MulchVariant, world: Level, state: BlockState, pos: BlockPos) {
         this.mulchVariant = mulch
         this.mulchDuration = mulch.duration
         refreshTimers(pos)
@@ -191,12 +190,12 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     /**
      * Generates a random amount of growth points for this tree.
      *
-     * @param world The [World] the tree is in.
+     * @param world The [Level] the tree is in.
      * @param state The [BlockState] of the tree.
      * @param pos The [BlockPos] of the tree.
      * @param placer The [LivingEntity] tending to the tree if any.
      */
-    fun generateGrowthPoints(world: World, state: BlockState, pos: BlockPos, placer: LivingEntity?) {
+    fun generateGrowthPoints(world: Level, state: BlockState, pos: BlockPos, placer: LivingEntity?) {
         val berry = this.berry() ?: return
         val yield = berry.calculateYield(world, state, pos, placer)
         this.growthPoints.clear()
@@ -219,13 +218,13 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     /**
      * Calculates the berry produce in [ItemStack] form.
      *
-     * @param world The [World] the tree is in.
+     * @param world The [Level] the tree is in.
      * @param state The [BlockState] of the tree.
      * @param pos The [BlockPos] of the tree.
-     * @param player The [PlayerEntity] harvesting the tree.
+     * @param player The [Player] harvesting the tree.
      * @return The resulting [ItemStack]s to be dropped.
      */
-    fun harvest(world: World, state: BlockState, pos: BlockPos, player: PlayerEntity): Collection<ItemStack> {
+    fun harvest(world: Level, state: BlockState, pos: BlockPos, player: Player): Collection<ItemStack> {
         val drops = arrayListOf<ItemStack>()
         val unique = this.growthPoints.groupingBy { it }.eachCount()
         unique.forEach { (identifier, amount) ->
@@ -240,7 +239,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             }
         }
         this.berry()?.let { berry ->
-            if (player is ServerPlayerEntity) {
+            if (player is ServerPlayer) {
                 CobblemonEvents.BERRY_HARVEST.post(BerryHarvestEvent(berry, player, world, pos, state, this, drops))
             }
         }
@@ -248,8 +247,8 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         return drops
     }
 
-    override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup?) {
-        this.berryIdentifier = Identifier.of(nbt.getString(BERRY).takeIf { it.isNotBlank() } ?: "cobblemon:pecha")
+    override fun readNbt(nbt: CompoundTag, registryLookup: RegistryWrapper.WrapperLookup?) {
+        this.berryIdentifier = ResourceLocation.of(nbt.getString(BERRY).takeIf { it.isNotBlank() } ?: "cobblemon:pecha")
         this.wasLoading = true
         this.growthPoints.clear()
         this.growthTimer = nbt.getInt(GROWTH_TIMER).coerceAtLeast(0)
@@ -258,7 +257,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         nbt.getList(GROWTH_POINTS, NbtList.STRING_TYPE.toInt()).filterIsInstance<NbtString>().forEach { element ->
             // In case some 3rd party mutates the NBT incorrectly
             try {
-                val identifier = Identifier.of(element.asString())
+                val identifier = ResourceLocation.of(element.asString())
                 this.growthPoints += identifier
             } catch (ignored: InvalidIdentifierException) {}
         }
@@ -273,7 +272,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         this.renderState?.needsRebuild = true
     }
 
-    override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+    override fun writeNbt(nbt: CompoundTag, registryLookup: RegistryWrapper.WrapperLookup) {
         nbt.putInt(GROWTH_TIMER, this.growthTimer)
         nbt.putInt(STAGE_TIMER, this.stageTimer)
         val list = NbtList()
@@ -295,7 +294,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         return BlockEntityUpdateS2CPacket.create(this)
     }
 
-    override fun toInitialChunkDataNbt(registryLookup: RegistryWrapper.WrapperLookup?): NbtCompound? {
+    override fun getUpdateTag(registryLookup: RegistryWrapper.WrapperLookup?): CompoundTag? {
         return this.createNbt(registryLookup)
     }
 
@@ -330,7 +329,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         this.markDirty()
     }
 
-    private fun refresh(world: World, pos: BlockPos, state:BlockState, player: PlayerEntity) {
+    private fun refresh(world: Level, pos: BlockPos, state: BlockState, player: Player) {
         val newState = state.with(BerryBlock.AGE, 3)
         world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
         world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos)
@@ -351,7 +350,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
                 blockEntity.stageTimer--
             }
             if (blockEntity.stageTimer == 0) {
-                (state.block as BerryBlock).growHelper(world as ServerWorld, world.random, pos, state)
+                (state.block as BerryBlock).growHelper(world as ServerLevel, world.random, pos, state)
             }
         }
         //private const val LIFE_CYCLES = "life_cycles"

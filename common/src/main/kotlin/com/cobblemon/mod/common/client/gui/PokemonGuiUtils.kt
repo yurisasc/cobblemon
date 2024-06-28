@@ -15,13 +15,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Rende
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -43,7 +43,7 @@ fun drawProfilePokemon(
 )
 
 fun drawProfilePokemon(
-    species: Identifier,
+    species: ResourceLocation,
     aspects: Set<String>,
     matrixStack: MatrixStack,
     rotation: Quaternionf,
@@ -66,7 +66,7 @@ fun drawProfilePokemon(
     state.currentModel = model
     state.currentAspects = aspects
 
-    val renderType = RenderLayer.getEntityCutout(texture)
+    val renderType = RenderType.getEntityCutout(texture)
 
     RenderSystem.applyModelViewMatrix()
     matrixStack.scale(scale, scale, -scale)
@@ -79,12 +79,12 @@ fun drawProfilePokemon(
 
     matrixStack.multiply(rotation)
     DiffuseLighting.method_34742()
-    val entityRenderDispatcher = MinecraftClient.getInstance().entityRenderDispatcher
+    val entityRenderDispatcher = Minecraft.getInstance().entityRenderDispatcher
     rotation.conjugate()
     entityRenderDispatcher.rotation = rotation
     entityRenderDispatcher.setRenderShadows(true)
 
-    val bufferSource = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
+    val bufferSource = Minecraft.getInstance().bufferBuilders.entityVertexConsumers
     val buffer = bufferSource.getBuffer(renderType)
     val light1 = Vector3f(-1F, 1F, 1.0F)
     val light2 = Vector3f(1.3F, -1F, 1.0F)

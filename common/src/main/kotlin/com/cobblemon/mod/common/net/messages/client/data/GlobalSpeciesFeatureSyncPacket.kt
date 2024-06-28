@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeatureProvider
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Syncs a species feature provider that was registered under [GlobalSpeciesFeatures].

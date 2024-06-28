@@ -14,13 +14,11 @@ import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.config.starter.RenderableStarterCategory
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.navigation.GuiNavigation
-import net.minecraft.client.gui.navigation.GuiNavigationPath
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 class CategoryList(
     private val paneWidth: Int,
@@ -31,7 +29,7 @@ class CategoryList(
     private val categories: List<RenderableStarterCategory>,
     val listX: Int,
     val listY: Int,
-    private val minecraft: MinecraftClient = MinecraftClient.getInstance(),
+    private val minecraft: Minecraft = Minecraft.getInstance(),
     private val starterSelectionScreen: StarterSelectionScreen
 ) : AlwaysSelectedEntryListWidget<CategoryList.Category>(
     minecraft,
@@ -60,8 +58,8 @@ class CategoryList(
         Category(it)
     }
 
-    override fun drawMenuListBackground(context: DrawContext?) {}
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun drawMenuListBackground(context: GuiGraphics?) {}
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         super.renderWidget(context, mouseX, mouseY, delta)
         correctSize()
     }
@@ -80,7 +78,7 @@ class CategoryList(
     inner class Category(private val category: RenderableStarterCategory) : Entry<Category>() {
 
         override fun render(
-            context: DrawContext,
+            context: GuiGraphics,
             index: Int,
             y: Int,
             x: Int,
@@ -126,8 +124,8 @@ class CategoryList(
             return true
         }
 
-        override fun getNarration(): Text {
-            return Text.of("Yes")
+        override fun getNarration(): Component {
+            return Component.of("Yes")
         }
     }
 }

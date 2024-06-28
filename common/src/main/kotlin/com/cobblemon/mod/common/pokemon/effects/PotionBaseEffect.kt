@@ -11,12 +11,12 @@ package com.cobblemon.mod.common.pokemon.effects
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffect
 import com.cobblemon.mod.common.mixin.accessor.StatusEffectInstanceAccessor
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectInstance
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.registry.Registries
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 import java.util.*
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -28,7 +28,7 @@ class PotionBaseEffect(
     val showIcon: Boolean
 ) : ShoulderEffect {
 
-    override fun applyEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean) {
+    override fun applyEffect(pokemon: Pokemon, player: ServerPlayer, isLeft: Boolean) {
         val effect = player.getStatusEffect(Registries.STATUS_EFFECT.getEntry(effect))
         // We handle part of our own type.
         if (effect is ShoulderStatusEffectInstance && effect.amplifier >= this.amplifier) {
@@ -44,7 +44,7 @@ class PotionBaseEffect(
         player.addStatusEffect(this.createStatus(pokemon))
     }
 
-    override fun removeEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean) {
+    override fun removeEffect(pokemon: Pokemon, player: ServerPlayer, isLeft: Boolean) {
         val effect = player.getStatusEffect(Registries.STATUS_EFFECT.getEntry(effect)) as? ShoulderStatusEffectInstance ?: return
         if (effect.amplifier == this.amplifier && effect.ambient == this.ambient && effect.shouldShowParticles() == this.showParticles && effect.shouldShowIcon() == this.showIcon) {
             effect.shoulderSources.remove(pokemon.uuid)
@@ -72,7 +72,7 @@ class PotionBaseEffect(
         internal val shoulderSources: MutableSet<UUID> = hashSetOf(startingPokemon.uuid)
         private var upgrade: StatusEffectInstance? = null
 
-        fun writeNbt(nbt: NbtCompound): NbtCompound {
+        fun writeNbt(nbt: CompoundTag): CompoundTag {
             /**
              * No need for this operation.
              * [StatusEffectInstance.fromNbt] tosses it out immediately if the ID is invalid.

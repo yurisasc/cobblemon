@@ -8,35 +8,34 @@
 
 package com.cobblemon.mod.common.item
 
-import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.util.isServerSide
 import com.cobblemon.mod.common.util.math.geometry.toRadians
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
-import net.minecraft.world.World
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.level.Level
 import kotlin.math.cos
 
 class PokeBallItem(
     val pokeBall : PokeBall
 ) : CobblemonItem(Settings()) {
 
-    override fun use(world: World, player: PlayerEntity, usedHand: Hand): TypedActionResult<ItemStack> {
+    override fun use(world: Level, player: Player, usedHand: Hand): InteractionResultHolder<ItemStack> {
         val itemStack = player.getStackInHand(usedHand)
         if (world.isServerSide()) {
-            throwPokeBall(world, player as ServerPlayerEntity)
+            throwPokeBall(world, player as ServerPlayer)
         }
         if (!player.abilities.creativeMode) {
             itemStack.decrement(1)
         }
-        return TypedActionResult.success(itemStack, world.isClient)
+        return InteractionResultHolder.success(itemStack, world.isClient)
     }
 
-    private fun throwPokeBall(world: World, player: ServerPlayerEntity) {
+    private fun throwPokeBall(world: Level, player: ServerPlayer) {
         val pokeBallEntity = EmptyPokeBallEntity(pokeBall, player.world, player).apply {
             val overhandFactor: Float = if (player.pitch < 0) {
                 5f * cos(player.pitch.toRadians())

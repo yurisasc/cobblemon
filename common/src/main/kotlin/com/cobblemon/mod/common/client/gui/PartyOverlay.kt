@@ -29,8 +29,8 @@ import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.Screen
@@ -39,7 +39,7 @@ import net.minecraft.client.toast.AdvancementToast
 import net.minecraft.client.toast.Toast
 import net.minecraft.util.math.MathHelper
 
-class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
+class PartyOverlay : InGameHud(Minecraft.getInstance()) {
 
     companion object {
         private const val SLOT_HEIGHT = 30
@@ -77,15 +77,15 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
     private var attachedToast = false
 
     fun resetAttachedToast() {
-        val minecraft = MinecraftClient.getInstance()
+        val minecraft = Minecraft.getInstance()
         minecraft.toastManager.clear()
         starterToast.nextVisibility = Toast.Visibility.SHOW
         attachedToast = false
     }
 
-    override fun render(context: DrawContext, tickCounter: RenderTickCounter) {
+    override fun render(context: GuiGraphics, tickCounter: RenderTickCounter) {
         val partialDeltaTicks = tickCounter.getTickDelta(false)
-        val minecraft = MinecraftClient.getInstance()
+        val minecraft = Minecraft.getInstance()
 
         // Hiding if a Screen is open and not exempt
         if (minecraft.currentScreen != null) {

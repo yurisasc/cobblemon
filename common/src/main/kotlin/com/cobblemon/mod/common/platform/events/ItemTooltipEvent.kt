@@ -9,13 +9,13 @@
 package com.cobblemon.mod.common.platform.events
 
 import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.item.tooltip.TooltipType
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 data class ItemTooltipEvent(
     val stack: ItemStack,
     val context: Item.TooltipContext,
     val type: TooltipType,
-    val lines: MutableList<Text>
+    val lines: MutableList<Component>
 )

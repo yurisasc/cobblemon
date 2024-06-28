@@ -10,14 +10,14 @@ package com.cobblemon.mod.common.brewing.ingredient
 
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.PotionContentsComponent
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.potion.Potion
-import net.minecraft.registry.entry.RegistryEntry
+import net.minecraft.core.Holder
 import org.jetbrains.annotations.ApiStatus
 
 @ApiStatus.Internal
-class CobblemonPotionIngredient(val potion: RegistryEntry<Potion>) : CobblemonIngredient {
+class CobblemonPotionIngredient(val potion: Holder<Potion>) : CobblemonIngredient {
 
     override fun matches(stack: ItemStack): Boolean {
         return stack.get(DataComponentTypes.POTION_CONTENTS)?.matches(potion) ?: false

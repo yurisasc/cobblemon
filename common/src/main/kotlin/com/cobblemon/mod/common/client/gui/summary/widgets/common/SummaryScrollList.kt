@@ -13,8 +13,8 @@ import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.text.MutableText
 
@@ -24,7 +24,7 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     val label: MutableText,
     slotHeight: Int
 ) : AlwaysSelectedEntryListWidget<T>(
-    MinecraftClient.getInstance(),
+    Minecraft.getInstance(),
     WIDTH, // width
     HEIGHT, // height
     0, // top
@@ -55,9 +55,9 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         return x + width - 3
     }
 
-    override fun drawMenuListBackground(context: DrawContext?) {}
+    override fun drawMenuListBackground(context: GuiGraphics?) {}
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
         val matrices = context.matrices
         correctSize()
 

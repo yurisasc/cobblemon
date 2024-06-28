@@ -20,8 +20,8 @@ import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.resources.ResourceLocation
 
 object OpenDialogueCommand {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
@@ -46,7 +46,7 @@ object OpenDialogueCommand {
         dispatcher.register(command.alias("opendialogue"))
     }
 
-    private fun execute(source: ServerCommandSource, dialogueId: Identifier, player: ServerPlayerEntity): Int {
+    private fun execute(source: ServerCommandSource, dialogueId: ResourceLocation, player: ServerPlayer): Int {
         val dialogue = Dialogues.dialogues[dialogueId] ?: return run {
             source.sendMessage("Invalid dialogue ID: $dialogueId".text())
             Command.SINGLE_SUCCESS

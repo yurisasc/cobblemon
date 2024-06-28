@@ -32,7 +32,7 @@ class PokemonFloatToSurfaceGoal(val pokemonEntity: PokemonEntity) : Goal() {
 
         if (this.pokemonEntity.isInLava && !canBreatheUnderlava) {
             return true
-        } else if (canSwimInWater && !canBreatheUnderwater && this.pokemonEntity.isTouchingWater && this.pokemonEntity.getFluidHeight(FluidTags.WATER) > this.pokemonEntity.swimHeight) {
+        } else if (canSwimInWater && !canBreatheUnderwater && this.pokemonEntity.isInWater && this.pokemonEntity.getFluidHeight(FluidTags.WATER) > this.pokemonEntity.swimHeight) {
             return true
         }
 

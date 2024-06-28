@@ -19,8 +19,8 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
 import com.cobblemon.mod.common.util.swap
-import net.minecraft.entity.LivingEntity
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.server.level.ServerLevel
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -68,7 +68,7 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
                 pokemon.effectedPokemon.sendOutWithAnimation(
                     source = entity,
                     battleId = battle.battleId,
-                    level = entity.world as ServerWorld,
+                    level = entity.world as ServerLevel,
                     doCry = false,
                     position = targetPos,
                     illusion = illusion?.let { IllusionEffect(it.effectedPokemon) }
@@ -136,7 +136,7 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
                 } else {
                     val lastPosition = activePokemon.position
                     // Send out at previous Pokémon's location if it is known, otherwise actor location
-                    val world = lastPosition?.first ?: entity.world as ServerWorld
+                    val world = lastPosition?.first ?: entity.world as ServerLevel
                     val pos = lastPosition?.second ?: entity.pos
                     newPokemon.effectedPokemon.sendOutWithAnimation(
                         source = entity,

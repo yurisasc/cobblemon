@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.battles.*
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvents
@@ -79,7 +79,7 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
 
     fun toggle(): Boolean {
         toggled = !toggled
-        MinecraftClient.getInstance().soundManager.play(sfx)
+        Minecraft.getInstance().soundManager.play(sfx)
         return toggled
     }
 

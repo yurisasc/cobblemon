@@ -20,10 +20,9 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
 
 
 class InfoWidget(
@@ -38,7 +37,7 @@ class InfoWidget(
         private const val ROW_HEIGHT = 15
     }
 
-    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val matrices = context.matrices
         // Base texture
         blitk(
@@ -161,7 +160,7 @@ class InfoWidget(
             shadow = true
         )
 
-        val mcFont = MinecraftClient.getInstance().textRenderer
+        val mcFont = Minecraft.getInstance().textRenderer
         val experience = pokemon.experience.toString().text()
         val experienceForThisLevel =
             pokemon.experience - if (pokemon.level == 1) 0 else pokemon.experienceGroup.getExperience(pokemon.level)

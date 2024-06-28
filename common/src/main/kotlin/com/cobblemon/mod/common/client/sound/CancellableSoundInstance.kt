@@ -8,17 +8,17 @@
 
 package com.cobblemon.mod.common.client.sound
 
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.*
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
+import net.minecraft.core.BlockPos
+import net.minecraft.world.phys.Vec3
 
-class CancellableSoundInstance(sound: SoundEvent, pos:BlockPos = BlockPos.ORIGIN, repeat: Boolean = false, volume: Float = 1.0F, pitch: Float = 1.0F,  ) :
+class CancellableSoundInstance(sound: SoundEvent, pos: BlockPos = BlockPos.ORIGIN, repeat: Boolean = false, volume: Float = 1.0F, pitch: Float = 1.0F,  ) :
         PositionedSoundInstance(sound, SoundCategory.BLOCKS, volume, pitch, SoundInstance.createRandom(), pos), TickableSoundInstance {
 
-    private val soundManager = MinecraftClient.getInstance().soundManager;
+    private val soundManager = Minecraft.getInstance().soundManager;
     private var done: Boolean = false
     private var unheardTicks = 0
     private var initVolume = 1.0
@@ -43,7 +43,13 @@ class CancellableSoundInstance(sound: SoundEvent, pos:BlockPos = BlockPos.ORIGIN
             CancellableSoundController.stopSound(this)
         } else {
             // Using the player's position as a proxy for a SoundListener.
-            val listenerPos = MinecraftClient.getInstance().player?.pos?.squaredDistanceTo(Vec3d(this.x, this.y, this.z))
+            val listenerPos = Minecraft.getInstance().player?.pos?.squaredDistanceTo(
+                Vec3(
+                    this.x,
+                    this.y,
+                    this.z
+                )
+            )
             if(listenerPos != null) {
                 if(listenerPos > ATTENUATION_DISTANCE_MAX_SQUARED * 2) {
                     // listener is very far away, kill it

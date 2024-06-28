@@ -14,18 +14,18 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.SetNicknamePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.TextFieldWidget
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.client.util.InputUtil
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 class NicknameEntryWidget(
-    var pokemon: Pokemon, x: Int, y: Int, width: Int, height: Int, val isParty: Boolean, text: Text
+    var pokemon: Pokemon, x: Int, y: Int, width: Int, height: Int, val isParty: Boolean, text: Component
 ): TextFieldWidget(
-    MinecraftClient.getInstance().textRenderer,
+    Minecraft.getInstance().textRenderer,
     x, y, width, height, text
 ) {
     companion object {
@@ -87,13 +87,13 @@ class NicknameEntryWidget(
         }
     }
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         if (cursor != text.length) setCursorToEnd(Screen.hasShiftDown())
 
         drawScaledText(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
-            text = Text.translatable(if (isFocused) "$text|" else text).bold(),
+            text = Component.translatable(if (isFocused) "$text|" else text).bold(),
             x = x,
             y = y,
             shadow = true

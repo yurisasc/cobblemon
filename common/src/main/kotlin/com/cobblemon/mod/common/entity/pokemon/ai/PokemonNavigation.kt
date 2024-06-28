@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableSet
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.acos
-import kotlin.math.ceil
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.MobNavigation
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -28,12 +27,13 @@ import net.minecraft.entity.ai.pathing.PathNodeNavigator
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.registry.tag.FluidTags
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Vec3d
-import net.minecraft.world.World
+import net.minecraft.world.phys.Vec3
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.pathfinder.PathComputationType
 
-class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : MobNavigation(pokemonEntity, world) {
+class PokemonNavigation(val world: Level, val pokemonEntity: PokemonEntity) : MobNavigation(pokemonEntity, world) {
     // Lazy init because navigation is instantiated during entity construction and pokemonEntity.form isn't set yet.
     // (pokemonEntity.behaviour is a shortcut to pokemonEntity.form.behaviour)
     // It's JVM field instantiation order stuff, too niche to explain further.
@@ -63,7 +63,7 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         val (_, isTouchingLava) = entity.world.getWaterAndLavaIn(entity.boundingBox)
         val isAtValidPosition = (!entity.isInLava && !entity.isSubmergedIn(FluidTags.LAVA)) ||
                 (isTouchingLava && moving.swim.canSwimInLava) ||
-                this.entity.hasVehicle()
+                this.entity.isPassenger()
         return isAtValidPosition
     }
 
@@ -76,7 +76,8 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         omniPathNodeMaker.canPathThroughFire = canPathThroughFire
     }
 
-    override fun getPos() = Vec3d(entity.x, getPathfindingY().toDouble(), entity.z)
+    override fun getPos() =
+        Vec3(entity.x, getPathfindingY().toDouble(), entity.z)
 
     override fun continueFollowingPath() {
         val vec3d = this.pos
@@ -140,10 +141,10 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         checkTimeouts(vec3d)
     }
 
-    fun isAirborne(world: World, pos: BlockPos) =
-        world.getBlockState(pos).canPathfindThrough(NavigationType.AIR)
-                && world.getBlockState(pos.down(1)).canPathfindThrough(NavigationType.AIR)
-                && world.getBlockState(pos.down(2)).canPathfindThrough(NavigationType.AIR)
+    fun isAirborne(world: Level, pos: BlockPos) =
+        world.getBlockState(pos).isPathfindable(PathComputationType.AIR)
+                && world.getBlockState(pos.below(1)).isPathfindable(PathComputationType.AIR)
+                && world.getBlockState(pos.below(2)).isPathfindable(PathComputationType.AIR)
 
     override fun tick() {
         super.tick()

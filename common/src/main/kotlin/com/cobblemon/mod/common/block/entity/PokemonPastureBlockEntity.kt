@@ -26,27 +26,27 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toVec3d
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.ItemEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.world.item.ItemStack
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtList
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.FluidTags
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.Identifier
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.TypeFilter
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3i
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import java.util.*
 import kotlin.math.ceil
 
@@ -65,7 +65,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         val box = Box(minRoamPos.toVec3d(), maxRoamPos.toVec3d())
         open fun canRoamTo(pos: BlockPos) = box.contains(pos.toCenterPos())
 
-        fun toDTO(player: ServerPlayerEntity): OpenPasturePacket.PasturePokemonDataDTO? {
+        fun toDTO(player: ServerPlayer): OpenPasturePacket.PasturePokemonDataDTO? {
             val pokemon = getPokemon() ?: return null
             return OpenPasturePacket.PasturePokemonDataDTO(
                 pokemonId = pokemonId,
@@ -106,7 +106,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
 
     fun getMaxTethered() = Cobblemon.config.defaultPasturedPokemonLimit
 
-    fun canAddPokemon(player: ServerPlayerEntity, pokemon: Pokemon, maxPerPlayer: Int): Boolean {
+    fun canAddPokemon(player: ServerPlayer, pokemon: Pokemon, maxPerPlayer: Int): Boolean {
         val forThisPlayer = tetheredPokemon.count { it.playerId == player.uuid }
         // Shouldn't be possible, client should've prevented it
         if (forThisPlayer >= maxPerPlayer || tetheredPokemon.size >= getMaxTethered() || pokemon.isFainted()) {
@@ -127,7 +127,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
     }
 
 
-    fun tether(player: ServerPlayerEntity, pokemon: Pokemon, directionToBehind: Direction): Boolean {
+    fun tether(player: ServerPlayer, pokemon: Pokemon, directionToBehind: Direction): Boolean {
         val world = world ?: return false
         val entity = PokemonEntity(world, pokemon = pokemon)
         entity.calculateDimensions()
@@ -197,12 +197,14 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
                     world.setBlockState(pos.down(), Blocks.AIR.defaultState)
                 }
                 world.setBlockState(pos, Blocks.AIR.defaultState)
-                world.spawnEntity(ItemEntity(world, pos.x + 0.5, pos.y + 1.0, pos.z + 0.5, ItemStack(CobblemonBlocks.PASTURE)))
+                world.spawnEntity(ItemEntity(world, pos.x + 0.5, pos.y + 1.0, pos.z + 0.5,
+                    ItemStack(CobblemonBlocks.PASTURE)
+                ))
             }
         }
     }
 
-    fun isSafeFloor(world: World, pos: BlockPos, entity: PokemonEntity): Boolean {
+    fun isSafeFloor(world: Level, pos: BlockPos, entity: PokemonEntity): Boolean {
         val state = world.getBlockState(pos)
         return if (state.isAir) {
             false
@@ -217,7 +219,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
 
     // Place the tether block like this: https://gyazo.com/7c163bccfde238688e9a2c600c27aace
     // You'll find you can't place pokemon into the tether. It's because of this function somehow
-    fun makeSuitableY(world: World, pos: BlockPos, entity: PokemonEntity, box: Box): BlockPos? {
+    fun makeSuitableY(world: Level, pos: BlockPos, entity: PokemonEntity, box: Box): BlockPos? {
         if (world.canCollide(entity, box)) {
             for (i in 1..15) {
                 val newBox = box.offset(0.5, i.toDouble(), 0.5)
@@ -255,9 +257,9 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
     }
 
     fun onBroken() {
-        if (world is ServerWorld) {
+        if (world is ServerLevel) {
             tetheredPokemon.toList().forEach { releasePokemon(it.pokemonId) }
-            PastureLinkManager.removeAt(world as ServerWorld, pos)
+            PastureLinkManager.removeAt(world as ServerLevel, pos)
         }
     }
 
@@ -279,7 +281,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         return unpastured
     }
 
-    private fun getInRangeViewerCount(world: World, pos: BlockPos, range: Double = 5.0): Int {
+    private fun getInRangeViewerCount(world: Level, pos: BlockPos, range: Double = 5.0): Int {
         val box = Box(
             pos.x.toDouble() - range,
             pos.y.toDouble() - range,
@@ -289,21 +291,21 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
             (pos.z + 1).toDouble() + range
         )
 
-        return world.getEntitiesByType(TypeFilter.instanceOf(ServerPlayerEntity::class.java), box, this::isPlayerViewing).size
+        return world.getEntitiesByType(TypeFilter.instanceOf(ServerPlayer::class.java), box, this::isPlayerViewing).size
     }
 
-    private fun isPlayerViewing(player: ServerPlayerEntity): Boolean {
+    private fun isPlayerViewing(player: ServerPlayer): Boolean {
         val pastureLink = PastureLinkManager.getLinkByPlayer(player)
-        return pastureLink != null && pastureLink.pos == pos && pastureLink.dimension == Identifier.tryParse(player.world.dimensionEntry.idAsString)
+        return pastureLink != null && pastureLink.pos == pos && pastureLink.dimension == ResourceLocation.tryParse(player.world.dimensionEntry.idAsString)
     }
 
-    override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+    override fun readNbt(nbt: CompoundTag, registryLookup: RegistryWrapper.WrapperLookup) {
         super.readNbt(nbt, registryLookup)
-        val list = nbt.getList(DataKeys.TETHER_POKEMON, NbtCompound.COMPOUND_TYPE.toInt())
+        val list = nbt.getList(DataKeys.TETHER_POKEMON, CompoundTag.COMPOUND_TYPE.toInt())
         this.ownerId = if (nbt.containsUuid(DataKeys.TETHER_OWNER_ID)) nbt.getUuid(DataKeys.TETHER_OWNER_ID) else null
         this.ownerName = nbt.getString(DataKeys.TETHER_OWNER_NAME).takeIf { it.isNotEmpty() } ?: ""
         for (tetheringNBT in list) {
-            tetheringNBT as NbtCompound
+            tetheringNBT as CompoundTag
             val tetheringId = tetheringNBT.getUuid(DataKeys.TETHERING_ID)
             val pokemonId = tetheringNBT.getUuid(DataKeys.POKEMON_UUID)
             val pcId = tetheringNBT.getUuid(DataKeys.PC_ID)
@@ -315,11 +317,11 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         this.maxRoamPos = NbtHelper.toBlockPos(nbt, DataKeys.TETHER_MAX_ROAM_POS).get()
     }
 
-    override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+    override fun writeNbt(nbt: CompoundTag, registryLookup: RegistryWrapper.WrapperLookup) {
         super.writeNbt(nbt, registryLookup)
         val list = NbtList()
         for (tethering in tetheredPokemon) {
-            val tetheringNBT = NbtCompound()
+            val tetheringNBT = CompoundTag()
             tetheringNBT.putUuid(DataKeys.TETHERING_ID, tethering.tetheringId)
             tetheringNBT.putUuid(DataKeys.TETHERING_PLAYER_ID, tethering.playerId)
             tetheringNBT.putUuid(DataKeys.POKEMON_UUID, tethering.pokemonId)

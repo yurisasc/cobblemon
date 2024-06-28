@@ -9,18 +9,18 @@
 package com.cobblemon.mod.common.client.render.layer
 
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.RenderPhase.*
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Util
 import java.util.function.BiFunction
 import java.util.function.Function
 
 object CobblemonRenderLayers {
     val BERRY_LAYER = run {
-        val multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
+        val multiPhaseParameters = RenderType.MultiPhaseParameters.builder()
             .lightmap(ENABLE_LIGHTMAP)
             .program(CUTOUT_PROGRAM)
             .texture(Texture(
@@ -30,7 +30,7 @@ object CobblemonRenderLayers {
             ))
             .cull(DISABLE_CULLING)
             .build(true)
-        RenderLayer.of(
+        RenderType.of(
             "berries",
             VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL,
             VertexFormat.DrawMode.QUADS,
@@ -41,16 +41,16 @@ object CobblemonRenderLayers {
         )
     }
 
-    val ENTITY_TRANSLUCENT: BiFunction<Identifier, Boolean, RenderLayer> = Util.memoize { texture: Identifier, affectsOutline: kotlin.Boolean ->
-        var multiPhaseParameters: RenderLayer.MultiPhaseParameters =
-            RenderLayer.MultiPhaseParameters.builder()
+    val ENTITY_TRANSLUCENT: BiFunction<ResourceLocation, Boolean, RenderType> = Util.memoize { texture: ResourceLocation, affectsOutline: kotlin.Boolean ->
+        var multiPhaseParameters: RenderType.MultiPhaseParameters =
+            RenderType.MultiPhaseParameters.builder()
                 .program(ENTITY_TRANSLUCENT_PROGRAM)
                 .texture(Texture(texture, false, false))
                 .transparency(TRANSLUCENT_TRANSPARENCY)
                 .cull(DISABLE_CULLING)
                 .lightmap(ENABLE_LIGHTMAP)
                 .overlay(ENABLE_OVERLAY_COLOR).build(affectsOutline)
-        RenderLayer.of(
+        RenderType.of(
             "entity_translucent",
             VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,
             VertexFormat.DrawMode.QUADS,
@@ -61,15 +61,15 @@ object CobblemonRenderLayers {
         )
     };
 
-    val ENTITY_CUTOUT: Function<Identifier, RenderLayer> = Util.memoize { texture: Identifier ->
+    val ENTITY_CUTOUT: Function<ResourceLocation, RenderType> = Util.memoize { texture: ResourceLocation ->
         val multiPhaseParameters =
-            RenderLayer.MultiPhaseParameters.builder()
+            RenderType.MultiPhaseParameters.builder()
                 .program(ENTITY_CUTOUT_PROGRAM)
                 .texture(Texture(texture, false, false))
                 .transparency(NO_TRANSPARENCY)
                 .lightmap(ENABLE_LIGHTMAP)
                 .overlay(ENABLE_OVERLAY_COLOR).build(true)
-        RenderLayer.of(
+        RenderType.of(
             "entity_cutout",
             VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,
             VertexFormat.DrawMode.QUADS,

@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeText
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 
 class NicknameUpdatePacket(pokemon: () -> Pokemon, value: MutableText?): SingleUpdatePacket<MutableText?, NicknameUpdatePacket>(pokemon, value) {

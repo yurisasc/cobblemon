@@ -20,9 +20,9 @@ import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import java.util.concurrent.CompletableFuture
 import net.minecraft.command.CommandSource
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
-class DialogueArgumentType : ArgumentType<Identifier> {
+class DialogueArgumentType : ArgumentType<ResourceLocation> {
 
     companion object {
         val EXAMPLES: List<String> = listOf("cobblemon:example")
@@ -30,12 +30,12 @@ class DialogueArgumentType : ArgumentType<Identifier> {
 
         fun dialogue() = DialogueArgumentType()
 
-        fun <S> getDialogue(context: CommandContext<S>, name: String): Identifier {
-            return context.getArgument(name, Identifier::class.java)
+        fun <S> getDialogue(context: CommandContext<S>, name: String): ResourceLocation {
+            return context.getArgument(name, ResourceLocation::class.java)
         }
     }
 
-    override fun parse(reader: StringReader): Identifier {
+    override fun parse(reader: StringReader): ResourceLocation {
         try {
             return reader.asIdentifierDefaultingNamespace()
         } catch (e: Exception) {

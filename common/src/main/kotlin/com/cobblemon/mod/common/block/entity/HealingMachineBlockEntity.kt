@@ -24,16 +24,16 @@ import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
 import java.util.UUID
 import kotlin.math.floor
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.world.entity.player.Player
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.registry.RegistryWrapper
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.core.BlockPos
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class HealingMachineBlockEntity(
@@ -98,7 +98,7 @@ class HealingMachineBlockEntity(
         markUpdated()
     }
 
-    fun canHeal(player: ServerPlayerEntity): Boolean {
+    fun canHeal(player: ServerPlayer): Boolean {
         if (Cobblemon.config.infiniteHealerCharge || this.infinite) {
             return true
         }
@@ -106,7 +106,7 @@ class HealingMachineBlockEntity(
         return this.healingCharge >= neededHealthPercent
     }
 
-    fun activate(player: ServerPlayerEntity) {
+    fun activate(player: ServerPlayer) {
         if (!Cobblemon.config.infiniteHealerCharge && this.healingCharge != maxCharge) {
             val neededHealthPercent = player.party().getHealingRemainderPercent()
             this.healingCharge = (healingCharge - neededHealthPercent).coerceIn(0F..maxCharge)
@@ -129,7 +129,7 @@ class HealingMachineBlockEntity(
     }
 
     override fun readNbt(
-        compoundTag: NbtCompound,
+        compoundTag: CompoundTag,
         registryLookup: RegistryWrapper.WrapperLookup
     ) {
         super.readNbt(compoundTag, registryLookup)
@@ -149,7 +149,7 @@ class HealingMachineBlockEntity(
                     continue
                 }
                 val actualIndex = key.toIntOrNull() ?: index
-                val pokeBall = PokeBalls.getPokeBall(Identifier.of(pokeBallId))
+                val pokeBall = PokeBalls.getPokeBall(ResourceLocation.of(pokeBallId))
                 if (pokeBall != null) {
                     this.pokeBallMap[actualIndex] = pokeBall
                 }
@@ -168,7 +168,7 @@ class HealingMachineBlockEntity(
     }
 
     override fun writeNbt(
-        compoundTag: NbtCompound,
+        compoundTag: CompoundTag,
         registryLookup: RegistryWrapper.WrapperLookup
     ) {
         super.writeNbt(compoundTag, registryLookup)
@@ -180,7 +180,7 @@ class HealingMachineBlockEntity(
         }
 
         if (this.pokeBalls().isNotEmpty()) {
-            val pokeBallsTag = NbtCompound()
+            val pokeBallsTag = CompoundTag()
             this.pokeBalls().forEach { (index, pokeBall) ->
                 pokeBallsTag.putString(index.toString(), pokeBall.name.toString())
             }
@@ -195,7 +195,7 @@ class HealingMachineBlockEntity(
     }
 
     override fun toUpdatePacket(): BlockEntityUpdateS2CPacket =  BlockEntityUpdateS2CPacket.create(this)
-    override fun toInitialChunkDataNbt(registryLookup: RegistryWrapper.WrapperLookup?): NbtCompound? {
+    override fun getUpdateTag(registryLookup: RegistryWrapper.WrapperLookup?): CompoundTag? {
         return super.createNbtWithIdentifyingData(registryLookup)
     }
 
@@ -295,7 +295,7 @@ class HealingMachineBlockEntity(
             }
         }
 
-        fun isUsingHealer(player: PlayerEntity) = this.alreadyHealing.contains(player.uuid)
+        fun isUsingHealer(player: Player) = this.alreadyHealing.contains(player.uuid)
 
     }
 }

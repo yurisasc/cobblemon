@@ -25,22 +25,22 @@ import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.update
 import net.minecraft.entity.Entity
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 import java.util.UUID
 
 object BattleBuilder {
     @JvmOverloads
     fun pvp1v1(
-        player1: ServerPlayerEntity,
-        player2: ServerPlayerEntity,
+        player1: ServerPlayer,
+        player2: ServerPlayer,
         leadingPokemonPlayer1: UUID? = null,
         leadingPokemonPlayer2: UUID? = null,
         battleFormat: BattleFormat = BattleFormat.GEN_9_SINGLES,
         cloneParties: Boolean = false,
         healFirst: Boolean = false,
-        partyAccessor: (ServerPlayerEntity) -> PartyStore = { it.party() }
+        partyAccessor: (ServerPlayer) -> PartyStore = { it.party() }
     ): BattleStartResult {
         val team1 = partyAccessor(player1).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemonPlayer1)
         val team2 = partyAccessor(player2).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemonPlayer2)
@@ -95,7 +95,7 @@ object BattleBuilder {
      */
     @JvmOverloads
     fun pve(
-        player: ServerPlayerEntity,
+        player: ServerPlayer,
         pokemonEntity: PokemonEntity,
         leadingPokemon: UUID? = null,
         battleFormat: BattleFormat = BattleFormat.GEN_9_SINGLES,
@@ -166,7 +166,7 @@ object BattleBuilder {
      */
     @JvmOverloads
     fun pvn(
-        player: ServerPlayerEntity,
+        player: ServerPlayer,
         npcEntity: NPCEntity,
         leadingPokemon: UUID? = null,
         battleFormat: BattleFormat = BattleFormat.GEN_9_SINGLES,
@@ -239,13 +239,13 @@ interface BattleStartError {
     fun getMessageFor(entity: Entity): MutableText
 
     companion object {
-        fun alreadyInBattle(player: ServerPlayerEntity) = AlreadyInBattleError(player.uuid, player.effectiveName())
+        fun alreadyInBattle(player: ServerPlayer) = AlreadyInBattleError(player.uuid, player.effectiveName())
         fun alreadyInBattle(pokemonEntity: PokemonEntity) = AlreadyInBattleError(pokemonEntity.uuid, pokemonEntity.effectiveName())
         fun alreadyInBattle(actor: BattleActor) = AlreadyInBattleError(actor.uuid, actor.getName())
 
         fun targetIsBusy(targetName: MutableText) = BusyError(targetName)
         fun insufficientPokemon(
-            player: ServerPlayerEntity,
+            player: ServerPlayer,
             requiredCount: Int,
             hadCount: Int
         ) = InsufficientPokemonError(player, requiredCount, hadCount)
@@ -265,7 +265,7 @@ class CanceledError(
 }
 
 class InsufficientPokemonError(
-    val player: ServerPlayerEntity,
+    val player: ServerPlayer,
     val requiredCount: Int,
     val hadCount: Int
 ) : BattleStartError {
@@ -289,7 +289,7 @@ class InsufficientPokemonError(
 }
 class AlreadyInBattleError(
     val actorUUID: UUID,
-    val name: Text
+    val name: Component
 ): BattleStartError {
     override fun getMessageFor(entity: Entity): MutableText {
         return if (actorUUID == entity.uuid) {
@@ -339,13 +339,13 @@ open class ErroredBattleStart(
     val isEmpty: Boolean
         get() = generalErrors.isEmpty() && participantErrors.values.all { it.isEmpty() }
 
-    fun isPlayerToBlame(player: ServerPlayerEntity) = generalErrors.isEmpty()
+    fun isPlayerToBlame(player: ServerPlayer) = generalErrors.isEmpty()
         && participantErrors.size == 1
         && participantErrors.entries.first().let { it.key.uuid == player.uuid }
 
     fun isSomePlayerToBlame() = generalErrors.isEmpty() && participantErrors.isNotEmpty()
 
-    val playersToBlame: Iterable<ServerPlayerEntity>
+    val playersToBlame: Iterable<ServerPlayer>
         get() = participantErrors.keys.mapNotNull { it.uuid.getPlayer() }
 
     val actorsToBlame: Iterable<BattleActor>

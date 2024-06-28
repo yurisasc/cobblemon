@@ -12,9 +12,9 @@ import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.item.battle.BagItemConvertible
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.util.Identifier
+import net.minecraft.core.Registry
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 
 /**
  * A registry meant to hold values that will be later resolved on each platform implementation.
@@ -26,7 +26,7 @@ import net.minecraft.util.Identifier
  * @author Licious
  * @since February 11th, 2023
  */
-abstract class PlatformRegistry<R : Registry<T>, K : RegistryKey<R>, T> {
+abstract class PlatformRegistry<R : Registry<T>, K : ResourceKey<R>, T> {
 
     /**
      * The vanilla [Registry].
@@ -38,13 +38,13 @@ abstract class PlatformRegistry<R : Registry<T>, K : RegistryKey<R>, T> {
      */
     abstract val registryKey: K
 
-    protected val queue = hashMapOf<Identifier, T>()
+    protected val queue = hashMapOf<ResourceLocation, T>()
 
     /**
      * Creates a new entry in this registry.
      *
      * @param E The type of the entry.
-     * @param name The name of the entry, this will be an [Identifier.path].
+     * @param name The name of the entry, this will be an [ResourceLocation.path].
      * @param entry The entry being added.
      * @return The entry created.
      */
@@ -65,7 +65,7 @@ abstract class PlatformRegistry<R : Registry<T>, K : RegistryKey<R>, T> {
      *
      * @param consumer The consumer that will handle the logic for registering every entry in this registry into the platform specific one.
      */
-    open fun register(consumer: (Identifier, T) -> Unit) {
+    open fun register(consumer: (ResourceLocation, T) -> Unit) {
         this.queue.forEach(consumer)
     }
 

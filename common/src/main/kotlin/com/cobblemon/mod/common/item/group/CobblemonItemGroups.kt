@@ -9,17 +9,16 @@
 package com.cobblemon.mod.common.item.group
 
 import com.cobblemon.mod.common.CobblemonItems
-import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemGroup.*
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 @Suppress("unused", "UNUSED_PARAMETER")
 object CobblemonItemGroups {
@@ -29,13 +28,41 @@ object CobblemonItemGroups {
     private val ALL = arrayListOf<ItemGroupHolder>()
     private val INJECTORS = hashMapOf<RegistryKey<ItemGroup>, (injector: Injector) -> Unit>()
 
-    @JvmStatic val BLOCKS_KEY = this.create("blocks", this::blockEntries) { ItemStack(CobblemonItems.PC) }
-    @JvmStatic val POKEBALLS_KEY = this.create("pokeball", this::pokeballentries) { ItemStack(CobblemonItems.POKE_BALL) }
-    @JvmStatic val AGRICULTURE_KEY = this.create("agriculture", this::agricultureEntries) { ItemStack(CobblemonItems.MEDICINAL_LEEK) }
-    @JvmStatic val ARCHAEOLOGY_KEY = this.create("archaeology", this::archaeologyEntries) { ItemStack(CobblemonItems.HELIX_FOSSIL) }
-    @JvmStatic val CONSUMABLES_KEY = this.create("consumables", this::consumableEntries) { ItemStack(CobblemonItems.ROASTED_LEEK) }
-    @JvmStatic val HELD_ITEMS_KEY = this.create("held_item", this::heldItemEntries) { ItemStack(CobblemonItems.EXP_SHARE) }
-    @JvmStatic val EVOLUTION_ITEMS_KEY = this.create("evolution_item", this::evolutionItemEntries) { ItemStack(CobblemonItems.BLACK_AUGURITE) }
+    @JvmStatic val BLOCKS_KEY = this.create("blocks", this::blockEntries) {
+        ItemStack(
+            CobblemonItems.PC
+        )
+    }
+    @JvmStatic val POKEBALLS_KEY = this.create("pokeball", this::pokeballentries) {
+        ItemStack(
+            CobblemonItems.POKE_BALL
+        )
+    }
+    @JvmStatic val AGRICULTURE_KEY = this.create("agriculture", this::agricultureEntries) {
+        ItemStack(
+            CobblemonItems.MEDICINAL_LEEK
+        )
+    }
+    @JvmStatic val ARCHAEOLOGY_KEY = this.create("archaeology", this::archaeologyEntries) {
+        ItemStack(
+            CobblemonItems.HELIX_FOSSIL
+        )
+    }
+    @JvmStatic val CONSUMABLES_KEY = this.create("consumables", this::consumableEntries) {
+        ItemStack(
+            CobblemonItems.ROASTED_LEEK
+        )
+    }
+    @JvmStatic val HELD_ITEMS_KEY = this.create("held_item", this::heldItemEntries) {
+        ItemStack(
+            CobblemonItems.EXP_SHARE
+        )
+    }
+    @JvmStatic val EVOLUTION_ITEMS_KEY = this.create("evolution_item", this::evolutionItemEntries) {
+        ItemStack(
+            CobblemonItems.BLACK_AUGURITE
+        )
+    }
 
     @JvmStatic val BLOCKS get() = Registries.ITEM_GROUP.get(BLOCKS_KEY)
     @JvmStatic val POKEBALLS get() = Registries.ITEM_GROUP.get(POKEBALLS_KEY)
@@ -45,9 +72,9 @@ object CobblemonItemGroups {
     @JvmStatic val HELD_ITEMS get() = Registries.ITEM_GROUP.get(HELD_ITEMS_KEY)
     @JvmStatic val EVOLUTION_ITEMS get() = Registries.ITEM_GROUP.get(EVOLUTION_ITEMS_KEY)
 
-    @JvmStatic val FOOD_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier.of("food_and_drinks")), this::foodInjections)
-    @JvmStatic val TOOLS_AND_UTILITIES_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier.of("tools_and_utilities")), this::toolsAndUtilitiesInjections)
-    @JvmStatic val INGREDIENTS_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier.of("ingredients")), this::ingredientsInjections)
+    @JvmStatic val FOOD_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, ResourceLocation.of("food_and_drinks")), this::foodInjections)
+    @JvmStatic val TOOLS_AND_UTILITIES_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, ResourceLocation.of("tools_and_utilities")), this::toolsAndUtilitiesInjections)
+    @JvmStatic val INGREDIENTS_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, ResourceLocation.of("ingredients")), this::ingredientsInjections)
 
     fun register(consumer: (holder: ItemGroupHolder) -> ItemGroup) {
         ALL.forEach(consumer::invoke)
@@ -63,7 +90,7 @@ object CobblemonItemGroups {
         val key: RegistryKey<ItemGroup>,
         val displayIconProvider: () -> ItemStack,
         val entryCollector: EntryCollector,
-        val displayName: Text = Text.translatable("itemGroup.${key.value.namespace}.${key.value.path}")
+        val displayName: Component = Component.translatable("itemGroup.${key.value.namespace}.${key.value.path}")
     )
 
     private fun create(name: String, entryCollector: EntryCollector, displayIconProvider: () -> ItemStack): RegistryKey<ItemGroup> {

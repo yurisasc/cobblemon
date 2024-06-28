@@ -10,19 +10,19 @@ package com.cobblemon.mod.common.client.gui.startselection.widgets.preview
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 class ArrowButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     right: Boolean,
-    private val texture: Identifier = if (right) RIGHT_ARROW_BUTTON_RESOURCE else LEFT_ARROW_BUTTON_RESOURCE,
+    private val texture: ResourceLocation = if (right) RIGHT_ARROW_BUTTON_RESOURCE else LEFT_ARROW_BUTTON_RESOURCE,
     onPress: PressAction
-) : ButtonWidget(pX, pY, pWidth, pHeight, Text.empty(), onPress, DEFAULT_NARRATION_SUPPLIER) {
+) : ButtonWidget(pX, pY, pWidth, pHeight, Component.empty(), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private val RIGHT_ARROW_BUTTON_RESOURCE = cobblemonResource("textures/gui/starterselection/starterselection_arrow_right.png")
@@ -36,7 +36,7 @@ class ArrowButton(
         return
     }
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height
         if (isHovered) {
             blitk(

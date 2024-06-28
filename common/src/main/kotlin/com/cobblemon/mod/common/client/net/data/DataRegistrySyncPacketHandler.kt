@@ -10,11 +10,10 @@ package com.cobblemon.mod.common.client.net.data
 
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.client.data.DataRegistrySyncPacket
-import com.cobblemon.mod.common.util.readList
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 
 class DataRegistrySyncPacketHandler<P, T : DataRegistrySyncPacket<P, T>> : ClientNetworkPacketHandler<T> {
-    override fun handle(packet: T, client: MinecraftClient) {
+    override fun handle(packet: T, client: Minecraft) {
         packet.entries.clear()
         packet.entries.addAll(packet.buffer!!.readList { packet.decodeEntry(packet.buffer!!) }.filterNotNull())
         packet.buffer!!.release()

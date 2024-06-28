@@ -19,13 +19,13 @@ import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeEnumConstant
 import com.cobblemon.mod.common.util.writeString
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacket<MoveTemplate, MovesRegistrySyncPacket>(moves) {
 
     override val id = ID
 
-    override fun encodeEntry(buffer: RegistryByteBuf, entry: MoveTemplate) {
+    override fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: MoveTemplate) {
         buffer.writeString(entry.name)
         buffer.writeInt(entry.num)
         buffer.writeString(entry.elementalType.name)
@@ -40,7 +40,7 @@ class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacke
         entry.effectChances.forEach { chance -> buffer.writeDouble(chance) }
     }
 
-    override fun decodeEntry(buffer: RegistryByteBuf): MoveTemplate? {
+    override fun decodeEntry(buffer: RegistryFriendlyByteBuf): MoveTemplate? {
         val name = buffer.readString()
         val num = buffer.readInt()
         val type = ElementalTypes.getOrException(buffer.readString())

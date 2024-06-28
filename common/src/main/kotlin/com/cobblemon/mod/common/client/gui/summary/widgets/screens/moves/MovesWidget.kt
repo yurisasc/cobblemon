@@ -23,14 +23,14 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.text.Text
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.network.chat.Component
 
 class MovesWidget(
     pX: Int, pY: Int,
     val summary: Summary
-): SoundlessWidget(pX, pY, WIDTH, HEIGHT, Text.literal("MovesWidget")) {
+): SoundlessWidget(pX, pY, WIDTH, HEIGHT, Component.literal("MovesWidget")) {
     companion object {
         private const val WIDTH = 134
         private const val HEIGHT = 148
@@ -62,7 +62,7 @@ class MovesWidget(
         addWidget(it)
     }
 
-    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val matrices = context.matrices
         blitk(
             matrixStack = matrices,
@@ -135,7 +135,7 @@ class MovesWidget(
             shadow = true
         )
 
-        val mcFont = MinecraftClient.getInstance().textRenderer
+        val mcFont = Minecraft.getInstance().textRenderer
         val movePower = if (selectedMove != null && selectedMove!!.power.toInt() > 0) selectedMove!!.power.toInt().toString().text() else "—".text()
         drawScaledText(
             context = context,

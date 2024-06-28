@@ -21,7 +21,7 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object LevelUp {
 
@@ -38,14 +38,14 @@ object LevelUp {
             )
             .then(
                 CommandManager.argument("slot", IntegerArgumentType.integer(1, 99))
-                    .requires { it.entity is ServerPlayerEntity && it.player != null }
+                    .requires { it.entity is ServerPlayer && it.player != null }
                     .executes { execute(it, it.source.playerOrThrow) }
             )
 
         dispatcher.register(command)
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {
+    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayer) : Int {
         val slot = IntegerArgumentType.getInteger(context, "slot")
         val party = player.party()
         if (slot > party.size()) {

@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.api.pokemon.stats
 
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Represents a stat of a Pokémon.
@@ -22,15 +22,15 @@ import net.minecraft.util.Identifier
 interface Stat {
 
     /**
-     * The [Identifier] of this stat.
+     * The [ResourceLocation] of this stat.
      */
-    val identifier: Identifier
+    val identifier: ResourceLocation
 
     /**
      * The display name of this stat.
      * This should ideally provide the lang.
      */
-    val displayName: Text
+    val displayName: Component
 
     /**
      * The type of this stat.

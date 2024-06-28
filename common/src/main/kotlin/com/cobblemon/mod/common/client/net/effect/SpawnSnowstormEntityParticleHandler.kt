@@ -17,12 +17,12 @@ import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityParticlePacket
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.entity.Entity
 
 object SpawnSnowstormEntityParticleHandler : ClientNetworkPacketHandler<SpawnSnowstormEntityParticlePacket> {
-    override fun handle(packet: SpawnSnowstormEntityParticlePacket, client: MinecraftClient) {
-        val world = MinecraftClient.getInstance().world ?: return
+    override fun handle(packet: SpawnSnowstormEntityParticlePacket, client: Minecraft) {
+        val world = Minecraft.getInstance().world ?: return
         val effect = BedrockParticleEffectRepository.getEffect(packet.effectId) ?: return
         val entity = world.getEntityById(packet.entityId) as? PosableEntity ?: return
         entity as Entity

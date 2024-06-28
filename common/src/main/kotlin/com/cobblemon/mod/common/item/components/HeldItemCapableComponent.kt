@@ -12,11 +12,11 @@ import com.mojang.serialization.Codec
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
-data class HeldItemCapableComponent(val item: Identifier) {
+data class HeldItemCapableComponent(val item: ResourceLocation) {
     companion object {
-        val CODEC: Codec<HeldItemCapableComponent> = Identifier.CODEC.xmap(
+        val CODEC: Codec<HeldItemCapableComponent> = ResourceLocation.CODEC.xmap(
             { HeldItemCapableComponent(it) },
             { it.item }
         )

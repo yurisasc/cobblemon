@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTr
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class PetililHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("petilil_hisui_bias")
@@ -27,10 +27,10 @@ class PetililHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Heade
     val leaf_right = getPart("leaf_right_rotation")
 
     override var portraitScale = 1.52F
-    override var portraitTranslation = Vec3d(0.1, -0.25, 0.0)
+    override var portraitTranslation = Vec3(0.1, -0.25, 0.0)
 
     override var profileScale = 0.8F
-    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileTranslation = Vec3(0.0, 0.5, 0.0)
 
     lateinit var standing: CobblemonPose
     lateinit var walk: CobblemonPose

@@ -10,11 +10,11 @@ package com.cobblemon.mod.common.client.sound.battle
 
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.util.resumeSounds
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.*
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.MathHelper
 
 /**
@@ -29,7 +29,7 @@ import net.minecraft.util.math.MathHelper
 class BattleMusicInstance(sound: SoundEvent, volume: Float = 1.0F, pitch: Float = 1.0F) :
         PositionedSoundInstance(sound, SoundCategory.MUSIC, volume, pitch, SoundInstance.createRandom(), BlockPos.ORIGIN), TickableSoundInstance {
 
-    private val soundManager = MinecraftClient.getInstance().soundManager;
+    private val soundManager = Minecraft.getInstance().soundManager;
     private var fade: Boolean = false
     private var done: Boolean = false
     private var tickCount = 0

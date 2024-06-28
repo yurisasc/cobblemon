@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.pokemon.evolution.predicate
 
 import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.predicate.NbtPredicate
 import net.minecraft.registry.Registries
 

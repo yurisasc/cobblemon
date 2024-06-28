@@ -14,16 +14,16 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPo
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class OmanyteModel(root: ModelPart) : PokemonPosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("omanyte")
 
     override var portraitScale = 3.15F
-    override var portraitTranslation = Vec3d(-0.06, -3.18, 0.0)
+    override var portraitTranslation = Vec3(-0.06, -3.18, 0.0)
 
     override var profileScale = 1.13F
-    override var profileTranslation = Vec3d(0.0, -0.02, 0.0)
+    override var profileTranslation = Vec3(0.0, -0.02, 0.0)
 
     lateinit var standing: CobblemonPose
     lateinit var walk: CobblemonPose

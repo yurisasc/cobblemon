@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common
 
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.color.block.BlockColorProvider
@@ -16,7 +16,7 @@ import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.SpriteProvider
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.model.EntityModelLayer
@@ -34,7 +34,7 @@ interface CobblemonClientImplementation {
         factory: (SpriteProvider) -> ParticleFactory<T>
     )
 
-    fun registerBlockRenderType(layer: RenderLayer, vararg blocks: Block)
+    fun registerBlockRenderType(layer: RenderType, vararg blocks: Block)
 
     fun registerItemColors(provider: ItemColorProvider, vararg items: Item)
 

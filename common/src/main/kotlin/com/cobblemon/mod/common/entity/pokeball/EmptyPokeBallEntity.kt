@@ -12,7 +12,6 @@ import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL
-import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokeball.PokeBallCaptureCalculatedEvent
@@ -22,7 +21,6 @@ import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.Schedulable
@@ -48,7 +46,7 @@ import com.cobblemon.mod.common.util.*
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
@@ -58,19 +56,17 @@ import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.particle.ParticleTypes
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundEvents
-import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.MathHelper.PI
-import net.minecraft.util.math.Vec3d
-import net.minecraft.world.World
+import net.minecraft.world.phys.Vec3
+import net.minecraft.world.level.Level
 import java.util.concurrent.CompletableFuture
 import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
-import net.minecraft.network.packet.s2c.play.BundleS2CPacket
 import net.minecraft.server.network.EntityTrackerEntry
 
 class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, Schedulable {
@@ -124,8 +120,8 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
         super.initDataTracker(builder)
         builder.add(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
         builder.add(ASPECTS, emptySet())
-        builder.add(HIT_TARGET_POSITION, Vec3d.ZERO)
-        builder.add(HIT_VELOCITY, Vec3d.ZERO)
+        builder.add(HIT_TARGET_POSITION, Vec3.ZERO)
+        builder.add(HIT_VELOCITY, Vec3.ZERO)
         builder.add(SHAKE, false)
     }
 
@@ -154,10 +150,10 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
         addPosableFunctions(struct)
     }
 
-    constructor(world: World) : this(pokeBall = PokeBalls.POKE_BALL, world = world)
+    constructor(world: Level) : this(pokeBall = PokeBalls.POKE_BALL, world = world)
     constructor(
         pokeBall: PokeBall,
-        world: World,
+        world: Level,
         entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL
     ): super(entityType, world) {
         this.pokeBall = pokeBall
@@ -165,7 +161,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
 
     constructor(
         pokeBall: PokeBall,
-        world: World,
+        world: Level,
         ownerEntity: LivingEntity,
         entityType: EntityType<out EmptyPokeBallEntity> = EMPTY_POKEBALL
     ): super(entityType, ownerEntity, world) {
@@ -181,14 +177,14 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
                 world.sendParticlesServer(ParticleTypes.CLOUD, hitResult.pos, 2, hitResult.pos.subtract(pos).normalize().multiply(-0.1), 0.0)
                 world.playSoundServer(pos, SoundEvents.BLOCK_WOOD_PLACE, pitch = 2.5F)
                 discard()
-                val player = this.owner as? ServerPlayerEntity
+                val player = this.owner as? ServerPlayer
                 if (player?.isCreative == false) {
                     dropItem(defaultItem)
                 }
             }
         } else {
             setNoGravity(false)
-            velocity = Vec3d.ZERO
+            velocity = Vec3.ZERO
 
         }
     }
@@ -251,7 +247,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
                 } else if (pokemonEntity.isBusy) {
                     owner?.sendMessage(lang("capture.busy", pokemonEntity.exposedSpecies.translatedName).red())
                     return drop()
-                } else if (owner is ServerPlayerEntity && BattleRegistry.getBattleByParticipatingPlayer(owner) != null) {
+                } else if (owner is ServerPlayer && BattleRegistry.getBattleByParticipatingPlayer(owner) != null) {
                     owner.sendMessage(lang("you_in_battle").red())
                     return drop()
                 }
@@ -270,7 +266,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
     private fun drop() {
         val owner = owner
         discard()
-        val player = owner?.takeIf { it is ServerPlayerEntity } as? ServerPlayerEntity
+        val player = owner?.takeIf { it is ServerPlayer } as? ServerPlayer
         if (player?.isCreative != true) dropItem(defaultItem)
         return
     }
@@ -334,7 +330,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
                 // Do a capture
                 world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED, volume = 0.8F, pitch = 1F)
                 val pokemon = capturingPokemon ?: return
-                val player = this.owner as? ServerPlayerEntity ?: return
+                val player = this.owner as? ServerPlayer ?: return
 
                 after(seconds = 1F) {
                     // Dupes occurred by double-adding Pokémon, this hopefully prevents it triple-condom style
@@ -378,7 +374,8 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
         after(seconds = 1F) {
             pokemon.busyLocks.remove(this)
             captureFuture.complete(false)
-            world.sendParticlesServer(ParticleTypes.CLOUD, pos, 20, Vec3d(0.0, 0.2, 0.0), 0.05)
+            world.sendParticlesServer(ParticleTypes.CLOUD, pos, 20,
+                Vec3(0.0, 0.2, 0.0), 0.05)
             discard()
         }
     }
@@ -409,7 +406,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
         pokemonEntity.phasingTargetId = this.id
         after(seconds = 0.7F) {
             // Start beaming them up.
-            velocity = Vec3d.ZERO
+            velocity = Vec3.ZERO
             setNoGravity(true)
             world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED, volume = 0.6F)
             pokemonEntity.beamMode = 3
@@ -424,7 +421,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
             after(seconds = 1.5F) {
                 // If it was still falling after a second and a half, just assume it's landed because we can't wait all day.
                 if (captureState == CaptureState.FALL) {
-                    velocity = Vec3d.ZERO
+                    velocity = Vec3.ZERO
                     setNoGravity(true)
                     isOnGround = true
                     beginCapture()

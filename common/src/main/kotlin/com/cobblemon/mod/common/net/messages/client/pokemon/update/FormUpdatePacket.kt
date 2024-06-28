@@ -11,9 +11,8 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 class FormUpdatePacket(pokemon: () -> Pokemon, form: FormData) : SingleUpdatePacket<FormData, FormUpdatePacket>(pokemon, form) {
     override fun encodeValue(buffer: RegistryByteBuf) {
@@ -24,10 +23,10 @@ class FormUpdatePacket(pokemon: () -> Pokemon, form: FormData) : SingleUpdatePac
         pokemon.form = value
     }
 
-    override val id: Identifier = ID
+    override val id: ResourceLocation = ID
 
     companion object {
-        val ID: Identifier = cobblemonResource("packets/form-update")
+        val ID: ResourceLocation = cobblemonResource("packets/form-update")
         fun decode(buffer: RegistryByteBuf): FormUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val form = FormData()

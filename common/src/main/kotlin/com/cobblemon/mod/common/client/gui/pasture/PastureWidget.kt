@@ -19,8 +19,8 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.server.pasture.UnpastureAllPokemonPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.text.Text
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.network.chat.Component
 
 class PastureWidget(
     val storageWidget: StorageWidget,
@@ -28,7 +28,7 @@ class PastureWidget(
     x: Int,
     y: Int
 ): SoundlessWidget(
-    x, y, PCGUI.RIGHT_PANEL_WIDTH, PCGUI.RIGHT_PANEL_HEIGHT, Text.literal("PastureWidget")) {
+    x, y, PCGUI.RIGHT_PANEL_WIDTH, PCGUI.RIGHT_PANEL_HEIGHT, Component.literal("PastureWidget")) {
 
     companion object {
         private val baseResource = cobblemonResource("textures/gui/pasture/pasture_panel.png")
@@ -48,7 +48,7 @@ class PastureWidget(
         parent = this
     )
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
             matrixStack = context.matrices,
             texture = baseResource,

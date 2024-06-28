@@ -10,12 +10,12 @@ package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.mulch.Mulchable
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.item.ItemUsageContext
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.ActionResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.Level
 import net.minecraft.world.WorldEvents
 
 class MulchItem(val variant: MulchVariant) : CobblemonItem(Settings()) {
@@ -33,11 +33,11 @@ class MulchItem(val variant: MulchVariant) : CobblemonItem(Settings()) {
         return ActionResult.PASS
     }
 
-    private fun useOnMulchAble(stack: ItemStack, world: World, pos: BlockPos): Boolean {
+    private fun useOnMulchAble(stack: ItemStack, world: Level, pos: BlockPos): Boolean {
         val state = world.getBlockState(pos)
         if (state.block is Mulchable) {
             val mulchAble = state.block as? Mulchable ?: return false
-            if (world is ServerWorld && mulchAble.canHaveMulchApplied(world, pos, state, this.variant)) {
+            if (world is ServerLevel && mulchAble.canHaveMulchApplied(world, pos, state, this.variant)) {
                 mulchAble.applyMulch(world, world.random, pos, state, this.variant)
                 stack.decrement(1)
                 return true

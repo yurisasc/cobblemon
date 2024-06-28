@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.util
 
-import net.minecraft.block.BlockState
+import net.minecraft.core.BlockPos
+import net.minecraft.core.SectionPos
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
@@ -16,33 +18,35 @@ import net.minecraft.particle.ParticleEffect
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.math.*
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.Vec3
 
-fun World.playSoundServer(
-    position: Vec3d,
+fun Level.playSoundServer(
+    position: Vec3,
     sound: SoundEvent,
     category: SoundCategory = SoundCategory.NEUTRAL,
     volume: Float = 1F,
     pitch: Float = 1F
-) = (this as ServerWorld).playSound(null, position.x, position.y, position.z, sound, category, volume, pitch)
+) = (this as ServerLevel).playSound(null, position.x, position.y, position.z, sound, category, volume, pitch)
 
-fun <T : ParticleEffect> World.sendParticlesServer(
+fun <T : ParticleEffect> Level.sendParticlesServer(
     particleType: T,
-    position: Vec3d,
+    position: Vec3,
     particles: Int,
-    offset: Vec3d,
+    offset: Vec3,
     speed: Double
-) = (this as ServerWorld).spawnParticles(particleType, position.x, position.y, position.z, particles, offset.x, offset.y, offset.z, speed)
+) = (this as ServerLevel).spawnParticles(particleType, position.x, position.y, position.z, particles, offset.x, offset.y, offset.z, speed)
 
-fun World.squeezeWithinBounds(pos: BlockPos): BlockPos {
+fun Level.squeezeWithinBounds(pos: BlockPos): BlockPos {
     val border = worldBorder
     return BlockPos(
         pos.x.coerceIn(border.boundWest.toInt(), border.boundEast.toInt()),
@@ -51,11 +55,11 @@ fun World.squeezeWithinBounds(pos: BlockPos): BlockPos {
     )
 }
 
-fun ServerWorld.isBoxLoaded(box: Box): Boolean {
-    val startChunkX = ChunkSectionPos.getSectionCoord(box.minX)
-    val startChunkZ = ChunkSectionPos.getSectionCoord(box.minZ)
-    val endChunkX = ChunkSectionPos.getSectionCoord(box.maxX)
-    val endChunkZ = ChunkSectionPos.getSectionCoord(box.maxZ)
+fun ServerLevel.isBoxLoaded(box: AABB): Boolean {
+    val startChunkX = SectionPos.posToSectionCoord(box.minX)
+    val startChunkZ = SectionPos.posToSectionCoord(box.minZ)
+    val endChunkX = SectionPos.posToSectionCoord(box.maxX)
+    val endChunkZ = SectionPos.posToSectionCoord(box.maxZ)
 
     for (chunkX in startChunkX..endChunkX) {
         for (chunkZ in startChunkZ..endChunkZ) {
@@ -72,8 +76,8 @@ fun Box.getRanges(): Triple<IntRange, IntRange, IntRange> {
     return Triple(floor(minX)..ceil(maxX), minY.toInt()..ceil(maxY), minZ.toInt()..ceil(maxZ))
 }
 
-fun BlockView.doForAllBlocksIn(box: Box, useMutablePos: Boolean, action: (BlockState, BlockPos) -> Unit) {
-    val mutable = BlockPos.Mutable()
+fun BlockView.doForAllBlocksIn(box: AABB, useMutablePos: Boolean, action: (BlockState, BlockPos) -> Unit) {
+    val mutable = BlockPos.MutableBlockPos()
     val (xRange, yRange, zRange) = box.getRanges()
     for (x in xRange) {
         for (y in yRange) {
@@ -116,29 +120,29 @@ fun BlockView.getWaterAndLavaIn(box: Box): Pair<Boolean, Boolean> {
 
 fun Entity.canFit(pos: BlockPos) = canFit(pos.toVec3d())
 
-fun Entity.canFit(vec: Vec3d): Boolean {
+fun Entity.canFit(vec: Vec3): Boolean {
     val box = boundingBox.offset(vec.subtract(this.pos))
     return world.isSpaceEmpty(box)
 }
 
-val World.itemRegistry: Registry<Item>
+val Level.itemRegistry: Registry<Item>
     get() = registryManager.get(RegistryKeys.ITEM)
-val World.biomeRegistry: Registry<Biome>
+val Level.biomeRegistry: Registry<Biome>
     get() = registryManager.get(RegistryKeys.BIOME)
-val World.worldRegistry: Registry<World>
+val Level.worldRegistry: Registry<Level>
     get() = registryManager.get(RegistryKeys.WORLD)
-val World.enchantmentRegistry: Registry<Enchantment>
+val Level.enchantmentRegistry: Registry<Enchantment>
     get() = registryManager.get(RegistryKeys.ENCHANTMENT)
 
 
-fun Vec3d.traceDownwards(
-    world: World,
+fun Vec3.traceDownwards(
+    world: Level,
     maxDistance: Float = 10F,
     stepDistance: Float = 0.5F,
 ): TraceResult? {
     var step = stepDistance
-    val startPos = Vec3d(x, y, z)
-    val direction = Vec3d(0.0, -1.0, 0.0)
+    val startPos = Vec3(x, y, z)
+    val direction = Vec3(0.0, -1.0, 0.0)
 
     var lastBlockPos = startPos.toBlockPos()
 

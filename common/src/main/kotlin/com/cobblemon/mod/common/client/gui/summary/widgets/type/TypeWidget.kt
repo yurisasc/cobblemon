@@ -13,12 +13,12 @@ import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 abstract class TypeWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    pMessage: Text
+    pMessage: Component
 ): SoundlessWidget(pX, pY, pWidth, pHeight, pMessage) {
 
     companion object {

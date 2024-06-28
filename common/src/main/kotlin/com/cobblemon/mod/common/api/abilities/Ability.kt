@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.CompoundTag
 
 /**
  * Representing an Ability with all its attributes
@@ -56,7 +56,7 @@ open class Ability internal constructor(var template: AbilityTemplate, forced: B
     var priority = Priority.LOWEST
         internal set
 
-    open fun saveToNBT(nbt: NbtCompound): NbtCompound {
+    open fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putString(DataKeys.POKEMON_ABILITY_NAME, name)
         nbt.putBoolean(DataKeys.POKEMON_ABILITY_FORCED, forced)
         nbt.putInt(DataKeys.POKEMON_ABILITY_INDEX, index)
@@ -72,7 +72,7 @@ open class Ability internal constructor(var template: AbilityTemplate, forced: B
         return json
     }
 
-    open fun loadFromNBT(nbt: NbtCompound): Ability {
+    open fun loadFromNBT(nbt: CompoundTag): Ability {
         this.template = Abilities.getOrException(nbt.getString(DataKeys.POKEMON_ABILITY_NAME))
         this.forced = nbt.getBoolean(DataKeys.POKEMON_ABILITY_FORCED)
         if (nbt.contains(DataKeys.POKEMON_ABILITY_INDEX) && nbt.contains(DataKeys.POKEMON_ABILITY_PRIORITY)) {

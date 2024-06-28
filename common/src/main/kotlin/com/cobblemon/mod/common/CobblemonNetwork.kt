@@ -191,7 +191,7 @@ import com.cobblemon.mod.common.net.serverhandling.trade.ChangeTradeAcceptanceHa
 import com.cobblemon.mod.common.net.serverhandling.trade.OfferTradeHandler
 import com.cobblemon.mod.common.net.serverhandling.trade.UpdateTradeOfferHandler
 import com.cobblemon.mod.common.util.server
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 /**
  * Registers Cobblemon network packets.
@@ -203,10 +203,10 @@ import net.minecraft.server.network.ServerPlayerEntity
  */
 object CobblemonNetwork {
 
-    fun ServerPlayerEntity.sendPacket(packet: NetworkPacket<*>) = sendPacketToPlayer(this, packet)
+    fun ServerPlayer.sendPacket(packet: NetworkPacket<*>) = sendPacketToPlayer(this, packet)
     fun sendToServer(packet: NetworkPacket<*>) = Cobblemon.implementation.networkManager.sendToServer(packet)
     fun sendToAllPlayers(packet: NetworkPacket<*>) = sendPacketToPlayers(server()!!.playerManager.playerList, packet)
-    fun sendPacketToPlayers(players: Iterable<ServerPlayerEntity>, packet: NetworkPacket<*>) = players.forEach { sendPacketToPlayer(it, packet) }
+    fun sendPacketToPlayers(players: Iterable<ServerPlayer>, packet: NetworkPacket<*>) = players.forEach { sendPacketToPlayer(it, packet) }
 
     val s2cPayloads = generateS2CPacketInfoList()
     val c2sPayloads = generateC2SPacketInfoList()
@@ -437,5 +437,5 @@ object CobblemonNetwork {
         return list
     }
 
-    fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>) = Cobblemon.implementation.networkManager.sendPacketToPlayer(player, packet)
+    fun sendPacketToPlayer(player: ServerPlayer, packet: NetworkPacket<*>) = Cobblemon.implementation.networkManager.sendPacketToPlayer(player, packet)
 }

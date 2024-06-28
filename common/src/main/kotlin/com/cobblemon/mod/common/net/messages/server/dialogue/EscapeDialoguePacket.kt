@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.server.dialogue
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Sent by the client to the server when the player wants to escape the current dialogue.

@@ -12,11 +12,8 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import net.minecraft.client.item.ClampedModelPredicateProvider
 import net.minecraft.client.item.ModelPredicateProviderRegistry
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.util.Identifier
+import net.minecraft.world.entity.player.Player
+import net.minecraft.resources.ResourceLocation
 
 object CobblemonModelPredicateRegistry {
 
@@ -74,7 +71,7 @@ object CobblemonModelPredicateRegistry {
         )
 
         rods.forEach { rod ->
-            ModelPredicateProviderRegistry.register(rod, Identifier.of("cast"), ClampedModelPredicateProvider { stack, world, entity, seed ->
+            ModelPredicateProviderRegistry.register(rod, ResourceLocation.of("cast"), ClampedModelPredicateProvider { stack, world, entity, seed ->
                 if (entity == null) {
                     0.0f
                 } else {
@@ -84,7 +81,7 @@ object CobblemonModelPredicateRegistry {
                         isOffHand = false
                     }
 
-                    if ((isMainHand || isOffHand) && entity is PlayerEntity && entity.fishHook != null) 1.0f else 0.0f
+                    if ((isMainHand || isOffHand) && entity is Player && entity.fishHook != null) 1.0f else 0.0f
                 }
             })
         }

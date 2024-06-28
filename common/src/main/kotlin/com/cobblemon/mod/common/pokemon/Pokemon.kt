@@ -132,31 +132,28 @@ import com.google.gson.JsonPrimitive
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.JsonOps
 import net.minecraft.block.*
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.entity.vehicle.BoatEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.world.item.ItemStack
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtString
-import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.FluidTags
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.text.MutableText
 import net.minecraft.text.PlainTextContent
-import net.minecraft.text.Text
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.InvalidIdentifierException
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
-import net.minecraft.util.math.Vec3d
-import net.minecraft.world.World
+import net.minecraft.world.phys.Vec3
+import net.minecraft.world.level.Level
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import kotlin.math.absoluteValue
@@ -530,7 +527,8 @@ open class Pokemon : ShowdownIdentifiable {
      * Arbitrary data compound. Be aware that updating this is not enough for a Pokémon to be recognized as dirty
      * and in need of saving. Emit to [anyChangeObservable] if you are making a change otherwise you'll see reversions.
      */
-    var persistentData: NbtCompound = NbtCompound()
+    var persistentData: CompoundTag =
+        CompoundTag()
         private set
 
     /**
@@ -557,7 +555,7 @@ open class Pokemon : ShowdownIdentifiable {
         return this.form.showdownId()
     }
 
-    fun sendOut(level: ServerWorld, position: Vec3d, illusion: IllusionEffect?, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity? {
+    fun sendOut(level: ServerLevel, position: Vec3, illusion: IllusionEffect?, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity? {
         CobblemonEvents.POKEMON_SENT_PRE.postThen(PokemonSentPreEvent(this, level, position)) {
             SeasonFeatureHandler.updateSeason(this, level, position.toBlockPos())
             val entity = PokemonEntity(level, this)
@@ -577,8 +575,8 @@ open class Pokemon : ShowdownIdentifiable {
 
     fun sendOutWithAnimation(
         source: LivingEntity,
-        level: ServerWorld,
-        position: Vec3d,
+        level: ServerLevel,
+        position: Vec3,
         battleId: UUID? = null,
         doCry: Boolean = true,
         illusion: IllusionEffect? = null,
@@ -588,7 +586,13 @@ open class Pokemon : ShowdownIdentifiable {
         // send out raft if over water
         if (position != null) {
             // todo if send out position is over water then add a raft entity to stand on
-            if (level.isWater(BlockPos(position.x.toInt(), position.y.toInt() - 1, position.z.toInt())) && this.species.types.all { it != ElementalTypes.WATER && it != ElementalTypes.FLYING }) {
+            if (level.isWater(
+                    BlockPos(
+                        position.x.toInt(),
+                        position.y.toInt() - 1,
+                        position.z.toInt()
+                    )
+                ) && this.species.types.all { it != ElementalTypes.WATER && it != ElementalTypes.FLYING }) {
                 val boatType = BoatEntity.Type.getType("bamboo")
                 // Create a new boat entity with the generic EntityType.BOAT
                 val raftEntity = BoatEntity(level, position.x, position.y, position.z)
@@ -606,7 +610,7 @@ open class Pokemon : ShowdownIdentifiable {
 
         // Handle special case of shouldered Cobblemon
         if (this.state is ShoulderedState) {
-            return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, illusion, mutation)
+            return sendOutFromShoulder(source as ServerPlayer, level, position, battleId, doCry, illusion, mutation)
         }
 
         // Proceed as normal for non-shouldered Cobblemon
@@ -652,9 +656,9 @@ open class Pokemon : ShowdownIdentifiable {
      * Send out the Pokémon from the player's shoulder.
      */
     fun sendOutFromShoulder(
-        player: ServerPlayerEntity,
-        level: ServerWorld,
-        targetPosition: Vec3d,
+        player: ServerPlayer,
+        level: ServerLevel,
+        targetPosition: Vec3,
         battleId: UUID? = null,
         doCry: Boolean = true,
         illusion: IllusionEffect? = null,
@@ -668,7 +672,11 @@ open class Pokemon : ShowdownIdentifiable {
         val shoulderHorizontalOffset = if (isLeftShoulder) arbitraryXOffset else -arbitraryXOffset
         val rotation = player.yaw
         val approxShoulderMonHight = player.height.toDouble() - this.form.hitbox.height * 0.4
-        val rotatedOffset = Vec3d(shoulderHorizontalOffset, approxShoulderMonHight, 0.0).rotateY(-rotation * (Math.PI.toFloat() / 180f))
+        val rotatedOffset = Vec3(
+            shoulderHorizontalOffset,
+            approxShoulderMonHight,
+            0.0
+        ).rotateY(-rotation * (Math.PI.toFloat() / 180f))
         val currentPosition = player.pos.add(rotatedOffset)
 
         recall()
@@ -757,11 +765,11 @@ open class Pokemon : ShowdownIdentifiable {
         return ElementalTypes.FIRE in types || !form.behaviour.moving.swim.hurtByLava
     }
 
-    fun isPositionSafe(world: World, pos: Vec3d): Boolean {
+    fun isPositionSafe(world: Level, pos: Vec3): Boolean {
         return isPositionSafe(world, pos.toBlockPos())
     }
 
-    fun isPositionSafe(world: World, pos1: BlockPos): Boolean {
+    fun isPositionSafe(world: Level, pos1: BlockPos): Boolean {
         // To make sure a location is safe, both the block the Pokemon is standing ON,
         // and the block it's standing IN need to be safe. pos2 represents the other position in that set.
         val pos2: BlockPos = if (world.getBlockState(pos1).isSolid) {
@@ -893,7 +901,7 @@ open class Pokemon : ShowdownIdentifiable {
      */
     fun removeHeldItem(): ItemStack = this.swapHeldItem(ItemStack.EMPTY)
 
-    fun saveToNBT(nbt: NbtCompound): NbtCompound {
+    fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putString(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
         nbt.putString(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
@@ -905,15 +913,15 @@ open class Pokemon : ShowdownIdentifiable {
         nbt.putShort(DataKeys.POKEMON_FRIENDSHIP, friendship.toShort())
         nbt.putString(DataKeys.POKEMON_GENDER, gender.name)
         nbt.putShort(DataKeys.POKEMON_HEALTH, currentHealth.toShort())
-        nbt.put(DataKeys.POKEMON_IVS, ivs.saveToNBT(NbtCompound()))
-        nbt.put(DataKeys.POKEMON_EVS, evs.saveToNBT(NbtCompound()))
+        nbt.put(DataKeys.POKEMON_IVS, ivs.saveToNBT(CompoundTag()))
+        nbt.put(DataKeys.POKEMON_EVS, evs.saveToNBT(CompoundTag()))
         nbt.put(DataKeys.POKEMON_MOVESET, moveSet.getNBT())
         nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
         nbt.putBoolean(DataKeys.POKEMON_SHINY, shiny)
-        val abilityNBT = ability.saveToNBT(NbtCompound())
+        val abilityNBT = ability.saveToNBT(CompoundTag())
         nbt.put(DataKeys.POKEMON_ABILITY, abilityNBT)
-        state.writeToNBT(NbtCompound())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
-        status?.saveToNBT(NbtCompound())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
+        state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
+        status?.saveToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
         nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         nbt.putInt(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
         nbt.putInt(DataKeys.POKEMON_HEALING_TIMER, healTimer)
@@ -925,7 +933,9 @@ open class Pokemon : ShowdownIdentifiable {
         mintedNature?.let { nbt.putString(DataKeys.POKEMON_MINTED_NATURE, it.name.toString()) }
         features.forEach { it.saveToNBT(nbt) }
         if (!this.heldItem.isEmpty) {
-            nbt.put(DataKeys.HELD_ITEM, ItemStack.CODEC.encode(heldItem, NbtOps.INSTANCE, NbtCompound()).getOrThrow {
+            nbt.put(DataKeys.HELD_ITEM, ItemStack.CODEC.encode(heldItem, NbtOps.INSTANCE,
+                CompoundTag()
+            ).getOrThrow {
                 return@getOrThrow IllegalStateException("WTF held item")
             })
         }
@@ -946,13 +956,13 @@ open class Pokemon : ShowdownIdentifiable {
         return nbt
     }
 
-    fun loadFromNBT(nbt: NbtCompound): Pokemon {
+    fun loadFromNBT(nbt: CompoundTag): Pokemon {
         val version = nbt.getString(DataKeys.POKEMON_LAST_SAVED_VERSION).takeIf { it.isNotBlank() } ?: "1.1.1"
         uuid = nbt.getUuid(DataKeys.POKEMON_UUID)
         try {
             val rawID = nbt.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER).replace("pokemonCobblemon", "cobblemon")
-            species = PokemonSpecies.getByIdentifier(Identifier.of(rawID))
-                ?: throw InvalidSpeciesException(Identifier.of(rawID))
+            species = PokemonSpecies.getByIdentifier(ResourceLocation.of(rawID))
+                ?: throw InvalidSpeciesException(ResourceLocation.of(rawID))
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to read a species identifier from NBT")
         }
@@ -984,7 +994,7 @@ open class Pokemon : ShowdownIdentifiable {
         faintedTimer = nbt.getInt(DataKeys.POKEMON_FAINTED_TIMER)
         healTimer = nbt.getInt(DataKeys.POKEMON_HEALING_TIMER)
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
-        caughtBall = PokeBalls.getPokeBall(Identifier.of(ballName)) ?: PokeBalls.POKE_BALL
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation.of(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
         val propertiesList = nbt.getList(DataKeys.POKEMON_DATA, NbtString.STRING_TYPE.toInt())
         val properties = PokemonProperties.parse(propertiesList.joinToString(separator = " ") { it.asString() }, " ")
@@ -995,9 +1005,11 @@ open class Pokemon : ShowdownIdentifiable {
             features.removeIf { it.name == feature.name }
             features.add(feature)
         }
-        this.nature = nbt.getString(DataKeys.POKEMON_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier.of(it))!! } ?: Natures.getRandomNature()
+        this.nature = nbt.getString(DataKeys.POKEMON_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(
+            ResourceLocation.of(it))!! } ?: Natures.getRandomNature()
         if (nbt.contains(DataKeys.POKEMON_MINTED_NATURE)) {
-            this.mintedNature = nbt.getString(DataKeys.POKEMON_MINTED_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier.of(it)) }
+            this.mintedNature = nbt.getString(DataKeys.POKEMON_MINTED_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(
+                ResourceLocation.of(it)) }
         }
         this.forcedAspects = nbt.getList(DataKeys.POKEMON_FORCED_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
         updateAspects()
@@ -1074,8 +1086,8 @@ open class Pokemon : ShowdownIdentifiable {
         uuid = UUID.fromString(json.get(DataKeys.POKEMON_UUID).asString)
         try {
             val rawID = json.get(DataKeys.POKEMON_SPECIES_IDENTIFIER).asString.replace("pokemonCobblemon", "cobblemon")
-            species = PokemonSpecies.getByIdentifier(Identifier.of(rawID))
-                ?: throw InvalidSpeciesException(Identifier.of(rawID))
+            species = PokemonSpecies.getByIdentifier(ResourceLocation.of(rawID))
+                ?: throw InvalidSpeciesException(ResourceLocation.of(rawID))
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
@@ -1116,7 +1128,7 @@ open class Pokemon : ShowdownIdentifiable {
             status = PersistentStatusContainer.loadFromJSON(statusJson)
         }
         val ballName = json.get(DataKeys.POKEMON_CAUGHT_BALL).asString
-        caughtBall = PokeBalls.getPokeBall(Identifier.of(ballName)) ?: PokeBalls.POKE_BALL
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation.of(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
         healTimer = json.get(DataKeys.POKEMON_HEALING_TIMER).asInt
@@ -1129,9 +1141,10 @@ open class Pokemon : ShowdownIdentifiable {
             features.removeIf { it.name == feature.name }
             features.add(feature)
         }
-        this.nature = json.get(DataKeys.POKEMON_NATURE).asString?.let { Natures.getNature(Identifier.of(it))!! } ?: Natures.getRandomNature()
+        this.nature = json.get(DataKeys.POKEMON_NATURE).asString?.let { Natures.getNature(ResourceLocation.of(it))!! } ?: Natures.getRandomNature()
         if (json.has(DataKeys.POKEMON_MINTED_NATURE)) {
-            this.mintedNature = json.get(DataKeys.POKEMON_MINTED_NATURE).asString?.let { Natures.getNature(Identifier.of(it)) }
+            this.mintedNature = json.get(DataKeys.POKEMON_MINTED_NATURE).asString?.let { Natures.getNature(
+                ResourceLocation.of(it)) }
         }
         this.forcedAspects = json.getAsJsonArray(DataKeys.POKEMON_FORCED_ASPECTS)?.map { it.asString }?.toSet() ?: emptySet()
         updateAspects()
@@ -1144,7 +1157,7 @@ open class Pokemon : ShowdownIdentifiable {
         }
         // This cast should be fine as we gave it a NbtCompound
         if (json.has(DataKeys.POKEMON_PERSISTENT_DATA)) {
-            this.persistentData = Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, json.get(DataKeys.POKEMON_PERSISTENT_DATA)) as NbtCompound
+            this.persistentData = Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, json.get(DataKeys.POKEMON_PERSISTENT_DATA)) as CompoundTag
         }
         if (json.has(DataKeys.TETHERING_ID)) {
             this.tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
@@ -1179,7 +1192,7 @@ open class Pokemon : ShowdownIdentifiable {
         val pokemon = if (useJSON) {
             Pokemon().loadFromJSON(saveToJSON(JsonObject()).also { it.remove(DataKeys.POKEMON_EVOLUTIONS) })
         } else {
-            Pokemon().loadFromNBT(saveToNBT(NbtCompound()).also { it.remove(DataKeys.POKEMON_EVOLUTIONS) })
+            Pokemon().loadFromNBT(saveToNBT(CompoundTag()).also { it.remove(DataKeys.POKEMON_EVOLUTIONS) })
         }
         if (newUUID) {
             pokemon.uuid = UUID.randomUUID()
@@ -1199,8 +1212,8 @@ open class Pokemon : ShowdownIdentifiable {
         }
     }
 
-    fun getOwnerPlayer(): ServerPlayerEntity? {
-        return getOwnerEntity() as? ServerPlayerEntity
+    fun getOwnerPlayer(): ServerPlayer? {
+        return getOwnerEntity() as? ServerPlayer
     }
 
     fun getOwnerNPC(): NPCEntity? {
@@ -1218,7 +1231,7 @@ open class Pokemon : ShowdownIdentifiable {
         return null
     }
 
-    fun belongsTo(player: PlayerEntity) = storeCoordinates.get()?.let { it.store.uuid == player.uuid } == true
+    fun belongsTo(player: Player) = storeCoordinates.get()?.let { it.store.uuid == player.uuid } == true
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore || it.store is PCStore } == true
     fun isNPCOwned() = storeCoordinates.get()?.let { it.store is NPCPartyStore } == true
     fun isWild() = storeCoordinates.get() == null
@@ -1536,7 +1549,7 @@ open class Pokemon : ShowdownIdentifiable {
         }
     }
 
-    fun addExperienceWithPlayer(player: ServerPlayerEntity, source: ExperienceSource, xp: Int): AddExperienceResult {
+    fun addExperienceWithPlayer(player: ServerPlayer, source: ExperienceSource, xp: Int): AddExperienceResult {
         val result = addExperience(source, xp)
         if (result.experienceAdded <= 0) {
             return result
@@ -1779,7 +1792,7 @@ open class Pokemon : ShowdownIdentifiable {
         var LEVEL_UP_FRIENDSHIP_CALCULATOR = FriendshipMutationCalculator.SWORD_AND_SHIELD_LEVEL_UP
         internal val SHEDINJA = cobblemonResource("shedinja")
 
-        fun loadFromNBT(compound: NbtCompound): Pokemon {
+        fun loadFromNBT(compound: CompoundTag): Pokemon {
             return Pokemon().loadFromNBT(compound)
         }
 

@@ -35,7 +35,7 @@ import com.cobblemon.mod.common.util.*
 import com.google.gson.annotations.SerializedName
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.entity.EntityDimensions
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 class FormData(
     name: String = "Normal",
@@ -101,7 +101,7 @@ class FormData(
      */
     val gigantamaxMove: MoveTemplate? = null,
     @SerializedName("battleTheme")
-    private var _battleTheme: Identifier? = null,
+    private var _battleTheme: ResourceLocation? = null,
     @SerializedName("lightingData")
     private var _lightingData: LightingData? = null
 ) : Decodable, Encodable, ShowdownIdentifiable {
@@ -191,7 +191,7 @@ class FormData(
     val evolutions: MutableSet<Evolution>
         get() = _evolutions ?: mutableSetOf()
 
-    val battleTheme: Identifier
+    val battleTheme: ResourceLocation
         get() = _battleTheme ?: species.battleTheme
 
     val lightingData: LightingData?

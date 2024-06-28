@@ -17,12 +17,12 @@ import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -46,7 +46,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         state.currentModel = model
         state.currentAspects = aspects
 
-        val renderLayer = RenderLayer.getEntityCutout(PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, 0F))
+        val renderLayer = RenderType.getEntityCutout(PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, 0F))
 
         val transformations = positions[mode]!!
 

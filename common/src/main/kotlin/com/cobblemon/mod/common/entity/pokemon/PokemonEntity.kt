@@ -70,89 +70,55 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import net.minecraft.network.syncher.EntityDataSerializers
+import net.minecraft.network.syncher.SynchedEntityData
 import java.util.*
 import java.util.concurrent.CompletableFuture
-import net.minecraft.entity.*
-import net.minecraft.entity.ai.control.MoveControl
-import net.minecraft.entity.ai.goal.EatGrassGoal
-import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.entity.ai.pathing.PathNodeType
-import net.minecraft.entity.attribute.DefaultAttributeContainer
-import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.damage.DamageTypes
-import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedData
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
-import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.entity.passive.AnimalEntity
-import net.minecraft.entity.passive.PassiveEntity
-import net.minecraft.entity.passive.TameableShoulderEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.fluid.FluidState
-import net.minecraft.item.DyeItem
-import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUsage
-import net.minecraft.item.Items
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtHelper
-import net.minecraft.nbt.NbtString
-import net.minecraft.network.listener.ClientPlayPacketListener
-import net.minecraft.network.packet.Packet
-import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
-import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.registry.tag.FluidTags
-import net.minecraft.server.network.EntityTrackerEntry
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
-import net.minecraft.text.PlainTextContent
-import net.minecraft.text.Text
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
-import net.minecraft.util.math.Vec3d
-import net.minecraft.world.EntityView
-import net.minecraft.world.World
-import net.minecraft.world.event.GameEvent
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.entity.AgeableMob
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.Shearable
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.animal.ShoulderRidingEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.Level
 
 @Suppress("unused")
 open class PokemonEntity(
-    world: World,
-    pokemon: Pokemon = Pokemon().apply { isClient = world.isClient },
+    world: Level,
+    pokemon: Pokemon = Pokemon().apply { isClient = world.isClientSide },
     type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,
-) : TameableShoulderEntity(type, world), PosableEntity, Shearable, Schedulable {
+) : ShoulderRidingEntity(type, world), PosableEntity, Shearable, Schedulable {
     companion object {
-        @JvmStatic val SPECIES = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.STRING)
-        @JvmStatic val NICKNAME = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.TEXT_COMPONENT)
-        @JvmStatic val NICKNAME_VISIBLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-        @JvmStatic val SHOULD_RENDER_NAME = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-        @JvmStatic val MOVING = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-        @JvmStatic val BEHAVIOUR_FLAGS = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
-        @JvmStatic val PHASING_TARGET_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
-        @JvmStatic val BEAM_MODE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
-        @JvmStatic val BATTLE_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.OPTIONAL_UUID)
-        @JvmStatic val ASPECTS = DataTracker.registerData(PokemonEntity::class.java, StringSetDataSerializer)
-        @JvmStatic val DYING_EFFECTS_STARTED = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-        @JvmStatic val POSE_TYPE = DataTracker.registerData(PokemonEntity::class.java, PoseTypeDataSerializer)
-        @JvmStatic val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
-        @JvmStatic val HIDE_LABEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-        @JvmStatic val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-        @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-        @JvmStatic val SPAWN_DIRECTION = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
-        @JvmStatic val FRIENDSHIP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        @JvmStatic val SPECIES = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.STRING)
+        @JvmStatic val NICKNAME = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.COMPONENT)
+        @JvmStatic val NICKNAME_VISIBLE = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
+        @JvmStatic val SHOULD_RENDER_NAME = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
+        @JvmStatic val MOVING = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
+        @JvmStatic val BEHAVIOUR_FLAGS = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BYTE)
+        @JvmStatic val PHASING_TARGET_ID = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
+        @JvmStatic val BEAM_MODE = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BYTE)
+        @JvmStatic val BATTLE_ID = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.OPTIONAL_UUID)
+        @JvmStatic val ASPECTS = SynchedEntityData.defineId(PokemonEntity::class.java, StringSetDataSerializer)
+        @JvmStatic val DYING_EFFECTS_STARTED = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
+        @JvmStatic val POSE_TYPE = SynchedEntityData.defineId(PokemonEntity::class.java, PoseTypeDataSerializer)
+        @JvmStatic val LABEL_LEVEL = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
+        @JvmStatic val HIDE_LABEL = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
+        @JvmStatic val UNBATTLEABLE = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
+        @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
+        @JvmStatic val SPAWN_DIRECTION = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.FLOAT)
+        @JvmStatic val FRIENDSHIP = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
 
         const val BATTLE_LOCK = "battle"
 
-        fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
-            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK)
+        fun createAttributes(): AttributeSupplier.Builder = LivingEntity.createLivingAttributes()
+            .add(Attributes.FOLLOW_RANGE)
+            .add(Attributes.ATTACK_KNOCKBACK)
     }
     val removalObservable = SimpleObservable<RemovalReason?>()
     /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
@@ -167,19 +133,19 @@ open class PokemonEntity(
 
     var pokemon: Pokemon = pokemon
         set(value) {
-            value.isClient = this.world.isClient
+            value.isClient = this.level().isClientSide
             field = value
             delegate.changePokemon(value)
 
             //This used to be referring to this.updateEyeHeight, I think this is the best conversion
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
-            this.calculateDimensions()
+            this.refreshDimensions()
         }
 
     var despawner: Despawner<PokemonEntity> = Cobblemon.bestSpawner.defaultPokemonDespawner
 
     /** The player that caused this Pokémon to faint. */
-    var killer: ServerPlayerEntity? = null
+    var killer: ServerPlayer? = null
 
     var evolutionEntity: GenericBedrockEntity? = null
 
@@ -188,14 +154,14 @@ open class PokemonEntity(
     val isBusy: Boolean
         get() = busyLocks.isNotEmpty()
     val aspects: Set<String>
-        get() = dataTracker.get(ASPECTS)
+        get() = entityData.get(ASPECTS)
     var battleId: UUID?
-        get() = dataTracker.get(BATTLE_ID).orElse(null)
-        set(value) = dataTracker.set(BATTLE_ID, Optional.ofNullable(value))
+        get() = entityData.get(BATTLE_ID).orElse(null)
+        set(value) = entityData.set(BATTLE_ID, Optional.ofNullable(value))
     val isBattling: Boolean
-        get() = dataTracker.get(BATTLE_ID).isPresent
+        get() = entityData.get(BATTLE_ID).isPresent
     val friendship: Int
-        get() = dataTracker.get(FRIENDSHIP)
+        get() = entityData.get(FRIENDSHIP)
 
     var drops: DropTable? = null
 
@@ -214,19 +180,19 @@ open class PokemonEntity(
      * 2 is being captured/recalling so starts large and shrinks.
      */
     var beamMode: Int
-        get() = dataTracker.get(BEAM_MODE).toInt()
-        set(value) { dataTracker.set(BEAM_MODE, value.toByte()) }
+        get() = entityData.get(BEAM_MODE).toInt()
+        set(value) { entityData.set(BEAM_MODE, value.toByte()) }
 
     var phasingTargetId: Int
-        get() = dataTracker.get(PHASING_TARGET_ID)
-        set(value) { dataTracker.set(PHASING_TARGET_ID, value) }
+        get() = entityData.get(PHASING_TARGET_ID)
+        set(value) { entityData.set(PHASING_TARGET_ID, value) }
 
     /** The [SpawnCause] that created it, if this was the result of the [BestSpawner]. Note: This will be wiped by chunk-unload. */
     var spawnCause: SpawnCause? = null
 
     // properties like the above are synced and can be subscribed to for changes on either side
 
-    override val delegate = if (world.isClient) {
+    override val delegate = if (world.isClientSide) {
         PokemonClientDelegate()
     } else {
         PokemonServerDelegate()
@@ -247,19 +213,19 @@ open class PokemonEntity(
         .addFunction("is_wild") { DoubleValue(pokemon.isWild()) }
         .addFunction("is_shiny") { DoubleValue(pokemon.shiny) }
         .addFunction("form") { StringValue(pokemon.form.name) }
-        .addFunction("width") { DoubleValue(boundingBox.lengthX) }
-        .addFunction("height") { DoubleValue(boundingBox.lengthY) }
-        .addFunction("horizontal_velocity") { DoubleValue(velocity.horizontalLength()) }
-        .addFunction("vertical_velocity") { DoubleValue(velocity.y) }
+        .addFunction("width") { DoubleValue(boundingBox.xsize) }
+        .addFunction("height") { DoubleValue(boundingBox.ysize) }
+        .addFunction("horizontal_velocity") { DoubleValue(deltaMovement.horizontalDistance()) }
+        .addFunction("vertical_velocity") { DoubleValue(deltaMovement.y) }
         .addFunction("weight") { DoubleValue(pokemon.species.weight.toDouble()) }
-        .addFunction("is_moving") { DoubleValue((moveControl as? PokemonMoveControl)?.isMoving == true) }
+        .addFunction("is_moving") { DoubleValue((moveControl as? PokemonMoveControl)?.hasWanted() == true) }
         .addFunction("is_underwater") { DoubleValue(getIsSubmerged()) }
         .addFunction("is_flying") { DoubleValue(getBehaviourFlag(PokemonBehaviourFlag.FLYING)) }
-        .addFunction("is_passenger") { DoubleValue(hasVehicle()) }
-        .addFunction("entity_width") { DoubleValue(boundingBox.lengthX) }
-        .addFunction("entity_height") { DoubleValue(boundingBox.lengthY) }
-        .addFunction("entity_size") { DoubleValue(boundingBox.run { if (lengthX > lengthY) lengthX else lengthY }) }
-        .addFunction("entity_radius") { DoubleValue(boundingBox.run { if (lengthX > lengthY) lengthX else lengthY } / 2) }
+        .addFunction("is_passenger") { DoubleValue(isPassenger()) }
+        .addFunction("entity_width") { DoubleValue(boundingBox.xsize) }
+        .addFunction("entity_height") { DoubleValue(boundingBox.ysize) }
+        .addFunction("entity_size") { DoubleValue(boundingBox.run { if (xsize > ysize) xsize else ysize }) }
+        .addFunction("entity_radius") { DoubleValue(boundingBox.run { if (xsize > ysize) xsize else ysize } / 2) }
         .addFunction("has_aspect") { DoubleValue(it.getString(0) in aspects) }
 
     init {
@@ -269,8 +235,8 @@ open class PokemonEntity(
         addPosableFunctions(struct)
     }
 
-    override fun initDataTracker(builder: DataTracker.Builder) {
-        super.initDataTracker(builder)
+    override fun initSynchedEntityData(builder: SynchedEntityData.Builder) {
+        super.initSynchedEntityData(builder)
         builder.add(SPECIES, "")
         builder.add(NICKNAME, Text.empty())
         builder.add(NICKNAME_VISIBLE, true)
@@ -297,11 +263,11 @@ open class PokemonEntity(
         if (delegate != null) {
             delegate.onTrackedDataSet(data)
         }
-        // common datatracker handling
+        // common SynchedEntityData handling
         when (data) {
             SPECIES -> calculateDimensions()
             POSE_TYPE -> {
-                val value = dataTracker.get(data) as PoseType
+                val value = SynchedEntityData.get(data) as PoseType
                 if (value == PoseType.FLY || value == PoseType.HOVER) {
                     setNoGravity(true)
                 } else {
@@ -359,7 +325,7 @@ open class PokemonEntity(
 
         if (ticksLived <= 20) {
             clearPositionTarget()
-            val spawnDirection = dataTracker.get(SPAWN_DIRECTION)
+            val spawnDirection = SynchedEntityData.get(SPAWN_DIRECTION)
             setBodyYaw(spawnDirection)
             prevBodyYaw = spawnDirection
         }
@@ -444,7 +410,7 @@ open class PokemonEntity(
     fun recallWithAnimation(): CompletableFuture<Pokemon> {
         val owner = owner
         val future = CompletableFuture<Pokemon>()
-        if (dataTracker.get(PHASING_TARGET_ID) == -1 && owner != null) {
+        if (SynchedEntityData.get(PHASING_TARGET_ID) == -1 && owner != null) {
             val preamble = if (owner is PokemonSender) {
                 owner.recalling(this)
             } else {
@@ -453,8 +419,8 @@ open class PokemonEntity(
 
             preamble.thenAccept {
                 owner.world.playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
-                dataTracker.set(PHASING_TARGET_ID,owner.id)
-                dataTracker.set(BEAM_MODE,3)
+                SynchedEntityData.set(PHASING_TARGET_ID,owner.id)
+                SynchedEntityData.set(BEAM_MODE,3)
                 val state = pokemon.state
                 afterOnServer(seconds = SEND_OUT_DURATION) {
                     // only recall if the Pokémon hasn't been recalled yet for this state
@@ -496,13 +462,13 @@ open class PokemonEntity(
         if (battleIdToSave != null) {
             nbt.putUuid(DataKeys.POKEMON_BATTLE_ID, battleIdToSave)
         }
-        nbt.putString(DataKeys.POKEMON_POSE_TYPE, dataTracker.get(POSE_TYPE).name)
-        nbt.putByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS, dataTracker.get(BEHAVIOUR_FLAGS))
+        nbt.putString(DataKeys.POKEMON_POSE_TYPE, SynchedEntityData.get(POSE_TYPE).name)
+        nbt.putByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS, SynchedEntityData.get(BEHAVIOUR_FLAGS))
 
-        if (dataTracker.get(HIDE_LABEL)) {
+        if (SynchedEntityData.get(HIDE_LABEL)) {
             nbt.putBoolean(DataKeys.POKEMON_HIDE_LABEL, true)
         }
-        if (dataTracker.get(UNBATTLEABLE)) {
+        if (SynchedEntityData.get(UNBATTLEABLE)) {
             nbt.putBoolean(DataKeys.POKEMON_UNBATTLEABLE, true)
         }
         if (!countsTowardsSpawnCap) {
@@ -565,18 +531,18 @@ open class PokemonEntity(
         // apply active effects
         if (nbt.contains(DataKeys.ENTITY_EFFECTS)) effects.loadFromNBT(nbt.getCompound(DataKeys.ENTITY_EFFECTS), this.world.registryManager)
 
-        // init dataTracker
-        dataTracker.set(SPECIES, effects.mockEffect?.mock?.species ?: pokemon.species.resourceIdentifier.toString())
-        dataTracker.set(NICKNAME, pokemon.nickname ?: Text.empty())
-        dataTracker.set(LABEL_LEVEL, pokemon.level)
-        dataTracker.set(POSE_TYPE, PoseType.valueOf(nbt.getString(DataKeys.POKEMON_POSE_TYPE)))
-        dataTracker.set(BEHAVIOUR_FLAGS, nbt.getByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS))
+        // init SynchedEntityData
+        SynchedEntityData.set(SPECIES, effects.mockEffect?.mock?.species ?: pokemon.species.resourceIdentifier.toString())
+        SynchedEntityData.set(NICKNAME, pokemon.nickname ?: Text.empty())
+        SynchedEntityData.set(LABEL_LEVEL, pokemon.level)
+        SynchedEntityData.set(POSE_TYPE, PoseType.valueOf(nbt.getString(DataKeys.POKEMON_POSE_TYPE)))
+        SynchedEntityData.set(BEHAVIOUR_FLAGS, nbt.getByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS))
 
         if (nbt.contains(DataKeys.POKEMON_HIDE_LABEL)) {
-            dataTracker.set(HIDE_LABEL, nbt.getBoolean(DataKeys.POKEMON_HIDE_LABEL))
+            SynchedEntityData.set(HIDE_LABEL, nbt.getBoolean(DataKeys.POKEMON_HIDE_LABEL))
         }
         if (nbt.contains(DataKeys.POKEMON_UNBATTLEABLE)) {
-            dataTracker.set(UNBATTLEABLE, nbt.getBoolean(DataKeys.POKEMON_UNBATTLEABLE))
+            SynchedEntityData.set(UNBATTLEABLE, nbt.getBoolean(DataKeys.POKEMON_UNBATTLEABLE))
         }
         if (nbt.contains(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP)) {
             countsTowardsSpawnCap = nbt.getBoolean(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP)
@@ -610,7 +576,7 @@ open class PokemonEntity(
         goalSelector.clear { true }
         goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
         goalSelector.add(0, object : Goal() {
-            override fun canStart() = this@PokemonEntity.dataTracker.get(PHASING_TARGET_ID) != -1 || pokemon.status?.status == Statuses.SLEEP || dataTracker.get(DYING_EFFECTS_STARTED) || evolutionEntity != null
+            override fun canStart() = this@PokemonEntity.SynchedEntityData.get(PHASING_TARGET_ID) != -1 || pokemon.status?.status == Statuses.SLEEP || SynchedEntityData.get(DYING_EFFECTS_STARTED) || evolutionEntity != null
             override fun shouldContinue(): Boolean {
                 if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
                     return false
@@ -634,7 +600,7 @@ open class PokemonEntity(
         }
 
         goalSelector.add(6, PokemonWanderAroundGoal(this))
-        goalSelector.add(7, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
+        goalSelector.add(7, PokemonLookAtEntityGoal(this, ServerPlayer::class.java, 5F))
         goalSelector.add(8, PokemonPointAtSpawnGoal(this))
     }
 
@@ -653,13 +619,13 @@ open class PokemonEntity(
                 (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(RegistryKeys.BIOME)) })
     }
 
-    override fun createChild(level: ServerWorld, partner: PassiveEntity) = null
+    override fun getBreedOffspring(serverLevel: ServerLevel, ageableMob: AgeableMob) = null
 
-    override fun isReadyToSitOnPlayer(): Boolean {
+    override fun canSitOnShoulder(): Boolean {
         return pokemon.form.shoulderMountable
     }
 
-    override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
+    override fun interactMob(player: Player, hand: InteractionHand) : ActionResult {
         val itemStack = player.getStackInHand(hand)
         val colorFeatureType = SpeciesFeatures.getFeaturesFor(pokemon.species)
             .find { it is ChoiceSpeciesFeatureProvider && DataKeys.CAN_BE_COLORED in it.keys }
@@ -749,7 +715,7 @@ open class PokemonEntity(
                 val currentColor = colorFeature?.value ?: ""
                 val item = itemStack.item as DyeItem
                 if (!item.color.name.equals(currentColor, ignoreCase = true)) {
-                    if (player is ServerPlayerEntity) {
+                    if (player is ServerPlayer) {
                         if (colorFeature != null) {
                             colorFeature.value = item.color.name.lowercase()
                             this.pokemon.markFeatureDirty(colorFeature)
@@ -768,7 +734,7 @@ open class PokemonEntity(
                     return ActionResult.success(world.isClient)
                 }
             } else if (itemStack.item.equals(Items.WATER_BUCKET) && colorFeatureType != null) {
-                if (player is ServerPlayerEntity) {
+                if (player is ServerPlayer) {
                     if (colorFeature != null) {
                         if (!player.isCreative) {
                             itemStack.decrement(1)
@@ -783,7 +749,7 @@ open class PokemonEntity(
             }
         }
 
-        if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
+        if (hand == Hand.MAIN_HAND && player is ServerPlayer && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
                 InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer && pokemon in player.party()).sendToPlayer(player)
             } else {
@@ -845,14 +811,14 @@ open class PokemonEntity(
      */
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
-        dataTracker.set(BEHAVIOUR_FLAGS, setBitForByte(dataTracker.get(BEHAVIOUR_FLAGS), flag.bit, on))
+        SynchedEntityData.set(BEHAVIOUR_FLAGS, setBitForByte(SynchedEntityData.get(BEHAVIOUR_FLAGS), flag.bit, on))
     }
 
-    fun getBehaviourFlag(flag: PokemonBehaviourFlag): Boolean = getBitForByte(dataTracker.get(BEHAVIOUR_FLAGS), flag.bit)
+    fun getBehaviourFlag(flag: PokemonBehaviourFlag): Boolean = getBitForByte(SynchedEntityData.get(BEHAVIOUR_FLAGS), flag.bit)
 
     @Suppress("UNUSED_PARAMETER")
     fun canBattle(player: PlayerEntity): Boolean {
-        if (dataTracker.get(UNBATTLEABLE)) {
+        if (SynchedEntityData.get(UNBATTLEABLE)) {
             return false
         } else if (isBusy) {
             return false
@@ -872,11 +838,11 @@ open class PokemonEntity(
      *
      * @return The level that should be displayed, if equal or lesser than 0 the level is not intended to be displayed.
      */
-    fun labelLevel() = dataTracker.get(LABEL_LEVEL)
+    fun labelLevel() = SynchedEntityData.get(LABEL_LEVEL)
 
     override fun playAmbientSound() {
         if (!this.isSilent || this.busyLocks.filterIsInstance<EmptyPokeBallEntity>().isEmpty()) {
-            val sound = Identifier.of(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
+            val sound = ResourceLocation.of(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
             // ToDo distance to travel is currently hardcoded to default we can maybe find a way to work around this down the line
             UnvalidatedPlaySoundS2CPacket(sound, this.soundCategory, this.x, this.y, this.z, this.soundVolume, this.soundPitch)
                 .sendToPlayersAround(this.x, this.y, this.z, 16.0, this.world.registryKey)
@@ -893,7 +859,7 @@ open class PokemonEntity(
             return false
         }
 
-        if (player is ServerPlayerEntity && isBattling) {
+        if (player is ServerPlayer && isBattling) {
             val battle = battleId?.let(BattleRegistry::getBattle) ?: return false
 
             val bagItemConvertible = BagItems.getConvertibleForStack(stack) ?: return false
@@ -905,7 +871,7 @@ open class PokemonEntity(
 
             return bagItemConvertible.handleInteraction(player, battlePokemon, stack)
         }
-        if (player !is ServerPlayerEntity || this.isBusy) {
+        if (player !is ServerPlayer || this.isBusy) {
             return false
         }
 
@@ -946,7 +912,7 @@ open class PokemonEntity(
     }
 
     fun offerHeldItem(player: PlayerEntity, stack: ItemStack): Boolean {
-        if (player !is ServerPlayerEntity || this.isBusy || this.pokemon.getOwnerPlayer() != player) {
+        if (player !is ServerPlayer || this.isBusy || this.pokemon.getOwnerPlayer() != player) {
             return false
         }
         // We want the count of 1 in order to match the ItemStack#areEqual
@@ -971,7 +937,7 @@ open class PokemonEntity(
         return true
     }
 
-    fun tryMountingShoulder(player: ServerPlayerEntity): Boolean {
+    fun tryMountingShoulder(player: ServerPlayer): Boolean {
         if (this.pokemon.belongsTo(player) && this.hasRoomToMount(player)) {
             CobblemonEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
                 val dirToPlayer = player.eyePos.subtract(pos).multiply(1.0, 0.0, 1.0).normalize()
@@ -997,7 +963,7 @@ open class PokemonEntity(
         return false
     }
 
-    override fun mountOnto(player: ServerPlayerEntity): Boolean {
+    override fun mountOnto(player: ServerPlayer): Boolean {
         if (!super.mountOnto(player)) {
             return false
         }
@@ -1035,16 +1001,16 @@ open class PokemonEntity(
     // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
     fun hasRoomToMount(player: PlayerEntity): Boolean {
         return (player.shoulderEntityLeft.isEmpty || player.shoulderEntityRight.isEmpty)
-                && !player.hasVehicle()
+                && !player.isPassenger()
                 && player.isOnGround
-                && !player.isTouchingWater
+                && !player.isInWater
                 && !player.inPowderSnow
     }
 
     fun cry() {
         if(this.isSilent) return
         val pkt = PlayPosableAnimationPacket(id, setOf("cry"), emptySet())
-        world.getEntitiesByClass(ServerPlayerEntity::class.java, Box.of(pos, 64.0, 64.0, 64.0), { true }).forEach {
+        world.getEntitiesByClass(ServerPlayer::class.java, Box.of(pos, 64.0, 64.0, 64.0), { true }).forEach {
             it.sendPacket(pkt)
         }
     }
@@ -1091,7 +1057,7 @@ open class PokemonEntity(
 
     private fun updateBlocksTraveled(fromBp: BlockPos) {
         // Riding or falling shouldn't count, other movement sources are fine
-        if (this.hasVehicle() || this.isFalling()) {
+        if (this.isPassenger() || this.isFalling()) {
             return
         }
         val blocksTaken = this.blockPos.getSquaredDistance(fromBp)
@@ -1109,7 +1075,7 @@ open class PokemonEntity(
     fun isFlying() = this.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
     fun isFalling() = this.fallDistance > 0 && this.world.getBlockState(this.blockPos.down()).isAir && !this.isFlying()
     fun couldStopFlying() = isFlying() && !behaviour.moving.walk.avoidsLand && behaviour.moving.walk.canWalk
-    override fun getCurrentPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
+    override fun getCurrentPoseType(): PoseType = this.SynchedEntityData.get(POSE_TYPE)
 
     /**
      * Returns the [Species.translatedName] of the backing [pokemon].
@@ -1125,8 +1091,8 @@ open class PokemonEntity(
      * @return The current display name of this entity.
      */
     override fun getName(): Text {
-        if (!dataTracker.get(NICKNAME_VISIBLE)) return defaultName
-        return dataTracker.get(NICKNAME)?.takeIf { it.content != PlainTextContent.EMPTY } ?: pokemon.getDisplayName()
+        if (!SynchedEntityData.get(NICKNAME_VISIBLE)) return defaultName
+        return SynchedEntityData.get(NICKNAME)?.takeIf { it.content != PlainTextContent.EMPTY } ?: pokemon.getDisplayName()
     }
 
     /**
@@ -1162,7 +1128,7 @@ open class PokemonEntity(
      */
     override fun setCustomNameVisible(visible: Boolean) {
         // We do this as a compromise to keep as much compatibility as possible with other mods expecting this entity to act like a vanilla one
-        dataTracker.set(NICKNAME_VISIBLE, visible)
+        SynchedEntityData.set(NICKNAME_VISIBLE, visible)
     }
 
     /**
@@ -1171,7 +1137,7 @@ open class PokemonEntity(
      * @param player The player to attempt a battle with.
      * @return Whether the battle was successfully started.
      */
-    fun forceBattle(player: ServerPlayerEntity): Boolean {
+    fun forceBattle(player: ServerPlayer): Boolean {
         if (!canBattle(player)) {
             return false
         }
@@ -1185,19 +1151,19 @@ open class PokemonEntity(
      *
      * @return If the custom name of this entity should display, in this case the [getCustomName] is the nickname but if null the [getDefaultName] will be used.
      */
-    override fun isCustomNameVisible(): Boolean = dataTracker.get(NICKNAME_VISIBLE)
+    override fun isCustomNameVisible(): Boolean = SynchedEntityData.get(NICKNAME_VISIBLE)
 
     /**
      * Returns whether the entity is currently set to having its name displayed.
      *
      * @return If this entity should render the name label.
      */
-    override fun shouldRenderName(): Boolean = dataTracker.get(SHOULD_RENDER_NAME)
+    override fun shouldRenderName(): Boolean = SynchedEntityData.get(SHOULD_RENDER_NAME)
 
     /**
      * Sets the entity to having its name hidden.
      */
-    fun hideNameRendering() { dataTracker.set(SHOULD_RENDER_NAME, false) }
+    fun hideNameRendering() { SynchedEntityData.set(SHOULD_RENDER_NAME, false) }
 
     override fun isBreedingItem(stack: ItemStack): Boolean = false
 
@@ -1249,13 +1215,13 @@ open class PokemonEntity(
 
     override fun setAir(air: Int) {
         if (this.isBattling) {
-            this.dataTracker.set(AIR, 300)
+            this.SynchedEntityData.set(AIR, 300)
             return
         }
         super.setAir(air)
     }
 
-    override fun onStoppedTrackingBy(player: ServerPlayerEntity?) {
+    override fun onStoppedTrackingBy(player: ServerPlayer?) {
         if (player == null) {
             return
         }

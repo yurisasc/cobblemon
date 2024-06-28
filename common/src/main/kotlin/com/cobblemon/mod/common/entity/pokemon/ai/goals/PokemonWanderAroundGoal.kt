@@ -11,14 +11,14 @@ package com.cobblemon.mod.common.entity.pokemon.ai.goals
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.canFit
 import com.cobblemon.mod.common.util.toVec3d
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.entity.ai.goal.WanderAroundGoal
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
+import net.minecraft.core.BlockPos
+import net.minecraft.world.phys.Vec3
 
 /**
  * An override of the [WanderAroundGoal] so that Pokémon behaviours can be implemented.
@@ -40,13 +40,13 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
     override fun canStart() = super.canStart() && canMove() && !entity.isBusy && (entity.ownerUuid == null || entity.tethering != null)
     override fun shouldContinue() = super.shouldContinue() && canMove() && !entity.isBusy
 
-    override fun getWanderTarget(): Vec3d? {
+    override fun getWanderTarget(): Vec3? {
         val moving = entity.behaviour.moving
         if (entity.isSubmergedIn(FluidTags.WATER) && moving.swim.canBreatheUnderwater) {
             getFluidTarget(FluidTags.WATER)?.let { return it }
         } else if (entity.isSubmergedIn(FluidTags.LAVA) && moving.swim.canBreatheUnderlava) {
             return getFluidTarget(FluidTags.LAVA)
-        } else if (entity.isTouchingWater && moving.swim.canWalkOnWater) {
+        } else if (entity.isInWater && moving.swim.canWalkOnWater) {
             getFluidTarget(FluidTags.WATER)?.let { return it }
         } else if (entity.isInLava && moving.swim.canWalkOnLava) {
             getFluidTarget(FluidTags.LAVA)?.let { return it }
@@ -60,7 +60,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
     }
 
     @Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
-    fun getLandTarget(): Vec3d? {
+    fun getLandTarget(): Vec3? {
         val roamDistanceCondition: (BlockPos) -> Boolean = { entity.tethering?.canRoamTo(it) != false }
         val iterable: Iterable<BlockPos> = BlockPos.iterateRandomly(entity.random, 64, entity.blockX - 10, entity.blockY, entity.blockZ - 10, entity.blockX + 10, entity.blockY, entity.blockZ + 10)
         val condition: (BlockState, BlockPos) -> Boolean = { _, pos -> entity.canFit(pos) && roamDistanceCondition(pos) }
@@ -117,7 +117,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun getFluidTarget(fluidTag: TagKey<Fluid>): Vec3d? {
+    fun getFluidTarget(fluidTag: TagKey<Fluid>): Vec3? {
         val roamDistanceCondition: (BlockPos) -> Boolean = { entity.tethering?.canRoamTo(it) != false }
         val walksOnFloor = !entity.behaviour.moving.swim.canSwimInFluid(fluidTag)
         var iterable: Iterable<BlockPos> = BlockPos.iterateRandomly(entity.random, 32, entity.blockPos, 12)

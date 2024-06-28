@@ -19,12 +19,11 @@ import com.cobblemon.mod.common.util.resolveDouble
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import kotlin.math.abs
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.particle.Particle
-import net.minecraft.client.particle.ParticleTextureSheet
-import net.minecraft.client.particle.ParticleTextureSheet.NO_RENDER
-import net.minecraft.client.particle.ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT
-import net.minecraft.client.render.BufferBuilder
+import net.minecraft.client.particle.ParticleRenderType
+import net.minecraft.client.particle.ParticleRenderType.NO_RENDER
+import net.minecraft.client.particle.ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
 import net.minecraft.client.render.Camera
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.texture.Sprite
@@ -32,8 +31,7 @@ import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.RotationAxis
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 import net.minecraft.util.shape.VoxelShapes
 import org.joml.AxisAngle4d
 import org.joml.Quaterniond
@@ -46,7 +44,7 @@ class SnowstormParticle(
     x: Double,
     y: Double,
     z: Double,
-    initialVelocity: Vec3d,
+    initialVelocity: Vec3,
     var invisible: Boolean = false
 ) : Particle(world, x, y, z) {
     companion object {
@@ -55,7 +53,7 @@ class SnowstormParticle(
 
     val sprite = getSpriteFromAtlas()
 
-    val particleTextureSheet: ParticleTextureSheet
+    val particleTextureSheet: ParticleRenderType
     var angularVelocity = 0.0
     var colliding = false
 
@@ -84,8 +82,8 @@ class SnowstormParticle(
 
     val uvDetails = UVDetails()
 
-    var viewDirection = Vec3d.ZERO
-    var originPos = Vec3d(storm.getX(), storm.getY(), storm.getZ())
+    var viewDirection = Vec3.ZERO
+    var originPos = Vec3(storm.getX(), storm.getY(), storm.getZ())
 
     fun getX() = x
     fun getY() = y
@@ -96,7 +94,7 @@ class SnowstormParticle(
     fun getVelocityZ() = velocityZ
 
     fun getSpriteFromAtlas(): Sprite {
-        val atlas = MinecraftClient.getInstance().particleManager.particleAtlasTexture
+        val atlas = Minecraft.getInstance().particleManager.particleAtlasTexture
 
 //        val field = atlas::class.java.getDeclaredField("sprites")
 //        field.isAccessible = true
@@ -135,7 +133,7 @@ class SnowstormParticle(
 
     override fun buildGeometry(vertexConsumer: VertexConsumer, camera: Camera, tickDelta: Float) {
         if (Cobblemon.implementation.modAPI != ModAPI.FORGE) {
-           if (!MinecraftClient.getInstance().worldRenderer.frustum.isVisible(boundingBox)) {
+           if (!Minecraft.getInstance().worldRenderer.frustum.isVisible(boundingBox)) {
                return
            }
         }
@@ -179,7 +177,7 @@ class SnowstormParticle(
             prevAngle = prevAngle,
             angle = angle,
             deltaTicks = tickDelta,
-            particlePosition = Vec3d(x, y, z),
+            particlePosition = Vec3(x, y, z),
             cameraPosition = camera.pos,
             cameraAngle = camera.rotation,
             cameraYaw = camera.yaw,
@@ -256,7 +254,9 @@ class SnowstormParticle(
             markDead()
             return
         } else {
-            val velocity = storm.effect.particle.motion.getVelocity(storm.runtime, this, Vec3d(velocityX, velocityY, velocityZ))
+            val velocity = storm.effect.particle.motion.getVelocity(storm.runtime, this,
+                Vec3(velocityX, velocityY, velocityZ)
+            )
             velocityX = velocity.x
             velocityY = velocity.y
             velocityZ = velocity.z
@@ -268,7 +268,7 @@ class SnowstormParticle(
         viewDirection = storm.effect.particle.viewDirection.getDirection(
             runtime = storm.runtime,
             lastDirection = viewDirection,
-            currentVelocity = Vec3d(velocityX, velocityY, velocityZ)
+            currentVelocity = Vec3(velocityX, velocityY, velocityZ)
         ).normalize()
 
         prevPosX = x
@@ -296,7 +296,7 @@ class SnowstormParticle(
     override fun move(dx: Double, dy: Double, dz: Double) {
         val collision = storm.effect.particle.collision
         val radius = storm.runtime.resolveDouble(collision.radius)
-        boundingBox = Box.of(Vec3d(x, y, z), radius, radius, radius)
+        boundingBox = Box.of(Vec3(x, y, z), radius, radius, radius)
         if (dx == 0.0 && dy == 0.0 && dz == 0.0) {
             updatePosition()
             return
@@ -309,7 +309,7 @@ class SnowstormParticle(
         if (storm.runtime.resolveBoolean(collision.enabled) && radius > 0.0 && !storm.effect.space.isLocalSpace) {
             collidesWithWorld = true
 
-            val newMovement = checkCollision(Vec3d(dx, dy, dz))
+            val newMovement = checkCollision(Vec3(dx, dy, dz))
 
             if (dead) {
                 return
@@ -359,13 +359,19 @@ class SnowstormParticle(
     }
 
     fun updatePosition() {
-        val localVector = if (storm.effect.space.localRotation) storm.transformDirection(Vec3d(localX, localY, localZ)) else Vec3d(localX, localY, localZ)
+        val localVector = if (storm.effect.space.localRotation) storm.transformDirection(
+            Vec3(
+                localX,
+                localY,
+                localZ
+            )
+        ) else Vec3(localX, localY, localZ)
         x = localVector.x + originPos.x
         y = localVector.y + originPos.y
         z = localVector.z + originPos.z
     }
 
-    private fun checkCollision(movement: Vec3d): Vec3d {
+    private fun checkCollision(movement: Vec3): Vec3 {
         val collision = storm.effect.particle.collision
         var box = boundingBox
         val bounciness = storm.runtime.resolveDouble(collision.bounciness)
@@ -483,17 +489,17 @@ class SnowstormParticle(
             }
         }
 
-        var newMovement = Vec3d(xMovement, yMovement, zMovement)
+        var newMovement = Vec3(xMovement, yMovement, zMovement)
 
         if (sliding && !bouncing) {
             // If it's moving slower than the friction per second, time to stop
             newMovement = if (newMovement.length() * 20 < friction) {
-                Vec3d.ZERO
+                Vec3.ZERO
             } else {
                 newMovement.subtract(newMovement.normalize().multiply(friction / 20))
             }
 
-            var velocity = Vec3d(velocityX, velocityY, velocityZ)
+            var velocity = Vec3(velocityX, velocityY, velocityZ)
             if (velocity.length() * 20 < friction) {
                 setVelocity(0.0, 0.0, 0.0)
             } else {

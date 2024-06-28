@@ -14,8 +14,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonObject
 import java.util.UUID
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.server.level.ServerPlayer
 
 class BottomlessPosition(val currentIndex: Int) : StorePosition
 
@@ -38,8 +38,8 @@ open class BottomlessStore(override val uuid: UUID) : PokemonStore<BottomlessPos
     override fun getFirstAvailablePosition() = BottomlessPosition(pokemon.size)
     override fun isValidPosition(position: BottomlessPosition) = position.currentIndex >= 0
     operator fun get(index: Int) = index.takeIf { it in pokemon.indices }?.let { pokemon[it] }
-    override fun getObservingPlayers() = emptySet<ServerPlayerEntity>()
-    override fun sendTo(player: ServerPlayerEntity) {}
+    override fun getObservingPlayers() = emptySet<ServerPlayer>()
+    override fun sendTo(player: ServerPlayer) {}
 
     override fun initialize() {
         pokemon.forEachIndexed { index, pokemon ->
@@ -50,12 +50,14 @@ open class BottomlessStore(override val uuid: UUID) : PokemonStore<BottomlessPos
         }
     }
 
-    override fun saveToNBT(nbt: NbtCompound): NbtCompound {
-        pokemon.forEachIndexed { index, pokemon -> nbt.put(DataKeys.STORE_SLOT + index, pokemon.saveToNBT(NbtCompound())) }
+    override fun saveToNBT(nbt: CompoundTag): CompoundTag {
+        pokemon.forEachIndexed { index, pokemon -> nbt.put(DataKeys.STORE_SLOT + index, pokemon.saveToNBT(
+            CompoundTag()
+        )) }
         return nbt
     }
 
-    override fun loadFromNBT(nbt: NbtCompound): BottomlessStore {
+    override fun loadFromNBT(nbt: CompoundTag): BottomlessStore {
         var i = -1
         while (nbt.contains(DataKeys.STORE_SLOT + ++i)) {
             val pokemonNBT = nbt.getCompound(DataKeys.STORE_SLOT + i)
@@ -86,12 +88,12 @@ open class BottomlessStore(override val uuid: UUID) : PokemonStore<BottomlessPos
         return this
     }
 
-    override fun loadPositionFromNBT(nbt: NbtCompound): StoreCoordinates<BottomlessPosition> {
+    override fun loadPositionFromNBT(nbt: CompoundTag): StoreCoordinates<BottomlessPosition> {
         val slot = nbt.getByte(DataKeys.STORE_SLOT).toInt()
         return StoreCoordinates(this, BottomlessPosition(slot))
     }
 
-    override fun savePositionToNBT(position: BottomlessPosition, nbt: NbtCompound) {
+    override fun savePositionToNBT(position: BottomlessPosition, nbt: CompoundTag) {
         nbt.putByte(DataKeys.STORE_SLOT, position.currentIndex.toByte())
     }
 

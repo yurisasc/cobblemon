@@ -55,9 +55,9 @@ import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.asTranslated
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer
 import net.minecraft.client.render.entity.EntityRenderer
@@ -67,8 +67,8 @@ import net.minecraft.client.render.entity.model.ChestBoatEntityModel
 import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.util.SkinTextures
 import net.minecraft.component.DataComponentTypes
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Language
 
@@ -175,10 +175,10 @@ object CobblemonClient {
 
     private fun registerBlockRenderTypes() {
 
-        this.implementation.registerBlockRenderType(RenderLayer.getCutoutMipped(), CobblemonBlocks.APRICORN_LEAVES)
+        this.implementation.registerBlockRenderType(RenderType.cutoutMipped(), CobblemonBlocks.APRICORN_LEAVES)
 
         this.implementation.registerBlockRenderType(
-            RenderLayer.getCutout(),
+            RenderType.cutout(),
             CobblemonBlocks.GILDED_CHEST,
             CobblemonBlocks.FOSSIL_ANALYZER,
             CobblemonBlocks.APRICORN_DOOR,
@@ -240,8 +240,8 @@ object CobblemonClient {
         this.createBoatModelLayers()
     }
 
-    fun beforeChatRender(context: DrawContext, partialDeltaTicks: Float) {
-        val partialDeltaTicks = MinecraftClient.getInstance().renderTickCounter // Checking that this even works
+    fun beforeChatRender(context: GuiGraphics, partialDeltaTicks: Float) {
+        val partialDeltaTicks = Minecraft.getInstance().renderTickCounter // Checking that this even works
 //        ClientTaskTracker.update(partialDeltaTicks / 20f)
         if (battle == null) {
             overlay.render(context, partialDeltaTicks)
@@ -251,10 +251,10 @@ object CobblemonClient {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun onAddLayer(skinMap: Map<SkinTextures.Model, EntityRenderer<out PlayerEntity>>?) {
-        var renderer: LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>? = skinMap?.get(SkinTextures.Model.WIDE) as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>
+    fun onAddLayer(skinMap: Map<SkinTextures.Model, EntityRenderer<out Player>>?) {
+        var renderer: LivingEntityRenderer<Player, PlayerEntityModel<Player>>? = skinMap?.get(SkinTextures.Model.WIDE) as LivingEntityRenderer<Player, PlayerEntityModel<Player>>
         renderer?.addFeature(PokemonOnShoulderRenderer(renderer))
-        renderer = skinMap[SkinTextures.Model.SLIM] as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>?
+        renderer = skinMap[SkinTextures.Model.SLIM] as LivingEntityRenderer<Player, PlayerEntityModel<Player>>?
         renderer?.addFeature(PokemonOnShoulderRenderer(renderer))
     }
 

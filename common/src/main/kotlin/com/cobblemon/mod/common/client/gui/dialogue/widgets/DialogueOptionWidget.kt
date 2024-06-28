@@ -13,9 +13,9 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawCenteredText
 import com.cobblemon.mod.common.client.gui.dialogue.DialogueScreen
 import com.cobblemon.mod.common.net.messages.server.dialogue.InputToDialoguePacket
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.text.MutableText
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 class DialogueOptionWidget(
     val dialogueScreen: DialogueScreen,
@@ -26,10 +26,10 @@ class DialogueOptionWidget(
     y: Int,
     width: Int,
     height: Int,
-    val texture: Identifier,
-    val overlayTexture: Identifier
+    val texture: ResourceLocation,
+    val overlayTexture: ResourceLocation
 ) : ParentWidget(x, y, width, height, text) {
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
             texture = texture,
             matrixStack = context.matrices,

@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.Vec3d
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.phys.Vec3
 
 /**
  * A packet sent to the client to spawn a [BedrockParticleEffect] at the specified coordinates and rotation.
@@ -24,8 +24,8 @@ import net.minecraft.util.math.Vec3d
  * @since January 21st, 2022
  */
 class SpawnSnowstormParticlePacket(
-    val effectId: Identifier,
-    val position: Vec3d,
+    val effectId: ResourceLocation,
+    val position: Vec3,
 ) : NetworkPacket<SpawnSnowstormParticlePacket> {
     override val id = ID
     companion object {
@@ -33,7 +33,11 @@ class SpawnSnowstormParticlePacket(
         fun decode(buffer: RegistryByteBuf): SpawnSnowstormParticlePacket {
             return SpawnSnowstormParticlePacket(
                 effectId = buffer.readIdentifier(),
-                position = Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble())
+                position = Vec3(
+                    buffer.readDouble(),
+                    buffer.readDouble(),
+                    buffer.readDouble()
+                )
             )
         }
     }

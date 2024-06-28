@@ -10,9 +10,8 @@ package com.cobblemon.mod.common.api.spawning.condition
 
 import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.api.spawning.context.SurfaceSpawningContext
-import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.util.Merger
-import net.minecraft.fluid.Fluid
+import net.minecraft.world.level.material.Fluid
 
 /**
  * Base type for a spawning condition that applies to some kind of [SurfaceSpawningContext]. This

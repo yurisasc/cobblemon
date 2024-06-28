@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.entity.Entity
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Spawn packet for [GenericBedrockEntity]. Wraps around vanilla spawn packet behaviour.
@@ -26,7 +26,7 @@ import net.minecraft.util.Identifier
  * @since May 22nd, 2023
  */
 class SpawnGenericBedrockPacket(
-    val category: Identifier,
+    val category: ResourceLocation,
     val aspects: Set<String>,
     val poseType: PoseType,
     val scale: Float,
@@ -35,7 +35,7 @@ class SpawnGenericBedrockPacket(
     val startAge: Int,
     vanillaSpawnPacket: EntitySpawnS2CPacket
 ) : SpawnExtraDataEntityPacket<SpawnGenericBedrockPacket, GenericBedrockEntity>(vanillaSpawnPacket) {
-    override val id: Identifier = ID
+    override val id: ResourceLocation = ID
 
     override fun encodeEntityData(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(this.category)

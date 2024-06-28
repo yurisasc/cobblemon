@@ -15,17 +15,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPo
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class AerodactylModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("aerodactyl")
     override val head = getPart("head")
 
     override var portraitScale = 1.9F
-    override var portraitTranslation = Vec3d(-1.0, -0.65, 0.0)
+    override var portraitTranslation = Vec3(-1.0, -0.65, 0.0)
 
     override var profileScale = 0.55F
-    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileTranslation = Vec3(0.0, 0.55, 0.0)
 
     lateinit var standing: CobblemonPose
     lateinit var walk: CobblemonPose

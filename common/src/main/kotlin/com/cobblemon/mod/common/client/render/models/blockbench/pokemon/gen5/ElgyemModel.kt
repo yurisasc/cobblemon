@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class ElgyemModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("elgyem")
@@ -28,10 +28,10 @@ class ElgyemModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
     override val leftLeg = getPart("leg_left")
 
     override var portraitScale = 2.5F
-    override var portraitTranslation = Vec3d(-0.2, -0.8, 0.0)
+    override var portraitTranslation = Vec3(-0.2, -0.8, 0.0)
 
     override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileTranslation = Vec3(0.0, 0.5, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

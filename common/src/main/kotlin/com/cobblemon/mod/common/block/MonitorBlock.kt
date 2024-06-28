@@ -13,9 +13,8 @@ import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.mojang.serialization.MapCodec
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.BlockWithEntity
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -23,12 +22,14 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.StringIdentifiable
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.BaseEntityBlock
+import net.minecraft.world.level.pathfinder.PathComputationType
 
 class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
     init {
@@ -44,7 +45,7 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         )
     }
 
-    override fun getCodec(): MapCodec<out BlockWithEntity> {
+    override fun getCodec(): MapCodec<out BaseEntityBlock> {
         return CODEC
     }
 
@@ -64,7 +65,7 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getComparatorOutput(state: BlockState, world: World?, pos: BlockPos?): Int {
+    override fun getComparatorOutput(state: BlockState, world: Level?, pos: BlockPos?): Int {
         if(world == null || pos == null) {
             return 0
         }
@@ -85,7 +86,7 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         return HITBOX
     }
     @Deprecated("Deprecated in Java")
-    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean {
+    override fun isPathfindable(state: BlockState, type: PathComputationType): Boolean {
         return false
     }
 

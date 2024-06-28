@@ -11,8 +11,8 @@ package com.cobblemon.mod.common.pokemon.status
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.util.Identifier
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Container that stores all status details
@@ -31,7 +31,7 @@ class PersistentStatusContainer(
         this.secondsLeft--
     }
 
-    fun saveToNBT(nbt: NbtCompound): NbtCompound {
+    fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putString(DataKeys.POKEMON_STATUS_NAME, status.name.toString())
         nbt.putInt(DataKeys.POKEMON_STATUS_TIMER, secondsLeft)
         return nbt
@@ -44,7 +44,7 @@ class PersistentStatusContainer(
     }
 
     companion object {
-        fun loadFromNBT(nbt: NbtCompound): PersistentStatusContainer? {
+        fun loadFromNBT(nbt: CompoundTag): PersistentStatusContainer? {
             val statusId = nbt.getString(DataKeys.POKEMON_STATUS_NAME)
             val activeSeconds = nbt.getInt(DataKeys.POKEMON_STATUS_TIMER)
 
@@ -54,7 +54,7 @@ class PersistentStatusContainer(
             }
 
             // Return null if status doesn't exist
-            val status = Statuses.getStatus(Identifier.of(statusId)) ?: return null
+            val status = Statuses.getStatus(ResourceLocation.of(statusId)) ?: return null
             // Return null if not a persistent status
             if (status !is PersistentStatus) return null
             return PersistentStatusContainer(status, activeSeconds)
@@ -70,7 +70,7 @@ class PersistentStatusContainer(
             }
 
             // Return null if status doesn't exist
-            val status = Statuses.getStatus(Identifier.of(statusId)) ?: return null
+            val status = Statuses.getStatus(ResourceLocation.of(statusId)) ?: return null
             // Return null if not a persistent status
             if (status !is PersistentStatus) return null
             return PersistentStatusContainer(status, activeSeconds)

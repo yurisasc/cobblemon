@@ -13,10 +13,10 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import net.minecraft.block.BedBlock
 import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.registry.tag.BlockTags
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.math.BlockPos
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Box
 
 /**
@@ -26,7 +26,7 @@ import net.minecraft.util.math.Box
  * @since July 18th, 2022
  */
 class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
-    private var owner: PlayerEntity? = null
+    private var owner: Player? = null
     private var bedPos: BlockPos? = null
     private var ticksOnBed = 0
 
@@ -35,7 +35,7 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
             return false
         }
         val livingEntity = pokemonEntity.owner
-        if (livingEntity is PlayerEntity) {
+        if (livingEntity is Player) {
             owner = livingEntity
             if (!livingEntity.isSleeping()) {
                 return false
@@ -63,7 +63,7 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
 
     override fun shouldContinue(): Boolean {
         val owner = owner
-        return owner is ServerPlayerEntity && owner.isSleeping && bedPos != null && !cannotSleep()
+        return owner is ServerPlayer && owner.isSleeping && bedPos != null && !cannotSleep()
     }
 
     override fun start() {

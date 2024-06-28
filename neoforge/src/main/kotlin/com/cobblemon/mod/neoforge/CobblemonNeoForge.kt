@@ -44,7 +44,6 @@ import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
-import net.minecraft.item.ItemGroup
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -56,12 +55,12 @@ import net.minecraft.resource.ResourcePackPosition
 import net.minecraft.resource.ResourcePackProfile
 import net.minecraft.resource.ResourcePackProfile.PackFactory
 import net.minecraft.resource.ResourcePackSource
-import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
@@ -101,9 +100,9 @@ class CobblemonNeoForge : CobblemonImplementation {
     private val hasBeenSynced = hashSetOf<UUID>()
 
     private val commandArgumentTypes = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
-    private val reloadableResources = arrayListOf<ResourceReloader>()
+    private val reloadableResources = arrayListOf<PreparableReloadListener>()
     private val queuedWork = arrayListOf<() -> Unit>()
-    private val queuedBuiltinResourcePacks = arrayListOf<Triple<Identifier, Text, ResourcePackActivationBehaviour>>()
+    private val queuedBuiltinResourcePacks = arrayListOf<Triple<ResourceLocation, Component, ResourcePackActivationBehaviour>>()
 
     override val networkManager = CobblemonNeoForgeNetworkManager
 
@@ -144,7 +143,7 @@ class CobblemonNeoForge : CobblemonImplementation {
     }
 
     fun wakeUp(event: PlayerWakeUpEvent) {
-        val playerEntity = event.entity as? ServerPlayerEntity ?: return
+        val playerEntity = event.entity as? ServerPlayer ?: return
         playerEntity.didSleep()
     }
 
@@ -332,7 +331,7 @@ class CobblemonNeoForge : CobblemonImplementation {
         CobblemonBiomeModifiers.add(feature, step, validTag)
     }
 
-    override fun <A : ArgumentType<*>, T : ArgumentSerializer.ArgumentTypeProperties<A>> registerCommandArgument(identifier: Identifier, argumentClass: KClass<A>, serializer: ArgumentSerializer<A, T>) {
+    override fun <A : ArgumentType<*>, T : ArgumentSerializer.ArgumentTypeProperties<A>> registerCommandArgument(identifier: ResourceLocation, argumentClass: KClass<A>, serializer: ArgumentSerializer<A, T>) {
 
         //This is technically a supplier not a function (it is unused), but we need to explicitly say whether its a supplier or a function
         //Idk how to explicitly say its a supplier, so lets just make it a function by specifying a param
@@ -358,7 +357,7 @@ class CobblemonNeoForge : CobblemonImplementation {
         }
     }
 
-    override fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: ResourceType, dependencies: Collection<Identifier>) {
+    override fun registerResourceReloader(identifier: ResourceLocation, reloader: PreparableReloadListener, type: ResourceType, dependencies: Collection<ResourceLocation>) {
         if (type == ResourceType.SERVER_DATA) {
             this.reloadableResources += reloader
         }
@@ -373,8 +372,8 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun server(): MinecraftServer? = ServerLifecycleHooks.getCurrentServer()
 
-    override fun <T> reloadJsonRegistry(registry: JsonDataRegistry<T>, manager: ResourceManager): HashMap<Identifier, T> {
-        val data = hashMapOf<Identifier, T>()
+    override fun <T> reloadJsonRegistry(registry: JsonDataRegistry<T>, manager: ResourceManager): HashMap<ResourceLocation, T> {
+        val data = hashMapOf<ResourceLocation, T>()
 
         manager.findResources(registry.resourcePath) { path -> path.endsWith(JsonDataRegistry.JSON_EXTENSION) }.forEach { (identifier, resource) ->
             if (identifier.namespace == "pixelmon") {
@@ -383,7 +382,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
             resource.inputStream.use { stream ->
                 stream.bufferedReader().use { reader ->
-                    val resolvedIdentifier = Identifier.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    val resolvedIdentifier = ResourceLocation.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
                     try {
                         data[resolvedIdentifier] = registry.gson.fromJson(reader, registry.typeToken.type)
                     } catch (exception: Exception) {
@@ -401,7 +400,7 @@ class CobblemonNeoForge : CobblemonImplementation {
         }
     }
 
-    override fun registerBuiltinResourcePack(id: Identifier, title: Text, activationBehaviour: ResourcePackActivationBehaviour) {
+    override fun registerBuiltinResourcePack(id: ResourceLocation, title: Component, activationBehaviour: ResourcePackActivationBehaviour) {
         this.queuedBuiltinResourcePacks += Triple(id, title, activationBehaviour)
     }
 
@@ -414,7 +413,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
         if (this.isModInstalled("adorn")) {
             //AdornCompatibility.register()
-            registerBuiltinResourcePack(cobblemonResource("adorncompatibility"), Text.literal("Adorn Compatibility"), ResourcePackActivationBehaviour.ALWAYS_ENABLED)
+            registerBuiltinResourcePack(cobblemonResource("adorncompatibility"), Component.literal("Adorn Compatibility"), ResourcePackActivationBehaviour.ALWAYS_ENABLED)
         }
 
         val modFile = ModList.get().getModFileById(Cobblemon.MODID).file

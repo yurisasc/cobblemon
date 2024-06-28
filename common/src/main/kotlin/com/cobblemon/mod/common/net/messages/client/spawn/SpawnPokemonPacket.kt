@@ -20,11 +20,11 @@ import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeText
 import java.util.UUID
 import net.minecraft.entity.Entity
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.text.MutableText
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 class SpawnPokemonPacket(
     private val ownerId: UUID?,
@@ -40,13 +40,13 @@ class SpawnPokemonPacket(
     private val poseType: PoseType,
     private val unbattlable: Boolean,
     private val hideLabel: Boolean,
-    private val caughtBall: Identifier,
+    private val caughtBall: ResourceLocation,
     private val spawnYaw: Float,
     private val friendship: Int,
     vanillaSpawnPacket: EntitySpawnS2CPacket
 ) : SpawnExtraDataEntityPacket<SpawnPokemonPacket, PokemonEntity>(vanillaSpawnPacket) {
 
-    override val id: Identifier = ID
+    override val id: ResourceLocation = ID
 
     constructor(entity: PokemonEntity, vanillaSpawnPacket: EntitySpawnS2CPacket) : this(
         entity.ownerUuid,
@@ -120,7 +120,7 @@ class SpawnPokemonPacket(
             val species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
             val showdownId = buffer.readString()
             val form = species.forms.firstOrNull { it.formOnlyShowdownId() == showdownId } ?: species.standardForm
-            val aspects = buffer.readList(PacketByteBuf::readString).toSet()
+            val aspects = buffer.readList(RegistryFriendlyByteBuf::readString).toSet()
             val battleId = buffer.readNullable { buffer.readUuid() }
             val phasingTargetId = buffer.readInt()
             val beamModeEmitter = buffer.readByte()

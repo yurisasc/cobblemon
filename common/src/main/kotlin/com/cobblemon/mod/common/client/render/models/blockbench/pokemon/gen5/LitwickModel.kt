@@ -16,17 +16,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPo
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class LitwickModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("litwick")
     override val head = getPart("head")
 
     override var portraitScale = 2.33F
-    override var portraitTranslation = Vec3d(0.01, -1.9, 0.0)
+    override var portraitTranslation = Vec3(0.01, -1.9, 0.0)
 
     override var profileScale = 0.86F
-    override var profileTranslation = Vec3d(0.0, 0.44, 0.0)
+    override var profileTranslation = Vec3(0.0, 0.44, 0.0)
 
     lateinit var standing: CobblemonPose
     lateinit var walk: CobblemonPose

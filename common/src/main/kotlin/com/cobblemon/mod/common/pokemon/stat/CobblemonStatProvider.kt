@@ -24,7 +24,7 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.network.RegistryByteBuf
 import kotlin.math.truncate
 import kotlin.random.Random
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 /**
  * The default implementation of a [StatProvider].
@@ -104,9 +104,9 @@ object CobblemonStatProvider : StatProvider {
         }
     }
 
-    override fun fromIdentifier(identifier: Identifier): Stat? = this.stats[identifier]
+    override fun fromIdentifier(identifier: ResourceLocation): Stat? = this.stats[identifier]
 
-    override fun fromIdentifierOrThrow(identifier: Identifier): Stat = this.fromIdentifier(identifier) ?: throw IllegalArgumentException("No stat was found with the identifier $identifier")
+    override fun fromIdentifierOrThrow(identifier: ResourceLocation): Stat = this.fromIdentifier(identifier) ?: throw IllegalArgumentException("No stat was found with the identifier $identifier")
 
     override fun decode(buffer: RegistryByteBuf): Stat {
         val ordinal = buffer.readSizedInt(IntSize.U_BYTE)
@@ -129,7 +129,7 @@ object CobblemonStatProvider : StatProvider {
             ?: throw IllegalArgumentException("Cannot find the stat with the ordinal $ordinal, this should only happen if there is a custom Stat implementation but no StatProvider to go alongside it")
     }
 
-    private fun identifierLookup(identifier: Identifier): Int {
+    private fun identifierLookup(identifier: ResourceLocation): Int {
         return this.identifierToOrdinal[identifier]
             ?: throw IllegalArgumentException("Cannot find the stat to encode, this should only happen if there is a custom Stat implementation but no StatProvider to go alongside it on the server side")
     }

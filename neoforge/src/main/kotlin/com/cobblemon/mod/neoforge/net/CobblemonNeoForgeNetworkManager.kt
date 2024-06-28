@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.NetworkManager
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import net.minecraft.client.MinecraftClient
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.client.Minecraft
+import net.minecraft.server.level.ServerPlayer
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
 
 // https://neoforged.net/news/20.4networking-rework/
@@ -28,11 +28,11 @@ object CobblemonNeoForgeNetworkManager : NetworkManager {
         CobblemonNetwork.c2sPayloads.map { NeoForgePacketInfo(it) }.forEach { it.registerToServer(registrar) }
     }
 
-    override fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>) {
+    override fun sendPacketToPlayer(player: ServerPlayer, packet: NetworkPacket<*>) {
         player.networkHandler.send(packet)
     }
 
     override fun sendToServer(packet: NetworkPacket<*>) {
-        MinecraftClient.getInstance().networkHandler?.send(packet)
+        Minecraft.getInstance().networkHandler?.send(packet)
     }
 }

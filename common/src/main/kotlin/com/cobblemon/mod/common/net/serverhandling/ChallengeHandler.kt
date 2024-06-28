@@ -24,10 +24,10 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
 import java.util.UUID
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
-    override fun handle(packet: BattleChallengePacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: BattleChallengePacket, server: MinecraftServer, player: ServerPlayer) {
         if(player.isSpectator) return
 
         val targetedEntity = player.world.getEntityById(packet.targetedEntityId)?.let {
@@ -52,7 +52,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                  */
                 BattleBuilder.pve(player, targetedEntity, leadingPokemon).ifErrored { it.sendTo(player) { it.red() } }
             }
-            is ServerPlayerEntity -> {
+            is ServerPlayer -> {
                 // Bandaid for odd desync thing with data tracker
                 if (player == targetedEntity) {
                     return

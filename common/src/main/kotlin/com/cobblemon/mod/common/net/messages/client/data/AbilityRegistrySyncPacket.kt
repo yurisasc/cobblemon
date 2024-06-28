@@ -12,18 +12,19 @@ import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 class AbilityRegistrySyncPacket(abilities: Collection<AbilityTemplate>) : DataRegistrySyncPacket<AbilityTemplate, AbilityRegistrySyncPacket>(abilities) {
 
     override val id = ID
 
-    override fun encodeEntry(buffer: RegistryByteBuf, entry: AbilityTemplate) {
+    override fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: AbilityTemplate) {
         buffer.writeString(entry.name)
         buffer.writeString(entry.displayName)
         buffer.writeString(entry.description)
     }
 
-    override fun decodeEntry(buffer: RegistryByteBuf): AbilityTemplate {
+    override fun decodeEntry(buffer: RegistryFriendlyByteBuf): AbilityTemplate {
         return AbilityTemplate(
             name = buffer.readString(),
             displayName = buffer.readString(),

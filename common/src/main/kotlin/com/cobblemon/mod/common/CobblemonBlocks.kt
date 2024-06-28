@@ -33,8 +33,9 @@ import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.BlockSoundGroup
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.intprovider.UniformIntProvider
+import net.minecraft.world.level.block.Block
 
 @Suppress("SameParameterValue", "HasPlatformType", "MemberVisibilityCanBePrivate", "unused")
 object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<Block>>, Block>() {
@@ -106,7 +107,12 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val STRIPPED_APRICORN_WOOD = log("stripped_apricorn_wood")
     @JvmField
-    val APRICORN_PLANKS = this.create("apricorn_planks", Block(AbstractBlock.Settings.create().mapColor(MapColor.DIRT_BROWN).instrument(NoteBlockInstrument.BASS).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
+    val APRICORN_PLANKS = this.create("apricorn_planks",
+        Block(
+            AbstractBlock.Settings.create().mapColor(MapColor.DIRT_BROWN).instrument(NoteBlockInstrument.BASS)
+                .strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)
+        )
+    )
     @JvmField
     val APRICORN_LEAVES = leaves("apricorn_leaves")
     @JvmField
@@ -187,38 +193,49 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val SMALL_BUDDING_BLACK_TUMBLESTONE = tumblestoneBlock("small_budding_black_tumblestone", GrowableStoneBlock.STAGE_0, 3, 4, MEDIUM_BUDDING_BLACK_TUMBLESTONE)
 
     @JvmField
-    val TUMBLESTONE_BLOCK = this.create("tumblestone_block", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.TERRACOTTA_ORANGE)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val TUMBLESTONE_BLOCK = this.create("tumblestone_block", Block(
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.TERRACOTTA_ORANGE)
+            .strength(1.0F)
+            .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+            .requiresTool()
+            .instrument(NoteBlockInstrument.BASEDRUM)
+    )
+    )
     @JvmField
-    val SKY_TUMBLESTONE_BLOCK = this.create("sky_tumblestone_block", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.LIGHT_BLUE)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val SKY_TUMBLESTONE_BLOCK = this.create("sky_tumblestone_block",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.LIGHT_BLUE)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
     @JvmField
-    val BLACK_TUMBLESTONE_BLOCK = this.create("black_tumblestone_block", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.TERRACOTTA_BLACK)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val BLACK_TUMBLESTONE_BLOCK = this.create("black_tumblestone_block",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.TERRACOTTA_BLACK)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
 
     @JvmField
-    val POLISHED_TUMBLESTONE = this.create("polished_tumblestone", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.TERRACOTTA_ORANGE)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val POLISHED_TUMBLESTONE = this.create("polished_tumblestone",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.TERRACOTTA_ORANGE)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
     @JvmField
     val POLISHED_TUMBLESTONE_STAIRS = this.create("polished_tumblestone_stairs", StairsBlockInvoker.`cobblemon$create`(POLISHED_TUMBLESTONE.defaultState, AbstractBlock.Settings.copy(POLISHED_TUMBLESTONE)))
     @JvmField
@@ -238,21 +255,26 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .instrument(NoteBlockInstrument.BASEDRUM)
     ))
     @JvmField
-    val CHISELED_POLISHED_TUMBLESTONE = this.create("chiseled_polished_tumblestone", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.TERRACOTTA_ORANGE)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val CHISELED_POLISHED_TUMBLESTONE = this.create("chiseled_polished_tumblestone",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.TERRACOTTA_ORANGE)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
     @JvmField
-    val TUMBLESTONE_BRICKS = this.create("tumblestone_bricks", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.TERRACOTTA_ORANGE)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val TUMBLESTONE_BRICKS = this.create("tumblestone_bricks", Block(
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.TERRACOTTA_ORANGE)
+            .strength(1.0F)
+            .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+            .requiresTool()
+            .instrument(NoteBlockInstrument.BASEDRUM)
+    )
+    )
     @JvmField
     val TUMBLESTONE_BRICK_STAIRS = this.create("tumblestone_brick_stairs", StairsBlockInvoker.`cobblemon$create`(TUMBLESTONE_BRICKS.defaultState, AbstractBlock.Settings.copy(TUMBLESTONE_BRICKS)))
     @JvmField
@@ -272,21 +294,27 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .instrument(NoteBlockInstrument.BASEDRUM)
     ))
     @JvmField
-    val CHISELED_TUMBLESTONE_BRICKS = this.create("chiseled_tumblestone_bricks", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.TERRACOTTA_ORANGE)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val CHISELED_TUMBLESTONE_BRICKS = this.create("chiseled_tumblestone_bricks",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.TERRACOTTA_ORANGE)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
     @JvmField
-    val POLISHED_SKY_TUMBLESTONE = this.create("polished_sky_tumblestone", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.LIGHT_BLUE)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val POLISHED_SKY_TUMBLESTONE = this.create("polished_sky_tumblestone",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.LIGHT_BLUE)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
     @JvmField
     val POLISHED_SKY_TUMBLESTONE_STAIRS = this.create("polished_sky_tumblestone_stairs", StairsBlockInvoker.`cobblemon$create`(POLISHED_SKY_TUMBLESTONE.defaultState, AbstractBlock.Settings.copy(POLISHED_SKY_TUMBLESTONE)))
     @JvmField
@@ -306,21 +334,27 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .instrument(NoteBlockInstrument.BASEDRUM)
     ))
     @JvmField
-    val CHISELED_POLISHED_SKY_TUMBLESTONE = this.create("chiseled_polished_sky_tumblestone", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.LIGHT_BLUE)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val CHISELED_POLISHED_SKY_TUMBLESTONE = this.create("chiseled_polished_sky_tumblestone",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.LIGHT_BLUE)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
     @JvmField
-    val SKY_TUMBLESTONE_BRICKS = this.create("sky_tumblestone_bricks", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.LIGHT_BLUE)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val SKY_TUMBLESTONE_BRICKS = this.create("sky_tumblestone_bricks",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.LIGHT_BLUE)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
     @JvmField
     val SKY_TUMBLESTONE_BRICK_STAIRS = this.create("sky_tumblestone_brick_stairs", StairsBlockInvoker.`cobblemon$create`(
         SKY_TUMBLESTONE_BRICKS.defaultState, AbstractBlock.Settings.copy(SKY_TUMBLESTONE_BRICKS)))
@@ -341,21 +375,27 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .instrument(NoteBlockInstrument.BASEDRUM)
     ))
     @JvmField
-    val CHISELED_SKY_TUMBLESTONE_BRICKS = this.create("chiseled_sky_tumblestone_bricks", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.LIGHT_BLUE)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val CHISELED_SKY_TUMBLESTONE_BRICKS = this.create("chiseled_sky_tumblestone_bricks",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.LIGHT_BLUE)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
     @JvmField
-    val POLISHED_BLACK_TUMBLESTONE = this.create("polished_black_tumblestone", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.TERRACOTTA_BLACK)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val POLISHED_BLACK_TUMBLESTONE = this.create("polished_black_tumblestone",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.TERRACOTTA_BLACK)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
     @JvmField
     val POLISHED_BLACK_TUMBLESTONE_STAIRS = this.create("polished_black_tumblestone_stairs", StairsBlockInvoker.`cobblemon$create`(POLISHED_BLACK_TUMBLESTONE.defaultState, AbstractBlock.Settings.copy(POLISHED_BLACK_TUMBLESTONE)))
     @JvmField
@@ -375,21 +415,27 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .instrument(NoteBlockInstrument.BASEDRUM)
     ))
     @JvmField
-    val CHISELED_POLISHED_BLACK_TUMBLESTONE = this.create("chiseled_polished_black_tumblestone", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.TERRACOTTA_BLACK)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val CHISELED_POLISHED_BLACK_TUMBLESTONE = this.create("chiseled_polished_black_tumblestone",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.TERRACOTTA_BLACK)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
     @JvmField
-    val BLACK_TUMBLESTONE_BRICKS = this.create("black_tumblestone_bricks", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.TERRACOTTA_BLACK)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val BLACK_TUMBLESTONE_BRICKS = this.create("black_tumblestone_bricks",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.TERRACOTTA_BLACK)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
     @JvmField
     val BLACK_TUMBLESTONE_BRICK_STAIRS = this.create("black_tumblestone_brick_stairs", StairsBlockInvoker.`cobblemon$create`(
         BLACK_TUMBLESTONE_BRICKS.defaultState, AbstractBlock.Settings.copy(BLACK_TUMBLESTONE_BRICKS)))
@@ -410,13 +456,16 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .instrument(NoteBlockInstrument.BASEDRUM)
     ))
     @JvmField
-    val CHISELED_BLACK_TUMBLESTONE_BRICKS = this.create("chiseled_black_tumblestone_bricks", Block(AbstractBlock.Settings.create()
-        .mapColor(MapColor.TERRACOTTA_BLACK)
-        .strength(1.0F)
-        .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
-        .requiresTool()
-        .instrument(NoteBlockInstrument.BASEDRUM)
-    ))
+    val CHISELED_BLACK_TUMBLESTONE_BRICKS = this.create("chiseled_black_tumblestone_bricks",
+        Block(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.TERRACOTTA_BLACK)
+                .strength(1.0F)
+                .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+                .requiresTool()
+                .instrument(NoteBlockInstrument.BASEDRUM)
+        )
+    )
 
     @JvmField
     val BLACK_APRICORN = apricornBlock("black_apricorn", Apricorn.BLACK)
@@ -661,7 +710,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
             stage, height, xzOffset, nextStage))
     }
 
-    private val berries = mutableMapOf<Identifier, BerryBlock>()
+    private val berries = mutableMapOf<ResourceLocation, BerryBlock>()
 
     val AGUAV_BERRY = this.berryBlock("aguav")
     val APICOT_BERRY = this.berryBlock("apicot")

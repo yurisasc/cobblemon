@@ -54,37 +54,27 @@ import com.google.common.collect.ImmutableList
 import com.mojang.datafixers.util.Either
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.Dynamic
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.syncher.SynchedEntityData
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityPose
-import net.minecraft.entity.Npc
-import net.minecraft.entity.ai.brain.Activity
-import net.minecraft.entity.ai.brain.Brain
-import net.minecraft.entity.ai.brain.MemoryModuleType
-import net.minecraft.entity.ai.brain.sensor.Sensor
-import net.minecraft.entity.ai.brain.sensor.SensorType
-import net.minecraft.entity.ai.brain.task.ForgetAngryAtTargetTask
-import net.minecraft.entity.ai.brain.task.LookAroundTask
-import net.minecraft.entity.ai.brain.task.LookAtMobTask
-import net.minecraft.entity.ai.brain.task.RandomTask
-import net.minecraft.entity.attribute.DefaultAttributeContainer
-import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedData
-import net.minecraft.entity.passive.PassiveEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtList
-import net.minecraft.nbt.NbtString
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
-import net.minecraft.world.World
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.entity.AgeableMob
+import net.minecraft.world.entity.ai.Brain
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.behavior.RunOne
+import net.minecraft.world.entity.ai.behavior.StopBeingAngryIfTargetDead
+import net.minecraft.world.entity.ai.memory.MemoryModuleType
+import net.minecraft.world.entity.ai.sensing.Sensor
+import net.minecraft.world.entity.ai.sensing.SensorType
+import net.minecraft.world.entity.npc.Npc
+import net.minecraft.world.entity.schedule.Activity
+import net.minecraft.world.level.Level
 
-class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc, PosableEntity, PokemonSender, Schedulable {
+class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, PosableEntity, PokemonSender, Schedulable {
     override val schedulingTracker = SchedulingTracker()
 
     override val struct = this.asMoLangValue()
@@ -95,12 +85,12 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     var npc = NPCClasses.random()
         set(value) {
-            dataTracker.set(NPC_CLASS, value.resourceIdentifier)
+            entityData.set(NPC_CLASS, value.resourceIdentifier)
             field = value
         }
 
     val appliedAspects = mutableSetOf<String>()
-    override val delegate = if (world.isClient) {
+    override val delegate = if (world.isClientSide) {
         com.cobblemon.mod.common.client.entity.NPCClientDelegate()
     } else {
         NPCServerDelegate()
@@ -109,15 +99,15 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     var battle: NPCBattleConfiguration? = null
     var behaviour: NPCBehaviourConfiguration? = null
 
-    var interaction: Either<Identifier, ExpressionLike>? = null
+    var interaction: Either<ResourceLocation, ExpressionLike>? = null
 
     var data = VariableStruct()
 
     val aspects: Set<String>
-        get() = dataTracker.get(ASPECTS)
+        get() = entityData.get(ASPECTS)
 
     val battleIds: Set<UUID>
-        get() = dataTracker.get(BATTLE_IDS)
+        get() = entityData.get(BATTLE_IDS)
 
 
     /* TODO NPC Valuables to add:
@@ -138,19 +128,19 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         delegate.initialize(this)
         addPosableFunctions(struct)
         runtime.environment.query.addFunctions(struct.functions)
-        calculateDimensions()
-        navigation.setCanSwim(true)
+        refreshDimensions()
+        navigation.setCanFloat(true)
     }
 
     // This has to be below constructor and entity tracker fields otherwise initialization order is weird and breaks them syncing
     companion object {
-        fun createAttributes(): DefaultAttributeContainer.Builder = createMobAttributes()
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0)
+        fun createAttributes(): AttributeSupplier.Builder = createMobAttributes()
+            .add(Attributes.ATTACK_DAMAGE, 1.0)
 
-        val NPC_CLASS = DataTracker.registerData(NPCEntity::class.java, IdentifierDataSerializer)
-        val ASPECTS = DataTracker.registerData(NPCEntity::class.java, StringSetDataSerializer)
-        val POSE_TYPE = DataTracker.registerData(NPCEntity::class.java, PoseTypeDataSerializer)
-        val BATTLE_IDS = DataTracker.registerData(NPCEntity::class.java, UUIDSetDataSerializer)
+        val NPC_CLASS = SynchedEntityData.defineId(NPCEntity::class.java, IdentifierDataSerializer)
+        val ASPECTS = SynchedEntityData.defineId(NPCEntity::class.java, StringSetDataSerializer)
+        val POSE_TYPE = SynchedEntityData.defineId(NPCEntity::class.java, PoseTypeDataSerializer)
+        val BATTLE_IDS = SynchedEntityData.defineId(NPCEntity::class.java, UUIDSetDataSerializer)
 
 //        val BATTLING = Activity.register("npc_battling")
 
@@ -169,7 +159,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
             MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
             MemoryModuleType.PATH,
             MemoryModuleType.IS_PANICKING,
-            MemoryModuleType.VISIBLE_MOBS,
+            MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
             CobblemonMemories.NPC_BATTLING,
             CobblemonMemories.BATTLING_POKEMON,
             MemoryModuleType.HURT_BY,
@@ -185,27 +175,29 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         const val WIN_ANIMATION = "win"
     }
 
-    override fun createBrainProfile() = createNPCBrain(MEMORY_MODULES, SENSORS)
-    override fun createChild(world: ServerWorld, entity: PassiveEntity) = null // No lovemaking! Unless...
-    override fun getCurrentPoseType() = this.getDataTracker().get(POSE_TYPE)
+    override fun brainProvider() = createNPCBrain(MEMORY_MODULES, SENSORS)
+    override fun getBreedOffspring(world: ServerLevel, entity: AgeableMob) = null // No lovemaking! Unless...
+    override fun getCurrentPoseType() = this.entityData.get(POSE_TYPE)
 
-    override fun initDataTracker(builder: DataTracker.Builder) {
-        super.initDataTracker(builder)
-        builder.add(NPC_CLASS, NPCClasses.classes.first().resourceIdentifier)
-        builder.add(ASPECTS, emptySet())
-        builder.add(POSE_TYPE, PoseType.STAND)
-        builder.add(BATTLE_IDS, setOf())
+    override fun defineSynchedData(builder: SynchedEntityData.Builder) {
+        super.defineSynchedData(builder)
+        builder.define(NPC_CLASS, NPCClasses.classes.first().resourceIdentifier)
+        builder.define(ASPECTS, emptySet())
+        builder.define(POSE_TYPE, PoseType.STAND)
+        builder.define(BATTLE_IDS, setOf())
     }
 
-    override fun deserializeBrain(dynamic: Dynamic<*>): Brain<NPCEntity> {
-        val brain = createBrainProfile().deserialize(dynamic)
-        brain.setTaskList(Activity.CORE, ImmutableList.of(
+    override fun makeBrain(dynamic: Dynamic<*>): Brain<NPCEntity> {
+        val brain = brainProvider().makeBrain(dynamic)
+        brain.addActivity(
+            Activity.CORE, ImmutableList.of(
             Pair.of(0, StayAfloatTask(0.8F)),
             Pair.of(0, GetAngryAtAttackerTask.create()),
-            Pair.of(0, ForgetAngryAtTargetTask.create())
+            Pair.of(0, StopBeingAngryIfTargetDead.create())
         ))
-        brain.setTaskList(Activity.IDLE, ImmutableList.of(
-            Pair.of(1, RandomTask(
+
+        brain.addActivity(Activity.IDLE, ImmutableList.of(
+            Pair.of(1, RunOne(
                 ImmutableList.of(
                     Pair.of(LookAroundTask(45, 90), 2),
                     Pair.of(LookAtMobTask.create(15F), 2),
@@ -226,12 +218,12 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 //        ))
         brain.setCoreActivities(setOf(Activity.CORE))
         brain.setDefaultActivity(Activity.IDLE)
-        brain.resetPossibleActivities()
+        brain.useDefaultActivity()
         return brain
     }
 
     override fun tryAttack(target: Entity): Boolean {
-        target as ServerPlayerEntity
+        target as ServerPlayer
         return target.damage(this.damageSources.mobAttack(this), attributes.getValue(EntityAttributes.GENERIC_ATTACK_DAMAGE).toFloat() * 5F)
     }
 
@@ -254,18 +246,18 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         schedulingTracker.update(1/20F)
     }
 
-    override fun mobTick() {
-        super.mobTick()
-        getBrain().tick(world as ServerWorld, this)
+    override fun customServerAiStep() {
+        super.customServerAiStep()
+        getBrain().tick(level() as ServerLevel, this)
     }
 
-    override fun writeNbt(nbt: NbtCompound): NbtCompound {
-        super.writeNbt(nbt)
+    override fun saveWithoutId(nbt: CompoundTag): CompoundTag {
+        super.saveWithoutId(nbt)
         nbt.put(DataKeys.NPC_DATA, MoLangFunctions.writeMoValueToNBT(data))
         nbt.putString(DataKeys.NPC_CLASS, npc.resourceIdentifier.toString())
         nbt.put(DataKeys.NPC_ASPECTS, NbtList().also { list -> appliedAspects.forEach { list.add(NbtString.of(it)) } })
         interaction?.let {
-            nbt.putString(DataKeys.NPC_INTERACTION, it.map(Identifier::toString, ExpressionLike::toString))
+            nbt.putString(DataKeys.NPC_INTERACTION, it.map(ResourceLocation::toString, ExpressionLike::toString))
         }
         val battle = battle
         if (battle != null) {
@@ -278,12 +270,12 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
-        npc = NPCClasses.getByIdentifier(Identifier.of(nbt.getString(DataKeys.NPC_CLASS))) ?: NPCClasses.classes.first()
+        npc = NPCClasses.getByIdentifier(ResourceLocation.of(nbt.getString(DataKeys.NPC_CLASS))) ?: NPCClasses.classes.first()
         data = MoLangFunctions.readMoValueFromNBT(nbt.getCompound(DataKeys.NPC_DATA)) as VariableStruct
         appliedAspects.addAll(nbt.getList(DataKeys.NPC_ASPECTS, NbtList.STRING_TYPE.toInt()).map { it.asString() })
         nbt.getString(DataKeys.NPC_INTERACTION).takeIf { it.isNotBlank() }?.let {
-            if (Identifier.tryParse(it) != null) {
-                interaction = Either.left(Identifier.of(it))
+            if (ResourceLocation.tryParse(it) != null) {
+                interaction = Either.left(ResourceLocation.of(it))
             } else {
                 interaction = Either.right(it.asExpressionLike())
             }
@@ -298,7 +290,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     override fun getBaseDimensions(pose: EntityPose) = npc.hitbox
 
     override fun interactMob(player: PlayerEntity, hand: Hand): ActionResult {
-        if (player is ServerPlayerEntity && hand == Hand.MAIN_HAND) {
+        if (player is ServerPlayer && hand == Hand.MAIN_HAND) {
             (interaction ?: npc.interaction)?.runScript(runtime.withPlayerValue(value = player))
             runtime.environment.query.functions.remove("player")
 //            val battle = getBattleConfiguration()
@@ -322,7 +314,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
             animation = animation.toSet(),
             expressions = emptySet()
         )
-        packet.sendToPlayers(world.players.filterIsInstance<ServerPlayerEntity>().filter { it.distanceTo(this) < 256 })
+        packet.sendToPlayers(world.players.filterIsInstance<ServerPlayer>().filter { it.distanceTo(this) < 256 })
     }
 
     override fun recalling(pokemonEntity: PokemonEntity): CompletableFuture<Unit> {
@@ -339,7 +331,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         super.onTrackedDataSet(data)
     }
 
-    fun edit(player: ServerPlayerEntity) {
+    fun edit(player: ServerPlayer) {
         val lastEditing = editingPlayer?.getPlayer()
         if (lastEditing != null) {
             lastEditing.sendPacket(CloseNPCEditorPacket())

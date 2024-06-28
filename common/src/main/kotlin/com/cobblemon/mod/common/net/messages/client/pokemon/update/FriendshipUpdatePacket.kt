@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class FriendshipUpdatePacket(pokemon: () -> Pokemon, value: Int) : IntUpdatePacket<FriendshipUpdatePacket>(pokemon, value) {
     override val id = ID

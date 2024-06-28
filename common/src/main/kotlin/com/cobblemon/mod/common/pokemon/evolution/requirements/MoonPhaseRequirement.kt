@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.pokemon.evolution.requirements
 import com.cobblemon.mod.common.api.spawning.condition.MoonPhase
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.template.EntityQueryRequirement
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 
 /**
  * An [EntityQueryRequirement] meant to check if the world is currently on the given [moonPhase].

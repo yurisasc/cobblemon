@@ -12,11 +12,11 @@ import com.cobblemon.mod.common.api.berry.Flavor
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.mojang.serialization.Codec
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.MathHelper.floor
 
 class Nature(
-    val name: Identifier,
+    val name: ResourceLocation,
     val displayName: String,
     val increasedStat: Stat?,
     val decreasedStat: Stat?,
@@ -32,7 +32,7 @@ class Nature(
     }
 
     companion object {
-        val CODEC: Codec<Nature> = Identifier.CODEC.xmap(
+        val CODEC: Codec<Nature> = ResourceLocation.CODEC.xmap(
             { Natures.getNature(it) },
             { it.name }
         )

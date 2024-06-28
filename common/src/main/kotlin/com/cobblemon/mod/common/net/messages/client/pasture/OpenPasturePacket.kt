@@ -19,10 +19,10 @@ import com.cobblemon.mod.common.util.writeItemStack
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeText
 import java.util.UUID
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Opens a pasture GUI using the provided data.
@@ -34,8 +34,8 @@ class OpenPasturePacket(val pcId: UUID, val pastureId: UUID, val limit: Int, val
     class PasturePokemonDataDTO(
         val pokemonId: UUID,
         val playerId: UUID,
-        val displayName: Text,
-        val species: Identifier,
+        val displayName: Component,
+        val species: ResourceLocation,
         val aspects: Set<String>,
         val heldItem: ItemStack,
         val level: Int,

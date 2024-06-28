@@ -13,11 +13,11 @@ import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.fossil.Fossils
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
-import net.minecraft.block.BlockState
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.entity.player.Player
 import net.minecraft.inventory.SidedInventory
-import net.minecraft.item.ItemStack
-import net.minecraft.util.math.BlockPos
+import net.minecraft.world.item.ItemStack
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
 
 class FossilAnalyzerBlockEntity(
@@ -80,7 +80,7 @@ class FossilAnalyzerBlockEntity(
             }
         }
 
-        override fun canPlayerUse(player: PlayerEntity?): Boolean {
+        override fun canPlayerUse(player: Player?): Boolean {
             return false
         }
 

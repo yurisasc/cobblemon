@@ -16,11 +16,11 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.stats.StatWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.text.MutableText
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 /**
  * Renders an [IntSpeciesFeature] as a bar in the summary screen.
@@ -33,12 +33,12 @@ class BarSummarySpeciesFeatureRenderer(
     val displayName: MutableText,
     val min: Int,
     val max: Int,
-    val colour: Vec3d,
-    val underlay: Identifier,
-    val overlay: Identifier,
+    val colour: Vec3,
+    val underlay: ResourceLocation,
+    val overlay: ResourceLocation,
     val pokemon: Pokemon
 ) : SummarySpeciesFeatureRenderer<IntSpeciesFeature> {
-    override fun render(drawContext: DrawContext, x: Float, y: Float, pokemon: Pokemon, feature: IntSpeciesFeature) {
+    override fun render(drawContext: GuiGraphics, x: Float, y: Float, pokemon: Pokemon, feature: IntSpeciesFeature) {
         val value = feature.value
         val barRatio = (value - min) / (max - min).toFloat()
         val barWidth = MathHelper.ceil(barRatio * 108)

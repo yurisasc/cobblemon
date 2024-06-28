@@ -9,8 +9,7 @@
 package com.cobblemon.mod.common.util
 
 import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
 import net.minecraft.resource.ResourceFactory
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
-data class ShaderRegistryData(val resourceFactory: ResourceFactory, val shaderName: Identifier, val vertexFormat: VertexFormat)
+data class ShaderRegistryData(val resourceFactory: ResourceFactory, val shaderName: ResourceLocation, val vertexFormat: VertexFormat)

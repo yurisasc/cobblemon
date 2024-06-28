@@ -30,8 +30,8 @@ import com.mojang.brigadier.context.CommandContext
 import java.text.DecimalFormat
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.MathHelper
 
@@ -51,7 +51,7 @@ object CheckSpawnsCommand {
             ))
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {
+    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayer) : Int {
         if (!config.enableSpawning) {
             return 0
         }
@@ -64,7 +64,7 @@ object CheckSpawnsCommand {
             spawner = spawner,
             area = SpawningArea(
                 cause = cause,
-                world = player.world as ServerWorld,
+                world = player.world as ServerLevel,
                 baseX = MathHelper.ceil(player.x - config.worldSliceDiameter / 2F),
                 baseY = MathHelper.ceil(player.y - config.worldSliceHeight / 2F),
                 baseZ = MathHelper.ceil(player.z - config.worldSliceDiameter / 2F),

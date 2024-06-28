@@ -19,15 +19,14 @@ import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.giveOrDropItemStack
 import kotlin.math.min
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.SoundCategory
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
-import net.minecraft.world.World
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.level.Level
 
 /**
  * Item for recovering PP for a specific move in a Pokémon's move list. Opens a move selection GUI.
@@ -44,7 +43,7 @@ class EtherItem(val max: Boolean): CobblemonItem(Settings()), PokemonAndMoveSele
 
     override fun canUseOnMove(move: Move) = move.currentPp < move.maxPp
     override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.moveSet.any(::canUseOnMove)
-    override fun applyToPokemon(player: ServerPlayerEntity, stack: ItemStack, pokemon: Pokemon, move: Move) {
+    override fun applyToPokemon(player: ServerPlayer, stack: ItemStack, pokemon: Pokemon, move: Move) {
         val moveToRecover = pokemon.moveSet.find { it.template == move.template }
         if (moveToRecover != null && moveToRecover.currentPp < moveToRecover.maxPp) {
             moveToRecover.currentPp = if (max) moveToRecover.maxPp else min(moveToRecover.maxPp, moveToRecover.currentPp + 10)
@@ -56,15 +55,15 @@ class EtherItem(val max: Boolean): CobblemonItem(Settings()), PokemonAndMoveSele
         }
     }
 
-    override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon, move: Move) {
+    override fun applyToBattlePokemon(player: ServerPlayer, stack: ItemStack, battlePokemon: BattlePokemon, move: Move) {
         super.applyToBattlePokemon(player, stack, battlePokemon, move)
         player.playSound(CobblemonSounds.MEDICINE_LIQUID_USE, 1F, 1F)
     }
 
-    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-        if (world is ServerWorld && user is ServerPlayerEntity) {
-            return use(user, user.getStackInHand(hand)) ?: TypedActionResult.pass(user.getStackInHand(hand))
+    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+        if (world is ServerLevel && user is ServerPlayer) {
+            return use(user, user.getStackInHand(hand)) ?: InteractionResultHolder.pass(user.getStackInHand(hand))
         }
-        return TypedActionResult.success(user.getStackInHand(hand))
+        return InteractionResultHolder.success(user.getStackInHand(hand))
     }
 }

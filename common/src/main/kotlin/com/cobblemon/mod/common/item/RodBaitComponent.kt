@@ -15,7 +15,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 /**
  * A simple component that contains a reference to the [FishingBait].
@@ -26,7 +26,7 @@ import net.minecraft.util.Identifier
 class RodBaitComponent(val bait: FishingBait) {
     companion object {
         val CODEC: Codec<RodBaitComponent> = RecordCodecBuilder.create { builder -> builder.group(
-            Identifier.CODEC.fieldOf("bait").forGetter { it.bait.item },
+            ResourceLocation.CODEC.fieldOf("bait").forGetter { it.bait.item },
         ).apply(builder) { bait -> RodBaitComponent(FishingBaits.getFromIdentifier(bait) ?: FishingBait.BLANK_BAIT) } }
 
         val PACKET_CODEC: PacketCodec<ByteBuf, RodBaitComponent> = PacketCodecs.codec(CODEC)

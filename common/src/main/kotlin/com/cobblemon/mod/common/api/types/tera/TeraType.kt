@@ -9,8 +9,8 @@
 package com.cobblemon.mod.common.api.types.tera
 
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 /**
  * The representation of the Pokémons Tera type.
@@ -21,9 +21,9 @@ import net.minecraft.util.Identifier
 interface TeraType : ShowdownIdentifiable {
 
     /**
-     * The [Identifier] associated to this type.
+     * The [ResourceLocation] associated to this type.
      */
-    val id: Identifier
+    val id: ResourceLocation
 
     /**
      * If this tera type can be selected naturally.
@@ -33,6 +33,6 @@ interface TeraType : ShowdownIdentifiable {
     /**
      * The display name of this type.
      */
-    val displayName: Text
+    val displayName: Component
 
 }

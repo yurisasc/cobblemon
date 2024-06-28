@@ -13,35 +13,30 @@ import com.cobblemon.mod.common.api.text.font
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.Tessellator
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.texture.SpriteAtlasTexture
+import net.minecraft.client.renderer.texture.TextureAtlas
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.client.util.math.MatrixStack.Entry
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.RotationAxis
-import org.joml.Matrix3f
-import org.joml.Matrix4f
 
 fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: Double = 1.0, zTranslation: Float = 100.0F, matrixStack: MatrixStack? = null) {
-    val itemRenderer = MinecraftClient.getInstance().itemRenderer
-    val textureManager = MinecraftClient.getInstance().textureManager
+    val itemRenderer = Minecraft.getInstance().itemRenderer
+    val textureManager = Minecraft.getInstance().textureManager
     val model = itemRenderer.getModel(itemStack, null, null, 0)
 
-    textureManager.getTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).setFilter(false, false)
-    RenderSystem.setShaderTexture(0, SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)
+    textureManager.getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false)
+    RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS)
     RenderSystem.enableBlend()
     RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
@@ -55,7 +50,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
     RenderSystem.applyModelViewMatrix()
 
     val stack = matrixStack ?: MatrixStack()
-    val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
+    val immediate = Minecraft.getInstance().bufferBuilders.entityVertexConsumers
     val bl = !model.isSideLit
     if (bl) DiffuseLighting.disableGuiDepthLighting()
 
@@ -104,8 +99,8 @@ fun getDepletableRedGreen(
 
 
 fun drawScaledText(
-    context: DrawContext,
-    font: Identifier? = null,
+    context: GuiGraphics,
+    font: ResourceLocation? = null,
     text: MutableText,
     x: Number,
     y: Number,
@@ -122,7 +117,7 @@ fun drawScaledText(
         return
     }
 
-    val textWidth = MinecraftClient.getInstance().textRenderer.getWidth(if (font != null) text.font(font) else text)
+    val textWidth = Minecraft.getInstance().textRenderer.getWidth(if (font != null) text.font(font) else text)
     val extraScale = if (textWidth < maxCharacterWidth) 1F else (maxCharacterWidth / textWidth.toFloat())
     val fontHeight = if (font == null) 5 else 6
     val matrices = context.matrices
@@ -143,12 +138,12 @@ fun drawScaledText(
     matrices.pop()
     // Draw tooltip that was created with onHover and is attached to the MutableText
     if (isHovered) {
-        context.drawHoverEvent(MinecraftClient.getInstance().textRenderer, text.style, pMouseX!!, pMouseY!!)
+        context.drawHoverEvent(Minecraft.getInstance().textRenderer, text.style, pMouseX!!, pMouseY!!)
     }
 }
 
 fun drawScaledText(
-    context: DrawContext,
+    context: GuiGraphics,
     text: OrderedText,
     x: Number,
     y: Number,
@@ -180,7 +175,7 @@ fun drawScaledText(
 fun renderBeaconBeam(
     matrixStack: MatrixStack,
     buffer: VertexConsumerProvider,
-    textureLocation: Identifier = CobblemonResources.PHASE_BEAM,
+    textureLocation: ResourceLocation = CobblemonResources.PHASE_BEAM,
     partialTicks: Float,
     totalLevelTime: Long,
     yOffset: Float = 0F,
@@ -201,7 +196,7 @@ fun renderBeaconBeam(
     val f12 = -beamRadius
     renderPart(
         matrixStack,
-        buffer.getBuffer(RenderLayer.getBeaconBeam(textureLocation, false)),
+        buffer.getBuffer(RenderType.getBeaconBeam(textureLocation, false)),
         red,
         green,
         blue,
@@ -225,7 +220,7 @@ fun renderBeaconBeam(
     f9 = -glowRadius
     renderPart(
         matrixStack,
-        buffer.getBuffer(RenderLayer.getBeaconBeam(textureLocation, true)),
+        buffer.getBuffer(RenderType.getBeaconBeam(textureLocation, true)),
         red,
         green,
         blue,

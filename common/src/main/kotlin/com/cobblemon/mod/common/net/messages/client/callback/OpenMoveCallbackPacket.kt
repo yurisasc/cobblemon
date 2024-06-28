@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.writeCollection
 import com.cobblemon.mod.common.util.writeUuid
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.TextCodecs
 import java.util.UUID

@@ -9,16 +9,20 @@
 package com.cobblemon.mod.common.block
 
 import net.minecraft.block.*
+import net.minecraft.core.BlockPos
 import net.minecraft.item.ItemPlacementContext
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.state.StateManager
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
-import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldView
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.DirectionalBlock
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.VoxelShape
 
 /**
  * Used for blocks that grow similarly to Amethyst.
@@ -31,12 +35,12 @@ import net.minecraft.world.WorldView
  * @author whatsy
  */
 abstract class GrowableStoneBlock(
-    settings: Settings,
+    settings: Properties,
     val stage: Int,
     val height: Int,
     val xzOffset: Int,
     val nextStage: Block?
-) : FacingBlock(settings) {
+) : DirectionalBlock(settings) {
 
     private val upShape: VoxelShape = Block.createCuboidShape(
         xzOffset.toDouble(),
@@ -91,14 +95,14 @@ abstract class GrowableStoneBlock(
             .with(FACING, Direction.DOWN)
     }
 
-    abstract fun canGrow(pos: BlockPos, world: BlockView): Boolean
+    abstract fun canGrow(pos: BlockPos, world: BlockGetter): Boolean
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(FACING)
     }
 
     override fun hasRandomTicks(state: BlockState?) = stage < MAX_STAGE
-    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+    override fun randomTick(state: BlockState, world: ServerLevel, pos: BlockPos, random: Random) {
         if (world.random.nextInt(5) == 0 && canGrow(pos, world)) {
             val block = nextStage
 
@@ -120,7 +124,7 @@ abstract class GrowableStoneBlock(
         return null
     }
 
-    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
+    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
         val direction = state.get(FACING) as Direction
         val blockState = world.getBlockState(pos.offset(direction.opposite))
         return blockState.isSideSolidFullSquare(world, pos, direction)

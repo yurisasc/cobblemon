@@ -14,10 +14,10 @@ import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPosableAnimationPacket
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.resolve
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 
 object PlayPosableAnimationHandler : ClientNetworkPacketHandler<PlayPosableAnimationPacket> {
-    override fun handle(packet: PlayPosableAnimationPacket, client: MinecraftClient) {
+    override fun handle(packet: PlayPosableAnimationPacket, client: Minecraft) {
         val world = client.world ?: return
         val entity = world.getEntityById(packet.entityId) ?: return
         if (entity is PosableEntity) {

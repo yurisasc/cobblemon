@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.CobblemonSounds
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.Block
 import net.minecraft.block.FacingBlock
 import net.minecraft.item.Item
 import net.minecraft.item.ItemUsageContext

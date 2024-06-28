@@ -23,28 +23,28 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
-import kotlin.math.cos
-import kotlin.math.sin
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import com.mojang.blaze3d.vertex.Tesselator
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.render.BufferRenderer
-import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.network.chat.Component
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.util.math.Vec2f
 import org.joml.Vector3f
+import kotlin.math.cos
+import kotlin.math.sin
 
 class StatWidget(
     pX: Int, pY: Int,
     val pokemon: Pokemon,
     val tabIndex: Int = STATS
-): SoundlessWidget(pX, pY, WIDTH, HEIGHT, Text.literal("StatWidget")) {
+): SoundlessWidget(pX, pY, WIDTH, HEIGHT, Component.literal("StatWidget")) {
 
     companion object {
         // Stat Index
@@ -100,7 +100,7 @@ class StatWidget(
     ) {
         CobblemonResources.WHITE.let { RenderSystem.setShaderTexture(0, it) }
         RenderSystem.setShaderColor(colour.x, colour.y, colour.z, 0.6F)
-        val bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION)
+        val bufferBuilder = Tesselator.getInstance().begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION)
         bufferBuilder.vertex(v1.x, v1.y, 10F)
         bufferBuilder.vertex(v2.x, v2.y, 10F)
         bufferBuilder.vertex(v3.x, v3.y, 10F)
@@ -184,7 +184,7 @@ class StatWidget(
 //        drawTriangle(colour, specialAttackPoint, centerPoint, hpPoint)
     }
 
-    private fun drawFriendship(moduleX: Int, moduleY: Int, matrices: MatrixStack, context: DrawContext, friendship: Int) {
+    private fun drawFriendship(moduleX: Int, moduleY: Int, matrices: MatrixStack, context: GuiGraphics, friendship: Int) {
         val barRatio = friendship / 255F
         val barWidth = ceil(barRatio * 108)
 
@@ -253,7 +253,7 @@ class StatWidget(
         )
     }
 
-    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val renderChart = statTabIndex != OTHER
         val matrices = context.matrices
 
@@ -432,7 +432,7 @@ class StatWidget(
         // Only play sound here as the rest of the widget is meant to be silent
         if (index in 0..4) {
             statTabIndex = index
-            MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+            Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
         }
         return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
@@ -485,7 +485,7 @@ class StatWidget(
     }
 
     private fun renderTextAtVertices(
-        context: DrawContext,
+        context: GuiGraphics,
         offsetY: Double = 0.0,
         enableColour: Boolean = true,
         hp: MutableText,

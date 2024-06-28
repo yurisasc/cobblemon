@@ -13,14 +13,14 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 class SummaryButton(
     var buttonX: Float,
@@ -28,9 +28,9 @@ class SummaryButton(
     val buttonWidth: Number,
     val buttonHeight: Number,
     val clickAction: PressAction,
-    private val text: MutableText = Text.empty(),
-    private val resource: Identifier,
-    private val activeResource: Identifier? = null,
+    private val text: MutableText = Component.empty(),
+    private val resource: ResourceLocation,
+    private val activeResource: ResourceLocation? = null,
     private val renderRequirement: ((button: SummaryButton) -> Boolean) = { true },
     private val clickRequirement: ((button: SummaryButton) -> Boolean) = { true },
     private val hoverTexture: Boolean = true,
@@ -50,7 +50,7 @@ class SummaryButton(
     override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
     }
 
-    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         if (!this.renderRequirement.invoke(this)) {
             return
         }

@@ -25,7 +25,7 @@ import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType
 import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object TeachCommand {
 
@@ -48,7 +48,7 @@ object TeachCommand {
         dispatcher.register(command)
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {
+    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayer) : Int {
         val pokemon = PartySlotArgumentType.getPokemonOf(context, SLOT, player)
         val move = MoveArgumentType.getMove(context, MOVE)
 

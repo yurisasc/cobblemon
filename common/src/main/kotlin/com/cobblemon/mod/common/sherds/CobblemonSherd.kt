@@ -9,9 +9,9 @@
 package com.cobblemon.mod.common.sherds
 
 import net.minecraft.item.Item
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 data class CobblemonSherd(
-    val patternId: Identifier,
+    val patternId: ResourceLocation,
     val item: Item
 )

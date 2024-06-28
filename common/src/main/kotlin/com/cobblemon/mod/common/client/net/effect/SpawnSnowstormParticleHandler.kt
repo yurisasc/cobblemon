@@ -13,18 +13,18 @@ import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.util.math.MatrixStack
 
 object SpawnSnowstormParticleHandler : ClientNetworkPacketHandler<SpawnSnowstormParticlePacket> {
-    override fun handle(packet: SpawnSnowstormParticlePacket, client: MinecraftClient) {
+    override fun handle(packet: SpawnSnowstormParticlePacket, client: Minecraft) {
         val wrapper = MatrixWrapper()
         val matrix = MatrixStack()
         matrix.translate(packet.position.x, packet.position.y, packet.position.z)
 //        matrix.multiply(POSITIVE_Y.rotationDegrees(packet.yawDegrees))
 //        matrix.multiply(NEGATIVE_X.rotationDegrees(packet.pitchDegrees))
         wrapper.updateMatrix(matrix.peek().positionMatrix)
-        val world = MinecraftClient.getInstance().world ?: return
+        val world = Minecraft.getInstance().world ?: return
         val effect = BedrockParticleEffectRepository.getEffect(packet.effectId) ?: return
         ParticleStorm(effect, wrapper, world).spawn()
     }

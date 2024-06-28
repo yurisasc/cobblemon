@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.pokemon.ai
 import com.cobblemon.mod.common.api.ai.SleepDepth
 import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.api.spawning.TimeRange
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.biome.Biome
 
 /**

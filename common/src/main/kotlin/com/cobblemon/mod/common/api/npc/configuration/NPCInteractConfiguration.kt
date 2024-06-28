@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.api.npc.configuration
 
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 /**
  * A type of interaction handler for when a player right clicks the NPC.
@@ -18,5 +18,5 @@ import net.minecraft.server.network.ServerPlayerEntity
  */
 interface NPCInteractConfiguration {
     val type: String
-    fun interact(player: ServerPlayerEntity): Boolean
+    fun interact(player: ServerPlayer): Boolean
 }

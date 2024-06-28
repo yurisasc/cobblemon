@@ -13,10 +13,10 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
 import com.cobblemon.mod.common.util.party
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object InteractPokemonHandler : ServerNetworkPacketHandler<InteractPokemonPacket> {
-    override fun handle(packet: InteractPokemonPacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: InteractPokemonPacket, server: MinecraftServer, player: ServerPlayer) {
         val pokemonEntity = player.serverWorld.getEntity(packet.pokemonID)
         if (pokemonEntity is PokemonEntity) {
             if (packet.mountShoulder) {

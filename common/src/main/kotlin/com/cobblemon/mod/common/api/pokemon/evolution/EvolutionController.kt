@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.controller.ClientEvolutionController
 import com.cobblemon.mod.common.pokemon.evolution.controller.ServerEvolutionController
 import com.google.gson.JsonElement
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 
 /**
  * Responsible for holding all available [EvolutionLike]s in the [Pokemon].
@@ -25,7 +25,7 @@ import net.minecraft.nbt.NbtElement
  * @author Licious
  * @since April 28th, 2022
  */
-interface EvolutionController<T : EvolutionLike> : MutableSet<T>, DataSerializer<NbtElement, JsonElement>, BufferSerializer {
+interface EvolutionController<T : EvolutionLike> : MutableSet<T>, DataSerializer<Tag, JsonElement>, BufferSerializer {
 
     /**
      * The [Pokemon] this controller is attached to.

@@ -10,10 +10,10 @@ package com.cobblemon.mod.common.berry
 
 import com.cobblemon.mod.common.api.berry.GrowthFactor
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.predicate.NumberRange
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.WorldView
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.biome.Biome
 
 /**
@@ -36,7 +36,7 @@ class BiomeDownfallGrowthFactor(
         }
     }
 
-    override fun isValid(world: WorldView, state: BlockState, pos: BlockPos): Boolean {
+    override fun isValid(world: LevelReader, state: BlockState, pos: BlockPos): Boolean {
         val biome = world.getBiome(pos).value()
         return this.range.test(biome.weather.downfall.toDouble())
     }

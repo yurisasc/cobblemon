@@ -11,12 +11,12 @@ package com.cobblemon.mod.common.client.gui.toast
 import com.cobblemon.mod.common.net.messages.client.toast.ToastPacket
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.toast.Toast
 import net.minecraft.client.toast.ToastManager
-import net.minecraft.item.ItemStack
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.world.item.ItemStack
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.MathHelper
 import java.util.*
 import kotlin.math.min
@@ -25,9 +25,9 @@ import kotlin.math.min
 class CobblemonToast(
     val id: UUID,
     var icon: ItemStack,
-    var title: Text,
-    var description: Text,
-    var frameTexture: Identifier,
+    var title: Component,
+    var description: Component,
+    var frameTexture: ResourceLocation,
     var progress: Float,
     var progressColor: Int
 ) : Toast {
@@ -38,7 +38,7 @@ class CobblemonToast(
     private var lastTime = 0L
     internal var nextVisibility: Toast.Visibility = Toast.Visibility.SHOW
 
-    override fun draw(context: DrawContext, manager: ToastManager, startTime: Long): Toast.Visibility {
+    override fun draw(context: GuiGraphics, manager: ToastManager, startTime: Long): Toast.Visibility {
         context.drawGuiTexture(this.frameTexture, 0, 0, this.width, this.height)
         val textRenderer = manager.client.textRenderer
         context.drawText(textRenderer, this.title, 30, 7, this.title.style.color?.rgb ?: -1, false)

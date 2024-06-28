@@ -11,18 +11,17 @@ package com.cobblemon.mod.common.client.render.block
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.FossilAnalyzerBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.HorizontalFacingBlock
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.state.property.DirectionProperty
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class FossilAnalyzerRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<FossilAnalyzerBlockEntity> {
 
@@ -48,11 +47,11 @@ class FossilAnalyzerRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEnt
             matrices.push()
             
             val dirOffset = when (direction) {
-                Direction.NORTH -> Vec3d(0.0, 0.0, 0.05)
-                Direction.SOUTH -> Vec3d(0.0, 0.0, -0.05)
-                Direction.EAST -> Vec3d(-0.05, 0.0, 0.0)
-                Direction.WEST -> Vec3d(0.05, 0.0, 0.0)
-                else -> Vec3d.ZERO
+                Direction.NORTH -> Vec3(0.0, 0.0, 0.05)
+                Direction.SOUTH -> Vec3(0.0, 0.0, -0.05)
+                Direction.EAST -> Vec3(-0.05, 0.0, 0.0)
+                Direction.WEST -> Vec3(0.05, 0.0, 0.0)
+                else -> Vec3.ZERO
             }
             matrices.translate(0.5 + dirOffset.x,0.4 + (index * 0.1) + dirOffset.y, 0.5 + dirOffset.z)
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yRot))
@@ -60,7 +59,7 @@ class FossilAnalyzerRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEnt
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90F))
             matrices.scale(0.7F, 0.7F, 0.7F)
 
-            MinecraftClient.getInstance().itemRenderer.renderItem(fossilStack, ModelTransformationMode.NONE, light, overlay, matrices, vertexConsumers, entity.world, 0)
+            Minecraft.getInstance().itemRenderer.renderItem(fossilStack, ModelTransformationMode.NONE, light, overlay, matrices, vertexConsumers, entity.world, 0)
 
             matrices.pop()
         }

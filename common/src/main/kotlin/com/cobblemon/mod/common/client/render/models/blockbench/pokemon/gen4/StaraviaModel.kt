@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sin
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class StaraviaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("staravia")
@@ -32,9 +32,9 @@ class StaraviaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
     private val tail = getPart("tail")
 
     override var portraitScale = 2.8F
-    override var portraitTranslation = Vec3d(-0.4, -0.9, 0.0)
+    override var portraitTranslation = Vec3(-0.4, -0.9, 0.0)
     override var profileScale = 1.1F
-    override var profileTranslation = Vec3d(0.0, 0.1, 0.0)
+    override var profileTranslation = Vec3(0.0, 0.1, 0.0)
 
 //    lateinit var sleep: Pose
     lateinit var stand: Pose

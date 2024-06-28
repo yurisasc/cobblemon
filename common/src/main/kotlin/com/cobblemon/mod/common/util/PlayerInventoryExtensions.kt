@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.util
 import java.util.function.Predicate
 import java.util.stream.Collectors
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 
 fun PlayerInventory.removeAmountIf(amount: Int, rule: Predicate<ItemStack>) {
     this.combinedInventory.forEach {

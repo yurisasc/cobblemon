@@ -9,20 +9,18 @@
 package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.util.writeCollection
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val registryEntries: Collection<T>) : NetworkPacket<N> {
 
-    var buffer: RegistryByteBuf? = null
+    var buffer: RegistryFriendlyByteBuf? = null
     internal val entries = arrayListOf<T>()
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeCollection(this.registryEntries) { _, entry -> encodeEntry(buffer, entry) }
     }
 
-    internal fun decodeBuffer(buffer: RegistryByteBuf) {
+    internal fun decodeBuffer(buffer: RegistryFriendlyByteBuf) {
         this.buffer = buffer
         buffer.retain()
     }
@@ -33,7 +31,7 @@ abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val regis
      * @param buffer The [PacketByteBuf] being encoded to.
      * @param entry The entry of type [T].
      */
-    abstract fun encodeEntry(buffer: RegistryByteBuf, entry: T)
+    abstract fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: T)
 
     /**
      * Attempts to decode this entry, if null it will be skipped.
@@ -42,7 +40,7 @@ abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val regis
      * @param buffer The [PacketByteBuf] being decoded from.
      * @return The entry of type [T].
      */
-    abstract fun decodeEntry(buffer: RegistryByteBuf): T?
+    abstract fun decodeEntry(buffer: RegistryFriendlyByteBuf): T?
 
     /**
      * Synchronizes the final product the final product with the backing registry.

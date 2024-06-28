@@ -45,7 +45,7 @@ import com.cobblemon.mod.common.util.getDoubleOrNull
 import com.cobblemon.mod.common.util.getStringOrNull
 import com.cobblemon.mod.common.util.plus
 import net.minecraft.client.model.ModelPart
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.RenderPhase
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
@@ -53,9 +53,9 @@ import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.RotationAxis
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 /**
  * A model that can be posed and animated using [PoseAnimation]s and [ActiveAnimation]s. This
@@ -86,10 +86,10 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     lateinit var locatorAccess: LocatorAccess
 
     open var portraitScale = 1F
-    open var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    open var portraitTranslation = Vec3(0.0, 0.0, 0.0)
 
     open var profileScale = 1F
-    open var profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    open var profileTranslation = Vec3(0.0, 0.0, 0.0)
 
     var red = 1F
     var green = 1F
@@ -624,9 +624,9 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         }
     }
 
-    /** Generates a [RenderLayer] by the power of god and anime. Only possible thanks to 100 access wideners. */
-    fun makeLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
-        val multiPhaseParameters: RenderLayer.MultiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
+    /** Generates a [RenderType] by the power of god and anime. Only possible thanks to 100 access wideners. */
+    fun makeLayer(texture: ResourceLocation, emissive: Boolean, translucent: Boolean): RenderType {
+        val multiPhaseParameters: RenderType.MultiPhaseParameters = RenderType.MultiPhaseParameters.builder()
             .program(
                 when {
                     emissive && translucent -> RenderPhase.ENTITY_TRANSLUCENT_EMISSIVE_PROGRAM
@@ -642,7 +642,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
             .overlay(RenderPhase.ENABLE_OVERLAY_COLOR)
             .build(false)
 
-        return RenderLayer.of(
+        return RenderType.of(
             "cobblemon_entity_layer",
             VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,
             VertexFormat.DrawMode.QUADS,
@@ -653,12 +653,12 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         )
     }
 
-    /** Makes a [RenderLayer] in a jank way. Mostly works so that's cool. */
-    fun getLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
+    /** Makes a [RenderType] in a jank way. Mostly works so that's cool. */
+    fun getLayer(texture: ResourceLocation, emissive: Boolean, translucent: Boolean): RenderType {
         return if (!emissive && !translucent) {
-            RenderLayer.getEntityCutout(texture)
+            RenderType.getEntityCutout(texture)
         } else if (!emissive) {
-            RenderLayer.getEntityTranslucent(texture)
+            RenderType.getEntityTranslucent(texture)
         } else {
             makeLayer(texture, emissive = emissive, translucent = translucent)
         }

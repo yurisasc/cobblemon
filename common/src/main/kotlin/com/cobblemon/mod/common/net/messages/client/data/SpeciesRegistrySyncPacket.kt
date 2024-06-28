@@ -15,14 +15,14 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readIdentifier
 import com.cobblemon.mod.common.util.writeIdentifier
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 // We do not need to know every single attribute as a client, as such, we only sync the aspects that matter
 class SpeciesRegistrySyncPacket(species: Collection<Species>) : DataRegistrySyncPacket<Species, SpeciesRegistrySyncPacket>(species) {
 
     override val id = ID
 
-    override fun encodeEntry(buffer: RegistryByteBuf, entry: Species) {
+    override fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: Species) {
         try {
             buffer.writeIdentifier(entry.resourceIdentifier)
             entry.encode(buffer)
@@ -31,7 +31,7 @@ class SpeciesRegistrySyncPacket(species: Collection<Species>) : DataRegistrySync
         }
     }
 
-    override fun decodeEntry(buffer: RegistryByteBuf): Species? {
+    override fun decodeEntry(buffer: RegistryFriendlyByteBuf): Species? {
         val identifier = buffer.readIdentifier()
         val species = Species()
         species.resourceIdentifier = identifier

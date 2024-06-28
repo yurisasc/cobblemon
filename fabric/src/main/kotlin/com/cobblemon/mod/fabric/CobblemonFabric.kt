@@ -68,27 +68,10 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.client.MinecraftClient
-import net.minecraft.command.argument.serialize.ArgumentSerializer
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
-import net.minecraft.item.ItemConvertible
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceReloader
-import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Identifier
-import net.minecraft.util.profiler.Profiler
-import net.minecraft.world.GameRules
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.gen.GenerationStep
-import net.minecraft.world.gen.feature.PlacedFeature
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.InteractionResult
+
 
 object CobblemonFabric : CobblemonImplementation {
 
@@ -116,7 +99,7 @@ object CobblemonFabric : CobblemonImplementation {
         CobblemonMemories.memories.forEach { (key, memoryModuleType) -> Registry.register(Registries.MEMORY_MODULE_TYPE, cobblemonResource(key), memoryModuleType) }
 
         EntitySleepEvents.STOP_SLEEPING.register { playerEntity, _ ->
-            if (playerEntity !is ServerPlayerEntity) {
+            if (playerEntity !is ServerPlayer) {
                 return@register
             }
 
@@ -142,7 +125,7 @@ object CobblemonFabric : CobblemonImplementation {
         ServerPlayConnectionEvents.JOIN.register { handler, _, _ -> PlatformEvents.SERVER_PLAYER_LOGIN.post(ServerPlayerEvent.Login(handler.player)) }
         ServerPlayConnectionEvents.DISCONNECT.register { handler, _ -> PlatformEvents.SERVER_PLAYER_LOGOUT.post(ServerPlayerEvent.Logout(handler.player)) }
         ServerLivingEntityEvents.ALLOW_DEATH.register { entity, _, _ ->
-            if (entity is ServerPlayerEntity) {
+            if (entity is ServerPlayer) {
                 PlatformEvents.PLAYER_DEATH.postThen(
                     event = ServerPlayerEvent.Death(entity),
                     ifSucceeded = {},
@@ -158,26 +141,26 @@ object CobblemonFabric : CobblemonImplementation {
 
 
         UseBlockCallback.EVENT.register { player, _, hand, hitResult ->
-            val serverPlayer = player as? ServerPlayerEntity ?: return@register ActionResult.PASS
+            val serverPlayer = player as? ServerPlayer ?: return@register InteractionResult.PASS
             PlatformEvents.RIGHT_CLICK_BLOCK.postThen(
                 event = ServerPlayerEvent.RightClickBlock(serverPlayer, hitResult.blockPos, hand, hitResult.side),
                 ifSucceeded = {},
-                ifCanceled = { return@register ActionResult.FAIL }
+                ifCanceled = { return@register InteractionResult.FAIL }
             )
-            return@register ActionResult.PASS
+            return@register InteractionResult.PASS
         }
 
         UseEntityCallback.EVENT.register { player, _, hand, entity, _ ->
-            val item = player.getStackInHand(hand)
-            val serverPlayer = player as? ServerPlayerEntity ?: return@register ActionResult.PASS
+            val item = player.getItemInHand(hand)
+            val serverPlayer = player as? ServerPlayer ?: return@register InteractionResult.PASS
 
             PlatformEvents.RIGHT_CLICK_ENTITY.postThen(
                 event = ServerPlayerEvent.RightClickEntity(serverPlayer, item, hand, entity),
                 ifSucceeded = {},
-                ifCanceled = { return@register ActionResult.FAIL }
+                ifCanceled = { return@register InteractionResult.FAIL }
             )
 
-            return@register ActionResult.PASS
+            return@register InteractionResult.PASS
         }
 
         LootTableEvents.MODIFY.register { id, tableBuilder, source ->

@@ -19,8 +19,7 @@ import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeIdentifier
 import com.cobblemon.mod.common.util.writeString
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Updates the state of a particular [SynchronizedSpeciesFeature].
@@ -28,7 +27,7 @@ import net.minecraft.util.Identifier
  * @author Hiroku
  * @since November 13th, 2023
  */
-class SpeciesFeatureUpdatePacket(pokemon: () -> Pokemon, val species: Identifier, speciesFeature: SynchronizedSpeciesFeature) : SingleUpdatePacket<SynchronizedSpeciesFeature, SpeciesFeatureUpdatePacket>(pokemon, speciesFeature) {
+class SpeciesFeatureUpdatePacket(pokemon: () -> Pokemon, val species: ResourceLocation, speciesFeature: SynchronizedSpeciesFeature) : SingleUpdatePacket<SynchronizedSpeciesFeature, SpeciesFeatureUpdatePacket>(pokemon, speciesFeature) {
     companion object {
         val ID = cobblemonResource("species_feature_update")
         fun decode(buffer: RegistryByteBuf): SpeciesFeatureUpdatePacket {

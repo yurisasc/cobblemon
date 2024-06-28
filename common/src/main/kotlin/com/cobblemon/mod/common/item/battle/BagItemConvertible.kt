@@ -15,9 +15,9 @@ import com.cobblemon.mod.common.battles.BagItemActionResponse
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.battleLang
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.registry.Registries
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 /**
  * Something that can be a bag item. This needs to be registered in [BagItems]
@@ -38,7 +38,7 @@ interface BagItemConvertible {
      */
     fun getBagItem(stack: ItemStack): BagItem?
 
-    fun handleInteraction(player: ServerPlayerEntity, battlePokemon: BattlePokemon, stack: ItemStack): Boolean {
+    fun handleInteraction(player: ServerPlayer, battlePokemon: BattlePokemon, stack: ItemStack): Boolean {
         val battle = battlePokemon.actor.battle
         val bagItem = getBagItem(stack) ?: return false
         if (!battlePokemon.actor.canFitForcedAction()) {

@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.server.trade
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class CancelTradePacket : NetworkPacket<CancelTradePacket> {
     companion object {

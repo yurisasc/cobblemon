@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.client.keybind.CobblemonPartyLockedKeyBinding
 import com.cobblemon.mod.common.client.keybind.KeybindCategories
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.InputUtil
 
 object SummaryBinding : CobblemonPartyLockedKeyBinding(

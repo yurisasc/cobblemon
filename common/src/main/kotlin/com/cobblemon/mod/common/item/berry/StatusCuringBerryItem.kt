@@ -17,13 +17,12 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
-import net.minecraft.world.World
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.level.Level
 
 /**
  * A berry that cures statuses.
@@ -40,10 +39,10 @@ class StatusCuringBerryItem(block: BerryBlock, vararg val status: Status): Berry
 
     override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.status?.let { it.status in status || status.isEmpty() } == true && pokemon.currentHealth > 0
     override fun applyToPokemon(
-        player: ServerPlayerEntity,
+        player: ServerPlayer,
         stack: ItemStack,
         pokemon: Pokemon
-    ): TypedActionResult<ItemStack>? {
+    ): InteractionResultHolder<ItemStack>? {
         val currentStatus = pokemon.status?.status
         return if (currentStatus != null && (status.isEmpty() || currentStatus in status)) {
             pokemon.status = null
@@ -51,19 +50,19 @@ class StatusCuringBerryItem(block: BerryBlock, vararg val status: Status): Berry
             if (!player.isCreative) {
                 stack.decrement(1)
             }
-            TypedActionResult.success(stack)
+            InteractionResultHolder.success(stack)
         } else {
-            TypedActionResult.fail(stack)
+            InteractionResultHolder.fail(stack)
         }
     }
 
-    override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
+    override fun applyToBattlePokemon(player: ServerPlayer, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
         player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
     }
 
-    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-        if (user is ServerPlayerEntity) {
+    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+        if (user is ServerPlayer) {
             return use(user, user.getStackInHand(hand))
         }
         return super<BerryItem>.use(world, user, hand)

@@ -10,12 +10,12 @@ package com.cobblemon.mod.common.client.render.atlas
 
 import net.minecraft.client.texture.SpriteAtlasHolder
 import net.minecraft.client.texture.TextureManager
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 class CobblemonAtlas(
     textureManager: TextureManager,
-    atlasId: Identifier,
-    sourcePath: Identifier
+    atlasId: ResourceLocation,
+    sourcePath: ResourceLocation
 ) : SpriteAtlasHolder(
     textureManager,
     atlasId,

@@ -24,8 +24,8 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.server.battle.RemoveSpectatorPacket
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.Screen
 
 class BattleGUI : Screen(battleLang("gui.title")) {
@@ -43,8 +43,8 @@ class BattleGUI : Screen(battleLang("gui.title")) {
 
     private lateinit var messagePane: BattleMessagePane
     var opacity = 0F
-    val actor = CobblemonClient.battle?.side1?.actors?.find { it.uuid == MinecraftClient.getInstance().player?.uuid }
-    val specBackButton = BattleBackButton(12f, MinecraftClient.getInstance().window.scaledHeight - 32f)
+    val actor = CobblemonClient.battle?.side1?.actors?.find { it.uuid == Minecraft.getInstance().player?.uuid }
+    val specBackButton = BattleBackButton(12f, Minecraft.getInstance().window.scaledHeight - 32f)
 
     var queuedActions = mutableListOf<() -> Unit>()
 
@@ -81,7 +81,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         }
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(context, mouseX, mouseY, delta)
 
         opacity = CobblemonClient.battleOverlay.opacityRatio.toFloat()
@@ -121,8 +121,8 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             drawScaledText(
                 context = context,
                 text = battleLang("ui.hide_label", PartySendBinding.boundKey().localizedText),
-                x = MinecraftClient.getInstance().window.scaledWidth / 2,
-                y = (MinecraftClient.getInstance().window.scaledHeight / 5),
+                x = Minecraft.getInstance().window.scaledWidth / 2,
+                y = (Minecraft.getInstance().window.scaledHeight / 5),
                 opacity = 0.75F * opacity,
                 centered = true
             )
@@ -130,8 +130,8 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             drawScaledText(
                 context = context,
                 text = battleLang("ui.forfeit_confirmation", PartySendBinding.boundKey().localizedText),
-                x = MinecraftClient.getInstance().window.scaledWidth / 2,
-                y = (MinecraftClient.getInstance().window.scaledHeight / 5),
+                x = Minecraft.getInstance().window.scaledWidth / 2,
+                y = (Minecraft.getInstance().window.scaledHeight / 5),
                 opacity = 0.75F * opacity,
                 centered = true
             )
@@ -142,7 +142,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         queuedActions.clear()
     }
 
-    override fun renderBackground(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderBackground(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
 
     }
 

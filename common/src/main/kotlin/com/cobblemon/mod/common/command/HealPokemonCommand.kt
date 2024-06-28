@@ -23,7 +23,7 @@ import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object HealPokemonCommand {
 
@@ -41,7 +41,7 @@ object HealPokemonCommand {
         dispatcher.register(command.alias("pokeheal"))
     }
 
-    private fun execute(source: ServerCommandSource, target: ServerPlayerEntity) : Int {
+    private fun execute(source: ServerCommandSource, target: ServerPlayer) : Int {
         if (target.isInBattle()) {
             throw IN_BATTLE_EXCEPTION.create()
         }

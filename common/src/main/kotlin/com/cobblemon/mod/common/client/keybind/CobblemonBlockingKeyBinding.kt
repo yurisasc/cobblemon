@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.keybind
 
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.util.InputUtil
 
 /**
@@ -39,7 +39,7 @@ abstract class CobblemonBlockingKeyBinding(
         } else if (!isPressed) {
             wasDown = false
         } else if (wasDown) {
-            timeDown += MinecraftClient.getInstance().renderTickCounter.getTickDelta(false)
+            timeDown += Minecraft.getInstance().renderTickCounter.getTickDelta(false)
         }
     }
 }

@@ -13,16 +13,17 @@ import com.cobblemon.mod.common.util.closestPosition
 import net.minecraft.block.Blocks
 import net.minecraft.entity.ai.goal.BreatheAirGoal
 import net.minecraft.entity.ai.pathing.NavigationType
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.MathHelper
-import net.minecraft.world.WorldView
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.pathfinder.PathComputationType
 
 class PokemonBreatheAirGoal(val pokemonEntity: PokemonEntity) : BreatheAirGoal(pokemonEntity) {
     override fun canStart(): Boolean {
         val canSwimUnderwater = pokemonEntity.behaviour.moving.swim.canBreatheUnderwater
         return if (pokemonEntity.isInLava && pokemonEntity.behaviour.moving.swim.canSwimInLava) {
             true
-        } else if (pokemonEntity.isTouchingWater && (pokemonEntity.behaviour.moving.swim.avoidsWater || (!canSwimUnderwater && pokemonEntity.random.nextFloat() < 0.1)) && pokemonEntity.ownerUuid == null) {
+        } else if (pokemonEntity.isInWater && (pokemonEntity.behaviour.moving.swim.avoidsWater || (!canSwimUnderwater && pokemonEntity.random.nextFloat() < 0.1)) && pokemonEntity.ownerUuid == null) {
             true
         } else {
             super.canStart()
@@ -56,12 +57,12 @@ class PokemonBreatheAirGoal(val pokemonEntity: PokemonEntity) : BreatheAirGoal(p
         }
     }
 
-    private fun isAirPos(world: WorldView, pos: BlockPos): Boolean {
+    private fun isAirPos(world: LevelReader, pos: BlockPos): Boolean {
         val blockState = world.getBlockState(pos)
         val aboveState = world.getBlockState(pos.up())
         val notFluid = world.getFluidState(pos.up()).isEmpty || blockState.isOf(Blocks.BUBBLE_COLUMN)
-        val canPathfindThroughAbove = aboveState.canPathfindThrough(NavigationType.LAND)
-        val solidBelow = !blockState.canPathfindThrough(NavigationType.LAND)
+        val canPathfindThroughAbove = aboveState.isPathfindable(PathComputationType.LAND)
+        val solidBelow = !blockState.isPathfindable(PathComputationType.LAND)
 
         return notFluid && canPathfindThroughAbove && solidBelow
     }

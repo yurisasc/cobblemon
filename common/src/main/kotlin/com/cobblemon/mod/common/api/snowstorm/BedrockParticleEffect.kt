@@ -8,13 +8,16 @@
 
 package com.cobblemon.mod.common.api.snowstorm
 
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeString
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import com.mojang.serialization.codecs.UnboundedMapCodec
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.util.Identifier
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.resources.ResourceLocation
 
 /**
  * This is an interpretation of the Bedrock Edition particle system. The behaviour of the effects are
@@ -25,7 +28,7 @@ import net.minecraft.util.Identifier
  * @since January 2nd, 2023
  */
 class BedrockParticleEffect(
-    var id: Identifier = Identifier.of("effect"),
+    var id: ResourceLocation = ResourceLocation.parse("effect"),
     var emitter: BedrockParticleEmitter = BedrockParticleEmitter(),
     var particle: BedrockParticle = BedrockParticle(),
     var curves: MutableList<MoLangCurve> = mutableListOf(),
@@ -35,7 +38,7 @@ class BedrockParticleEffect(
     companion object {
         val CODEC: Codec<BedrockParticleEffect> = RecordCodecBuilder.create { instance ->
             instance.group(
-                Identifier.CODEC.fieldOf("id").forGetter { it.id },
+                ResourceLocation.CODEC.fieldOf("id").forGetter { it.id },
                 BedrockParticleEmitter.CODEC.fieldOf("emitter").forGetter { it.emitter },
                 BedrockParticle.CODEC.fieldOf("particle").forGetter { it.particle },
                 MoLangCurve.codec.listOf().fieldOf("curves").forGetter { it.curves },
@@ -54,7 +57,7 @@ class BedrockParticleEffect(
         }
     }
 
-    fun writeToBuffer(buffer: RegistryByteBuf) {
+    fun writeToBuffer(buffer: RegistryFriendlyByteBuf) {
         buffer.writeIdentifier(id)
         emitter.writeToBuffer(buffer)
         particle.writeToBuffer(buffer)
@@ -63,7 +66,7 @@ class BedrockParticleEffect(
         buffer.writeMap(events, { _, v -> buffer.writeString(v) }) { _, event -> event.encode(buffer) }
     }
 
-    fun readFromBuffer(buffer: RegistryByteBuf) {
+    fun readFromBuffer(buffer: RegistryFriendlyByteBuf) {
         id = buffer.readIdentifier()
         emitter.readFromBuffer(buffer)
         particle.readFromBuffer(buffer)

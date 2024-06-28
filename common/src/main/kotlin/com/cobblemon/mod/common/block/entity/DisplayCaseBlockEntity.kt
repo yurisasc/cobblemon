@@ -10,15 +10,15 @@ package com.cobblemon.mod.common.block.entity
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonSounds
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
@@ -27,9 +27,9 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.collection.DefaultedList
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.DISPLAY_CASE, pos, state), SidedInventory {
 
@@ -38,11 +38,11 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
     /**
      * Updates the [ItemStack] stored in this entity
      *
-     * @param player The [PlayerEntity] that performed this interaction
+     * @param player The [Player] that performed this interaction
      * @param hand The [Hand] the player used to perform this interaction
      * @author whatsy
      */
-    fun updateItem(player: PlayerEntity, hand: Hand): ActionResult {
+    fun updateItem(player: Player, hand: Hand): ActionResult {
         val playerStack = player.getStackInHand(hand)
 
         // Player and case item are the same - do nothing
@@ -96,12 +96,12 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
         onItemUpdated(world!!, oldState, world!!.getBlockState(pos))
     }
 
-    override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+    override fun writeNbt(nbt: CompoundTag, registryLookup: RegistryWrapper.WrapperLookup) {
         super.writeNbt(nbt, registryLookup)
         Inventories.writeNbt(nbt, inv, true, registryLookup)
     }
 
-    override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+    override fun readNbt(nbt: CompoundTag, registryLookup: RegistryWrapper.WrapperLookup) {
         super.readNbt(nbt, registryLookup)
         inv.clear()
         Inventories.readNbt(nbt, inv, registryLookup)
@@ -111,11 +111,11 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
         return BlockEntityUpdateS2CPacket.create(this)
     }
 
-    override fun toInitialChunkDataNbt(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound? {
+    override fun getUpdateTag(registryLookup: RegistryWrapper.WrapperLookup): CompoundTag? {
         return this.createNbt(registryLookup)
     }
 
-    private fun onItemUpdated(world: World, oldState: BlockState, newState: BlockState) {
+    private fun onItemUpdated(world: Level, oldState: BlockState, newState: BlockState) {
         world.updateListeners(pos, oldState, newState, Block.NOTIFY_LISTENERS)
         world.updateComparators(pos, world.getBlockState(pos).block)
         markDirty()
@@ -160,7 +160,7 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
         if (world != null) onItemUpdated(world!!, oldState, world!!.getBlockState(pos))
     }
 
-    override fun canPlayerUse(player: PlayerEntity?) = false
+    override fun canPlayerUse(player: Player?) = false
 
     override fun getAvailableSlots(side: Direction?): IntArray {
         val result = IntArray(inv.size)

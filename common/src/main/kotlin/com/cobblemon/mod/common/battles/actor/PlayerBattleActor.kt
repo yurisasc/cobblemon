@@ -21,16 +21,16 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import java.util.UUID
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.MutableText
 
 class PlayerBattleActor(
     uuid: UUID,
     pokemonList: List<BattlePokemon>
-) : BattleActor(uuid, pokemonList.toMutableList()), EntityBackedBattleActor<ServerPlayerEntity> {
+) : BattleActor(uuid, pokemonList.toMutableList()), EntityBackedBattleActor<ServerPlayer> {
 
-    override val entity: ServerPlayerEntity?
+    override val entity: ServerPlayer?
         get() = this.uuid.getPlayer()
 
     /** The [SoundEvent] to play to the player during a battle. Will start playing as soon as the battle starts. */

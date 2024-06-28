@@ -17,13 +17,12 @@ import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.particle.SnowstormParticleEffect
-import com.cobblemon.mod.common.util.math.geometry.transformDirection
 import kotlin.random.Random
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.particle.NoRenderParticle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 /**
  * An instance of a bedrock particle effect.
@@ -35,7 +34,7 @@ class ParticleStorm(
     val effect: BedrockParticleEffect,
     val matrixWrapper: MatrixWrapper,
     val world: ClientWorld,
-    val sourceVelocity: () -> Vec3d = { Vec3d.ZERO },
+    val sourceVelocity: () -> Vec3 = { Vec3.ZERO },
     val sourceAlive: () -> Boolean = { true },
     val sourceVisible: () -> Boolean = { true },
     val onDespawn: () -> Unit = {},
@@ -69,7 +68,7 @@ class ParticleStorm(
             runtime.environment.setSimpleVariable("entity_radius", DoubleValue(longerDiameter / 2))
             runtime.environment.setSimpleVariable("entity_scale", DoubleValue((entity as? PokemonEntity)?.scaleFactor ?: 1.0))
         }
-        MinecraftClient.getInstance().particleManager.addParticle(this)
+        Minecraft.getInstance().particleManager.addParticle(this)
     }
 
     fun getX() = x
@@ -141,7 +140,7 @@ class ParticleStorm(
         z = pos.z
 
         val oldDistanceTravelled = distanceTravelled
-        distanceTravelled += Vec3d(x - prevPosX, y - prevPosY, z - prevPosZ).length().toFloat()
+        distanceTravelled += Vec3(x - prevPosX, y - prevPosY, z - prevPosZ).length().toFloat()
 
         effect.emitter.travelDistanceEvents.check(this, null, oldDistanceTravelled.toDouble(), distanceTravelled.toDouble())
         effect.emitter.loopingTravelDistanceEvents.forEach { it.check(this, null, oldDistanceTravelled.toDouble(), distanceTravelled.toDouble()) }
@@ -167,7 +166,7 @@ class ParticleStorm(
         }
     }
 
-    fun getNextParticleSpawnPosition(): Vec3d {
+    fun getNextParticleSpawnPosition(): Vec3 {
         runtime.environment.setSimpleVariable("particle_random_1", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("particle_random_2", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("particle_random_3", DoubleValue(Random.Default.nextDouble()))
@@ -177,12 +176,12 @@ class ParticleStorm(
         return newPosition
     }
 
-    fun getNextParticleVelocity(nextParticlePosition: Vec3d): Vec3d {
+    fun getNextParticleVelocity(nextParticlePosition: Vec3): Vec3 {
         val center = transformPosition(effect.emitter.shape.getCenter(runtime, entity))
         val initialVelocity = effect.particle.motion.getInitialVelocity(runtime, storm = this, particlePos = nextParticlePosition, emitterPos = center)
         return initialVelocity
             .multiply(1 / 20.0)
-            .add(if (effect.space.localVelocity) sourceVelocity() else Vec3d.ZERO)
+            .add(if (effect.space.localVelocity) sourceVelocity() else Vec3.ZERO)
     }
 
     fun spawnParticle() {
@@ -194,6 +193,6 @@ class ParticleStorm(
         contextStorm = null
     }
 
-    fun transformPosition(position: Vec3d): Vec3d = matrixWrapper.transformPosition(position)
-    fun transformDirection(direction: Vec3d): Vec3d = matrixWrapper.matrix.transformDirection(direction)
+    fun transformPosition(position: Vec3): Vec3 = matrixWrapper.transformPosition(position)
+    fun transformDirection(direction: Vec3): Vec3 = matrixWrapper.matrix.transformDirection(direction)
 }

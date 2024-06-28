@@ -19,9 +19,9 @@ import com.cobblemon.mod.common.pokemon.evolution.controller.ServerEvolutionCont
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtElement
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 class CobblemonEvolutionProxy(private val pokemon: Pokemon, private val clientSide: Boolean) : EvolutionProxy<EvolutionDisplay, Evolution> {
 
@@ -40,13 +40,13 @@ class CobblemonEvolutionProxy(private val pokemon: Pokemon, private val clientSi
     }
 
     override fun saveToNBT(): NbtElement {
-        val nbt = NbtCompound()
+        val nbt = CompoundTag()
         nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.current().saveToNBT())
         return nbt
     }
 
     override fun loadFromNBT(nbt: NbtElement) {
-        val compound = nbt as? NbtCompound ?: return
+        val compound = nbt as? CompoundTag ?: return
         this.current().loadFromNBT(compound.get(DataKeys.POKEMON_PENDING_EVOLUTIONS) ?: return)
     }
 
@@ -61,11 +61,11 @@ class CobblemonEvolutionProxy(private val pokemon: Pokemon, private val clientSi
         this.current().loadFromJson(jObject.get(DataKeys.POKEMON_PENDING_EVOLUTIONS) ?: JsonObject())
     }
 
-    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
+    override fun saveToBuffer(buffer: RegistryFriendlyByteBuf, toClient: Boolean) {
         this.current().saveToBuffer(buffer, toClient)
     }
 
-    override fun loadFromBuffer(buffer: PacketByteBuf) {
+    override fun loadFromBuffer(buffer: RegistryFriendlyByteBuf) {
         this.current().loadFromBuffer(buffer)
     }
 }

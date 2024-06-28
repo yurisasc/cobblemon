@@ -20,13 +20,13 @@ import com.cobblemon.mod.common.net.messages.server.callback.party.PartyPokemonS
 import com.cobblemon.mod.common.net.messages.server.callback.party.PartySelectCancelledPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 class PartySelectConfiguration(
     val title: MutableText,
@@ -37,7 +37,7 @@ class PartySelectConfiguration(
 )
 class PartySelectGUI(
     val config: PartySelectConfiguration
-) : Screen(Text.translatable("cobblemon.ui.interact.moveselect")) {
+) : Screen(Component.translatable("cobblemon.ui.interact.moveselect")) {
     companion object {
         const val WIDTH = 163
         const val HEIGHT = 132
@@ -118,7 +118,7 @@ class PartySelectGUI(
         super.init()
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
         val x = (width - WIDTH) / 2
         val y = (height - HEIGHT) / 2
 
@@ -174,6 +174,6 @@ class PartySelectGUI(
     override fun shouldPause() = false
 
     fun playSound(soundEvent: SoundEvent) {
-        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+        Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 }

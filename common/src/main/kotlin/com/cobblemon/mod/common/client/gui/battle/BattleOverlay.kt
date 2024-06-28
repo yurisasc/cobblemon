@@ -40,14 +40,14 @@ import com.mojang.blaze3d.systems.RenderSystem
 import java.lang.Double.max
 import java.lang.Double.min
 import java.util.UUID
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.RenderTickCounter
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
@@ -55,7 +55,7 @@ import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.RotationAxis
 import org.joml.Vector3f
 
-class BattleOverlay : InGameHud(MinecraftClient.getInstance()), Schedulable {
+class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
     companion object {
         const val MAX_OPACITY = 1.0
         const val MIN_OPACITY = 0.5
@@ -92,7 +92,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()), Schedulable {
 
     override val schedulingTracker = SchedulingTracker()
 
-    override fun render(context: DrawContext, tickCounter: RenderTickCounter) {
+    override fun render(context: GuiGraphics, tickCounter: RenderTickCounter) {
         val tickDelta = tickCounter.getTickDelta(false)
         schedulingTracker.update(tickDelta / 20F)
         passedSeconds += tickDelta / 20
@@ -106,26 +106,26 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()), Schedulable {
             min(opacity + tickDelta * OPACITY_CHANGE_PER_SECOND, MAX_OPACITY)
         }
 
-        val playerUUID = MinecraftClient.getInstance().player?.uuid ?: return
+        val playerUUID = Minecraft.getInstance().player?.uuid ?: return
         val side1 = if (battle.side1.actors.any { it.uuid == playerUUID }) battle.side1 else battle.side2
         val side2 = if (side1 == battle.side1) battle.side2 else battle.side1
 
         side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index) }
         side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, index) }
 
-        if (MinecraftClient.getInstance().currentScreen !is BattleGUI && battle.mustChoose) {
+        if (Minecraft.getInstance().currentScreen !is BattleGUI && battle.mustChoose) {
             val textOpacity = PROMPT_TEXT_OPACITY_CURVE(passedSeconds)
             drawScaledText(
                 context = context,
                 text = battleLang("ui.actions_label", PartySendBinding.boundKey().localizedText),
-                x = MinecraftClient.getInstance().window.scaledWidth / 2,
-                y = MinecraftClient.getInstance().window.scaledHeight / 5,
+                x = Minecraft.getInstance().window.scaledWidth / 2,
+                y = Minecraft.getInstance().window.scaledHeight / 5,
                 opacity = textOpacity,
                 centered = true
             )
         }
 
-        val currentScreen = MinecraftClient.getInstance().currentScreen
+        val currentScreen = Minecraft.getInstance().currentScreen
 
         if (currentScreen == null || currentScreen is ChatScreen) {
             if (lastKnownBattle != battle.battleId) {
@@ -137,8 +137,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()), Schedulable {
         }
     }
 
-    fun drawTile(context: DrawContext, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int) {
-        val mc = MinecraftClient.getInstance()
+    fun drawTile(context: GuiGraphics, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int) {
+        val mc = Minecraft.getInstance()
 
         val battlePokemon = activeBattlePokemon.battlePokemon ?: return
         // First render the underlay
@@ -188,7 +188,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()), Schedulable {
     }
 
     fun drawBattleTile(
-        context: DrawContext,
+        context: GuiGraphics,
         x: Float,
         y: Float,
         partialTicks: Float,
@@ -399,7 +399,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()), Schedulable {
         val context = RenderContext()
         val model = PokeBallModelRepository.getPoser(state.pokeBall.name, state.aspects)
         val texture = PokeBallModelRepository.getTexture(state.pokeBall.name, state.aspects, state.animationSeconds)
-        val renderType = RenderLayer.getEntityCutout(texture)//model.getLayer(texture)
+        val renderType = RenderType.getEntityCutout(texture)//model.getLayer(texture)
 
         RenderSystem.applyModelViewMatrix()
         val quaternion1 = RotationAxis.POSITIVE_Y.rotationDegrees(-32F * if (reversed) -1F else 1F)
@@ -424,7 +424,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()), Schedulable {
         RenderSystem.setShaderLights(light1, light2)
         quaternion1.conjugate()
 
-        val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
+        val immediate = Minecraft.getInstance().bufferBuilders.entityVertexConsumers
         val buffer = immediate.getBuffer(renderType)
         val packedLight = LightmapTextureManager.pack(11, 7)
         model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)

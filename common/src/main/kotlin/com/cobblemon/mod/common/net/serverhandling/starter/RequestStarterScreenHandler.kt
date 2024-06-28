@@ -14,10 +14,10 @@ import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.net.messages.server.starter.RequestStarterScreenPacket
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object RequestStarterScreenHandler : ServerNetworkPacketHandler<RequestStarterScreenPacket> {
-    override fun handle(packet: RequestStarterScreenPacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: RequestStarterScreenPacket, server: MinecraftServer, player: ServerPlayer) {
         val playerData = Cobblemon.playerData.get(player)
         if (playerData.starterSelected) {
             return player.sendMessage(lang("ui.starter.alreadyselected").red())

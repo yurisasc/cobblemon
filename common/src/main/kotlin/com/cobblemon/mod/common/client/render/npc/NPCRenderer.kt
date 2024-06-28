@@ -19,10 +19,10 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRendererFactory.Context
 import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, PosableEntityModel<NPCEntity>>(context, PosableNPCModel(), 0.5f) {
-    override fun getTexture(entity: NPCEntity): Identifier {
+    override fun getTexture(entity: NPCEntity): ResourceLocation {
         return NPCModelRepository.getTexture(entity.npc.resourceIdentifier, entity.aspects, (entity.delegate as NPCClientDelegate).animationSeconds)
     }
 

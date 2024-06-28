@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.text.Text
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.network.chat.Component
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -24,7 +24,7 @@ class ModelWidget(
     val baseScale: Float = 2.7F,
     var rotationY: Float = 35F,
     var offsetY: Double = 0.0
-): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("Summary - ModelWidget")) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, Component.literal("Summary - ModelWidget")) {
 
     companion object {
         var render = true
@@ -33,7 +33,7 @@ class ModelWidget(
     var state = FloatingState()
     val rotVec = Vector3f(13F, rotationY, 0F)
 
-    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, partialTicks: Float) {
+    override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, partialTicks: Float) {
         if (!render) {
             return
         }
@@ -41,7 +41,7 @@ class ModelWidget(
         renderPKM(context, partialTicks)
     }
 
-    private fun renderPKM(context: DrawContext, partialTicks: Float) {
+    private fun renderPKM(context: GuiGraphics, partialTicks: Float) {
         val matrices = context.matrices
         matrices.push()
 

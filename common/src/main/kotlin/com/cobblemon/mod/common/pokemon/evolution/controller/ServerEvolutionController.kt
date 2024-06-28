@@ -28,11 +28,11 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionController<Evolution> {
 
@@ -70,7 +70,7 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
     }
 
     override fun saveToNBT(): NbtElement {
-        val nbt = NbtCompound()
+        val nbt = CompoundTag()
         val pendingList = NbtList()
         this.evolutions.forEach { evolution ->
             pendingList += NbtString.of(evolution.id)
@@ -88,7 +88,7 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         this.clear()
         val pendingList: NbtList
         val progressList: NbtList
-        if (nbt is NbtCompound) {
+        if (nbt is CompoundTag) {
             pendingList = nbt.getList(PENDING, NbtElement.STRING_TYPE.toInt())
             progressList = nbt.getList(PROGRESS, NbtElement.COMPOUND_TYPE.toInt())
         }
@@ -101,7 +101,7 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
             val evolution = this.findEvolutionFromId(id) ?: continue
             this.add(evolution)
         }
-        for (tag in progressList.filterIsInstance<NbtCompound>()) {
+        for (tag in progressList.filterIsInstance<CompoundTag>()) {
             EvolutionProgressFactory.create(tag.getString(ID))?.let { progress ->
                 progress.loadFromNBT(tag)
                 if (progress.shouldKeep(this.pokemon)) {
@@ -152,14 +152,14 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         }
     }
 
-    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
+    override fun saveToBuffer(buffer: RegistryFriendlyByteBuf, toClient: Boolean) {
         if (!toClient) {
             return
         }
         buffer.writeCollection(this.evolutions) { pb, value -> value.convertToDisplay(this.pokemon).encode(pb) }
     }
 
-    override fun loadFromBuffer(buffer: PacketByteBuf) {
+    override fun loadFromBuffer(buffer: RegistryFriendlyByteBuf) {
         // Nothing is done on the server
     }
 

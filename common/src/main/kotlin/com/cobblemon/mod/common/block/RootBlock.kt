@@ -13,36 +13,36 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.world.BigRootPropagatedEvent
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.block.Fertilizable
-import net.minecraft.item.ItemStack
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.core.Direction
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.random.Random
-import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldView
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.event.GameEvent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.BonemealableBlock
+import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.state.BlockState
 
 @Suppress("OVERRIDE_DEPRECATION", "UNUSED_PARAMETER", "MemberVisibilityCanBePrivate", "DEPRECATION")
-abstract class RootBlock(settings: Settings) : Block(settings), Fertilizable, ShearableBlock {
+abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBlock, ShearableBlock {
     private val possibleDirections = setOf(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST)
     override fun hasRandomTicks(state: BlockState) = true
 
-    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+    override fun randomTick(state: BlockState, world: ServerLevel, pos: BlockPos, random: Random) {
         // Check for propagation
         if (random.nextDouble() < Cobblemon.config.bigRootPropagationChance && world.getLightLevel(pos) < MAX_PROPAGATING_LIGHT_LEVEL && !hasReachedSpreadCap(world, pos)) {
             this.spreadFrom(world, pos, random)
         }
     }
 
-    fun hasReachedSpreadCap(world: World, pos: BlockPos): Boolean {
+    fun hasReachedSpreadCap(world: Level, pos: BlockPos): Boolean {
         var nearby = 0
         val nearbyPositions = BlockPos.iterate(pos.add(-4, -1, -4), pos.add(4, 1, 4)).iterator()
         while (nearbyPositions.hasNext()) {
@@ -57,7 +57,7 @@ abstract class RootBlock(settings: Settings) : Block(settings), Fertilizable, Sh
         return false
     }
 
-    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean = this.canGoOn(state, world, pos) { true }
+    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean = this.canGoOn(state, world, pos) { true }
 
     override fun getStateForNeighborUpdate(
         state: BlockState,
@@ -70,17 +70,17 @@ abstract class RootBlock(settings: Settings) : Block(settings), Fertilizable, Sh
         return if (direction == Direction.UP && !this.canPlaceAt(state, world, pos)) Blocks.AIR.defaultState else super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
     }
 
-    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState) = this.canSpread(world, pos, state)
+    override fun isFertilizable(world: LevelReader, pos: BlockPos, state: BlockState) = this.canSpread(world, pos, state)
 
-    override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = this.canSpread(world, pos, state)
+    override fun canGrow(world: Level, random: Random, pos: BlockPos, state: BlockState) = this.canSpread(world, pos, state)
 
-    override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
+    override fun grow(world: ServerLevel, random: Random, pos: BlockPos, state: BlockState) {
         this.spreadFrom(world, pos, random)
     }
 
-    override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
+    override fun getRenderShape(state: BlockState) = RenderShape.MODEL
 
-    fun spreadFrom(world: ServerWorld, pos: BlockPos, random: Random) {
+    fun spreadFrom(world: ServerLevel, pos: BlockPos, random: Random) {
         val possibleDirections = this.possibleDirections.toMutableSet()
         while (possibleDirections.isNotEmpty()) {
             val picked = possibleDirections.random()
@@ -108,7 +108,7 @@ abstract class RootBlock(settings: Settings) : Block(settings), Fertilizable, Sh
         }
     }
 
-    override fun attemptShear(world: World, state: BlockState, pos: BlockPos, successCallback: () -> Unit): Boolean {
+    override fun attemptShear(world: Level, state: BlockState, pos: BlockPos, successCallback: () -> Unit): Boolean {
         // We always allow the shearing at the moment but hey if it ever changes at least it's easy to do so.
         world.playSound(null, pos, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.BLOCKS, 1F, 1F)
         world.setBlockState(pos, this.shearedResultingState())
@@ -123,12 +123,12 @@ abstract class RootBlock(settings: Settings) : Block(settings), Fertilizable, Sh
     /**
      * Checks if this block can spread to any neighbouring blocks.
      *
-     * @param world The [WorldView] being queried.
+     * @param world The [LevelReader] being queried.
      * @param pos The [BlockPos] the block is currently on.
      * @param state The [BlockState] of the block.
      * @return If any direction supports spreading.
      */
-    protected fun canSpread(world: WorldView, pos: BlockPos, state: BlockState): Boolean = this.possibleDirections.any { direction ->
+    protected fun canSpread(world: LevelReader, pos: BlockPos, state: BlockState): Boolean = this.possibleDirections.any { direction ->
         val adjacent = pos.offset(direction)
         this.canSpreadTo(this.defaultState, world, adjacent)
     }
@@ -137,11 +137,11 @@ abstract class RootBlock(settings: Settings) : Block(settings), Fertilizable, Sh
      * Checks if the given coordinates allow for a root to spread to.
      *
      * @param state The base root [BlockState].
-     * @param world The [WorldView] being queried.
+     * @param world The [LevelReader] being queried.
      * @param pos The [BlockPos] being queried.
      * @return If the given coordinates allow for a root to spread onto.
      */
-    protected fun canSpreadTo(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
+    protected fun canSpreadTo(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
         val existingState = world.getBlockState(pos)
         // Isn't this useless since it's always air or replaceable if this is happening, not! See the spread implementation for the need of a valid block in the target pos as well.
         return (existingState.isAir || existingState.isReplaceable) && this.canGoOn(state, world, pos) { ceiling -> ceiling.isIn(CobblemonBlockTags.ROOTS_SPREADABLE) }
@@ -159,12 +159,12 @@ abstract class RootBlock(settings: Settings) : Block(settings), Fertilizable, Sh
      * Checks if the given coordinates allow for a root to be placed with some context.
      *
      * @param state The base root [BlockState].
-     * @param world The [WorldView] being queried.
+     * @param world The [LevelReader] being queried.
      * @param pos The [BlockPos] being queried.
      * @param ceilingValidator An extra condition to validate if the block it will be placed on allows for it based on context.
      * @return If the given coordinates allow for a root to be set.
      */
-    protected fun canGoOn(state: BlockState, world: WorldView, pos: BlockPos, ceilingValidator: (ceiling: BlockState) -> Boolean): Boolean {
+    protected fun canGoOn(state: BlockState, world: LevelReader, pos: BlockPos, ceilingValidator: (ceiling: BlockState) -> Boolean): Boolean {
         val up = pos.up()
         val upState = world.getBlockState(up)
         return upState.isSideSolidFullSquare(world, up, Direction.DOWN) && ceilingValidator(upState)

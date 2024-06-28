@@ -8,8 +8,7 @@
 
 package com.cobblemon.mod.common.api.net
 
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 /**
  * Represents an object that can be encoded to a [RegistryByteBuf].
@@ -22,8 +21,8 @@ interface Encodable {
     /**
      * Writes this instance to the given buffer.
      *
-     * @param buffer The [PacketByteBuf] being written to.
+     * @param buffer The [RegistryFriendlyByteBuf] being written to.
      */
-    fun encode(buffer: RegistryByteBuf)
+    fun encode(buffer: RegistryFriendlyByteBuf)
 
 }

@@ -15,10 +15,10 @@ import com.cobblemon.mod.common.api.pokemon.evolution.ContextEvolution
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.registry.BlockIdentifierCondition
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.Block
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.util.Identifier
-import net.minecraft.world.World
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.Level
 
 /**
  * Represents a [ContextEvolution] with [RegistryLikeCondition] of type [Block] context.
@@ -42,7 +42,7 @@ open class BlockClickEvolution(
         id = "id",
         result = PokemonProperties(),
         shedder = null,
-        requiredContext = BlockIdentifierCondition(Identifier.of("minecraft", "dirt")),
+        requiredContext = BlockIdentifierCondition(ResourceLocation.of("minecraft", "dirt")),
         optional = true,
         consumeHeldItem = true,
         requirements = mutableSetOf(),
@@ -63,7 +63,7 @@ open class BlockClickEvolution(
 
     data class BlockInteractionContext(
         val block: Block,
-        val world: World
+        val world: Level
     )
 
     companion object {

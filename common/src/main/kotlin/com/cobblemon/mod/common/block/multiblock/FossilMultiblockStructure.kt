@@ -18,10 +18,10 @@ import com.cobblemon.mod.common.api.fossil.NaturalMaterials
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.MultiblockStructure
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
-import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.FossilAnalyzerBlock
 import com.cobblemon.mod.common.block.MonitorBlock
 import com.cobblemon.mod.common.block.RestorationTankBlock
+import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilState
 import com.cobblemon.mod.common.client.sound.CancellableSoundController
@@ -30,43 +30,41 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.*
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.Block
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.core.HolderLookup
 import net.minecraft.entity.EntityPose
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtHelper
-import net.minecraft.nbt.NbtList
-import net.minecraft.nbt.NbtOps
+import net.minecraft.nbt.*
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.FluidTags
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.ItemScatterer
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
+import net.minecraft.util.RandomSource
 import net.minecraft.util.math.Box
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.random.Random
-import net.minecraft.world.World
-import java.util.UUID
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.BlockHitResult
+import java.util.*
 import kotlin.math.ceil
 
 class FossilMultiblockStructure (
     val monitorPos: BlockPos,
     val analyzerPos: BlockPos,
     val tankBasePos: BlockPos,
-        animAge: Int = -1,
-        animPartialTicks: Float = 0F
+    animAge: Int = -1,
+    animPartialTicks: Float = 0F
 ) : MultiblockStructure {
 
     override val controllerBlockPos = analyzerPos
@@ -94,15 +92,15 @@ class FossilMultiblockStructure (
     var fillLevel = 0
     override fun onUse(
         blockState: BlockState,
-        world: World,
+        world: Level,
         blockPos: BlockPos,
-        player: PlayerEntity,
+        player: Player,
         blockHitResult: BlockHitResult
-    ): ActionResult {
+    ): InteractionResult {
         val stack = player.getStackInHand(Hand.MAIN_HAND)
 
         if(stack.isIn(CobblemonItemTags.POKE_BALLS) || stack.item is PokeBallItem) {
-            if (player !is ServerPlayerEntity) {
+            if (player !is ServerPlayer) {
                 return ActionResult.SUCCESS
             }
             if (this.hasCreatedPokemon) {
@@ -173,7 +171,7 @@ class FossilMultiblockStructure (
                 if (fossilInventory.size > Cobblemon.config.maxInsertedFossilItems) {
                     return ActionResult.FAIL
                 }
-                if (player is ServerPlayerEntity) {
+                if (player is ServerPlayer) {
                     val copyFossilStack = stack.copyWithCount(1)
                     if (!player.isCreative) {
                         stack?.decrement(1)
@@ -191,7 +189,7 @@ class FossilMultiblockStructure (
 
         // Check if the player is holding a natural material and if so, feed it to the machine.
         if (NaturalMaterials.isNaturalMaterial(stack)) {
-            if (player is ServerPlayerEntity
+            if (player is ServerPlayer
                     && !this.isRunning()
                     && !this.hasCreatedPokemon
                     && this.organicMaterialInside < MATERIAL_TO_START
@@ -200,7 +198,12 @@ class FossilMultiblockStructure (
                 if (!player.isCreative) {
                     val returnItem = NaturalMaterials.getReturnItem(stack)
                     stack?.decrement(1)
-                    player.giveOrDropItemStack(ItemStack(Registries.ITEM.get(returnItem)), false)
+                    player.giveOrDropItemStack(
+                        ItemStack(
+                            Registries.ITEM.get(
+                                returnItem
+                            )
+                        ), false)
                 }
             }
             return ActionResult.success(world.isClient)
@@ -212,7 +215,7 @@ class FossilMultiblockStructure (
         return ActionResult.PASS
     }
 
-    fun spawn(world: World, pos: BlockPos, directionToBehind: Direction, pokemon: Pokemon) : Boolean {
+    fun spawn(world: Level, pos: BlockPos, directionToBehind: Direction, pokemon: Pokemon) : Boolean {
         val entity = PokemonEntity(world, pokemon = pokemon)
         entity.calculateDimensions()
         val width = entity.boundingBox.lengthX
@@ -238,7 +241,7 @@ class FossilMultiblockStructure (
         return false
     }
 
-    fun isSafeFloor(world: World, pos: BlockPos, entity: PokemonEntity): Boolean {
+    fun isSafeFloor(world: Level, pos: BlockPos, entity: PokemonEntity): Boolean {
         val state = world.getBlockState(pos)
         return if (state.isAir) {
             false
@@ -251,7 +254,7 @@ class FossilMultiblockStructure (
         }
     }
 
-    fun makeSuitableY(world: World, pos: BlockPos, entity: PokemonEntity, box: Box): BlockPos? {
+    fun makeSuitableY(world: Level, pos: BlockPos, entity: PokemonEntity, box: Box): BlockPos? {
         if (world.canCollide(entity, box)) {
             for (i in 1..15) {
                 val newBox = box.offset(0.5, i.toDouble(), 0.5)
@@ -274,7 +277,7 @@ class FossilMultiblockStructure (
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getComparatorOutput(state: BlockState, world: World?, pos: BlockPos?): Int {
+    override fun getComparatorOutput(state: BlockState, world: Level?, pos: BlockPos?): Int {
         if(world == null || pos == null) {
             return 0
         }
@@ -292,7 +295,7 @@ class FossilMultiblockStructure (
         }
         return 0
     }
-    override fun onTriggerEvent(state: BlockState?, world: ServerWorld?, pos: BlockPos?, random: Random?) {
+    override fun onTriggerEvent(state: BlockState?, world: ServerLevel?, pos: BlockPos?, random: RandomSource?) {
         // instantiate the pokemon as a new entity and spawn it at the location of the machine
         if(this.protectionTime <= 0) {
             val wildPokemon: Pokemon = if (hasCreatedPokemon) resultingFossil?.result?.create() ?: return else return
@@ -313,7 +316,7 @@ class FossilMultiblockStructure (
         }
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
+    override fun onBreak(world: Level, pos: BlockPos, state: BlockState, player: Player?) {
         val monitorEntity = world.getBlockEntity(monitorPos) as? MultiblockEntity
         val analyzerEntity = world.getBlockEntity(analyzerPos) as? MultiblockEntity
         val tankBaseEntity = world.getBlockEntity(tankBasePos) as? MultiblockEntity
@@ -363,13 +366,13 @@ class FossilMultiblockStructure (
         this.markDirty(world)
     }
 
-    override fun markRemoved(world: World) {
+    override fun markRemoved(world: Level) {
         if(world.isClient) {
             CancellableSoundController.stopSound(this.tankBasePos, CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id)
         }
     }
 
-    override fun tick(world: World) {
+    override fun tick(world: Level) {
         if (protectionTime > 0) protectionTime--
         if (protectionTime == 0) {
             protectionTime = -1
@@ -418,7 +421,7 @@ class FossilMultiblockStructure (
         }
     }
 
-    override fun syncToClient(world: World) {
+    override fun syncToClient(world: Level) {
         val tankBaseEntity = world.getBlockEntity(tankBasePos) as? MultiblockEntity
         val analyzerEntity = world.getBlockEntity(controllerBlockPos) as? MultiblockEntity
         val monitorEntity = world.getBlockEntity(monitorPos) as? MultiblockEntity
@@ -431,7 +434,7 @@ class FossilMultiblockStructure (
             world.updateListeners(monitorPos, monitorEntity.cachedState, monitorEntity.cachedState, Block.NOTIFY_LISTENERS)
     }
 
-    override fun markDirty(world: World) {
+    override fun markDirty(world: Level) {
         val entities = listOf(
             world.getBlockEntity(analyzerPos),
             world.getBlockEntity(tankBasePos),
@@ -443,7 +446,7 @@ class FossilMultiblockStructure (
         }
     }
 
-    fun startMachine(world: World) {
+    fun startMachine(world: Level) {
         this.timeRemaining = TIME_TO_TAKE
         this.machineStartTime = world.time
 
@@ -459,7 +462,7 @@ class FossilMultiblockStructure (
         this.markDirty(world)
     }
 
-    fun stopMachine(world: World){
+    fun stopMachine(world: Level){
         this.fossilState.growthState = "Fully Grown"
         this.timeRemaining = -1
         this.organicMaterialInside = 0
@@ -476,7 +479,7 @@ class FossilMultiblockStructure (
         this.markDirty(world)
     }
 
-    fun updateOnStatus(world: World) {
+    fun updateOnStatus(world: Level) {
         val upperTankPos = tankBasePos.up()
         val analyzerState = world.getBlockState(analyzerPos)
         val tankState = world.getBlockState(tankBasePos.up())
@@ -488,7 +491,7 @@ class FossilMultiblockStructure (
         }
     }
 
-    fun updateProgress(world: World) {
+    fun updateProgress(world: Level) {
         val monitorState = world.getBlockState(monitorPos)
         if (monitorState.contains(MonitorBlock.SCREEN)) {
             val screenID = if (protectionTime > 0F) {
@@ -522,7 +525,7 @@ class FossilMultiblockStructure (
      * @param world The world to check in.
      * @return The resulting fossil type if found, otherwise null.
      */
-    fun updateFossilType(world: World) {
+    fun updateFossilType(world: Level) {
         if (fossilInventory.isEmpty()) {
             if (this.resultingFossil == null) {
                 return
@@ -541,7 +544,7 @@ class FossilMultiblockStructure (
     }
 
     //Returns false if material wasnt inserted
-    fun insertOrganicMaterial(stack: ItemStack, world: World): Boolean {
+    fun insertOrganicMaterial(stack: ItemStack, world: Level): Boolean {
         var natureValue = NaturalMaterials.getContent(stack)
         if (timeRemaining > 0 || this.organicMaterialInside >= MATERIAL_TO_START || natureValue == null) {
             return false
@@ -574,7 +577,7 @@ class FossilMultiblockStructure (
     }
 
     // insert fossil to fossilInventory - returns false if failed
-    fun insertFossil(stack: ItemStack, world: World): Boolean {
+    fun insertFossil(stack: ItemStack, world: Level): Boolean {
         // if machine is running or fossil inventory is equal to 3 return false
         if (timeRemaining > 0 || this.fossilInventory.size == 3) {
             return false
@@ -593,8 +596,8 @@ class FossilMultiblockStructure (
         return true
     }
 
-    override fun writeToNbt(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound {
-        val result = NbtCompound()
+    override fun writeToNbt(registryLookup: HolderLookup.Provider): CompoundTag {
+        val result = CompoundTag()
         result.put(DataKeys.MONITOR_POS, NbtHelper.fromBlockPos(monitorPos))
         result.put(DataKeys.ANALYZER_POS, NbtHelper.fromBlockPos(analyzerPos))
         result.put(DataKeys.TANK_BASE_POS, NbtHelper.fromBlockPos(tankBasePos))
@@ -641,7 +644,7 @@ class FossilMultiblockStructure (
         const val TIME_PER_STAGE = TIME_TO_TAKE / 8
         const val PROTECTION_TIME = TICKS_PER_MINUTE * 5
 
-        fun fromNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup, animAge: Int = -1, partialTicks: Float = 0f): FossilMultiblockStructure {
+        fun fromNbt(nbt: CompoundTag, registryLookup: RegistryWrapper.WrapperLookup, animAge: Int = -1, partialTicks: Float = 0f): FossilMultiblockStructure {
             val monitorPos = NbtHelper.toBlockPos(nbt, DataKeys.MONITOR_POS).get()
             val compartmentPos = NbtHelper.toBlockPos(nbt, DataKeys.ANALYZER_POS).get()
             val tankBasePos = NbtHelper.toBlockPos(nbt, DataKeys.TANK_BASE_POS).get()
@@ -663,7 +666,7 @@ class FossilMultiblockStructure (
             result.tankConnectorDirection = Direction.byName(nbt.getString(DataKeys.CONNECTOR_DIRECTION))
 
             if (nbt.contains(DataKeys.INSERTED_FOSSIL)) {
-                val id = Identifier.of(nbt.getString(DataKeys.INSERTED_FOSSIL))
+                val id = ResourceLocation.of(nbt.getString(DataKeys.INSERTED_FOSSIL))
                 val fossil = Fossils.getByIdentifier(id)
 
                 if (fossil != null) {

@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BlockEntityModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
@@ -37,7 +37,7 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
 
         val model = BlockEntityModelRepository.getPoser(poserId, aspects)
         val texture = BlockEntityModelRepository.getTexture(poserId, aspects, state.animationSeconds)
-        val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(texture))
+        val vertexConsumer = vertexConsumers.getBuffer(RenderType.getEntityCutout(texture))
         model.bufferProvider = vertexConsumers
         state.currentModel = model
         state.currentAspects = aspects

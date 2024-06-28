@@ -14,8 +14,8 @@ import com.cobblemon.mod.common.api.permission.Permission
 import com.cobblemon.mod.common.api.permission.PermissionValidator
 import net.minecraft.command.CommandSource
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.resources.ResourceLocation
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.server.permission.PermissionAPI
 import net.neoforged.neoforge.server.permission.events.PermissionGatherEvent
@@ -24,7 +24,7 @@ import net.neoforged.neoforge.server.permission.nodes.PermissionTypes
 
 object ForgePermissionValidator : PermissionValidator {
 
-    private val nodes = hashMapOf<Identifier, PermissionNode<Boolean>>()
+    private val nodes = hashMapOf<ResourceLocation, PermissionNode<Boolean>>()
 
     init {
         NeoForge.EVENT_BUS.addListener<PermissionGatherEvent.Nodes> { event ->
@@ -38,7 +38,7 @@ object ForgePermissionValidator : PermissionValidator {
         Cobblemon.LOGGER.info("Booting ForgePermissionApiPermissionValidator, player permissions will be checked using MinecraftForge' PermissionAPI, non player command sources will use Minecraft' permission level system, see https://docs.minecraftforge.net/en/latest/ and https://minecraft.fandom.com/wiki/Permission_level")
     }
 
-    override fun hasPermission(player: ServerPlayerEntity, permission: Permission): Boolean {
+    override fun hasPermission(player: ServerPlayer, permission: Permission): Boolean {
         val node = this.findNode(permission) ?: return player.hasPermissionLevel(permission.level.numericalValue)
         return PermissionAPI.getPermission(player, node)
     }

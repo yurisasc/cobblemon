@@ -21,17 +21,16 @@ import com.cobblemon.mod.common.block.RevivalHerbBlock
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import kotlin.math.ceil
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.AliasedBlockItem
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
-import net.minecraft.world.World
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.item.ItemNameBlockItem
+import net.minecraft.world.level.Level
 
-class RevivalHerbItem(block: RevivalHerbBlock) : AliasedBlockItem(block, Settings()), PokemonSelectingItem {
+class RevivalHerbItem(block: RevivalHerbBlock) : ItemNameBlockItem(block, Settings()), PokemonSelectingItem {
 
     init {
         // 65% to raise composter level
@@ -49,22 +48,22 @@ class RevivalHerbItem(block: RevivalHerbBlock) : AliasedBlockItem(block, Setting
         }
     }
 
-    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-        if (user is ServerPlayerEntity) {
+    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+        if (user is ServerPlayer) {
             val result = use(user, user.getStackInHand(hand))
             if (result.result != ActionResult.PASS) {
                 return result
             }
         }
-        return TypedActionResult.success(user.getStackInHand(hand))
+        return InteractionResultHolder.success(user.getStackInHand(hand))
     }
 
     override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.isFainted()
     override fun applyToPokemon(
-        player: ServerPlayerEntity,
+        player: ServerPlayer,
         stack: ItemStack,
         pokemon: Pokemon
-    ): TypedActionResult<ItemStack>? {
+    ): InteractionResultHolder<ItemStack>? {
         return if (pokemon.isFainted()) {
             player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
             pokemon.currentHealth = ceil(pokemon.hp / 4F).toInt()
@@ -72,13 +71,13 @@ class RevivalHerbItem(block: RevivalHerbBlock) : AliasedBlockItem(block, Setting
             if (!player.isCreative) {
                 stack.decrement(1)
             }
-            TypedActionResult.success(stack)
+            InteractionResultHolder.success(stack)
         } else {
-            TypedActionResult.pass(stack)
+            InteractionResultHolder.pass(stack)
         }
     }
 
-    override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
+    override fun applyToBattlePokemon(player: ServerPlayer, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
         player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
     }

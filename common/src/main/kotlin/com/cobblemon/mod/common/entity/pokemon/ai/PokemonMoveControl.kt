@@ -19,19 +19,11 @@ import com.cobblemon.mod.common.util.getWaterAndLavaIn
 import com.cobblemon.mod.common.util.math.geometry.toDegrees
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveFloat
+import net.minecraft.world.entity.ai.control.MoveControl
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
-import net.minecraft.entity.ai.control.MoveControl
-import net.minecraft.entity.ai.pathing.PathNodeType
-import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.registry.tag.BlockTags
-import net.minecraft.registry.tag.FluidTags
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Vec3d
 
 class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemonEntity) {
     companion object {
@@ -175,7 +167,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
         } else if (state == State.JUMPING) {
             entity.movementSpeed = adjustedSpeed
             entity.upwardSpeed = 0F
-            if (entity.isOnGround || pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
+            if (entity.onGround() || pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
                 state = State.WAIT
             }
         } else {

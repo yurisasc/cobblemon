@@ -12,22 +12,22 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.*
 import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
-import net.minecraft.item.ItemStack
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.world.item.ItemStack
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 class ToastPacket(
-    val title: Text,
-    val description: Text,
+    val title: Component,
+    val description: Component,
     val icon: ItemStack,
-    val frameTexture: Identifier,
+    val frameTexture: ResourceLocation,
     val progress: Float,
     val progressColor: Int,
     val uuid: UUID,
     val behaviour: Behaviour
 ) : NetworkPacket<ToastPacket> {
 
-    override val id: Identifier = ID
+    override val id: ResourceLocation = ID
 
     override fun encode(buffer: RegistryByteBuf) {
         buffer.writeText(this.title)

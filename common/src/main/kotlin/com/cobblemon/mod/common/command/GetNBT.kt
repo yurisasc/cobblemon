@@ -9,17 +9,13 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.text.suggest
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.util.requiresWithPermission
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.nbt.visitor.NbtOrderedStringFormatter
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Hand
+import net.minecraft.server.level.ServerPlayer
 
 object GetNBT {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
@@ -28,7 +24,7 @@ object GetNBT {
             .executes { execute(it, it.source.playerOrThrow) })
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {
+    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayer) : Int {
         /*
         val stack = player.getStackInHand(Hand.MAIN_HAND)
         try {

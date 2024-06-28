@@ -9,31 +9,23 @@
 package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
-import com.cobblemon.mod.common.block.chest.GildedChestBlock
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.block.Block
-import net.minecraft.block.FacingBlock
-import net.minecraft.block.*
-import net.minecraft.fluid.FluidState
-import net.minecraft.fluid.Fluids
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.Properties.WATERLOGGED
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.world.BlockView
-import net.minecraft.world.WorldAccess
+import net.minecraft.core.BlockPos
+import net.minecraft.world.item.Item.Properties
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.SimpleWaterloggedBlock
 
 @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
 class TumblestoneBlock(
-    settings: Settings,
+    settings: Properties,
     stage: Int,
     height: Int,
     xzOffset: Int,
     nextStage: Block?
-) : GrowableStoneBlock(settings, stage, height, xzOffset, nextStage), Waterloggable {
+) : GrowableStoneBlock(settings, stage, height, xzOffset, nextStage), SimpleWaterloggedBlock {
 
     // TODO(Deltric): Look into Block.CODEC for being optional more
     companion object {
@@ -52,10 +44,10 @@ class TumblestoneBlock(
             .with(WATERLOGGED, false)
     }
 
-    override fun canGrow(pos: BlockPos, world: BlockView): Boolean {
+    override fun canGrow(pos: BlockPos, world: BlockGetter): Boolean {
         if (stage == MAX_STAGE) return false
         val iterator: Iterator<BlockPos> =
-            BlockPos.iterate(pos.add(-1, -1, -1), pos.add(1, 1, 1))
+            BlockPos.betweenClosed(pos.add(-1, -1, -1), pos.add(1, 1, 1))
                 .iterator()
 
         var blockPos: BlockPos

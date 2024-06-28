@@ -13,14 +13,14 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.BattleCriticalHitsRequirement
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.util.Identifier
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.resources.ResourceLocation
 
 class LastBattleCriticalHitsEvolutionProgress : EvolutionProgress<LastBattleCriticalHitsEvolutionProgress.Progress> {
 
     private var progress = Progress(0)
 
-    override fun id(): Identifier = ID
+    override fun id(): ResourceLocation = ID
 
     override fun currentProgress(): Progress = this.progress
 
@@ -34,12 +34,13 @@ class LastBattleCriticalHitsEvolutionProgress : EvolutionProgress<LastBattleCrit
 
     override fun shouldKeep(pokemon: Pokemon): Boolean = supports(pokemon)
 
-    override fun loadFromNBT(nbt: NbtCompound) {
+    override fun loadFromNBT(nbt: CompoundTag) {
         val amount = nbt.getInt(AMOUNT)
         this.updateProgress(Progress(amount))
     }
 
-    override fun saveToNBT(): NbtCompound = NbtCompound().apply { putInt(AMOUNT, currentProgress().amount) }
+    override fun saveToNBT(): CompoundTag = CompoundTag()
+        .apply { putInt(AMOUNT, currentProgress().amount) }
 
     override fun loadFromJson(json: JsonObject) {
         val amount = json.get(AMOUNT).asInt

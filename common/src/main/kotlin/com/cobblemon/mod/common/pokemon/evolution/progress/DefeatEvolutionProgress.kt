@@ -14,8 +14,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.DefeatRequirement
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.util.Identifier
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.resources.ResourceLocation
 
 /**
  * An [EvolutionProgress] meant to keep track of the amount of times a specific Pokémon was defeated in battle.
@@ -27,7 +27,7 @@ class DefeatEvolutionProgress : EvolutionProgress<DefeatEvolutionProgress.Progre
 
     private var progress = Progress(PokemonProperties(), 0)
 
-    override fun id(): Identifier = ID
+    override fun id(): ResourceLocation = ID
 
     override fun currentProgress(): Progress = this.progress
 
@@ -47,14 +47,14 @@ class DefeatEvolutionProgress : EvolutionProgress<DefeatEvolutionProgress.Progre
         }
     }
 
-    override fun loadFromNBT(nbt: NbtCompound) {
+    override fun loadFromNBT(nbt: CompoundTag) {
         val target = PokemonProperties.parse(nbt.getString(TARGET))
         val amount = nbt.getInt(AMOUNT)
         this.updateProgress(Progress(target, amount))
     }
 
-    override fun saveToNBT(): NbtCompound {
-        val nbt = NbtCompound()
+    override fun saveToNBT(): CompoundTag {
+        val nbt = CompoundTag()
         nbt.putString(TARGET, this.currentProgress().target.originalString)
         nbt.putInt(AMOUNT, this.currentProgress().amount)
         return nbt

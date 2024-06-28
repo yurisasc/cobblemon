@@ -16,7 +16,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import java.nio.charset.StandardCharsets
 import net.minecraft.resource.ResourceManager
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Client-side storage of loaded [BedrockParticleEffect]s.
@@ -26,7 +26,7 @@ import net.minecraft.util.Identifier
  */
 object BedrockParticleEffectRepository {
     private val GSON = GsonBuilder().create()
-    private val effects = mutableMapOf<Identifier, BedrockParticleEffect>()
+    private val effects = mutableMapOf<ResourceLocation, BedrockParticleEffect>()
 
     fun loadEffects(resourceManager: ResourceManager) {
         LOGGER.info("Loading particle effects...")
@@ -43,5 +43,5 @@ object BedrockParticleEffectRepository {
         LOGGER.info("Loaded ${effects.size} particle effects")
     }
 
-    fun getEffect(identifier: Identifier): BedrockParticleEffect? = effects[identifier]
+    fun getEffect(identifier: ResourceLocation): BedrockParticleEffect? = effects[identifier]
 }

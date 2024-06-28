@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import kotlin.math.pow
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
@@ -58,7 +58,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
             else -> {}
         }
 
-        val cutoutBuffer = vertexConsumers.getBuffer(RenderLayer.getCutout())
+        val cutoutBuffer = vertexConsumers.getBuffer(RenderType.getCutout())
         if (connectionDir != null) {
             matrices.push()
             CONNECTOR_MODEL.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
@@ -76,7 +76,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
         }
 
         matrices.push()
-        val transparentBuffer = vertexConsumers.getBuffer(RenderLayer.getTranslucent())
+        val transparentBuffer = vertexConsumers.getBuffer(RenderType.getTranslucent())
 
         val fluidModel = if (struct.isRunning()) FLUID_MODELS[8]
         else if (struct.hasCreatedPokemon) FLUID_MODELS[7]
@@ -134,7 +134,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
             val texture = FossilModelRepository.getTexture(identifier, aspects, state.animationSeconds)
 
             if (scale > 0F) {
-                val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(texture))
+                val vertexConsumer = vertexConsumers.getBuffer(RenderType.getEntityCutout(texture))
                 state.currentModel = model
                 state.currentAspects = aspects
                 state.setPoseToFirstSuitable()

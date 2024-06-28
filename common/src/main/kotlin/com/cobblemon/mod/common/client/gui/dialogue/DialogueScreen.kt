@@ -32,8 +32,8 @@ import com.cobblemon.mod.common.util.asExpressions
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.resolve
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.Screen
 
 class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTranslated()) {
@@ -45,7 +45,7 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
             is ReferenceDialogueFaceProvider -> {
                 key to DialogueRenderableSpeaker(
                     name = name,
-                    face = ReferenceRenderableFace(MinecraftClient.getInstance().world?.getEntityById(face.entityId) as? PosableEntity ?: return@mapNotNull null)
+                    face = ReferenceRenderableFace(Minecraft.getInstance().world?.getEntityById(face.entityId) as? PosableEntity ?: return@mapNotNull null)
                 )
             }
             else -> key to DialogueRenderableSpeaker(name, null)
@@ -103,7 +103,7 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
         )
     }
 
-    override fun renderBackground(context: DrawContext?, mouseX: Int, mouseY: Int, delta: Float) {}
+    override fun renderBackground(context: GuiGraphics?, mouseX: Int, mouseY: Int, delta: Float) {}
     override fun applyBlur(delta: Float) {}
 
     override fun init() {
@@ -207,7 +207,7 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
         dialogueDTO.currentPageDTO.clientActions.flatMap(String::asExpressions).resolve(runtime)
     }
 
-    override fun render(drawContext: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(drawContext: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         remainingSeconds -= delta / 20F
         dialogueTimerWidget.ratio = if (remainingSeconds <= 0) -1F else remainingSeconds / dialogueDTO.dialogueInput.deadline
         super.render(drawContext, mouseX, mouseY, delta)

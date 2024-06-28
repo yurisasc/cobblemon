@@ -12,10 +12,10 @@ import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.messages.server.npc.SaveNPCPacket
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object SaveNPCHandler : ServerNetworkPacketHandler<SaveNPCPacket> {
-    override fun handle(packet: SaveNPCPacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: SaveNPCPacket, server: MinecraftServer, player: ServerPlayer) {
         val npcEntity = player.world.getEntityById(packet.npcId) as? NPCEntity ?: return
         if (npcEntity.editingPlayer != player.uuid) {
             return

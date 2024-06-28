@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.util
 
-import net.minecraft.client.sound.MovingSoundInstance
 import net.minecraft.client.sound.SoundInstance
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class MovingSoundInstance(
     val sound: SoundEvent,
     private val category: SoundCategory,
-    val pos: () -> Vec3d?,
+    val pos: () -> Vec3?,
     private val startingVol: Float,
     private val pitch: Float,
     var looping: Boolean = true,

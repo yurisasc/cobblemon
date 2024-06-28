@@ -11,20 +11,21 @@ package com.cobblemon.mod.common.net.messages.client.data
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 internal class PropertiesCompletionRegistrySyncPacket(suggestions: Collection<PropertiesCompletionProvider.SuggestionHolder>) : DataRegistrySyncPacket<PropertiesCompletionProvider.SuggestionHolder, PropertiesCompletionRegistrySyncPacket>(suggestions) {
 
     override val id = ID
 
     override fun encodeEntry(
-        buffer: RegistryByteBuf,
+        buffer: RegistryFriendlyByteBuf,
         entry: PropertiesCompletionProvider.SuggestionHolder
     ) {
         buffer.writeCollection(entry.keys) { pb, value -> pb.writeString(value) }
         buffer.writeCollection(entry.suggestions) { pb, value -> pb.writeString(value) }
     }
 
-    override fun decodeEntry(buffer: RegistryByteBuf): PropertiesCompletionProvider.SuggestionHolder? {
+    override fun decodeEntry(buffer: RegistryFriendlyByteBuf): PropertiesCompletionProvider.SuggestionHolder? {
         val keys = buffer.readList { pb -> pb.readString() }
         val suggestions = buffer.readList { pb -> pb.readString() }
         return PropertiesCompletionProvider.SuggestionHolder(keys, suggestions)

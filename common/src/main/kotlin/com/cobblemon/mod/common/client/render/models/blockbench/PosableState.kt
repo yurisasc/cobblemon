@@ -37,13 +37,13 @@ import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import java.util.concurrent.ConcurrentLinkedQueue
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 /**
  * Represents some kind of animation state for an entity or GUI element or other renderable component in the game.
@@ -141,7 +141,7 @@ abstract class PosableState : Schedulable {
             if (soundEvent != null) {
                 val volume = if (params.contains(1)) params.getDouble(1).toFloat() else 1F
                 val pitch = if (params.contains(2)) params.getDouble(2).toFloat() else 1F
-                MinecraftClient.getInstance().soundManager.play(
+                Minecraft.getInstance().soundManager.play(
                     PositionedSoundInstance(soundEvent, SoundCategory.NEUTRAL, volume, pitch, entity.world.random, entity.x, entity.y, entity.z)
                 )
             }
@@ -317,7 +317,7 @@ abstract class PosableState : Schedulable {
     /**
      * Updates the base position of all the locators. Doesn't require the model.
      */
-    fun updateLocatorPosition(position: Vec3d) {
+    fun updateLocatorPosition(position: Vec3) {
         locatorStates.values.toList().forEach { it.updatePosition(position) }
     }
 

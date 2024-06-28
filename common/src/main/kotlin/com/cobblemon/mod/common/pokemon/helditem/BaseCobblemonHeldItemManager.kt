@@ -15,9 +15,9 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.google.common.collect.HashBiMap
 import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.registry.Registries
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 /**
  * The base Cobblemon implementation of an [HeldItemManager].
@@ -59,7 +59,7 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
         return null
     }
 
-    override fun nameOf(showdownId: String): Text = this.itemIds[showdownId]?.name ?: Text.of(showdownId)
+    override fun nameOf(showdownId: String): Component = this.itemIds[showdownId]?.name ?: Component.of(showdownId)
 
     // This is safe to do as any item triggers will only happen if a Pokémon has a valid held item to begin with.
     override fun give(pokemon: BattlePokemon, showdownId: String) {

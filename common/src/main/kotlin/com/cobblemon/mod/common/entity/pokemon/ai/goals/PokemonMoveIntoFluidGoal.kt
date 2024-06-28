@@ -16,11 +16,11 @@ import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.BlockPos.Mutable
+import net.minecraft.core.BlockPos
+import net.minecraft.core.BlockPos.Mutable
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
     override fun canStart(): Boolean {
@@ -96,7 +96,11 @@ class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
             return@closestPosition appropriateFluids.any { fluid.isIn(it) } &&
                     mob.world.isSpaceEmpty(
                         Box.of(
-                            Vec3d(pos.x.toDouble(), pos.y - 1.0, pos.z.toDouble()),
+                            Vec3(
+                                pos.x.toDouble(),
+                                pos.y - 1.0,
+                                pos.z.toDouble()
+                            ),
                             box.lengthX,
                             box.lengthY,
                             box.lengthZ

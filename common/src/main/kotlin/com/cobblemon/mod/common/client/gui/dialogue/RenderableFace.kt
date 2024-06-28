@@ -21,10 +21,10 @@ import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import java.util.UUID
 import kotlin.math.atan
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.ingame.InventoryScreen
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -35,12 +35,12 @@ import org.joml.Vector3f
  * @since January 1st, 2024
  */
 sealed interface RenderableFace {
-    fun render(drawContext: DrawContext, partialTicks: Float)
+    fun render(drawContext: GuiGraphics, partialTicks: Float)
 }
 
 class PlayerRenderableFace(val playerId: UUID) : RenderableFace {
-    override fun render(drawContext: DrawContext, partialTicks: Float) {
-        val entity = MinecraftClient.getInstance().world?.getPlayerByUuid(playerId) ?: return
+    override fun render(drawContext: GuiGraphics, partialTicks: Float) {
+        val entity = Minecraft.getInstance().world?.getPlayerByUuid(playerId) ?: return
         // All of the maths below is shamelessly stolen from InventoryScreen.drawEntity.
         // the -20 and 5 divided by 40 are for configuring the yaw and pitch tilt of the body and head respectively.
         // For more information, pray for divine inspiration or something idk.
@@ -75,7 +75,7 @@ class PlayerRenderableFace(val playerId: UUID) : RenderableFace {
 
 class ReferenceRenderableFace(val entity: PosableEntity): RenderableFace {
     val state = entity.delegate as PosableState
-    override fun render(drawContext: DrawContext, partialTicks: Float) {
+    override fun render(drawContext: GuiGraphics, partialTicks: Float) {
         val state = this.state
         if (state is PokemonClientDelegate) {
             state.currentAspects = state.currentEntity.pokemon.aspects
@@ -110,12 +110,12 @@ class ReferenceRenderableFace(val entity: PosableEntity): RenderableFace {
 
 class ArtificialRenderableFace(
     val modelType: String,
-    val identifier: Identifier,
+    val identifier: ResourceLocation,
     val aspects: Set<String>
 ): RenderableFace {
     val state = FloatingState()
 
-    override fun render(drawContext: DrawContext, partialTicks: Float) {
+    override fun render(drawContext: GuiGraphics, partialTicks: Float) {
         val state = this.state
         state.currentAspects = aspects
         if (modelType == "pokemon") {

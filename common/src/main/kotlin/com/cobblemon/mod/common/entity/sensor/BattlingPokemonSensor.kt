@@ -12,10 +12,10 @@ import com.cobblemon.mod.common.CobblemonMemories
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.entity.ai.brain.sensor.Sensor
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.server.level.ServerLevel
 
 /**
  * Sensor used to detect all of the Pokémon entities that are participating in a battle that this entity is a part of.
@@ -29,7 +29,7 @@ class BattlingPokemonSensor : Sensor<LivingEntity>(20) {
     }
 
     override fun getOutputMemoryModules() = OUTPUT_MEMORY_MODULES
-    override fun sense(world: ServerWorld, entity: LivingEntity) {
+    override fun sense(world: ServerLevel, entity: LivingEntity) {
         val battles = when (entity) {
             is PokemonEntity -> entity.battleId?.let { BattleRegistry.getBattle(it) }?.let { listOf(it) } ?: emptyList()
             is NPCEntity -> entity.battleIds.mapNotNull(BattleRegistry::getBattle)

@@ -15,11 +15,10 @@ import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequi
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
 import com.cobblemon.mod.common.registry.ItemIdentifierCondition
-import net.minecraft.item.ItemStack
-import net.minecraft.predicate.NbtPredicate
+import net.minecraft.world.item.ItemStack
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.util.Identifier
-import net.minecraft.world.World
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.Level
 
 /**
  * Represents a [ContextEvolution] with [NbtItemPredicate] context.
@@ -43,7 +42,7 @@ open class ItemInteractionEvolution(
         id = "id",
         result = PokemonProperties(),
         shedder = null,
-        requiredContext = NbtItemPredicate(ItemIdentifierCondition(Identifier.of("minecraft", "fish")), null),
+        requiredContext = NbtItemPredicate(ItemIdentifierCondition(ResourceLocation.of("minecraft", "fish")), null),
         optional = true,
         consumeHeldItem = true,
         requirements = mutableSetOf(),
@@ -64,7 +63,7 @@ open class ItemInteractionEvolution(
 
     data class ItemInteractionContext(
         val stack: ItemStack,
-        val world: World
+        val world: Level
     )
 
     companion object {

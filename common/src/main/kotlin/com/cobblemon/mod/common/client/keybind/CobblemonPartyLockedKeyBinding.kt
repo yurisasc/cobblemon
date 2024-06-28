@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.keybinds.SummaryBinding
 import com.cobblemon.mod.common.net.messages.server.starter.RequestStarterScreenPacket
 import com.cobblemon.mod.common.util.lang
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.util.InputUtil
 
 /**
@@ -47,14 +47,14 @@ abstract class CobblemonPartyLockedKeyBinding(
         val startersLocked = CobblemonClient.clientPlayerData.starterLocked
         if (!starterSelected && !havePokemon) {
             if (startersLocked) {
-                MinecraftClient.getInstance().player?.sendMessage(lang("ui.starter.cannotchoose").red(), false)
+                Minecraft.getInstance().player?.sendMessage(lang("ui.starter.cannotchoose").red(), false)
             } else {
                 RequestStarterScreenPacket().sendToServer()
             }
             return false
         } else if (!startersLocked && !starterSelected && havePokemon) {
             if (!skippedStarterSelectionMessageShown) {
-                MinecraftClient.getInstance().player?.sendMessage(
+                Minecraft.getInstance().player?.sendMessage(
                     lang(
                         "ui.starter.skippedchoosing",
                         SummaryBinding.boundKey().localizedText

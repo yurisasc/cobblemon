@@ -27,11 +27,11 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 import net.minecraft.util.math.MathHelper.floor
 
 class BattleMoveSelection(
@@ -41,7 +41,7 @@ class BattleMoveSelection(
     battleGUI = battleGUI,
     request = request,
     x = 20,
-    y = MinecraftClient.getInstance().window.scaledHeight - 84,
+    y = Minecraft.getInstance().window.scaledHeight - 84,
     width = 100,
     height = 100,
     battleLang("ui.select_move")
@@ -69,7 +69,7 @@ class BattleMoveSelection(
     }
     var moveTiles = baseTiles
 
-    val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F)
+    val backButton = BattleBackButton(x - 3F, Minecraft.getInstance().window.scaledHeight - 22F)
     val gimmickButtons = moveSet.getGimmicks().mapIndexed { index, gimmick ->
         val initOff = BattleBackButton.WIDTH * 0.65F
         val xOff = initOff + BattleGimmickButton.SPACING * index
@@ -97,7 +97,7 @@ class BattleMoveSelection(
             }
         }
 
-        fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
 
             val selectConditionOpacity = moveSelection.opacity * if (!selectable) 0.5F else 1F
 
@@ -152,7 +152,7 @@ class BattleMoveSelection(
                 shadow = true
             )
 
-            var movePPText = Text.literal("${move.pp}/${move.maxpp}").bold()
+            var movePPText = Component.literal("${move.pp}/${move.maxpp}").bold()
 
             if (move.pp <= floor(move.maxpp / 2F)) {
                 movePPText = if (move.pp == 0) movePPText.red() else movePPText.gold()
@@ -177,12 +177,12 @@ class BattleMoveSelection(
 
         fun onClick() {
             if (!selectable) return
-            moveSelection.playDownSound(MinecraftClient.getInstance().soundManager)
+            moveSelection.playDownSound(Minecraft.getInstance().soundManager)
             moveSelection.battleGUI.selectAction(moveSelection.request, response)
         }
     }
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         moveTiles.forEach {
             it.render(context, mouseX, mouseY, delta)
         }
@@ -199,7 +199,7 @@ class BattleMoveSelection(
             move.onClick()
             return true
         } else if (backButton.isHovered(mouseX, mouseY)) {
-            playDownSound(MinecraftClient.getInstance().soundManager)
+            playDownSound(Minecraft.getInstance().soundManager)
             battleGUI.changeActionSelection(null)
         } else if (gimmick != null) {
             gimmickButtons.filter { it != gimmick }.forEach { it.toggled = false }

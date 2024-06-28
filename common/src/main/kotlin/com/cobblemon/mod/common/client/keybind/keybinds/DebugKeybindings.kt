@@ -13,9 +13,9 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinding
 import com.cobblemon.mod.common.client.keybind.KeybindCategories
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.util.InputUtil
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 object DebugKeybindings {
     val keybindings = listOf(
@@ -130,8 +130,8 @@ object DebugKeybindings {
             val currentlySelectedPokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot)
             if (currentlySelectedPokemon != null) {
                 val model = PokemonModelRepository.getPoser(currentlySelectedPokemon.species.resourceIdentifier, currentlySelectedPokemon.aspects)
-                MinecraftClient.getInstance().player?.sendMessage(Text.of("Portrait Translation: ${model.portraitTranslation}"))
-                MinecraftClient.getInstance().player?.sendMessage(Text.of("Portrait Scale: ${model.portraitScale}"))
+                Minecraft.getInstance().player?.sendMessage(Component.of("Portrait Translation: ${model.portraitTranslation}"))
+                Minecraft.getInstance().player?.sendMessage(Component.of("Portrait Scale: ${model.portraitScale}"))
                 Cobblemon.LOGGER.info("override var portraitTranslation = Vec3d(${model.portraitTranslation.x}, ${model.portraitTranslation.y}, ${model.portraitTranslation.z})")
                 Cobblemon.LOGGER.info("override var portraitScale = ${model.portraitScale}F")
             }

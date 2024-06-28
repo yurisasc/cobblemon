@@ -20,34 +20,38 @@ import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.item.tooltip.TooltipType
 import net.minecraft.particle.ParticleTypes
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Property
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
-import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.BaseEntityBlock
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.pathfinder.PathComputationType
 
 @Suppress("DEPRECATED", "OVERRIDE_DEPRECATION")
-class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
+class HealingMachineBlock(properties: Settings) : BaseEntityBlock(properties) {
     companion object {
         val CODEC: MapCodec<HealingMachineBlock> = createCodec(::HealingMachineBlock)
 
@@ -97,13 +101,13 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         return this.defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
     }
 
-    override fun getCodec(): MapCodec<out BlockWithEntity> {
+    override fun getCodec(): MapCodec<out BaseEntityBlock> {
         return CODEC
     }
 
-    override fun canPathfindThrough(
-        blockState: BlockState?,
-        pathComputationType: NavigationType?
+    override fun isPathfindable(
+        blockState: BlockState,
+        pathComputationType: PathComputationType
     ): Boolean {
         return false
     }
@@ -122,15 +126,15 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     }
 
     @Suppress("DEPRECATION")
-    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos?, newState: BlockState, moved: Boolean) {
+    override fun onStateReplaced(state: BlockState, world: Level, pos: BlockPos?, newState: BlockState, moved: Boolean) {
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
     }
 
     override fun onUse(
         blockState: BlockState,
-        world: World,
+        world: Level,
         blockPos: BlockPos,
-        player: PlayerEntity,
+        player: Player,
         blockHitResult: BlockHitResult
     ): ActionResult {
         if (world.isClient) {
@@ -147,7 +151,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
             return ActionResult.SUCCESS
         }
 
-        val serverPlayerEntity = player as ServerPlayerEntity
+        val serverPlayerEntity = player as ServerPlayer
         if (serverPlayerEntity.isInBattle()) {
             player.sendMessage(lang("healingmachine.inbattle").red(), true)
             return ActionResult.SUCCESS
@@ -179,10 +183,10 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         return ActionResult.CONSUME
     }
 
-    override fun onPlaced(world: World, blockPos: BlockPos, blockState: BlockState, livingEntity: LivingEntity?, itemStack: ItemStack) {
+    override fun onPlaced(world: Level, blockPos: BlockPos, blockState: BlockState, livingEntity: LivingEntity?, itemStack: ItemStack) {
         super.onPlaced(world, blockPos, blockState, livingEntity, itemStack)
 
-        if (!world.isClient && livingEntity is ServerPlayerEntity && livingEntity.isCreative) {
+        if (!world.isClient && livingEntity is ServerPlayer && livingEntity.isCreative) {
             val blockEntity = world.getBlockEntity(blockPos)
             if (blockEntity !is HealingMachineBlockEntity) {
                 return
@@ -191,7 +195,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         }
     }
 
-    override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
+    override fun randomDisplayTick(state: BlockState, world: Level, pos: BlockPos, random: Random) {
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity !is HealingMachineBlockEntity) return
 
@@ -205,18 +209,18 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
 
     override fun hasComparatorOutput(state: BlockState) = true
 
-    override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int = (world.getBlockEntity(pos) as? HealingMachineBlockEntity)?.currentSignal ?: 0
+    override fun getComparatorOutput(state: BlockState, world: Level, pos: BlockPos): Int = (world.getBlockEntity(pos) as? HealingMachineBlockEntity)?.currentSignal ?: 0
 
-    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = validateTicker(blockWithEntityType, CobblemonBlockEntities.HEALING_MACHINE, HealingMachineBlockEntity.TICKER::tick)
+    override fun <T : BlockEntity> getTicker(world: Level, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = validateTicker(blockWithEntityType, CobblemonBlockEntities.HEALING_MACHINE, HealingMachineBlockEntity.TICKER::tick)
 
-    override fun getRenderType(blockState: BlockState): BlockRenderType {
-        return BlockRenderType.MODEL
+    override fun getRenderShape(blockState: BlockState): RenderShape {
+        return RenderShape.MODEL
     }
 
     override fun appendTooltip(
         stack: ItemStack,
         context: Item.TooltipContext,
-        tooltip: MutableList<Text>,
+        tooltip: MutableList<Component>,
         options: TooltipType
     ) {
         tooltip.add("block.${Cobblemon.MODID}.healing_machine.tooltip1".asTranslated().gray())

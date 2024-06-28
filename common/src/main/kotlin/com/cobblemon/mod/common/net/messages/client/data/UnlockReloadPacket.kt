@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.client.data
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 internal class UnlockReloadPacket : NetworkPacket<UnlockReloadPacket> {
     companion object {

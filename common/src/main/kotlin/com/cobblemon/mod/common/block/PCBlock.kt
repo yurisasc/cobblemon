@@ -20,44 +20,44 @@ import com.cobblemon.mod.common.util.isInBattle
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
-import net.minecraft.block.BlockWithEntity
+import net.minecraft.world.level.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.Waterloggable
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
-import net.minecraft.util.Hand
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldEvents
-import net.minecraft.world.WorldView
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.BaseEntityBlock
+import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.pathfinder.PathComputationType
 
-class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable {
+class PCBlock(properties: Settings): BaseEntityBlock(properties), Waterloggable {
     companion object {
         val CODEC = createCodec(::PCBlock)
         val PART = EnumProperty.of("part", PCPart::class.java)
@@ -181,7 +181,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
 
     private fun isBase(state: BlockState): Boolean = state.get(PART) == PCPart.BOTTOM
 
-    override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack?) {
+    override fun onPlaced(world: Level, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack?) {
         world.setBlockState(pos.up(), state
             .with(PART, PCPart.TOP)
             .with(WATERLOGGED, world.getFluidState((pos.up())).fluid == Fluids.WATER)
@@ -203,13 +203,13 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
         return null
     }
 
-    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
+    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
         val blockPos = pos.down()
         val blockState = world.getBlockState(blockPos)
         return if (state.get(PART) == PCPart.BOTTOM) blockState.isSideSolidFullSquare(world, blockPos, Direction.UP) else blockState.isOf(this)
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?): BlockState {
+    override fun onBreak(world: Level, pos: BlockPos, state: BlockState, player: Player?): BlockState {
         if (!world.isClient && player?.isCreative == true) {
             var blockPos: BlockPos = BlockPos.ORIGIN
             var blockState: BlockState = state
@@ -226,9 +226,9 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
     override fun getCodec() = CODEC
 
     @Deprecated("Deprecated in Java")
-    override fun canPathfindThrough(
+    override fun isPathfindable(
         blockState: BlockState?,
-        pathComputationType: NavigationType?
+        pathComputationType: PathComputationType
     ): Boolean = false
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
@@ -248,19 +248,19 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos?, newState: BlockState, moved: Boolean) {
+    override fun onStateReplaced(state: BlockState, world: Level, pos: BlockPos?, newState: BlockState, moved: Boolean) {
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
     }
 
     @Deprecated("Deprecated in Java")
     override fun onUse(
         blockState: BlockState,
-        world: World,
+        world: Level,
         blockPos: BlockPos,
-        player: PlayerEntity,
+        player: Player,
         blockHitResult: BlockHitResult
     ): ActionResult {
-        if (player !is ServerPlayerEntity) return ActionResult.SUCCESS
+        if (player !is ServerPlayer) return ActionResult.SUCCESS
 
         val basePos = getBasePosition(blockState, blockPos)
 
@@ -288,11 +288,11 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
         return ActionResult.SUCCESS
     }
 
-    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>) = validateTicker(BlockWithEntityType, CobblemonBlockEntities.PC, PCBlockEntity.TICKER::tick)
+    override fun <T : BlockEntity> getTicker(world: Level, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>) = validateTicker(BlockWithEntityType, CobblemonBlockEntities.PC, PCBlockEntity.TICKER::tick)
 
     @Deprecated("Deprecated in Java")
-    override fun getRenderType(blockState: BlockState): BlockRenderType {
-        return BlockRenderType.MODEL
+    override fun getRenderShape(blockState: BlockState): RenderShape {
+        return RenderShape.MODEL
     }
 
     override fun getFluidState(state: BlockState): FluidState? {

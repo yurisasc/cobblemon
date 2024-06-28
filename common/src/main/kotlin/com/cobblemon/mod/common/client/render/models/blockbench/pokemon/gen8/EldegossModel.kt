@@ -14,17 +14,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class EldegossModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("eldegoss")
     override val head = getPart("head")
 
     override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.25, -1.41, 0.0)
+    override var portraitTranslation = Vec3(-0.25, -1.41, 0.0)
 
     override var profileScale = 0.62F
-    override var profileTranslation = Vec3d(0.07, 0.85, 0.0)
+    override var profileTranslation = Vec3(0.07, 0.85, 0.0)
 
     lateinit var standing: CobblemonPose
     lateinit var walk: CobblemonPose

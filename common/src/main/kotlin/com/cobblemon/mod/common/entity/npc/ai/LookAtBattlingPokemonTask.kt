@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.entity.npc.ai
 
 import com.cobblemon.mod.common.CobblemonMemories
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.entity.ai.brain.EntityLookTarget
 import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.entity.ai.brain.task.SingleTickTask

@@ -15,8 +15,8 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.client.dialogue.dto.DialogueInputDTO
 import com.cobblemon.mod.common.net.messages.server.dialogue.InputToDialoguePacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
@@ -36,7 +36,7 @@ class DialogueBox(
     height: Int,
     messages: List<MutableText>
 ): AlwaysSelectedEntryListWidget<DialogueBox.DialogueLine>(
-    MinecraftClient.getInstance(),
+    Minecraft.getInstance(),
     frameWidth - 14,
     height, // height
     1, // top
@@ -54,22 +54,22 @@ class DialogueBox(
     init {
         correctSize()
 
-        val textRenderer = MinecraftClient.getInstance().textRenderer
+        val textRenderer = Minecraft.getInstance().textRenderer
 
         messages
             .flatMap { Language.getInstance().reorder(textRenderer.textHandler.wrapLines(it, LINE_WIDTH, it.style)) }
             .forEach { addEntry(DialogueLine(it)) }
     }
 
-    override fun drawMenuListBackground(context: DrawContext) {}
-    override fun drawSelectionHighlight(context: DrawContext, y: Int, entryWidth: Int, entryHeight: Int, borderColor: Int, fillColor: Int) {}
-    override fun renderHeader(context: DrawContext?, x: Int, y: Int) {
+    override fun drawMenuListBackground(context: GuiGraphics) {}
+    override fun drawSelectionHighlight(context: GuiGraphics, y: Int, entryWidth: Int, entryHeight: Int, borderColor: Int, fillColor: Int) {}
+    override fun renderHeader(context: GuiGraphics?, x: Int, y: Int) {
 //        super.renderHeader(context, x, y)
     }
 
-    override fun drawHeaderAndFooterSeparators(context: DrawContext?) {}
+    override fun drawHeaderAndFooterSeparators(context: GuiGraphics?) {}
 
-    override fun renderDecorations(context: DrawContext?, mouseX: Int, mouseY: Int) {
+    override fun renderDecorations(context: GuiGraphics?, mouseX: Int, mouseY: Int) {
 //        super.renderDecorations(context, mouseX, mouseY)
     }
 
@@ -104,7 +104,7 @@ class DialogueBox(
         return (client.window.scaleFactor * i.toFloat()).toInt()
     }
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
         blitk(
             matrixStack = context.matrices,
@@ -121,7 +121,7 @@ class DialogueBox(
 //        context.disableScissor()
     }
 
-    override fun enableScissor(context: DrawContext) {
+    override fun enableScissor(context: GuiGraphics) {
         val textBoxHeight = height
         context.enableScissor(
             this.x,
@@ -179,7 +179,7 @@ class DialogueBox(
     class DialogueLine(val line: OrderedText) : Entry<DialogueLine>() {
         override fun getNarration() = "".text()
         override fun drawBorder(
-            context: DrawContext?,
+            context: GuiGraphics?,
             index: Int,
             y: Int,
             x: Int,
@@ -192,7 +192,7 @@ class DialogueBox(
         ) {}
 
         override fun render(
-            context: DrawContext,
+            context: GuiGraphics,
             index: Int,
             rowTop: Int,
             rowLeft: Int,

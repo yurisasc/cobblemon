@@ -9,8 +9,8 @@
 package com.cobblemon.mod.common.api.types
 
 import com.cobblemon.mod.common.Cobblemon
-import net.minecraft.text.MutableText
-import net.minecraft.util.Identifier
+import net.minecraft.network.chat.MutableComponent
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Class representing a type of a Pokemon or Move
@@ -22,8 +22,8 @@ import net.minecraft.util.Identifier
  */
 class ElementalType(
     val name: String,
-    val displayName: MutableText,
+    val displayName: MutableComponent,
     val hue: Int,
     val textureXMultiplier: Int,
-    val resourceLocation: Identifier = Identifier.of(Cobblemon.MODID, "ui/types.png")
+    val resourceLocation: ResourceLocation = ResourceLocation.fromNamespaceAndPath(Cobblemon.MODID, "ui/types.png")
 )

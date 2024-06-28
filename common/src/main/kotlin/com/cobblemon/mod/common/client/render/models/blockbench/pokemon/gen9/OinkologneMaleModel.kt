@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 class OinkologneMaleModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("oinkologne_male")
@@ -28,10 +28,10 @@ class OinkologneMaleModel (root: ModelPart) : PokemonPosableModel(root), HeadedF
     override val hindRightLeg = getPart("leg_back_right")
 
     override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.65, -0.5, 0.0)
+    override var portraitTranslation = Vec3(-0.65, -0.5, 0.0)
 
     override var profileScale = 0.9F
-    override var profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var profileTranslation = Vec3(0.0, 0.35, 0.0)
 
     //    lateinit var sleep: CobblemonPose
     lateinit var standing: CobblemonPose

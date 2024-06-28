@@ -16,7 +16,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 @Suppress("Unused")
 object CobblemonSherds {
@@ -35,7 +35,7 @@ object CobblemonSherds {
 
     val SUSPICIOUS_SHERD = addSherd(cobblemonResource("suspicious_pottery_pattern"), CobblemonItems.SUSPICIOUS_SHERD)
 
-    fun addSherd(patternId: Identifier, item: Item): CobblemonSherd {
+    fun addSherd(patternId: ResourceLocation, item: Item): CobblemonSherd {
         val sherd = CobblemonSherd(patternId, item)
         val registryKey = RegistryKey.of(RegistryKeys.DECORATED_POT_PATTERN, patternId)
         sherdToPattern[item] = registryKey

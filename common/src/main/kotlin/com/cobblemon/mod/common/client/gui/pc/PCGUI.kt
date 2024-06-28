@@ -27,19 +27,19 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
 import net.minecraft.sound.SoundEvent
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 class PCGUI(
     val pc: ClientPC,
     val party: ClientParty,
     val configuration: PCGUIConfiguration
-) : Screen(Text.translatable("cobblemon.ui.pc.title")) {
+) : Screen(Component.translatable("cobblemon.ui.pc.title")) {
 
     companion object {
         const val BASE_WIDTH = 349
@@ -72,7 +72,7 @@ class PCGUI(
     var selectPointerOffsetIncrement = false
 
     override fun applyBlur(delta: Float) { }
-    override fun renderDarkening(context: DrawContext?) {}
+    override fun renderDarkening(context: GuiGraphics?) {}
 
     override fun init() {
         val x = (width - BASE_WIDTH) / 2
@@ -113,7 +113,7 @@ class PCGUI(
         super.init()
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.matrices
         renderBackground(context, mouseX, mouseY, delta)
 
@@ -266,7 +266,7 @@ class PCGUI(
             val itemY = y + 98
             if (!heldItem.isEmpty) {
                 context.drawItem(heldItem, itemX, itemY)
-                context.drawItemInSlot(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+                context.drawItemInSlot(Minecraft.getInstance().textRenderer, heldItem, itemX, itemY)
             }
 
             drawScaledText(
@@ -366,7 +366,7 @@ class PCGUI(
         drawScaledText(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
-            text = Text.translatable("cobblemon.ui.pc.box.title", (this.storageWidget.box + 1).toString()).bold(),
+            text = Component.translatable("cobblemon.ui.pc.box.title", (this.storageWidget.box + 1).toString()).bold(),
             x = x + 172,
             y = y + 15,
             centered = true
@@ -411,7 +411,7 @@ class PCGUI(
             val itemHovered =
                 mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
             if (itemHovered) context.drawItemTooltip(
-                MinecraftClient.getInstance().textRenderer,
+                Minecraft.getInstance().textRenderer,
                 pokemon.heldItemNoCopy(),
                 mouseX,
                 mouseY
@@ -421,7 +421,7 @@ class PCGUI(
 
     fun closeNormally(unlink: Boolean = true) {
         playSound(CobblemonSounds.PC_OFF)
-        MinecraftClient.getInstance().setScreen(null)
+        Minecraft.getInstance().setScreen(null)
         if (unlink) {
             UnlinkPlayerFromPCPacket().sendToServer()
         }
@@ -485,7 +485,7 @@ class PCGUI(
     }
 
     fun playSound(soundEvent: SoundEvent) {
-        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+        Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 
     fun setPreviewPokemon(pokemon: Pokemon?) {

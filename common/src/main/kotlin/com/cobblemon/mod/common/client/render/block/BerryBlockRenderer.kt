@@ -18,17 +18,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.setPosition
 import com.cobblemon.mod.common.util.math.geometry.Axis
 import com.cobblemon.mod.common.util.toVec3d
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.MinecraftClient
+import com.mojang.blaze3d.vertex.Tesselator
+import net.minecraft.client.Minecraft
 import net.minecraft.client.gl.VertexBuffer
 import net.minecraft.client.render.GameRenderer
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.Tessellator
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Box
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
@@ -46,9 +46,9 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
     )
 
 
-    override fun isInRenderDistance(blockEntity: BerryBlockEntity, pos: Vec3d): Boolean {
+    override fun isInRenderDistance(blockEntity: BerryBlockEntity, pos: Vec3): Boolean {
         return super.isInRenderDistance(blockEntity, pos)
-                && MinecraftClient.getInstance().worldRenderer.frustum.isVisible(Box.of(pos, 2.0, 4.0, 2.0))
+                && Minecraft.getInstance().worldRenderer.frustum.isVisible(Box.of(pos, 2.0, 4.0, 2.0))
     }
 
     override fun render(entity: BerryBlockEntity, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
@@ -88,7 +88,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
     ) {
         matrices.push()
         //Mulch is rendered on a different layer than the actual berries so
-        val mulchBuf = vertexConsumers.getBuffer(RenderLayer.getCutout())
+        val mulchBuf = vertexConsumers.getBuffer(RenderType.getCutout())
         val model = mulchModels[entity.mulchVariant]
         model?.let {
             it.getModel().getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
@@ -114,7 +114,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
     }
 
     fun renderBabyToBuffer(entity: BerryBlockEntity, light: Int, overlay: Int, buffer: VertexBuffer) {
-        val bufferBuilder = Tessellator.getInstance().begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
+        val bufferBuilder = Tesselator.getInstance().begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
         val berry = entity.berry() ?: return
         val model = BerryModelRepository.modelOf(berry.fruitModelIdentifier) ?: return
         val pos = berry.stageOnePositioning.position
@@ -141,7 +141,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             return
         }
         val isFlower = age == BerryBlock.FLOWER_AGE
-        val bufferBuilder = Tessellator.getInstance().begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
+        val bufferBuilder = Tesselator.getInstance().begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
         for ((berry, growthPoint) in entity.berryAndGrowthPoint()) {
             val model = (if (isFlower) BerryModelRepository.modelOf(berry.flowerModelIdentifier) else BerryModelRepository.modelOf(berry.fruitModelIdentifier)) ?: continue
             model.setAngles(

@@ -9,11 +9,10 @@
 package com.cobblemon.mod.neoforge.worldgen
 
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.entry.RegistryEntry
+import net.minecraft.core.Holder
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
@@ -48,7 +47,7 @@ internal object CobblemonBiomeModifiers : BiomeModifier {
         this.entries += Entry(feature, step, validTag)
     }
 
-    override fun modify(arg: RegistryEntry<Biome>, phase: BiomeModifier.Phase, builder: ModifiableBiomeInfo.BiomeInfo.Builder) {
+    override fun modify(arg: Holder<Biome>, phase: BiomeModifier.Phase, builder: ModifiableBiomeInfo.BiomeInfo.Builder) {
         if (phase != BiomeModifier.Phase.ADD) {
             return
         }
@@ -56,7 +55,7 @@ internal object CobblemonBiomeModifiers : BiomeModifier {
         val registry = server.registryManager.get(RegistryKeys.PLACED_FEATURE)
         this.entries.forEach { entry ->
             if (entry.validTag == null || arg.isIn(entry.validTag)) {
-                builder.generationSettings.feature(entry.step, RegistryEntry.of(registry.get(entry.feature)))
+                builder.generationSettings.feature(entry.step, Holder.of(registry.get(entry.feature)))
             }
         }
     }

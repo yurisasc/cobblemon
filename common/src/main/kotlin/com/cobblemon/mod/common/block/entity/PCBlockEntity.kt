@@ -13,17 +13,17 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.pc.link.ProximityPCLink
 import com.cobblemon.mod.common.block.PCBlock
-import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.core.BlockPos
 import net.minecraft.entity.ItemEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
 import net.minecraft.util.TypeFilter
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
-import net.minecraft.world.World
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.state.BlockState
 
 class PCBlockEntity(
     blockPos: BlockPos,
@@ -62,12 +62,14 @@ class PCBlockEntity(
                     world.setBlockState(pos.down(), Blocks.AIR.defaultState)
                 }
                 world.setBlockState(pos, Blocks.AIR.defaultState)
-                world.spawnEntity(ItemEntity(world, pos.x + 0.5, pos.y + 1.0, pos.z + 0.5, ItemStack(CobblemonBlocks.PC)))
+                world.spawnEntity(ItemEntity(world, pos.x + 0.5, pos.y + 1.0, pos.z + 0.5,
+                    ItemStack(CobblemonBlocks.PC)
+                ))
             }
         }
     }
 
-    private fun isPlayerViewing(player: PlayerEntity): Boolean {
+    private fun isPlayerViewing(player: Player): Boolean {
         val pcLink = PCLinkManager.getLink(player.uuid)
         return pcLink != null
                 && pcLink is ProximityPCLink
@@ -75,7 +77,7 @@ class PCBlockEntity(
                 && pcLink.world!!.dimension == player.world.dimension
     }
 
-    private fun getInRangeViewerCount(world: World, pos: BlockPos, range: Double = 5.0): Int {
+    private fun getInRangeViewerCount(world: Level, pos: BlockPos, range: Double = 5.0): Int {
         val box = Box(
             pos.x.toDouble() - range,
             pos.y.toDouble() - range,
@@ -85,6 +87,6 @@ class PCBlockEntity(
             (pos.z + 1).toDouble() + range
         )
 
-        return world.getEntitiesByType(TypeFilter.instanceOf(PlayerEntity::class.java), box) { player: PlayerEntity? -> isPlayerViewing(player!!) }.size
+        return world.getEntitiesByType(TypeFilter.instanceOf(Player::class.java), box) { player: Player? -> isPlayerViewing(player!!) }.size
     }
 }

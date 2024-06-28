@@ -17,15 +17,15 @@ import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.SnowstormParticle
-import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.*
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvent
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.Vec3d
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.phys.Vec3
 
 /**
  * An event that can be referenced from various particle event triggers. The events are not necessarily particles,
@@ -55,7 +55,7 @@ class ParticleEvent(
         }
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeNullable(particleEffect) { pb, effect ->
             pb.writeIdentifier(effect.effect)
             pb.writeEnumConstant(effect.type)
@@ -64,7 +64,7 @@ class ParticleEvent(
         buffer.writeNullable(soundEffect) { pb, effect -> pb.writeIdentifier(effect.sound) }
         buffer.writeNullable(expression) { pb, expr -> pb.writeString(expr.toString()) }
     }
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: RegistryFriendlyByteBuf) {
         particleEffect = buffer.readNullable { pb -> EventParticleEffect(
             pb.readIdentifier(),
             pb.readEnumConstant(EventParticleEffect.EventParticleType::class.java),
@@ -81,14 +81,26 @@ class ParticleEvent(
                 EventParticleEffect.EventParticleType.EMITTER,// -> MatrixWrapper().updatePosition(storm.matrixWrapper.getOrigin())
                 EventParticleEffect.EventParticleType.EMITTER_BOUND,// -> storm.matrixWrapper
                 EventParticleEffect.EventParticleType.PARTICLE,
-                EventParticleEffect.EventParticleType.PARTICLE_WITH_VELOCITY -> (particle?.let { Vec3d(it.getX(), it.getY(), it.getZ()) } ?: Vec3d(storm.getX(), storm.getY(), storm.getZ())).let { MatrixWrapper().updatePosition(it) }
+                EventParticleEffect.EventParticleType.PARTICLE_WITH_VELOCITY -> (particle?.let {
+                    Vec3(
+                        it.getX(),
+                        it.getY(),
+                        it.getZ()
+                    )
+                } ?: Vec3(storm.getX(), storm.getY(), storm.getZ())).let { MatrixWrapper().updatePosition(it) }
             }
 
             val sourceVelocity = when (effect.type) {
                 EventParticleEffect.EventParticleType.EMITTER,// -> storm.sourceVelocity().let { { it } }
                 EventParticleEffect.EventParticleType.EMITTER_BOUND,// -> storm.sourceVelocity
-                EventParticleEffect.EventParticleType.PARTICLE -> { { Vec3d.ZERO } }
-                EventParticleEffect.EventParticleType.PARTICLE_WITH_VELOCITY -> (particle?.let { Vec3d(it.getVelocityX(), it.getVelocityY(), it.getVelocityZ()) } ?: Vec3d.ZERO).let { { it } }
+                EventParticleEffect.EventParticleType.PARTICLE -> { { Vec3.ZERO } }
+                EventParticleEffect.EventParticleType.PARTICLE_WITH_VELOCITY -> (particle?.let {
+                    Vec3(
+                        it.getVelocityX(),
+                        it.getVelocityY(),
+                        it.getVelocityZ()
+                    )
+                } ?: Vec3.ZERO).let { { it } }
             }
 
             val newStorm = ParticleStorm(
@@ -108,10 +120,16 @@ class ParticleEvent(
             newStorm.spawn()
         }
         soundEffect?.let { effect ->
-            val position = particle?.let { Vec3d(it.getX(), it.getY(), it.getZ()) } ?: Vec3d(storm.getX(), storm.getY(), storm.getZ())
+            val position = particle?.let {
+                Vec3(
+                    it.getX(),
+                    it.getY(),
+                    it.getZ()
+                )
+            } ?: Vec3(storm.getX(), storm.getY(), storm.getZ())
             val world = storm.world
-            val soundEvent = SoundEvent.of(effect.sound)
-            world.playSound(position.x, position.y, position.z, soundEvent, SoundCategory.NEUTRAL, 1F, 1F, true)
+            val soundEvent = SoundEvent.createVariableRangeEvent(effect.sound)
+            world.playSound(position.x, position.y, position.z, soundEvent, SoundSource.NEUTRAL, 1F, 1F, true)
         }
         expression?.resolve(storm.runtime)
     }
@@ -125,14 +143,14 @@ class ParticleEvent(
  * @since March 2nd, 2024
  */
 class EventParticleEffect(
-    val effect: Identifier,
+    val effect: ResourceLocation,
     val type: EventParticleType,
     val expression: ExpressionLike? = null
 ) {
     companion object {
         val CODEC = RecordCodecBuilder.create<EventParticleEffect> { instance ->
             instance.group(
-                Identifier.CODEC.fieldOf("effect").forGetter { it.effect },
+                ResourceLocation.CODEC.fieldOf("effect").forGetter { it.effect },
                 PrimitiveCodec.STRING.fieldOf("type").forGetter { it.type.name },
                 PrimitiveCodec.STRING.optionalFieldOf("expression", null).forGetter { it.expression?.toString() }
             ).apply(instance) { effect, type, expression ->
@@ -161,12 +179,12 @@ class EventParticleEffect(
  * @since March 2nd, 2024
  */
 class EventSoundEffect(
-    val sound: Identifier,
+    val sound: ResourceLocation,
 ) {
     companion object {
         val CODEC = RecordCodecBuilder.create<EventSoundEffect> { instance ->
             instance.group(
-                Identifier.CODEC.fieldOf("sound").forGetter { it.sound }
+                ResourceLocation.CODEC.fieldOf("sound").forGetter { it.sound }
             ).apply(instance, ::EventSoundEffect)
         }
     }

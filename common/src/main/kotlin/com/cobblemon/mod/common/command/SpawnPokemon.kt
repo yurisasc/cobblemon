@@ -24,9 +24,9 @@ import net.minecraft.command.argument.Vec3ArgumentType
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.text.Text
-import net.minecraft.util.math.Vec3d
-import net.minecraft.world.World
+import net.minecraft.network.chat.Component
+import net.minecraft.world.phys.Vec3
+import net.minecraft.world.level.Level
 
 object SpawnPokemon {
 
@@ -38,8 +38,8 @@ object SpawnPokemon {
     private const val AT_ALIAS = "${ALIAS}at"
     private val NO_SPECIES_EXCEPTION = SimpleCommandExceptionType(commandLang("${NAME}.nospecies").red())
     // ToDo maybe dedicated lang down the line but the errors shouldn't really happen unless people are really messing up
-    private val INVALID_POS_EXCEPTION = SimpleCommandExceptionType(Text.literal("Invalid position").red())
-    private val FAILED_SPAWN_EXCEPTION = SimpleCommandExceptionType(Text.literal("Unable to spawn at the given position").red())
+    private val INVALID_POS_EXCEPTION = SimpleCommandExceptionType(Component.literal("Invalid position").red())
+    private val FAILED_SPAWN_EXCEPTION = SimpleCommandExceptionType(Component.literal("Unable to spawn at the given position").red())
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val contextPositionCommand = dispatcher.register(literal(NAME)
@@ -60,10 +60,10 @@ object SpawnPokemon {
         dispatcher.register(argumentPositionCommand.alias(AT_ALIAS))
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, pos: Vec3d): Int {
+    private fun execute(context: CommandContext<ServerCommandSource>, pos: Vec3): Int {
         val world = context.source.world
         val blockPos = pos.toBlockPos()
-        if (!World.isValid(blockPos)) {
+        if (!Level.isValid(blockPos)) {
             throw INVALID_POS_EXCEPTION.create()
         }
         val properties = PokemonPropertiesArgumentType.getPokemonProperties(context, PROPERTIES)

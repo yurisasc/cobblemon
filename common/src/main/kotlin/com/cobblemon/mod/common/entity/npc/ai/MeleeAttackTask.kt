@@ -8,12 +8,11 @@
 
 package com.cobblemon.mod.common.entity.npc.ai
 
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.entity.ai.brain.task.SingleTickTask
 import net.minecraft.entity.ai.brain.task.TaskRunnable
 import net.minecraft.entity.ai.brain.task.TaskTriggerer
-import net.minecraft.util.Unit
 
 object MeleeAttackTask {
     fun create(range: Float, cooldownTicks: Long): SingleTickTask<LivingEntity> = TaskTriggerer.task {

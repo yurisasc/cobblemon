@@ -15,10 +15,9 @@ import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.mojang.serialization.MapCodec
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.Block
 import net.minecraft.inventory.SidedInventory
-import net.minecraft.block.BlockState
-import net.minecraft.block.BlockWithEntity
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.InventoryProvider
 import net.minecraft.block.entity.BlockEntity
@@ -27,10 +26,11 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 import net.minecraft.world.WorldAccess
+import net.minecraft.world.level.block.BaseEntityBlock
 
 class FossilAnalyzerBlock(properties: Settings) : MultiblockBlock(properties), InventoryProvider {
     init {
@@ -43,12 +43,12 @@ class FossilAnalyzerBlock(properties: Settings) : MultiblockBlock(properties), I
         return FossilAnalyzerBlockEntity(pos, state, FossilMultiblockBuilder(pos))
     }
 
-    override fun getCodec(): MapCodec<out BlockWithEntity> {
+    override fun getCodec(): MapCodec<out BaseEntityBlock> {
         return CODEC
     }
 
     override fun <T : BlockEntity?> getTicker(
-        world: World?,
+        world: Level?,
         state: BlockState?,
         type: BlockEntityType<T>?
     ): BlockEntityTicker<T>? = validateTicker(type, CobblemonBlockEntities.FOSSIL_ANALYZER, FossilMultiblockStructure.TICKER::tick)
@@ -58,9 +58,9 @@ class FossilAnalyzerBlock(properties: Settings) : MultiblockBlock(properties), I
     }
 
     override fun getInventory(
-            state: BlockState,
-            world: WorldAccess,
-            pos: BlockPos
+        state: BlockState,
+        world: WorldAccess,
+        pos: BlockPos
     ): SidedInventory {
         val analyzerEntity = world.getBlockEntity(pos) as FossilAnalyzerBlockEntity
 

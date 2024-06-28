@@ -22,17 +22,17 @@ import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.gl.ShaderProgram
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.SpriteProvider
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
@@ -40,17 +40,17 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.EntityRenderers
 import net.minecraft.client.render.entity.model.EntityModelLayer
-import net.minecraft.client.util.ModelIdentifier
+import net.minecraft.client.resources.model.ModelResourceLocation
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
-import net.minecraft.resource.ReloadableResourceManagerImpl
-import net.minecraft.resource.ResourceReloader
+import net.minecraft.server.packs.resources.PreparableReloadListener
+import net.minecraft.server.packs.resources.ReloadableResourceManager
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.neoforge.client.ClientHooks
 import net.neoforged.neoforge.client.event.ModelEvent
@@ -133,7 +133,7 @@ object CobblemonNeoForgeClient : CobblemonClientImplementation {
     }
 
     @Suppress("DEPRECATION")
-    override fun registerBlockRenderType(layer: RenderLayer, vararg blocks: Block) {
+    override fun registerBlockRenderType(layer: RenderType, vararg blocks: Block) {
         blocks.forEach { block ->
             RenderLayers.setRenderLayer(block, layer)
         }
@@ -141,12 +141,12 @@ object CobblemonNeoForgeClient : CobblemonClientImplementation {
 
     @Suppress("DEPRECATION")
     override fun registerItemColors(provider: ItemColorProvider, vararg items: Item) {
-        MinecraftClient.getInstance().itemColors.register(provider, *items)
+        Minecraft.getInstance().itemColors.register(provider, *items)
     }
 
     @Suppress("DEPRECATION")
     override fun registerBlockColors(provider: BlockColorProvider, vararg blocks: Block) {
-        MinecraftClient.getInstance().blockColors.registerColorProvider(provider, *blocks)
+        Minecraft.getInstance().blockColors.registerColorProvider(provider, *blocks)
     }
 
     override fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<out T>, factory: BlockEntityRendererFactory<T>) {
@@ -159,7 +159,12 @@ object CobblemonNeoForgeClient : CobblemonClientImplementation {
 
     private fun register3dPokeballModels(event: ModelEvent.RegisterAdditional) {
         PokeBalls.all().forEach { pokeball ->
-            event.register(ModelIdentifier(pokeball.model3d, "inventory"))
+            event.register(
+                ModelResourceLocation(
+                    pokeball.model3d,
+                    "inventory"
+                )
+            )
         }
     }
 
@@ -185,8 +190,8 @@ object CobblemonNeoForgeClient : CobblemonClientImplementation {
         }
     }
 
-    internal fun registerResourceReloader(reloader: ResourceReloader) {
-        (MinecraftClient.getInstance().resourceManager as ReloadableResourceManagerImpl).registerReloader(reloader)
+    internal fun registerResourceReloader(reloader: PreparableReloadListener) {
+        (Minecraft.getInstance().resourceManager as ReloadableResourceManager).registerReloadListener(reloader)
     }
 
     private fun onBuildContents(e: BuildCreativeModeTabContentsEvent) {
@@ -210,11 +215,15 @@ object CobblemonNeoForgeClient : CobblemonClientImplementation {
         }
 
         override fun putBefore(item: ItemConvertible, target: ItemConvertible) {
-            this.entries.putBefore(ItemStack(target), ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
+            this.entries.putBefore(
+                ItemStack(target),
+                ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
         }
 
         override fun putAfter(item: ItemConvertible, target: ItemConvertible) {
-            this.entries.putAfter(ItemStack(target), ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
+            this.entries.putAfter(
+                ItemStack(target),
+                ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
         }
 
         override fun putLast(item: ItemConvertible) {

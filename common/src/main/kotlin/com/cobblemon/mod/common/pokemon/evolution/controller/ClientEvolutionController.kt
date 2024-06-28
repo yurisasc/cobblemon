@@ -18,9 +18,9 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.readList
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtElement
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 class ClientEvolutionController(override val pokemon: Pokemon) : EvolutionController<EvolutionDisplay> {
 
@@ -49,7 +49,7 @@ class ClientEvolutionController(override val pokemon: Pokemon) : EvolutionContro
     }
 
     override fun saveToNBT(): NbtElement {
-        return NbtCompound()
+        return CompoundTag()
     }
 
     override fun loadFromNBT(nbt: NbtElement) {
@@ -64,11 +64,11 @@ class ClientEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         // Nothing is done on the client
     }
 
-    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
+    override fun saveToBuffer(buffer: RegistryFriendlyByteBuf, toClient: Boolean) {
         // Nothing is done on the client
     }
 
-    override fun loadFromBuffer(buffer: PacketByteBuf) {
+    override fun loadFromBuffer(buffer: RegistryFriendlyByteBuf) {
         buffer.readList(AddEvolutionPacket::decodeDisplay).forEach { this.add(it) }
     }
 

@@ -16,13 +16,12 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
-import net.minecraft.world.World
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.level.Level
 import net.minecraft.item.Items
 
 class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
@@ -33,20 +32,20 @@ class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
     }
 
     override fun canUseOnPokemon(pokemon: Pokemon) = !pokemon.isFullHealth() && pokemon.currentHealth > 0
-    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-        if (user is ServerPlayerEntity) {
+    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+        if (user is ServerPlayer) {
             return use(user, user.getStackInHand(hand))
         }
-        return TypedActionResult.success(user.getStackInHand(hand))
+        return InteractionResultHolder.success(user.getStackInHand(hand))
     }
 
     override fun applyToPokemon(
-        player: ServerPlayerEntity,
+        player: ServerPlayer,
         stack: ItemStack,
         pokemon: Pokemon
-    ): TypedActionResult<ItemStack>? {
+    ): InteractionResultHolder<ItemStack>? {
         if (pokemon.isFullHealth()) {
-            return TypedActionResult.fail(stack)
+            return InteractionResultHolder.fail(stack)
         }
         pokemon.currentHealth = Integer.min(pokemon.currentHealth + 20, pokemon.hp)
         player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
@@ -58,10 +57,10 @@ class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
                 player.dropItem(woodenBowlItemStack, false)
             }
         }
-        return TypedActionResult.success(stack)
+        return InteractionResultHolder.success(stack)
     }
 
-    override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
+    override fun applyToBattlePokemon(player: ServerPlayer, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
         player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
         if (!player.isCreative)  {

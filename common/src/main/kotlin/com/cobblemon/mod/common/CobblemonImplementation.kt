@@ -18,12 +18,13 @@ import net.minecraft.item.ItemConvertible
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.resources.PreparableReloadListener
+import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
@@ -125,7 +126,7 @@ interface CobblemonImplementation {
      * @param argumentClass
      * @param serializer
      */
-    fun <A : ArgumentType<*>, T : ArgumentSerializer.ArgumentTypeProperties<A>> registerCommandArgument(identifier: Identifier, argumentClass: KClass<A>, serializer: ArgumentSerializer<A, T>)
+    fun <A : ArgumentType<*>, T : ArgumentSerializer.ArgumentTypeProperties<A>> registerCommandArgument(identifier: ResourceLocation, argumentClass: KClass<A>, serializer: ArgumentSerializer<A, T>)
 
     /**
      * TODO
@@ -155,7 +156,7 @@ interface CobblemonImplementation {
      * @param type
      * @param dependencies
      */
-    fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: ResourceType, dependencies: Collection<Identifier>)
+    fun registerResourceReloader(identifier: ResourceLocation, reloader: PreparableReloadListener, type: ResourceType, dependencies: Collection<ResourceLocation>)
 
     /**
      * TODO
@@ -170,7 +171,7 @@ interface CobblemonImplementation {
      * @param registry The [JsonDataRegistry] to reload.
      * @param manager The [ResourceManager] to reload from.
      */
-    fun <T> reloadJsonRegistry(registry: JsonDataRegistry<T>, manager: ResourceManager): HashMap<Identifier, T>
+    fun <T> reloadJsonRegistry(registry: JsonDataRegistry<T>, manager: ResourceManager): HashMap<ResourceLocation, T>
 
     /**
      * Registers an item to the [ComposterBlock].
@@ -183,11 +184,11 @@ interface CobblemonImplementation {
     /**
      * Registers a builtin resource pack.
      *
-     * @param id The unique [Identifier] of this pack.
+     * @param id The unique [ResourceLocation] of this pack.
      * @param title The title displayed in the resource pack GUI, the description is still a part of the pack metadata.
      * @param activationBehaviour The [ResourcePackActivationBehaviour] for this pack.
      */
-    fun registerBuiltinResourcePack(id: Identifier, title: Text, activationBehaviour: ResourcePackActivationBehaviour)
+    fun registerBuiltinResourcePack(id: ResourceLocation, title: Component, activationBehaviour: ResourcePackActivationBehaviour)
 
 }
 
@@ -218,7 +219,7 @@ enum class ModAPI {
 }
 
 interface NetworkManager {
-    fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>)
+    fun sendPacketToPlayer(player: ServerPlayer, packet: NetworkPacket<*>)
 
     fun sendToServer(packet: NetworkPacket<*>)
 }

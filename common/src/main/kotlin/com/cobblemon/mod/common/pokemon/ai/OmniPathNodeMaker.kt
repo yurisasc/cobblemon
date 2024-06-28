@@ -29,12 +29,12 @@ import net.minecraft.entity.mob.MobEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.FluidTags
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Vec3d
-import net.minecraft.world.BlockView
+import net.minecraft.world.phys.Vec3
 import net.minecraft.world.chunk.ChunkCache
+import net.minecraft.world.level.pathfinder.PathComputationType
 
 /**
  * A path node maker that constructs paths knowing that the entity might be capable of
@@ -78,7 +78,8 @@ class OmniPathNodeMaker : PathNodeMaker() {
     }
 
     fun getNodeType(entity: MobEntity, x: Int, y: Int, z: Int): PathNodeType? {
-        return this.nodePosToType.computeIfAbsent(BlockPos.asLong(x, y, z),
+        return this.nodePosToType.computeIfAbsent(
+            BlockPos.asLong(x, y, z),
             Long2ObjectFunction<PathNodeType?> {
                 this.getNodeType(
                     context, x, y, z,
@@ -135,12 +136,12 @@ class OmniPathNodeMaker : PathNodeMaker() {
             }
         }
 
-        val connectingBlockPos = BlockPos.Mutable()
+        val connectingBlockPos = BlockPos.MutableBlockPos()
         // Downward non-diagonals
         for (direction in Direction.Type.HORIZONTAL.iterator()) {
             connectingBlockPos.set(node.blockPos.add(direction.vector))
             val blockState = context.getBlockState(connectingBlockPos)
-            val traversableByTangent = blockState.canPathfindThrough(NavigationType.AIR)
+            val traversableByTangent = blockState.isPathfindable(PathComputationType.AIR)
             val pathNode2 = getNode(node.x + direction.offsetX, node.y - 1, node.z + direction.offsetZ) ?: continue
             if (hasNotVisited(pathNode2) && traversableByTangent) {
                 successors[i++] = pathNode2
@@ -164,7 +165,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
             val x = entity.boundingBox.minX
             val y = entity.boundingBox.minY + 0.5
             val z = entity.boundingBox.minZ
-            val pos = Vec3d(x, y, z)
+            val pos = Vec3(x, y, z)
 
             var n = 1
             var closestSuccessor = successors[0]!!
@@ -282,7 +283,9 @@ class OmniPathNodeMaker : PathNodeMaker() {
         val sizeX = (mob.boundingBox.maxX - mob.boundingBox.minX).toInt() + 1
         val sizeY = (mob.boundingBox.maxY - mob.boundingBox.minY).toInt() + 1
         val sizeZ = (mob.boundingBox.maxZ - mob.boundingBox.minZ).toInt() + 1
-        val type = findNearbyNodeTypes(context, x, y, z, sizeX, sizeY, sizeZ, canOpenDoors, canEnterOpenDoors, set, PathNodeType.BLOCKED, BlockPos(x, y, z))
+        val type = findNearbyNodeTypes(context, x, y, z, sizeX, sizeY, sizeZ, canOpenDoors, canEnterOpenDoors, set, PathNodeType.BLOCKED,
+            BlockPos(x, y, z)
+        )
 
         if (PathNodeType.DAMAGE_CAUTIOUS in set) {
             return PathNodeType.DAMAGE_CAUTIOUS

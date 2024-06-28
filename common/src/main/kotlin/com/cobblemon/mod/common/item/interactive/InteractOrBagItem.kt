@@ -18,11 +18,11 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.world.item.ItemStack
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
+import net.minecraft.world.InteractionResultHolder
 
 // TODO probably remove this? Still need to work through Ether logic and apply in other places
 
@@ -32,13 +32,13 @@ interface InteractOrBagItem {
 
     fun getBagItem(stack: ItemStack): BagItem?
 
-    fun onRegularUse(world: ServerWorld, user: ServerPlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-        return TypedActionResult.success(user.getStackInHand(hand))
+    fun onRegularUse(world: ServerLevel, user: ServerPlayer, hand: Hand): InteractionResultHolder<ItemStack> {
+        return InteractionResultHolder.success(user.getStackInHand(hand))
     }
 
 
 
-    fun onBattleUse(player: ServerPlayerEntity, battlePokemon: BattlePokemon, stack: ItemStack): Boolean {
+    fun onBattleUse(player: ServerPlayer, battlePokemon: BattlePokemon, stack: ItemStack): Boolean {
         val battle = battlePokemon.actor.battle
 
         val bagItem = getBagItem(stack) ?: return false
@@ -71,7 +71,7 @@ interface InteractOrBagItem {
         return true
     }
 
-    fun checkBattleItem(player: ServerPlayerEntity, battle: PokemonBattle, actor: BattleActor, battlePokemon: BattlePokemon, stack: ItemStack, hand: Hand): Boolean {
+    fun checkBattleItem(player: ServerPlayer, battle: PokemonBattle, actor: BattleActor, battlePokemon: BattlePokemon, stack: ItemStack, hand: Hand): Boolean {
 
         val bagItem = getBagItem(stack) ?: return false
 

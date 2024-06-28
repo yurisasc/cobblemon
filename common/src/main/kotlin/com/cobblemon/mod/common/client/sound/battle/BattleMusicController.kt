@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.sound.battle
 
 import com.cobblemon.mod.common.util.pauseSounds
 import com.cobblemon.mod.common.util.resumeSounds
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.SoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.sound.SoundCategory
@@ -35,7 +35,7 @@ object BattleMusicController {
      */
     val filteredCategories = listOf(SoundCategory.AMBIENT, SoundCategory.MUSIC, SoundCategory.RECORDS)
 
-    private val manager = MinecraftClient.getInstance().soundManager
+    private val manager = Minecraft.getInstance().soundManager
 
     /** Start a new [BattleMusicInstance] and pause all [filteredCategories] sounds currently playing. */
     fun initializeMusic(newMusic: BattleMusicInstance) {

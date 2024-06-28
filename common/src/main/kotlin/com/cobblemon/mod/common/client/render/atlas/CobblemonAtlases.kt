@@ -8,9 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.atlas
 
-import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlas
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.minecraft.client.texture.SpriteAtlasHolder
 
 object CobblemonAtlases {
@@ -19,7 +18,7 @@ object CobblemonAtlases {
     val BERRY_SPRITE_ATLAS = register("textures/atlas/berries.png", "berries")
     fun register(atlasId: String, sourcePath: String): SpriteAtlasHolder {
         val atlas = CobblemonAtlas(
-            MinecraftClient.getInstance().textureManager,
+            Minecraft.getInstance().textureManager,
             cobblemonResource(atlasId),
             cobblemonResource(sourcePath)
         )

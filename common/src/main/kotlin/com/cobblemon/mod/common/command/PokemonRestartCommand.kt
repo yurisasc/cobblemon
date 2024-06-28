@@ -23,7 +23,7 @@ import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object PokemonRestartCommand {
 
@@ -68,13 +68,13 @@ object PokemonRestartCommand {
         dispatcher.register(otherCommandWithoutStarters.alias(ALIAS_OTHER))
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity, resetStarters: Boolean): Int {
+    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayer, resetStarters: Boolean): Int {
         resetPlayerPokemonData(player, resetStarters)
         context.source.sendFeedback({ commandLang(NAME, player.name) }, true)
         return Command.SINGLE_SUCCESS
     }
 
-    private fun resetPlayerPokemonData(player: ServerPlayerEntity, resetStarters: Boolean) {
+    private fun resetPlayerPokemonData(player: ServerPlayer, resetStarters: Boolean) {
         player.party().clearParty()
         player.pc().clearPC()
         player.sendPacket(InitializePartyPacket(true, player.uuid, player.party().size()))

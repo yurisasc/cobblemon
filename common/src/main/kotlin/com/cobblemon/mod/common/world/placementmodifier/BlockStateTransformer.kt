@@ -17,8 +17,7 @@ import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import kotlin.random.Random
-import net.minecraft.block.BlockState
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.network.RegistryByteBuf
 
 enum class BlockStateTransformerType {

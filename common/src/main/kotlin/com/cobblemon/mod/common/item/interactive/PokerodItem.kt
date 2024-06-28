@@ -28,23 +28,23 @@ import com.cobblemon.mod.common.util.toEquipmentSlot
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.FishingRodItem
-import net.minecraft.item.ItemStack
+import net.minecraft.world.entity.player.Player
 import net.minecraft.item.tooltip.TooltipType
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
 import net.minecraft.stat.Stats
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
-import net.minecraft.util.TypedActionResult
-import net.minecraft.world.World
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.level.Level
 import net.minecraft.world.event.GameEvent
+import net.minecraft.world.item.FishingRodItem
+import net.minecraft.world.item.ItemStack
 
 
-class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodItem(settings) {
+class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : FishingRodItem(settings) {
 
     companion object {
         fun getBaitOnRod(stack: ItemStack): FishingBait? {
@@ -68,10 +68,13 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
     //var bait: ItemStack = ItemStack.EMPTY
     //var baitEffects: List<FishingBait.Effect>? = mutableListOf()
 
-    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
         // if item in mainhand is berry item then don't do anything
         if (user.getStackInHand(Hand.MAIN_HAND).item is BerryItem)
-            return TypedActionResult(ActionResult.FAIL, user.getStackInHand(hand))
+            return InteractionResultHolder(
+                ActionResult.FAIL,
+                user.getStackInHand(hand)
+            )
 
         val itemStack = user.getStackInHand(hand)
         val offHandItem = user.getStackInHand(Hand.OFF_HAND)
@@ -133,11 +136,11 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
 
             //(MinecraftClient.getInstance().getSoundManager()).stop
 
-            world.playSound(null as PlayerEntity?, user.x, user.y, user.z, CobblemonSounds.FISHING_ROD_REEL_IN, SoundCategory.PLAYERS, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.4f + 0.8f))
+            world.playSound(null as Player?, user.x, user.y, user.z, CobblemonSounds.FISHING_ROD_REEL_IN, SoundCategory.PLAYERS, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.4f + 0.8f))
             user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH)
         } else { // if the bobber is not out yet
             // play the Rod casting sound and set it
-            world.playSound(null as PlayerEntity?, user.x, user.y, user.z, CobblemonSounds.FISHING_ROD_CAST, SoundCategory.PLAYERS, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.4f + 0.8f))
+            world.playSound(null as Player?, user.x, user.y, user.z, CobblemonSounds.FISHING_ROD_CAST, SoundCategory.PLAYERS, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.4f + 0.8f))
 
             // create a SoundInstance for the casting sound to be also sent to the bobber
             val castingSoundInstance = PositionedSoundInstance(
@@ -177,13 +180,13 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
                 //bobberEntity.castingSound = castingSoundInstance
 
                 world.spawnEntity(bobberEntity)
-                CobblemonCriteria.CAST_POKE_ROD.trigger(user as ServerPlayerEntity, baitOnRod != null)
+                CobblemonCriteria.CAST_POKE_ROD.trigger(user as ServerPlayer, baitOnRod != null)
             }
 
             user.incrementStat(Stats.USED.getOrCreateStat(this))
             user.emitGameEvent(GameEvent.ITEM_INTERACT_START)
         }
-        return TypedActionResult.success(itemStack, world.isClient())
+        return InteractionResultHolder.success(itemStack, world.isClient())
     }
 
     override fun getEnchantability(): Int {
@@ -195,11 +198,11 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
 
     fun setBaitTooltips(
             stack: ItemStack,
-            world: World?
+            world: Level?
     ) {
         val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
         val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
-        var tooltipList: MutableList<Text> = mutableListOf()
+        var tooltipList: MutableList<Component> = mutableListOf()
         //var rodTooltipData = stack.tooltipData.get()
 
         tooltipList.add(ball.item.name.copy().gray())
@@ -235,11 +238,11 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
 
     fun removeBaitTooltip(
             stack: ItemStack,
-            world: World?
+            world: Level?
     ) {
         val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
         val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
-        var tooltipList: MutableList<Text> = mutableListOf()
+        var tooltipList: MutableList<Component> = mutableListOf()
         //var rodTooltipData = stack.tooltipData.get()
 
         tooltipList.add(ball.item.name.copy().gray())
@@ -251,7 +254,7 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
     override fun appendTooltip(
         stack: ItemStack,
         context: TooltipContext,
-        tooltip: MutableList<Text>,
+        tooltip: MutableList<Component>,
         tooltipType: TooltipType
     ) {
         val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return

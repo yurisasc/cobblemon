@@ -17,36 +17,17 @@ import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.block.*
-import net.minecraft.entity.ItemEntity
-import net.minecraft.entity.ai.pathing.NavigationType
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.IntProperty
-import net.minecraft.state.property.Properties
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.random.Random
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.World
-import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldView
-import net.minecraft.world.event.GameEvent
+import net.minecraft.core.BlockPos
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.BonemealableBlock
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.pathfinder.PathComputationType
 
 // Note we cannot make this inherit from CocoaBlock since our age properties differ, it is however safe to copy most of the logic from it
 @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
-class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFacingBlock(settings), Fertilizable, ShearableBlock {
+class ApricornBlock(settings: Properties, val apricorn: Apricorn) : HorizontalDirectionalBlock(settings), BonemealableBlock, ShearableBlock {
 
     init {
         this.defaultState = this.stateManager.defaultState
@@ -125,7 +106,7 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
         builder.add(FACING, AGE)
     }
 
-    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean = false
+    override fun isPathfindable(state: BlockState, type: PathComputationType): Boolean = false
 
     override fun onUse(
         state: BlockState,
@@ -151,7 +132,7 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
     }
 
     // We need to point back to the actual apricorn item, see SweetBerryBushBlock for example
-    override fun getPickStack(world: WorldView, pos: BlockPos, state: BlockState) = ItemStack(this.apricorn.item())
+    override fun getCloneItemStack(world: LevelReader, pos: BlockPos, state: BlockState) = ItemStack(this.apricorn.item())
 
     private fun doHarvest(world: World, state: BlockState, pos: BlockPos, player: PlayerEntity) {
         val resetState = this.harvest(world, state, pos)

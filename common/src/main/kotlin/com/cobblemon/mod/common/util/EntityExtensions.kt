@@ -13,15 +13,15 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.util.function.BooleanBiFunction
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 import net.minecraft.util.shape.VoxelShapes
 
 fun Entity.effectiveName() = this.displayName ?: this.name
 
-fun Entity.setPositionSafely(pos: Vec3d): Boolean {
+fun Entity.setPositionSafely(pos: Vec3): Boolean {
     // TODO: Rework this function. Best way to do it would be to define a vertical and horizontal min/max shift based on the Pokemon's hitbox.
     // Then loop through horizontal/vertical shifts, and detect collisions in three categories: suffocation, damaging blocks, and general collision
     // The closest position with the least severe collision types will be selected to move the Pokemon to
@@ -246,7 +246,7 @@ fun Entity.closestPosition(positions: Iterable<BlockPos>, filter: (BlockPos) -> 
     return closest
 }
 
-fun Entity.getIsSubmerged() = isInLava || isSubmergedInWater
+fun Entity.getIsSubmerged() = isInLava || isUnderWater
 
 fun <T> DataTracker.update(data: TrackedData<T>, mutator: (T) -> T) {
     val value = get(data)

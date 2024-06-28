@@ -32,8 +32,8 @@ import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import java.util.UUID
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
@@ -141,7 +141,7 @@ class TradeGUI(
             ExitButton(pX = x + 265, pY = y + 6) {
                 playSound(CobblemonSounds.GUI_CLICK)
                 close()
-                MinecraftClient.getInstance().setScreen(null)
+                Minecraft.getInstance().setScreen(null)
             }
         )
 
@@ -227,7 +227,7 @@ class TradeGUI(
         setOfferedPokemon(pokemon = opposingOfferedPokemon, isOpposing = true)
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
         val matrices = context.matrices
@@ -321,7 +321,7 @@ class TradeGUI(
         drawScaledText(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
-            text = MinecraftClient.getInstance().session.username.text().bold(),
+            text = Minecraft.getInstance().session.username.text().bold(),
             x = x + 57,
             y = y - 10.5,
             centered = true,
@@ -345,14 +345,14 @@ class TradeGUI(
             val itemX = x + 50
             val itemY = y + 125
             val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
-            if (itemHovered) context.drawItemTooltip(MinecraftClient.getInstance().textRenderer, offeredPokemon!!.heldItemNoCopy(), mouseX, mouseY)
+            if (itemHovered) context.drawItemTooltip(Minecraft.getInstance().textRenderer, offeredPokemon!!.heldItemNoCopy(), mouseX, mouseY)
         }
 
         if (opposingOfferedPokemon != null && !opposingOfferedPokemon!!.heldItemNoCopy().isEmpty) {
             val itemX = x + 227
             val itemY = y + 125
             val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
-            if (itemHovered) context.drawItemTooltip(MinecraftClient.getInstance().textRenderer, opposingOfferedPokemon!!.heldItemNoCopy(), mouseX, mouseY)
+            if (itemHovered) context.drawItemTooltip(Minecraft.getInstance().textRenderer, opposingOfferedPokemon!!.heldItemNoCopy(), mouseX, mouseY)
         }
     }
 
@@ -419,10 +419,10 @@ class TradeGUI(
     }
 
     private fun playSound(soundEvent: SoundEvent) {
-        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+        Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 
-    private fun renderPokemonInfo(pokemon: Pokemon?, isOpposing: Boolean, context: DrawContext, x: Int, y: Int, mouseX: Int, mouseY: Int) {
+    private fun renderPokemonInfo(pokemon: Pokemon?, isOpposing: Boolean, context: GuiGraphics, x: Int, y: Int, mouseX: Int, mouseY: Int) {
         if (pokemon != null) {
             val matrices = context.matrices
             // Level
@@ -486,7 +486,7 @@ class TradeGUI(
             val itemX = x + (if (isOpposing) 227 else 50)
             val itemY = y + 125
             if (!heldItem.isEmpty) {
-                val textRenderer = MinecraftClient.getInstance().textRenderer
+                val textRenderer = Minecraft.getInstance().textRenderer
                 context.drawItem(heldItem, itemX, itemY)
                 context.drawItemInSlot(textRenderer, heldItem, itemX, itemY)
             }
@@ -694,7 +694,7 @@ class TradeGUI(
         }
     }
 
-    private fun renderInfoLabels(context: DrawContext, x: Int, y: Int) {
+    private fun renderInfoLabels(context: GuiGraphics, x: Int, y: Int) {
         drawScaledText(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,

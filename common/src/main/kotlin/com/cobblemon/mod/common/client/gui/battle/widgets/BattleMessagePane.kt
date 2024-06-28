@@ -13,8 +13,8 @@ import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.battle.ClientBattleMessageQueue
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.text.OrderedText
 
@@ -27,7 +27,7 @@ import net.minecraft.text.OrderedText
 class BattleMessagePane(
     messageQueue: ClientBattleMessageQueue
 ): AlwaysSelectedEntryListWidget<BattleMessagePane.BattleMessageLine>(
-    MinecraftClient.getInstance(),
+    Minecraft.getInstance(),
     TEXT_BOX_WIDTH, // width
     TEXT_BOX_HEIGHT, // height
     1, // top
@@ -87,7 +87,7 @@ class BattleMessagePane(
         return this.x + 154
     }
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
         blitk(
             matrixStack = context.matrices,
@@ -148,7 +148,7 @@ class BattleMessagePane(
     class BattleMessageLine(val pane: BattleMessagePane, val line: OrderedText) : Entry<BattleMessageLine>() {
         override fun getNarration() = "".text()
         override fun render(
-            context: DrawContext,
+            context: GuiGraphics,
             index: Int,
             rowTop: Int,
             rowLeft: Int,

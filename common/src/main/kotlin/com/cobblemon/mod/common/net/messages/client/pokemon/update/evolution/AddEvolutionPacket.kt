@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionDisplay
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readString
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.RegistryByteBuf
 
 class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, AddEvolutionPacket>(pokemon, value) {
@@ -51,13 +51,13 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
             return event.display
         }
 
-        internal fun EvolutionDisplay.encode(buffer: PacketByteBuf) {
+        internal fun EvolutionDisplay.encode(buffer: RegistryFriendlyByteBuf) {
             buffer.writeString(this.id)
             buffer.writeIdentifier(this.species.resourceIdentifier)
             buffer.writeCollection(this.aspects) { pb, value -> pb.writeString(value) }
         }
 
-        internal fun decodeDisplay(buffer: PacketByteBuf): EvolutionDisplay {
+        internal fun decodeDisplay(buffer: RegistryFriendlyByteBuf): EvolutionDisplay {
             val id = buffer.readString()
             val speciesIdentifier = buffer.readIdentifier()
             val species = PokemonSpecies.getByIdentifier(speciesIdentifier)

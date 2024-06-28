@@ -16,7 +16,6 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
@@ -30,9 +29,9 @@ import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.TrackedData
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.text.Text
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.network.chat.Component
 
 /** Handles purely server logic for a Pokémon */
 class PokemonServerDelegate : PokemonSideDelegate {
@@ -101,7 +100,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
 
     fun updateTrackedValues() {
         val trackedSpecies = mock?.species ?: entity.pokemon.species.resourceIdentifier.toString()
-        val trackedNickname =  mock?.nickname ?: entity.pokemon.nickname ?: Text.empty()
+        val trackedNickname =  mock?.nickname ?: entity.pokemon.nickname ?: Component.empty()
         val trackedAspects = mock?.aspects ?: entity.pokemon.aspects
 
         entity.dataTracker.set(PokemonEntity.SPECIES, trackedSpecies)
@@ -110,7 +109,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
         }
         entity.dataTracker.set(PokemonEntity.ASPECTS, trackedAspects)
         entity.dataTracker.set(PokemonEntity.LABEL_LEVEL, entity.pokemon.level)
-        entity.dataTracker.set(PokemonEntity.MOVING, entity.velocity.multiply(1.0, if (entity.isOnGround) 0.0 else 1.0, 1.0).length() > 0.005F)
+        entity.dataTracker.set(PokemonEntity.MOVING, entity.velocity.multiply(1.0, if (entity.onGround()) 0.0 else 1.0, 1.0).length() > 0.005F)
         entity.dataTracker.set(PokemonEntity.FRIENDSHIP, entity.pokemon.friendship)
 
         updatePoseType()
@@ -166,7 +165,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
                 .find { it.battlePokemon?.uuid == entity.pokemon.uuid }
 
             if (activeBattlePokemon != null) {
-                activeBattlePokemon.position = entity.world as ServerWorld to entity.pos
+                activeBattlePokemon.position = entity.world as ServerLevel to entity.pos
             }
         }
 
@@ -192,7 +191,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
     fun updatePoseType() {
         val isSleeping = entity.pokemon.status?.status == Statuses.SLEEP && entity.behaviour.resting.canSleep
         val isMoving = entity.dataTracker.get(PokemonEntity.MOVING)
-        val isPassenger = entity.hasVehicle()
+        val isPassenger = entity.isPassenger()
         val isUnderwater = entity.getIsSubmerged()
         val isFlying = entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
 
@@ -211,7 +210,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
     }
 
     override fun drop(source: DamageSource?) {
-        val player = source?.source as? ServerPlayerEntity
+        val player = source?.source as? ServerPlayer
         if (entity.pokemon.isWild()) {
             entity.killer = player
         }
@@ -249,7 +248,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
             if (entity.owner == null) {
                 entity.world.sendEntityStatus(entity, 60.toByte()) // Sends smoke effect
                 if(entity.world.gameRules.getBoolean(CobblemonGameRules.DO_POKEMON_LOOT)) {
-                    (entity.drops ?: entity.pokemon.form.drops).drop(entity, entity.world as ServerWorld, entity.pos, entity.killer)
+                    (entity.drops ?: entity.pokemon.form.drops).drop(entity, entity.world as ServerLevel, entity.pos, entity.killer)
                 }
             }
 

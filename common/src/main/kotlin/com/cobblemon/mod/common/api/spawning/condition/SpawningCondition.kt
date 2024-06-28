@@ -17,13 +17,13 @@ import com.cobblemon.mod.common.util.Merger
 import com.cobblemon.mod.common.util.math.orMax
 import com.cobblemon.mod.common.util.math.orMin
 import com.mojang.datafixers.util.Either
-import net.minecraft.enchantment.EnchantmentHelper
-import net.minecraft.enchantment.Enchantments
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.random.ChunkRandom
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.gen.structure.Structure
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.TagKey
+import net.minecraft.world.item.enchantment.EnchantmentHelper
+import net.minecraft.world.item.enchantment.Enchantments
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.levelgen.WorldgenRandom
+import net.minecraft.world.level.levelgen.structure.Structure
 
 /**
  * The root of spawning conditions that can be applied to a spawning context. What type
@@ -41,7 +41,7 @@ abstract class SpawningCondition<T : SpawningContext> {
         }
     }
 
-    var dimensions: MutableList<Identifier>? = null
+    var dimensions: MutableList<ResourceLocation>? = null
     var biomes: MutableSet<RegistryLikeCondition<Biome>>? = null
     var moonPhase: MoonPhaseRange? = null
     var canSeeSky: Boolean? = null
@@ -58,11 +58,11 @@ abstract class SpawningCondition<T : SpawningContext> {
     var isRaining: Boolean? = null
     var isThundering: Boolean? = null
     var timeRange: TimeRange? = null
-    var structures: MutableList<Either<Identifier, TagKey<Structure>>>? = null
+    var structures: MutableList<Either<ResourceLocation, TagKey<Structure>>>? = null
     var minLureLevel: Int? = null
     var maxLureLevel: Int? = null
-    var bait: Identifier? = null
-    var rodType: Identifier? = null
+    var bait: ResourceLocation? = null
+    var rodType: ResourceLocation? = null
     var isSlimeChunk: Boolean? = null
 
     @Transient
@@ -86,7 +86,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (ctx.position.z < minZ.orMin() || ctx.position.z > maxZ.orMax()) {
             return false
-        } else if (dimensions != null && dimensions!!.isNotEmpty() && ctx.world.dimension.effects !in dimensions!!) {
+        } else if (dimensions != null && dimensions!!.isNotEmpty() && ctx.world.dimensionType().effectsLocation !in dimensions!!) {
             return false
         } else if (moonPhase != null && ctx.moonPhase !in moonPhase!!) {
             return false
@@ -96,7 +96,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (ctx.skyLight > maxSkyLight.orMax() || ctx.skyLight < minSkyLight.orMin()) {
             return false
-        } else if (timeRange != null && !timeRange!!.contains((ctx.world.timeOfDay % 24000).toInt())) {
+        } else if (timeRange != null && !timeRange!!.contains((ctx.world.dayTime() % 24000).toInt())) {
             return false
         } else if (canSeeSky != null && canSeeSky != ctx.canSeeSky) {
             return false
@@ -108,7 +108,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (structures != null && structures!!.isNotEmpty() &&
             structures!!.let { structures ->
-                val structureAccess = ctx.world.structureAccessor
+                val structureAccess = ctx.world.structureManager()
                 val cache = ctx.getStructureCache(ctx.position)
                 return@let structures.none {
                     it.map({ cache.check(structureAccess, ctx.position, it) }, { cache.check(structureAccess, ctx.position, it) })
@@ -118,7 +118,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (minLureLevel != null && ctx is FishingSpawningContext) { // check for the lureLevel of the rod
             val pokerodStack = (ctx as FishingSpawningContext).rodStack
-            val lureLevel = EnchantmentHelper.getLevel(ctx.enchantmentRegistry.getEntry(Enchantments.LURE).get(), pokerodStack)
+            val lureLevel = EnchantmentHelper.getItemEnchantmentLevel(ctx.enchantmentRegistry.getHolder(Enchantments.LURE).get(), pokerodStack)
             if (lureLevel < minLureLevel!!) {
                 return false
             } else if (maxLureLevel != null && lureLevel > maxLureLevel!!) {
@@ -135,7 +135,7 @@ abstract class SpawningCondition<T : SpawningContext> {
                 return false
             }
         } else if (isSlimeChunk != null && isSlimeChunk != false) {
-            val isSlimeChunk = ChunkRandom.getSlimeRandom(ctx.position.x shr 4, ctx.position.z shr 4, ctx.world.seed, 987234911L).nextInt(10) == 0
+            val isSlimeChunk = WorldgenRandom.seedSlimeChunk(ctx.position.x shr 4, ctx.position.z shr 4, ctx.world.seed, 987234911L).nextInt(10) == 0
 
             if (!isSlimeChunk) {
                 return false

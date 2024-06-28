@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.api.moves.MoveSet
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.species
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.emitWhile
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.scheduling.Schedulable
@@ -42,17 +41,18 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.Drawable
-import net.minecraft.client.gui.Element
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.Selectable
+import net.minecraft.client.gui.components.AbstractWidget
+import net.minecraft.client.gui.components.Renderable
+import net.minecraft.client.gui.components.events.GuiEventListener
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
 import net.minecraft.sound.SoundEvent
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 /**
  * The screen responsible for displaying various information regarding a Pokémon team.
@@ -62,7 +62,8 @@ import net.minecraft.text.Text
  *
  * @param selection The index the [party] will have as the base [selectedPokemon].
  */
-class Summary private constructor(party: Collection<Pokemon?>, private val editable: Boolean, private val selection: Int): Screen(Text.translatable("cobblemon.ui.summary.title")), Schedulable {
+class Summary private constructor(party: Collection<Pokemon?>, private val editable: Boolean, private val selection: Int): Screen(
+    Component.translatable("cobblemon.ui.summary.title")), Schedulable {
 
     companion object {
         const val BASE_WIDTH = 331
@@ -101,7 +102,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
          * @throws IndexOutOfBoundsException If the [selection] is not a possible index of [party].
          */
         fun open(party: Collection<Pokemon?>, editable: Boolean = true, selection: Int = 0) {
-            val mc = MinecraftClient.getInstance()
+            val mc = Minecraft.getInstance()
             val screen = Summary(party, editable, selection)
             mc.setScreen(screen)
         }
@@ -110,8 +111,8 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     override val schedulingTracker = SchedulingTracker()
 
     internal lateinit var selectedPokemon: Pokemon
-    private lateinit var mainScreen: ClickableWidget
-    lateinit var sideScreen: Element
+    private lateinit var mainScreen: AbstractWidget
+    lateinit var sideScreen: GuiEventListener
     private lateinit var modelWidget: ModelWidget
     private lateinit var nicknameEntryWidget: NicknameEntryWidget
     private val summaryTabs = mutableListOf<SummaryTab>()
@@ -216,7 +217,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
                         pY = y + 145
                 ) {
                     playSound(CobblemonSounds.GUI_CLICK)
-                    MinecraftClient.getInstance().setScreen(null)
+                    Minecraft.getInstance().setScreen(null)
                 }
         )
 
@@ -307,7 +308,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     /**
      * Returns if this Screen is open or not
      */
-    private fun isOpen() = MinecraftClient.getInstance().currentScreen == this
+    private fun isOpen() = Minecraft.getInstance().currentScreen == this
 
     /**
      * Switch center screen
@@ -408,14 +409,14 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             }
         }
         val element = sideScreen
-        if (element is Drawable && element is Selectable) {
+        if (element is Renderable && element is Selectable) {
             addDrawableChild(element)
         }
     }
 
-    override fun renderDarkening(context: DrawContext?) {}
+    override fun renderDarkening(context: GuiGraphics?) {}
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
 //        this.renderBackground(context, mouseX, mouseY, delta)
 //        super.render(context, mouseX, mouseY, delta)
         schedulingTracker.update(delta / 20F)
@@ -553,7 +554,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         val itemY = y + 104
         if (!heldItem.isEmpty) {
             context.drawItem(heldItem, itemX, itemY)
-            context.drawItemInSlot(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+            context.drawItemInSlot(Minecraft.getInstance().textRenderer, heldItem, itemX, itemY)
         }
 
         drawScaledText(
@@ -588,7 +589,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         // Render Item Tooltip
         if (!heldItem.isEmpty) {
             val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
-            if (itemHovered) context.drawItemTooltip(MinecraftClient.getInstance().textRenderer, heldItem, mouseX, mouseY)
+            if (itemHovered) context.drawItemTooltip(Minecraft.getInstance().textRenderer, heldItem, mouseX, mouseY)
         }
     }
 
@@ -644,14 +645,14 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     }
 
     fun playSound(soundEvent: SoundEvent) {
-        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+        Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 
     override fun close() {
         if (Cobblemon.config.enableDebugKeys) {
             val model = PokemonModelRepository.getPoser(selectedPokemon.species.resourceIdentifier, selectedPokemon.aspects)
-            MinecraftClient.getInstance().player?.sendMessage(Text.of("Profile Translation: ${model.profileTranslation}"))
-            MinecraftClient.getInstance().player?.sendMessage(Text.of("Profile Scale: ${model.profileScale}"))
+            Minecraft.getInstance().player?.sendMessage(Component.of("Profile Translation: ${model.profileTranslation}"))
+            Minecraft.getInstance().player?.sendMessage(Component.of("Profile Scale: ${model.profileScale}"))
             Cobblemon.LOGGER.info("override var profileTranslation = Vec3d(${model.profileTranslation.x}, ${model.profileTranslation.y}, ${model.profileTranslation.z})")
             Cobblemon.LOGGER.info("override var profileScale = ${model.profileScale}F")
         }

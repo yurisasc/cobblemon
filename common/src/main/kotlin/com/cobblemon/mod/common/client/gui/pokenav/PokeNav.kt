@@ -18,16 +18,16 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.InputUtil
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
-class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
+class PokeNav : Screen(Component.translatable("cobblemon.ui.pokenav.title")) {
 
     companion object {
         // Limiting
@@ -89,7 +89,7 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
             InputUtil.GLFW_KEY_DOWN, InputUtil.GLFW_KEY_S -> 0 to 1
             InputUtil.GLFW_KEY_SPACE -> {
                 val button = this.buttons.get(currentSelectionPos.first, currentSelectionPos.second)
-                button?.playDownSound(MinecraftClient.getInstance().soundManager)
+                button?.playDownSound(Minecraft.getInstance().soundManager)
                 button?.onPress()
                 0 to 0
             }
@@ -105,7 +105,7 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
 
     override fun keyReleased(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
         if ((pKeyCode == PokeNavigatorBinding.boundKey().code || pKeyCode == InputUtil.GLFW_KEY_LEFT_SHIFT || pKeyCode == InputUtil.GLFW_KEY_RIGHT_SHIFT) && aboutToClose) {
-            MinecraftClient.getInstance().setScreen(null) // So we only close if the Key was released
+            Minecraft.getInstance().setScreen(null) // So we only close if the Key was released
         }
         return super.keyReleased(pKeyCode, pScanCode, pModifiers)
     }
@@ -117,7 +117,7 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
     /**
      * Rendering the background texture
      */
-    override fun render(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun render(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         renderBackground(context, pMouseX, pMouseY, pPartialTicks)
 
         // Rendering UI Background
@@ -280,13 +280,13 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
      *
      * @throws [IllegalStateException] if the UI cannot fit more buttons.
      *
-     * @param identifier The [Identifier] of this button.
+     * @param identifier The [ResourceLocation] of this button.
      * @param onPress The action ran when the button is clicked, will not execute if [canClick] is false.
-     * @param text The display [Text] of the button.
+     * @param text The display [Component] of the button.
      * @param canClick Used to check if the button can be clicked. Will affect asset rendering to visually symbolize if false.
      */
     private fun insertButton(
-        identifier: Identifier,
+        identifier: ResourceLocation,
         onPress: ButtonWidget.PressAction,
         text: MutableText,
         canClick: () -> Boolean = { true }
@@ -331,13 +331,13 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
         try {
             Summary.open(CobblemonClient.storage.myParty.slots, true, CobblemonClient.storage.selectedSlot)
         } catch (e: Exception) {
-            MinecraftClient.getInstance().setScreen(null)
+            Minecraft.getInstance().setScreen(null)
             Cobblemon.LOGGER.debug("Failed to open the summary from the PokeNav screen", e)
         }
     }
 
     private fun onPressExit(button: ButtonWidget) {
-        MinecraftClient.getInstance().setScreen(null)
+        Minecraft.getInstance().setScreen(null)
     }
 
 }

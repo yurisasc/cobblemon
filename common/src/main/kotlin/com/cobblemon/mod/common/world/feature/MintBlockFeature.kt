@@ -9,9 +9,9 @@
 package com.cobblemon.mod.common.world.feature
 
 import com.cobblemon.mod.common.block.MintBlock
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.Block
 import net.minecraft.registry.tag.BlockTags
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.SingleStateFeatureConfig

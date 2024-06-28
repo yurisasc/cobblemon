@@ -8,12 +8,11 @@
 
 package com.cobblemon.mod.common.world.predicate
 
-import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.blockpredicate.BlockPredicate

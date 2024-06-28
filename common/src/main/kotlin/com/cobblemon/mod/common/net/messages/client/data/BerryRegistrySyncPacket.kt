@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 class BerryRegistrySyncPacket(berries: Collection<Berry>) : DataRegistrySyncPacket<Berry, BerryRegistrySyncPacket>(berries) {
     companion object {
@@ -21,11 +21,11 @@ class BerryRegistrySyncPacket(berries: Collection<Berry>) : DataRegistrySyncPack
     }
 
     override val id = ID
-    override fun encodeEntry(buffer: RegistryByteBuf, entry: Berry) {
+    override fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: Berry) {
         entry.encode(buffer)
     }
 
-    override fun decodeEntry(buffer: RegistryByteBuf): Berry? = Berry.decode(buffer)
+    override fun decodeEntry(buffer: RegistryFriendlyByteBuf): Berry? = Berry.decode(buffer)
 
     override fun synchronizeDecoded(entries: Collection<Berry>) {
         Berries.reload(entries.associateBy { it.identifier })

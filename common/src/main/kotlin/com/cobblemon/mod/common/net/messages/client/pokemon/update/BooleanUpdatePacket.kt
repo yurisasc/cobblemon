@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 /**
  * A specific type of update for a Pokémon which updates a single boolean value

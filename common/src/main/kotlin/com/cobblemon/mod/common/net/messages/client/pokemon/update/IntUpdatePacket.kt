@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 /**
  * A specific type of update for a Pokémon which updates a single integer value.

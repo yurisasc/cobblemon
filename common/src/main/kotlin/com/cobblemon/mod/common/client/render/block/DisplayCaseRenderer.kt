@@ -13,16 +13,9 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.block.DisplayCaseBlock
 import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
-import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.item.PokeBallItem
 //import com.cobblemon.mod.common.item.PokemonItem
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.Minecraft
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
@@ -33,18 +26,19 @@ import net.minecraft.component.type.CustomModelDataComponent
 import net.minecraft.item.BannerItem
 import net.minecraft.item.BedItem
 import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.nbt.NbtInt
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<DisplayCaseBlockEntity> {
     val context = RenderContext().also {
         it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
     }
-    val coinPouchStack: ItemStack by lazy { ItemStack(CobblemonItems.RELIC_COIN_POUCH).also { it.set(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelDataComponent(1)) } }
+    val coinPouchStack: ItemStack by lazy { ItemStack(
+        CobblemonItems.RELIC_COIN_POUCH
+    ).also { it.set(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelDataComponent(1)) } }
     override fun render(
         entity: DisplayCaseBlockEntity,
         tickDelta: Float,
@@ -88,7 +82,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(posType.rotY))
 
-        MinecraftClient.getInstance().itemRenderer.renderItem(
+        Minecraft.getInstance().itemRenderer.renderItem(
             stack,
             ModelTransformationMode.GROUND,
             light,
@@ -166,7 +160,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
             Items.CREEPER_HEAD
         )
 
-        private fun getPositioningType(stack: ItemStack, world: World) = when {
+        private fun getPositioningType(stack: ItemStack, world: Level) = when {
             mobHeads.contains(stack.item) -> PositioningType.MOB_HEAD
             stack.item is BedItem -> PositioningType.BED
             stack.item is BannerItem -> PositioningType.BANNER
@@ -176,7 +170,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
             //stack.item == CobblemonItems.POKEMON_MODEL -> PositioningType.ITEM_MODEL
             stack.item == Items.SHIELD -> PositioningType.SHIELD
             stack.item == Items.DECORATED_POT -> PositioningType.MOB_HEAD
-            MinecraftClient.getInstance().itemRenderer.getModel(stack, world, null, 0).hasDepth() -> PositioningType.BLOCK_MODEL
+            Minecraft.getInstance().itemRenderer.getModel(stack, world, null, 0).hasDepth() -> PositioningType.BLOCK_MODEL
             else -> PositioningType.ITEM_MODEL
         }
     }

@@ -10,15 +10,15 @@ package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.mojang.serialization.MapCodec
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.CropBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.item.ItemConvertible
-import net.minecraft.util.math.BlockPos
+import net.minecraft.core.BlockPos
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 @Suppress("OVERRIDE_DEPRECATION")
 class VivichokeBlock(settings: Settings) : CropBlock(settings) {
@@ -26,7 +26,7 @@ class VivichokeBlock(settings: Settings) : CropBlock(settings) {
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape = AGE_TO_SHAPE.getOrElse(state.get(this.ageProperty)) { VoxelShapes.fullCube() }
 
     // This is a design choice, they shouldn't grow more than a single stage at a time.
-    override fun getGrowthAmount(world: World): Int = 1
+    override fun getGrowthAmount(world: Level): Int = 1
 
     override fun getSeedsItem(): ItemConvertible = CobblemonItems.VIVICHOKE_SEEDS
 

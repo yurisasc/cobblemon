@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.client.pasture
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Packet sent to close the pasture GUI if it's open. Used when the block is broken.

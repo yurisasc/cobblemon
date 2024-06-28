@@ -32,7 +32,7 @@ import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import java.util.concurrent.CompletableFuture
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 /**
  * Format: |-damage|POKEMON|HP STATUS
@@ -161,7 +161,7 @@ class DamageInstruction(
                     "aftermath" -> battleLang("damage.generic", pokemonName)
                     "chloroblast", "steelbeam" -> battleLang("damage.mindblown", pokemonName)
                     "jumpkick" -> battleLang("damage.highjumpkick", pokemonName)
-                    else -> battleLang("damage.${effect.id}", pokemonName, source?.getName() ?: Text.literal("UNKOWN"))
+                    else -> battleLang("damage.${effect.id}", pokemonName, source?.getName() ?: Component.literal("UNKOWN"))
                 }
                 battle.broadcastChatMessage(lang.red())
             }

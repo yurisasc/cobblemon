@@ -35,20 +35,20 @@ import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPack
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.sound.SoundEvent
-import net.minecraft.text.Text
+import net.minecraft.network.chat.Component
 
 class StorageWidget(
     pX: Int, pY: Int,
     val pcGui: PCGUI,
     private val pc: ClientPC,
     private val party: ClientParty
-) : SoundlessWidget(pX, pY, WIDTH, HEIGHT, Text.literal("PCWidget")) {
+) : SoundlessWidget(pX, pY, WIDTH, HEIGHT, Component.literal("PCWidget")) {
 
     companion object {
         const val WIDTH = 263
@@ -216,7 +216,7 @@ class StorageWidget(
         }
     }
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.matrices
         // Party  Label
         if (pcGui.configuration.showParty) {
@@ -314,7 +314,7 @@ class StorageWidget(
     }
 
     private fun playSound(soundEvent: SoundEvent) {
-        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+        Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 
     private fun onStorageSlotClicked(button: ButtonWidget) {
