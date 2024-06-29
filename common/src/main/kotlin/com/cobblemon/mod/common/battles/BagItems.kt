@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.battles.BagItems.bagItems
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.item.battle.BagItem
-import com.cobblemon.mod.common.item.battle.BagItemConvertible
+import com.cobblemon.mod.common.item.battle.BagItemLike
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -37,7 +37,7 @@ object BagItems : DataRegistry {
     override val observable = SimpleObservable<BagItems>()
     override fun sync(player: ServerPlayer) {}
 
-    val bagItems = PrioritizedList<BagItemConvertible>()
+    val bagItems = PrioritizedList<BagItemLike>()
     internal val bagItemsScripts = mutableMapOf<String, String>() // itemId to JavaScript
 
     init {
@@ -46,7 +46,7 @@ object BagItems : DataRegistry {
         }
     }
 
-    fun getConvertibleForStack(stack: ItemStack): BagItemConvertible? {
+    fun getConvertibleForStack(stack: ItemStack): BagItemLike? {
         return bagItems.firstOrNull { it.getBagItem(stack) != null }
     }
 

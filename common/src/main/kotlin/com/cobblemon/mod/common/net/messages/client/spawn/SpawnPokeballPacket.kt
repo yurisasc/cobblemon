@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.resources.ResourceLocation

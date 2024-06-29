@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.particle
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
+import com.cobblemon.mod.common.api.snowstorm.BedrockParticleOptions
 import com.cobblemon.mod.common.particle.SnowstormParticleReader
 import com.cobblemon.mod.common.util.endsWith
 import com.google.gson.GsonBuilder
@@ -19,14 +19,14 @@ import net.minecraft.resource.ResourceManager
 import net.minecraft.resources.ResourceLocation
 
 /**
- * Client-side storage of loaded [BedrockParticleEffect]s.
+ * Client-side storage of loaded [BedrockParticleOptions]s.
  *
  * @author Hiroku
  * @since February 11th, 2023
  */
-object BedrockParticleEffectRepository {
+object BedrockParticleOptionsRepository {
     private val GSON = GsonBuilder().create()
-    private val effects = mutableMapOf<ResourceLocation, BedrockParticleEffect>()
+    private val effects = mutableMapOf<ResourceLocation, BedrockParticleOptions>()
 
     fun loadEffects(resourceManager: ResourceManager) {
         LOGGER.info("Loading particle effects...")
@@ -43,5 +43,5 @@ object BedrockParticleEffectRepository {
         LOGGER.info("Loaded ${effects.size} particle effects")
     }
 
-    fun getEffect(identifier: ResourceLocation): BedrockParticleEffect? = effects[identifier]
+    fun getEffect(identifier: ResourceLocation): BedrockParticleOptions? = effects[identifier]
 }

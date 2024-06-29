@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
-import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
+import com.cobblemon.mod.common.client.particle.BedrockParticleOptionsRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
 import com.cobblemon.mod.common.client.render.block.DisplayCaseRenderer
 import com.cobblemon.mod.common.client.render.block.FossilAnalyzerRenderer
@@ -63,7 +63,7 @@ import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer
 import net.minecraft.client.renderer.entity.EntityRenderer
-import net.minecraft.client.render.entity.LivingEntityRenderer
+import net.minecraft.client.renderer.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.model.BoatEntityModel
 import net.minecraft.client.render.entity.model.ChestBoatEntityModel
 import net.minecraft.client.render.entity.model.PlayerEntityModel
@@ -282,8 +282,6 @@ object CobblemonClient {
         this.implementation.registerEntityRenderer(CobblemonEntities.CHEST_BOAT) { ctx -> CobblemonBoatRenderer(ctx, true) }
         LOGGER.info("Registering Generic Bedrock renderer")
         this.implementation.registerEntityRenderer(CobblemonEntities.GENERIC_BEDROCK_ENTITY, ::GenericBedrockRenderer)
-        LOGGER.info("Registering NPC renderer")
-        this.implementation.registerEntityRenderer(CobblemonEntities.NPC, ::NPCRenderer)
         LOGGER.info("Registering Generic Bedrock Entity renderer")
         this.implementation.registerEntityRenderer(CobblemonEntities.GENERIC_BEDROCK_ENTITY, ::GenericBedrockRenderer)
         LOGGER.info("Registering PokeRod Bobber renderer")
@@ -295,7 +293,7 @@ object CobblemonClient {
     fun reloadCodedAssets(resourceManager: ResourceManager) {
         LOGGER.info("Loading assets...")
         // Particles come first because animations need them.
-        BedrockParticleEffectRepository.loadEffects(resourceManager)
+        BedrockParticleOptionsRepository.loadEffects(resourceManager)
         // Animations come next because models need them.
         BedrockAnimationRepository.loadAnimations(
             resourceManager = resourceManager,
@@ -319,13 +317,13 @@ object CobblemonClient {
             val asPokeball = stack.item as PokeBallItem
             return "item.${asPokeball.pokeBall.name.namespace}.${asPokeball.pokeBall.name.path}.tooltip"
         }
-        return "${stack.translationKey}.tooltip"
+        return "${stack.descriptionId}.tooltip"
     }
 
     private fun createBoatModelLayers() {
-        CobblemonBoatType.values().forEach { type ->
+        CobblemonBoatType.entries.forEach { type ->
             this.implementation.registerLayer(CobblemonBoatRenderer.createBoatModelLayer(type, false), BoatModel::createBodyModel)
-            this.implementation.registerLayer(CobblemonBoatRenderer.createBoatModelLayer(type, true), ChestBoatModel::getTexturedModelData)
+            this.implementation.registerLayer(CobblemonBoatRenderer.createBoatModelLayer(type, true), ChestBoatModel::createBodyModel)
         }
     }
 

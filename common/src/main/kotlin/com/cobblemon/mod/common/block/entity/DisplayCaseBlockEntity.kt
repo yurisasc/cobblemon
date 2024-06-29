@@ -17,7 +17,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.world.item.ItemStack
-import net.minecraft.item.Items
+import net.minecraft.world.item.Items
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet

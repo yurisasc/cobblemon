@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.platform.events
 
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.item.tooltip.TooltipType
 import net.minecraft.network.chat.Component

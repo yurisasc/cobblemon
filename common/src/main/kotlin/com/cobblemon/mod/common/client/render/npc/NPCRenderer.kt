@@ -17,8 +17,8 @@ import com.cobblemon.mod.common.entity.npc.NPCEntity
 import kotlin.math.min
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context
-import net.minecraft.client.render.entity.LivingEntityRenderer
 import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.client.renderer.entity.LivingEntityRenderer
 import net.minecraft.resources.ResourceLocation
 
 class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, PosableEntityModel<NPCEntity>>(context, PosableNPCModel(), 0.5f) {

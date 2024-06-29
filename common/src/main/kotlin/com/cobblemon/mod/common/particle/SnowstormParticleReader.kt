@@ -22,7 +22,7 @@ import net.minecraft.resources.ResourceLocation
 import org.joml.Vector4f
 
 object SnowstormParticleReader {
-    fun loadEffect(json: JsonObject): BedrockParticleEffect {
+    fun loadEffect(json: JsonObject): BedrockParticleOptions {
         val effectJson = json.get("particle_effect").asJsonObject
         val descJson = effectJson.get("description").asJsonObject
         val basicRenderParametersJson = descJson.get("basic_render_parameters").asJsonObject
@@ -120,8 +120,8 @@ object SnowstormParticleReader {
                 val effect = it.get("effect").asString.asIdentifierDefaultingNamespace()
                 val type = it.get("type").asString
                 val preEffectExpression = it.get("pre_effect_expression")?.asString?.asExpressionLike()
-                val typeEnum = EventParticleEffect.EventParticleType.valueOf(type.uppercase())
-                EventParticleEffect(effect, typeEnum, preEffectExpression)
+                val typeEnum = EventParticleOptions.EventParticleType.valueOf(type.uppercase())
+                EventParticleOptions(effect, typeEnum, preEffectExpression)
             }
             val soundEffect = eventObj.get("sound_effect")?.asJsonObject?.let {
                 val eventName = it.get("event_name").asString.asIdentifierDefaultingNamespace()
@@ -391,7 +391,7 @@ object SnowstormParticleReader {
             key.toDouble() to value.normalizeToArray().map { it.asString }.toMutableList()
         }?.toMap()?.toMutableMap() ?: mutableMapOf())
 
-        return BedrockParticleEffect(
+        return BedrockParticleOptions(
             id = id,
             events = events,
             emitter = BedrockParticleEmitter(

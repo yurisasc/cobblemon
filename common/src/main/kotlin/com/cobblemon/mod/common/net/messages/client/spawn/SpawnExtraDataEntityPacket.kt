@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.mixin.invoker.ClientPlayNetworkHandlerInvoker
 import net.minecraft.client.Minecraft
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.network.NetworkThreadUtils
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket

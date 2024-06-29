@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeIdentifierCondition
 import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import com.cobblemon.mod.common.registry.ItemIdentifierCondition
 import com.cobblemon.mod.common.registry.ItemTagCondition
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 import net.minecraft.resources.ResourceKeys
 
 /**

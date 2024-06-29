@@ -66,7 +66,7 @@ fun drawProfilePokemon(
     state.currentModel = model
     state.currentAspects = aspects
 
-    val renderType = RenderType.getEntityCutout(texture)
+    val renderType = RenderType.entityCutout(texture)
 
     RenderSystem.applyModelViewMatrix()
     matrixStack.scale(scale, scale, -scale)

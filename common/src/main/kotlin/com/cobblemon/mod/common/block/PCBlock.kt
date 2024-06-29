@@ -30,7 +30,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
-import net.minecraft.item.ItemPlacementContext
+import net.minecraft.world.item.ItemPlacementContext
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty

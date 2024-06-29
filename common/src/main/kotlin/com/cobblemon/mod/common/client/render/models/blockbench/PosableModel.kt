@@ -47,12 +47,12 @@ import com.cobblemon.mod.common.util.plus
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.RenderPhase
-import net.minecraft.client.render.VertexConsumer
+import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
+import net.minecraft.client.render.DefaultVertexFormats
 import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.resources.ResourceLocation
 import com.mojang.math.Axis
 import net.minecraft.world.phys.Vec3
@@ -656,7 +656,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     /** Makes a [RenderType] in a jank way. Mostly works so that's cool. */
     fun getLayer(texture: ResourceLocation, emissive: Boolean, translucent: Boolean): RenderType {
         return if (!emissive && !translucent) {
-            RenderType.getEntityCutout(texture)
+            RenderType.entityCutout(texture)
         } else if (!emissive) {
             RenderType.getEntityTranslucent(texture)
         } else {

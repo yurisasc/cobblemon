@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
-import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.state.property.Properties
 import com.mojang.math.Axis
@@ -37,7 +37,7 @@ class GildedChestBlockRenderer(context: BlockEntityRendererProvider.Context) : B
 
         val model = BlockEntityModelRepository.getPoser(poserId, aspects)
         val texture = BlockEntityModelRepository.getTexture(poserId, aspects, state.animationSeconds)
-        val vertexConsumer = vertexConsumers.getBuffer(RenderType.getEntityCutout(texture))
+        val vertexConsumer = vertexConsumers.getBuffer(RenderType.entityCutout(texture))
         model.bufferProvider = vertexConsumers
         state.currentModel = model
         state.currentAspects = aspects

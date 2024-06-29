@@ -27,7 +27,7 @@ import net.minecraft.resources.ResourceLocation
  * @author Hiroku
  * @since January 2nd, 2023
  */
-class BedrockParticleEffect(
+class BedrockParticleOptions(
     var id: ResourceLocation = ResourceLocation.parse("effect"),
     var emitter: BedrockParticleEmitter = BedrockParticleEmitter(),
     var particle: BedrockParticle = BedrockParticle(),
@@ -36,7 +36,7 @@ class BedrockParticleEffect(
     var events: MutableMap<String, ParticleEvent> = mutableMapOf()
 ) {
     companion object {
-        val CODEC: Codec<BedrockParticleEffect> = RecordCodecBuilder.create { instance ->
+        val CODEC: Codec<BedrockParticleOptions> = RecordCodecBuilder.create { instance ->
             instance.group(
                 ResourceLocation.CODEC.fieldOf("id").forGetter { it.id },
                 BedrockParticleEmitter.CODEC.fieldOf("emitter").forGetter { it.emitter },
@@ -45,7 +45,7 @@ class BedrockParticleEffect(
                 ParticleSpace.CODEC.fieldOf("space").forGetter { it.space },
                 UnboundedMapCodec(PrimitiveCodec.STRING, ParticleEvent.CODEC).fieldOf("events").forGetter { it.events }
             ).apply(instance) { id, emitter, particle, curves, space, events ->
-                BedrockParticleEffect(
+                BedrockParticleOptions(
                     id = id,
                     emitter = emitter,
                     particle = particle,

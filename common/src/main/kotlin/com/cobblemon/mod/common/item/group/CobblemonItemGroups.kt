@@ -10,11 +10,11 @@ package com.cobblemon.mod.common.item.group
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.item.ItemConvertible
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemGroup.*
+import net.minecraft.world.level.ItemLike
+import net.minecraft.world.item.ItemGroup
+import net.minecraft.world.item.ItemGroup.*
 import net.minecraft.world.item.ItemStack
-import net.minecraft.item.Items
+import net.minecraft.world.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.network.chat.Component
@@ -632,34 +632,34 @@ object CobblemonItemGroups {
         /**
          * Places the given [item] at the start of a creative tab.
          *
-         * @param item The [ItemConvertible] being added at the start of a tab.
+         * @param item The [ItemLike] being added at the start of a tab.
          */
-        fun putFirst(item: ItemConvertible)
+        fun putFirst(item: ItemLike)
 
         /**
          * Places the given [item] before the [target].
          * If the [target] is not present behaves as [putLast].
          *
-         * @param item The [ItemConvertible] being added before [target].
-         * @param target The [ItemConvertible] being targeted.
+         * @param item The [ItemLike] being added before [target].
+         * @param target The [ItemLike] being targeted.
          */
-        fun putBefore(item: ItemConvertible, target: ItemConvertible)
+        fun putBefore(item: ItemLike, target: ItemLike)
 
         /**
          * Places the given [item] after the [target].
          * If the [target] is not present behaves as [putLast].
          *
-         * @param item The [ItemConvertible] being added after [target].
-         * @param target The [ItemConvertible] being targeted.
+         * @param item The [ItemLike] being added after [target].
+         * @param target The [ItemLike] being targeted.
          */
-        fun putAfter(item: ItemConvertible, target: ItemConvertible)
+        fun putAfter(item: ItemLike, target: ItemLike)
 
         /**
          * Places the given [item] at the end of a creative tab.
          *
-         * @param item The [ItemConvertible] being added at the end of a tab.
+         * @param item The [ItemLike] being added at the end of a tab.
          */
-        fun putLast(item: ItemConvertible)
+        fun putLast(item: ItemLike)
 
     }
 

@@ -16,7 +16,7 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.FloatArgumentType
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.entity.EntityDimensions
+import net.minecraft.world.entity.EntityDimensions
 import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 

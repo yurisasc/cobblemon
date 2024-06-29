@@ -17,7 +17,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.player.Player
 import net.minecraft.item.BlockItem
-import net.minecraft.item.ItemPlacementContext
+import net.minecraft.world.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.world.InteractionResult

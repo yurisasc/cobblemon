@@ -19,7 +19,7 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.VertexConsumer
+import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
@@ -234,7 +234,7 @@ class PokeBobberEntityRenderer(context: EntityRendererProvider.Context?) : Entit
 
     companion object {
         private val TEXTURE = cobblemonResource("textures/item/fishing/bobber_hook.png")
-        private val LAYER = RenderType.getEntityCutout(TEXTURE)
+        private val LAYER = RenderType.entityCutout(TEXTURE)
 
         private fun vertex(buffer: VertexConsumer, entry: PoseStack.Entry, light: Int, x: Float, y: Float, u: Int, v: Int) {
             buffer

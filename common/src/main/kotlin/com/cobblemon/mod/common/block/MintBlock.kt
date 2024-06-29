@@ -18,8 +18,8 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.CropBlock
 import net.minecraft.block.Fertilizable
 import net.minecraft.block.ShapeContext
-import net.minecraft.item.Item
-import net.minecraft.item.ItemConvertible
+import net.minecraft.world.item.Item
+import net.minecraft.world.level.ItemLike
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.state.StateManager
@@ -74,7 +74,7 @@ class MintBlock(private val mintType: MintType, settings: Properties) : CropBloc
         return (world.getBaseLightLevel(pos, 0) >= 8 || world.isSkyVisible(pos)) && ((this.isWild(state) && floor.`is`(BlockTags.DIRT)) || this.canPlantOnTop(floor, world, pos))
     }
 
-    override fun getSeedsItem(): ItemConvertible = this.mintType.getSeed()
+    override fun getSeedsItem(): ItemLike = this.mintType.getSeed()
 
     override fun getGrowthAmount(world: Level): Int = 1
 

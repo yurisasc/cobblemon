@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
-import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
+import com.cobblemon.mod.common.client.particle.BedrockParticleOptionsRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.SnowstormParticle
@@ -35,14 +35,14 @@ import net.minecraft.world.phys.Vec3
  * @since March 2nd, 2024
  */
 class ParticleEvent(
-    var particleEffect: EventParticleEffect? = null,
+    var particleEffect: EventParticleOptions? = null,
     var soundEffect: EventSoundEffect? = null,
     var expression: ExpressionLike? = null
 ): Encodable, Decodable {
     companion object {
         val CODEC: Codec<ParticleEvent> = RecordCodecBuilder.create { instance ->
             instance.group(
-                EventParticleEffect.CODEC.optionalFieldOf("particle_effect", null).forGetter { it.particleEffect },
+                EventParticleOptions.CODEC.optionalFieldOf("particle_effect", null).forGetter { it.particleEffect },
                 EventSoundEffect.CODEC.optionalFieldOf("sound_effect", null).forGetter { it.soundEffect },
                 PrimitiveCodec.STRING.optionalFieldOf("expression", null).forGetter { it.expression?.toString() }
             ).apply(instance) { particleEffect, soundEffect, expression ->
@@ -65,9 +65,9 @@ class ParticleEvent(
         buffer.writeNullable(expression) { pb, expr -> pb.writeString(expr.toString()) }
     }
     override fun decode(buffer: RegistryFriendlyByteBuf) {
-        particleEffect = buffer.readNullable { pb -> EventParticleEffect(
+        particleEffect = buffer.readNullable { pb -> EventParticleOptions(
             pb.readIdentifier(),
-            pb.readEnumConstant(EventParticleEffect.EventParticleType::class.java),
+            pb.readEnumConstant(EventParticleOptions.EventParticleType::class.java),
             pb.readNullable { pb.readString().asExpressionLike() }
         ) }
         soundEffect = buffer.readNullable { pb -> EventSoundEffect(pb.readIdentifier()) }
@@ -76,12 +76,12 @@ class ParticleEvent(
 
     fun run(storm: ParticleStorm, particle: SnowstormParticle?) {
         particleEffect?.let { effect ->
-            val bedrockParticleEffect = BedrockParticleEffectRepository.getEffect(effect.effect) ?: return@let
+            val bedrockParticleOptions = BedrockParticleOptionsRepository.getEffect(effect.effect) ?: return@let
             val rootMatrix = when (effect.type) {
-                EventParticleEffect.EventParticleType.EMITTER,// -> MatrixWrapper().updatePosition(storm.matrixWrapper.getOrigin())
-                EventParticleEffect.EventParticleType.EMITTER_BOUND,// -> storm.matrixWrapper
-                EventParticleEffect.EventParticleType.PARTICLE,
-                EventParticleEffect.EventParticleType.PARTICLE_WITH_VELOCITY -> (particle?.let {
+                EventParticleOptions.EventParticleType.EMITTER,// -> MatrixWrapper().updatePosition(storm.matrixWrapper.getOrigin())
+                EventParticleOptions.EventParticleType.EMITTER_BOUND,// -> storm.matrixWrapper
+                EventParticleOptions.EventParticleType.PARTICLE,
+                EventParticleOptions.EventParticleType.PARTICLE_WITH_VELOCITY -> (particle?.let {
                     Vec3(
                         it.getX(),
                         it.getY(),
@@ -91,10 +91,10 @@ class ParticleEvent(
             }
 
             val sourceVelocity = when (effect.type) {
-                EventParticleEffect.EventParticleType.EMITTER,// -> storm.sourceVelocity().let { { it } }
-                EventParticleEffect.EventParticleType.EMITTER_BOUND,// -> storm.sourceVelocity
-                EventParticleEffect.EventParticleType.PARTICLE -> { { Vec3.ZERO } }
-                EventParticleEffect.EventParticleType.PARTICLE_WITH_VELOCITY -> (particle?.let {
+                EventParticleOptions.EventParticleType.EMITTER,// -> storm.sourceVelocity().let { { it } }
+                EventParticleOptions.EventParticleType.EMITTER_BOUND,// -> storm.sourceVelocity
+                EventParticleOptions.EventParticleType.PARTICLE -> { { Vec3.ZERO } }
+                EventParticleOptions.EventParticleType.PARTICLE_WITH_VELOCITY -> (particle?.let {
                     Vec3(
                         it.getVelocityX(),
                         it.getVelocityY(),
@@ -104,7 +104,7 @@ class ParticleEvent(
             }
 
             val newStorm = ParticleStorm(
-                effect = bedrockParticleEffect,
+                effect = bedrockParticleOptions,
                 matrixWrapper = rootMatrix,
                 world = storm.world,
                 sourceVelocity = sourceVelocity,
@@ -142,19 +142,19 @@ class ParticleEvent(
  * @author Hiroku
  * @since March 2nd, 2024
  */
-class EventParticleEffect(
+class EventParticleOptions(
     val effect: ResourceLocation,
     val type: EventParticleType,
     val expression: ExpressionLike? = null
 ) {
     companion object {
-        val CODEC = RecordCodecBuilder.create<EventParticleEffect> { instance ->
+        val CODEC = RecordCodecBuilder.create<EventParticleOptions> { instance ->
             instance.group(
                 ResourceLocation.CODEC.fieldOf("effect").forGetter { it.effect },
                 PrimitiveCodec.STRING.fieldOf("type").forGetter { it.type.name },
                 PrimitiveCodec.STRING.optionalFieldOf("expression", null).forGetter { it.expression?.toString() }
             ).apply(instance) { effect, type, expression ->
-                EventParticleEffect(
+                EventParticleOptions(
                     effect,
                     EventParticleType.valueOf(type),
                     expression?.asExpressionLike()

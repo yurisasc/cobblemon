@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeText
 import java.util.UUID
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket

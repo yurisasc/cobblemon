@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.particle
 
-import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
+import com.cobblemon.mod.common.api.snowstorm.BedrockParticleOptions
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.mojang.serialization.MapCodec
@@ -22,29 +22,29 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.world.phys.Vec3
 
-class SnowstormParticleType : ParticleType<SnowstormParticleEffect>(true) {
+class SnowstormParticleType : ParticleType<SnowstormParticleOptions>(true) {
     companion object {
-        val CODEC: MapCodec<SnowstormParticleEffect> = RecordCodecBuilder.mapCodec { instance ->
+        val CODEC: MapCodec<SnowstormParticleOptions> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
-                BedrockParticleEffect.CODEC.fieldOf("effect").forGetter { it.effect }
-            ).apply(instance, ::SnowstormParticleEffect)
+                BedrockParticleOptions.CODEC.fieldOf("effect").forGetter { it.effect }
+            ).apply(instance, ::SnowstormParticleOptions)
         }
 
-        val encoder = { effect: SnowstormParticleEffect, buf: RegistryFriendlyByteBuf ->
+        val encoder = { effect: SnowstormParticleOptions, buf: RegistryFriendlyByteBuf ->
             effect.effect.writeToBuffer(buf)
         }
 
         val decoder = { buf: RegistryFriendlyByteBuf ->
-            SnowstormParticleEffect(BedrockParticleEffect().also { it.readFromBuffer(buf) })
+            SnowstormParticleOptions(BedrockParticleOptions().also { it.readFromBuffer(buf) })
         }
 
         val PACKET_CODEC = StreamCodec.ofMember(encoder, decoder)
 
     }
 
-    class Factory(val spriteProvider: SpriteSet) : ParticleProvider<SnowstormParticleEffect> {
+    class Factory(val spriteProvider: SpriteSet) : ParticleProvider<SnowstormParticleOptions> {
         override fun createParticle(
-            parameters: SnowstormParticleEffect,
+            parameters: SnowstormParticleOptions,
             world: ClientLevel,
             x: Double,
             y: Double,
@@ -65,7 +65,7 @@ class SnowstormParticleType : ParticleType<SnowstormParticleEffect>(true) {
 
     override fun codec() = CODEC
 
-    override fun streamCodec(): StreamCodec<in RegistryFriendlyByteBuf, SnowstormParticleEffect> {
+    override fun streamCodec(): StreamCodec<in RegistryFriendlyByteBuf, SnowstormParticleOptions> {
         TODO("Not yet implemented")
     }
 }

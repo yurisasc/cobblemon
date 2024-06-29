@@ -18,16 +18,16 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Rende
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
-import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.CustomModelDataComponent
 import net.minecraft.item.BannerItem
 import net.minecraft.item.BedItem
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
-import net.minecraft.item.Items
+import net.minecraft.world.item.Items
 import net.minecraft.util.math.Direction
 import com.mojang.math.Axis
 import net.minecraft.world.level.Level
@@ -108,7 +108,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEntit
         val (species, aspects) = item.getSpeciesAndAspects(stack) ?: return
         val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
         val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, 0F)
-        val renderLayer = RenderLayer.getEntityCutout(texture)//model.getLayer(texture)
+        val renderLayer = RenderLayer.entityCutout(texture)//model.getLayer(texture)
         val tint = item.tint(stack)
         val vertexConsumer: VertexConsumer = vertexConsumers.getBuffer(renderLayer)
         val scale = 0.25f

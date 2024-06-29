@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.sherds
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.DecoratedPotPattern
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.resources.ResourceKey

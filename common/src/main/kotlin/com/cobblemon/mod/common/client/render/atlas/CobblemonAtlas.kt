@@ -8,18 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.atlas
 
-import net.minecraft.client.texture.SpriteAtlasHolder
-import net.minecraft.client.texture.TextureManager
+import net.minecraft.client.renderer.texture.TextureManager
+import net.minecraft.client.resources.TextureAtlasHolder
 import net.minecraft.resources.ResourceLocation
 
 class CobblemonAtlas(
     textureManager: TextureManager,
     atlasId: ResourceLocation,
     sourcePath: ResourceLocation
-) : SpriteAtlasHolder(
+) : TextureAtlasHolder(
     textureManager,
     atlasId,
     sourcePath
-) {
-
-}
+)

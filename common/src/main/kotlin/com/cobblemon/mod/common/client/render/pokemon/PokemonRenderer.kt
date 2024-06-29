@@ -47,7 +47,7 @@ import net.minecraft.client.render.entity.MobEntityRenderer
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.renderer.RenderType
 import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.text.Style
 import net.minecraft.network.chat.Component
 import net.minecraft.util.Formatting
@@ -118,7 +118,7 @@ class PokemonRenderer(
 
         // TODO: Need a way to get a shader from a render layer, and need a way to get the renderlayer for the pokemon's main model
         // TODO: Need packet to sync evo time from server to client
-//        val shader: ShaderProgram? = RenderSystem.getShader()
+//        val shader: ShaderInstance? = RenderSystem.getShader()
 //        shader?.let { shader ->
 //            if(shader == GameRenderer.getRenderTypeEntityCutoutProgram() ||
 //                shader == GameRenderer.getRenderTypeEntityTranslucentProgram() ||
@@ -411,7 +411,7 @@ class PokemonRenderer(
         ballContext.put(RenderContext.POSABLE_STATE, state)
         model.applyAnimations(null, state, 0F, 0F, 0F, 0F, 0F)
 //        model.animateModel(null, 0f, 0F, 0F)
-        val buffer = ItemRenderer.getDirectItemGlintConsumer(buff, RenderType.getEntityCutout(texture), false, false)
+        val buffer = ItemRenderer.getDirectItemGlintConsumer(buff, RenderType.entityCutout(texture), false, false)
 //        matrixStack.scale(scale, scale, scale)
         model.render(ballContext, matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, -0x1)
         model.green = 1f

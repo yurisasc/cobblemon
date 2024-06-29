@@ -39,7 +39,7 @@ class PokeBallRenderer(context: EntityRendererProvider.Context) : EntityRenderer
         poseStack.pushPose()
         poseStack.multiply(Axis.YP.rotationDegrees(yaw))
         poseStack.scale(0.7F, -0.7F, -0.7F)
-        val vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(buffer, RenderType.getEntityCutout(getTexture(entity)), false, false)
+        val vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(buffer, RenderType.entityCutout(getTexture(entity)), false, false)
 
         val state = entity.delegate as EmptyPokeBallClientDelegate
         this.model.context.put(RenderContext.POSABLE_STATE, state)

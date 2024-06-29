@@ -22,7 +22,7 @@ import net.minecraft.command.argument.DimensionArgumentType
 import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.command.argument.IdentifierArgumentType
 import net.minecraft.command.argument.Vec3ArgumentType
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerLevel

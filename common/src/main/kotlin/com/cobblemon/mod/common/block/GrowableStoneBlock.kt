@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.block
 import net.minecraft.block.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.item.ItemPlacementContext
+import net.minecraft.world.item.ItemPlacementContext
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.state.StateManager
 import net.minecraft.util.math.Direction

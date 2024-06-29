@@ -35,7 +35,7 @@ import com.cobblemon.mod.common.util.readEntityDimensions
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.mojang.serialization.Codec
-import net.minecraft.entity.EntityDimensions
+import net.minecraft.world.entity.EntityDimensions
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component

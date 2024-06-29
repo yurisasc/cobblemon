@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.item.interactive
 
-import net.minecraft.entity.Entity
-import net.minecraft.item.Item
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
 

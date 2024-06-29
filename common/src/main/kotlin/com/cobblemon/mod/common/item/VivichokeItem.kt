@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.block.VivichokeBlock
-import net.minecraft.item.ItemUsageContext
+import net.minecraft.world.item.ItemUsageContext
 import net.minecraft.item.PlaceableOnWaterItem
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder

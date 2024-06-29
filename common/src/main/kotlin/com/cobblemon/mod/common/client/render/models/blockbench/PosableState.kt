@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
-import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
+import com.cobblemon.mod.common.client.particle.BedrockParticleOptionsRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.ActiveAnimation
@@ -40,7 +40,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.world.phys.Vec3
@@ -174,7 +174,7 @@ abstract class PosableState : Schedulable {
             val effectIds = particles.map { it.asIdentifierDefaultingNamespace() }
             for (effectId in effectIds) {
                 val locator = if (params.params.size > 1) params.getString(1) else "root"
-                val effect = BedrockParticleEffectRepository.getEffect(effectId) ?: run {
+                val effect = BedrockParticleOptionsRepository.getEffect(effectId) ?: run {
                     LOGGER.error("Unable to find a particle effect with id $effectId")
                     return@addFunction Unit
                 }

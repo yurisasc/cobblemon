@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.block.ShapeContext
-import net.minecraft.item.ItemPlacementContext
+import net.minecraft.world.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.core.BlockPos

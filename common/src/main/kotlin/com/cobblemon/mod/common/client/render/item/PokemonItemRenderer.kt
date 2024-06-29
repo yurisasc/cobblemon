@@ -18,7 +18,7 @@ import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.VertexConsumer
+import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import com.mojang.blaze3d.vertex.PoseStack
@@ -46,7 +46,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         state.currentModel = model
         state.currentAspects = aspects
 
-        val renderLayer = RenderType.getEntityCutout(PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, 0F))
+        val renderLayer = RenderType.entityCutout(PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, 0F))
 
         val transformations = positions[mode]!!
 

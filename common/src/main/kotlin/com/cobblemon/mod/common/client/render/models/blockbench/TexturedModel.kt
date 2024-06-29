@@ -16,7 +16,7 @@ import net.minecraft.client.model.ModelData
 import net.minecraft.client.model.ModelPartBuilder
 import net.minecraft.client.model.ModelPartData
 import net.minecraft.client.model.ModelTransform
-import net.minecraft.client.model.TexturedModelData
+import net.minecraft.client.model.geom.builders.LayerDefinition
 import com.mojang.blaze3d.vertex.PoseStack
 
 /**
@@ -31,7 +31,7 @@ class TexturedModel {
     @SerializedName("minecraft:geometry")
     val geometry: List<ModelGeometry>? = null
 
-    fun create(isForLivingEntityRenderer: Boolean) : TexturedModelData {
+    fun create(isForLivingEntityRenderer: Boolean) : LayerDefinition {
         return createWithUvOverride(isForLivingEntityRenderer, 0, 0, null, null)
     }
 
@@ -68,7 +68,7 @@ class TexturedModel {
      *
      * - Hiro & Apion
      */
-//    fun createFlywheelModel(atlas: SpriteAtlasHolder, textureName: Identifier, name: String): Model {
+//    fun createFlywheelModel(atlas: TextureAtlasHolder, textureName: Identifier, name: String): Model {
 //        val texture = atlas.getSprite(textureName)
 //        val width = ((texture.maxU * atlas.atlas.width.toFloat()) - (texture.minU * atlas.atlas.width)).toInt()
 //        val height =( (texture.maxV * atlas.atlas.height.toFloat()) - (texture.minV * atlas.atlas.height)).toInt()
@@ -151,7 +151,7 @@ class TexturedModel {
 //        return modelBuilder.build()
 //    }
 
-    fun createWithUvOverride(isForLivingEntityRenderer: Boolean, u: Int, v: Int, textureWidth: Int?, textureHeight: Int?) : TexturedModelData {
+    fun createWithUvOverride(isForLivingEntityRenderer: Boolean, u: Int, v: Int, textureWidth: Int?, textureHeight: Int?) : LayerDefinition {
         val modelData = ModelData()
         val parts = HashMap<String, ModelPartData>()
         val bones = HashMap<String, ModelBone>()
@@ -278,16 +278,16 @@ class TexturedModel {
                 }
             }
 
-            return TexturedModelData.of(
+            return LayerDefinition.of(
                 modelData,
                 textureWidth ?: geometry.description.textureWidth,
                 textureHeight ?: geometry.description.textureHeight
             )
         } catch (e: Exception) {
             if (geometry != null) {
-                throw IllegalArgumentException("Error creating TexturedModelData with identifier ${geometry[0].description.identifier}", e)
+                throw IllegalArgumentException("Error creating LayerDefinition with identifier ${geometry[0].description.identifier}", e)
             } else {
-                throw IllegalArgumentException("Error creating TexturedModelData", e)
+                throw IllegalArgumentException("Error creating LayerDefinition", e)
             }
         }
     }

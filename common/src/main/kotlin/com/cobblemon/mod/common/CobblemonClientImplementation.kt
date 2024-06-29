@@ -8,39 +8,37 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.client.render.ModelLayer
+import java.util.function.Supplier
+import net.minecraft.client.color.block.BlockColor
+import net.minecraft.client.color.item.ItemColor
+import net.minecraft.client.model.geom.ModelLayerLocation
+import net.minecraft.client.model.geom.builders.LayerDefinition
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.client.renderer.RenderType
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.core.particles.ParticleOptions
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityType
-import net.minecraft.client.color.block.BlockColorProvider
-import net.minecraft.client.color.item.ItemColorProvider
-import net.minecraft.client.model.TexturedModelData
-import net.minecraft.client.particle.ParticleFactory
-import net.minecraft.client.particle.SpriteProvider
-import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
-import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.client.render.entity.model.ModelLayerLocation
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.item.Item
-import net.minecraft.particle.ParticleEffect
-import java.util.function.Supplier
-import net.minecraft.client.particle.SpriteSet
-import net.minecraft.core.particles.ParticleType
 
 interface CobblemonClientImplementation {
-    fun registerLayer(modelLayer: ModelLayer, supplier: Supplier<TexturedModelData>)
-    fun <T : ParticleEffect> registerParticleFactory(
+    fun registerLayer(modelLayer: ModelLayerLocation, supplier: Supplier<LayerDefinition>)
+    fun <T : ParticleOptions> registerParticleFactory(
         type: ParticleType<T>,
-        factory: (SpriteSet) -> ParticleFactory<T>
+        factory: (SpriteSet) -> ParticleProvider<T>
     )
 
     fun registerBlockRenderType(layer: RenderType, vararg blocks: Block)
 
-    fun registerItemColors(provider: ItemColorProvider, vararg items: Item)
+    fun registerItemColors(provider: ItemColor, vararg items: Item)
 
-    fun registerBlockColors(provider: BlockColorProvider, vararg blocks: Block)
+    fun registerBlockColors(provider: BlockColor, vararg blocks: Block)
 
     fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<out T>, factory: BlockEntityRendererProvider<T>)
 

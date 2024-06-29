@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.CropBlock
 import net.minecraft.block.ShapeContext
-import net.minecraft.item.ItemConvertible
+import net.minecraft.world.level.ItemLike
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.state.StateManager
@@ -76,7 +76,7 @@ class RevivalHerbBlock(settings: Properties) : CropBlock(settings), Mulchable {
         collisionContext: CollisionContext
     ): VoxelShape = AGE_SHAPES.getOrNull(this.getAge(state)) ?: Shapes.block()
 
-    override fun getSeedsItem(): ItemConvertible = CobblemonItems.REVIVAL_HERB
+    override fun getSeedsItem(): ItemLike = CobblemonItems.REVIVAL_HERB
 
     override fun canHaveMulchApplied(world: ServerLevel, pos: BlockPos, state: BlockState, variant: MulchVariant): Boolean =
         variant == MulchVariant.SURPRISE && this.getAge(state) <= MUTABLE_MAX_AGE && !this.isMutated(state)

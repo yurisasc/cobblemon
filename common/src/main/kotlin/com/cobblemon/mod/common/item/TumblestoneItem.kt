@@ -11,8 +11,8 @@ package com.cobblemon.mod.common.item
 import com.cobblemon.mod.common.CobblemonSounds
 import net.minecraft.world.level.block.Block
 import net.minecraft.block.FacingBlock
-import net.minecraft.item.Item
-import net.minecraft.item.ItemUsageContext
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemUsageContext
 import net.minecraft.sound.SoundCategory
 import net.minecraft.world.InteractionResult
 

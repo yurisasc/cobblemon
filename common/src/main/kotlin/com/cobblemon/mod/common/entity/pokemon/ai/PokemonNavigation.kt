@@ -18,7 +18,7 @@ import com.google.common.collect.ImmutableSet
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.acos
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.entity.ai.pathing.MobNavigation
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.ai.pathing.Path

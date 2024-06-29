@@ -862,14 +862,14 @@ open class PokemonEntity(
         if (player is ServerPlayer && isBattling) {
             val battle = battleId?.let(BattleRegistry::getBattle) ?: return false
 
-            val bagItemConvertible = BagItems.getConvertibleForStack(stack) ?: return false
+            val bagItemLike = BagItems.getConvertibleForStack(stack) ?: return false
 
             val battlePokemon = battle.actors.flatMap { it.pokemonList }.find { it.effectedPokemon.uuid == pokemon.uuid } ?: return false // Shouldn't be possible but anyway
             if (battlePokemon.actor.getSide().actors.none { it.isForPlayer(player)}) {
                 return true
             }
 
-            return bagItemConvertible.handleInteraction(player, battlePokemon, stack)
+            return bagItemLike.handleInteraction(player, battlePokemon, stack)
         }
         if (player !is ServerPlayer || this.isBusy) {
             return false

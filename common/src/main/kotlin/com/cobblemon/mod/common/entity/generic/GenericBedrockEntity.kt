@@ -20,8 +20,8 @@ import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnGenericBedrockPacket
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.entity.EntityDimensions
-import net.minecraft.entity.EntityPose
+import net.minecraft.world.entity.EntityDimensions
+import net.minecraft.world.entity.EntityPose
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.CompoundTag

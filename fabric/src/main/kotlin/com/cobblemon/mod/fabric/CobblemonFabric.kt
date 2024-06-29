@@ -333,7 +333,7 @@ object CobblemonFabric : CobblemonImplementation {
         return data
     }
 
-    override fun registerCompostable(item: ItemConvertible, chance: Float) {
+    override fun registerCompostable(item: ItemLike, chance: Float) {
         CompostingChanceRegistry.INSTANCE.add(item, chance)
     }
 
@@ -364,19 +364,19 @@ object CobblemonFabric : CobblemonImplementation {
 
     @Suppress("UnstableApiUsage")
     private class FabricItemGroupInjector(private val fabricItemGroupEntries: FabricItemGroupEntries) : CobblemonItemGroups.Injector {
-        override fun putFirst(item: ItemConvertible) {
+        override fun putFirst(item: ItemLike) {
             this.fabricItemGroupEntries.prepend(item)
         }
 
-        override fun putBefore(item: ItemConvertible, target: ItemConvertible) {
+        override fun putBefore(item: ItemLike, target: ItemLike) {
             this.fabricItemGroupEntries.addBefore(target, item)
         }
 
-        override fun putAfter(item: ItemConvertible, target: ItemConvertible) {
+        override fun putAfter(item: ItemLike, target: ItemLike) {
             this.fabricItemGroupEntries.addAfter(target, item)
         }
 
-        override fun putLast(item: ItemConvertible) {
+        override fun putLast(item: ItemLike) {
             this.fabricItemGroupEntries.add(item)
         }
     }

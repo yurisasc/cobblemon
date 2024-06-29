@@ -13,7 +13,7 @@ import com.mojang.serialization.MapCodec
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.CropBlock
 import net.minecraft.block.ShapeContext
-import net.minecraft.item.ItemConvertible
+import net.minecraft.world.level.ItemLike
 import net.minecraft.core.BlockPos
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
@@ -37,7 +37,7 @@ class VivichokeBlock(settings: Properties) : CropBlock(settings) {
     // This is a design choice, they shouldn't grow more than a single stage at a time.
     override fun getGrowthAmount(world: Level): Int = 1
 
-    override fun getSeedsItem(): ItemConvertible = CobblemonItems.VIVICHOKE_SEEDS
+    override fun getSeedsItem(): ItemLike = CobblemonItems.VIVICHOKE_SEEDS
 
     override fun codec(): MapCodec<out CropBlock> {
         return CODEC

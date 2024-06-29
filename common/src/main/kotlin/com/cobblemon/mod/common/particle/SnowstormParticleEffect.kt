@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.particle
 
-import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
+import com.cobblemon.mod.common.api.snowstorm.BedrockParticleOptions
 import net.minecraft.core.particles.ParticleOptions
 
-class SnowstormParticleEffect(val effect: BedrockParticleEffect) : ParticleOptions {
+class SnowstormParticleOptions(val effect: BedrockParticleOptions) : ParticleOptions {
     override fun getType() = CobblemonParticles.SNOWSTORM_PARTICLE_TYPE
     companion object {
 

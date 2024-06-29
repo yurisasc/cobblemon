@@ -37,7 +37,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.entity.EntityPose
+import net.minecraft.world.entity.EntityPose
 import net.minecraft.nbt.*
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper

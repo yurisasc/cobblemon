@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
-import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.util.math.Direction

@@ -25,7 +25,7 @@ import net.minecraft.server.level.ServerPlayer
  * @author Hiroku
  * @since June 26th, 2023
  */
-interface BagItemConvertible {
+interface BagItemLike {
     /**
      * Returns a [BagItem] if the given stack matches this convertible.
      *
@@ -33,7 +33,7 @@ interface BagItemConvertible {
      * need to remember to check that the supplied stack is of the correct
      * item type because it doesn't necessarily have to be.
      *
-     * [BagItemConvertible] can be implemented by non-Items so using it on
+     * [BagItemLike] can be implemented by non-Items so using it on
      * items is actually a bit weird, just convenient.
      */
     fun getBagItem(stack: ItemStack): BagItem?

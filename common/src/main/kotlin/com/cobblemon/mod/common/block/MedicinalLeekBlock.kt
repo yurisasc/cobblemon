@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.*
-import net.minecraft.item.ItemConvertible
+import net.minecraft.world.level.ItemLike
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.state.StateManager
@@ -43,7 +43,7 @@ class MedicinalLeekBlock(settings: Properties) : CropBlock(settings) {
         builder.add(this.ageProperty)
     }
 
-    override fun getSeedsItem(): ItemConvertible = CobblemonItems.MEDICINAL_LEEK
+    override fun getSeedsItem(): ItemLike = CobblemonItems.MEDICINAL_LEEK
 
     override fun getShape(state: BlockState, world: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape = AGE_TO_SHAPE[this.getAge(state)]
 

@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.item
 import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.mulch.Mulchable
 import net.minecraft.world.item.ItemStack
-import net.minecraft.item.ItemUsageContext
+import net.minecraft.world.item.ItemUsageContext
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.InteractionResult
 import net.minecraft.core.BlockPos

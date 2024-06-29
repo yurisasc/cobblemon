@@ -9,14 +9,14 @@
 package com.cobblemon.mod.common.net.messages.client.effect
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
+import com.cobblemon.mod.common.api.snowstorm.BedrockParticleOptions
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.phys.Vec3
 
 /**
- * A packet sent to the client to spawn a [BedrockParticleEffect] at the specified coordinates and rotation.
+ * A packet sent to the client to spawn a [BedrockParticleOptions] at the specified coordinates and rotation.
  *
  * Handled by [com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler].
  *

@@ -36,18 +36,18 @@ import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerLocationRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
-import net.minecraft.client.color.block.BlockColorProvider
-import net.minecraft.client.color.item.ItemColorProvider
-import net.minecraft.client.model.TexturedModelData
-import net.minecraft.client.particle.ParticleFactory
-import net.minecraft.client.particle.SpriteProvider
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
-import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
+import net.minecraft.client.color.block.BlockColor
+import net.minecraft.client.color.item.ItemColor
+import net.minecraft.client.model.geom.builders.LayerDefinition
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.client.render.entity.model.ModelLayerLocation
+import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.core.particles.ParticleType
-import net.minecraft.particle.ParticleEffect
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.server.packs.PackType
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
@@ -61,6 +61,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Supplier
+import net.minecraft.client.particle.SpriteSet
 import net.minecraft.util.profiling.ProfilerFiller
 import org.spongepowered.asm.util.perf.Profiler
 
@@ -113,11 +114,11 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         CobblemonModelPredicateRegistry.registerPredicates()
     }
 
-    override fun registerLayer(modelLayer: ModelLayerLocation, supplier: Supplier<TexturedModelData>) {
+    override fun registerLayer(modelLayer: ModelLayerLocation, supplier: Supplier<LayerDefinition>) {
         ModelLayerLocationRegistry.registerModelLayer(modelLayer) { supplier.get() }
     }
 
-    override fun <T : ParticleEffect> registerParticleFactory(type: ParticleType<T>, factory: (SpriteProvider) -> ParticleFactory<T>) {
+    override fun <T : ParticleOptions> registerParticleFactory(type: ParticleType<T>, factory: (SpriteSet) -> ParticleProvider<T>) {
         ParticleFactoryRegistry.getInstance().register(type, ParticleFactoryRegistry.PendingParticleFactory { factory(it) })
     }
 
@@ -125,11 +126,11 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         BlockRenderLayerMap.INSTANCE.putBlocks(layer, *blocks)
     }
 
-    override fun registerItemColors(provider: ItemColorProvider, vararg items: Item) {
+    override fun registerItemColors(provider: ItemColor, vararg items: Item) {
         ColorProviderRegistry.ITEM.register(provider, *items)
     }
 
-    override fun registerBlockColors(provider: BlockColorProvider, vararg blocks: Block) {
+    override fun registerBlockColors(provider: BlockColor, vararg blocks: Block) {
         ColorProviderRegistry.BLOCK.register(provider, *blocks)
     }
 

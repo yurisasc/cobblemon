@@ -25,7 +25,7 @@ import net.minecraft.client.particle.ParticleRenderType
 import net.minecraft.client.particle.ParticleRenderType.NO_RENDER
 import net.minecraft.client.particle.ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
 import net.minecraft.client.render.Camera
-import net.minecraft.client.render.VertexConsumer
+import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.math.Box

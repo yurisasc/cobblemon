@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.block.ShapeContext
-import net.minecraft.item.ItemPlacementContext
+import net.minecraft.world.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.StringIdentifiable

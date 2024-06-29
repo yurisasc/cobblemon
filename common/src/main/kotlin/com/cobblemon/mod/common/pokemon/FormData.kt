@@ -34,7 +34,7 @@ import com.cobblemon.mod.common.pokemon.lighthing.LightingData
 import com.cobblemon.mod.common.util.*
 import com.google.gson.annotations.SerializedName
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.entity.EntityDimensions
+import net.minecraft.world.entity.EntityDimensions
 import net.minecraft.resources.ResourceLocation
 
 class FormData(

@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.writeSizedInt
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.resources.ResourceLocation

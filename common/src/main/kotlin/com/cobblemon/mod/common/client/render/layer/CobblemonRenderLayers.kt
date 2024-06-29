@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.RenderPhase.*
 import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
+import net.minecraft.client.render.DefaultVertexFormats
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Util
 import java.util.function.BiFunction

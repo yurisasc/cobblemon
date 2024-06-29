@@ -10,18 +10,18 @@ package com.cobblemon.mod.common.client.particle
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
-import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
+import com.cobblemon.mod.common.api.snowstorm.BedrockParticleOptions
 import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterAction
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.particle.SnowstormParticleEffect
+import com.cobblemon.mod.common.particle.SnowstormParticleOptions
 import kotlin.random.Random
 import net.minecraft.client.Minecraft
 import net.minecraft.client.particle.NoRenderParticle
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.phys.Vec3
 
 /**
@@ -31,7 +31,7 @@ import net.minecraft.world.phys.Vec3
  * @since January 2nd, 2022
  */
 class ParticleStorm(
-    val effect: BedrockParticleEffect,
+    val effect: BedrockParticleOptions,
     val matrixWrapper: MatrixWrapper,
     val world: ClientWorld,
     val sourceVelocity: () -> Vec3 = { Vec3.ZERO },
@@ -92,7 +92,7 @@ class ParticleStorm(
         var contextStorm: ParticleStorm? = null
     }
 
-    val particleEffect = SnowstormParticleEffect(effect)
+    val particleEffect = SnowstormParticleOptions(effect)
 
     init {
         runtime.execute(effect.emitter.startExpressions)

@@ -18,7 +18,7 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.VertexConsumer
+import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.renderer.texture.TextureAtlas

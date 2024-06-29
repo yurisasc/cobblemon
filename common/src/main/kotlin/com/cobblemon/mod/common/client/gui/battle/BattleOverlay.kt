@@ -399,7 +399,7 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
         val context = RenderContext()
         val model = PokeBallModelRepository.getPoser(state.pokeBall.name, state.aspects)
         val texture = PokeBallModelRepository.getTexture(state.pokeBall.name, state.aspects, state.animationSeconds)
-        val renderType = RenderType.getEntityCutout(texture)//model.getLayer(texture)
+        val renderType = RenderType.entityCutout(texture)//model.getLayer(texture)
 
         RenderSystem.applyModelViewMatrix()
         val quaternion1 = Axis.YP.rotationDegrees(-32F * if (reversed) -1F else 1F)

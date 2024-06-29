@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.api.scheduling.lerpOnClient
 import com.cobblemon.mod.common.client.ClientMoLangFunctions
-import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
+import com.cobblemon.mod.common.client.particle.BedrockParticleOptionsRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
@@ -33,7 +33,7 @@ import com.cobblemon.mod.common.util.MovingSoundInstance
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.Minecraft
 import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
@@ -156,7 +156,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
                                         val newPos = it.add(sendOutOffset)
                                         val ballType = currentEntity.pokemon.caughtBall.name.path.toLowerCase().replace("_","")
                                         val mode = if(currentEntity.isBattling) "battle" else "casual"
-                                        val sendflash = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/sendflash"))
+                                        val sendflash = BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/${mode}/sendflash"))
                                         sendflash?.let { effect ->
                                             val wrapper = MatrixWrapper()
                                             val matrix = PoseStack()
@@ -164,14 +164,14 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
                                             wrapper.updateMatrix(matrix.peek().positionMatrix)
                                             val world = Minecraft.getInstance().world ?: return@let
                                             ParticleStorm(effect, wrapper, world).spawn()
-                                            val ballsparks = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsparks"))
-                                            val ballsendsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsendsparkle"))
+                                            val ballsparks = BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsparks"))
+                                            val ballsendsparkle = BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsendsparkle"))
                                             // using afterOnClient because it's such a small timeframe that it's unlikely the entity has been removed & we'd like the precision
                                             afterOnClient(seconds = 0.01667f) {
                                                 ballsparks?.let { effect -> ParticleStorm(effect, wrapper, world).spawn() }
                                                 ballsendsparkle?.let { effect -> ParticleStorm(effect, wrapper, world).spawn() }
                                                 currentEntity.after(seconds = 0.4f) {
-                                                    val ballsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/ballsparkle"))
+                                                    val ballsparkle = BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/ballsparkle"))
                                                     ballsparkle?.let { effect -> ParticleStorm(effect, wrapper, world).spawn() }
                                             }
                                         }

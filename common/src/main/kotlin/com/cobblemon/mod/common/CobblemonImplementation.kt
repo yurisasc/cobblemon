@@ -14,7 +14,7 @@ import com.mojang.brigadier.arguments.ArgumentType
 import kotlin.reflect.KClass
 import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.serialize.ArgumentSerializer
-import net.minecraft.item.ItemConvertible
+import net.minecraft.world.level.ItemLike
 import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
 import net.minecraft.resource.ResourceManager
@@ -177,10 +177,10 @@ interface CobblemonImplementation {
     /**
      * Registers an item to the [ComposterBlock].
      *
-     * @param item The [ItemConvertible] being registered.
+     * @param item The [ItemLike] being registered.
      * @param chance The chance % of increasing the composter level, 0 to 1 expected.
      */
-    fun registerCompostable(item: ItemConvertible, chance: Float)
+    fun registerCompostable(item: ItemLike, chance: Float)
 
     /**
      * Registers a builtin resource pack.

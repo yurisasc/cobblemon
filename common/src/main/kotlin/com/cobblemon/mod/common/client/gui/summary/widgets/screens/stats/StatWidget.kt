@@ -28,7 +28,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
+import net.minecraft.client.render.DefaultVertexFormats
 import net.minecraft.client.sound.PositionedSoundInstance
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.Component

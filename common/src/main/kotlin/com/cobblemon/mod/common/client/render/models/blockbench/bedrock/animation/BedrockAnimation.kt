@@ -12,7 +12,7 @@ import com.bedrockk.molang.Expression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.molang.ExpressionLike
-import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
+import com.cobblemon.mod.common.api.snowstorm.BedrockParticleOptions
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
@@ -27,7 +27,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.entity.Entity
+import net.minecraft.world.entity.Entity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.resources.ResourceLocation
@@ -46,7 +46,7 @@ abstract class BedrockEffectKeyframe(val seconds: Float) {
 
 class BedrockParticleKeyframe(
     seconds: Float,
-    val effect: BedrockParticleEffect,
+    val effect: BedrockParticleOptions,
     val locator: String,
     val scripts: List<Expression>
 ) : BedrockEffectKeyframe(seconds) {

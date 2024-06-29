@@ -23,7 +23,7 @@ import java.util.UUID
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.render.entity.LivingEntityRenderer
+import net.minecraft.client.renderer.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.PlayerEntityModel
@@ -138,7 +138,7 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: FeatureRendererCo
             state.updatePartialTicks(partialTicks)
             context.put(RenderContext.POSABLE_STATE, state)
             state.currentModel = model
-            val vertexConsumer = buffer.getBuffer(RenderType.getEntityCutout(PokemonModelRepository.getTexture(shoulderData.species.resourceIdentifier, shoulderData.aspects, state.animationSeconds)))
+            val vertexConsumer = buffer.getBuffer(RenderType.entityCutout(PokemonModelRepository.getTexture(shoulderData.species.resourceIdentifier, shoulderData.aspects, state.animationSeconds)))
             val i = LivingEntityRenderer.getOverlay(livingEntity, 0.0f)
 
             model.applyAnimations(

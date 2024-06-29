@@ -43,7 +43,7 @@ import kotlin.reflect.KClass
 import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
-import net.minecraft.item.ItemConvertible
+import net.minecraft.world.level.ItemLike
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceKeys
 import net.minecraft.tags.TagKey
@@ -394,7 +394,7 @@ class CobblemonNeoForge : CobblemonImplementation {
         return data
     }
 
-    override fun registerCompostable(item: ItemConvertible, chance: Float) {
+    override fun registerCompostable(item: ItemLike, chance: Float) {
         this.queuedWork += {
             ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(item, chance)
         }

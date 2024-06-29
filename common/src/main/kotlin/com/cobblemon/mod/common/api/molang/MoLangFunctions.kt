@@ -129,8 +129,8 @@ object MoLangFunctions {
                 val x = params.getDouble(0)
                 val y = params.getDouble(1)
                 val z = params.getDouble(2)
-                val playParticleEffects = params.getBooleanOrNull(3) ?: false
-                player.randomTeleport(x, y, z, playParticleEffects)
+                val playParticleOptionss = params.getBooleanOrNull(3) ?: false
+                player.randomTeleport(x, y, z, playParticleOptionss)
             }
             map.put("heal") { params ->
                 val amount = params.getDoubleOrNull(0) ?: player.maxHealth

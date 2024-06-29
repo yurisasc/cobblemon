@@ -14,8 +14,8 @@ import com.cobblemon.mod.common.api.events.pokemon.HeldItemEvent
 import com.cobblemon.mod.common.api.pokemon.feature.IntSpeciesFeature
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.world.entity.player.Player
-import net.minecraft.item.Item
-import net.minecraft.item.Items
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.Items
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 

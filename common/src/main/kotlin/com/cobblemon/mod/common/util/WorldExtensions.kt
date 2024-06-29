@@ -12,9 +12,9 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.SectionPos
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.enchantment.Enchantment
-import net.minecraft.entity.Entity
-import net.minecraft.item.Item
-import net.minecraft.particle.ParticleEffect
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.item.Item
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.registry.Registry
 import net.minecraft.resources.ResourceKeys
 import net.minecraft.registry.tag.FluidTags
@@ -38,7 +38,7 @@ fun Level.playSoundServer(
     pitch: Float = 1F
 ) = (this as ServerLevel).playSound(null, position.x, position.y, position.z, sound, category, volume, pitch)
 
-fun <T : ParticleEffect> Level.sendParticlesServer(
+fun <T : ParticleOptions> Level.sendParticlesServer(
     particleType: T,
     position: Vec3,
     particles: Int,

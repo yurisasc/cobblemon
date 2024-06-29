@@ -22,32 +22,24 @@ import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.client.Minecraft
-import net.minecraft.client.color.block.BlockColorProvider
-import net.minecraft.client.color.item.ItemColorProvider
-import net.minecraft.client.gl.ShaderProgram
-import net.minecraft.client.model.TexturedModelData
-import net.minecraft.client.particle.ParticleFactory
-import net.minecraft.client.particle.SpriteProvider
+import net.minecraft.client.color.block.BlockColor
+import net.minecraft.client.color.item.ItemColor
+import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.RenderLayers
-import net.minecraft.client.render.VertexFormats
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
-import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.EntityRenderers
-import net.minecraft.client.render.entity.model.ModelLayerLocation
+import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.resources.model.ModelResourceLocation
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.item.Item
-import net.minecraft.item.ItemConvertible
-import net.minecraft.item.ItemGroup
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.item.Item
+import net.minecraft.world.level.ItemLike
 import net.minecraft.world.item.ItemStack
-import net.minecraft.particle.ParticleEffect
+import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.particles.ParticleType
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ReloadableResourceManager
@@ -67,6 +59,13 @@ import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import java.util.concurrent.CompletableFuture
 import java.util.function.Supplier
 import net.minecraft.client.particle.ParticleProvider
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.client.renderer.ItemBlockRenderTypes
+import net.minecraft.client.renderer.ShaderInstance
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.item.CreativeModeTab.TabVisibility
 
 object CobblemonNeoForgeClient : CobblemonClientImplementation {
 
@@ -108,7 +107,7 @@ object CobblemonNeoForgeClient : CobblemonClientImplementation {
                 )
             }
             val result = CompletableFuture.allOf(*atlasFutures.toTypedArray()).thenRun {
-                reloadCodedAssets(manager!!)
+                reloadCodedAssets(manager)
             }
             result
         }
@@ -116,42 +115,42 @@ object CobblemonNeoForgeClient : CobblemonClientImplementation {
     }
 
     private fun onShaderRegistration(event: RegisterShadersEvent) {
-        event.registerShader(ShaderProgram(event.resourceProvider, cobblemonResource("particle_add"), VertexFormats.POSITION_COLOR_TEXTURE_LIGHT)) {
+        event.registerShader(ShaderInstance(event.resourceProvider, cobblemonResource("particle_add"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)) {
             CobblemonShaders.PARTICLE_BLEND = it
         }
-        event.registerShader(ShaderProgram(event.resourceProvider, cobblemonResource("particle_cutout"), VertexFormats.POSITION_COLOR_TEXTURE_LIGHT)) {
+        event.registerShader(ShaderInstance(event.resourceProvider, cobblemonResource("particle_cutout"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)) {
             CobblemonShaders.PARTICLE_CUTOUT = it
         }
     }
 
     @Suppress("UnstableApiUsage")
-    override fun registerLayer(modelLayer: ModelLayerLocation, supplier: Supplier<TexturedModelData>) {
+    override fun registerLayer(modelLayer: ModelLayerLocation, supplier: Supplier<LayerDefinition>) {
         ClientHooks.registerLayerDefinition(modelLayer, supplier)
     }
 
-    override fun <T : ParticleEffect> registerParticleFactory(type: ParticleType<T>, factory: ParticleProvider<T>) {
+    override fun <T : ParticleOptions> registerParticleFactory(type: ParticleType<T>, factory: (SpriteSet) -> ParticleProvider<T>) {
         throw UnsupportedOperationException("Forge can't store these early, use CobblemonForgeClient#onRegisterParticleProviders")
     }
 
     @Suppress("DEPRECATION")
     override fun registerBlockRenderType(layer: RenderType, vararg blocks: Block) {
         blocks.forEach { block ->
-            RenderLayers.setRenderLayer(block, layer)
+            ItemBlockRenderTypes.setRenderLayer(block, layer)
         }
     }
 
     @Suppress("DEPRECATION")
-    override fun registerItemColors(provider: ItemColorProvider, vararg items: Item) {
+    override fun registerItemColors(provider: ItemColor, vararg items: Item) {
         Minecraft.getInstance().itemColors.register(provider, *items)
     }
 
     @Suppress("DEPRECATION")
-    override fun registerBlockColors(provider: BlockColorProvider, vararg blocks: Block) {
-        Minecraft.getInstance().blockColors.registerColorProvider(provider, *blocks)
+    override fun registerBlockColors(provider: BlockColor, vararg blocks: Block) {
+        Minecraft.getInstance().blockColors.register(provider, *blocks)
     }
 
     override fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<out T>, factory: BlockEntityRendererProvider<T>) {
-        BlockEntityRendererFactories.register(type, factory)
+        BlockEntityRenderers.register(type, factory)
     }
 
     override fun <T : Entity> registerEntityRenderer(type: EntityType<out T>, factory: EntityRendererProvider<T>) {
@@ -209,28 +208,27 @@ object CobblemonNeoForgeClient : CobblemonClientImplementation {
         }
     }
 
-    private class ForgeItemGroupInject(private val entries: MutableHashedLinkedMap<ItemStack, ItemGroup.StackVisibility>) : CobblemonItemGroups.Injector {
+    private class ForgeItemGroupInject(private val entries: MutableHashedLinkedMap<ItemStack, TabVisibility>) : CobblemonItemGroups.Injector {
 
-        override fun putFirst(item: ItemConvertible) {
-            this.entries.putFirst(ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
+        override fun putFirst(item: ItemLike) {
+            this.entries.putFirst(ItemStack(item), TabVisibility.PARENT_AND_SEARCH_TABS)
         }
 
-        override fun putBefore(item: ItemConvertible, target: ItemConvertible) {
+        override fun putBefore(item: ItemLike, target: ItemLike) {
             this.entries.putBefore(
                 ItemStack(target),
-                ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
+                ItemStack(item), TabVisibility.PARENT_AND_SEARCH_TABS
+            )
         }
 
-        override fun putAfter(item: ItemConvertible, target: ItemConvertible) {
+        override fun putAfter(item: ItemLike, target: ItemLike) {
             this.entries.putAfter(
                 ItemStack(target),
-                ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
+                ItemStack(item), TabVisibility.PARENT_AND_SEARCH_TABS)
         }
 
-        override fun putLast(item: ItemConvertible) {
-            this.entries.put(ItemStack(item), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS)
+        override fun putLast(item: ItemLike) {
+            this.entries.put(ItemStack(item), TabVisibility.PARENT_AND_SEARCH_TABS)
         }
-
     }
-
 }
