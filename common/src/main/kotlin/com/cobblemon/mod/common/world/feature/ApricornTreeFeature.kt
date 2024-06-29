@@ -17,7 +17,7 @@ import com.google.common.collect.Lists
 import kotlin.random.Random.Default.nextInt
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.block.LeavesBlock
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.core.BlockPos
@@ -165,7 +165,7 @@ class ApricornTreeFeature : Feature<SingleStateFeatureConfig>(SingleStateFeature
                             worldGenLevel,
                             it.second,
                             context.config.state
-                                .with(HorizontalFacingBlock.FACING, it.first)
+                                .with(HorizontalDirectionalBlock.FACING, it.first)
                                 .with(
                                     ApricornBlock.AGE,
                                     if (isGenerating) random.nextInt(ApricornBlock.MAX_AGE + 1) else 0

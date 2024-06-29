@@ -22,7 +22,7 @@ import net.minecraft.world.phys.BlockHitResult
 interface MultiblockStructure {
     val controllerBlockPos: BlockPos
 
-    fun onUse(
+    fun useWithoutItem(
         blockState: BlockState,
         world: Level,
         blockPos: BlockPos,

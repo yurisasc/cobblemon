@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.*
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.world.entity.player.Player
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.inventory.SimpleInventory
@@ -30,27 +29,39 @@ import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.util.StringRepresentable
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.*
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.BaseEntityBlock
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.block.state.properties.EnumProperty
 import net.minecraft.world.level.pathfinder.PathComputationType
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.phys.shapes.VoxelShape
 
 
-class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), InventoryProvider {
+class RestorationTankBlock(settings: Properties) : MultiblockBlock(properties), InventoryProvider {
 
     init {
-        defaultState = defaultState
-            .with(HorizontalFacingBlock.FACING, Direction.NORTH)
-            .with(PART, TankPart.BOTTOM)
-            .with(TRIGGERED, false)
-            .with(ON, false)
+        registerDefaultState(stateDefinition.any()
+            .setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH)
+            .setValue(PART, TankPart.BOTTOM)
+            .setValue(TRIGGERED, false)
+            .setValue(ON, false))
     }
 
     fun getPositionOfOtherPart(state: BlockState, pos: BlockPos): BlockPos {
@@ -131,25 +142,25 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         }
     }
 
-    override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
-        val abovePosition = blockPlaceContext.blockPos.up()
-        val world = blockPlaceContext.world
+    override fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState? {
+        val abovePosition = blockPlaceContext.clickedPos.above()
+        val world = blockPlaceContext.level
         if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
-            return defaultState
-                .with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
-                .with(PART, TankPart.BOTTOM)
+            return defaultBlockState()
+                .setValue(HorizontalDirectionalBlock.FACING, blockPlaceContext.horizontalDirection)
+                .setValue(PART, TankPart.BOTTOM)
         }
 
         return null
     }
 
-    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
-        val blockPos = pos.down()
+    override fun canSurvive(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
+        val blockPos = pos.below()
         val blockState = world.getBlockState(blockPos)
-        return if (state.get(PART) == TankPart.BOTTOM) true else blockState.isOf(this)
+        return if (state.getValue(PART) == TankPart.BOTTOM) true else blockState.`is`(this)
     }
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(HorizontalFacingBlock.FACING)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        builder.add(HorizontalDirectionalBlock.FACING)
         builder.add(PART)
         builder.add(TRIGGERED)
         builder.add(ON)
@@ -200,19 +211,19 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         tankEntity?.multiblockStructure?.onTriggerEvent(state, world, pos, random)
     }
 
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView?,
-        pos: BlockPos?,
-        context: ShapeContext?
+        blockGetter: BlockGetter,
+        pos: BlockPos,
+        collisionContext: CollisionContext
     ): VoxelShape {
-        return if (state.get(PART) == TankPart.TOP) {
-            var shape = VoxelShapes.cuboid(0.0625, 0.0, 0.0625, 0.9375, 0.8125, 0.9375)
-            shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0, 0.8125, 0.0, 1.0, 1.0, 1.0))
+        return if (state.getValue(PART) == TankPart.TOP) {
+            var shape = Shapes.box(0.0625, 0.0, 0.0625, 0.9375, 0.8125, 0.9375)
+            shape = Shapes.or(shape, Shapes.box(0.0, 0.8125, 0.0, 1.0, 1.0, 1.0))
             shape
         } else {
-            var shape = VoxelShapes.cuboid(0.0625, 0.1875, 0.0625, 0.9375, 1.0, 0.9375)
-            shape = VoxelShapes.union(shape, VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.1875, 1.0))
+            var shape = Shapes.box(0.0625, 0.1875, 0.0625, 0.9375, 1.0, 0.9375)
+            shape = Shapes.or(shape, Shapes.box(0.0, 0.0, 0.0, 1.0, 0.1875, 1.0))
             shape
         }
     }
@@ -227,10 +238,10 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         return if(tankEntity != null && tankEntity is RestorationTankBlockEntity) tankEntity.inv else DummyInventory()
     }
 
-    enum class TankPart(private val label: String) : StringIdentifiable {
+    enum class TankPart(private val label: String) : StringRepresentable {
         TOP("top"),
         BOTTOM("bottom");
-        override fun asString() = label
+        override fun getSerializedName(): String = label
     }
 
     @Deprecated("Deprecated in Java")
@@ -238,16 +249,16 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         return false
     }
 
-    override fun getCodec(): MapCodec<out BaseEntityBlock> {
+    override fun codec(): MapCodec<out BaseEntityBlock> {
         return CODEC
     }
 
     companion object {
         val CODEC = createCodec(::RestorationTankBlock)
 
-        val PART = EnumProperty.of("part", TankPart::class.java)
-        val TRIGGERED = Properties.TRIGGERED
-        val ON = BooleanProperty.of("on")
+        val PART = EnumProperty.create("part", TankPart::class.java)
+        val TRIGGERED = BlockStateProperties.TRIGGERED
+        val ON = BooleanProperty.create("on")
 
         class DummyInventory : SimpleInventory(0), SidedInventory {
             override fun getAvailableSlots(side: Direction): IntArray {

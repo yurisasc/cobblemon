@@ -25,23 +25,36 @@ import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.core.BlockPos
+import net.minecraft.tags.BlockTags
+import net.minecraft.util.StringRepresentable
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.CropBlock
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.block.state.properties.EnumProperty
+import net.minecraft.world.level.block.state.properties.IntegerProperty
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.phys.shapes.VoxelShape
 
 @Suppress("OVERRIDE_DEPRECATION", "MemberVisibilityCanBePrivate", "unused")
-class RevivalHerbBlock(settings: Settings) : CropBlock(settings), Mulchable {
+class RevivalHerbBlock(settings: Properties) : CropBlock(settings), Mulchable {
 
     init {
-        defaultState = this.stateManager.defaultState.with(AGE, MIN_AGE)
-            .with(IS_WILD, false)
-            .with(MUTATION, Mutation.NONE)
+        registerDefaultState(stateDefinition.any()
+            .setValue(AGE, MIN_AGE)
+            .setValue(IS_WILD, false)
+            .setValue(MUTATION, Mutation.NONE))
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(AGE)
         builder.add(IS_WILD)
         builder.add(MUTATION)
@@ -49,14 +62,19 @@ class RevivalHerbBlock(settings: Settings) : CropBlock(settings), Mulchable {
 
     override fun getAgeProperty(): IntProperty = AGE
 
-    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
-        val floor = world.getBlockState(pos.down())
+    override fun canSurvive(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
+        val floor = world.getBlockState(pos.below())
         val block = world.getBlockState(pos)
         // A bit of a copy pasta but we don't have access to the BlockState being attempted to be placed above on the canPlantOnTop
-        return (block.isIn(BlockTags.REPLACEABLE_BY_TREES) || block.isOf(Blocks.AIR) || block.isOf(this)) && ((state.get(IS_WILD) && floor.isIn(BlockTags.DIRT)) || this.canPlantOnTop(floor, world, pos))
+        return (block.`is`(BlockTags.REPLACEABLE_BY_TREES) || block.`is`(Blocks.AIR) || block.`is`(this)) && ((state.getValue(IS_WILD) && floor.`is`(BlockTags.DIRT)) || this.canPlantOnTop(floor, world, pos))
     }
 
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape = AGE_SHAPES.getOrNull(this.getAge(state)) ?: VoxelShapes.fullCube()
+    override fun getShape(
+        state: BlockState,
+        blockGetter: BlockGetter,
+        pos: BlockPos,
+        collisionContext: CollisionContext
+    ): VoxelShape = AGE_SHAPES.getOrNull(this.getAge(state)) ?: Shapes.block()
 
     override fun getSeedsItem(): ItemConvertible = CobblemonItems.REVIVAL_HERB
 
@@ -111,7 +129,7 @@ class RevivalHerbBlock(settings: Settings) : CropBlock(settings), Mulchable {
     /**
      * Represents the possible mutation states of this plant.
      */
-    enum class Mutation : StringIdentifiable {
+    enum class Mutation : StringRepresentable {
 
         NONE,
         MENTAL,
@@ -119,8 +137,7 @@ class RevivalHerbBlock(settings: Settings) : CropBlock(settings), Mulchable {
         WHITE,
         MIRROR;
 
-        override fun asString(): String = this.name.lowercase()
-
+        override fun getSerializedName(): String = name.lowercase()
     }
 
     companion object {
@@ -133,9 +150,9 @@ class RevivalHerbBlock(settings: Settings) : CropBlock(settings), Mulchable {
          * This represents the max age the plant can be at before no longer being able to mutate.
          */
         const val MUTABLE_MAX_AGE = 6
-        val AGE = IntProperty.of("age", MIN_AGE, MAX_AGE)
-        val IS_WILD = BooleanProperty.of("is_wild")
-        val MUTATION = EnumProperty.of("mutation", Mutation::class.java)
+        val AGE = IntegerProperty.create("age", MIN_AGE, MAX_AGE)
+        val IS_WILD = BooleanProperty.create("is_wild")
+        val MUTATION = EnumProperty.create("mutation", Mutation::class.java)
 //        val MULCH = EnumProperty.of("mulch", MulchVariant::class.java)
 
         /**
@@ -143,15 +160,15 @@ class RevivalHerbBlock(settings: Settings) : CropBlock(settings), Mulchable {
          * Highest index is [MAX_AGE].
          */
         val AGE_SHAPES = arrayOf(
-            VoxelShapes.cuboid(0.0, -0.9, 0.0, 1.0, 0.1, 1.0),
-            VoxelShapes.cuboid(0.0, -0.9, 0.0, 1.0, 0.2, 1.0),
-            VoxelShapes.cuboid(0.0, -0.9, 0.0, 1.0, 0.3, 1.0),
-            VoxelShapes.cuboid(0.0, -0.9, 0.0, 1.0, 0.4, 1.0),
-            VoxelShapes.cuboid(0.0, -0.9, 0.0, 1.0, 0.5, 1.0),
-            VoxelShapes.cuboid(0.0, -0.9, 0.0, 1.0, 0.7, 1.0),
-            VoxelShapes.cuboid(0.0, -0.9, 0.0, 1.0, 0.7, 1.0),
-            VoxelShapes.cuboid(0.0, -0.9, 0.0, 1.0, 0.9, 1.0),
-            VoxelShapes.fullCube()
+            Shapes.box(0.0, -0.9, 0.0, 1.0, 0.1, 1.0),
+            Shapes.box(0.0, -0.9, 0.0, 1.0, 0.2, 1.0),
+            Shapes.box(0.0, -0.9, 0.0, 1.0, 0.3, 1.0),
+            Shapes.box(0.0, -0.9, 0.0, 1.0, 0.4, 1.0),
+            Shapes.box(0.0, -0.9, 0.0, 1.0, 0.5, 1.0),
+            Shapes.box(0.0, -0.9, 0.0, 1.0, 0.7, 1.0),
+            Shapes.box(0.0, -0.9, 0.0, 1.0, 0.7, 1.0),
+            Shapes.box(0.0, -0.9, 0.0, 1.0, 0.9, 1.0),
+            Shapes.block()
         )
 
     }

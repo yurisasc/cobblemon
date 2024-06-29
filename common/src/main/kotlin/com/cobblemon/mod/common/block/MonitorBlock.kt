@@ -15,25 +15,33 @@ import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.mojang.serialization.MapCodec
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.block.ShapeContext
-import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.util.StringRepresentable
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.BaseEntityBlock
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.EnumProperty
 import net.minecraft.world.level.pathfinder.PathComputationType
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
 
-class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
+class MonitorBlock(settings: Properties) : MultiblockBlock(settings) {
     init {
-        defaultState = defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH)
+        registerDefaultState(stateDefinition.any()
+            .setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH))
     }
 
     override fun createMultiBlockEntity(
@@ -45,16 +53,16 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         )
     }
 
-    override fun getCodec(): MapCodec<out BaseEntityBlock> {
+    override fun codec(): MapCodec<out BaseEntityBlock> {
         return CODEC
     }
 
-    override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
-        return defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
+    override fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState {
+        return defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, blockPlaceContext.horizontalDirection)
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(HorizontalFacingBlock.FACING)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        builder.add(HorizontalDirectionalBlock.FACING)
         builder.add(SCREEN)
     }
 
@@ -77,11 +85,11 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         return 0
     }
 
-    override fun getOutlineShape(
-        state: BlockState?,
-        world: BlockView?,
-        pos: BlockPos?,
-        context: ShapeContext?
+    override fun getShape(
+        state: BlockState,
+        blockGetter: BlockGetter,
+        pos: BlockPos,
+        collisionContext: CollisionContext
     ): VoxelShape {
         return HITBOX
     }
@@ -94,7 +102,7 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         val CODEC = createCodec(::MonitorBlock)
 
         //0 is off
-        val SCREEN = EnumProperty.of("screen", MonitorScreen::class.java)
+        val SCREEN = EnumProperty.create("screen", MonitorScreen::class.java)
         val HITBOX = VoxelShapes.union(
             VoxelShapes.cuboid(0.0625, 0.0, 0.0625, 0.9375, 0.375, 0.9375),
             VoxelShapes.cuboid(0.0625, 0.875, 0.0625, 0.9375, 1.0, 0.9375),
@@ -103,7 +111,7 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
             VoxelShapes.cuboid(0.0625, 0.375, 0.0625, 0.1875, 0.875, 0.9375)
         )
     }
-    enum class MonitorScreen : StringIdentifiable {
+    enum class MonitorScreen : StringRepresentable {
         OFF,
         BLUE_PROGRESS_1,
         BLUE_PROGRESS_2,
@@ -116,6 +124,6 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         BLUE_PROGRESS_9,
         GREEN_PROGRESS_9;
 
-        override fun asString(): String = this.name.lowercase()
+        override fun getSerializedName(): String = this.name.lowercase()
     }
 }

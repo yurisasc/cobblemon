@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.rer
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.timeDilate
 import com.cobblemon.mod.common.util.cobblemonResource
 import kotlin.math.pow
-import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumerProvider
@@ -105,7 +105,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
             // Block has been destroyed/replaced
             return
         }
-        val tankDirection = tankBlockState.get(HorizontalFacingBlock.FACING)
+        val tankDirection = tankBlockState.get(HorizontalDirectionalBlock.FACING)
         val struct = entity.multiblockStructure as FossilMultiblockStructure
         val connectionDir = struct.tankConnectorDirection
 

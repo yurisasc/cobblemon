@@ -15,7 +15,7 @@ import net.minecraft.block.WoodType
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.core.BlockPos
 
-class CobblemonSignBlock(settings: Settings, woodType: WoodType) : SignBlock(woodType, settings) {
+class CobblemonSignBlock(settings: Properties, woodType: WoodType) : SignBlock(woodType, settings) {
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = CobblemonSignBlockEntity(pos, state)
 

@@ -22,56 +22,50 @@ import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
 import com.cobblemon.mod.common.util.voxelShape
 import com.mojang.serialization.MapCodec
-import java.util.UUID
-import net.minecraft.world.level.block.Block
-import net.minecraft.block.BlockWithEntity
-import net.minecraft.block.Blocks
-import net.minecraft.block.HorizontalFacingBlock
-import net.minecraft.block.ShapeContext
-import net.minecraft.block.Waterloggable
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.entity.ai.pathing.NavigationType
-import net.minecraft.world.entity.player.Player
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.fluid.FluidState
-import net.minecraft.fluid.Fluids
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.world.item.ItemStack
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.EnumProperty
-import net.minecraft.util.ActionResult
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.StringIdentifiable
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.core.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.StringRepresentable
 import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.level.Level
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldEvents
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
-import net.minecraft.world.level.block.BaseEntityBlock
-import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.block.state.properties.EnumProperty
+import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.pathfinder.PathComputationType
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
+import java.util.*
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
-class PastureBlock(properties: Settings): BaseEntityBlock(properties), Waterloggable, PreEmptsExplosion {
+class PastureBlock(settings: Properties): BaseEntityBlock(properties), SimpleWaterloggedBlock, PreEmptsExplosion {
     companion object {
         val CODEC = createCodec(::PastureBlock)
 
-        val PART: EnumProperty<PasturePart> = EnumProperty.of("part", PasturePart::class.java)
-        val ON: BooleanProperty = BooleanProperty.of("on")
-        val WATERLOGGED: BooleanProperty = BooleanProperty.of("waterlogged")
+        val PART: EnumProperty<PasturePart> = EnumProperty.create("part", PasturePart::class.java)
+        val ON: BooleanProperty = BooleanProperty.create("on")
+        val WATERLOGGED: BooleanProperty = BooleanProperty.create("waterlogged")
 
         private val SOUTH_AABB_TOP = buildCollider(top = true, Direction.NORTH)
         private val NORTH_AABB_TOP = buildCollider(top = true, Direction.SOUTH)
@@ -128,36 +122,37 @@ class PastureBlock(properties: Settings): BaseEntityBlock(properties), Waterlogg
         }
     }
 
-    enum class PasturePart(private val label: String) : StringIdentifiable {
+    enum class PasturePart(private val label: String) : StringRepresentable {
         TOP("top"),
         BOTTOM("bottom");
-        override fun asString() = label
+        override fun getSerializedName(): String = label
     }
 
-    override fun createBlockEntity(blockPos: BlockPos, blockState: BlockState) = if (blockState.get(PART) == PasturePart.BOTTOM) PokemonPastureBlockEntity(blockPos, blockState) else null
+    override fun createBlockEntity(blockPos: BlockPos, blockState: BlockState) = if (blockState.getValue(PART) == PasturePart.BOTTOM) PokemonPastureBlockEntity(blockPos, blockState) else null
 
 
     init {
-        defaultState = this.stateManager.defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH)
-            .with(PART, PasturePart.BOTTOM)
-            .with(ON, false)
+        registerDefaultState(stateDefinition.any()
+            .setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH)
+            .setValue(PART, PasturePart.BOTTOM)
+            .setValue(ON, false))
     }
 
     override fun getRenderShape(state: BlockState) = RenderShape.MODEL
-    override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
-        val abovePosition = blockPlaceContext.blockPos.up()
-        val world = blockPlaceContext.world
+    override fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState? {
+        val abovePosition = blockPlaceContext.clickedPos.above()
+        val world = blockPlaceContext.level
         if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
-            return defaultState
-                .with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
-                .with(PART, PasturePart.BOTTOM)
-                .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
+            return defaultBlockState()
+                .setValue(HorizontalDirectionalBlock.FACING, blockPlaceContext.horizontalDirection)
+                .setValue(PART, PasturePart.BOTTOM)
+                .setValue(WATERLOGGED, blockPlaceContext.level.getFluidState(blockPlaceContext.clickedPos).type == Fluids.WATER)
         }
 
         return null
     }
 
-    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
+    override fun canSurvive(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
         return true
     }
 
@@ -179,7 +174,7 @@ class PastureBlock(properties: Settings): BaseEntityBlock(properties), Waterlogg
 
     private fun isBase(state: BlockState): Boolean = state.contains(PART) && state.get(PART) == PasturePart.BOTTOM
 
-    override fun getCodec(): MapCodec<out BlockWithEntity> {
+    override fun codec(): MapCodec<out BaseEntityBlock> {
         return CODEC
     }
 
@@ -188,8 +183,8 @@ class PastureBlock(properties: Settings): BaseEntityBlock(properties), Waterlogg
         pathComputationType: PathComputationType
     ): Boolean = false
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(HorizontalFacingBlock.FACING)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        builder.add(HorizontalDirectionalBlock.FACING)
         builder.add(PART)
         builder.add(ON)
         builder.add(WATERLOGGED)
@@ -247,22 +242,21 @@ class PastureBlock(properties: Settings): BaseEntityBlock(properties), Waterlogg
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onUse(
+    override fun useWithoutItem(
         state: BlockState,
         world: Level,
         pos: BlockPos,
         player: Player,
         hit: BlockHitResult
-    ): ActionResult? {
+    ): InteractionResult {
         if (player is ServerPlayer && !player.isInBattle()) {
             val basePos = getBasePosition(state, pos)
 
             // Remove any duplicate block entities that may exist
-            world.getBlockEntity(basePos.up())?.markRemoved()
+            world.getBlockEntity(basePos.above())?.setRemoved()
 
             val baseEntity = world.getBlockEntity(basePos)
-            if (baseEntity !is PokemonPastureBlockEntity) return ActionResult.SUCCESS
+            if (baseEntity !is PokemonPastureBlockEntity) return InteractionResult.SUCCESS
 
 
             val pcId = Cobblemon.storage.getPC(player.uuid).uuid
@@ -289,23 +283,27 @@ class PastureBlock(properties: Settings): BaseEntityBlock(properties), Waterlogg
                 pitch = 1F
             )
 
-            return ActionResult.SUCCESS
+            return InteractionResult.SUCCESS
         }
 
-        return ActionResult.SUCCESS
+        return InteractionResult.SUCCESS
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, collisionContext: ShapeContext): VoxelShape {
-        return if (blockState.get(PART) == PasturePart.TOP)  {
-            when (blockState.get(HorizontalFacingBlock.FACING)) {
+    override fun getShape(
+        blockState: BlockState,
+        blockGetter: BlockGetter,
+        blockPos: BlockPos,
+        collisionContext: CollisionContext
+    ): VoxelShape {
+        return if (blockState.getValue(PART) == PasturePart.TOP)  {
+            when (blockState.getValue(HorizontalDirectionalBlock.FACING)) {
                 Direction.SOUTH -> SOUTH_AABB_TOP
                 Direction.WEST -> WEST_AABB_TOP
                 Direction.EAST -> EAST_AABB_TOP
                 else -> NORTH_AABB_TOP
             }
         } else {
-            when (blockState.get(HorizontalFacingBlock.FACING)) {
+            when (blockState.getValue(HorizontalDirectionalBlock.FACING)) {
                 Direction.SOUTH -> SOUTH_AABB_BOTTOM
                 Direction.WEST -> WEST_AABB_BOTTOM
                 Direction.EAST -> EAST_AABB_BOTTOM
@@ -314,10 +312,12 @@ class PastureBlock(properties: Settings): BaseEntityBlock(properties), Waterlogg
         }
     }
 
-    override fun rotate(blockState: BlockState, rotation: BlockRotation): BlockState = blockState.with(HorizontalFacingBlock.FACING, rotation.rotate(blockState.get(HorizontalFacingBlock.FACING)))
+    override fun rotate(blockState: BlockState, rotation: BlockRotation): BlockState = blockState.with(
+        HorizontalDirectionalBlock.FACING, rotation.rotate(blockState.get(
+            HorizontalDirectionalBlock.FACING)))
 
     override fun mirror(blockState: BlockState, mirror: BlockMirror): BlockState {
-        return blockState.rotate(mirror.getRotation(blockState.get(HorizontalFacingBlock.FACING)))
+        return blockState.rotate(mirror.getRotation(blockState.get(HorizontalDirectionalBlock.FACING)))
     }
 
     override fun onStateReplaced(state: BlockState, world: Level, pos: BlockPos?, newState: BlockState, moved: Boolean) {
@@ -330,25 +330,25 @@ class PastureBlock(properties: Settings): BaseEntityBlock(properties), Waterlogg
         } else super.getFluidState(state)
     }
 
-    override fun getStateForNeighborUpdate(
+    override fun updateShape(
         state: BlockState,
         direction: Direction,
         neighborState: BlockState,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         neighborPos: BlockPos
     ): BlockState {
-        if (state.get(WATERLOGGED)) {
-            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
+        if (state.getValue(WATERLOGGED)) {
+            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world))
         }
 
-        val isPasture = neighborState.isOf(this)
-        val part = state.get(PART)
-        if (!isPasture && part == PasturePart.TOP && neighborPos == pos.down()) {
-            return Blocks.AIR.defaultState
-        } else if (!isPasture && part == PasturePart.BOTTOM && neighborPos == pos.up()) {
+        val isPasture = neighborState.`is`(this)
+        val part = state.getValue(PART)
+        if (!isPasture && part == PasturePart.TOP && neighborPos == pos.below()) {
+            return Blocks.AIR.defaultBlockState()
+        } else if (!isPasture && part == PasturePart.BOTTOM && neighborPos == pos.above()) {
             checkBreakEntity(world, state, pos)
-            return Blocks.AIR.defaultState
+            return Blocks.AIR.defaultBlockState()
         }
 
         return state

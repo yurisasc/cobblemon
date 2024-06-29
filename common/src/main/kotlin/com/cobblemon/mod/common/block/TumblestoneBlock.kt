@@ -13,10 +13,17 @@ import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.BlockPos
-import net.minecraft.world.item.Item.Properties
+import net.minecraft.core.Direction
+import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.SimpleWaterloggedBlock
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED
+import net.minecraft.world.level.material.FluidState
+import net.minecraft.world.level.material.Fluids
 
 @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
 class TumblestoneBlock(
@@ -30,7 +37,7 @@ class TumblestoneBlock(
     // TODO(Deltric): Look into Block.CODEC for being optional more
     companion object {
         val CODEC: MapCodec<TumblestoneBlock> = RecordCodecBuilder.mapCodec { it.group(
-            createSettingsCodec(),
+            propertiesCodec(),
             PrimitiveCodec.INT.fieldOf("stage").forGetter { it.stage },
             PrimitiveCodec.INT.fieldOf("height").forGetter { it.height },
             PrimitiveCodec.INT.fieldOf("xzOffset").forGetter { it.xzOffset },
@@ -39,9 +46,9 @@ class TumblestoneBlock(
     }
 
     init {
-        this.defaultState = this.stateManager.defaultState
-            .with(FACING, Direction.DOWN)
-            .with(WATERLOGGED, false)
+        registerDefaultState(stateDefinition.any()
+            .setValue(FACING, Direction.DOWN)
+            .setValue(WATERLOGGED, false))
     }
 
     override fun canGrow(pos: BlockPos, world: BlockGetter): Boolean {
@@ -58,35 +65,35 @@ class TumblestoneBlock(
         return true
     }
 
-    override fun getCodec(): MapCodec<out FacingBlock> {
+    override fun codec(): MapCodec<out FacingBlock> {
         return CODEC
     }
 
     override fun getFluidState(state: BlockState): FluidState {
-        return if (state.get(WATERLOGGED)) {
-            Fluids.WATER.getStill(false)
+        return if (state.getValue(WATERLOGGED)) {
+            Fluids.WATER.getSource(false)
         } else super.getFluidState(state)
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        super.appendProperties(builder)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        super.createBlockStateDefinition(builder)
         builder.add(WATERLOGGED)
     }
 
-    override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
-        return super.getPlacementState(blockPlaceContext)?.with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
+    override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState? {
+        return super.getStateForPlacement(ctx)?.setValue(WATERLOGGED, ctx.level.getFluidState(ctx.clickedPos).type == Fluids.WATER)
 
     }
 
-    override fun getStateForNeighborUpdate(
+    override fun updateShape(
         state: BlockState,
         direction: Direction,
         neighborState: BlockState,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         neighborPos: BlockPos
-    ): BlockState? {
-        if (state.get(WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+    ): BlockState {
+        if (state.getValue(WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world))
+        return super.updateShape(state, direction, neighborState, world, pos, neighborPos)
     }
 }

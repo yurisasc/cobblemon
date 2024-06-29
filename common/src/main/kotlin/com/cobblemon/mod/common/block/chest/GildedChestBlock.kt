@@ -18,76 +18,81 @@ import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toVec3d
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.world.level.block.Block
-import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Blocks
-import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
-import net.minecraft.block.Waterloggable
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.entity.mob.PiglinBrain
-import net.minecraft.fluid.FluidState
-import net.minecraft.fluid.Fluids
-import net.minecraft.item.ItemPlacementContext
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.Properties.WATERLOGGED
-import net.minecraft.network.chat.MutableComponent
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.StringIdentifiable
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.core.BlockPos
-import net.minecraft.util.math.Direction
+import net.minecraft.util.StringRepresentable
 import net.minecraft.util.math.random.Random
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.WorldAccess
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.monster.piglin.PiglinAi
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.BaseEntityBlock
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.SimpleWaterloggedBlock
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING
+import net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED
+import net.minecraft.world.level.material.FluidState
+import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.pathfinder.PathComputationType
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.phys.shapes.VoxelShape
 
 @Suppress("OVERRIDE_DEPRECATION")
-class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BaseEntityBlock(settings), Waterloggable {
+class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEntityBlock(settings),
+    SimpleWaterloggedBlock {
 
     init {
-        defaultState = defaultState
-            .with(Properties.HORIZONTAL_FACING, Direction.SOUTH)
-            .with(WATERLOGGED, false)
+        registerDefaultState(stateDefinition.any()
+            .setValue(HORIZONTAL_FACING, Direction.SOUTH)
+            .setValue(WATERLOGGED, false))
     }
 
     companion object {
-        val CODEC: MapCodec<GildedChestBlock> = RecordCodecBuilder.mapCodec { it.group(
-            createSettingsCodec(),
-            Type.CODEC.fieldOf("chestType").forGetter(GildedChestBlock::type)
-        ).apply(it, ::GildedChestBlock) }
+        val CODEC: MapCodec<GildedChestBlock> = RecordCodecBuilder.mapCodec {
+            it.group(
+                propertiesCodec(),
+                Type.CODEC.fieldOf("chestType").forGetter(GildedChestBlock::type)
+            ).apply(it, ::GildedChestBlock)
+        }
 
         val POKEMON_ARGS = "gimmighoul"
         val LEVEL_RANGE = 5..30
 
-        val SOUTH_OUTLINE = VoxelShapes.union(
-            VoxelShapes.cuboid(0.0, 0.0, 0.25, 1.0, 1.0, 0.9375)
+        val SOUTH_OUTLINE = Shapes.or(
+            Shapes.box(0.0, 0.0, 0.25, 1.0, 1.0, 0.9375)
         )
-        val NORTH_OUTLINE = VoxelShapes.union(
-            VoxelShapes.cuboid(0.0, 0.0, 0.0625, 1.0, 1.0, 0.75)
+        val NORTH_OUTLINE = Shapes.or(
+            Shapes.box(0.0, 0.0, 0.0625, 1.0, 1.0, 0.75)
         )
-        val WEST_OUTLINE = VoxelShapes.union(
-            VoxelShapes.cuboid(0.0625, 0.0, 0.0, 0.75, 1.0, 1.0)
+        val WEST_OUTLINE = Shapes.or(
+            Shapes.box(0.0625, 0.0, 0.0, 0.75, 1.0, 1.0)
         )
-        val EAST_OUTLINE = VoxelShapes.union(
-            VoxelShapes.cuboid(0.25, 0.0, 0.0, 0.9375, 1.0, 1.0)
+        val EAST_OUTLINE = Shapes.or(
+            Shapes.box(0.25, 0.0, 0.0, 0.9375, 1.0, 1.0)
         )
     }
 
@@ -99,7 +104,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BaseEnti
         pos: BlockPos,
         context: ShapeContext
     ): VoxelShape {
-        return when (state.get(HorizontalFacingBlock.FACING)) {
+        return when (state.getValue(HorizontalDirectionalBlock.FACING)) {
             Direction.NORTH -> NORTH_OUTLINE
             Direction.SOUTH -> SOUTH_OUTLINE
             Direction.WEST -> WEST_OUTLINE
@@ -107,27 +112,27 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BaseEnti
         }
     }
 
-    override fun getStateForNeighborUpdate(
+    override fun updateShape(
         state: BlockState,
         direction: Direction,
         neighborState: BlockState,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         neighborPos: BlockPos
     ): BlockState {
-        if (state.get(WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
-        return super.getStateForNeighborUpdate(state,   direction, neighborState, world, pos, neighborPos)
+        if (state.getValue(WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
+        return super.updateShape(state, direction, neighborState, world, pos, neighborPos)
     }
 
     override fun getFluidState(state: BlockState): FluidState {
-        return if (state.get(WATERLOGGED)) {
-            Fluids.WATER.getStill(false)
+        return if (state.getValue(WATERLOGGED)) {
+            Fluids.WATER.getSource(false)
         } else super.getFluidState(state)
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        super.appendProperties(builder)
-        builder.add(Properties.HORIZONTAL_FACING)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        super.createBlockStateDefinition(builder)
+        builder.add(HORIZONTAL_FACING)
         builder.add(WATERLOGGED)
     }
 
@@ -151,23 +156,24 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BaseEnti
             }
             val bEntity = world.getBlockEntity(pos) as? GildedChestBlockEntity
             bEntity?.markRemoved()
-            val resultState = if (state.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState
+            val resultState =
+                if (state.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState
             world.setBlockState(pos, resultState)
             return resultState
         }
         return Blocks.AIR.defaultState
     }
 
-    private fun spawnPokemon(world: Level, pos: BlockPos, state: BlockState, player: ServerPlayer) : ActionResult {
+    private fun spawnPokemon(world: Level, pos: BlockPos, state: BlockState, player: ServerPlayer): ActionResult {
         val properties = "$POKEMON_ARGS lvl=${LEVEL_RANGE.random()}"
         val pokemon = PokemonProperties.parse(properties)
         val entity = pokemon.createEntity(world)
 
         // The yaw based on the block's facing direction
-        val yaw = facingToYaw[state[HorizontalFacingBlock.FACING]] ?: 0.0F
+        val yaw = facingToYaw[state[HorizontalDirectionalBlock.FACING]] ?: 0.0F
 
-        entity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, facingToYaw[state[HorizontalFacingBlock.FACING]])
-        val offsetDir = state[HorizontalFacingBlock.FACING]
+        entity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, facingToYaw[state[HorizontalDirectionalBlock.FACING]])
+        val offsetDir = state[HorizontalDirectionalBlock.FACING]
         val vec = pos.toVec3d().add(offsetDir.offsetX * 0.1 + 0.5, 0.0, offsetDir.offsetZ * 0.1 + 0.5)
         entity.refreshPositionAndAngles(vec.x, vec.y, vec.z, yaw, entity.pitch)
         world.spawnEntity(entity)
@@ -187,27 +193,27 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BaseEnti
         return ActionResult.SUCCESS
     }
 
-    override fun onUse(
+    override fun useWithoutItem(
         state: BlockState,
         world: Level,
         pos: BlockPos,
         player: Player,
         hit: BlockHitResult
-    ): ActionResult? {
+    ): InteractionResult {
         if (isFake()) {
             if (player is ServerPlayer) {
                 return spawnPokemon(world, pos, state, player)
             } else {
-                return ActionResult.SUCCESS
+                return InteractionResult.SUCCESS
             }
         }
-        val entity = world.getBlockEntity(pos) as? GildedChestBlockEntity ?: return ActionResult.FAIL
-        if (world.getBlockState(pos.up()).isSolidBlock(world, pos.up())) return ActionResult.FAIL
-        player.openHandledScreen(entity)
-        if (!player.world.isClient) {
-            PiglinBrain.onGuardedBlockInteracted(player, true)
+        val entity = world.getBlockEntity(pos) as? GildedChestBlockEntity ?: return InteractionResult.FAIL
+        if (world.getBlockState(pos.above()).isSolidRender(world, pos.above())) return InteractionResult.FAIL
+        player.openMenu(entity)
+        if (!player.level().isClientSide) {
+            PiglinAi.angerNearbyPiglins(player, true)
         }
-        return ActionResult.SUCCESS
+        return InteractionResult.SUCCESS
     }
 
     override fun onStateReplaced(
@@ -217,7 +223,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BaseEnti
         newState: BlockState,
         moved: Boolean
     ) {
-        if (!state.isOf(newState.block) && !world.isClient) {
+        if (!state.`is`(newState.block) && !world.isClientSide) {
             val chest = world.getBlockEntity(pos) as? GildedChestBlockEntity
             chest?.let {
                 ItemScatterer.spawn(world, pos, chest.inventoryContents)
@@ -227,17 +233,17 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BaseEnti
 
     override fun getRenderShape(state: BlockState) = RenderShape.ENTITYBLOCK_ANIMATED
 
-    override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
-        return defaultState
-            .with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing.opposite)
-            .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
+    override fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState {
+        return defaultBlockState()
+            .setValue(HorizontalDirectionalBlock.FACING, blockPlaceContext.horizontalDirection.opposite)
+            .setValue(WATERLOGGED, blockPlaceContext.level.getFluidState(blockPlaceContext.clickedPos).type == Fluids.WATER)
     }
 
     @Deprecated("Deprecated in Java")
     override fun rotate(state: BlockState, rotation: BlockRotation): BlockState {
-        return state.with(
-            Properties.HORIZONTAL_FACING, rotation.rotate(
-                state.get(Properties.HORIZONTAL_FACING) as Direction
+        return state.setValue(
+            HORIZONTAL_FACING, rotation.rotate(
+                state.getValue(HORIZONTAL_FACING) as Direction
             )
         ) as BlockState
     }
@@ -251,10 +257,10 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BaseEnti
     }
 
     override fun mirror(state: BlockState, mirror: BlockMirror): BlockState {
-        return state.rotate(mirror.getRotation(state.get(Properties.HORIZONTAL_FACING) as Direction))
+        return state.rotate(mirror.getRotation(state.getValue(HORIZONTAL_FACING) as Direction))
     }
 
-    enum class Type(val poserId: ResourceLocation): StringIdentifiable {
+    enum class Type(val poserId: ResourceLocation) : StringRepresentable {
         RED(cobblemonResource("gilded_chest")),
         BLUE(cobblemonResource("blue_gilded_chest")),
         GREEN(cobblemonResource("green_gilded_chest")),
@@ -264,21 +270,19 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BaseEnti
         YELLOW(cobblemonResource("yellow_gilded_chest")),
         FAKE(cobblemonResource("gilded_chest"));
 
-        override fun asString(): String {
-            return name.lowercase()
-        }
+        override fun getSerializedName(): String = name.lowercase()
 
         companion object {
-            val CODEC = StringIdentifiable.createBasicCodec(::values)
+            val CODEC = StringRepresentable.fromValues(::values)
         }
     }
 
     @Deprecated("Deprecated in Java")
-    override fun isPathfindable(state: BlockState?, type: PathComputationType): Boolean {
+    override fun isPathfindable(state: BlockState, type: PathComputationType): Boolean {
         return false
     }
 
-    override fun getCodec(): MapCodec<out BlockWithEntity> {
+    override fun getCodec(): MapCodec<out BaseEntityBlock> {
         return CODEC
     }
 

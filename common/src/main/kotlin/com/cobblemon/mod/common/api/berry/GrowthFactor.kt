@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.berry
 
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.state.BlockState
 
 /**
@@ -35,7 +36,7 @@ interface GrowthFactor {
      * @param pos The [BlockPos] of the berry tree.
      * @return If the bonus should activate.
      */
-    fun isValid(world: BlockGetter, state: BlockState, pos: BlockPos): Boolean
+    fun isValid(world: LevelReader, state: BlockState, pos: BlockPos): Boolean
 
     /**
      * Resolves the amount of bonus berries to grow if [isValid] was true.

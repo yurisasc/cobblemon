@@ -51,7 +51,7 @@ abstract class MultiblockBlock(properties: Properties) : BaseEntityBlock(propert
     ): InteractionResult {
         val entity = world.getBlockEntity(pos) as MultiblockEntity?
         if (entity?.multiblockStructure != null) {
-            return entity.multiblockStructure!!.onUse(state, world, pos, player, hit)
+            return entity.multiblockStructure!!.useWithoutItem(state, world, pos, player, hit)
         }
         return super.useWithoutItem(state, world, pos, player, hit)
     }

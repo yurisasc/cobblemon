@@ -19,13 +19,16 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.core.BlockPos
+import net.minecraft.util.RandomSource
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.event.GameEvent
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.BonemealableBlock
 import net.minecraft.world.level.block.RenderShape
 import net.minecraft.world.level.block.state.BlockState
@@ -33,9 +36,9 @@ import net.minecraft.world.level.block.state.BlockState
 @Suppress("OVERRIDE_DEPRECATION", "UNUSED_PARAMETER", "MemberVisibilityCanBePrivate", "DEPRECATION")
 abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBlock, ShearableBlock {
     private val possibleDirections = setOf(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST)
-    override fun hasRandomTicks(state: BlockState) = true
+    override fun isRandomlyTicking(state: BlockState) = true
 
-    override fun randomTick(state: BlockState, world: ServerLevel, pos: BlockPos, random: Random) {
+    override fun randomTick(state: BlockState, world: ServerLevel, pos: BlockPos, random: RandomSource) {
         // Check for propagation
         if (random.nextDouble() < Cobblemon.config.bigRootPropagationChance && world.getLightLevel(pos) < MAX_PROPAGATING_LIGHT_LEVEL && !hasReachedSpreadCap(world, pos)) {
             this.spreadFrom(world, pos, random)
@@ -44,10 +47,10 @@ abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBl
 
     fun hasReachedSpreadCap(world: Level, pos: BlockPos): Boolean {
         var nearby = 0
-        val nearbyPositions = BlockPos.iterate(pos.add(-4, -1, -4), pos.add(4, 1, 4)).iterator()
+        val nearbyPositions = BlockPos.iterate(pos.offset(-4, -1, -4), pos.offset(4, 1, 4)).iterator()
         while (nearbyPositions.hasNext()) {
             val blockPos = nearbyPositions.next()
-            if (world.getBlockState(blockPos).isIn(CobblemonBlockTags.ROOTS)) {
+            if (world.getBlockState(blockPos).`is`(CobblemonBlockTags.ROOTS)) {
                 nearby++
                 if (nearby >= Cobblemon.config.maxRootsInArea) {
                     return true
@@ -57,24 +60,24 @@ abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBl
         return false
     }
 
-    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean = this.canGoOn(state, world, pos) { true }
+    override fun canSurvive(state: BlockState, world: LevelReader, pos: BlockPos): Boolean = this.canGoOn(state, world, pos) { true }
 
-    override fun getStateForNeighborUpdate(
+    override fun updateShape(
         state: BlockState,
         direction: Direction,
         neighborState: BlockState,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos,
         neighborPos: BlockPos
     ): BlockState {
-        return if (direction == Direction.UP && !this.canPlaceAt(state, world, pos)) Blocks.AIR.defaultState else super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+        return if (direction == Direction.UP && !this.canSurvive(state, world, pos)) Blocks.AIR.defaultBlockState() else super.updateShape(state, direction, neighborState, world, pos, neighborPos)
     }
 
-    override fun isFertilizable(world: LevelReader, pos: BlockPos, state: BlockState) = this.canSpread(world, pos, state)
+    override fun isValidBonemealTarget(world: LevelReader, pos: BlockPos, state: BlockState) = this.canSpread(world, pos, state)
 
-    override fun canGrow(world: Level, random: Random, pos: BlockPos, state: BlockState) = this.canSpread(world, pos, state)
+    override fun isBonemealSuccess(world: Level, random: RandomSource, pos: BlockPos, state: BlockState) = this.canSpread(world, pos, state)
 
-    override fun grow(world: ServerLevel, random: Random, pos: BlockPos, state: BlockState) {
+    override fun performBonemeal(world: ServerLevel, random: RandomSource, pos: BlockPos, state: BlockState) {
         this.spreadFrom(world, pos, random)
     }
 

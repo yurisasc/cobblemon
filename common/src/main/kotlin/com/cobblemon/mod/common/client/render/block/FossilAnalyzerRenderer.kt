@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.FossilAnalyzerBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.client.Minecraft
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
@@ -34,12 +34,12 @@ class FossilAnalyzerRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEnt
         overlay: Int
     ) {
         val blockState = if (entity.world != null) entity.cachedState
-            else (CobblemonBlocks.FOSSIL_ANALYZER.defaultState.with(HorizontalFacingBlock.FACING, Direction.SOUTH) as BlockState)
+            else (CobblemonBlocks.FOSSIL_ANALYZER.defaultState.with(HorizontalDirectionalBlock.FACING, Direction.SOUTH) as BlockState)
         // We shouldn't have to do any complex rendering when the block isn't a multiblock
         if (entity.multiblockStructure == null) {
             return
         }
-        val direction = blockState.get(HorizontalFacingBlock.FACING)
+        val direction = blockState.get(HorizontalDirectionalBlock.FACING)
         val yRot = direction.asRotation() + if(direction == Direction.WEST || direction == Direction.EAST) 180F else 0F
         val struct = entity.multiblockStructure as FossilMultiblockStructure
 

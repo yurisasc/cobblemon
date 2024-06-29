@@ -45,20 +45,42 @@ import net.minecraft.util.Hand
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.sounds.SoundSource
+import net.minecraft.util.RandomSource
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.level.Level
 import net.minecraft.world.WorldAccess
+import net.minecraft.world.item.Items
+import net.minecraft.world.item.ShovelItem
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.BaseEntityBlock
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.BonemealableBlock
 import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityTicker
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BooleanProperty
+import net.minecraft.world.level.block.state.properties.EnumProperty
+import net.minecraft.world.level.block.state.properties.IntegerProperty
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.phys.shapes.VoxelShape
 
-class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Settings) : BaseEntityBlock(settings), Fertilizable, Mulchable {
+class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Properties) : BaseEntityBlock(settings), BonemealableBlock, Mulchable {
 
     private val lookupDirections = setOf(Direction.NORTH, Direction.EAST, Direction.WEST, Direction.SOUTH)
 
@@ -80,21 +102,21 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Settin
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BerryBlockEntity(pos, state, berryIdentifier)
 
-    override fun isFertilizable(world: LevelReader, pos: BlockPos, state: BlockState) = !this.isMaxAge(state)
+    override fun isValidBonemealTarget(world: LevelReader, pos: BlockPos, state: BlockState) = !this.isMaxAge(state)
 
-    override fun canGrow(world: Level, random: Random, pos: BlockPos, state: BlockState) = !this.isMaxAge(state)
+    override fun isBonemealSuccess(world: Level, random: RandomSource, pos: BlockPos, state: BlockState) = !this.isMaxAge(state)
 
     override fun <T : BlockEntity> getTicker(world: Level, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = validateTicker(blockWithEntityType, CobblemonBlockEntities.BERRY, BerryBlockEntity.TICKER)
 
     init {
-        defaultState = this.stateManager.defaultState
-            .with(WAS_GENERATED, false)
-            .with(MULCH, MulchVariant.NONE)
-            .with(AGE, 0)
-            .with(IS_ROOTED, false)
+        registerDefaultState(stateDefinition.any()
+            .setValue(WAS_GENERATED, false)
+            .setValue(MULCH, MulchVariant.NONE)
+            .setValue(AGE, 0)
+            .setValue(IS_ROOTED, false))
     }
 
-    override fun grow(world: ServerLevel, random: Random, pos: BlockPos, state: BlockState) {
+    override fun performBonemeal(world: ServerLevel, random: RandomSource, pos: BlockPos, state: BlockState) {
         growHelper(world, random, pos, state, true)
     }
 
@@ -172,50 +194,49 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Settin
         world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS, 0.6F, 1F)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onUse(
+    override fun useWithoutItem(
         state: BlockState,
         world: Level,
         pos: BlockPos,
         player: Player,
-        hit: BlockHitResult
-    ): ActionResult? {
+        blockHitResult: BlockHitResult
+    ): InteractionResult {
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
-        if (player.getStackInHand(Hand.MAIN_HAND).item is ShovelItem && getMulch(treeEntity) != MulchVariant.NONE) {
+        if (player.getItemInHand(InteractionHand.MAIN_HAND).item is ShovelItem && getMulch(treeEntity) != MulchVariant.NONE) {
             treeEntity.markDirty()
-            world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundCategory.BLOCKS, 0.6F, 1F)
-            this.spawnBreakParticles(world, player, pos, state.with(AGE, 0))
-            return ActionResult.SUCCESS
+            world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundSource.BLOCKS, 0.6F, 1F)
+            this.spawnDestroyParticles(world, player, pos, state.setValue(AGE, 0))
+            return InteractionResult.SUCCESS
         }
 
-        if (player.getStackInHand(Hand.MAIN_HAND).isOf(Items.BONE_MEAL) && !this.isMaxAge(state)) {
-            return ActionResult.PASS
+        if (player.getItemInHand(InteractionHand.MAIN_HAND).`is`(Items.BONE_MEAL) && !this.isMaxAge(state)) {
+            return InteractionResult.PASS
         } else if (this.isMaxAge(state)) {
-            val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return ActionResult.PASS
+            val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return InteractionResult.PASS
             blockEntity.harvest(world, state, pos, player).forEach { drop ->
                 Block.dropStack(world, pos, drop)
             }
-            world.playSound(null, pos, CobblemonSounds.BERRY_HARVEST, SoundCategory.BLOCKS, 0.4F, 1F)
-            return ActionResult.success(world.isClient)
+            world.playSound(null, pos, CobblemonSounds.BERRY_HARVEST, SoundSource.BLOCKS, 0.4F, 1F)
+            return InteractionResult.sidedSuccess(world.isClientSide)
         }
-        return super.onUse(state, world, pos, player, hit)
+        return super.useWithoutItem(state, world, pos, player, blockHitResult)
     }
 
     @Deprecated("Deprecated in Java")
-    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
-        val below = world.getBlockState(pos.down())
-        return (state.get(WAS_GENERATED) && below.isIn(CobblemonBlockTags.BERRY_WILD_SOIL))
-                || below.isIn(CobblemonBlockTags.BERRY_SOIL)
-                || state.get(IS_ROOTED)
+    override fun canSurvive(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
+        val below = world.getBlockState(pos.below())
+        return (state.getValue(WAS_GENERATED) && below.`is`(CobblemonBlockTags.BERRY_WILD_SOIL))
+                || below.`is`(CobblemonBlockTags.BERRY_SOIL)
+                || state.getValue(IS_ROOTED)
     }
 
-    override fun getCodec(): MapCodec<out BlockWithEntity> {
+    override fun codec(): MapCodec<out BaseEntityBlock> {
         return CODEC
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState {
-        return if (state.canPlaceAt(world, pos)) super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos) else Blocks.AIR.defaultState
+    override fun updateShape(state: BlockState, direction: Direction, neighborState: BlockState, world: LevelAccessor, pos: BlockPos, neighborPos: BlockPos): BlockState {
+        return if (state.canSurvive(world, pos)) super.updateShape(state, direction, neighborState, world, pos, neighborPos) else Blocks.AIR.defaultBlockState()
     }
 
     override fun onPlaced(world: Level, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack) {
@@ -225,7 +246,7 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Settin
 //        }
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(AGE)
         builder.add(WAS_GENERATED)
         builder.add(MULCH)
@@ -238,9 +259,9 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Settin
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
-        val berry = this.berry() ?: return VoxelShapes.fullCube()
-        return when (state.get(AGE)) {
+    override fun getShape(state: BlockState, world: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape {
+        val berry = this.berry() ?: return Shapes.block()
+        return when (state.getValue(AGE)) {
             0 -> PLANTED_SHAPE
             1 -> PLANTED_SHAPE
             2 -> berry.sproutShape
@@ -256,17 +277,17 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Settin
     companion object {
         val CODEC: MapCodec<BerryBlock> = RecordCodecBuilder.mapCodec { it.group(
             ResourceLocation.CODEC.fieldOf("berry").forGetter(BerryBlock::berryIdentifier),
-            createSettingsCodec()
+            propertiesCodec()
         ).apply(it, ::BerryBlock) }
 
         const val MATURE_AGE = 3
         const val FLOWER_AGE = 4
         const val FRUIT_AGE = 5
 
-        val AGE: IntProperty = IntProperty.of("age", 0, FRUIT_AGE)
-        val MULCH: EnumProperty<MulchVariant> = EnumProperty.of("mulch", MulchVariant::class.java)
-        val WAS_GENERATED: BooleanProperty = BooleanProperty.of("generated")
-        val IS_ROOTED: BooleanProperty = BooleanProperty.of("rooted")
+        val AGE: IntegerProperty = IntegerProperty.create("age", 0, FRUIT_AGE)
+        val MULCH: EnumProperty<MulchVariant> = EnumProperty.create("mulch", MulchVariant::class.java)
+        val WAS_GENERATED: BooleanProperty = BooleanProperty.create("generated")
+        val IS_ROOTED: BooleanProperty = BooleanProperty.create("rooted")
 //        val PLANTED_SHAPE = VoxelShapes.union(
 //            VoxelShapes.cuboid(0.3125, -0.0625, 0.3125, 0.6875, 0.0, 0.6875),
 //            VoxelShapes.cuboid(0.375, 0.0, 0.375, 0.625, 0.0625, 0.625)

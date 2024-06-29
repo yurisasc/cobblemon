@@ -15,7 +15,7 @@ import net.minecraft.block.WoodType
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.core.BlockPos
 
-class CobblemonWallHangingSignBlock(settings: Settings, woodType: WoodType) : WallHangingSignBlock(woodType, settings) {
+class CobblemonWallHangingSignBlock(settings: Properties, woodType: WoodType) : WallHangingSignBlock(woodType, settings) {
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = CobblemonHangingSignBlockEntity(pos, state)
 

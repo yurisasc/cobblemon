@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.client.render.block
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.client.Minecraft
 import net.minecraft.client.render.VertexConsumerProvider
@@ -42,8 +42,8 @@ class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Con
         poseStack.push()
 
         val blockState = if (blockEntity.world != null) blockEntity.cachedState
-            else (CobblemonBlocks.HEALING_MACHINE.defaultState.with(HorizontalFacingBlock.FACING, Direction.SOUTH) as BlockState)
-        val yRot = blockState.get(HorizontalFacingBlock.FACING).asRotation()
+            else (CobblemonBlocks.HEALING_MACHINE.defaultState.with(HorizontalDirectionalBlock.FACING, Direction.SOUTH) as BlockState)
+        val yRot = blockState.get(HorizontalDirectionalBlock.FACING).asRotation()
 
         // Position Poké Balls
         poseStack.translate(0.5, 0.5, 0.5)

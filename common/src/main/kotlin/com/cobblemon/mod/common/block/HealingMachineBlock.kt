@@ -21,7 +21,6 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.world.entity.player.Player
 import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
@@ -38,20 +37,32 @@ import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.BaseEntityBlock
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityTicker
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.pathfinder.PathComputationType
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
 
 @Suppress("DEPRECATED", "OVERRIDE_DEPRECATION")
-class HealingMachineBlock(properties: Settings) : BaseEntityBlock(properties) {
+class HealingMachineBlock(settings: Properties) : BaseEntityBlock(properties) {
     companion object {
         val CODEC: MapCodec<HealingMachineBlock> = createCodec(::HealingMachineBlock)
 
@@ -79,14 +90,14 @@ class HealingMachineBlock(properties: Settings) : BaseEntityBlock(properties) {
     }
 
     init {
-        defaultState = this.stateManager.defaultState
-            .with(HorizontalFacingBlock.FACING, Direction.NORTH)
-            .with(CHARGE_LEVEL, 0)
+        registerDefaultState(stateDefinition.any()
+            .setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH)
+            .setValue(CHARGE_LEVEL, 0))
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, collisionContext: ShapeContext): VoxelShape {
-        return when (blockState.get(HorizontalFacingBlock.FACING)) {
+    override fun getShape(blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos, collisionContext: CollisionContext): VoxelShape {
+        return when (blockState.getValue(HorizontalDirectionalBlock.FACING)) {
             Direction.WEST -> WEST_EAST_AABB
             Direction.EAST -> WEST_EAST_AABB
             else -> NORTH_SOUTH_AABB
@@ -97,11 +108,11 @@ class HealingMachineBlock(properties: Settings) : BaseEntityBlock(properties) {
         return HealingMachineBlockEntity(blockPos, blockState)
     }
 
-    override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState {
-        return this.defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
+    override fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState {
+        return this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, blockPlaceContext.horizontalDirection)
     }
 
-    override fun getCodec(): MapCodec<out BaseEntityBlock> {
+    override fun codec(): MapCodec<out BaseEntityBlock> {
         return CODEC
     }
 
@@ -112,17 +123,19 @@ class HealingMachineBlock(properties: Settings) : BaseEntityBlock(properties) {
         return false
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(HorizontalFacingBlock.FACING)
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+        builder.add(HorizontalDirectionalBlock.FACING)
         builder.add(*arrayOf<Property<*>>(CHARGE_LEVEL))
     }
 
     override fun rotate(blockState: BlockState, rotation: BlockRotation): BlockState {
-        return blockState.with(HorizontalFacingBlock.FACING, rotation.rotate(blockState.get(HorizontalFacingBlock.FACING)))
+        return blockState.with(
+            HorizontalDirectionalBlock.FACING, rotation.rotate(blockState.get(
+                HorizontalDirectionalBlock.FACING)))
     }
 
     override fun mirror(blockState: BlockState, mirror: BlockMirror): BlockState {
-        return blockState.rotate(mirror.getRotation(blockState.get(HorizontalFacingBlock.FACING)))
+        return blockState.rotate(mirror.getRotation(blockState.get(HorizontalDirectionalBlock.FACING)))
     }
 
     @Suppress("DEPRECATION")
@@ -130,57 +143,57 @@ class HealingMachineBlock(properties: Settings) : BaseEntityBlock(properties) {
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
     }
 
-    override fun onUse(
+    override fun useWithoutItem(
         blockState: BlockState,
         world: Level,
         blockPos: BlockPos,
         player: Player,
-        blockHitResult: BlockHitResult
-    ): ActionResult {
-        if (world.isClient) {
-            return ActionResult.SUCCESS
+        hit: BlockHitResult
+    ): InteractionResult {
+        if (world.isClientSide) {
+            return InteractionResult.SUCCESS
         }
 
         val blockEntity = world.getBlockEntity(blockPos)
         if (blockEntity !is HealingMachineBlockEntity) {
-            return ActionResult.SUCCESS
+            return InteractionResult.SUCCESS
         }
 
         if (blockEntity.isInUse) {
-            player.sendMessage(lang("healingmachine.alreadyinuse").red(), true)
-            return ActionResult.SUCCESS
+            player.sendSystemMessage(lang("healingmachine.alreadyinuse").red(), true)
+            return InteractionResult.SUCCESS
         }
 
         val serverPlayerEntity = player as ServerPlayer
         if (serverPlayerEntity.isInBattle()) {
-            player.sendMessage(lang("healingmachine.inbattle").red(), true)
-            return ActionResult.SUCCESS
+            player.sendSystemMessage(lang("healingmachine.inbattle").red(), true)
+            return InteractionResult.SUCCESS
         }
         val party = serverPlayerEntity.party()
         if (party.none()) {
-            player.sendMessage(lang("healingmachine.nopokemon").red(), true)
-            return ActionResult.SUCCESS
+            player.sendSystemMessage(lang("healingmachine.nopokemon").red(), true)
+            return InteractionResult.SUCCESS
         }
 
         if (party.none { pokemon -> pokemon.canBeHealed() }) {
-            player.sendMessage(lang("healingmachine.alreadyhealed").red(), true)
-            return ActionResult.SUCCESS
+            player.sendSystemMessage(lang("healingmachine.alreadyhealed").red(), true)
+            return InteractionResult.SUCCESS
         }
 
         if (HealingMachineBlockEntity.isUsingHealer(player)) {
-            player.sendMessage(lang("healingmachine.alreadyhealing").red(), true)
-            return ActionResult.SUCCESS
+            player.sendSystemMessage(lang("healingmachine.alreadyhealing").red(), true)
+            return InteractionResult.SUCCESS
         }
 
         if (blockEntity.canHeal(player)) {
             blockEntity.activate(player)
-            player.sendMessage(lang("healingmachine.healing").green(), true)
+            player.sendSystemMessage(lang("healingmachine.healing").green(), true)
         } else {
             val neededCharge = player.party().getHealingRemainderPercent() - blockEntity.healingCharge
-            player.sendMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red(), true)
+            player.sendSystemMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red(), true)
         }
         party.forEach { it.tryRecallWithAnimation() }
-        return ActionResult.CONSUME
+        return InteractionResult.CONSUME
     }
 
     override fun onPlaced(world: Level, blockPos: BlockPos, blockState: BlockState, livingEntity: LivingEntity?, itemStack: ItemStack) {

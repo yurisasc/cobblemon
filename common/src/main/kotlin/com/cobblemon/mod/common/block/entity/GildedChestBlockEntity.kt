@@ -31,8 +31,9 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity
 
-class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = Type.RED) : LootableContainerBlockEntity(CobblemonBlockEntities.GILDED_CHEST, pos, state), SidedInventory {
+class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = Type.RED) : RandomizableContainerBlockEntity(CobblemonBlockEntities.GILDED_CHEST, pos, state), SidedInventory {
     var inventoryContents: DefaultedList<ItemStack> = DefaultedList.ofSize(NUM_SLOTS, ItemStack.EMPTY)
     val posableState: GildedState = GildedState()
 

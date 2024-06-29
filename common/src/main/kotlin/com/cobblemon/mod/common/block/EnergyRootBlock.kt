@@ -18,25 +18,29 @@ import net.minecraft.core.BlockPos
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.phys.shapes.VoxelShape
 
 @Suppress("OVERRIDE_DEPRECATION")
 class EnergyRootBlock(settings: Properties) : RootBlock(settings) {
 
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape = AABB
+    override fun getShape(state: BlockState, world: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape = AABB
 
-    override fun shearedResultingState(): BlockState = CobblemonBlocks.BIG_ROOT.defaultState
+    override fun shearedResultingState(): BlockState = CobblemonBlocks.BIG_ROOT.defaultBlockState()
 
-    override fun shearedDrop(): ItemStack = CobblemonItems.ENERGY_ROOT.defaultStack
+    override fun shearedDrop(): ItemStack = CobblemonItems.ENERGY_ROOT.defaultInstance
 
-    override fun getCodec(): MapCodec<out Block> {
+    override fun codec(): MapCodec<out Block> {
         return CODEC
     }
 
     companion object {
         private val CODEC = createCodec(::EnergyRootBlock)
 
-        private val AABB = VoxelShapes.cuboid(0.2, 0.1, 0.2, 0.8, 1.0, 0.8)
+        private val AABB = Shapes.box(0.2, 0.1, 0.2, 0.8, 1.0, 0.8)
     }
 
 }

@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.api.pasture.PastureLinkManager
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
 import com.cobblemon.mod.common.net.messages.server.pasture.PasturePokemonPacket
-import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
 
@@ -30,7 +30,7 @@ object PasturePokemonHandler : ServerNetworkPacketHandler<PasturePokemonPacket> 
 
         val pastureBlockEntity = player.world.getBlockEntity(pastureLink.pos) as? PokemonPastureBlockEntity ?: return
         val state = player.world.getBlockState(pastureLink.pos)
-        val direction = state.get(HorizontalFacingBlock.FACING)
+        val direction = state.get(HorizontalDirectionalBlock.FACING)
 
         if (pokemon.tetheringId != null) {
             return

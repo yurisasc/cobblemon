@@ -34,6 +34,7 @@ import net.minecraft.registry.RegistryWrapper
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.core.BlockPos
+import net.minecraft.world.level.block.entity.BlockEntity
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class HealingMachineBlockEntity(

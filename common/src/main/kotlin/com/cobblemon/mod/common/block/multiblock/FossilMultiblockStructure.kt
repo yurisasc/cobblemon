@@ -31,11 +31,12 @@ import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.*
 import net.minecraft.world.level.block.Block
-import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.entity.EntityPose
 import net.minecraft.nbt.*
 import net.minecraft.registry.Registries
@@ -45,11 +46,13 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
+import net.minecraft.sounds.SoundSource
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.RandomSource
 import net.minecraft.util.math.Box
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -90,33 +93,33 @@ class FossilMultiblockStructure (
 
     //Only updated clientside
     var fillLevel = 0
-    override fun onUse(
+    override fun useWithoutItem(
         blockState: BlockState,
         world: Level,
         blockPos: BlockPos,
         player: Player,
         blockHitResult: BlockHitResult
     ): InteractionResult {
-        val stack = player.getStackInHand(Hand.MAIN_HAND)
+        val stack = player.getItemInHand(InteractionHand.MAIN_HAND)
 
-        if(stack.isIn(CobblemonItemTags.POKE_BALLS) || stack.item is PokeBallItem) {
+        if(stack.`is`(CobblemonItemTags.POKE_BALLS) || stack.item is PokeBallItem) {
             if (player !is ServerPlayer) {
-                return ActionResult.SUCCESS
+                return InteractionResult.SUCCESS
             }
             if (this.hasCreatedPokemon) {
                 if (this.fossilOwnerUUID != null && player.uuid != this.fossilOwnerUUID) {
                     var ownerName : String = "UNKNOWN_USER" // TODO: lang agnostic fallback
-                    server()?.userCache?.getByUuid(this.fossilOwnerUUID)?.orElse(null)?.name?.let {
+                    server()?.profileCache?.get(this.fossilOwnerUUID)?.orElse(null)?.name?.let {
                         ownerName = it
                     }
-                    player.sendMessage(lang("fossilmachine.protected", ownerName), true)
-                    return ActionResult.FAIL
+                    player.sendSystemMessage(lang("fossilmachine.protected", ownerName), true)
+                    return InteractionResult.FAIL
                 }
 
 
                 val ballType = (stack.item as PokeBallItem).pokeBall
                 if (!player.isCreative) {
-                    stack?.decrement(1)
+                    stack?.shrink(1)
                 }
 
                 val pokemon = this.resultingFossil?.result?.create()
@@ -131,8 +134,8 @@ class FossilMultiblockStructure (
 
                 // Turn the monitor off
                 val monitorState = world.getBlockState(monitorPos)
-                if(monitorState.contains(MonitorBlock.SCREEN) && !monitorState.equals(MonitorBlock.MonitorScreen.OFF)) {
-                    world.setBlockState(monitorPos, monitorState.with(MonitorBlock.SCREEN, MonitorBlock.MonitorScreen.OFF))
+                if(monitorState.hasProperty(MonitorBlock.SCREEN) && !monitorState.equals(MonitorBlock.MonitorScreen.OFF)) {
+                    world.setBlockAndUpdate(monitorPos, monitorState.setValue(MonitorBlock.SCREEN, MonitorBlock.MonitorScreen.OFF))
                 }
 
                 this.hasCreatedPokemon = false
@@ -141,50 +144,50 @@ class FossilMultiblockStructure (
                 this.updateFossilType(world)
                 this.syncToClient(world)
                 this.markDirty(world)
-                return ActionResult.SUCCESS
+                return InteractionResult.SUCCESS
             }
         }
 
         // Reclaim the last fossil from the machine if their hand is empty
-        if (player.getStackInHand(Hand.MAIN_HAND).isEmpty) {
+        if (player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty) {
             if(!this.isRunning() && this.hasCreatedPokemon) {
                 if (fossilInventory.isEmpty()) {
-                    return ActionResult.CONSUME
+                    return InteractionResult.CONSUME
                 }
-                player.setStackInHand(Hand.MAIN_HAND, fossilInventory.last())
+                player.setItemInHand(InteractionHand.MAIN_HAND, fossilInventory.last())
 
                 // remove last fossil in the fossil machine stack when grabbed out of the machine
                 this.fossilInventory.removeAt(fossilInventory.size - 1)
-                if(!world.isClient) {
-                    world.playSound(null, analyzerPos, CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_FOSSIL, SoundCategory.BLOCKS)
+                if(!world.isClientSide) {
+                    world.playSound(null, analyzerPos, CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_FOSSIL, SoundSource.BLOCKS)
                     this.updateFossilType(world)
                     this.syncToClient(world)
                     this.markDirty(world)
                 }
             }
-            return ActionResult.CONSUME
+            return InteractionResult.CONSUME
         }
 
         // Check if the player is holding a fossil and if so insert it into the machine.
         if (Fossils.isFossilIngredient(stack)) {
             if (!this.isRunning() && !this.hasCreatedPokemon) {
                 if (fossilInventory.size > Cobblemon.config.maxInsertedFossilItems) {
-                    return ActionResult.FAIL
+                    return InteractionResult.FAIL
                 }
                 if (player is ServerPlayer) {
                     val copyFossilStack = stack.copyWithCount(1)
                     if (!player.isCreative) {
-                        stack?.decrement(1)
+                        stack?.shrink(1)
                     }
                     fossilOwnerUUID = player.uuid
                     fossilInventory.add(copyFossilStack)
                     this.updateFossilType(world)
-                    world.playSound(null, analyzerPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_FOSSIL, SoundCategory.BLOCKS)
+                    world.playSound(null, analyzerPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_FOSSIL, SoundSource.BLOCKS)
                     this.syncToClient(world)
                     this.markDirty(world)
                 }
             }
-            return ActionResult.SUCCESS
+            return InteractionResult.SUCCESS
         }
 
         // Check if the player is holding a natural material and if so, feed it to the machine.
@@ -194,25 +197,25 @@ class FossilMultiblockStructure (
                     && !this.hasCreatedPokemon
                     && this.organicMaterialInside < MATERIAL_TO_START
                     && insertOrganicMaterial(ItemStack(stack.item, 1), world)) {
-                this.lastInteraction = world.time
+                this.lastInteraction = world.gameTime
                 if (!player.isCreative) {
                     val returnItem = NaturalMaterials.getReturnItem(stack)
-                    stack?.decrement(1)
+                    stack?.shrink(1)
                     player.giveOrDropItemStack(
                         ItemStack(
-                            Registries.ITEM.get(
+                            BuiltInRegistries.ITEM.get(
                                 returnItem
                             )
                         ), false)
                 }
             }
-            return ActionResult.success(world.isClient)
+            return InteractionResult.sidedSuccess(world.isClientSide)
         }
 
         // pure client instances dont know what a valid fossil is so this is my janky workaround
-        if (stack.isIn(CobblemonItemTags.FOSSILS)) return ActionResult.SUCCESS
+        if (stack.`is`(CobblemonItemTags.FOSSILS)) return InteractionResult.SUCCESS
 
-        return ActionResult.PASS
+        return InteractionResult.PASS
     }
 
     fun spawn(world: Level, pos: BlockPos, directionToBehind: Direction, pokemon: Pokemon) : Boolean {
@@ -299,7 +302,7 @@ class FossilMultiblockStructure (
         // instantiate the pokemon as a new entity and spawn it at the location of the machine
         if(this.protectionTime <= 0) {
             val wildPokemon: Pokemon = if (hasCreatedPokemon) resultingFossil?.result?.create() ?: return else return
-            val direction = state?.get(HorizontalFacingBlock.FACING)?.opposite
+            val direction = state?.get(HorizontalDirectionalBlock.FACING)?.opposite
             if(pos != null && direction != null && world != null) {
                 val success = this.spawn(world, pos, direction, wildPokemon)
                 if(success) {
@@ -322,7 +325,7 @@ class FossilMultiblockStructure (
         val tankBaseEntity = world.getBlockEntity(tankBasePos) as? MultiblockEntity
         val tankTopEntity = world.getBlockEntity(tankBasePos.up()) as? MultiblockEntity
         val tankBaseBlockState = world.getBlockState(tankBaseEntity?.pos)
-        val direction = tankBaseBlockState.get(HorizontalFacingBlock.FACING).opposite
+        val direction = tankBaseBlockState.get(HorizontalDirectionalBlock.FACING).opposite
         val wildPokemon: Pokemon? = if(hasCreatedPokemon) resultingFossil?.result?.create() else null
 
         monitorEntity?.multiblockStructure = null

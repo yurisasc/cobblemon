@@ -27,20 +27,27 @@ import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.core.BlockPos
+import net.minecraft.tags.BlockTags
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.BonemealableBlock
+import net.minecraft.world.level.block.CropBlock
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
 
 @Suppress("OVERRIDE_DEPRECATION", "MemberVisibilityCanBePrivate")
-class MintBlock(private val mintType: MintType, settings: Settings) : CropBlock(settings), Fertilizable {
+class MintBlock(private val mintType: MintType, settings: Properties) : CropBlock(settings), BonemealableBlock {
 
     init {
-        defaultState = stateManager.defaultState
-            .with(AGE, 0)
-            .with(IS_WILD, false)
+        registerDefaultState(stateDefinition.any()
+            .setValue(AGE, 0)
+            .setValue(IS_WILD, false))
     }
 
     // DO NOT use withAge
@@ -56,22 +63,22 @@ class MintBlock(private val mintType: MintType, settings: Settings) : CropBlock(
         this.applyGrowth(world, pos, state, true)
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(AGE)
         builder.add(IS_WILD)
     }
 
-    override fun canPlaceAt(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
-        val floor = world.getBlockState(pos.down())
+    override fun canSurvive(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
+        val floor = world.getBlockState(pos.below())
         // A bit of a copy pasta but we don't have access to the BlockState being attempted to be placed above on the canPlantOnTop
-        return (world.getBaseLightLevel(pos, 0) >= 8 || world.isSkyVisible(pos)) && ((this.isWild(state) && floor.isIn(BlockTags.DIRT)) || this.canPlantOnTop(floor, world, pos))
+        return (world.getBaseLightLevel(pos, 0) >= 8 || world.isSkyVisible(pos)) && ((this.isWild(state) && floor.`is`(BlockTags.DIRT)) || this.canPlantOnTop(floor, world, pos))
     }
 
     override fun getSeedsItem(): ItemConvertible = this.mintType.getSeed()
 
     override fun getGrowthAmount(world: Level): Int = 1
 
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape = AGE_TO_SHAPE[this.getAge(state)]
+    override fun getShape(state: BlockState, world: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape = AGE_TO_SHAPE[this.getAge(state)]
 
     fun isWild(state: BlockState): Boolean = state.get(IS_WILD)
 
@@ -81,7 +88,7 @@ class MintBlock(private val mintType: MintType, settings: Settings) : CropBlock(
         world.setBlockState(pos, state.with(AGE, newAge), NOTIFY_LISTENERS)
     }
 
-    override fun getCodec(): MapCodec<out CropBlock> {
+    override fun codec(): MapCodec<out CropBlock> {
         return CODEC
     }
 
@@ -132,7 +139,7 @@ class MintBlock(private val mintType: MintType, settings: Settings) : CropBlock(
     companion object {
         val CODEC: MapCodec<MintBlock> = RecordCodecBuilder.mapCodec { it.group(
             MintType.CODEC.fieldOf("mintType").forGetter(MintBlock::mintType),
-            createSettingsCodec()
+            propertiesCodec()
         ).apply(it, ::MintBlock) }
 
         val AGE: IntProperty = CropBlock.AGE
