@@ -13,10 +13,10 @@ import com.mojang.serialization.MapCodec
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceKeys
 import net.minecraft.core.Holder
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.gen.GenerationStep
-import net.minecraft.world.gen.feature.PlacedFeature
+import net.minecraft.tags.TagKey
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.levelgen.GenerationStep
+import net.minecraft.world.level.levelgen.placement.PlacedFeature
 import net.neoforged.neoforge.common.world.BiomeModifier
 import net.neoforged.neoforge.common.world.ModifiableBiomeInfo
 import net.neoforged.neoforge.registries.NeoForgeRegistries

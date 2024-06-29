@@ -146,7 +146,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.PlainTextContent
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.core.BlockPos
@@ -882,7 +882,7 @@ open class Pokemon : ShowdownIdentifiable {
         CobblemonEvents.HELD_ITEM_PRE.postThen(HeldItemEvent.Pre(this, stack, existing, decrement), ifSucceeded = { event ->
             val giving = event.receiving.copy().apply { count = 1 }
             if (event.decrement) {
-                event.receiving.decrement(1)
+                event.receiving.shrink(1)
             }
             this.heldItem = giving
             this._heldItem.emit(giving)

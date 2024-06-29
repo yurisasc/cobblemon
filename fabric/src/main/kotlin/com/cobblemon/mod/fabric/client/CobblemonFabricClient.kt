@@ -61,6 +61,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Supplier
+import net.minecraft.util.profiling.ProfilerFiller
+import org.spongepowered.asm.util.perf.Profiler
 
 class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation {
     override fun onInitializeClient() {
@@ -78,12 +80,12 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
 
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(object : IdentifiableResourceReloadListener {
             override fun reload(
-                synchronizer: PreparableReloadListener.PreparationBarrier?,
+                synchronizer: PreparableReloadListener.PreparationBarrier,
                 manager: ResourceManager,
-                prepareProfiler: Profiler?,
-                applyProfiler: Profiler?,
-                prepareExecutor: Executor?,
-                applyExecutor: Executor?
+                prepareProfiler: ProfilerFiller,
+                applyProfiler: ProfilerFiller,
+                prepareExecutor: Executor,
+                applyExecutor: Executor
             ): CompletableFuture<Void> {
                 val atlasFutures = mutableListOf<CompletableFuture<Void>>()
                 CobblemonAtlases.atlases.forEach {

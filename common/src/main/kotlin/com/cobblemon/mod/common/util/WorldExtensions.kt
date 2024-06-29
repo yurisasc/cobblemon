@@ -26,7 +26,7 @@ import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.world.BlockView
 import net.minecraft.world.level.Level
-import net.minecraft.world.biome.Biome
+import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 

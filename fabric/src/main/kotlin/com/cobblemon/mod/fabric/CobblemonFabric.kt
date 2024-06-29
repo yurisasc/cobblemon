@@ -267,7 +267,7 @@ object CobblemonFabric : CobblemonImplementation {
         }
     }
 
-    override fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: ResourceType, dependencies: Collection<Identifier>) {
+    override fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: PackType, dependencies: Collection<Identifier>) {
         ResourceManagerHelper.get(type).registerReloadListener(CobblemonReloadListener(identifier, reloader, dependencies))
     }
 

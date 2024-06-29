@@ -20,8 +20,8 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.Direction

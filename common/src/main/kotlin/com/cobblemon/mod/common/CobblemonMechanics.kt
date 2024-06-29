@@ -20,13 +20,13 @@ import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
 import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceType
+import net.minecraft.server.packs.PackType
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
 
 object CobblemonMechanics : DataRegistry {
     override val id: ResourceLocation = cobblemonResource("mechanics")
-    override val type = ResourceType.SERVER_DATA
+    override val type = PackType.SERVER_DATA
     override val observable = SimpleObservable<CobblemonMechanics>()
     val gson = GsonBuilder()
         .setPrettyPrinting()

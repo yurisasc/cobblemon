@@ -37,7 +37,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.phys.Vec3
 

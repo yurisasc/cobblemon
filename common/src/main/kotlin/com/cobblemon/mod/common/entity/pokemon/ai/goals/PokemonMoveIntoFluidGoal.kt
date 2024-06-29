@@ -15,7 +15,7 @@ import kotlin.math.floor
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.tag.FluidTags
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.tags.TagKey
 import net.minecraft.core.BlockPos
 import net.minecraft.core.BlockPos.Mutable
 import net.minecraft.util.math.Box

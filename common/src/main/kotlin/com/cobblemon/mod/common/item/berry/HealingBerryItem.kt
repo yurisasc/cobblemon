@@ -23,7 +23,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
@@ -53,7 +53,7 @@ class HealingBerryItem(block: BerryBlock, val amount: () -> ExpressionLike): Ber
         pokemon.currentHealth = Integer.min(pokemon.currentHealth + genericRuntime.resolveInt(amount(), pokemon), pokemon.hp)
         player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
         if (!player.isCreative) {
-            stack.decrement(1)
+            stack.shrink(1)
         }
         return InteractionResultHolder.success(stack)
     }
@@ -63,7 +63,7 @@ class HealingBerryItem(block: BerryBlock, val amount: () -> ExpressionLike): Ber
         player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
     }
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (world is ServerLevel && user is ServerPlayer) {
             return use(user, user.getItemInHand(hand))
         }

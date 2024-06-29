@@ -17,7 +17,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 
 /**
  * Handles logic relating to Gimmighoul's Coin Stash and Scrap Stash bars.
@@ -39,7 +39,7 @@ object GimmighoulStashHandler {
         if(player is ServerPlayer && pokemon.getOwnerPlayer() == player) {
             success = handleItem(pokemon, itemStack.item)
             if(success) {
-                itemStack.decrement(1)
+                itemStack.shrink(1)
             }
         }
         return success

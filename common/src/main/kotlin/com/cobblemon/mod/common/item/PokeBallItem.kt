@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 import kotlin.math.cos
@@ -24,13 +24,13 @@ class PokeBallItem(
     val pokeBall : PokeBall
 ) : CobblemonItem(Settings()) {
 
-    override fun use(world: Level, player: Player, usedHand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = player.getItemInHand(usedHand)
         if (world.isServerSide()) {
             throwPokeBall(world, player as ServerPlayer)
         }
         if (!player.abilities.creativeMode) {
-            itemStack.decrement(1)
+            itemStack.shrink(1)
         }
         return InteractionResultHolder.success(itemStack, world.isClient)
     }

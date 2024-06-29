@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
@@ -39,7 +39,7 @@ class VitaminItem(val stat: Stat) : CobblemonItem(Settings()), PokemonSelectingI
         return if (evsGained > 0) {
             player.playSound(CobblemonSounds.MEDICINE_PILLS_USE, 1F, 1F)
             if (!player.isCreative) {
-                stack.decrement(1)
+                stack.shrink(1)
             }
             InteractionResultHolder.success(stack)
         } else {
@@ -47,7 +47,7 @@ class VitaminItem(val stat: Stat) : CobblemonItem(Settings()), PokemonSelectingI
         }
     }
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (user is ServerPlayer) {
             return use(user, user.getItemInHand(hand))
         }

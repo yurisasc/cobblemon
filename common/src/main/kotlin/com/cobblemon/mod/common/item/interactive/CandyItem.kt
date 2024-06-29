@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
@@ -34,7 +34,7 @@ import net.minecraft.world.level.Level
 class CandyItem(val calculator: Calculator) : CobblemonItem(Settings()), PokemonSelectingItem {
     override val bagItem = null
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (user is ServerPlayer) {
             return use(user, user.getItemInHand(hand))
         }
@@ -53,7 +53,7 @@ class CandyItem(val calculator: Calculator) : CobblemonItem(Settings()), Pokemon
                     var returnValue = false
                     if (result.experienceAdded > 0) {
                         if (!player.isCreative) {
-                            stack.decrement(1)
+                            stack.shrink(1)
                         }
                         returnValue = true
                     }

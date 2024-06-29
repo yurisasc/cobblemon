@@ -16,7 +16,7 @@ import net.minecraft.entity.ai.goal.WanderAroundGoal
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.FluidTags
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.tags.TagKey
 import net.minecraft.core.BlockPos
 import net.minecraft.world.phys.Vec3
 

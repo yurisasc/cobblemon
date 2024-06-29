@@ -21,7 +21,7 @@ import net.minecraft.world.chunk.ChunkStatus
 import net.minecraft.world.gen.blockpredicate.BlockPredicate
 import net.minecraft.world.gen.feature.DefaultFeatureConfig
 import net.minecraft.world.gen.feature.Feature
-import net.minecraft.world.gen.feature.PlacedFeatures
+import net.minecraft.world.level.levelgen.placement.PlacedFeatures
 import net.minecraft.world.gen.feature.SimpleBlockFeatureConfig
 import net.minecraft.world.gen.feature.util.FeatureContext
 import net.minecraft.world.gen.placementmodifier.BlockFilterPlacementModifier

@@ -22,7 +22,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
@@ -50,7 +50,7 @@ class StatusCureItem(val itemName: String, vararg val status: Status) : Cobblemo
             pokemon.status = null
             player.playSound(CobblemonSounds.MEDICINE_SPRAY_USE, 1F, 1F)
             if (!player.isCreative)  {
-                stack.decrement(1)
+                stack.shrink(1)
                 player.giveOrDropItemStack(ItemStack(Items.GLASS_BOTTLE))
             }
             InteractionResultHolder.success(stack)
@@ -64,7 +64,7 @@ class StatusCureItem(val itemName: String, vararg val status: Status) : Cobblemo
         player.playSound(CobblemonSounds.MEDICINE_SPRAY_USE, 1F, 1F)
     }
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (user is ServerPlayer) {
             return use(user, user.getItemInHand(hand))
         }

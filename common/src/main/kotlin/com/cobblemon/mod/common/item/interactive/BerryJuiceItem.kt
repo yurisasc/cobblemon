@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 import net.minecraft.item.Items
@@ -32,7 +32,7 @@ class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
     }
 
     override fun canUseOnPokemon(pokemon: Pokemon) = !pokemon.isFullHealth() && pokemon.currentHealth > 0
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (user is ServerPlayer) {
             return use(user, user.getItemInHand(hand))
         }
@@ -50,7 +50,7 @@ class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
         pokemon.currentHealth = Integer.min(pokemon.currentHealth + 20, pokemon.hp)
         player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
         if (!player.isCreative)  {
-            stack.decrement(1)
+            stack.shrink(1)
             val woodenBowlItemStack = ItemStack(Items.BOWL)
             if (!player.inventory.insertStack(woodenBowlItemStack)) {
                 // Drop the item into the world if the inventory is full

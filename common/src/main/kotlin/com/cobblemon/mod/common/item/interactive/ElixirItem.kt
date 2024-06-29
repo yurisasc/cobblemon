@@ -23,7 +23,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
@@ -59,7 +59,7 @@ class ElixirItem(val max: Boolean) : CobblemonItem(Settings()), PokemonSelecting
         return if (changed) {
             pokemon.moveSet.update()
             if (!player.isCreative) {
-                stack.decrement(1)
+                stack.shrink(1)
                 player.giveOrDropItemStack(ItemStack(Items.GLASS_BOTTLE))
             }
             player.playSound(CobblemonSounds.MEDICINE_LIQUID_USE, 1F, 1F)
@@ -74,7 +74,7 @@ class ElixirItem(val max: Boolean) : CobblemonItem(Settings()), PokemonSelecting
         player.playSound(CobblemonSounds.MEDICINE_LIQUID_USE, 1F, 1F)
     }
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (world is ServerLevel && user is ServerPlayer) {
             val stack = user.getItemInHand(hand)
             return use(user, stack)

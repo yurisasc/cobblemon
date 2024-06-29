@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 
 // TODO probably remove this? Still need to work through Ether logic and apply in other places
@@ -32,7 +32,7 @@ interface InteractOrBagItem {
 
     fun getBagItem(stack: ItemStack): BagItem?
 
-    fun onRegularUse(world: ServerLevel, user: ServerPlayer, hand: Hand): InteractionResultHolder<ItemStack> {
+    fun onRegularUse(world: ServerLevel, user: ServerPlayer, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         return InteractionResultHolder.success(user.getItemInHand(hand))
     }
 
@@ -63,7 +63,7 @@ interface InteractOrBagItem {
             if (stack in player.handSlots && !stack.isEmpty && battlePokemon.actor.canFitForcedAction() && battle.turn == turn) {
                 battlePokemon.actor.forceChoose(BagItemActionResponse(bagItem, battlePokemon, move.moveTemplate.name))
                 if (!player.isCreative) {
-                    stack.decrement(1)
+                    stack.shrink(1)
                 }
             }
         }
@@ -71,7 +71,7 @@ interface InteractOrBagItem {
         return true
     }
 
-    fun checkBattleItem(player: ServerPlayer, battle: PokemonBattle, actor: BattleActor, battlePokemon: BattlePokemon, stack: ItemStack, hand: Hand): Boolean {
+    fun checkBattleItem(player: ServerPlayer, battle: PokemonBattle, actor: BattleActor, battlePokemon: BattlePokemon, stack: ItemStack, hand: InteractionHand): Boolean {
 
         val bagItem = getBagItem(stack) ?: return false
 

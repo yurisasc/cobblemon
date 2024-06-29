@@ -11,10 +11,10 @@ package com.cobblemon.mod.common.world.predicate
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.resources.ResourceKeys
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.tags.TagKey
 import net.minecraft.core.BlockPos
 import net.minecraft.world.StructureWorldAccess
-import net.minecraft.world.biome.Biome
+import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.gen.blockpredicate.BlockPredicate
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull

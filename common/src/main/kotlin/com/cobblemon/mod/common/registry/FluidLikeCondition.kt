@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.registry
 import com.cobblemon.mod.common.api.conditional.RegistryLikeIdentifierCondition
 import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import net.minecraft.fluid.Fluid
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.tags.TagKey
 import net.minecraft.resources.ResourceLocation
 
 /**

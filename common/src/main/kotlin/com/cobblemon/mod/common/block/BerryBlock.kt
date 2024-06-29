@@ -40,8 +40,8 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.IntProperty
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.core.BlockPos

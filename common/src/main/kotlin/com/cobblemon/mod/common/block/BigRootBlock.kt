@@ -17,8 +17,8 @@ import net.minecraft.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.core.BlockPos
 import net.minecraft.util.shape.VoxelShape

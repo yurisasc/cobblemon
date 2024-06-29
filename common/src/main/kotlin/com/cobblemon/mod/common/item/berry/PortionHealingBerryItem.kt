@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.util.resolveFloat
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
@@ -55,7 +55,7 @@ class PortionHealingBerryItem(block: BerryBlock, val canCauseConfusion: Boolean,
         pokemon.currentHealth = Integer.min(pokemon.currentHealth + (genericRuntime.resolveFloat(portion(), pokemon) * pokemon.hp).toInt(), pokemon.hp)
         player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
         if (!player.isCreative) {
-            stack.decrement(1)
+            stack.shrink(1)
         }
         return InteractionResultHolder.success(stack)
     }
@@ -65,7 +65,7 @@ class PortionHealingBerryItem(block: BerryBlock, val canCauseConfusion: Boolean,
         player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
     }
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (user is ServerPlayer) {
             return use(user, user.getItemInHand(hand))
         }

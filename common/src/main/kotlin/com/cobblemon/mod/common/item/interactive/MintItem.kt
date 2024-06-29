@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.util.lang
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
@@ -32,7 +32,7 @@ class MintItem(val nature: Nature) : CobblemonItem(Settings()), PokemonSelecting
     ): InteractionResultHolder<ItemStack> {
         return if (pokemon.effectiveNature != nature) {
             if (!player.isCreative) {
-                stack.decrement(1)
+                stack.shrink(1)
             }
             player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
             pokemon.mintedNature = nature
@@ -44,7 +44,7 @@ class MintItem(val nature: Nature) : CobblemonItem(Settings()), PokemonSelecting
         }
     }
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (user is ServerPlayer) {
             return use(user, user.getItemInHand(hand))
         }

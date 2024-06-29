@@ -24,8 +24,8 @@ import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.sound.SoundCategory
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
@@ -42,26 +42,26 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
      * @param hand The [Hand] the player used to perform this interaction
      * @author whatsy
      */
-    fun updateItem(player: Player, hand: Hand): ActionResult {
+    fun updateItem(player: Player, hand: InteractionHand): InteractionResult {
         val playerStack = player.getItemInHand(hand)
 
         // Player and case item are the same - do nothing
         if (playerStack.item == getStack().item) {
-            return if (playerStack.item != Items.AIR) ActionResult.SUCCESS else ActionResult.FAIL
+            return if (playerStack.item != Items.AIR) InteractionResult.SUCCESS else InteractionResult.FAIL
         }
 
         // Player's hand is empty, case is not empty - give player the item in the case
         if (playerStack.isEmpty && !getStack().isEmpty) {
             if (!player.isCreative) player.setStackInHand(hand, getStack())
             setCaseStack(ItemStack.EMPTY)
-            return ActionResult.success(true)
+            return InteractionResult.success(true)
         }
 
         // Case is empty, player's hand is not - put playerStack in the case
         if (getStack().isEmpty && !playerStack.isEmpty) {
             setCaseStack(playerStack.copy())
-            if (!player.isCreative) playerStack.decrement(1)
-            return ActionResult.success(true)
+            if (!player.isCreative) playerStack.shrink(1)
+            return InteractionResult.success(true)
         }
 
         // Player has item, case has item - swap items
@@ -69,14 +69,14 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
             val oldCaseStack = getStack()
             setCaseStack(playerStack.copy())
             if (!player.isCreative) {
-                playerStack.decrement(1)
+                playerStack.shrink(1)
                 player.giveItemStack(oldCaseStack)
             }
 
-            return ActionResult.SUCCESS
+            return InteractionResult.SUCCESS
         }
 
-        return ActionResult.FAIL
+        return InteractionResult.FAIL
     }
 
     fun getStack(): ItemStack {

@@ -35,7 +35,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.EnumProperty
-import net.minecraft.util.ActionResult
+import net.minecraft.world.InteractionResult
 import net.minecraft.util.Mirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.StringIdentifiable

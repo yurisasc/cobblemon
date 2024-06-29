@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.pokemon.evolution.requirements.template.EntityQu
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.resources.ResourceKeys
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.biome.Biome
+import net.minecraft.world.level.biome.Biome
 
 /**
  * A [EntityQueryRequirement] for when a [Pokemon] is expected to be in a certain [Biome].

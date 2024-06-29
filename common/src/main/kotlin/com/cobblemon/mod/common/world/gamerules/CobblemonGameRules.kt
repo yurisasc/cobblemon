@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.world.gamerules
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.mixin.invoker.BooleanRuleInvoker
-import net.minecraft.world.GameRules
+import net.minecraft.world.level.GameRules
 
 object CobblemonGameRules {
 

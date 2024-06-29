@@ -289,7 +289,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
 
     override fun getBaseDimensions(pose: EntityPose) = npc.hitbox
 
-    override fun interactMob(player: PlayerEntity, hand: Hand): ActionResult {
+    override fun interactMob(player: PlayerEntity, hand: InteractionHand): InteractionResult {
         if (player is ServerPlayer && hand == Hand.MAIN_HAND) {
             (interaction ?: npc.interaction)?.runScript(runtime.withPlayerValue(value = player))
             runtime.environment.query.functions.remove("player")
@@ -305,7 +305,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
 //                }
 //            }
         }
-        return ActionResult.SUCCESS
+        return InteractionResult.SUCCESS
     }
 
     fun playAnimation(vararg animation: String) {

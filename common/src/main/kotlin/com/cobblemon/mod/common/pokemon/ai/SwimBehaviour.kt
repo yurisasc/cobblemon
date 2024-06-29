@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.pokemon.ai
 import com.cobblemon.mod.common.util.asExpressionLike
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.tag.FluidTags
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.tags.TagKey
 
 class SwimBehaviour {
     val avoidsWater = false

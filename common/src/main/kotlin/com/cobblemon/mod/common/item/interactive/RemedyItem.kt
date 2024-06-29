@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
@@ -54,7 +54,7 @@ class RemedyItem(val remedyStrength: String) : CobblemonItem(Settings()), Pokemo
             player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
             pokemon.decrementFriendship(CobblemonMechanics.remedies.getFriendshipDrop(runtime))
             if (!player.isCreative) {
-                stack.decrement(1)
+                stack.shrink(1)
             }
             InteractionResultHolder.success(stack)
         } else {
@@ -67,7 +67,7 @@ class RemedyItem(val remedyStrength: String) : CobblemonItem(Settings()), Pokemo
         player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
     }
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (user is ServerPlayer) {
             return use(user, user.getItemInHand(hand))
         }

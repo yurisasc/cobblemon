@@ -16,19 +16,20 @@ import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
 import net.minecraft.resources.ResourceKey
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.tags.TagKey
 import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.PackType
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
-import net.minecraft.world.GameRules
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.gen.GenerationStep
-import net.minecraft.world.gen.feature.PlacedFeature
+
+import net.minecraft.world.level.GameRules
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import net.minecraft.world.level.levelgen.GenerationStep
 
 interface CobblemonImplementation {
     val modAPI: ModAPI
@@ -115,7 +116,7 @@ interface CobblemonImplementation {
      * @param step The [GenerationStep.Feature] of this feature.
      * @param validTag The [TagKey] required by the [Biome] for this feature to generate in, if null all biomes are valid.
      */
-    fun addFeatureToWorldGen(feature: ResourceKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?)
+    fun addFeatureToWorldGen(feature: ResourceKey<PlacedFeature>, step: GenerationStep.Decoration, validTag: TagKey<Biome>?)
 
     /**
      * TODO
@@ -156,7 +157,7 @@ interface CobblemonImplementation {
      * @param type
      * @param dependencies
      */
-    fun registerResourceReloader(identifier: ResourceLocation, reloader: PreparableReloadListener, type: ResourceType, dependencies: Collection<ResourceLocation>)
+    fun registerResourceReloader(identifier: ResourceLocation, reloader: PreparableReloadListener, type: PackType, dependencies: Collection<ResourceLocation>)
 
     /**
      * TODO

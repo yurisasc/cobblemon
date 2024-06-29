@@ -19,7 +19,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import net.minecraft.client.model.ModelPart
 
-import net.minecraft.resource.ResourceType
+import net.minecraft.server.packs.PackType
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
 
@@ -30,7 +30,7 @@ import net.minecraft.resources.ResourceLocation
 object BerryModelRepository : JsonDataRegistry<TexturedModel> {
 
     override val id = cobblemonResource("berry_models")
-    override val type = ResourceType.CLIENT_RESOURCES
+    override val type = PackType.CLIENT_RESOURCES
     override val observable = SimpleObservable<BerryModelRepository>()
     override val gson: Gson = TexturedModel.GSON
     override val typeToken: TypeToken<TexturedModel> = TypeToken.get(TexturedModel::class.java)

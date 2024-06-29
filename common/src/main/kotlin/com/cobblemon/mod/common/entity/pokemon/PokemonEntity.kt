@@ -625,7 +625,7 @@ open class PokemonEntity(
         return pokemon.form.shoulderMountable
     }
 
-    override fun interactMob(player: Player, hand: InteractionHand) : ActionResult {
+    override fun interactMob(player: Player, hand: InteractionHand) : InteractionResult {
         val itemStack = player.getItemInHand(hand)
         val colorFeatureType = SpeciesFeatures.getFeaturesFor(pokemon.species)
             .find { it is ChoiceSpeciesFeatureProvider && DataKeys.CAN_BE_COLORED in it.keys }
@@ -636,13 +636,13 @@ open class PokemonEntity(
                 this.sheared(SoundCategory.PLAYERS)
                 this.emitGameEvent(GameEvent.SHEAR, player)
                 itemStack.damage(1, player, EquipmentSlot.MAINHAND)
-                return ActionResult.SUCCESS
+                return InteractionResult.SUCCESS
             } else if (itemStack.isOf(Items.BUCKET)) {
                 if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
                     player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
                     val milkBucket = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.defaultStack)
                     player.setStackInHand(hand, milkBucket)
-                    return ActionResult.success(world.isClient)
+                    return InteractionResult.success(world.isClient)
                 }
             } else if (itemStack.isOf(Items.BOWL)) {
                 if (pokemon.aspects.any() { it.contains("mooshtank") }) {
@@ -671,11 +671,11 @@ open class PokemonEntity(
                             // reset the flower fed state
                             pokemon.lastFlowerFed = ItemStack.EMPTY
                         }
-                        return ActionResult.success(world.isClient)
+                        return InteractionResult.success(world.isClient)
                     } else {
                         val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
                         player.setStackInHand(hand, mushroomStew)
-                        return ActionResult.success(world.isClient)
+                        return InteractionResult.success(world.isClient)
                     }
                 }
             }
@@ -699,7 +699,7 @@ open class PokemonEntity(
                 if (pokemon.aspects.any() { it.contains("mooshtank") }) {
                     player.playSound(SoundEvents.ENTITY_MOOSHROOM_EAT, 1.0f, 1.0f)
                     pokemon.lastFlowerFed = itemStack
-                    return ActionResult.success(world.isClient)
+                    return InteractionResult.success(world.isClient)
                 }
             } else if (!player.isSneaking && (itemStack.isOf(CobblemonItems.RELIC_COIN)
                         || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
@@ -709,7 +709,7 @@ open class PokemonEntity(
                     || itemStack.isOf(Items.NETHERITE_BLOCK))) {
 
                 if(GimmighoulStashHandler.interactMob(player, hand, pokemon)) {
-                    return ActionResult.SUCCESS
+                    return InteractionResult.SUCCESS
                 }
             } else if (itemStack.item is DyeItem && colorFeatureType != null) {
                 val currentColor = colorFeature?.value ?: ""
@@ -728,16 +728,16 @@ open class PokemonEntity(
 
                         this.pokemon.updateAspects()
                         if (!player.isCreative) {
-                            itemStack.decrement(1)
+                            itemStack.shrink(1)
                         }
                     }
-                    return ActionResult.success(world.isClient)
+                    return InteractionResult.success(world.isClient)
                 }
             } else if (itemStack.item.equals(Items.WATER_BUCKET) && colorFeatureType != null) {
                 if (player is ServerPlayer) {
                     if (colorFeature != null) {
                         if (!player.isCreative) {
-                            itemStack.decrement(1)
+                            itemStack.shrink(1)
                             player.giveOrDropItemStack(Items.BUCKET.defaultStack)
                         }
                         colorFeature.value = ""
@@ -745,7 +745,7 @@ open class PokemonEntity(
                         this.pokemon.updateAspects()
                     }
                 }
-                return ActionResult.success(world.isClient)
+                return InteractionResult.success(world.isClient)
             }
         }
 
@@ -754,7 +754,7 @@ open class PokemonEntity(
                 InteractPokemonUIPacket(this.getUUID(), isReadyToSitOnPlayer && pokemon in player.party()).sendToPlayer(player)
             } else {
                 // TODO #105
-                if (this.attemptItemInteraction(player, player.getItemInHand(hand))) return ActionResult.SUCCESS
+                if (this.attemptItemInteraction(player, player.getItemInHand(hand))) return InteractionResult.SUCCESS
             }
         }
 
@@ -883,7 +883,7 @@ open class PokemonEntity(
                 .forEach { evolution ->
                     if (evolution.attemptEvolution(pokemon, context)) {
                         if (!player.isCreative) {
-                            stack.decrement(1)
+                            stack.shrink(1)
                         }
                         this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE, volume = 1F, pitch = 1F)
                         return true

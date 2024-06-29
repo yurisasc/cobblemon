@@ -46,7 +46,7 @@ import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceKeys
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.tags.TagKey
 import net.minecraft.resource.DirectoryResourcePack
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourcePack
@@ -55,16 +55,16 @@ import net.minecraft.resource.ResourcePackPosition
 import net.minecraft.resource.ResourcePackProfile
 import net.minecraft.resource.ResourcePackProfile.PackFactory
 import net.minecraft.resource.ResourcePackSource
-import net.minecraft.resource.ResourceType
+import net.minecraft.server.packs.PackType
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.PreparableReloadListener
-import net.minecraft.world.GameRules
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.gen.GenerationStep
-import net.minecraft.world.gen.feature.PlacedFeature
+import net.minecraft.world.level.GameRules
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.levelgen.GenerationStep
+import net.minecraft.world.level.levelgen.placement.PlacedFeature
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.fml.InterModComms
 import net.neoforged.fml.ModList
@@ -357,8 +357,8 @@ class CobblemonNeoForge : CobblemonImplementation {
         }
     }
 
-    override fun registerResourceReloader(identifier: ResourceLocation, reloader: PreparableReloadListener, type: ResourceType, dependencies: Collection<ResourceLocation>) {
-        if (type == ResourceType.SERVER_DATA) {
+    override fun registerResourceReloader(identifier: ResourceLocation, reloader: PreparableReloadListener, type: PackType, dependencies: Collection<ResourceLocation>) {
+        if (type == PackType.SERVER_DATA) {
             this.reloadableResources += reloader
         }
         else {
@@ -407,7 +407,7 @@ class CobblemonNeoForge : CobblemonImplementation {
     //TODO: I dont really know wtf is happening here, someone needs to check
     //This event gets fired before init, so we need to put resource packs in EARLY
     fun onAddPackFindersEvent(event: AddPackFindersEvent) {
-        if (event.packType != ResourceType.CLIENT_RESOURCES) {
+        if (event.packType != PackType.CLIENT_RESOURCES) {
             return
         }
 
@@ -446,7 +446,7 @@ class CobblemonNeoForge : CobblemonImplementation {
                     null
                 ),
                 factory,
-                ResourceType.CLIENT_RESOURCES,
+                PackType.CLIENT_RESOURCES,
                 ResourcePackPosition(true, ResourcePackProfile.InsertionPosition.TOP, true)
             )
             event.addRepositorySource { consumer -> consumer.accept(profile) }

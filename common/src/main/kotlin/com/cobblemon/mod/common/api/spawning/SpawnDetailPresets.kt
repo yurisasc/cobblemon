@@ -26,11 +26,11 @@ import com.mojang.datafixers.util.Either
 import net.minecraft.world.level.block.Block
 import net.minecraft.fluid.Fluid
 import net.minecraft.resources.ResourceKeys
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.resource.ResourceType
+import net.minecraft.tags.TagKey
+import net.minecraft.server.packs.PackType
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.biome.Biome
+import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.gen.structure.Structure
 
 /**
@@ -80,7 +80,7 @@ object SpawnDetailPresets : JsonDataRegistry<SpawnDetailPreset> {
     override val typeToken = TypeToken.get(SpawnDetailPreset::class.java)
     override val resourcePath = "spawn_detail_presets"
     override val id = cobblemonResource(resourcePath)
-    override val type = ResourceType.SERVER_DATA
+    override val type = PackType.SERVER_DATA
     override val observable = SimpleObservable<SpawnDetailPresets>()
 
     var presets = mutableMapOf<ResourceLocation, SpawnDetailPreset>()

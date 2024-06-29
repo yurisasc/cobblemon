@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import com.cobblemon.mod.common.registry.BiomeIdentifierCondition
 import com.cobblemon.mod.common.registry.BiomeTagCondition
 import net.minecraft.resources.ResourceKeys
-import net.minecraft.world.biome.Biome
+import net.minecraft.world.level.biome.Biome
 
 /**
  * A type adapter for [BiomeLikeCondition]s.

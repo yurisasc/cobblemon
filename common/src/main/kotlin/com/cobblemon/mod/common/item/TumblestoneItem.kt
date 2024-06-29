@@ -14,12 +14,12 @@ import net.minecraft.block.FacingBlock
 import net.minecraft.item.Item
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.sound.SoundCategory
-import net.minecraft.util.ActionResult
+import net.minecraft.world.InteractionResult
 
 class TumblestoneItem(settings: Settings, val block: Block) : Item(settings) {
 
-    override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        if (context.player == null) return ActionResult.FAIL
+    override fun useOnBlock(context: ItemUsageContext): InteractionResult {
+        if (context.player == null) return InteractionResult.FAIL
 
         val state = context.world.getBlockState(context.blockPos)
         val world = context.world
@@ -27,14 +27,14 @@ class TumblestoneItem(settings: Settings, val block: Block) : Item(settings) {
         val direction = context.side
 
         if (state.isSideSolidFullSquare(world, pos, direction)) {
-            if (!world.getBlockState(pos.offset(direction)).isAir) return ActionResult.FAIL
-            if (!context.player!!.isCreative) context.stack.decrement(1)
+            if (!world.getBlockState(pos.offset(direction)).isAir) return InteractionResult.FAIL
+            if (!context.player!!.isCreative) context.stack.shrink(1)
             world.setBlockState(pos.offset(direction), block.defaultState.with(FacingBlock.FACING, direction))
             world.playSound(null, pos, CobblemonSounds.TUMBLESTONE_PLACE, SoundCategory.BLOCKS)
-            return ActionResult.SUCCESS
+            return InteractionResult.SUCCESS
         }
 
-        return ActionResult.FAIL
+        return InteractionResult.FAIL
     }
 
 }

@@ -47,8 +47,8 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sounds.SoundSource
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.RandomSource
 import net.minecraft.util.math.Box

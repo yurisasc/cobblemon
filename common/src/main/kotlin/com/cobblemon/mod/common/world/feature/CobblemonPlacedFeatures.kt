@@ -14,9 +14,9 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceKeys
 import net.minecraft.registry.tag.BiomeTags
-import net.minecraft.world.gen.GenerationStep
-import net.minecraft.world.gen.feature.PlacedFeature
-import net.minecraft.world.gen.feature.PlacedFeatures
+import net.minecraft.world.level.levelgen.GenerationStep
+import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import net.minecraft.world.level.levelgen.placement.PlacedFeatures
 
 object CobblemonPlacedFeatures {
 

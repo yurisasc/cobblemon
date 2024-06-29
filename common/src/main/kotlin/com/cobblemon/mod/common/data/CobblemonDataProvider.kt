@@ -43,7 +43,7 @@ import com.cobblemon.mod.common.util.ifClient
 import com.cobblemon.mod.common.util.server
 import java.util.UUID
 import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceType
+import net.minecraft.server.packs.PackType
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
@@ -90,9 +90,9 @@ object CobblemonDataProvider : DataProvider {
         }
 
         ifClient {
-            Cobblemon.implementation.registerResourceReloader(cobblemonResource("client_resources"), SimpleResourceReloader(ResourceType.CLIENT_RESOURCES), ResourceType.CLIENT_RESOURCES, emptyList())
+            Cobblemon.implementation.registerResourceReloader(cobblemonResource("client_resources"), SimpleResourceReloader(PackType.CLIENT_RESOURCES), PackType.CLIENT_RESOURCES, emptyList())
         }
-        Cobblemon.implementation.registerResourceReloader(cobblemonResource("data_resources"), SimpleResourceReloader(ResourceType.SERVER_DATA), ResourceType.SERVER_DATA, emptyList())
+        Cobblemon.implementation.registerResourceReloader(cobblemonResource("data_resources"), SimpleResourceReloader(PackType.SERVER_DATA), PackType.SERVER_DATA, emptyList())
     }
 
     override fun <T : DataRegistry> register(registry: T): T {
@@ -126,16 +126,16 @@ object CobblemonDataProvider : DataProvider {
         }
     }
 
-    private class SimpleResourceReloader(private val type: ResourceType) : SynchronousResourceReloader {
+    private class SimpleResourceReloader(private val type: PackType) : SynchronousResourceReloader {
         override fun reload(manager: ResourceManager) {
             // Check for a server running, this is due to the create a world screen triggering datapack reloads, these are fine to happen as many times as needed as players may be in the process of adding their datapacks.
             val isInGame = server() != null
-            if (isInGame && this.type == ResourceType.SERVER_DATA && !canReload) {
+            if (isInGame && this.type == PackType.SERVER_DATA && !canReload) {
                 return
             }
             registries.filter { it.type == this.type }
                 .forEach { it.reload(manager) }
-            if (isInGame && this.type == ResourceType.SERVER_DATA) {
+            if (isInGame && this.type == PackType.SERVER_DATA) {
                 canReload = false
             }
         }

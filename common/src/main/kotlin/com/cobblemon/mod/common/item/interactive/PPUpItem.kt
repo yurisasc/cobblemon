@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
@@ -32,13 +32,13 @@ class PPUpItem(val amount: Int) : CobblemonItem(Settings()), PokemonAndMoveSelec
     ) {
         if (move.raiseMaxPP(amount)) {
             if (!player.isCreative) {
-                stack.decrement(1)
+                stack.shrink(1)
             }
             player.playSound(CobblemonSounds.MEDICINE_PILLS_USE, 1F, 1F)
         }
     }
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (user is ServerPlayer) {
             use(user, user.getItemInHand(hand))?.let { return it }
         }

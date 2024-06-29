@@ -30,7 +30,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 import kotlin.math.ceil
@@ -48,7 +48,7 @@ class ReviveItem(val max: Boolean): CobblemonItem(Settings()) {
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "revive ${ if (max) "1" else "0.5" }"
     }
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (world !is ServerLevel) {
             return InteractionResultHolder.success(user.getItemInHand(hand))
         } else {
@@ -72,7 +72,7 @@ class ReviveItem(val max: Boolean): CobblemonItem(Settings()) {
                             player.playSound(CobblemonSounds.ITEM_USE, 1F, 1F)
                             actor.forceChoose(BagItemActionResponse(bagItem = bagItem, target = bp, data = bp.uuid.toString()))
                             if (!player.isCreative) {
-                                stack.decrement(1)
+                                stack.shrink(1)
                             }
                             CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(bp.entity?.pokemon?.species!!.resourceIdentifier, Registries.ITEM.getId(stack.item)))
                         }
@@ -88,7 +88,7 @@ class ReviveItem(val max: Boolean): CobblemonItem(Settings()) {
                     if (pk.isFainted() && !player.isInBattle() && stack.isHeld(player)) {
                         pk.currentHealth = if (max) pk.hp else ceil(pk.hp / 2F).toInt()
                         if (!player.isCreative) {
-                            stack.decrement(1)
+                            stack.shrink(1)
                         }
                         CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(pk.species.resourceIdentifier, Registries.ITEM.getId(stack.item)))
                     }

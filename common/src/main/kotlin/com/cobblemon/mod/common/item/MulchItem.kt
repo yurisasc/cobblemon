@@ -13,14 +13,14 @@ import com.cobblemon.mod.common.api.mulch.Mulchable
 import net.minecraft.world.item.ItemStack
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.util.ActionResult
+import net.minecraft.world.InteractionResult
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.WorldEvents
 
 class MulchItem(val variant: MulchVariant) : CobblemonItem(Settings()) {
 
-    override fun useOnBlock(context: ItemUsageContext): ActionResult {
+    override fun useOnBlock(context: ItemUsageContext): InteractionResult {
         val world = context.world
         val pos = context.blockPos
         if (this.useOnMulchAble(context.stack, world, pos)) {
@@ -28,9 +28,9 @@ class MulchItem(val variant: MulchVariant) : CobblemonItem(Settings()) {
             if (!world.isClient) {
                 world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, pos, 0)
             }
-            return ActionResult.success(true)
+            return InteractionResult.success(true)
         }
-        return ActionResult.PASS
+        return InteractionResult.PASS
     }
 
     private fun useOnMulchAble(stack: ItemStack, world: Level, pos: BlockPos): Boolean {
@@ -39,7 +39,7 @@ class MulchItem(val variant: MulchVariant) : CobblemonItem(Settings()) {
             val mulchAble = state.block as? Mulchable ?: return false
             if (world is ServerLevel && mulchAble.canHaveMulchApplied(world, pos, state, this.variant)) {
                 mulchAble.applyMulch(world, world.random, pos, state, this.variant)
-                stack.decrement(1)
+                stack.shrink(1)
                 return true
             }
         }

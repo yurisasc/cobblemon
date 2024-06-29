@@ -24,7 +24,7 @@ class MedicinalLeekItem(block: MedicinalLeekBlock, settings: Properties) : ItemN
         Cobblemon.implementation.registerCompostable(this, .65F)
     }
 
-    override fun useOnBlock(context: ItemUsageContext): ActionResult = ActionResult.PASS
+    override fun useOnBlock(context: ItemUsageContext): InteractionResult = InteractionResult.PASS
 
     override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val blockHitResult = PlaceableOnWaterItem.raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY)
@@ -35,7 +35,7 @@ class MedicinalLeekItem(block: MedicinalLeekBlock, settings: Properties) : ItemN
         /*
         if (!placeResult.isAccepted && this.isFood && user.canConsume(this.foodComponent?.isAlwaysEdible == true)) {
             user.setCurrentHand(hand)
-            return TypedActionResult.consume(stack)
+            return TypedInteractionResult.consume(stack)
         }
 
          */

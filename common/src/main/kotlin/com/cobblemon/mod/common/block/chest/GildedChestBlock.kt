@@ -29,7 +29,7 @@ import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
-import net.minecraft.util.ActionResult
+import net.minecraft.world.InteractionResult
 import net.minecraft.util.Mirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.ItemScatterer
@@ -164,7 +164,7 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
         return Blocks.AIR.defaultState
     }
 
-    private fun spawnPokemon(world: Level, pos: BlockPos, state: BlockState, player: ServerPlayer): ActionResult {
+    private fun spawnPokemon(world: Level, pos: BlockPos, state: BlockState, player: ServerPlayer): InteractionResult {
         val properties = "$POKEMON_ARGS lvl=${LEVEL_RANGE.random()}"
         val pokemon = PokemonProperties.parse(properties)
         val entity = pokemon.createEntity(world)
@@ -190,7 +190,7 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
                 world.playSound(null, pos, CobblemonSounds.GIMMIGHOUL_REVEAL, SoundCategory.NEUTRAL)
             }
         }
-        return ActionResult.SUCCESS
+        return InteractionResult.SUCCESS
     }
 
     override fun useWithoutItem(

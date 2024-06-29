@@ -34,8 +34,8 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
 import net.minecraft.stat.Stats
 import net.minecraft.network.chat.Component
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
@@ -68,11 +68,11 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
     //var bait: ItemStack = ItemStack.EMPTY
     //var baitEffects: List<FishingBait.Effect>? = mutableListOf()
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         // if item in mainhand is berry item then don't do anything
         if (user.getItemInHand(Hand.MAIN_HAND).item is BerryItem)
             return InteractionResultHolder(
-                ActionResult.FAIL,
+                InteractionResult.FAIL,
                 user.getItemInHand(hand)
             )
 
@@ -97,7 +97,7 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
             setBait(itemStack, offHandItem.copyWithCount(1))
 
             // remove 1 bait from the offhand
-            offHandItem.decrement(1)
+            offHandItem.shrink(1)
 
             // remove old bait tooltip from rod
             removeBaitTooltip(itemStack, world)

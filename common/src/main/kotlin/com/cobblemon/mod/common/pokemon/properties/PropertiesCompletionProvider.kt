@@ -28,7 +28,7 @@ import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import java.util.concurrent.CompletableFuture
 import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceType
+import net.minecraft.server.packs.PackType
 import net.minecraft.server.level.ServerPlayer
 
 /**
@@ -41,7 +41,7 @@ import net.minecraft.server.level.ServerPlayer
 internal object PropertiesCompletionProvider : DataRegistry {
 
     override val id = cobblemonResource("properties_tab_completion")
-    override val type = ResourceType.SERVER_DATA
+    override val type = PackType.SERVER_DATA
     override val observable = SimpleObservable<PropertiesCompletionProvider>()
     private val providers = hashSetOf<SuggestionHolder>()
 

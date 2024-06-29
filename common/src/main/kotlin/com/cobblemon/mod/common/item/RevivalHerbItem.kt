@@ -24,13 +24,13 @@ import kotlin.math.ceil
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.item.ItemNameBlockItem
 import net.minecraft.world.level.Level
 
-class RevivalHerbItem(block: RevivalHerbBlock) : ItemNameBlockItem(block, Settings()), PokemonSelectingItem {
+class RevivalHerbItem(block: RevivalHerbBlock) : ItemNameBlockItem(block, Properties()), PokemonSelectingItem {
 
     init {
         // 65% to raise composter level
@@ -48,10 +48,10 @@ class RevivalHerbItem(block: RevivalHerbBlock) : ItemNameBlockItem(block, Settin
         }
     }
 
-    override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         if (user is ServerPlayer) {
             val result = use(user, user.getItemInHand(hand))
-            if (result.result != ActionResult.PASS) {
+            if (result.result != InteractionResult.PASS) {
                 return result
             }
         }
@@ -69,7 +69,7 @@ class RevivalHerbItem(block: RevivalHerbBlock) : ItemNameBlockItem(block, Settin
             pokemon.currentHealth = ceil(pokemon.hp / 4F).toInt()
             pokemon.decrementFriendship(CobblemonMechanics.remedies.getFriendshipDrop(runtime))
             if (!player.isCreative) {
-                stack.decrement(1)
+                stack.shrink(1)
             }
             InteractionResultHolder.success(stack)
         } else {

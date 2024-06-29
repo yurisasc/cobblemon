@@ -21,14 +21,14 @@ import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.javaType
 import kotlin.reflect.jvm.isAccessible
-import net.minecraft.resource.ResourceType
+import net.minecraft.server.packs.PackType
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
 
 internal object SpeciesAdditions : JsonDataRegistry<SpeciesAdditions.AdditionParameter> {
 
     override val id = cobblemonResource("species_additions")
-    override val type = ResourceType.SERVER_DATA
+    override val type = PackType.SERVER_DATA
     override val observable  = SimpleObservable<SpeciesAdditions>()
     override val gson: Gson = PokemonSpecies.gson.newBuilder().registerTypeAdapter(AdditionParameter::class.java, AdditionParameterAdapter).create()
     override val typeToken: TypeToken<AdditionParameter> = TypeToken.get(AdditionParameter::class.java)

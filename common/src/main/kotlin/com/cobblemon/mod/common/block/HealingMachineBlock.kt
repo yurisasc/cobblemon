@@ -32,7 +32,7 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Property
 import net.minecraft.network.chat.Component
-import net.minecraft.util.ActionResult
+import net.minecraft.world.InteractionResult
 import net.minecraft.util.Mirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.hit.BlockHitResult
