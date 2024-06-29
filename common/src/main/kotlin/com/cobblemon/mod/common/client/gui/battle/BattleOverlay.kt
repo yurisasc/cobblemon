@@ -44,11 +44,11 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
-import net.minecraft.client.render.DiffuseLighting
-import net.minecraft.client.render.LightmapTextureManager
+import net.minecraft.client.renderer.DiffuseLighting
+import net.minecraft.client.renderer.LightmapTextureManager
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.RenderTickCounter
+import net.minecraft.client.renderer.RenderTickCounter
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.util.Mth.ceil

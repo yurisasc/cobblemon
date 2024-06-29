@@ -1010,7 +1010,7 @@ open class PokemonEntity(
     fun cry() {
         if(this.isSilent) return
         val pkt = PlayPosableAnimationPacket(id, setOf("cry"), emptySet())
-        world.getEntitiesByClass(ServerPlayer::class.java, Box.of(pos, 64.0, 64.0, 64.0), { true }).forEach {
+        world.getEntitiesByClass(ServerPlayer::class.java, AABB.ofSize(pos, 64.0, 64.0, 64.0), { true }).forEach {
             it.sendPacket(pkt)
         }
     }

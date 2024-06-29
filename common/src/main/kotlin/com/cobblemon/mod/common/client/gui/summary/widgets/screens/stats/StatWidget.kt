@@ -26,9 +26,9 @@ import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.Tesselator
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.render.BufferRenderer
-import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.DefaultVertexFormats
+import net.minecraft.client.renderer.BufferRenderer
+import com.mojang.blaze3d.vertex.VertexFormat
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import net.minecraft.client.sound.PositionedSoundInstance
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.Component
@@ -100,7 +100,7 @@ class StatWidget(
     ) {
         CobblemonResources.WHITE.let { RenderSystem.setShaderTexture(0, it) }
         RenderSystem.setShaderColor(colour.x, colour.y, colour.z, 0.6F)
-        val bufferBuilder = Tesselator.getInstance().begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION)
+        val bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, VertexFormats.POSITION)
         bufferBuilder.vertex(v1.x, v1.y, 10F)
         bufferBuilder.vertex(v2.x, v2.y, 10F)
         bufferBuilder.vertex(v3.x, v3.y, 10F)

@@ -43,7 +43,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.TypeFilter
 import net.minecraft.core.BlockPos
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.level.Level
@@ -116,7 +116,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         val radius = Cobblemon.config.pastureMaxWanderDistance.toDouble()
         val bottom = pos.toVec3d().multiply(1.0, 0.0, 1.0)
 
-        val pokemonWithinPastureWander = player.level().getEntitiesByClass(PokemonEntity::class.java, Box.of(bottom, radius, 99999.0, radius)) { true }.count()
+        val pokemonWithinPastureWander = player.level().getEntitiesByClass(PokemonEntity::class.java, AABB.ofSize(bottom, radius, 99999.0, radius)) { true }.count()
         val chunkDiameter = (radius / 16) * 2 // Diameter
         if (pokemonWithinPastureWander >= Cobblemon.config.pastureMaxPerChunk * chunkDiameter * chunkDiameter) {
             player.sendPacket(ClosePasturePacket())

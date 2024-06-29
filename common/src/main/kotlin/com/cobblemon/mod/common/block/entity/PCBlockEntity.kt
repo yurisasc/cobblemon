@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker
 import net.minecraft.core.BlockPos
 import net.minecraft.entity.ItemEntity
 import net.minecraft.util.TypeFilter
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level

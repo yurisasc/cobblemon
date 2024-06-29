@@ -34,7 +34,7 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.render.RenderTickCounter
+import net.minecraft.client.renderer.RenderTickCounter
 import net.minecraft.client.toast.AdvancementToast
 import net.minecraft.client.toast.Toast
 import net.minecraft.util.Mth

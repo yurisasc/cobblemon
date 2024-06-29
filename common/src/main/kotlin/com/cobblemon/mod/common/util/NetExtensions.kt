@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.net.IntSize
 import io.netty.buffer.ByteBuf
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 
 fun ByteBuf.writeConditional(condition: () -> Boolean, writer: () -> Unit) {

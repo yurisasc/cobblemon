@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.item
 
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.render.model.json.ModelTransformationMode
+import net.minecraft.client.renderer.model.json.ModelTransformationMode
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.world.item.ItemStack
 

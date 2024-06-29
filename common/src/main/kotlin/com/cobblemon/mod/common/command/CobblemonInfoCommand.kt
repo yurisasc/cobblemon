@@ -11,13 +11,13 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.CobblemonBuildDetails
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import net.minecraft.ChatFormatting
 import net.minecraft.commands.Commands
-import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.text.ClickEvent
-import net.minecraft.text.HoverEvent
+import net.minecraft.network.chat.ClickEvent
 import net.minecraft.network.chat.Component
-import net.minecraft.text.TextColor
-import net.minecraft.util.Formatting
+import net.minecraft.network.chat.HoverEvent
+import net.minecraft.network.chat.TextColor
+import net.minecraft.server.command.ServerCommandSource
 
 object CobblemonInfoCommand {
 
@@ -34,26 +34,26 @@ object CobblemonInfoCommand {
             .then(LiteralArgumentBuilder.literal<ServerCommandSource?>("info")
                 .executes { ctx ->
                     val message = Component.empty().append(
-                        Component.literal("Cobblemon Build Details").styled { it.withColor(this.YELLOW) })
+                        Component.literal("Cobblemon Build Details").withStyle { it.withColor(this.YELLOW) })
                     message.append(this.NEW_LINE)
                         .append(this.INDENT)
-                        .append(Component.literal("Version:").styled { it.withColor(Formatting.GRAY) })
+                        .append(Component.literal("Version:").withStyle { it.withColor(ChatFormatting.GRAY) })
                         .append(this.SPACE)
                         .append(CobblemonBuildDetails.VERSION)
 
                     message.append(this.NEW_LINE)
                         .append(this.INDENT)
-                        .append(Component.literal("Is Snapshot:").styled { it.withColor(Formatting.GRAY) })
+                        .append(Component.literal("Is Snapshot:").withStyle { it.withColor(ChatFormatting.GRAY) })
                         .append(this.SPACE)
-                        .append(Component.literal(if(CobblemonBuildDetails.SNAPSHOT) "Yes" else "No").styled {
+                        .append(Component.literal(if(CobblemonBuildDetails.SNAPSHOT) "Yes" else "No").withStyle {
                             it.withColor(if(CobblemonBuildDetails.SNAPSHOT) this.GREEN else this.RED)
                         })
 
                     message.append(this.NEW_LINE)
                         .append(this.INDENT)
-                        .append(Component.literal("Git Commit:").styled { it.withColor(Formatting.GRAY) })
+                        .append(Component.literal("Git Commit:").withStyle { it.withColor(ChatFormatting.GRAY) })
                         .append(this.SPACE)
-                        .append(Component.literal(CobblemonBuildDetails.smallCommitHash()).styled {
+                        .append(Component.literal(CobblemonBuildDetails.smallCommitHash()).withStyle {
                             val link = "https://gitlab.com/cable-mc/cobblemon/-/commit/${CobblemonBuildDetails.GIT_COMMIT}"
 
                             it.withHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal(link)))
@@ -62,7 +62,7 @@ object CobblemonInfoCommand {
 
                     message.append(this.NEW_LINE)
                         .append(this.INDENT)
-                        .append(Component.literal("Branch:").styled { it.withColor(Formatting.GRAY) })
+                        .append(Component.literal("Branch:").withStyle { it.withColor(ChatFormatting.GRAY) })
                         .append(this.SPACE)
                         .append(CobblemonBuildDetails.BRANCH)
 

@@ -51,7 +51,7 @@ import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionHand
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.RandomSource
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Player

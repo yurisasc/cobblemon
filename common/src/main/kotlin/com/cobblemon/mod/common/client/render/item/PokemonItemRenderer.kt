@@ -14,13 +14,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Rende
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.render.DiffuseLighting
-import net.minecraft.client.render.LightmapTextureManager
+import net.minecraft.client.renderer.DiffuseLighting
+import net.minecraft.client.renderer.LightmapTextureManager
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.render.model.json.ModelTransformationMode
+import net.minecraft.client.renderer.model.json.ModelTransformationMode
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.world.item.ItemStack
 import org.joml.Quaternionf

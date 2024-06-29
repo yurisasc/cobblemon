@@ -20,14 +20,14 @@ import com.cobblemon.mod.common.util.toVec3d
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.Tesselator
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gl.VertexBuffer
-import net.minecraft.client.render.GameRenderer
+import com.mojang.blaze3d.vertex.VertexBuffer
+import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.render.block.entity.BlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 
 
@@ -46,14 +46,14 @@ class BerryBlockRenderer(private val context: BlockEntityRendererProvider.Contex
     )
 
 
-    override fun isInRenderDistance(blockEntity: BerryBlockEntity, pos: Vec3): Boolean {
-        return super.isInRenderDistance(blockEntity, pos)
-                && Minecraft.getInstance().worldRenderer.frustum.isVisible(Box.of(pos, 2.0, 4.0, 2.0))
+    override fun shouldRender(blockEntity: BerryBlockEntity, pos: Vec3): Boolean {
+        return super.shouldRender(blockEntity, pos)
+                && Minecraft.getInstance().levelRenderer.cullingFrustum.isVisible(AABB.ofSize(pos, 2.0, 4.0, 2.0))
     }
 
     override fun render(entity: BerryBlockEntity, tickDelta: Float, matrices: PoseStack, vertexConsumers: MultiBufferSource, light: Int, overlay: Int) {
-        if (!isInRenderDistance(entity, entity.pos.toVec3d())) return
-        val blockState = entity.cachedState
+        if (!shouldRender(entity, entity.blockPos.toVec3d())) return
+        val blockState = entity.blockState
         if (entity.renderState == null) {
             entity.renderState = BerryBlockEntityRenderState()
         }

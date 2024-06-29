@@ -17,7 +17,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.core.BlockPos
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 
 /**
  * AI goal for sleeping on top of a player when they hop into a bed, like cats.

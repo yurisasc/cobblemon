@@ -46,11 +46,11 @@ import com.cobblemon.mod.common.util.getStringOrNull
 import com.cobblemon.mod.common.util.plus
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.RenderPhase
+import net.minecraft.client.renderer.RenderPhase
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.DefaultVertexFormats
+import com.mojang.blaze3d.vertex.VertexFormat
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.world.entity.Entity
 import net.minecraft.resources.ResourceLocation
@@ -645,7 +645,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         return RenderType.of(
             "cobblemon_entity_layer",
             VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,
-            VertexFormat.DrawMode.QUADS,
+            VertexFormat.Mode.QUADS,
             256,
             true,
             translucent,

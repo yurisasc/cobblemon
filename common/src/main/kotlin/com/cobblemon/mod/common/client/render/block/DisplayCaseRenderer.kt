@@ -17,9 +17,9 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Rende
 //import com.cobblemon.mod.common.item.PokemonItem
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.render.block.entity.BlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
-import net.minecraft.client.render.model.json.ModelTransformationMode
+import net.minecraft.client.renderer.model.json.ModelTransformationMode
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.CustomModelDataComponent

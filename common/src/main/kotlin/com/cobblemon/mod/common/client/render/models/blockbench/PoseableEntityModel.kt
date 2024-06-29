@@ -37,7 +37,7 @@ abstract class PosableEntityModel<T : Entity>(
 
     lateinit var posableModel: PosableModel
 
-    override fun render(
+    override fun renderToBuffer(
         stack: PoseStack,
         buffer: VertexConsumer,
         packedLight: Int,
@@ -51,9 +51,9 @@ abstract class PosableEntityModel<T : Entity>(
 
     open fun getOverlayTexture(entity: Entity?): Int? {
         return if (entity is LivingEntity) {
-            OverlayTexture.packUv(
-                OverlayTexture.getU(0F),
-                OverlayTexture.getV(entity.hurtTime > 0 || entity.deathTime > 0)
+            OverlayTexture.pack(
+                OverlayTexture.u(0F),
+                OverlayTexture.v(entity.hurtTime > 0 || entity.deathTime > 0)
             )
         } else if (entity != null) {
             OverlayTexture.NO_OVERLAY
@@ -63,7 +63,7 @@ abstract class PosableEntityModel<T : Entity>(
     }
 
     // Called by LivingEntityRenderer's render method before calling model.render (which is this.render in this case)
-    override fun setAngles(
+    override fun setupAnim(
         entity: T,
         limbSwing: Float,
         limbSwingAmount: Float,

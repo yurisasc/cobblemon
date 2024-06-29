@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.util
 
-import net.minecraft.client.render.VertexFormat
+import com.mojang.blaze3d.vertex.VertexFormat
 import net.minecraft.resource.ResourceFactory
 import net.minecraft.resources.ResourceLocation
 

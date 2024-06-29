@@ -41,19 +41,21 @@ import com.cobblemon.mod.common.util.math.remap
 import kotlin.math.*
 import net.minecraft.client.Minecraft
 import net.minecraft.client.font.TextRenderer
-import net.minecraft.client.render.*
+import net.minecraft.client.renderer.*
 import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.client.render.entity.MobEntityRenderer
-import net.minecraft.client.render.item.ItemRenderer
+import net.minecraft.client.renderer.entity.MobEntityRenderer
+import net.minecraft.client.renderer.item.ItemRenderer
 import net.minecraft.client.renderer.RenderType
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.world.entity.Entity
-import net.minecraft.text.Style
 import net.minecraft.network.chat.Component
 import net.minecraft.util.Formatting
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 import com.mojang.math.Axis
+import net.minecraft.ChatFormatting
+import net.minecraft.client.renderer.entity.MobRenderer
+import net.minecraft.network.chat.Style
 import net.minecraft.world.phys.Vec3
 import org.joml.Math
 import org.joml.Quaternionf
@@ -61,14 +63,14 @@ import org.joml.Vector3f
 import org.joml.Vector4f
 
 class PokemonRenderer(
-    context: EntityRendererProvider.Context
-) : MobEntityRenderer<PokemonEntity, PosablePokemonEntityModel>(context, PosablePokemonEntityModel(), 0.5f) {
+context: EntityRendererProvider.Context
+) : MobRenderer<PokemonEntity, PosablePokemonEntityModel>(context, PosablePokemonEntityModel(), 0.5f) {
     companion object {
         val recallBeamColour = Vector4f(1F, 0.1F, 0.1F, 1F)
         fun ease(x: Double): Double {
             return 1 - (1 - x).pow(3)
         }
-        private val LEVEL_LABEL_STYLE = Style.EMPTY.withColor(Formatting.WHITE)
+        private val LEVEL_LABEL_STYLE = Style.EMPTY.withColor(ChatFormatting.WHITE)
             .withBold(false)
             .withItalic(false)
             .withUnderline(false)

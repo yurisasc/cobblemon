@@ -13,7 +13,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 
 object BoxCollectionAdapter : JsonDeserializer<Collection<Box>> {
     val boxesByName = mutableMapOf<String, Collection<Box>>()

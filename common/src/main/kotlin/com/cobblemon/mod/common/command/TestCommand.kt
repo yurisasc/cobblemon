@@ -42,7 +42,7 @@ import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.network.chat.Component
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 
 @Suppress("unused")
 object TestCommand {
@@ -128,7 +128,7 @@ object TestCommand {
         val player = context.source.playerOrThrow
         val cloneTeam = player.party().toBattleTeam(true)
         cloneTeam.forEach { it.effectedPokemon.level = 100 }
-        val scanBox = Box.of(player.pos, 9.0, 9.0, 9.0)
+        val scanBox = AABB.ofSize(player.pos, 9.0, 9.0, 9.0)
         val results = player.level().getEntitiesByType(CobblemonEntities.POKEMON, scanBox) { entityPokemon -> entityPokemon.pokemon.isWild() }
         val pokemonEntity = results.firstOrNull()
         if (pokemonEntity == null) {

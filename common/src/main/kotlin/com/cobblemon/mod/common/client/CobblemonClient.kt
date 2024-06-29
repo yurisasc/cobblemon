@@ -60,18 +60,24 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer
-import net.minecraft.client.render.block.entity.SignBlockEntityRenderer
+import net.minecraft.client.renderer.block.entity.HangingSignBlockEntityRenderer
+import net.minecraft.client.renderer.block.entity.SignBlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer
+import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.LivingEntityRenderer
-import net.minecraft.client.render.entity.model.BoatEntityModel
-import net.minecraft.client.render.entity.model.ChestBoatEntityModel
-import net.minecraft.client.render.entity.model.PlayerEntityModel
+import net.minecraft.client.renderer.entity.model.BoatEntityModel
+import net.minecraft.client.renderer.entity.model.ChestBoatEntityModel
+import net.minecraft.client.model.PlayerModel
+import net.minecraft.client.resources.PlayerSkin
 import net.minecraft.client.util.SkinTextures
 import net.minecraft.component.DataComponentTypes
+import net.minecraft.core.component.DataComponents
+import net.minecraft.locale.Language
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.resource.ResourceManager
+import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.util.Language
 
 object CobblemonClient {
@@ -136,19 +142,19 @@ object CobblemonClient {
             val stack = event.stack
             val lines = event.lines
             @Suppress("DEPRECATION")
-            if (stack.item.registryEntry.key.isPresent && stack.item.registryEntry.key.get().value.namespace == Cobblemon.MODID) {
-                if (stack.get(DataComponentTypes.HIDE_TOOLTIP) != null) {
+            if (stack.item.builtInRegistryHolder().unwrapKey().isPresent && stack.item.builtInRegistryHolder().unwrapKey().get().location().namespace == Cobblemon.MODID) {
+                if (stack.get(DataComponents.HIDE_TOOLTIP) != null) {
                     return@subscribe
                 }
                 val language = Language.getInstance()
                 val key = this.baseLangKeyForItem(stack)
                 val offset = if (lines.size > 1) 1 else 0
-                if (language.hasTranslation(key)) {
+                if (language.has(key)) {
                     lines.add(lines.size - offset, key.asTranslated().gray())
                 }
                 var i = 1
                 var listKey = "${key}_$i"
-                while(language.hasTranslation(listKey)) {
+                while(language.has(listKey)) {
                     lines.add(lines.size - offset, listKey.asTranslated().gray())
                     listKey = "${key}_${++i}"
                 }
@@ -253,18 +259,18 @@ object CobblemonClient {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun onAddLayer(skinMap: Map<SkinTextures.Model, EntityRenderer<out Player>>?) {
-        var renderer: LivingEntityRenderer<Player, PlayerEntityModel<Player>>? = skinMap?.get(SkinTextures.Model.WIDE) as LivingEntityRenderer<Player, PlayerEntityModel<Player>>
-        renderer?.addFeature(PokemonOnShoulderRenderer(renderer))
-        renderer = skinMap[SkinTextures.Model.SLIM] as LivingEntityRenderer<Player, PlayerEntityModel<Player>>?
-        renderer?.addFeature(PokemonOnShoulderRenderer(renderer))
+    fun onAddLayer(skinMap: Map<PlayerSkin.Model, EntityRenderer<out Player>>?) {
+        var renderer: LivingEntityRenderer<Player, PlayerModel<Player>>? = skinMap?.get(PlayerSkin.Model.WIDE) as LivingEntityRenderer<Player, PlayerModel<Player>>
+        renderer?.addLayer(PokemonOnShoulderRenderer(renderer))
+        renderer = skinMap[PlayerSkin.Model.SLIM] as LivingEntityRenderer<Player, PlayerModel<Player>>?
+        renderer?.addLayer(PokemonOnShoulderRenderer(renderer))
     }
 
     private fun registerBlockEntityRenderers() {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HEALING_MACHINE, ::HealingMachineRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.SIGN, ::SignBlockEntityRenderer)
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignBlockEntityRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.SIGN, ::SignRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_ANALYZER, ::FossilAnalyzerRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.RESTORATION_TANK, ::RestorationTankRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.GILDED_CHEST, ::GildedChestBlockRenderer)

@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.block.entity
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.entity.BlockEntityType
-import net.minecraft.block.entity.SignBlockEntity
+import net.minecraft.world.level.block.entity.SignBlockEntity
 import net.minecraft.core.BlockPos
 
 class CobblemonSignBlockEntity(pos: BlockPos, state: BlockState) : SignBlockEntity(pos, state) {

@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.client.render.shader
 import com.cobblemon.mod.common.util.ShaderRegistryData
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.renderer.ShaderInstance
-import net.minecraft.client.render.DefaultVertexFormats
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import net.minecraft.resource.ResourceFactory
 import net.minecraft.resource.ResourceManager
 import java.util.function.Consumer

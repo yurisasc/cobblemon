@@ -37,7 +37,7 @@ abstract class PoseAnimation {
         return this
     }
 
-    protected abstract fun setAngles(
+    protected abstract fun setupAnim(
         context: RenderContext,
         model: PosableModel,
         state: PosableState,

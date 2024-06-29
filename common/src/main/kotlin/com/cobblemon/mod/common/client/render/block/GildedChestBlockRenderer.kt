@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Rende
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.render.block.entity.BlockEntityRenderer
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.state.property.Properties

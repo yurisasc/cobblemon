@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.world.level.block.Block
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.core.BlockPos
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.AABB
 
 /**

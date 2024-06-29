@@ -24,11 +24,11 @@ import net.minecraft.client.particle.Particle
 import net.minecraft.client.particle.ParticleRenderType
 import net.minecraft.client.particle.ParticleRenderType.NO_RENDER
 import net.minecraft.client.particle.ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
-import net.minecraft.client.render.Camera
+import net.minecraft.client.renderer.Camera
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 import net.minecraft.util.math.Direction
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
@@ -296,7 +296,7 @@ class SnowstormParticle(
     override fun move(dx: Double, dy: Double, dz: Double) {
         val collision = storm.effect.particle.collision
         val radius = storm.runtime.resolveDouble(collision.radius)
-        boundingBox = Box.of(Vec3(x, y, z), radius, radius, radius)
+        boundingBox = AABB.ofSize(Vec3(x, y, z), radius, radius, radius)
         if (dx == 0.0 && dy == 0.0 && dz == 0.0) {
             updatePosition()
             return

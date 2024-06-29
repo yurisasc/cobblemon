@@ -18,7 +18,7 @@ import net.minecraft.registry.tag.FluidTags
 import net.minecraft.tags.TagKey
 import net.minecraft.core.BlockPos
 import net.minecraft.core.BlockPos.Mutable
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
 
@@ -95,7 +95,7 @@ class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
             val fluid = mob.world.getFluidState(pos)
             return@closestPosition appropriateFluids.any { fluid.isIn(it) } &&
                     mob.world.isSpaceEmpty(
-                        Box.of(
+                        AABB.ofSize(
                             Vec3(
                                 pos.x.toDouble(),
                                 pos.y - 1.0,

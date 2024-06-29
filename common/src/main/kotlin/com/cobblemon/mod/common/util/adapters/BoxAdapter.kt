@@ -13,7 +13,7 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import java.lang.reflect.Type
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 
 object BoxAdapter : JsonDeserializer<Box> {
     override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Box {

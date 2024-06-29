@@ -12,11 +12,12 @@ import net.minecraft.core.BlockPos
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.util.function.BooleanBiFunction
-import net.minecraft.util.math.Box
+import net.minecraft.world.phys.AABB
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 
 fun Entity.effectiveName() = this.displayName ?: this.name
@@ -154,7 +155,7 @@ fun Entity.setPositionSafely(pos: Vec3): Boolean {
     // This final check guarantees that the sendout will return to the original position if the Pokemon will suffocate in the new one
     // This will only happen if the horizontal shift moved the Pokemon into a suffocating position, and there was no valid vertical shift
     val resultEyes = result.withAxis(Direction.Axis.Y, result.y + this.standingEyeHeight)
-    val resultEyeBox = Box.of(resultEyes, width.toDouble(), 1.0E-6, width.toDouble())
+    val resultEyeBox = AABB.ofSize(resultEyes, width.toDouble(), 1.0E-6, width.toDouble())
     var collides = false
 
     for (target in BlockPos.stream(resultEyeBox)) {
