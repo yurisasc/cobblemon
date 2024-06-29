@@ -14,12 +14,12 @@ import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
-import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.sound.SoundManager
-import net.minecraft.network.chat.MutableComponent
+import net.minecraft.client.gui.components.Button
+import net.minecraft.client.gui.narration.NarrationElementOutput
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
 class SummaryButton(
@@ -27,7 +27,7 @@ class SummaryButton(
     var buttonY: Float,
     val buttonWidth: Number,
     val buttonHeight: Number,
-    val clickAction: PressAction,
+    val clickAction: OnPress,
     private val text: MutableComponent = Component.empty(),
     private val resource: ResourceLocation,
     private val activeResource: ResourceLocation? = null,
@@ -38,7 +38,7 @@ class SummaryButton(
     private val boldText: Boolean = true,
     private val largeText: Boolean = true,
     private val textScale: Float = 1F
-): ButtonWidget(buttonX.toInt(), buttonY.toInt(), buttonWidth.toInt(), buttonHeight.toInt(), text, clickAction, DEFAULT_NARRATION_SUPPLIER) {
+): Button(buttonX.toInt(), buttonY.toInt(), buttonWidth.toInt(), buttonHeight.toInt(), text, clickAction, DEFAULT_NARRATION) {
 
     companion object {
         const val TEXT_HEIGHT = 9
@@ -47,14 +47,15 @@ class SummaryButton(
     var isActive = false
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double) = false
-    override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
+
+    override fun defaultButtonNarrationText(builder: NarrationElementOutput) {
     }
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         if (!this.renderRequirement.invoke(this)) {
             return
         }
-        val matrices = context.matrices
+        val matrices = context.pose()
 
         // Render Button
         blitk(
@@ -90,7 +91,7 @@ class SummaryButton(
 
     override fun playDownSound(soundManager: SoundManager) {
         if (!this.silent) {
-            soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+            soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.GUI_CLICK, 1.0F))
         }
     }
 

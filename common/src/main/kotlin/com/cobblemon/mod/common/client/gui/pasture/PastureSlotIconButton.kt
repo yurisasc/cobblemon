@@ -11,14 +11,14 @@ package com.cobblemon.mod.common.client.gui.pasture
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.gui.components.Button
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 
 class PastureSlotIconButton(
     var xPos: Int, var yPos: Int,
-    onPress: PressAction
-) : ButtonWidget(xPos, yPos, (SIZE * SCALE).toInt(), (SIZE * SCALE).toInt(), Component.literal("Pasture Move"), onPress, DEFAULT_NARRATION_SUPPLIER) {
+    onPress: OnPress
+) : Button(xPos, yPos, (SIZE * SCALE).toInt(), (SIZE * SCALE).toInt(), Component.literal("Pasture Move"), onPress, DEFAULT_NARRATION) {
 
     companion object {
         const val SIZE = 14
@@ -29,7 +29,7 @@ class PastureSlotIconButton(
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             x = xPos / SCALE,
             y = yPos / SCALE,
             width = SIZE,

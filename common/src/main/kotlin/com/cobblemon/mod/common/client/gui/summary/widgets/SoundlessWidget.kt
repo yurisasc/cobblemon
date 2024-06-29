@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.gui.summary.widgets
 
 import com.cobblemon.mod.common.api.gui.ParentWidget
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 
 abstract class SoundlessWidget(

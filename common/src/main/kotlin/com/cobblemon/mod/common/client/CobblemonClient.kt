@@ -8,13 +8,8 @@
 
 package com.cobblemon.mod.common.client
 
-import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.CobblemonBlockEntities
-import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.CobblemonClientImplementation
-import com.cobblemon.mod.common.CobblemonEntities
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
 import com.cobblemon.mod.common.api.text.gray
@@ -22,12 +17,7 @@ import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.particle.BedrockParticleOptionsRepository
-import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
-import com.cobblemon.mod.common.client.render.block.DisplayCaseRenderer
-import com.cobblemon.mod.common.client.render.block.FossilAnalyzerRenderer
-import com.cobblemon.mod.common.client.render.block.GildedChestBlockRenderer
-import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
-import com.cobblemon.mod.common.client.render.block.RestorationTankRenderer
+import com.cobblemon.mod.common.client.render.block.*
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
 import com.cobblemon.mod.common.client.render.entity.PokeBobberEntityRenderer
 import com.cobblemon.mod.common.client.render.generic.GenericBedrockRenderer
@@ -35,14 +25,7 @@ import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererR
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.BlockEntityModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockEntityModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.MiscModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.NPCModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.*
 import com.cobblemon.mod.common.client.render.npc.NPCRenderer
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
@@ -59,26 +42,18 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
+import net.minecraft.client.model.PlayerModel
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.block.entity.HangingSignBlockEntityRenderer
-import net.minecraft.client.renderer.block.entity.SignBlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer
 import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.LivingEntityRenderer
-import net.minecraft.client.renderer.entity.model.BoatEntityModel
-import net.minecraft.client.renderer.entity.model.ChestBoatEntityModel
-import net.minecraft.client.model.PlayerModel
 import net.minecraft.client.resources.PlayerSkin
-import net.minecraft.client.util.SkinTextures
-import net.minecraft.component.DataComponentTypes
 import net.minecraft.core.component.DataComponents
 import net.minecraft.locale.Language
+import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
-import net.minecraft.resource.ResourceManager
-import net.minecraft.server.packs.resources.ResourceManager
-import net.minecraft.util.Language
 
 object CobblemonClient {
 
@@ -249,7 +224,7 @@ object CobblemonClient {
     }
 
     fun beforeChatRender(context: GuiGraphics, partialDeltaTicks: Float) {
-        val partialDeltaTicks = Minecraft.getInstance().renderTickCounter // Checking that this even works
+        val partialDeltaTicks = Minecraft.getInstance().timer // Checking that this even works
 //        ClientTaskTracker.update(partialDeltaTicks / 20f)
         if (battle == null) {
             overlay.render(context, partialDeltaTicks)

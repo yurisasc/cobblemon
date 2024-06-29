@@ -41,18 +41,18 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import com.mojang.blaze3d.platform.InputConstants
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.components.Renderable
 import net.minecraft.client.gui.components.events.GuiEventListener
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.widget.ClickableWidget
-import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.util.InputUtil
-import net.minecraft.sound.SoundEvent
+import net.minecraft.client.gui.narration.NarratableEntry
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.player.Input
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
+import net.minecraft.sounds.SoundEvent
 
 /**
  * The screen responsible for displaying various information regarding a Pokémon team.
@@ -120,7 +120,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     var sideScreenIndex = PARTY
     private val party = ArrayList(party)
 
-    override fun applyBlur(delta: Float) { }
+    override fun renderBlurredBackground(delta: Float) { }
 
     /**
      * Initializes the Summary Screen
@@ -148,7 +148,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         displaySideScreen(PARTY)
 
         // Evolve Button
-        addDrawableChild(
+        addRenderableWidget(
                 SummaryButton(
                         buttonX = x + 12F,
                         buttonY = y + 145F,
@@ -208,10 +208,10 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         )
 
         summaryTabs[mainScreenIndex].toggleTab()
-        summaryTabs.forEach { addDrawableChild(it) }
+        summaryTabs.forEach { addRenderableWidget(it) }
 
         // Add Exit Button
-        addDrawableChild(
+        addRenderableWidget(
                 ExitButton(
                         pX = x + 302,
                         pY = y + 145
@@ -233,7 +233,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         )
         focused = nicknameEntryWidget
         nicknameEntryWidget.isFocused = false
-        addDrawableChild(nicknameEntryWidget)
+        addRenderableWidget(nicknameEntryWidget)
 
         // Add Model Preview
         modelWidget = ModelWidget(
@@ -246,7 +246,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
                 rotationY = 325F,
                 offsetY = -10.0
         )
-        addDrawable(this.modelWidget)
+        addRenderableOnly(this.modelWidget)
     }
 
     fun swapPartySlot(sourceIndex: Int, targetIndex: Int) {
@@ -282,7 +282,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         moveSetSubscription?.unsubscribe()
         listenToMoveSet()
         displayMainScreen(mainScreenIndex)
-        children().find { it is EvolutionSelectScreen }?.let(this::remove)
+        children().find { it is EvolutionSelectScreen }?.let(this::removeWidget)
         if (this::modelWidget.isInitialized) {
             this.modelWidget.pokemon = selectedPokemon.asRenderablePokemon()
         }
@@ -308,7 +308,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     /**
      * Returns if this Screen is open or not
      */
-    private fun isOpen() = Minecraft.getInstance().currentScreen == this
+    private fun isOpen() = Minecraft.getInstance().screen == this
 
     /**
      * Switch center screen
@@ -318,7 +318,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         val subIndex = if (mainScreenIndex == STATS && mainScreen is StatWidget) (mainScreen as StatWidget).statTabIndex else 0
 
         mainScreenIndex = screen
-        if (::mainScreen.isInitialized) remove(mainScreen)
+        if (::mainScreen.isInitialized) removeWidget(mainScreen)
         if (sideScreenIndex == MOVE_SWAP) displaySideScreen(PARTY)
 
         summaryTabs.forEachIndexed { index, item ->
@@ -354,7 +354,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
                 )
             }
         }
-        addDrawableChild(mainScreen)
+        addRenderableWidget(mainScreen)
     }
 
     /**
@@ -362,7 +362,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
      */
     fun displaySideScreen(screen: Int, move: Move? = null) {
         sideScreenIndex = screen
-        if (::sideScreen.isInitialized) remove(sideScreen)
+        if (::sideScreen.isInitialized) removeWidget(sideScreen)
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
@@ -409,12 +409,12 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             }
         }
         val element = sideScreen
-        if (element is Renderable && element is Selectable) {
-            addDrawableChild(element)
+        if (element is Renderable && element is NarratableEntry) {
+            addRenderableWidget(element)
         }
     }
 
-    override fun renderDarkening(context: GuiGraphics?) {}
+    override fun renderMenuBackground(context: GuiGraphics) {}
 
     override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
 //        this.renderBackground(context, mouseX, mouseY, delta)
@@ -423,7 +423,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
-        val matrices = context.matrices
+        val matrices = context.pose()
 
         // Render Portrait Background
         blitk(
@@ -553,8 +553,8 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         val itemX = x + 3
         val itemY = y + 104
         if (!heldItem.isEmpty) {
-            context.drawItem(heldItem, itemX, itemY)
-            context.drawItemInSlot(Minecraft.getInstance().textRenderer, heldItem, itemX, itemY)
+            context.renderItem(heldItem, itemX, itemY)
+            context.renderItemDecorations(Minecraft.getInstance().font, heldItem, itemX, itemY)
         }
 
         drawScaledText(
@@ -589,14 +589,14 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         // Render Item Tooltip
         if (!heldItem.isEmpty) {
             val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
-            if (itemHovered) context.drawItemTooltip(Minecraft.getInstance().textRenderer, heldItem, mouseX, mouseY)
+            if (itemHovered) context.renderTooltip(Minecraft.getInstance().font, heldItem, mouseX, mouseY)
         }
     }
 
     /**
      * Whether this Screen should pause the Game in SinglePlayer
      */
-    override fun shouldPause(): Boolean = false
+    override fun isPauseScreen(): Boolean = false
 
     override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double, verticalAmount: Double): Boolean {
         return children().any { it.mouseScrolled(mouseX, mouseY, amount, verticalAmount) }
@@ -614,7 +614,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     }
 
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
-        if ((keyCode == InputUtil.GLFW_KEY_ENTER || keyCode == InputUtil.GLFW_KEY_KP_ENTER)
+        if ((keyCode == InputConstants.KEY_RETURN || keyCode == InputConstants.KEY_NUMPADENTER)
             && this::nicknameEntryWidget.isInitialized
             && this.nicknameEntryWidget.isFocused
         ) {
@@ -622,22 +622,22 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         }
         if (Cobblemon.config.enableDebugKeys) {
             val model = PokemonModelRepository.getPoser(selectedPokemon.species.resourceIdentifier, selectedPokemon.aspects)
-            if (keyCode == InputUtil.GLFW_KEY_UP) {
+            if (keyCode == InputConstants.KEY_UP) {
                 model.profileTranslation = model.profileTranslation.add(0.0, -0.01, 0.0)
             }
-            if (keyCode == InputUtil.GLFW_KEY_DOWN) {
+            if (keyCode == InputConstants.KEY_DOWN) {
                 model.profileTranslation = model.profileTranslation.add(0.0, 0.01, 0.0)
             }
-            if (keyCode == InputUtil.GLFW_KEY_LEFT) {
+            if (keyCode == InputConstants.KEY_LEFT) {
                 model.profileTranslation = model.profileTranslation.add(-0.01, 0.0, 0.0)
             }
-            if (keyCode == InputUtil.GLFW_KEY_RIGHT) {
+            if (keyCode == InputConstants.KEY_RIGHT) {
                 model.profileTranslation = model.profileTranslation.add(0.01, 0.0, 0.0)
             }
-            if (keyCode == InputUtil.GLFW_KEY_EQUAL) {
+            if (keyCode == InputConstants.KEY_EQUALS) {
                 model.profileScale += 0.01F
             }
-            if (keyCode == InputUtil.GLFW_KEY_MINUS) {
+            if (keyCode == InputConstants.KEY_MINUS) {
                 model.profileScale -= 0.01F
             }
         }
@@ -645,17 +645,17 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     }
 
     fun playSound(soundEvent: SoundEvent) {
-        Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+        Minecraft.getInstance().soundManager.play(SimpleSoundInstance.forUI(soundEvent, 1.0F))
     }
 
-    override fun close() {
+    override fun onClose() {
         if (Cobblemon.config.enableDebugKeys) {
             val model = PokemonModelRepository.getPoser(selectedPokemon.species.resourceIdentifier, selectedPokemon.aspects)
-            Minecraft.getInstance().player?.sendMessage(Component.of("Profile Translation: ${model.profileTranslation}"))
-            Minecraft.getInstance().player?.sendMessage(Component.of("Profile Scale: ${model.profileScale}"))
+            Minecraft.getInstance().player?.sendSystemMessage(Component.literal("Profile Translation: ${model.profileTranslation}"))
+            Minecraft.getInstance().player?.sendSystemMessage(Component.literal("Profile Scale: ${model.profileScale}"))
             Cobblemon.LOGGER.info("override var profileTranslation = Vec3d(${model.profileTranslation.x}, ${model.profileTranslation.y}, ${model.profileTranslation.z})")
             Cobblemon.LOGGER.info("override var profileScale = ${model.profileScale}F")
         }
-        super.close()
+        super.onClose()
     }
 }

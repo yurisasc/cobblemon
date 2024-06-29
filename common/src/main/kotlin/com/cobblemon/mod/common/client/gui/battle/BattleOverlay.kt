@@ -36,26 +36,26 @@ import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import java.lang.Double.max
 import java.lang.Double.min
 import java.util.UUID
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.hud.InGameHud
-import net.minecraft.client.gui.screen.ChatScreen
-import net.minecraft.client.renderer.DiffuseLighting
-import net.minecraft.client.renderer.LightmapTextureManager
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.RenderTickCounter
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.util.Mth.ceil
 import com.mojang.math.Axis
+import net.minecraft.client.DeltaTracker
+import net.minecraft.client.gui.Gui
+import net.minecraft.client.gui.screens.ChatScreen
+import net.minecraft.client.renderer.LightTexture
 import org.joml.Vector3f
 
-class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
+class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
     companion object {
         const val MAX_OPACITY = 1.0
         const val MIN_OPACITY = 0.5
@@ -92,8 +92,8 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
 
     override val schedulingTracker = SchedulingTracker()
 
-    override fun render(context: GuiGraphics, tickCounter: RenderTickCounter) {
-        val tickDelta = tickCounter.getTickDelta(false)
+    override fun render(context: GuiGraphics, tickCounter: DeltaTracker) {
+        val tickDelta = tickCounter.getGameTimeDeltaPartialTick(false)
         schedulingTracker.update(tickDelta / 20F)
         passedSeconds += tickDelta / 20
         if (passedSeconds > 100) {
@@ -113,19 +113,19 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
         side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index) }
         side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, index) }
 
-        if (Minecraft.getInstance().currentScreen !is BattleGUI && battle.mustChoose) {
+        if (Minecraft.getInstance().screen !is BattleGUI && battle.mustChoose) {
             val textOpacity = PROMPT_TEXT_OPACITY_CURVE(passedSeconds)
             drawScaledText(
                 context = context,
                 text = battleLang("ui.actions_label", PartySendBinding.boundKey().localizedText),
-                x = Minecraft.getInstance().window.scaledWidth / 2,
-                y = Minecraft.getInstance().window.scaledHeight / 5,
+                x = Minecraft.getInstance().window.guiScaledWidth / 2,
+                y = Minecraft.getInstance().window.guiScaledHeight / 5,
                 opacity = textOpacity,
                 centered = true
             )
         }
 
-        val currentScreen = Minecraft.getInstance().currentScreen
+        val currentScreen = Minecraft.getInstance().screen
 
         if (currentScreen == null || currentScreen is ChatScreen) {
             if (lastKnownBattle != battle.battleId) {
@@ -145,12 +145,12 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
         var x = HORIZONTAL_INSET + rank * HORIZONTAL_SPACING.toFloat()
         val y = VERTICAL_INSET + rank * VERTICAL_SPACING
         if (!left) {
-            x = mc.window.scaledWidth - x - TILE_WIDTH
+            x = mc.window.guiScaledWidth - x - TILE_WIDTH
         }
         val invisibleX = if (left) {
             -TILE_WIDTH - 1F
         } else {
-            mc.window.scaledWidth.toFloat()
+            mc.window.guiScaledWidth.toFloat()
         }
 
         activeBattlePokemon.invisibleX = invisibleX
@@ -208,7 +208,7 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
         isFlatHealth: Boolean
     ) {
         val portraitStartX = x + if (!reversed) PORTRAIT_OFFSET_X else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET_X }
-        val matrices = context.matrices
+        val matrices = context.pose()
         blitk(
             matrixStack = matrices,
             texture = battleInfoUnderlay,
@@ -416,24 +416,24 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
 
         matrixStack.scale(scale * state.scale, scale * state.scale, 0.1F)
 
-        matrixStack.multiply(quaternion1)
-        matrixStack.multiply(quaternion2)
+        matrixStack.mulPose(quaternion1)
+        matrixStack.mulPose(quaternion2)
 
         val light1 = Vector3f(2.2F, 4.0F, -4.0F)
         val light2 = Vector3f(1.1F, -4.0F, 7.0F)
         RenderSystem.setShaderLights(light1, light2)
         quaternion1.conjugate()
 
-        val immediate = Minecraft.getInstance().bufferBuilders.entityVertexConsumers
+        val immediate = Minecraft.getInstance().renderBuffers().bufferSource()
         val buffer = immediate.getBuffer(renderType)
-        val packedLight = LightmapTextureManager.pack(11, 7)
+        val packedLight = LightTexture.pack(11, 7)
         model.render(context, matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, -0x1)
 
-        immediate.draw()
+        immediate.endBatch()
 
         matrixStack.popPose()
 
-        DiffuseLighting.enableGuiDepthLighting()
+        Lighting.setupFor3DItems()
     }
 
     fun onLogout() {

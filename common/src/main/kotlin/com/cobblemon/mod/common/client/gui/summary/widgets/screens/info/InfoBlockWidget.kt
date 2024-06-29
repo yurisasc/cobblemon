@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
@@ -23,7 +24,7 @@ class InfoBlockWidget(
     private val text: MutableComponent,
     private val withinRowVerticalTextOffset: Int,
     private val font: ResourceLocation,
-) : SoundlessWidget(pX, pY, blockWidth, blockHeight, Text.literal("InfoBlockWidget")) {
+) : SoundlessWidget(pX, pY, blockWidth, blockHeight, Component.literal("InfoBlockWidget")) {
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         drawScaledText(

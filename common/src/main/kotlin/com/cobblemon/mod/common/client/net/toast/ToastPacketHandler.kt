@@ -15,6 +15,6 @@ import net.minecraft.client.Minecraft
 
 object ToastPacketHandler : ClientNetworkPacketHandler<ToastPacket> {
     override fun handle(packet: ToastPacket, client: Minecraft) {
-        client.executeSync { ToastTracker.handle(packet, client) }
+        client.executeIfPossible { ToastTracker.handle(packet, client) }
     }
 }

@@ -17,10 +17,10 @@ import com.cobblemon.mod.common.client.gui.battle.widgets.BattleOptionTile
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.Selectable
+import net.minecraft.client.gui.narration.NarratableEntry
 import net.minecraft.client.gui.narration.NarrationElementOutput
-import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
@@ -31,7 +31,7 @@ class BattleGeneralActionSelection(
     battleGUI,
     request,
     BattleGUI.OPTION_ROOT_X,
-    Minecraft.getInstance().window.scaledHeight - BattleGUI.OPTION_VERTICAL_OFFSET,
+    Minecraft.getInstance().window.guiScaledHeight - BattleGUI.OPTION_VERTICAL_OFFSET,
     (BattleOptionTile.OPTION_WIDTH + 3 * BattleGUI.OPTION_HORIZONTAL_SPACING).toInt(),
     (BattleOptionTile.OPTION_HEIGHT + 3 * BattleGUI.OPTION_VERTICAL_SPACING).toInt(),
     battleLang("choose_action")
@@ -56,13 +56,13 @@ class BattleGeneralActionSelection(
             if (battle.battleFormat.battleType.pokemonPerSide == 1 && battle.side2.actors.first().type == ActorType.WILD) {
                 addOption(rank++, battleLang("ui.capture"), BattleGUI.bagResource) {
                     CobblemonClient.battle?.minimised = true
-                    Minecraft.getInstance().player?.sendMessage(battleLang("throw_pokeball_prompt"), false)
+                    Minecraft.getInstance().player?.displayClientMessage(battleLang("throw_pokeball_prompt"), false)
                     playDownSound(Minecraft.getInstance().soundManager)
                 }
 
                 addOption(rank++, battleLang("ui.run"), BattleGUI.runResource) {
                     CobblemonClient.battle?.minimised = true
-                    Minecraft.getInstance().player?.sendMessage(battleLang("run_prompt"), false)
+                    Minecraft.getInstance().player?.displayClientMessage(battleLang("run_prompt"), false)
                     playDownSound(Minecraft.getInstance().soundManager)
                 }
             } else {
@@ -75,7 +75,7 @@ class BattleGeneralActionSelection(
     }
 
     private fun addOption(rank: Int, text: MutableComponent, texture: ResourceLocation, onClick: () -> Unit) {
-        val startY = Minecraft.getInstance().window.scaledHeight - BattleGUI.OPTION_VERTICAL_OFFSET
+        val startY = Minecraft.getInstance().window.guiScaledHeight - BattleGUI.OPTION_VERTICAL_OFFSET
         val x = if (rank % 2 == 0) BattleGUI.OPTION_ROOT_X else BattleGUI.OPTION_ROOT_X + BattleGUI.OPTION_HORIZONTAL_SPACING + BattleOptionTile.OPTION_WIDTH
         val y = if (rank > 1) startY + BattleOptionTile.OPTION_HEIGHT + BattleGUI.OPTION_HORIZONTAL_SPACING else startY
         tiles.add(
@@ -104,8 +104,8 @@ class BattleGeneralActionSelection(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+        soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
-    override fun getType() = Selectable.SelectionType.NONE
+    override fun narrationPriority() = NarratableEntry.NarrationPriority.NONE
 }

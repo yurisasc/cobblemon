@@ -26,7 +26,7 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
+import net.minecraft.client.gui.components.ObjectSelectionList
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
@@ -34,7 +34,7 @@ class PasturePokemonScrollList(
     val listX: Int,
     val listY: Int,
     val parent: PastureWidget
-) : AlwaysSelectedEntryListWidget<PasturePokemonScrollList.PastureSlot>(
+) : ObjectSelectionList<PasturePokemonScrollList.PastureSlot>(
     Minecraft.getInstance(),
     WIDTH, // width
     HEIGHT, // height
@@ -73,7 +73,7 @@ class PasturePokemonScrollList(
         }
     }
 
-    override fun getScrollbarX() = x + width - 3
+    override fun getScrollbarPosition() = x + width - 3
 
     public override fun addEntry(entry: PastureSlot) = super.addEntry(entry)
     public override fun removeEntry(entry: PastureSlot) = super.removeEntry(entry)
@@ -81,8 +81,8 @@ class PasturePokemonScrollList(
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
 
-        context.matrices.pushPose()
-//        context.matrices.translate(0F, 0F, -10F)
+        context.pose().pushPose()
+//        context.pose().translate(0F, 0F, -10F)
 
         context.enableScissor(
             x,
@@ -92,14 +92,14 @@ class PasturePokemonScrollList(
         )
 
 
-        context.matrices.popPose()
+        context.pose().popPose()
         super.renderWidget(context, mouseX, mouseY, partialTicks)
 
         context.disableScissor()
 
         // Scroll Overlay
         blitk(
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             texture = scrollOverlayResource,
             x = listX,
             y = listY - 13,
@@ -142,16 +142,16 @@ class PasturePokemonScrollList(
     }
 
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
-        scrolling = mouseX >= this.scrollbarX.toDouble()
-                && mouseX < (this.scrollbarX + 3).toDouble()
+        scrolling = mouseX >= this.scrollbarPosition.toDouble()
+                && mouseX < (this.scrollbarPosition + 3).toDouble()
                 && mouseY >= listY
                 && mouseY < bottom
     }
 
-    override fun drawMenuListBackground(context: GuiGraphics?) {}
+    override fun renderListBackground(context: GuiGraphics) {}
 
     private fun correctSize() {
-        setDimensionsAndPosition(WIDTH, HEIGHT, listX, (listY - 4))
+        setRectangle(WIDTH, HEIGHT, listX, (listY - 4))
 //        setX(listX)
     }
 
@@ -192,7 +192,7 @@ class PasturePokemonScrollList(
         ) {
             val x = rowLeft - 4
             val y = rowTop
-            val matrixStack = context.matrices
+            val matrixStack = context.pose()
             blitk(
                 matrixStack = matrixStack,
                 texture = slotResource,

@@ -11,8 +11,6 @@ package com.cobblemon.mod.common.client.sound.battle
 import com.cobblemon.mod.common.util.pauseSounds
 import com.cobblemon.mod.common.util.resumeSounds
 import net.minecraft.client.Minecraft
-import net.minecraft.client.sound.SoundInstance
-import net.minecraft.client.sound.SoundManager
 import net.minecraft.sounds.SoundSource
 import net.minecraft.sounds.SoundEvents
 
@@ -25,7 +23,7 @@ import net.minecraft.sounds.SoundEvents
 object BattleMusicController {
 
     /** The last [BattleMusicInstance] played. */
-    var music = BattleMusicInstance(SoundEvents.INTENTIONALLY_EMPTY, 0.0F, 0.0F)
+    var music = BattleMusicInstance(SoundEvents.EMPTY, 0.0F, 0.0F)
         private set
 
     /**
@@ -41,9 +39,9 @@ object BattleMusicController {
     fun initializeMusic(newMusic: BattleMusicInstance) {
         music = newMusic
         manager.play(music)
-        if (manager.isPlaying(music)) {
+        if (manager.isActive(music)) {
             filteredCategories.forEach { manager.pauseSounds(null, it) }
-            manager.resumeSounds(music.id, SoundSource.MUSIC) // lazy :)
+            manager.resumeSounds(music.location, SoundSource.MUSIC) // lazy :)
         }
     }
 

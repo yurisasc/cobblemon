@@ -64,7 +64,7 @@ class MoveSwapScreen(
             isHovered: Boolean,
             partialTicks: Float
         ) {
-            val matrices = context.matrices
+            val matrices = context.pose()
             val tweakedRowTop = rowTop - (SLOT_SPACING / 2) + 1
             val rgb = move.elementalType.hue.toRGB()
 

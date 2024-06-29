@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
 
@@ -29,7 +30,7 @@ class InfoWidget(
     pX: Int,
     pY: Int,
     private val pokemon: Pokemon
-) : SoundlessWidget(pX, pY, WIDTH, HEIGHT, Text.literal("InfoWidget")) {
+) : SoundlessWidget(pX, pY, WIDTH, HEIGHT, Component.literal("InfoWidget")) {
     companion object {
         private const val WIDTH = 134
         private const val HEIGHT = 148
@@ -38,7 +39,7 @@ class InfoWidget(
     }
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        val matrices = context.matrices
+        val matrices = context.pose()
         // Base texture
         blitk(
             matrixStack = matrices,
@@ -89,7 +90,7 @@ class InfoWidget(
         typeWidget.render(context, pMouseX, pMouseY, pPartialTicks)
 
         // Original Trainer
-        val otName: MutableComponent = Text.literal(pokemon.originalTrainerName ?: "")
+        val otName: MutableComponent = Component.literal(pokemon.originalTrainerName ?: "")
         val otWidget = InfoOneLineWidget(
             pX = x,
             pY = y + 3 * ROW_HEIGHT,
@@ -160,7 +161,7 @@ class InfoWidget(
             shadow = true
         )
 
-        val mcFont = Minecraft.getInstance().textRenderer
+        val mcFont = Minecraft.getInstance().font
         val experience = pokemon.experience.toString().text()
         val experienceForThisLevel =
             pokemon.experience - if (pokemon.level == 1) 0 else pokemon.experienceGroup.getExperience(pokemon.level)
@@ -170,7 +171,7 @@ class InfoWidget(
         drawScaledText(
             context = context,
             text = experience,
-            x = (x + 127) - (mcFont.getWidth(experience) * smallTextScale),
+            x = (x + 127) - (mcFont.width(experience) * smallTextScale),
             y = y + 125,
             scale = smallTextScale,
             shadow = true
@@ -179,7 +180,7 @@ class InfoWidget(
         drawScaledText(
             context = context,
             text = experienceToNext.toString().text(),
-            x = (x + 127) - (mcFont.getWidth(experienceToNext.toString().text()) * smallTextScale),
+            x = (x + 127) - (mcFont.width(experienceToNext.toString().text()) * smallTextScale),
             y = y + 137,
             scale = smallTextScale,
             shadow = true

@@ -15,15 +15,15 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
+import net.minecraft.client.gui.components.ObjectSelectionList
 import net.minecraft.network.chat.MutableComponent
 
-abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
+abstract class SummaryScrollList<T : ObjectSelectionList.Entry<T>>(
     val listX: Int,
     val listY: Int,
     val label: MutableComponent,
     slotHeight: Int
-) : AlwaysSelectedEntryListWidget<T>(
+) : ObjectSelectionList<T>(
     Minecraft.getInstance(),
     WIDTH, // width
     HEIGHT, // height
@@ -51,14 +51,14 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         correctSize()
     }
 
-    override fun getScrollbarX(): Int {
+    override fun getScrollbarPosition(): Int {
         return x + width - 3
     }
 
-    override fun drawMenuListBackground(context: GuiGraphics?) {}
+    override fun renderListBackground(context: GuiGraphics) {}
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
-        val matrices = context.matrices
+        val matrices = context.pose()
         correctSize()
 
         blitk(
@@ -125,13 +125,13 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     }
 
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
-        scrolling = mouseX >= this.scrollbarX.toDouble()
-                && mouseX < (this.scrollbarX + 3).toDouble()
+        scrolling = mouseX >= this.scrollbarPosition.toDouble()
+                && mouseX < (this.scrollbarPosition + 3).toDouble()
                 && mouseY >= listY
                 && mouseY < bottom
     }
 
     private fun correctSize() {
-        setDimensionsAndPosition(WIDTH, HEIGHT, listX, listY)
+        setRectangle(WIDTH, HEIGHT, listX, listY)
     }
 }

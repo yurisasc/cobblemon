@@ -9,14 +9,17 @@
 package com.cobblemon.mod.common.client.sound
 
 import net.minecraft.client.Minecraft
-import net.minecraft.client.sound.*
-import net.minecraft.sounds.SoundSource
-import net.minecraft.sound.SoundEvent
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
+import net.minecraft.client.resources.sounds.SoundInstance
+import net.minecraft.client.resources.sounds.TickableSoundInstance
 import net.minecraft.core.BlockPos
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.phys.Vec3
 
-class CancellableSoundInstance(sound: SoundEvent, pos: BlockPos = BlockPos.ORIGIN, repeat: Boolean = false, volume: Float = 1.0F, pitch: Float = 1.0F,  ) :
-        PositionedSoundInstance(sound, SoundSource.BLOCKS, volume, pitch, SoundInstance.createRandom(), pos), TickableSoundInstance {
+class CancellableSoundInstance(sound: SoundEvent, pos: BlockPos = BlockPos.ZERO, repeat: Boolean = false, volume: Float = 1.0F, pitch: Float = 1.0F,  ) :
+    SimpleSoundInstance(sound, SoundSource.BLOCKS, volume, pitch, SoundInstance.createUnseededRandom(), pos),
+    TickableSoundInstance {
 
     private val soundManager = Minecraft.getInstance().soundManager;
     private var done: Boolean = false
@@ -26,24 +29,24 @@ class CancellableSoundInstance(sound: SoundEvent, pos: BlockPos = BlockPos.ORIGI
 
     init {
         this.relative = false
-        this.repeat = repeat
-        this.attenuationType = SoundInstance.AttenuationType.NONE
+        this.looping = repeat
+        this.attenuation = SoundInstance.Attenuation.NONE
         this.initVolume = volume.toDouble()
         this.pos = pos
-        this.attenuationType = SoundInstance.AttenuationType.LINEAR
+        this.attenuation = SoundInstance.Attenuation.LINEAR
     }
 
-    override fun isDone(): Boolean {
+    override fun isStopped(): Boolean {
         return this.done
     }
 
     override fun tick() {
-        if(soundManager.isPlaying(this) && !this.repeat) {
+        if(soundManager.isActive(this) && !this.looping) {
             this.done = true
             CancellableSoundController.stopSound(this)
         } else {
             // Using the player's position as a proxy for a SoundListener.
-            val listenerPos = Minecraft.getInstance().player?.pos?.squaredDistanceTo(
+            val listenerPos = Minecraft.getInstance().player?.position()?.distanceToSqr(
                 Vec3(
                     this.x,
                     this.y,
@@ -60,7 +63,7 @@ class CancellableSoundInstance(sound: SoundEvent, pos: BlockPos = BlockPos.ORIGI
                     // Purpose of this is if a client is pushing in and out of the attenuation range, they won't notice the sound abruptly stopping
                     if(unheardTicks > UNHEARD_TICKS_MAX) {
                         this.done = true
-                        this.repeat = false
+                        this.looping = false
                         CancellableSoundController.stopSound(this)
                     }
                 }

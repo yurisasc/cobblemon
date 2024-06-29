@@ -19,7 +19,7 @@ object BattleMadeInvalidChoiceHandler : ClientNetworkPacketHandler<BattleMadeInv
         //Remove previous selected action, so user can select a new action
         val battle = CobblemonClient.battle ?: return
         battle.mustChoose = true
-        val gui = Minecraft.getInstance().currentScreen
+        val gui = Minecraft.getInstance().screen
         if (gui is BattleGUI) {
             gui.removeInvalidBattleActionSelection()
         }

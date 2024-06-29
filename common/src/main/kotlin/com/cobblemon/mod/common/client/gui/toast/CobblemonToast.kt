@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.net.messages.client.toast.ToastPacket
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.toast.Toast
-import net.minecraft.client.toast.ToastManager
+import net.minecraft.client.gui.components.toasts.Toast
+import net.minecraft.client.gui.components.toasts.ToastComponent
 import net.minecraft.world.item.ItemStack
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -38,12 +38,12 @@ class CobblemonToast(
     private var lastTime = 0L
     internal var nextVisibility: Toast.Visibility = Toast.Visibility.SHOW
 
-    override fun draw(context: GuiGraphics, manager: ToastManager, startTime: Long): Toast.Visibility {
-        context.drawGuiTexture(this.frameTexture, 0, 0, this.width, this.height)
-        val textRenderer = manager.client.textRenderer
-        context.drawText(textRenderer, this.title, 30, 7, this.title.style.color?.rgb ?: -1, false)
-        context.drawText(textRenderer, this.description, 30, 18, this.description.style.color?.rgb ?: -1, false)
-        context.drawItemWithoutEntity(this.icon, 8, 8)
+    override fun render(context: GuiGraphics, manager: ToastComponent, startTime: Long): Toast.Visibility {
+        context.blitSprite(this.frameTexture, 0, 0, this.width(), this.height())
+        val textRenderer = manager.minecraft.font
+        context.drawString(textRenderer, this.title, 30, 7, this.title.style.color?.value ?: -1, false)
+        context.drawString(textRenderer, this.description, 30, 18, this.description.style.color?.value ?: -1, false)
+        context.renderFakeItem(this.icon, 8, 8)
         if (this.hasProgressBar()) {
             context.fill(3, 28, 157, 29, -1)
             val f = Mth.clampedLerp(this.lastProgress, this.progress, (startTime - this.lastTime).toFloat() / 100F)

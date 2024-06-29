@@ -13,9 +13,9 @@ import com.cobblemon.mod.common.api.gui.drawCenteredText
 import com.cobblemon.mod.common.api.text.text
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.TextFieldWidget
+import net.minecraft.client.gui.components.EditBox
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.text.PlainTextContent.Literal
+import net.minecraft.network.chat.contents.PlainTextContents.LiteralContents
 import net.minecraft.resources.ResourceLocation
 
 class SimpleNPCTextInputWidget(
@@ -28,8 +28,8 @@ class SimpleNPCTextInputWidget(
     height: Int,
     maxLength: Int = 100,
     val wrap: Boolean = false
-) : TextFieldWidget(
-    Minecraft.getInstance().textRenderer,
+) : EditBox(
+    Minecraft.getInstance().font,
     x,
     y,
     width,
@@ -40,8 +40,8 @@ class SimpleNPCTextInputWidget(
     init {
         setMaxLength(maxLength)
         isFocused = true
-        text = getter()
-        this.setChangedListener { setter(it) }
+        value = getter()
+        this.setResponder { setter(it) }
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
@@ -54,12 +54,12 @@ class SimpleNPCTextInputWidget(
     }
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
-        if (cursor != text.length) {
-            setCursorToEnd(false)
+        if (cursorPosition != value.length) {
+            moveCursorToEnd(false)
         }
 
         blitk(
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             x = x,
             y = y,
             width = width,
@@ -67,14 +67,14 @@ class SimpleNPCTextInputWidget(
             texture = texture
         )
 
-        context.matrices.pushPose()
+        context.pose().pushPose()
         val scale = 0.8F
-        context.matrices.scale(scale, scale, 1F)
+        context.pose().scale(scale, scale, 1F)
         if (wrap) {
-            val wrappedLines = Minecraft.getInstance().textRenderer.wrapLines(MutableComponent.of(Literal(text)), ((width - 8) / scale).toInt())
+            val wrappedLines = Minecraft.getInstance().font.split(MutableComponent.create(LiteralContents(value)), ((width - 8) / scale).toInt())
             for ((index, line) in wrappedLines.withIndex()) {
-                context.drawText(
-                    Minecraft.getInstance().textRenderer,
+                context.drawString(
+                    Minecraft.getInstance().font,
                     line,
                     ((x + 4) / scale).toInt(),
                     ((y + index * 10 + 5) / scale).toInt(),
@@ -85,13 +85,13 @@ class SimpleNPCTextInputWidget(
         } else {
             drawCenteredText(
                 context = context,
-                text = text.text(),
+                text = value.text(),
                 x = (x + width / 2F) / scale,
                 y = (y + height / 2 - 4) / scale,
                 shadow = true,
                 colour = 0xFFFFFF
             )
         }
-        context.matrices.popPose()
+        context.pose().popPose()
     }
 }

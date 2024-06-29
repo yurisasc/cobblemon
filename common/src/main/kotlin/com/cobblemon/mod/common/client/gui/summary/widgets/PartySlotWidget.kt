@@ -70,8 +70,8 @@ class PartySlotWidget(
     }
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
-        hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height
-        val matrices = context.matrices
+        isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height
+        val matrices = context.pose()
         val isDraggedSlot = partyWidget.swapEnabled && partyWidget.swapSource == index
         val slotPokemon = if (isDraggedSlot) null else pokemon
         val isSelected = this.isClientPartyMember && this.summary.selectedPokemon.uuid == slotPokemon?.uuid

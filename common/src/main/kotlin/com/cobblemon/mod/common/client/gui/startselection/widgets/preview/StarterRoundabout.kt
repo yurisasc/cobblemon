@@ -43,8 +43,8 @@ class StarterRoundabout(
         if (!this.visible) {
             return
         }
-        val matrices = context.matrices
-        this.hovered = mouseX >= this.x && mouseX < this.x + this.width && mouseY >= (this.y - MODEL_HEIGHT) && mouseY < this.y
+        val matrices = context.pose()
+        this.isHovered = mouseX >= this.x && mouseX < this.x + this.width && mouseY >= (this.y - MODEL_HEIGHT) && mouseY < this.y
         matrices.pushPose()
         /*
          * This correction term is due to where scaling comes from in a render. We are giving the drawProfilePokemon
@@ -87,7 +87,7 @@ class StarterRoundabout(
     }
 
     override fun clicked(mouseX: Double, mouseY: Double): Boolean {
-        return this.active && this.visible && this.hovered
+        return this.active && this.visible && this.isHovered()
     }
 
     override fun onClick(mouseX: Double, mouseY: Double) {

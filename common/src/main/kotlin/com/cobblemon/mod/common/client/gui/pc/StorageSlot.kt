@@ -21,8 +21,8 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.gui.components.Button
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -30,8 +30,8 @@ import org.joml.Vector3f
 open class StorageSlot(
     x: Int, y: Int,
     private val parent: StorageWidget,
-    onPress: PressAction
-) : ButtonWidget(x, y, SIZE, SIZE, Component.literal("StorageSlot"), onPress, DEFAULT_NARRATION_SUPPLIER) {
+    onPress: OnPress
+) : Button(x, y, SIZE, SIZE, Component.literal("StorageSlot"), onPress, DEFAULT_NARRATION) {
     val state = FloatingState()
 
     companion object {
@@ -56,7 +56,7 @@ open class StorageSlot(
 
     fun renderSlot(context: GuiGraphics, posX: Int, posY: Int, partialTicks: Float) {
         val pokemon = getPokemon() ?: return
-        val matrices = context.matrices
+        val matrices = context.pose()
         context.enableScissor(
             posX - 2,
             posY + 2,
@@ -149,7 +149,7 @@ open class StorageSlot(
             )
         }
 
-        if (isSelected) {
+        if (isHoveredOrFocused) {
             // If pasture UI and slot is not in pasture
             if (config is PasturePCGUIConfiguration
                 && pokemon.tetheringId == null
@@ -201,7 +201,7 @@ open class StorageSlot(
         return null
     }
 
-    override fun isSelected(): Boolean {
+    override fun isHoveredOrFocused(): Boolean {
         return getPokemon() == parent.pcGui.previewPokemon
     }
 

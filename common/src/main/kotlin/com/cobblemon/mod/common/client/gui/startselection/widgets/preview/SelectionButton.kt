@@ -16,16 +16,16 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.gui.components.Button
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 
 class SelectionButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    onPress: PressAction
-): ButtonWidget(pX, pY, pWidth, pHeight, Component.literal("SelectionButton"), onPress, DEFAULT_NARRATION_SUPPLIER) {
+    onPress: OnPress
+): Button(pX, pY, pWidth, pHeight, Component.literal("SelectionButton"), onPress, DEFAULT_NARRATION) {
 
     companion object {
         private val buttonTexture = cobblemonResource("textures/gui/starterselection/starterselection_button.png")
@@ -34,12 +34,12 @@ class SelectionButton(
         private const val SCALE = 0.7f
     }
 
-    override fun playDownSound(soundManager: SoundManager?) {
-        Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+    override fun playDownSound(soundManager: SoundManager) {
+        Minecraft.getInstance().soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
-        val matrices = context.matrices
+        val matrices = context.pose()
         if (isHovered)
             blitk(
                 matrixStack = matrices,

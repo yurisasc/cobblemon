@@ -18,7 +18,7 @@ import net.minecraft.client.Minecraft
 
 object PlayPosableAnimationHandler : ClientNetworkPacketHandler<PlayPosableAnimationPacket> {
     override fun handle(packet: PlayPosableAnimationPacket, client: Minecraft) {
-        val world = client.world ?: return
+        val world = client.level ?: return
         val entity = world.getEntity(packet.entityId) ?: return
         if (entity is PosableEntity) {
             val delegate = entity.delegate

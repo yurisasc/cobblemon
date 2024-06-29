@@ -14,19 +14,19 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.gui.components.Button
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.MutableComponent
 
 class SummaryTab(
     pX: Int, pY: Int,
     val label: MutableComponent,
-    onPress: PressAction
-): ButtonWidget(pX, pY, 50, 13, label, onPress, DEFAULT_NARRATION_SUPPLIER) {
+    onPress: OnPress
+): Button(pX, pY, 50, 13, label, onPress, DEFAULT_NARRATION) {
     private var isActive = false
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        val matrices = context.matrices
+        val matrices = context.pose()
         if (isActive) {
             blitk(
                 matrixStack = matrices,

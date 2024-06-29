@@ -37,12 +37,12 @@ class ModelWidget(
         if (!render) {
             return
         }
-        hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
+        isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
         renderPKM(context, partialTicks)
     }
 
     private fun renderPKM(context: GuiGraphics, partialTicks: Float) {
-        val matrices = context.matrices
+        val matrices = context.pose()
         matrices.pushPose()
 
         context.enableScissor(

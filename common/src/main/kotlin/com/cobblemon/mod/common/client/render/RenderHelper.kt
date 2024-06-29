@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.gui.drawText
 import com.cobblemon.mod.common.api.text.font
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.PoseStack.Entry
@@ -19,7 +20,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.math.Axis
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.renderer.DiffuseLighting
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.model.json.ModelTransformationMode
@@ -50,9 +50,9 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
     RenderSystem.applyModelViewMatrix()
 
     val stack = matrixStack ?: PoseStack()
-    val immediate = Minecraft.getInstance().bufferBuilders.entityVertexConsumers
+    val immediate = Minecraft.getInstance().renderBuffers().bufferSource()
     val bl = !model.isSideLit
-    if (bl) DiffuseLighting.disableGuiDepthLighting()
+    if (bl) Lighting.setupForFlatItems()
 
     itemRenderer.renderItem(
         itemStack,
@@ -67,7 +67,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
 
     immediate.draw()
     RenderSystem.enableDepthTest()
-    if (bl) DiffuseLighting.enableGuiDepthLighting()
+    if (bl) Lighting.setupFor3DItems()
 
     modelViewStack.popPose()
     RenderSystem.applyModelViewMatrix()

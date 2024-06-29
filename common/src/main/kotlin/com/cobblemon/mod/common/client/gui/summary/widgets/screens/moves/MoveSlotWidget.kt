@@ -66,8 +66,8 @@ class MoveSlotWidget(
     }
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        val matrices = context.matrices
-        hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
+        val matrices = context.pose()
+        isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
 
         val moveTemplate = Moves.getByNameOrDummy(move.name)
         val rgb = moveTemplate.elementalType.hue.toRGB()

@@ -71,8 +71,8 @@ class EvolutionSelectScreen(
             buttonWidth = 40,
             buttonHeight = 10,
             clickAction = {
-                Minecraft.getInstance().player?.closeScreen()
-                Minecraft.getInstance().player?.sendMessage(lang("ui.evolve.into", pokemon.getDisplayName(), evolution.species.translatedName))
+                Minecraft.getInstance().player?.clientSideCloseContainer()
+                Minecraft.getInstance().player?.sendSystemMessage(lang("ui.evolve.into", pokemon.getDisplayName(), evolution.species.translatedName))
                 pokemon.evolutionProxy.client().start(this.evolution)
             },
             text = lang("ui.evolve"),
@@ -98,7 +98,7 @@ class EvolutionSelectScreen(
         ) {
             val x = rowLeft - 3
             val y = rowTop
-            val matrices = context.matrices
+            val matrices = context.pose()
 
             blitk(
                 matrixStack = matrices,

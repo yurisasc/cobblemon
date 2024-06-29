@@ -23,19 +23,19 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.vertex.BufferUploader
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
+import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.Tesselator
+import com.mojang.blaze3d.vertex.VertexFormat
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.renderer.BufferRenderer
-import com.mojang.blaze3d.vertex.VertexFormat
-import com.mojang.blaze3d.vertex.DefaultVertexFormat
-import net.minecraft.client.sound.PositionedSoundInstance
-import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.util.Mth.ceil
 import net.minecraft.util.Mth.floor
-import net.minecraft.util.math.Vec2f
+import net.minecraft.world.phys.Vec2
 import org.joml.Vector3f
 import kotlin.math.cos
 import kotlin.math.sin
@@ -94,17 +94,17 @@ class StatWidget(
 
     private fun drawTriangle(
         colour: Vector3f,
-        v1: Vec2f,
-        v2: Vec2f,
-        v3: Vec2f
+        v1: Vec2,
+        v2: Vec2,
+        v3: Vec2
     ) {
         CobblemonResources.WHITE.let { RenderSystem.setShaderTexture(0, it) }
         RenderSystem.setShaderColor(colour.x, colour.y, colour.z, 0.6F)
-        val bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, VertexFormats.POSITION)
-        bufferBuilder.vertex(v1.x, v1.y, 10F)
-        bufferBuilder.vertex(v2.x, v2.y, 10F)
-        bufferBuilder.vertex(v3.x, v3.y, 10F)
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
+        val bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION)
+        bufferBuilder.addVertex(v1.x, v1.y, 10F)
+        bufferBuilder.addVertex(v2.x, v2.y, 10F)
+        bufferBuilder.addVertex(v3.x, v3.y, 10F)
+        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow())
         RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
     }
 
@@ -132,37 +132,37 @@ class StatWidget(
         val spDefRatio = (stats.getOrDefault(Stats.SPECIAL_DEFENCE, 0).toFloat() / maximum).coerceIn(0F, 1F)
         val spdRatio = (stats.getOrDefault(Stats.SPEED, 0).toFloat() / maximum).coerceIn(0F, 1F)
 
-        val hpPoint = Vec2f(
+        val hpPoint = Vec2(
             hexCenterX.toFloat(),
             hexCenterY.toFloat() - minTriangleSize - hpRatio * triangleLongEdge
         )
 
-        val attackPoint = Vec2f(
+        val attackPoint = Vec2(
             hexCenterX.toFloat() + minXTriangleLen + atkRatio * triangleMediumEdge,
             hexCenterY.toFloat() - minYTriangleLen - atkRatio * triangleShortEdge
         )
 
-        val defencePoint = Vec2f(
+        val defencePoint = Vec2(
             hexCenterX.toFloat() + minXTriangleLen + defRatio * triangleMediumEdge,
             hexCenterY.toFloat() + minYTriangleLen + defRatio * triangleShortEdge
         )
 
-        val specialAttackPoint = Vec2f(
+        val specialAttackPoint = Vec2(
             hexCenterX.toFloat() - minXTriangleLen - spAtkRatio * triangleMediumEdge,
             hexCenterY.toFloat() - minYTriangleLen - spAtkRatio * triangleShortEdge
         )
 
-        val specialDefencePoint = Vec2f(
+        val specialDefencePoint = Vec2(
             hexCenterX.toFloat() - minXTriangleLen - spDefRatio * triangleMediumEdge,
             hexCenterY.toFloat() + minYTriangleLen + spDefRatio * triangleShortEdge
         )
 
-        val speedPoint = Vec2f(
+        val speedPoint = Vec2(
             hexCenterX.toFloat(),
             hexCenterY.toFloat() + minTriangleSize + spdRatio * triangleLongEdge
         )
 
-        val centerPoint = Vec2f(
+        val centerPoint = Vec2(
             hexCenterX.toFloat(),
             hexCenterY.toFloat()
         )
@@ -255,7 +255,7 @@ class StatWidget(
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val renderChart = statTabIndex != OTHER
-        val matrices = context.matrices
+        val matrices = context.pose()
 
         // Background
         blitk(
@@ -361,7 +361,7 @@ class StatWidget(
         )
 
         blitk(
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             texture = tabMarkerResource,
             x= (x + 27 + (statTabIndex * 19)) / SCALE,
             y = (y + 140) / SCALE,
@@ -432,7 +432,7 @@ class StatWidget(
         // Only play sound here as the rest of the widget is meant to be silent
         if (index in 0..4) {
             statTabIndex = index
-            Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+            Minecraft.getInstance().soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.GUI_CLICK, 1.0F))
         }
         return super.mouseClicked(pMouseX, pMouseY, pButton)
     }

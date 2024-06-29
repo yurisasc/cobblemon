@@ -17,10 +17,10 @@ import com.cobblemon.mod.common.net.messages.server.dialogue.InputToDialoguePack
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
+import net.minecraft.client.gui.components.ObjectSelectionList
+import net.minecraft.locale.Language
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.util.FormattedCharSequence
-import net.minecraft.util.Language
 
 /**
  * UI element for showing the lines of dialogue text.
@@ -35,7 +35,7 @@ class DialogueBox(
     val frameWidth: Int,
     height: Int,
     messages: List<MutableComponent>
-): AlwaysSelectedEntryListWidget<DialogueBox.DialogueLine>(
+): ObjectSelectionList<DialogueBox.DialogueLine>(
     Minecraft.getInstance(),
     frameWidth - 14,
     height, // height
@@ -54,28 +54,30 @@ class DialogueBox(
     init {
         correctSize()
 
-        val textRenderer = Minecraft.getInstance().textRenderer
+        val textRenderer = Minecraft.getInstance().font
 
         messages
-            .flatMap { Language.getInstance().reorder(textRenderer.textHandler.wrapLines(it, LINE_WIDTH, it.style)) }
+            .flatMap { Language.getInstance().getVisualOrder(textRenderer.splitter.splitLines(it, LINE_WIDTH, it.style)) }
             .forEach { addEntry(DialogueLine(it)) }
     }
 
-    override fun drawMenuListBackground(context: GuiGraphics) {}
-    override fun drawSelectionHighlight(context: GuiGraphics, y: Int, entryWidth: Int, entryHeight: Int, borderColor: Int, fillColor: Int) {}
-    override fun renderHeader(context: GuiGraphics?, x: Int, y: Int) {
+    override fun renderListBackground(context: GuiGraphics) {}
+
+    override fun renderSelection(context: GuiGraphics, y: Int, entryWidth: Int, entryHeight: Int, borderColor: Int, fillColor: Int) {}
+
+    override fun renderHeader(context: GuiGraphics, x: Int, y: Int) {
 //        super.renderHeader(context, x, y)
     }
 
-    override fun drawHeaderAndFooterSeparators(context: GuiGraphics?) {}
+    override fun renderListSeparators(context: GuiGraphics) {}
 
-    override fun renderDecorations(context: GuiGraphics?, mouseX: Int, mouseY: Int) {
+    override fun renderDecorations(context: GuiGraphics, mouseX: Int, mouseY: Int) {
 //        super.renderDecorations(context, mouseX, mouseY)
     }
 
     private fun correctSize() {
         val textBoxHeight = height
-        setDimensions(width, textBoxHeight)
+        setSize(width, textBoxHeight)
         x = listX + 8
         y = listY + 6
 //        setDimensionsAndPosition(width, textBoxHeight, appropriateY + 6, appropriateY + 6 + textBoxHeight)
@@ -96,18 +98,18 @@ class DialogueBox(
         return 80
     }
 
-    override fun getScrollbarX(): Int {
+    override fun getScrollbarPosition(): Int {
         return this.x + 144
     }
 
     private fun scaleIt(i: Number): Int {
-        return (client.window.scaleFactor * i.toFloat()).toInt()
+        return (minecraft.window.guiScale * i.toFloat()).toInt()
     }
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
         blitk(
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             texture = boxResource,
             x = x - 8,
             y = y - 7,
@@ -170,16 +172,17 @@ class DialogueBox(
     }
 
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
-        scrolling = mouseX >= this.scrollbarX.toDouble()
-                && mouseX < (this.scrollbarX + 3).toDouble()
+        scrolling = mouseX >= this.scrollbarPosition.toDouble()
+                && mouseX < (this.scrollbarPosition + 3).toDouble()
                 && mouseY >= this.y
                 && mouseY < bottom
     }
 
     class DialogueLine(val line: FormattedCharSequence) : Entry<DialogueLine>() {
         override fun getNarration() = "".text()
-        override fun drawBorder(
-            context: GuiGraphics?,
+
+        override fun renderBack(
+            context: GuiGraphics,
             index: Int,
             y: Int,
             x: Int,

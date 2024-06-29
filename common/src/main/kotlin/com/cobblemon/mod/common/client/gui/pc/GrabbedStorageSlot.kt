@@ -22,6 +22,8 @@ class GrabbedStorageSlot(
     }
 
     override fun isStationary() = false
+
     override fun getPokemon() = pokemon
-    override fun isSelected() = true
+
+    override fun isHoveredOrFocused() = true
 }

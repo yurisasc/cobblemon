@@ -32,7 +32,7 @@ class DialogueOptionWidget(
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
             texture = texture,
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             x = x,
             y = y,
             width = width,
@@ -43,7 +43,7 @@ class DialogueOptionWidget(
 
         blitk(
             texture = overlayTexture,
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             x = x,
             y = y,
             width = width,
@@ -64,7 +64,7 @@ class DialogueOptionWidget(
     }
 
     override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
-        if (!hovered) {
+        if (!isHovered) {
             return false
         }
         if (!selectable || dialogueScreen.waitingForServerUpdate) {

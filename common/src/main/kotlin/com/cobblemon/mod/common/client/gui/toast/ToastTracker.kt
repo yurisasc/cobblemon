@@ -26,7 +26,7 @@ object ToastTracker {
         }
         toast.updateFrom(packet)
         if (needsQueue) {
-            client.toastManager.add(toast)
+            client.toasts.addToast(toast)
         }
     }
 

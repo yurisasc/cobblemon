@@ -20,11 +20,10 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.Selectable
+import net.minecraft.client.gui.narration.NarratableEntry
 import net.minecraft.client.gui.narration.NarrationElementOutput
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
-import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.util.Mth.ceil
 
 class BattleSwitchPokemonSelection(
@@ -34,7 +33,7 @@ class BattleSwitchPokemonSelection(
     battleGUI,
     request,
     x = 12,
-    y = ceil((Minecraft.getInstance().window.scaledHeight / 2) - (((SWITCH_TILE_HEIGHT * 3) + (SWITCH_TILE_VERTICAL_SPACING * 2)) / 2)),
+    y = ceil((Minecraft.getInstance().window.guiScaledHeight / 2) - (((SWITCH_TILE_HEIGHT * 3) + (SWITCH_TILE_VERTICAL_SPACING * 2)) / 2)),
     width = 250,
     height = 100,
     battleLang("switch_pokemon")
@@ -47,7 +46,7 @@ class BattleSwitchPokemonSelection(
     }
 
     val tiles = mutableListOf<SwitchTile>()
-    val backButton = BattleBackButton(x - 3F, Minecraft.getInstance().window.scaledHeight - 22F )
+    val backButton = BattleBackButton(x - 3F, Minecraft.getInstance().window.guiScaledHeight - 22F )
 
     class SwitchTile(
         val selection: BattleSwitchPokemonSelection,
@@ -127,7 +126,7 @@ class BattleSwitchPokemonSelection(
             return
         }
         tiles.forEach { it.render(context, mouseX.toDouble(), mouseY.toDouble(), delta) }
-        backButton.render(context.matrices, mouseX, mouseY, delta)
+        backButton.render(context.pose(), mouseX, mouseY, delta)
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
@@ -148,8 +147,8 @@ class BattleSwitchPokemonSelection(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+        soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
-    override fun getType() = Selectable.SelectionType.HOVERED
+    override fun narrationPriority() = NarratableEntry.NarrationPriority.HOVERED
 }

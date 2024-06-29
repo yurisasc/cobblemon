@@ -14,14 +14,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Rende
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.renderer.DiffuseLighting
-import net.minecraft.client.renderer.LightmapTextureManager
+import com.mojang.blaze3d.platform.Lighting
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.renderer.model.json.ModelTransformationMode
 import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.client.renderer.LightTexture
 import net.minecraft.world.item.ItemStack
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -50,7 +49,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
 
         val transformations = positions[mode]!!
 
-        DiffuseLighting.enableGuiDepthLighting()
+        Lighting.setupForFlatItems()
         matrices.scale(transformations.scale.x, transformations.scale.y, transformations.scale.z)
         matrices.translate(transformations.translation.x, transformations.translation.y, transformations.translation.z)
         state.setPoseToFirstSuitable(PoseType.PORTRAIT)
@@ -65,7 +64,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         val vertexConsumer: VertexConsumer = vertexConsumers.getBuffer(renderLayer)
         matrices.pushPose()
         val packedLight = if (mode == ModelTransformationMode.GUI) {
-            LightmapTextureManager.pack(13, 13)
+            LightTexture.pack(13, 13)
         } else {
             light
         }
@@ -84,7 +83,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         model.setDefault()
         matrices.popPose()
         matrices.popPose()
-        DiffuseLighting.disableGuiDepthLighting()
+        Lighting.setupFor3DItems()
     }
 
     companion object {

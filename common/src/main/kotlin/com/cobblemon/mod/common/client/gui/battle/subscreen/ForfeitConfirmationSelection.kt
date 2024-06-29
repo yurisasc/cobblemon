@@ -30,11 +30,11 @@ class ForfeitConfirmationSelection(
 ) {
 
     val forfeitButton: BattleOptionTile
-    val backButton = BattleBackButton(x - 3F, Minecraft.getInstance().window.scaledHeight - 22F )
+    val backButton = BattleBackButton(x - 3F, Minecraft.getInstance().window.guiScaledHeight - 22F )
 
     init {
-        val x = (Minecraft.getInstance().window.scaledWidth / 2) - (BattleOptionTile.OPTION_WIDTH / 2)
-        val y = (Minecraft.getInstance().window.scaledHeight / 2) - (BattleOptionTile.OPTION_HEIGHT / 2)
+        val x = (Minecraft.getInstance().window.guiScaledWidth / 2) - (BattleOptionTile.OPTION_WIDTH / 2)
+        val y = (Minecraft.getInstance().window.guiScaledHeight / 2) - (BattleOptionTile.OPTION_HEIGHT / 2)
 
         forfeitButton = BattleOptionTile(battleGUI, x, y, BattleGUI.runResource, battleLang("ui.forfeit")) {
             battleGUI.selectAction(request, ForfeitActionResponse())
@@ -57,7 +57,7 @@ class ForfeitConfirmationSelection(
             return
         }
         forfeitButton.render(context, mouseX, mouseY, delta)
-        backButton.render(context.matrices, mouseX, mouseY, delta)
+        backButton.render(context.pose(), mouseX, mouseY, delta)
     }
 
 }

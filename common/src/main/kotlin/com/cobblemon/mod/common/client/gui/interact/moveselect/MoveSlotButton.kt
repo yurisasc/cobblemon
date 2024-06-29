@@ -22,9 +22,9 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.gui.widget.ButtonWidget.NarrationSupplier
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.gui.components.Button
+import net.minecraft.client.gui.components.Button.CreateNarration
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 import net.minecraft.util.Mth
 
@@ -34,8 +34,8 @@ class MoveSlotButton(
     val pp: Int,
     val ppMax: Int,
     val enabled: Boolean = true,
-    onPress: PressAction
-) : ButtonWidget(x, y, WIDTH, HEIGHT, Component.literal("Move"), onPress, NarrationSupplier { "".text() }) {
+    onPress: OnPress
+) : Button(x, y, WIDTH, HEIGHT, Component.literal("Move"), onPress, CreateNarration { "".text() }) {
 
     companion object {
         private val moveResource = cobblemonResource("textures/gui/summary/summary_move.png")
@@ -46,14 +46,14 @@ class MoveSlotButton(
     }
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height && enabled
+        isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height && enabled
 
         val moveTemplate = Moves.getByNameOrDummy(move.name)
         val rgb = moveTemplate.elementalType.hue.toRGB()
 
         val alpha = if (enabled) 1.0 else 0.5
 
-        val matrices = context.matrices
+        val matrices = context.pose()
         blitk(
             matrixStack = matrices,
             texture = moveResource,

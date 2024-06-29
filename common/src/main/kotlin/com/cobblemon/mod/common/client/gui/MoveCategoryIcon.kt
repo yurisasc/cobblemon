@@ -29,7 +29,7 @@ class MoveCategoryIcon(
 
     fun render(context: GuiGraphics) {
         blitk(
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             texture = categoriesResource,
             x = x.toFloat() / SCALE,
             y = y.toFloat() / SCALE,

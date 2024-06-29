@@ -15,7 +15,7 @@ import net.minecraft.client.Minecraft
 
 object DialogueClosedHandler : ClientNetworkPacketHandler<DialogueClosedPacket> {
     override fun handle(packet: DialogueClosedPacket, client: Minecraft) {
-        val currentScreen = client.currentScreen as? DialogueScreen ?: return
+        val currentScreen = client.screen as? DialogueScreen ?: return
         if (packet.dialogueId == null || currentScreen.dialogueId == packet.dialogueId) {
             client.setScreen(null)
         }

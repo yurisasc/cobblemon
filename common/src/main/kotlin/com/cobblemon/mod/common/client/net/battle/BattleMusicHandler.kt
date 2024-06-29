@@ -30,12 +30,12 @@ object BattleMusicHandler : ClientNetworkPacketHandler<BattleMusicPacket> {
 
         if (newMusic == null)
             BattleMusicController.endMusic()
-        else if (!soundManager.isPlaying(currMusic))
+        else if (!soundManager.isActive(currMusic))
             BattleMusicController.initializeMusic(newMusic)
-        else if (newMusic.id != currMusic.id)
+        else if (newMusic.location != currMusic.location)
             BattleMusicController.switchMusic(newMusic)
         else
-            LOGGER.error("Ignored BattleMusicPacket from server: ${packet.music?.id}")
+            LOGGER.error("Ignored BattleMusicPacket from server: ${packet.music?.location}")
     }
 
 }

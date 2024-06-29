@@ -11,9 +11,9 @@ package com.cobblemon.mod.common.client.gui.interact.wheel
 import com.cobblemon.mod.common.api.gui.blitk
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.tooltip.Tooltip
-import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.gui.components.Button
+import net.minecraft.client.gui.components.Tooltip
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import org.joml.Vector3f
@@ -26,8 +26,8 @@ class InteractWheelButton(
     y: Int,
     private val isEnabled: Boolean,
     private val colour: () -> Vector3f?,
-    onPress: PressAction
-) : ButtonWidget(x, y, BUTTON_SIZE, BUTTON_SIZE, Component.literal("Interact"), onPress, DEFAULT_NARRATION_SUPPLIER) {
+    onPress: OnPress
+) : Button(x, y, BUTTON_SIZE, BUTTON_SIZE, Component.literal("Interact"), onPress, DEFAULT_NARRATION) {
 
     companion object {
         const val BUTTON_SIZE = 69
@@ -38,7 +38,7 @@ class InteractWheelButton(
     }
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
-        val matrices = context.matrices
+        val matrices = context.pose()
         blitk(
             matrixStack = matrices,
             texture = buttonResource,
@@ -53,7 +53,7 @@ class InteractWheelButton(
 
         if(isHovered(mouseX.toFloat(), mouseY.toFloat())){
             tooltipText?.let {
-                context.drawTooltip(Minecraft.getInstance().textRenderer, Component.translatable(it), mouseX, mouseY)
+                context.renderTooltip(Minecraft.getInstance().font, Component.translatable(it), mouseX, mouseY)
             }
         }
 
@@ -83,7 +83,7 @@ class InteractWheelButton(
         )
     }
 
-    override fun playDownSound(soundManager: SoundManager?) {}
+    override fun playDownSound(soundManager: SoundManager) {}
 
     private fun isHovered(mouseX: Float, mouseY: Float): Boolean {
         val xMin = x.toFloat()
@@ -94,7 +94,7 @@ class InteractWheelButton(
     }
 
     override fun getTooltip(): Tooltip? {
-        tooltipText?.let { return Tooltip.of(Component.translatable(it)) } ?: return super.getTooltip()
+        tooltipText?.let { return Tooltip.create(Component.translatable(it)) } ?: return super.getTooltip()
     }
 
 }

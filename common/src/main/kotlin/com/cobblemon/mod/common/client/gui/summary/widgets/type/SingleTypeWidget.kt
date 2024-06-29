@@ -21,7 +21,7 @@ class SingleTypeWidget(
 ) : TypeWidget(pX, pY, pWidth, pHeight, Component.literal("SingleTypeWidget - ${type.name}")) {
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        val matrices = context.matrices
+        val matrices = context.pose()
         matrices.pushPose()
         matrices.translate(0.35, 0.0, 0.0)
         renderType(type, matrices)

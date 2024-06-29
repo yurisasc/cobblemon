@@ -49,7 +49,7 @@ object BattleSwitchPokemonHandler : ClientNetworkPacketHandler<BattleSwitchPokem
         )
 
         // Only update currently selected Pokémon if it's our Pokémon being switched in
-        if (actor == battle.getParticipatingActor(client.session.uuidOrNull)) {
+        if (actor == battle.getParticipatingActor(client.user.profileId)) {
             CobblemonClient.storage.switchToPokemon(packet.newPokemon.uuid)
         }
     }

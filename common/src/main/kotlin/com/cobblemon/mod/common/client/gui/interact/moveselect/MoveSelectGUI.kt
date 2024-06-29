@@ -16,14 +16,14 @@ import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.net.messages.server.callback.move.MoveSelectCancelledPacket
 import com.cobblemon.mod.common.net.messages.server.callback.move.MoveSelectedPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.sound.SoundEvent
-import net.minecraft.network.chat.MutableComponent
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
+import net.minecraft.sounds.SoundEvent
+import java.util.*
 
 class MoveSelectConfiguration(
     val title: MutableComponent,
@@ -58,13 +58,13 @@ class MoveSelectGUI(
                 gui.closeProperly()
             },
             onCancel = { CobblemonNetwork.sendToServer(MoveSelectCancelledPacket(uuid = uuid)) },
-            onBack = MoveSelectGUI::close
+            onBack = MoveSelectGUI::onClose
         )
     )
 
     fun closeProperly() {
         closed = true
-        close()
+        onClose()
     }
 
     override fun init() {
@@ -72,7 +72,7 @@ class MoveSelectGUI(
         val y = (height - HEIGHT) / 2
 
         config.moves.forEachIndexed { index, move ->
-            addDrawableChild(
+            addRenderableWidget(
                 MoveSlotButton(
                     x = x + 7,
                     y = y + 7 + ((MoveSlotButton.HEIGHT + 3) * index),
@@ -85,7 +85,7 @@ class MoveSelectGUI(
         }
 
         // Add Exit Button
-        addDrawableChild(
+        addRenderableWidget(
             ExitButton(
                 pX = x + 92,
                 pY = y + 115
@@ -103,7 +103,7 @@ class MoveSelectGUI(
         val y = (height - HEIGHT) / 2
 
         blitk(
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             texture = baseBackgroundResource,
             x = x,
             y = y,
@@ -123,17 +123,17 @@ class MoveSelectGUI(
         config.onSelect(this, move)
     }
 
-    override fun close() {
+    override fun onClose() {
         if (!closed) {
             config.onCancel(this)
         }
-        super.close()
+        super.onClose()
     }
 
     override fun shouldCloseOnEsc() = true
-    override fun shouldPause() = false
+    override fun isPauseScreen() = false
 
     fun playSound(soundEvent: SoundEvent) {
-        Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+        Minecraft.getInstance().soundManager.play(SimpleSoundInstance.forUI(soundEvent, 1.0F))
     }
 }

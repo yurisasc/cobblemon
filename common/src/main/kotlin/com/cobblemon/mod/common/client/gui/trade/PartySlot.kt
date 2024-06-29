@@ -19,8 +19,8 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.gui.components.Button
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -30,8 +30,8 @@ open class PartySlot(
     private val pokemon: TradeStartedPacket.TradeablePokemon?,
     private val parent: TradeGUI,
     private val isOpposing: Boolean = false,
-    onPress: PressAction
-) : ButtonWidget(x, y, SIZE, SIZE, Component.literal("PartySlot"), onPress, DEFAULT_NARRATION_SUPPLIER) {
+    onPress: OnPress
+) : Button(x, y, SIZE, SIZE, Component.literal("PartySlot"), onPress, DEFAULT_NARRATION) {
     val state = FloatingState()
     companion object {
         const val SIZE = 25
@@ -47,7 +47,7 @@ open class PartySlot(
     }
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
-        val matrices = context.matrices
+        val matrices = context.pose()
         if (!isOpposing && isHovered(mouseX, mouseY)) {
             blitk(
                 matrixStack = matrices,

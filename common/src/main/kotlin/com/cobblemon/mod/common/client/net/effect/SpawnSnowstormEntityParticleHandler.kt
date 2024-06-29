@@ -22,7 +22,7 @@ import net.minecraft.world.entity.Entity
 
 object SpawnSnowstormEntityParticleHandler : ClientNetworkPacketHandler<SpawnSnowstormEntityParticlePacket> {
     override fun handle(packet: SpawnSnowstormEntityParticlePacket, client: Minecraft) {
-        val world = Minecraft.getInstance().world ?: return
+        val world = Minecraft.getInstance().level ?: return
         val effect = BedrockParticleOptionsRepository.getEffect(packet.effectId) ?: return
         val entity = world.getEntity(packet.entityId) as? PosableEntity ?: return
         entity as Entity
@@ -37,7 +37,7 @@ object SpawnSnowstormEntityParticleHandler : ClientNetworkPacketHandler<SpawnSno
             matrixWrapper = matrixWrapper,
             world = world,
             runtime = particleRuntime,
-            sourceVelocity = { entity.velocity },
+            sourceVelocity = { entity.deltaMovement },
             sourceAlive = { !entity.isRemoved },
             sourceVisible = { !entity.isInvisible },
             entity = entity

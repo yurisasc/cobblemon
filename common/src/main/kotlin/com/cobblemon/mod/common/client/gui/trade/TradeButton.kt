@@ -16,15 +16,15 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.gui.components.Button
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 
 class TradeButton(
     x: Int, y: Int,
     val parent: TradeGUI,
-    onPress: PressAction
-) : ButtonWidget(x, y, WIDTH, HEIGHT, Component.literal("Trade"), onPress, DEFAULT_NARRATION_SUPPLIER) {
+    onPress: OnPress
+) : Button(x, y, WIDTH, HEIGHT, Component.literal("Trade"), onPress, DEFAULT_NARRATION) {
 
     companion object {
         private const val WIDTH = 53
@@ -42,7 +42,7 @@ class TradeButton(
         val texture = if (!enabled) buttonDisabledResource
             else (if (active) buttonActiveResource else buttonResource)
         blitk(
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             texture = texture,
             x = x,
             y = y,

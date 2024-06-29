@@ -29,8 +29,8 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 import net.minecraft.util.Mth.floor
 
@@ -41,7 +41,7 @@ class BattleMoveSelection(
     battleGUI = battleGUI,
     request = request,
     x = 20,
-    y = Minecraft.getInstance().window.scaledHeight - 84,
+    y = Minecraft.getInstance().window.guiScaledHeight - 84,
     width = 100,
     height = 100,
     battleLang("ui.select_move")
@@ -69,7 +69,7 @@ class BattleMoveSelection(
     }
     var moveTiles = baseTiles
 
-    val backButton = BattleBackButton(x - 3F, Minecraft.getInstance().window.scaledHeight - 22F)
+    val backButton = BattleBackButton(x - 3F, Minecraft.getInstance().window.guiScaledHeight - 22F)
     val gimmickButtons = moveSet.getGimmicks().mapIndexed { index, gimmick ->
         val initOff = BattleBackButton.WIDTH * 0.65F
         val xOff = initOff + BattleGimmickButton.SPACING * index
@@ -102,7 +102,7 @@ class BattleMoveSelection(
             val selectConditionOpacity = moveSelection.opacity * if (!selectable) 0.5F else 1F
 
             blitk(
-                matrixStack = context.matrices,
+                matrixStack = context.pose(),
                 texture = moveTexture,
                 x = x,
                 y = y,
@@ -117,7 +117,7 @@ class BattleMoveSelection(
             )
 
             blitk(
-                matrixStack = context.matrices,
+                matrixStack = context.pose(),
                 texture = moveOverlayTexture,
                 x = x,
                 y = y,
@@ -186,9 +186,9 @@ class BattleMoveSelection(
         moveTiles.forEach {
             it.render(context, mouseX, mouseY, delta)
         }
-        backButton.render(context.matrices, mouseX, mouseY, delta)
+        backButton.render(context.pose(), mouseX, mouseY, delta)
         gimmickButtons.forEach {
-            it.render(context.matrices, mouseX, mouseY, delta)
+            it.render(context.pose(), mouseX, mouseY, delta)
         }
     }
 
@@ -209,6 +209,6 @@ class BattleMoveSelection(
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+        soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 }

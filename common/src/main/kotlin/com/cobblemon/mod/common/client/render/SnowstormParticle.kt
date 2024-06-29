@@ -24,15 +24,11 @@ import net.minecraft.client.particle.Particle
 import net.minecraft.client.particle.ParticleRenderType
 import net.minecraft.client.particle.ParticleRenderType.NO_RENDER
 import net.minecraft.client.particle.ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
-import net.minecraft.client.renderer.Camera
 import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.texture.Sprite
-import net.minecraft.client.world.ClientWorld
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.world.phys.AABB
-import net.minecraft.util.math.Direction
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
-import net.minecraft.util.shape.VoxelShapes
 import org.joml.AxisAngle4d
 import org.joml.Quaterniond
 import org.joml.Vector3d
@@ -40,7 +36,7 @@ import org.joml.Vector3f
 
 class SnowstormParticle(
     val storm: ParticleStorm,
-    world: ClientWorld,
+    world: ClientLevel,
     x: Double,
     y: Double,
     z: Double,

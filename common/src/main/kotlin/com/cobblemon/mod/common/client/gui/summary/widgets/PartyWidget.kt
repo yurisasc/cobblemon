@@ -18,12 +18,12 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import java.security.InvalidParameterException
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.sound.SoundEvent
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
+import net.minecraft.sounds.SoundEvent
+import java.security.InvalidParameterException
 
 class PartyWidget(
     pX: Int,
@@ -63,7 +63,7 @@ class PartyWidget(
                 swapSource = null
                 draggedSlot = null
             }
-            Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+            Minecraft.getInstance().soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.GUI_CLICK, 1.0F))
         }
     )
 
@@ -101,7 +101,7 @@ class PartyWidget(
     }
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        val matrices = context.matrices
+        val matrices = context.pose()
         blitk(
             matrixStack = matrices,
             texture = backgroundResource,
@@ -214,7 +214,7 @@ class PartyWidget(
     }
 
     fun playSound(soundEvent: SoundEvent) {
-        Minecraft.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+        Minecraft.getInstance().soundManager.play(SimpleSoundInstance.forUI(soundEvent, 1.0F))
     }
 
     fun isWithinScreen(mouseX: Double, mouseY: Double): Boolean = mouseX.toInt() in x..(x + WIDTH)

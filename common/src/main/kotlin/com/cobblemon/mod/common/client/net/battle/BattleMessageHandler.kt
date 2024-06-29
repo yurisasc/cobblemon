@@ -16,15 +16,15 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.battle.widgets.BattleMessagePane
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
 import net.minecraft.client.Minecraft
-import net.minecraft.util.Language
+import net.minecraft.locale.Language
 
 object BattleMessageHandler : ClientNetworkPacketHandler<BattleMessagePacket> {
     override fun handle(packet: BattleMessagePacket, client: Minecraft) {
         val battle = CobblemonClient.battle ?: return
-        val textRenderer = Minecraft.getInstance().textRenderer
+        val textRenderer = Minecraft.getInstance().font
         for (message in packet.messages) {
             val line = message.copy().bold().font(CobblemonResources.DEFAULT_LARGE)
-            val lines = Language.getInstance().reorder(textRenderer.textHandler.wrapLines(line, BattleMessagePane.LINE_WIDTH, line.style))
+            val lines = Language.getInstance().getVisualOrder(textRenderer.splitter.splitLines(line, BattleMessagePane.LINE_WIDTH, line.style))
             battle.messages.add(lines)
         }
     }

@@ -15,9 +15,9 @@ import net.minecraft.client.Minecraft
 
 object CloseNPCEditorHandler : ClientNetworkPacketHandler<CloseNPCEditorPacket> {
     override fun handle(packet: CloseNPCEditorPacket, client: Minecraft) {
-        val screen = client.currentScreen
+        val screen = client.screen
         if (screen is NPCEditorScreen) {
-            screen.close()
+            screen.onClose()
         }
     }
 }

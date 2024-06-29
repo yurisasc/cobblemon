@@ -15,8 +15,7 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
-import net.minecraft.text.OrderedText
+import net.minecraft.client.gui.components.ObjectSelectionList
 import net.minecraft.util.FormattedCharSequence
 
 /**
@@ -27,7 +26,7 @@ import net.minecraft.util.FormattedCharSequence
  */
 class BattleMessagePane(
     messageQueue: ClientBattleMessageQueue
-): AlwaysSelectedEntryListWidget<BattleMessagePane.BattleMessageLine>(
+): ObjectSelectionList<BattleMessagePane.BattleMessageLine>(
     Minecraft.getInstance(),
     TEXT_BOX_WIDTH, // width
     TEXT_BOX_HEIGHT, // height
@@ -38,9 +37,9 @@ class BattleMessagePane(
     private var scrolling = false
 
     val appropriateX: Int
-        get() = client.window.scaledWidth - (FRAME_WIDTH + 12)
+        get() = minecraft.window.guiScaledWidth - (FRAME_WIDTH + 12)
     val appropriateY: Int
-        get() = client.window.scaledHeight - (30 + (if (expanded) FRAME_EXPANDED_HEIGHT else FRAME_HEIGHT))
+        get() = minecraft.window.guiScaledHeight - (30 + (if (expanded) FRAME_EXPANDED_HEIGHT else FRAME_HEIGHT))
 
     init {
         correctSize()
@@ -57,7 +56,7 @@ class BattleMessagePane(
 
     private fun correctSize() {
         val textBoxHeight = if (expanded) TEXT_BOX_HEIGHT * 2 else TEXT_BOX_HEIGHT
-        setDimensionsAndPosition(TEXT_BOX_WIDTH, textBoxHeight, appropriateY + 6, appropriateY + 6)
+        setRectangle(TEXT_BOX_WIDTH, textBoxHeight, appropriateY + 6, appropriateY + 6)
         this.x = appropriateX
     }
 
@@ -84,14 +83,14 @@ class BattleMessagePane(
         return 80
     }
 
-    override fun getScrollbarX(): Int {
+    override fun getScrollbarPosition(): Int {
         return this.x + 154
     }
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
         blitk(
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             texture = if (expanded) battleMessagePaneFrameExpandedResource else battleMessagePaneFrameResource,
             x = this.x,
             y = appropriateY,
@@ -140,8 +139,8 @@ class BattleMessagePane(
     }
 
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
-        scrolling = mouseX >= this.scrollbarX.toDouble()
-                && mouseX < (this.scrollbarX + 3).toDouble()
+        scrolling = mouseX >= this.scrollbarPosition.toDouble()
+                && mouseX < (this.scrollbarPosition + 3).toDouble()
                 && mouseY >= this.y
                 && mouseY < bottom
     }

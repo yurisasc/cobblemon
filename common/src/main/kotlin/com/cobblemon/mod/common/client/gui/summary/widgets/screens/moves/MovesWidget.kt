@@ -63,7 +63,7 @@ class MovesWidget(
     }
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        val matrices = context.matrices
+        val matrices = context.pose()
         blitk(
             matrixStack = matrices,
             texture = movesBaseResource,
@@ -135,12 +135,12 @@ class MovesWidget(
             shadow = true
         )
 
-        val mcFont = Minecraft.getInstance().textRenderer
+        val mcFont = Minecraft.getInstance().font
         val movePower = if (selectedMove != null && selectedMove!!.power.toInt() > 0) selectedMove!!.power.toInt().toString().text() else "—".text()
         drawScaledText(
             context = context,
             text = movePower,
-            x = (x + 62.5) - (mcFont.getWidth(movePower) * SCALE),
+            x = (x + 62.5) - (mcFont.width(movePower) * SCALE),
             y = y + 115,
             scale = SCALE,
             shadow = true
@@ -150,7 +150,7 @@ class MovesWidget(
         drawScaledText(
             context = context,
             text = moveAccuracy,
-            x = (x + 62.5) - (mcFont.getWidth(moveAccuracy) * SCALE),
+            x = (x + 62.5) - (mcFont.width(moveAccuracy) * SCALE),
             y = y + 126,
             scale = SCALE,
             shadow = true
@@ -160,7 +160,7 @@ class MovesWidget(
         drawScaledText(
             context = context,
             text = moveEffect,
-            x = (x + 62.5) - (mcFont.getWidth(moveEffect) * SCALE),
+            x = (x + 62.5) - (mcFont.width(moveEffect) * SCALE),
             y = y + 137,
             scale = SCALE,
             shadow = true

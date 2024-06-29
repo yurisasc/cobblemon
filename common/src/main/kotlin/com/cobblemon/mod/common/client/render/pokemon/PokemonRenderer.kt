@@ -364,7 +364,7 @@ context: EntityRendererProvider.Context
             }
             var h = (-textRenderer.getWidth(label) / 2).toFloat()
             val y = 0F
-            val packedLight = LightmapTextureManager.pack(15, 15)
+            val packedLight = LightTexture.pack(15, 15)
             textRenderer.draw(label, h, y, 0x20FFFFFF, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.SEE_THROUGH, opacity, packedLight)
             textRenderer.draw(label, h, y, -1, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, packedLight)
 

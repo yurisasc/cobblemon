@@ -20,6 +20,6 @@ class DualTypeWidget(
 ) : TypeWidget(pX, pY, pWidth, pHeight, pMessage) {
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        renderType(mainType, secondaryType, context.matrices)
+        renderType(mainType, secondaryType, context.pose())
     }
 }

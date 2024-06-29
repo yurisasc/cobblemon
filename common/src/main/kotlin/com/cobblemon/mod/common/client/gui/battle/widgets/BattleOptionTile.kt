@@ -13,14 +13,14 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.render.drawScaledText
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.Selectable
-import net.minecraft.client.gui.Selectable.SelectionType.HOVERED
 import net.minecraft.client.gui.components.Renderable
 import net.minecraft.client.gui.components.events.GuiEventListener
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
-import net.minecraft.client.gui.screen.narration.NarrationPart
+import net.minecraft.client.gui.narration.NarratableEntry
+import net.minecraft.client.gui.narration.NarratedElementType
+import net.minecraft.client.gui.narration.NarrationElementOutput
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
+
 class BattleOptionTile(
     val battleGUI: BattleGUI,
     val x: Int,
@@ -28,7 +28,7 @@ class BattleOptionTile(
     val resource: ResourceLocation,
     val text: MutableComponent,
     val onClick: () -> Unit
-) : Renderable, GuiEventListener, Selectable {
+) : Renderable, GuiEventListener, NarratableEntry {
     companion object {
         const val  OPTION_WIDTH = 90
         const val OPTION_HEIGHT = 26
@@ -42,7 +42,7 @@ class BattleOptionTile(
             return
         }
         blitk(
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             texture = resource,
             x = x,
             y = y,
@@ -81,11 +81,11 @@ class BattleOptionTile(
 
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX > x && mouseY > y && mouseX < x + OPTION_WIDTH && mouseY < y + OPTION_HEIGHT
 
-    override fun appendNarrations(builder: NarrationMessageBuilder) {
-        builder.put(NarrationPart.TITLE, text)
+    override fun updateNarration(builder: NarrationElementOutput) {
+        builder.add(NarratedElementType.TITLE, text)
     }
 
-    override fun getType() = HOVERED
+    override fun narrationPriority() = NarratableEntry.NarrationPriority.HOVERED
 
 
 }

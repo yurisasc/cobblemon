@@ -50,7 +50,7 @@ class PastureWidget(
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
-            matrixStack = context.matrices,
+            matrixStack = context.pose(),
             texture = baseResource,
             x = x,
             y = y,

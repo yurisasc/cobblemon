@@ -21,19 +21,18 @@ import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveDouble
-import java.util.SortedMap
-import java.util.TreeMap
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.ModelPart
-import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.world.entity.Entity
-import net.minecraft.sounds.SoundSource
-import net.minecraft.sound.SoundEvent
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundSource
 import net.minecraft.util.crash.CrashException
 import net.minecraft.util.crash.CrashReport
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.phys.Vec3
+import java.util.*
 
 data class BedrockAnimationGroup(
     val formatVersion: String,
@@ -100,15 +99,15 @@ class BedrockSoundKeyframe(
     val sound: ResourceLocation
 ): BedrockEffectKeyframe(seconds) {
     override fun run(entity: Entity, state: PosableState) {
-        val soundEvent = SoundEvent.of(sound) // Means we don't need to setup a sound registry entry for every single thing
+        val soundEvent = SoundEvent.createVariableRangeEvent(sound) // Means we don't need to setup a sound registry entry for every single thing
         if (soundEvent != null) {
             Minecraft.getInstance().soundManager.play(
-                PositionedSoundInstance(
+                SimpleSoundInstance(
                     soundEvent,
                     SoundSource.NEUTRAL,
                     1F,
                     1F,
-                    entity.world.random,
+                    entity.level().random,
                     entity.x,
                     entity.y,
                     entity.z
