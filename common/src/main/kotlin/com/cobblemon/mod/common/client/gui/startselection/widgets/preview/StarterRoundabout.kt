@@ -45,7 +45,7 @@ class StarterRoundabout(
         }
         val matrices = context.matrices
         this.hovered = mouseX >= this.x && mouseX < this.x + this.width && mouseY >= (this.y - MODEL_HEIGHT) && mouseY < this.y
-        matrices.push()
+        matrices.pushPose()
         /*
          * This correction term is due to where scaling comes from in a render. We are giving the drawProfilePokemon
          * a different scale to usual, which means our position offsets that were used in the summary GUI (which is
@@ -76,7 +76,7 @@ class StarterRoundabout(
 
         context.disableScissor()
 
-        matrices.pop()
+        matrices.popPose()
     }
 
     override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {

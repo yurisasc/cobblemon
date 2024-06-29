@@ -8,30 +8,32 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.client.render.ModelLayer
 import net.minecraft.world.level.block.Block
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.SpriteProvider
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
-import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
+import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.client.render.entity.model.ModelLayerLocation
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
-import net.minecraft.particle.ParticleType
 import java.util.function.Supplier
+import net.minecraft.client.particle.SpriteSet
+import net.minecraft.core.particles.ParticleType
 
 interface CobblemonClientImplementation {
-    fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>)
+    fun registerLayer(modelLayer: ModelLayer, supplier: Supplier<TexturedModelData>)
     fun <T : ParticleEffect> registerParticleFactory(
         type: ParticleType<T>,
-        factory: (SpriteProvider) -> ParticleFactory<T>
+        factory: (SpriteSet) -> ParticleFactory<T>
     )
 
     fun registerBlockRenderType(layer: RenderType, vararg blocks: Block)
@@ -40,7 +42,7 @@ interface CobblemonClientImplementation {
 
     fun registerBlockColors(provider: BlockColorProvider, vararg blocks: Block)
 
-    fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<out T>, factory: BlockEntityRendererFactory<T>)
+    fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<out T>, factory: BlockEntityRendererProvider<T>)
 
-    fun <T : Entity> registerEntityRenderer(type: EntityType<out T>, factory: EntityRendererFactory<T>)
+    fun <T : Entity> registerEntityRenderer(type: EntityType<out T>, factory: EntityRendererProvider<T>)
 }

@@ -149,7 +149,7 @@ class PartySlotWidget(
             )
 
             // Render Pokémon
-            matrices.push()
+            matrices.pushPose()
             matrices.translate(x + (PORTRAIT_DIAMETER / 2.0), y - 3.0, 0.0)
             matrices.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
@@ -161,7 +161,7 @@ class PartySlotWidget(
                 scale = 4.5F,
                 partialTicks = delta
             )
-            matrices.pop()
+            matrices.popPose()
 
             drawScaledText(
                 context = context,

@@ -25,7 +25,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.util.math.MathHelper.ceil
+import net.minecraft.util.Mth.ceil
 
 class BattleSwitchPokemonSelection(
     battleGUI: BattleGUI,

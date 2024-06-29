@@ -19,7 +19,7 @@ import net.minecraft.tags.TagKey
 import net.minecraft.core.BlockPos
 import net.minecraft.core.BlockPos.Mutable
 import net.minecraft.util.math.Box
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
 
 class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
@@ -79,12 +79,12 @@ class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
             appropriateFluids.add(FluidTags.WATER)
         }
         val iterable = BlockPos.iterate(
-            MathHelper.floor(mob.x - 8.0),
-            MathHelper.floor(mob.y - 8.0),
-            MathHelper.floor(mob.z - 8.0),
-            MathHelper.floor(mob.x + 8.0),
+            Mth.floor(mob.x - 8.0),
+            Mth.floor(mob.y - 8.0),
+            Mth.floor(mob.z - 8.0),
+            Mth.floor(mob.x + 8.0),
             mob.blockY,
-            MathHelper.floor(mob.z + 2.0)
+            Mth.floor(mob.z + 2.0)
         )
 
         val box = mob.boundingBox

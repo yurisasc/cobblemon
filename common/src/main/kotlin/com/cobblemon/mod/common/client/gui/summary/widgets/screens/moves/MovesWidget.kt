@@ -167,7 +167,7 @@ class MovesWidget(
         )
 
         if (selectedMove != null) {
-            matrices.push()
+            matrices.pushPose()
             matrices.scale(SCALE, SCALE, 1F)
             MultiLineLabelK.create(
                 component = selectedMove!!.description,
@@ -181,7 +181,7 @@ class MovesWidget(
                 colour = ColourLibrary.WHITE,
                 shadow = true
             )
-            matrices.pop()
+            matrices.popPose()
         }
     }
 

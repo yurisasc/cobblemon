@@ -16,12 +16,12 @@ import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
-import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumer
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.world.item.ItemStack
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -32,11 +32,11 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         it.put(RenderContext.DO_QUIRKS, false)
     }
 
-    override fun render(stack: ItemStack, mode: ModelTransformationMode, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
+    override fun render(stack: ItemStack, mode: ModelTransformationMode, matrices: PoseStack, vertexConsumers: MultiBufferSource, light: Int, overlay: Int) {
         val pokemonItem = stack.item as? PokemonItem ?: return
         val (species, aspects) = pokemonItem.getSpeciesAndAspects(stack) ?: return
         val state = FloatingState()
-        matrices.push()
+        matrices.pushPose()
         val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
         model.context = context
         context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.PROFILE)
@@ -60,10 +60,10 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         matrices.scale(model.profileScale, model.profileScale, 0.15F)
 
         val rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(transformations.rotation.x, transformations.rotation.y, transformations.rotation.z))
-        matrices.multiply(rotation)
+        matrices.mulPose(rotation)
         rotation.conjugate()
         val vertexConsumer: VertexConsumer = vertexConsumers.getBuffer(renderLayer)
-        matrices.push()
+        matrices.pushPose()
         val packedLight = if (mode == ModelTransformationMode.GUI) {
             LightmapTextureManager.pack(13, 13)
         } else {
@@ -78,12 +78,12 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
             val tintBlue = (tint.z * 255).toInt()
             val tintAlpha = (tint.w * 255).toInt()
             val color = (tintAlpha shl 24) or (tintRed shl 16) or (tintGreen shl 8) or tintBlue
-            model.render(context, matrices, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, color)
+            model.render(context, matrices, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, color)
         }
 
         model.setDefault()
-        matrices.pop()
-        matrices.pop()
+        matrices.popPose()
+        matrices.popPose()
         DiffuseLighting.disableGuiDepthLighting()
     }
 

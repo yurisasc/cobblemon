@@ -28,8 +28,8 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityTicker
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.ItemEntity
 import net.minecraft.world.item.ItemStack

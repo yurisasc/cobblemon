@@ -32,7 +32,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.MovingSoundInstance
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.sound.SoundCategory
@@ -159,7 +159,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
                                         val sendflash = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/sendflash"))
                                         sendflash?.let { effect ->
                                             val wrapper = MatrixWrapper()
-                                            val matrix = MatrixStack()
+                                            val matrix = PoseStack()
                                             matrix.translate(newPos.x, newPos.y, newPos.z)
                                             wrapper.updateMatrix(matrix.peek().positionMatrix)
                                             val world = Minecraft.getInstance().world ?: return@let

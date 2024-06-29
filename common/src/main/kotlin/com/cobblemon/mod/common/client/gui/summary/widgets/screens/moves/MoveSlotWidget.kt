@@ -24,7 +24,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 
 class MoveSlotWidget(
     pX: Int, pY: Int,
@@ -108,7 +108,7 @@ class MoveSlotWidget(
 
         var movePPText = Component.literal("${move.currentPp}/${move.maxPp}").bold()
 
-        if (move.currentPp <= MathHelper.floor(move.maxPp / 2F)) {
+        if (move.currentPp <= Mth.floor(move.maxPp / 2F)) {
             movePPText = if (move.currentPp == 0) movePPText.red() else movePPText.gold()
         }
 

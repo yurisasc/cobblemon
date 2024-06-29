@@ -133,7 +133,7 @@ class EvolutionSelectScreen(
             selectButton.render(context, mouseX, mouseY, partialTicks)
 
             // Render Pokémon
-            matrices.push()
+            matrices.pushPose()
             matrices.translate(x + (PORTRAIT_DIAMETER / 2) + 65.0, y - 5.0, 0.0)
             matrices.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
@@ -145,7 +145,7 @@ class EvolutionSelectScreen(
                 scale = 6F,
                 partialTicks = partialTicks
             )
-            matrices.pop()
+            matrices.popPose()
         }
 
         override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {

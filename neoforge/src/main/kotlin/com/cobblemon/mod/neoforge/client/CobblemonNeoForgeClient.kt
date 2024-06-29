@@ -23,8 +23,8 @@ import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.world.level.block.Block
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.client.Minecraft
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
@@ -36,10 +36,10 @@ import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
-import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.client.render.entity.EntityRenderers
-import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
+import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.client.renderer.entity.EntityRenderers
+import net.minecraft.client.render.entity.model.ModelLayerLocation
 import net.minecraft.client.resources.model.ModelResourceLocation
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -48,7 +48,7 @@ import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
 import net.minecraft.world.item.ItemStack
 import net.minecraft.particle.ParticleEffect
-import net.minecraft.particle.ParticleType
+import net.minecraft.core.particles.ParticleType
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ReloadableResourceManager
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
@@ -66,6 +66,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import java.util.concurrent.CompletableFuture
 import java.util.function.Supplier
+import net.minecraft.client.particle.ParticleProvider
 
 object CobblemonNeoForgeClient : CobblemonClientImplementation {
 
@@ -124,11 +125,11 @@ object CobblemonNeoForgeClient : CobblemonClientImplementation {
     }
 
     @Suppress("UnstableApiUsage")
-    override fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
+    override fun registerLayer(modelLayer: ModelLayerLocation, supplier: Supplier<TexturedModelData>) {
         ClientHooks.registerLayerDefinition(modelLayer, supplier)
     }
 
-    override fun <T : ParticleEffect> registerParticleFactory(type: ParticleType<T>, factory: (SpriteProvider) -> ParticleFactory<T>) {
+    override fun <T : ParticleEffect> registerParticleFactory(type: ParticleType<T>, factory: ParticleProvider<T>) {
         throw UnsupportedOperationException("Forge can't store these early, use CobblemonForgeClient#onRegisterParticleProviders")
     }
 
@@ -149,11 +150,11 @@ object CobblemonNeoForgeClient : CobblemonClientImplementation {
         Minecraft.getInstance().blockColors.registerColorProvider(provider, *blocks)
     }
 
-    override fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<out T>, factory: BlockEntityRendererFactory<T>) {
+    override fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<out T>, factory: BlockEntityRendererProvider<T>) {
         BlockEntityRendererFactories.register(type, factory)
     }
 
-    override fun <T : Entity> registerEntityRenderer(type: EntityType<out T>, factory: EntityRendererFactory<T>) {
+    override fun <T : Entity> registerEntityRenderer(type: EntityType<out T>, factory: EntityRendererProvider<T>) {
         EntityRenderers.register(type, factory)
     }
 

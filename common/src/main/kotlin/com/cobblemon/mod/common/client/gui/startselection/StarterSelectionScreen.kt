@@ -250,7 +250,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
 
         // Render Description
         val scale2 = 0.60F
-        matrices.push()
+        matrices.pushPose()
         matrices.scale(scale2, scale2, 1F)
 
         // TODO use all pokedex lines across multiple clickable pages in this screen
@@ -264,7 +264,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
             ySpacing = (8.0 / scale2) - 1.25,
             colour = ColourLibrary.WHITE, shadow = false
         )
-        matrices.pop()
+        matrices.popPose()
 
         // Render the type background
         blitk(

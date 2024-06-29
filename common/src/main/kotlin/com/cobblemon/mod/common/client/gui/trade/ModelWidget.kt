@@ -31,7 +31,7 @@ class ModelWidget(
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.matrices
-        matrices.push()
+        matrices.pushPose()
         matrices.translate(x + width * 0.5, y.toDouble() + offsetY, 0.0)
         matrices.scale(baseScale, baseScale, baseScale)
 
@@ -43,6 +43,6 @@ class ModelWidget(
             partialTicks = delta
         )
 
-        matrices.pop()
+        matrices.popPose()
     }
 }

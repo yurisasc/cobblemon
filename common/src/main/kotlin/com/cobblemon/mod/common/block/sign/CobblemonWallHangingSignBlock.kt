@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.block.entity.CobblemonHangingSignBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.block.WallHangingSignBlock
 import net.minecraft.block.WoodType
-import net.minecraft.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.core.BlockPos
 
 class CobblemonWallHangingSignBlock(settings: Properties, woodType: WoodType) : WallHangingSignBlock(woodType, settings) {

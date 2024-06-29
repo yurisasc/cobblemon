@@ -20,19 +20,19 @@ import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.isPokemonEntity
 import java.util.UUID
-import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.PlayerEntityModel
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.world.entity.player.Player
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtElement
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.math.RotationAxis
+import com.mojang.math.Axis
 
 class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: FeatureRendererContext<T, PlayerEntityModel<T>>) : FeatureRenderer<T, PlayerEntityModel<T>>(renderLayerParent) {
 
@@ -46,8 +46,8 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: FeatureRendererCo
     var lastRenderedRight: ShoulderData? = null
 
     override fun render(
-        matrixStack: MatrixStack,
-        buffer: VertexConsumerProvider,
+        matrixStack: PoseStack,
+        buffer: MultiBufferSource,
         packedLight: Int,
         livingEntity: T,
         limbSwing: Float,
@@ -70,8 +70,8 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: FeatureRendererCo
     }
 
     private fun render(
-        matrixStack: MatrixStack,
-        buffer: VertexConsumerProvider,
+        matrixStack: PoseStack,
+        buffer: MultiBufferSource,
         packedLight: Int,
         livingEntity: T,
         limbSwing: Float,
@@ -84,7 +84,7 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: FeatureRendererCo
     ) {
         val compoundTag = if (pLeftShoulder) livingEntity.shoulderEntityLeft else livingEntity.shoulderEntityRight
         if (compoundTag.isPokemonEntity()) {
-            matrixStack.push()
+            matrixStack.pushPose()
             val uuid = this.extractUuid(compoundTag)
             val cache = playerCache.getOrPut(livingEntity.uuid) { ShoulderCache() }
             var shoulderData: ShoulderData? = null
@@ -113,7 +113,7 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: FeatureRendererCo
             // Shoulders move a bit when sneaking which is why the translation is necessary.
             // Shoulder exact rotation according to testing (miasmus) is 0.4 radians, the -0.15 is eyeballed though.
             if (livingEntity.isInSneakingPose) {
-                matrixStack.multiply(RotationAxis.POSITIVE_X.rotation(0.4F))
+                matrixStack.multiply(Axis.XP.rotation(0.4F))
                 matrixStack.translate(0F, 0F, -0.15F)
             }
             matrixStack.translate(
@@ -152,10 +152,10 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: FeatureRendererCo
             )
             model.render(context, matrixStack, vertexConsumer, packedLight, i, -0x1)
             model.withLayerContext(buffer, state, PokemonModelRepository.getLayers(shoulderData.species.resourceIdentifier, shoulderData.aspects)) {
-                model.render(context, matrixStack, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
+                model.render(context, matrixStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, -0x1)
             }
             model.setDefault()
-            matrixStack.pop()
+            matrixStack.popPose()
         }
     }
 

@@ -150,8 +150,8 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.core.BlockPos
-import net.minecraft.util.math.MathHelper.ceil
-import net.minecraft.util.math.MathHelper.clamp
+import net.minecraft.util.Mth.ceil
+import net.minecraft.util.Mth.clamp
 import net.minecraft.world.phys.Vec3
 import net.minecraft.world.level.Level
 import java.util.UUID

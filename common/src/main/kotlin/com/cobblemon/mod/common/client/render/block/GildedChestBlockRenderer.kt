@@ -11,21 +11,21 @@ package com.cobblemon.mod.common.client.render.block
 import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BlockEntityModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.state.property.Properties
-import net.minecraft.util.math.RotationAxis
+import com.mojang.math.Axis
 
-class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<GildedChestBlockEntity> {
+class GildedChestBlockRenderer(context: BlockEntityRendererProvider.Context) : BlockEntityRenderer<GildedChestBlockEntity> {
     override fun render(
         entity: GildedChestBlockEntity,
         tickDelta: Float,
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
+        matrices: PoseStack,
+        vertexConsumers: MultiBufferSource,
         light: Int,
         overlay: Int
     ) {
@@ -48,11 +48,11 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
         context.put(RenderContext.TEXTURE, texture)
         context.put(RenderContext.SPECIES, poserId)
         context.put(RenderContext.POSABLE_STATE, state)
-        matrices.push()
-        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180f))
+        matrices.pushPose()
+        matrices.mulPose(Axis.ZP.rotationDegrees(180f))
         matrices.translate(-0.5, 0.0, 0.5)
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.cachedState.get(Properties.HORIZONTAL_FACING).asRotation()))
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180f))
+        matrices.mulPose(Axis.YP.rotationDegrees(entity.cachedState.get(Properties.HORIZONTAL_FACING).asRotation()))
+        matrices.mulPose(Axis.YP.rotationDegrees(180f))
 
         model.applyAnimations(
             entity = null,
@@ -65,10 +65,10 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
         )
         model.render(context, matrices, vertexConsumer, light, overlay, -0x1)
         model.withLayerContext(vertexConsumers, state, BlockEntityModelRepository.getLayers(poserId, aspects)) {
-            model.render(context, matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, -0x1)
+            model.render(context, matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY, -0x1)
         }
         model.setDefault()
-        matrices.pop()
+        matrices.popPose()
 
     }
 }

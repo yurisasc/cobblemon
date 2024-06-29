@@ -48,13 +48,13 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.RenderPhase
 import net.minecraft.client.render.VertexConsumer
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.entity.Entity
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.math.RotationAxis
+import com.mojang.math.Axis
 import net.minecraft.world.phys.Vec3
 
 /**
@@ -125,7 +125,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     var currentLayers: Iterable<ModelLayer> = listOf()
 
     @Transient
-    var bufferProvider: VertexConsumerProvider? = null
+    var bufferProvider: MultiBufferSource? = null
 
     @Transient
     var currentState: PosableState? = null
@@ -403,7 +403,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     }
 
     fun withLayerContext(
-        buffer: VertexConsumerProvider,
+        buffer: MultiBufferSource,
         state: PosableState,
         layers: Iterable<ModelLayer>,
         action: () -> Unit
@@ -413,7 +413,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         resetLayerContext()
     }
 
-    fun setLayerContext(buffer: VertexConsumerProvider, state: PosableState, layers: Iterable<ModelLayer>) {
+    fun setLayerContext(buffer: MultiBufferSource, state: PosableState, layers: Iterable<ModelLayer>) {
         currentLayers = layers
         bufferProvider = buffer
         currentState = state
@@ -570,7 +570,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     /** Renders the model. Assumes rotations have been set. Will simply render the base model and then any extra layers. */
     fun render(
         context: RenderContext,
-        stack: MatrixStack,
+        stack: PoseStack,
         buffer: VertexConsumer,
         packedLight: Int,
         packedOverlay: Int,
@@ -610,7 +610,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
                 val tintAlpha = (tint.w * 255).toInt()
                 val tintColor = tintAlpha shl 24 or (tintRed shl 16) or (tintGreen shl 8) or tintBlue
 
-                stack.push()
+                stack.pushPose()
                 rootPart.render(
                     context,
                     stack,
@@ -619,7 +619,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
                     packedOverlay,
                     tintColor
                 )
-                stack.pop()
+                stack.popPose()
             }
         }
     }
@@ -852,29 +852,29 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
      */
     fun updateLocators(entity: Entity?, state: PosableState) {
         entity ?: return
-        val matrixStack = MatrixStack()
+        val matrixStack = PoseStack()
         var scale = 1F
         // We could improve this to be generalized for other entities. First we'd have to figure out wtf is going on, though.
         if (entity is PokemonEntity) {
-            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
-            matrixStack.push()
+            matrixStack.multiply(Axis.YP.rotationDegrees(180 - entity.bodyYaw))
+            matrixStack.pushPose()
             matrixStack.scale(-1F, -1F, 1F)
             scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
-            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
-            matrixStack.push()
+            matrixStack.multiply(Axis.YP.rotationDegrees(entity.yaw))
+            matrixStack.pushPose()
             matrixStack.scale(1F, -1F, -1F)
             scale = 0.7F
             matrixStack.scale(scale, scale, scale)
         } else if (entity is GenericBedrockEntity) {
-            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
-            matrixStack.push()
+            matrixStack.multiply(Axis.YP.rotationDegrees(entity.yaw))
+            matrixStack.pushPose()
             // Not 100% convinced we need the -1 on Y but if we needed it for the Poke Ball then probably?
             matrixStack.scale(1F, -1F, 1F)
         } else if (entity is NPCEntity) {
-            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
-            matrixStack.push()
+            matrixStack.multiply(Axis.YP.rotationDegrees(180 - entity.bodyYaw))
+            matrixStack.pushPose()
             matrixStack.scale(-1F, -1F, 1F)
         }
 

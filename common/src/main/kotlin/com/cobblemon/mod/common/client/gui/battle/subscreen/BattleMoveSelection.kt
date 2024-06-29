@@ -32,7 +32,7 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.network.chat.Component
-import net.minecraft.util.math.MathHelper.floor
+import net.minecraft.util.Mth.floor
 
 class BattleMoveSelection(
     battleGUI: BattleGUI,

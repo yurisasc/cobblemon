@@ -74,7 +74,7 @@ class PartySlotButton(
             alpha = alpha
         )
 
-        context.matrices.push()
+        context.matrices.pushPose()
         context.matrices.translate(x.toDouble() + 13, y.toDouble() - 2, 0.0)
 
 //        if (!hovered) {
@@ -89,7 +89,7 @@ class PartySlotButton(
             scale = 10F,
             partialTicks = if (!hovered) 0F else pPartialTicks
         )
-        context.matrices.pop()
+        context.matrices.popPose()
 
         val ballIcon = cobblemonResource("textures/gui/ball/" + pokemon.pokeball!!.asIdentifierDefaultingNamespace().path + ".png")
         val ballHeight = 22

@@ -28,7 +28,7 @@ import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.core.BlockPos
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.pathfinder.PathComputationType
@@ -321,7 +321,7 @@ class PokemonNavigation(val world: Level, val pokemonEntity: PokemonEntity) : Mo
         val inSwimmableFluid = (entity.isSubmergedIn(FluidTags.WATER) && moving.swim.canSwimInWater) ||
                 (entity.isSubmergedIn(FluidTags.LAVA) && moving.swim.canSwimInLava)
         if (!inSwimmableFluid) {
-            return MathHelper.floor(entity.y + 0.5)
+            return Mth.floor(entity.y + 0.5)
         }
 
         return entity.blockY

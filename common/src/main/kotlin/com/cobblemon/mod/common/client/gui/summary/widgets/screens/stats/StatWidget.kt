@@ -30,11 +30,11 @@ import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.util.math.MathHelper.ceil
-import net.minecraft.util.math.MathHelper.floor
+import net.minecraft.util.Mth.ceil
+import net.minecraft.util.Mth.floor
 import net.minecraft.util.math.Vec2f
 import org.joml.Vector3f
 import kotlin.math.cos
@@ -184,7 +184,7 @@ class StatWidget(
 //        drawTriangle(colour, specialAttackPoint, centerPoint, hpPoint)
     }
 
-    private fun drawFriendship(moduleX: Int, moduleY: Int, matrices: MatrixStack, context: GuiGraphics, friendship: Int) {
+    private fun drawFriendship(moduleX: Int, moduleY: Int, matrices: PoseStack, context: GuiGraphics, friendship: Int) {
         val barRatio = friendship / 255F
         val barWidth = ceil(barRatio * 108)
 
@@ -448,7 +448,7 @@ class StatWidget(
         return value.text()
     }
 
-    private fun renderModifiedStatIcon(pMatrixStack: MatrixStack, stat: Stat?, increasedStat: Boolean) {
+    private fun renderModifiedStatIcon(pPoseStack: PoseStack, stat: Stat?, increasedStat: Boolean) {
         if (stat != null) {
             var posX = x.toDouble()
             var posY = y.toDouble()
@@ -463,7 +463,7 @@ class StatWidget(
             }
 
             blitk(
-                matrixStack = pMatrixStack,
+                matrixStack = pPoseStack,
                 texture = if (increasedStat) statIncreaseResource else statDecreaseResource,
                 x= posX / SCALE,
                 y = posY / SCALE,

@@ -54,7 +54,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
         val adjustedSpeed = baseSpeed * mediumSpeed
 
         if (state == State.STRAFE) {
-            var movingDistanceTotal = MathHelper.sqrt(forwardMovement * forwardMovement + sidewaysMovement * sidewaysMovement)
+            var movingDistanceTotal = Mth.sqrt(forwardMovement * forwardMovement + sidewaysMovement * sidewaysMovement)
             if (movingDistanceTotal < 1.0f) {
                 movingDistanceTotal = 1.0f
             }
@@ -64,8 +64,8 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             val adjustedForward = forwardMovement * movingDistanceTotal
             val adjustedStrafe = sidewaysMovement * movingDistanceTotal
 
-            val xComponent = -MathHelper.sin(entity.yaw.toRadians())
-            val zComponent = MathHelper.cos(entity.yaw.toRadians())
+            val xComponent = -Mth.sin(entity.yaw.toRadians())
+            val zComponent = Mth.cos(entity.yaw.toRadians())
             val xMovement = adjustedForward * zComponent - adjustedStrafe * xComponent
             val zMovement = adjustedStrafe * zComponent + adjustedForward * xComponent
             if (!isWalkable(xMovement, zMovement)) {
@@ -100,9 +100,9 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             val horizontalDistanceFromTarget = xDist * xDist + zDist * zDist
             val closeHorizontally = horizontalDistanceFromTarget < VERY_CLOSE
             if (!closeHorizontally) {
-                val angleToTarget = MathHelper.atan2(zDist, xDist).toDegrees() - 90.0f
+                val angleToTarget = Mth.atan2(zDist, xDist).toDegrees() - 90.0f
                 val currentMovingAngle = entity.yaw
-                val steppedAngle = MathHelper.stepUnwrappedAngleTowards(currentMovingAngle, angleToTarget,  100 * mediumSpeed)
+                val steppedAngle = Mth.stepUnwrappedAngleTowards(currentMovingAngle, angleToTarget,  100 * mediumSpeed)
                 entity.yaw = steppedAngle
             }
 
@@ -143,8 +143,8 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
 
             if (!verticalHandled) {
                 val tooBigToStep = yDist > pokemonEntity.behaviour.moving.stepHeight
-                val xComponent = -MathHelper.sin(entity.yaw.toRadians()).toDouble()
-                val zComponent = MathHelper.cos(entity.yaw.toRadians()).toDouble()
+                val xComponent = -Mth.sin(entity.yaw.toRadians()).toDouble()
+                val zComponent = Mth.cos(entity.yaw.toRadians()).toDouble()
 
                 val motion = Vec3d(xComponent, 0.0, zComponent).normalize()
                 val offset = motion.multiply(entity.movementSpeed.toDouble())
@@ -195,9 +195,9 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
                 pathNodeMaker.getDefaultNodeType(
                     entity,
                     BlockPos(
-                        MathHelper.floor(entity.x + xMovement.toDouble()),
+                        Mth.floor(entity.x + xMovement.toDouble()),
                         entity.blockY,
-                        MathHelper.floor(entity.z + zMovement.toDouble())
+                        Mth.floor(entity.z + zMovement.toDouble())
                     )
                 ) != PathNodeType.WALKABLE
             ) {

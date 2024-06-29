@@ -110,9 +110,9 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
 //            val itemStack = var6.next() as ItemStack
 //            cat.world.spawnEntity(
 //                ItemEntity(
-//                    cat.world, mutable.x.toDouble() - MathHelper.sin(
+//                    cat.world, mutable.x.toDouble() - Mth.sin(
 //                        cat.bodyYaw * 0.017453292f
-//                    ).toDouble(), mutable.y.toDouble(), mutable.z.toDouble() + MathHelper.cos(
+//                    ).toDouble(), mutable.y.toDouble(), mutable.z.toDouble() + Mth.cos(
 //                        cat.bodyYaw * 0.017453292f
 //                    ).toDouble(), itemStack
 //                )

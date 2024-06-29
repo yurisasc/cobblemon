@@ -33,7 +33,7 @@ import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 
 object CheckSpawnsCommand {
     const val PURPLE_THRESHOLD = 0.01F
@@ -65,9 +65,9 @@ object CheckSpawnsCommand {
             area = SpawningArea(
                 cause = cause,
                 world = player.level() as ServerLevel,
-                baseX = MathHelper.ceil(player.x - config.worldSliceDiameter / 2F),
-                baseY = MathHelper.ceil(player.y - config.worldSliceHeight / 2F),
-                baseZ = MathHelper.ceil(player.z - config.worldSliceDiameter / 2F),
+                baseX = Mth.ceil(player.x - config.worldSliceDiameter / 2F),
+                baseY = Mth.ceil(player.y - config.worldSliceHeight / 2F),
+                baseZ = Mth.ceil(player.z - config.worldSliceDiameter / 2F),
                 length = config.worldSliceDiameter,
                 height = config.worldSliceHeight,
                 width = config.worldSliceDiameter

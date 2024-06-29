@@ -137,10 +137,10 @@ class PartyWidget(
         partySlots.forEach { it.render(context, pMouseX, pMouseY, pPartialTicks) }
 
         if (draggedSlot != null) {
-            matrices.push()
+            matrices.pushPose()
             matrices.translate(0.0, 0.0, 500.0)
             draggedSlot!!.render(context, pMouseX, pMouseY, pPartialTicks)
-            matrices.pop()
+            matrices.popPose()
         }
     }
 

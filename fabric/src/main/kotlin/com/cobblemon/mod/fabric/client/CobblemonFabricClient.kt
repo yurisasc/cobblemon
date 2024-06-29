@@ -32,7 +32,7 @@ import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerLocationRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -42,9 +42,9 @@ import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.SpriteProvider
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
-import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
+import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.client.render.entity.model.ModelLayerLocation
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.core.particles.ParticleType
 import net.minecraft.particle.ParticleEffect
@@ -113,8 +113,8 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         CobblemonModelPredicateRegistry.registerPredicates()
     }
 
-    override fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
-        EntityModelLayerRegistry.registerModelLayer(modelLayer) { supplier.get() }
+    override fun registerLayer(modelLayer: ModelLayerLocation, supplier: Supplier<TexturedModelData>) {
+        ModelLayerLocationRegistry.registerModelLayer(modelLayer) { supplier.get() }
     }
 
     override fun <T : ParticleEffect> registerParticleFactory(type: ParticleType<T>, factory: (SpriteProvider) -> ParticleFactory<T>) {
@@ -133,11 +133,11 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         ColorProviderRegistry.BLOCK.register(provider, *blocks)
     }
 
-    override fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<out T>, factory: BlockEntityRendererFactory<T>) {
+    override fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<out T>, factory: BlockEntityRendererProvider<T>) {
         BlockEntityRendererFactories.register(type, factory)
     }
 
-    override fun <T : Entity> registerEntityRenderer(type: EntityType<out T>, factory: EntityRendererFactory<T>) {
+    override fun <T : Entity> registerEntityRenderer(type: EntityType<out T>, factory: EntityRendererProvider<T>) {
         EntityRendererRegistry.register(type, factory)
     }
 }

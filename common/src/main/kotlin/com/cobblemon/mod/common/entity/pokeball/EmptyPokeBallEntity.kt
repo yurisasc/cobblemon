@@ -55,14 +55,14 @@ import net.minecraft.item.Item
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
-import net.minecraft.particle.ParticleTypes
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.hit.HitResult
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.MathHelper.PI
+import net.minecraft.util.Mth
+import net.minecraft.util.Mth.PI
 import net.minecraft.world.phys.Vec3
 import net.minecraft.world.level.Level
 import java.util.concurrent.CompletableFuture
@@ -309,7 +309,7 @@ class EmptyPokeBallEntity : ThrowableItemProjectile, PosableEntity, WaterDragMod
         val hitTargetPosition = dataTracker.get(HIT_TARGET_POSITION)
         if (hitTargetPosition.length() != 0.0) {
             val diff = hitTargetPosition.subtract(pos)
-            yaw = ((MathHelper.atan2(diff.x, diff.z) * 180 / Math.PI).toFloat())
+            yaw = ((Mth.atan2(diff.x, diff.z) * 180 / Math.PI).toFloat())
         }
 
         schedulingTracker.update(1/20F)

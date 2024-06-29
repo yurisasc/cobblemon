@@ -23,15 +23,15 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gl.VertexBuffer
 import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.util.math.Box
 import net.minecraft.world.phys.Vec3
 
 
-class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
+class BerryBlockRenderer(private val context: BlockEntityRendererProvider.Context) : BlockEntityRenderer<BerryBlockEntity> {
 
     val mulchModels = mutableMapOf(
         MulchVariant.COARSE to CobblemonBakingOverrides.COARSE_MULCH,
@@ -51,7 +51,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
                 && Minecraft.getInstance().worldRenderer.frustum.isVisible(Box.of(pos, 2.0, 4.0, 2.0))
     }
 
-    override fun render(entity: BerryBlockEntity, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
+    override fun render(entity: BerryBlockEntity, tickDelta: Float, matrices: PoseStack, vertexConsumers: MultiBufferSource, light: Int, overlay: Int) {
         if (!isInRenderDistance(entity, entity.pos.toVec3d())) return
         val blockState = entity.cachedState
         if (entity.renderState == null) {
@@ -64,7 +64,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             (entity.renderState as BerryBlockEntityRenderState).needsRebuild = false
         }
         if (renderState.drawVbo) {
-            matrices.push()
+            matrices.pushPose()
             CobblemonRenderLayers.BERRY_LAYER.startDrawing()
             renderState.vbo.bind()
             renderState.vbo.draw(
@@ -74,19 +74,19 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             )
             VertexBuffer.unbind()
             CobblemonRenderLayers.BERRY_LAYER.endDrawing()
-            matrices.pop()
+            matrices.popPose()
         }
         drawMulch(matrices, vertexConsumers, entity, light, overlay)
     }
 
     private fun drawMulch(
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
+        matrices: PoseStack,
+        vertexConsumers: MultiBufferSource,
         entity: BerryBlockEntity,
         light: Int,
         overlay: Int
     ) {
-        matrices.push()
+        matrices.pushPose()
         //Mulch is rendered on a different layer than the actual berries so
         val mulchBuf = vertexConsumers.getBuffer(RenderType.getCutout())
         val model = mulchModels[entity.mulchVariant]
@@ -95,7 +95,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
                 mulchBuf.quad(matrices.peek(), quad, 1F, 1F, 1F, 1F, light, overlay)
             }
         }
-        matrices.pop()
+        matrices.popPose()
     }
 
 
@@ -122,12 +122,12 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         model.setPosition(Axis.Y_AXIS.ordinal, pos.y.toFloat())
         model.setPosition(Axis.Z_AXIS.ordinal, pos.z.toFloat())
         val rot = berry.stageOnePositioning.rotation
-        model.setAngles(
+        model.setupAnim(
             Math.toRadians(180 - rot.x).toFloat(),
             Math.toRadians(180 + rot.y).toFloat(),
             Math.toRadians(rot.z).toFloat()
         )
-        model.render(MatrixStack(), bufferBuilder, light, overlay)
+        model.render(PoseStack(), bufferBuilder, light, overlay)
         val bufferBuilderFinal = bufferBuilder.end()
         buffer.bind()
         buffer.upload(bufferBuilderFinal)
@@ -144,7 +144,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         val bufferBuilder = Tesselator.getInstance().begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
         for ((berry, growthPoint) in entity.berryAndGrowthPoint()) {
             val model = (if (isFlower) BerryModelRepository.modelOf(berry.flowerModelIdentifier) else BerryModelRepository.modelOf(berry.fruitModelIdentifier)) ?: continue
-            model.setAngles(
+            model.setupAnim(
                 Math.toRadians(180.0 - growthPoint.rotation.x).toFloat(),
                 Math.toRadians(180.0 + growthPoint.rotation.y).toFloat(),
                 Math.toRadians(growthPoint.rotation.z).toFloat()
@@ -152,7 +152,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             model.setPosition(Axis.X_AXIS.ordinal, growthPoint.position.x.toFloat())
             model.setPosition(Axis.Y_AXIS.ordinal, growthPoint.position.y.toFloat())
             model.setPosition(Axis.Z_AXIS.ordinal, growthPoint.position.z.toFloat())
-            model.render(MatrixStack(), bufferBuilder, light, overlay)
+            model.render(PoseStack(), bufferBuilder, light, overlay)
         }
         val bufferBuilderFinal = bufferBuilder.end()
         buffer.bind()

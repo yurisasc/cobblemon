@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.Component
 
 abstract class TypeWidget(
@@ -26,9 +26,9 @@ abstract class TypeWidget(
         private const val OFFSET = 0.5
     }
 
-    fun renderType(type: ElementalType, pMatrixStack: MatrixStack, pX: Int = x, pY: Int = y) {
+    fun renderType(type: ElementalType, pPoseStack: PoseStack, pX: Int = x, pY: Int = y) {
         blitk(
-            matrixStack = pMatrixStack,
+            matrixStack = pPoseStack,
             texture = typeResource,
             x = pX + OFFSET, y = pY,
             width = width, height = height,
@@ -37,8 +37,8 @@ abstract class TypeWidget(
         )
     }
 
-    fun renderType(mainType: ElementalType, secondaryType: ElementalType, pMatrixStack: MatrixStack) {
-        renderType(secondaryType, pMatrixStack, x + 16)
-        renderType(mainType, pMatrixStack)
+    fun renderType(mainType: ElementalType, secondaryType: ElementalType, pPoseStack: PoseStack) {
+        renderType(secondaryType, pPoseStack, x + 16)
+        renderType(mainType, pPoseStack)
     }
 }

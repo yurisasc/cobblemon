@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 class PokeNavFillerButton(
     posX: Int, posY: Int,
     pX: Int, pY: Int,
@@ -23,10 +23,10 @@ class PokeNavFillerButton(
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         this.applyBlitk(context.matrices, pMouseX, pMouseY, pPartialTicks)
-        context.matrices.push()
+        context.matrices.pushPose()
     }
 
-    override fun applyBlitk(matrices: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun applyBlitk(matrices: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         blitk(
             matrixStack = matrices,
             texture = FILLER,

@@ -81,7 +81,7 @@ class PasturePokemonScrollList(
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
 
-        context.matrices.push()
+        context.matrices.pushPose()
 //        context.matrices.translate(0F, 0F, -10F)
 
         context.enableScissor(
@@ -92,7 +92,7 @@ class PasturePokemonScrollList(
         )
 
 
-        context.matrices.pop()
+        context.matrices.popPose()
         super.renderWidget(context, mouseX, mouseY, partialTicks)
 
         context.disableScissor()
@@ -205,7 +205,7 @@ class PasturePokemonScrollList(
             )
 
             // Render Pokémon
-            matrixStack.push()
+            matrixStack.pushPose()
             matrixStack.translate(x + 11 + (StorageSlot.SIZE / 2.0), y - 5.0, 0.0)
             matrixStack.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
@@ -217,7 +217,7 @@ class PasturePokemonScrollList(
                 partialTicks = partialTicks,
                 scale = 4.5F
             )
-            matrixStack.pop()
+            matrixStack.popPose()
 
             val heldItem = pokemon.heldItem
             if (!heldItem.isEmpty) {

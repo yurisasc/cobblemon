@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.mojang.serialization.Codec
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.math.MathHelper.floor
+import net.minecraft.util.Mth.floor
 
 class Nature(
     val name: ResourceLocation,

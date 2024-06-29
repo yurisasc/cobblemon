@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonSounds
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory

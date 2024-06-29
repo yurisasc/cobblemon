@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.sounds.SoundEvents
 
 /**
@@ -61,7 +61,7 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
     private val sfx = PositionedSoundInstance.master(SoundEvents.ANVIL_LAND, 1.0F)
     private val texture = gimmick.id
 
-    fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    fun render(matrices: PoseStack, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
             matrixStack = matrices,
             texture = cobblemonResource("textures/gui/battle/battle_gimmick_${texture}.png"),

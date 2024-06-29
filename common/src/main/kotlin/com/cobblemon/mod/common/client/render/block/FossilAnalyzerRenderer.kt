@@ -14,22 +14,22 @@ import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.client.Minecraft
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
+import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.RotationAxis
+import com.mojang.math.Axis
 import net.minecraft.world.phys.Vec3
 
-class FossilAnalyzerRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<FossilAnalyzerBlockEntity> {
+class FossilAnalyzerRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEntityRenderer<FossilAnalyzerBlockEntity> {
 
     override fun render(
         entity: FossilAnalyzerBlockEntity,
         tickDelta: Float,
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider?,
+        matrices: PoseStack,
+        vertexConsumers: MultiBufferSource?,
         light: Int,
         overlay: Int
     ) {
@@ -44,7 +44,7 @@ class FossilAnalyzerRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEnt
         val struct = entity.multiblockStructure as FossilMultiblockStructure
 
         struct.fossilInventory.forEachIndexed { index, fossilStack ->
-            matrices.push()
+            matrices.pushPose()
             
             val dirOffset = when (direction) {
                 Direction.NORTH -> Vec3(0.0, 0.0, 0.05)
@@ -54,14 +54,14 @@ class FossilAnalyzerRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEnt
                 else -> Vec3.ZERO
             }
             matrices.translate(0.5 + dirOffset.x,0.4 + (index * 0.1) + dirOffset.y, 0.5 + dirOffset.z)
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yRot))
-            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180F))
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90F))
+            matrices.mulPose(Axis.YP.rotationDegrees(yRot))
+            matrices.mulPose(Axis.ZP.rotationDegrees(180F))
+            matrices.mulPose(Axis.XP.rotationDegrees(90F))
             matrices.scale(0.7F, 0.7F, 0.7F)
 
             Minecraft.getInstance().itemRenderer.renderItem(fossilStack, ModelTransformationMode.NONE, light, overlay, matrices, vertexConsumers, entity.world, 0)
 
-            matrices.pop()
+            matrices.popPose()
         }
     }
 }

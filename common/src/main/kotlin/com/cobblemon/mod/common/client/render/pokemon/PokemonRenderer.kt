@@ -42,18 +42,18 @@ import kotlin.math.*
 import net.minecraft.client.Minecraft
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.*
-import net.minecraft.client.render.entity.EntityRendererFactory
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.render.entity.MobEntityRenderer
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.entity.Entity
 import net.minecraft.text.Style
 import net.minecraft.network.chat.Component
 import net.minecraft.util.Formatting
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.RotationAxis
+import net.minecraft.util.Mth
+import com.mojang.math.Axis
 import net.minecraft.world.phys.Vec3
 import org.joml.Math
 import org.joml.Quaternionf
@@ -61,7 +61,7 @@ import org.joml.Vector3f
 import org.joml.Vector4f
 
 class PokemonRenderer(
-    context: EntityRendererFactory.Context
+    context: EntityRendererProvider.Context
 ) : MobEntityRenderer<PokemonEntity, PosablePokemonEntityModel>(context, PosablePokemonEntityModel(), 0.5f) {
     companion object {
         val recallBeamColour = Vector4f(1F, 0.1F, 0.1F, 1F)
@@ -88,8 +88,8 @@ class PokemonRenderer(
         entity: PokemonEntity,
         entityYaw: Float,
         partialTicks: Float,
-        poseMatrix: MatrixStack,
-        buffer: VertexConsumerProvider,
+        poseMatrix: PoseStack,
+        buffer: MultiBufferSource,
         packedLight: Int
     ) {
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F * (entity.delegate as PokemonClientDelegate).entityScaleModifier
@@ -150,8 +150,8 @@ class PokemonRenderer(
         beamMode: Int,
         entity: PokemonEntity,
         partialTicks: Float,
-        poseMatrix: MatrixStack,
-        buffer: VertexConsumerProvider,
+        poseMatrix: PoseStack,
+        buffer: MultiBufferSource,
         packedLight: Int,
         clientDelegate: PokemonClientDelegate
     ) {
@@ -166,7 +166,7 @@ class PokemonRenderer(
         }
 
         val phaseTarget = clientDelegate.phaseTarget ?: return
-        poseMatrix.push()
+        poseMatrix.pushPose()
         var beamSourcePosition = if (phaseTarget is PosableEntity) {
             (phaseTarget.delegate as PosableState).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
         } else {
@@ -196,15 +196,15 @@ class PokemonRenderer(
             poseMatrix.translate(x+newOffset.x, y+newOffset.y, z+newOffset.z)
         }
         val dir = beamSourcePosition.subtract(entity.pos).normalize()
-        val angle = MathHelper.atan2(dir.z, dir.x) - PI / 2
-        poseMatrix.multiply(RotationAxis.POSITIVE_Y.rotation(-angle.toFloat() + (180 * Math.PI / 180).toFloat()))
+        val angle = Mth.atan2(dir.z, dir.x) - PI / 2
+        poseMatrix.multiply(Axis.YP.rotation(-angle.toFloat() + (180 * Math.PI / 180).toFloat()))
 
         // TODO: if you want to remove the open ball, add `!clientDelegate.ballDone` to the if statement
         if (beamMode == 1 && !clientDelegate.ballDone){
             if(entity.pokemon.caughtBall.name.toString().contains("beast")){
                 // get rotation angle on x-axis for facingDir
-                val xAngleFacingDir = MathHelper.atan2(facingDir.y, sqrt(facingDir.x * facingDir.x + facingDir.z * facingDir.z))
-                poseMatrix.multiply(RotationAxis.POSITIVE_X.rotation(-xAngleFacingDir.toFloat()))
+                val xAngleFacingDir = Mth.atan2(facingDir.y, sqrt(facingDir.x * facingDir.x + facingDir.z * facingDir.z))
+                poseMatrix.multiply(Axis.XP.rotation(-xAngleFacingDir.toFloat()))
             }
             drawPokeBall(
                 ClientBallDisplay(entity.pokemon.caughtBall, setOf()),
@@ -218,15 +218,15 @@ class PokemonRenderer(
                 distance = ceil(beamSourcePosition.distanceTo(entity.pos)/4f).toInt()
             )
         }
-        poseMatrix.pop()
+        poseMatrix.popPose()
         if (beamMode == 3) {
             renderBeam(poseMatrix, partialTicks, entity, phaseTarget, buffer, offsetDirection)
         }
     }
 
-    override fun scale(pEntity: PokemonEntity, pMatrixStack: MatrixStack, pPartialTickTime: Float) {
+    override fun scale(pEntity: PokemonEntity, pPoseStack: PoseStack, pPartialTickTime: Float) {
         val scale = pEntity.pokemon.form.baseScale * pEntity.pokemon.scaleModifier * (pEntity.delegate as PokemonClientDelegate).entityScaleModifier
-        pMatrixStack.scale(scale, scale, scale)
+        pPoseStack.scale(scale, scale, scale)
     }
 
     /**
@@ -239,7 +239,7 @@ class PokemonRenderer(
      * @param colour The colour of the beam.
      * @param buffer The vertex consumer provider.
      */
-    fun renderBeam(matrixStack: MatrixStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, buffer: VertexConsumerProvider, offset: Vec3) {
+    fun renderBeam(matrixStack: PoseStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, buffer: MultiBufferSource, offset: Vec3) {
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val pokemonPosition = entity.pos.add(0.0, entity.height / 2.0 * clientDelegate.entityScaleModifier.toDouble(), 0.0)
         var beamSourcePosition = if (beamTarget is EmptyPokeBallEntity) {
@@ -269,7 +269,7 @@ class PokemonRenderer(
         newOffset = newOffset.multiply(0.0, 1+ease(clientDelegate.ballOffset.toDouble()), 0.0)
         val direction = pokemonPosition.subtract(beamSourcePosition.add(newOffset)).let { Vector3f(it.x.toFloat(), it.y.toFloat(), it.z.toFloat()) }
 
-        matrixStack.push()
+        matrixStack.pushPose()
         with(beamSourcePosition.subtract(entity.pos)) {
             matrixStack.translate(x + newOffset.x, y + newOffset.y, z + newOffset.z)
         }
@@ -306,7 +306,7 @@ class PokemonRenderer(
             glowAlpha = 0.4F
         )
 
-        matrixStack.pop()
+        matrixStack.popPose()
     }
 
     override fun getLyingAngle(entity: PokemonEntity?) = 0F
@@ -330,8 +330,8 @@ class PokemonRenderer(
     override fun renderLabelIfPresent(
         entity: PokemonEntity,
         text: Component,
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
+        matrices: PoseStack,
+        vertexConsumers: MultiBufferSource,
         light: Int,
         tickDelta: Float
     ) {
@@ -342,12 +342,12 @@ class PokemonRenderer(
         val d = this.dispatcher.getSquaredDistanceToCamera(entity)
         if (d <= 4096.0){
             val scale = min(1.5, max(0.65, d.remap(DoubleRange(-16.0, 96.0), DoubleRange(0.0, 1.0))))
-            val sizeScale = MathHelper.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.5, 1.0)
-            val offsetScale = MathHelper.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.0,1.0)
+            val sizeScale = Mth.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.5, 1.0)
+            val offsetScale = Mth.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.0,1.0)
             val entityHeight = entity.boundingBox.lengthY + 0.5f
-            matrices.push()
+            matrices.pushPose()
             matrices.translate(0.0, entityHeight, 0.0)
-            matrices.multiply(dispatcher.rotation)
+            matrices.mulPose(dispatcher.rotation)
             matrices.translate(0.0,0.0+(offsetScale/2),-(scale+offsetScale))
             matrices.scale((-0.025*sizeScale).toFloat(), (-0.025*sizeScale).toFloat(), 1 * sizeScale.toFloat())
             val matrix4f = matrices.peek().positionMatrix
@@ -373,23 +373,23 @@ class PokemonRenderer(
                 textRenderer.draw(battlePrompt, h, y + 10, 0x20FFFFFF, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.SEE_THROUGH, opacity, packedLight)
                 textRenderer.draw(battlePrompt, h, y + 10, -1, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, packedLight)
             }
-            matrices.pop()
+            matrices.popPose()
         }
     }
 
 
     private fun drawPokeBall(
         state: ClientBallDisplay,
-        matrixStack: MatrixStack,
+        matrixStack: PoseStack,
         scale: Float = 5F,
         partialTicks: Float,
         reversed: Boolean = false,
-        buff: VertexConsumerProvider,
+        buff: MultiBufferSource,
         packedLight: Int,
         ball: PokeBall,
         distance: Int
     ) {
-        matrixStack.push()
+        matrixStack.pushPose()
         matrixStack.scale(0.7F, -0.7F, -0.7F)
         val model = PokeBallModelRepository.getPoser(ball.name, state.aspects)
         val texture = PokeBallModelRepository.getTexture(ball.name, state.aspects, state.animationSeconds)
@@ -399,9 +399,9 @@ class PokemonRenderer(
             matrixStack.translate(0.0, -0.2, 0.0)
             val rot = 360F * distance
             if(ball.name.toString().contains("beast")){
-                matrixStack.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(Math.lerp(0F, rot, scale)))
+                matrixStack.multiply(Axis.NEGATIVE_Z.rotationDegrees(Math.lerp(0F, rot, scale)))
             } else {
-                matrixStack.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(Math.lerp(0F, rot, scale)))
+                matrixStack.multiply(Axis.NEGATIVE_X.rotationDegrees(Math.lerp(0F, rot, scale)))
             }
             matrixStack.translate(0.0, 0.2, 0.0)
         }
@@ -413,11 +413,11 @@ class PokemonRenderer(
 //        model.animateModel(null, 0f, 0F, 0F)
         val buffer = ItemRenderer.getDirectItemGlintConsumer(buff, RenderType.getEntityCutout(texture), false, false)
 //        matrixStack.scale(scale, scale, scale)
-        model.render(ballContext, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
+        model.render(ballContext, matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, -0x1)
         model.green = 1f
         model.blue = 1f
         model.red = 1f
         model.resetLayerContext()
-        matrixStack.pop()
+        matrixStack.popPose()
     }
 }

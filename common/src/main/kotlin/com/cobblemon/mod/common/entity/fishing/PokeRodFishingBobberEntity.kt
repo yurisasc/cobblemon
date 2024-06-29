@@ -104,20 +104,20 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
         val throwerPitch = thrower.pitch
         val throwerYaw = thrower.yaw
-        val cosYaw = MathHelper.cos(-throwerYaw * 0.017453292f - 3.1415927f)
-        val sinYaw = MathHelper.sin(-throwerYaw * 0.017453292f - 3.1415927f)
-        val cosPitch = -MathHelper.cos(-throwerPitch * 0.017453292f)
-        val sinPitch = MathHelper.sin(-throwerPitch * 0.017453292f)
+        val cosYaw = Mth.cos(-throwerYaw * 0.017453292f - 3.1415927f)
+        val sinYaw = Mth.sin(-throwerYaw * 0.017453292f - 3.1415927f)
+        val cosPitch = -Mth.cos(-throwerPitch * 0.017453292f)
+        val sinPitch = Mth.sin(-throwerPitch * 0.017453292f)
         val posX = thrower.x - sinYaw.toDouble() * 0.3
         val posY = thrower.eyeY
         val posZ = thrower.z - cosYaw.toDouble() * 0.3
         this.refreshPositionAndAngles(posX, posY, posZ, throwerYaw, throwerPitch)
-        var vec3d = Vec3d((-sinYaw).toDouble(), MathHelper.clamp(-(sinPitch / cosPitch), -5.0f, 5.0f).toDouble(), (-cosYaw).toDouble())
+        var vec3d = Vec3d((-sinYaw).toDouble(), Mth.clamp(-(sinPitch / cosPitch), -5.0f, 5.0f).toDouble(), (-cosYaw).toDouble())
         val m = vec3d.length()
         vec3d = vec3d.multiply(0.6 / m + random.nextTriangular(0.5, 0.0103365), 0.6 / m + random.nextTriangular(0.5, 0.0103365), 0.6 / m + random.nextTriangular(0.5, 0.0103365))
         velocity = vec3d
-        yaw = (MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875).toFloat()
-        pitch = (MathHelper.atan2(vec3d.y, vec3d.horizontalLength()) * 57.2957763671875).toFloat()
+        yaw = (Mth.atan2(vec3d.x, vec3d.z) * 57.2957763671875).toFloat()
+        pitch = (Mth.atan2(vec3d.y, vec3d.horizontalLength()) * 57.2957763671875).toFloat()
         prevYaw = yaw
         prevPitch = pitch
     }
@@ -139,7 +139,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         if (CAUGHT_FISH == data) {
             this.caughtFish = (getDataTracker().get(CAUGHT_FISH) as Boolean)
             if (this.caughtFish) {
-                this.setVelocity(velocity.x, (-0.4f * MathHelper.nextFloat(this.velocityRandom, 0.3f, 0.5f)).toDouble(), velocity.z)
+                this.setVelocity(velocity.x, (-0.4f * Mth.nextFloat(this.velocityRandom, 0.3f, 0.5f)).toDouble(), velocity.z)
             }
         }
 
@@ -298,13 +298,13 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             if (this.fishTravelCountdown > 0) {
                 this.fishAngle += random.nextTriangular(0.0, 9.188).toFloat()
                 val f = this.fishAngle * (Math.PI.toFloat() / 180)
-                val g = MathHelper.sin(f)
-                val h = MathHelper.cos(f)
+                val g = Mth.sin(f)
+                val h = Mth.cos(f)
                 val offsetX = this.x + (g * this.fishTravelCountdown.toFloat() * 0.1f).toDouble()
-                val offsetY = (MathHelper.floor(this.y).toFloat() + 1.0f).toDouble()
+                val offsetY = (Mth.floor(this.y).toFloat() + 1.0f).toDouble()
                 val j = this.z + (h * this.fishTravelCountdown.toFloat() * 0.1f).toDouble()
                 val blockState = serverWorld.getBlockState(BlockPos.ofFloored(offsetX, offsetY - 1.0, j))
-                //val blockState = serverWorld.getBlockState(BlockPos.ofFloored(offsetX, (MathHelper.floor(this.y).toFloat() + 1.0f).toDouble().also { offsetY = it } - 1.0, this.z + (h * this.fishTravelCountdown.toFloat() * 0.1f).toDouble().also { j = it }))
+                //val blockState = serverWorld.getBlockState(BlockPos.ofFloored(offsetX, (Mth.floor(this.y).toFloat() + 1.0f).toDouble().also { offsetY = it } - 1.0, this.z + (h * this.fishTravelCountdown.toFloat() * 0.1f).toDouble().also { j = it }))
                 if (blockState.isOf(Blocks.WATER)) {
                     if (random.nextFloat() < 0.15f) {
                         // random bubble particles that spawn around
@@ -333,7 +333,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 serverWorld.spawnParticles(ParticleTypes.FISHING, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
 
                 // check for chance to catch pokemon based on the bait
-                if (MathHelper.nextInt(random, 0, 100) < getPokemonSpawnChance(bobberBait)) {
+                if (Mth.nextInt(random, 0, 100) < getPokemonSpawnChance(bobberBait)) {
                     this.typeCaught = "POKEMON"
 
                     val buckets = Cobblemon.bestSpawner.config.buckets
@@ -343,16 +343,16 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     val reactionMinMax = calculateMinMaxCountdown(chosenBucket.weight)
 
                     // set the hook reaction time to be based off the rarity of the bucket chosen
-                    this.hookCountdown = MathHelper.nextInt(random, reactionMinMax.first, reactionMinMax.second)
+                    this.hookCountdown = Mth.nextInt(random, reactionMinMax.first, reactionMinMax.second)
                 }
                 else {
                     // todo caught item
                     this.typeCaught = "ITEM"
-                    this.hookCountdown = MathHelper.nextInt(random, 20, 40)
+                    this.hookCountdown = Mth.nextInt(random, 20, 40)
 
                 }
 
-                //this.hookCountdown = MathHelper.nextInt(random, 20, 40)
+                //this.hookCountdown = Mth.nextInt(random, 20, 40)
                 getDataTracker().set(CAUGHT_FISH, true)
                 //this.CAUGHT_FISH = true
             }
@@ -367,19 +367,19 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 f += (60 - this.waitCountdown).toFloat() * 0.01f
             }
             if (random.nextFloat() < f) {
-                val g = MathHelper.nextFloat(this.random, 0.0f, 360.0f) * 0.017453292f
-                val h = MathHelper.nextFloat(this.random, 25.0f, 60.0f)
-                val d = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1 // X
-                val e = (MathHelper.floor(this.y).toFloat() + 1.0f).toDouble() // Y
-                val j = this.z + (MathHelper.cos(g) * h).toDouble() * 0.1 // randomized Z value
+                val g = Mth.nextFloat(this.random, 0.0f, 360.0f) * 0.017453292f
+                val h = Mth.nextFloat(this.random, 25.0f, 60.0f)
+                val d = this.x + (Mth.sin(g) * h).toDouble() * 0.1 // X
+                val e = (Mth.floor(this.y).toFloat() + 1.0f).toDouble() // Y
+                val j = this.z + (Mth.cos(g) * h).toDouble() * 0.1 // randomized Z value
                 val blockState = serverWorld.getBlockState(BlockPos.ofFloored(d, e - 1.0, j))
                 if (blockState.isOf(Blocks.WATER)) {
                     serverWorld.spawnParticles(ParticleTypes.SPLASH, d, e, j, 2 + random.nextInt(2), 0.10000000149011612, 0.0, 0.10000000149011612, 0.0)
                 }
             }
             if (this.waitCountdown <= 0) {
-                this.fishAngle = MathHelper.nextFloat(random, 0.0f, 360.0f)
-                this.fishTravelCountdown = MathHelper.nextInt(random, 20, 80)
+                this.fishAngle = Mth.nextFloat(random, 0.0f, 360.0f)
+                this.fishTravelCountdown = Mth.nextInt(random, 20, 80)
             }
         } else {
             if (isCast != true) {
@@ -393,7 +393,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             }
 
             // set the time it takes to wait for a hooked item or pokemon
-            this.waitCountdown = MathHelper.nextInt(random, 100, 600)
+            this.waitCountdown = Mth.nextInt(random, 100, 600)
             this.waitCountdown -= this.lureLevel * 20 * 5
 
             // check for the bait on the hook and see if the waitCountdown is reduced
@@ -605,9 +605,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
                     val serverWorld = world as ServerWorld
 
-                    val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
-                    val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
-                    val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
+                    val g = Mth.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
+                    val h = Mth.nextFloat(random, 25.0f, 60.0f)
+                    val partX = this.x + (Mth.sin(g) * h).toDouble() * 0.1
                     serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 6 + random.nextInt(4), 0.0, 0.2, 0.0, 0.0)
 
                     playerEntity.getWorld().spawnEntity(ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, random.nextInt(6) + 1))

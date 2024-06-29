@@ -68,7 +68,7 @@ open class PartySlot(
             )
 
             // Render Pokémon
-            matrices.push()
+            matrices.pushPose()
             matrices.translate(x + (SIZE / 2.0), y + 1.0, 0.0)
             matrices.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
@@ -79,12 +79,12 @@ open class PartySlot(
                 scale = 4.5F,
                 partialTicks = delta
             )
-            matrices.pop()
+            matrices.popPose()
 
             context.disableScissor()
 
             // Ensure elements are not hidden behind Pokémon render
-            matrices.push()
+            matrices.pushPose()
             matrices.translate(0.0, 0.0, 100.0)
             // Level
             drawScaledText(
@@ -108,7 +108,7 @@ open class PartySlot(
                 )
             }
             if (!pokemon.tradeable) {
-                matrices.push()
+                matrices.pushPose()
                 matrices.translate(0F, 0F, 10F)
                 blitk(
                     matrixStack = matrices,
@@ -119,10 +119,10 @@ open class PartySlot(
                     height = 20,
                     scale = TradeGUI.SCALE
                 )
-                matrices.pop()
+                matrices.popPose()
             }
 
-            matrices.pop()
+            matrices.popPose()
             if (hasSelected()) {
                 blitk(
                     matrixStack = matrices,

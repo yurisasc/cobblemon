@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.pc.link.ProximityPCLink
 import com.cobblemon.mod.common.block.PCBlock
 import net.minecraft.block.Blocks
-import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.world.level.block.entity.BlockEntityTicker
 import net.minecraft.core.BlockPos
 import net.minecraft.entity.ItemEntity
 import net.minecraft.util.TypeFilter

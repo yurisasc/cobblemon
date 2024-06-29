@@ -16,11 +16,11 @@ import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 //import com.cobblemon.mod.common.item.PokemonItem
 import net.minecraft.client.Minecraft
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
+import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.CustomModelDataComponent
 import net.minecraft.item.BannerItem
@@ -29,10 +29,10 @@ import net.minecraft.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.RotationAxis
+import com.mojang.math.Axis
 import net.minecraft.world.level.Level
 
-class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<DisplayCaseBlockEntity> {
+class DisplayCaseRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEntityRenderer<DisplayCaseBlockEntity> {
     val context = RenderContext().also {
         it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
     }
@@ -42,8 +42,8 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
     override fun render(
         entity: DisplayCaseBlockEntity,
         tickDelta: Float,
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
+        matrices: PoseStack,
+        vertexConsumers: MultiBufferSource,
         light: Int,
         overlay: Int
     ) {
@@ -73,14 +73,14 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
 
          */
 
-        matrices.push()
+        matrices.pushPose()
         matrices.translate(0.5f, 0.4f, 0.5f)
 
         matrices.scale(posType.scaleX, posType.scaleY, posType.scaleZ)
         matrices.translate(posType.transX, posType.transY, posType.transZ)
 
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(posType.rotY))
+        matrices.mulPose(Axis.YP.rotationDegrees(-yRot))
+        matrices.mulPose(Axis.YP.rotationDegrees(posType.rotY))
 
         Minecraft.getInstance().itemRenderer.renderItem(
             stack,
@@ -93,13 +93,13 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
             0
         )
 
-        matrices.pop()
+        matrices.popPose()
 
     }
     /*
     private fun renderPokemon(
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
+        matrices: PoseStack,
+        vertexConsumers: MultiBufferSource,
         light: Int,
         stack: ItemStack,
         yRot: Float
@@ -113,11 +113,11 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         val vertexConsumer: VertexConsumer = vertexConsumers.getBuffer(renderLayer)
         val scale = 0.25f
 
-        matrices.push()
+        matrices.pushPose()
         matrices.scale(1f, -1f, -1f)
         matrices.translate(0.5f, -0.69f, -0.5f)
         matrices.scale(scale, scale, scale)
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yRot))
+        matrices.mulPose(Axis.YP.rotationDegrees(yRot))
 
         val state = FloatingState()
         state.currentAspects = aspects
@@ -141,10 +141,10 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         )
 
         model.withLayerContext(vertexConsumers, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
-            model.render(context, matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, tint.x, tint.y, tint.z, tint.w)
+            model.render(context, matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY, tint.x, tint.y, tint.z, tint.w)
         }
 
-        matrices.pop()
+        matrices.popPose()
     }
 
      */

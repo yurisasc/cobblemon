@@ -46,13 +46,13 @@ import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
-import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.RenderTickCounter
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.util.math.MathHelper.ceil
-import net.minecraft.util.math.RotationAxis
+import net.minecraft.util.Mth.ceil
+import com.mojang.math.Axis
 import org.joml.Vector3f
 
 class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
@@ -226,13 +226,13 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
             (portraitStartX + PORTRAIT_DIAMETER).toInt(),
             (y + PORTRAIT_DIAMETER + PORTRAIT_OFFSET_Y).toInt(),
         )
-        val matrixStack = MatrixStack()
+        val matrixStack = PoseStack()
         matrixStack.translate(
             portraitStartX + PORTRAIT_DIAMETER / 2.0,
             y.toDouble() + PORTRAIT_OFFSET_Y - 5.0 ,
             1000.0
         )
-        matrixStack.push()
+        matrixStack.pushPose()
         if (ballState != null && ballState.stateEmitter.get() == EmptyPokeBallEntity.CaptureState.SHAKE) {
             drawPokeBall(
                 state = ballState,
@@ -240,7 +240,7 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
                 partialTicks = partialTicks
             )
         } else {
-            matrixStack.push()
+            matrixStack.pushPose()
             drawPosablePortrait(
                 identifier = species.resourceIdentifier,
                 aspects = aspects,
@@ -252,9 +252,9 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
                 state = state,
                 partialTicks = partialTicks
             )
-            matrixStack.pop()
+            matrixStack.popPose()
         }
-        matrixStack.pop()
+        matrixStack.popPose()
         context.disableScissor()
 
         // Third render the tile
@@ -391,7 +391,7 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
 
     private fun drawPokeBall(
         state: ClientBallDisplay,
-        matrixStack: MatrixStack,
+        matrixStack: PoseStack,
         scale: Float = 5F,
         partialTicks: Float,
         reversed: Boolean = false
@@ -402,8 +402,8 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
         val renderType = RenderType.getEntityCutout(texture)//model.getLayer(texture)
 
         RenderSystem.applyModelViewMatrix()
-        val quaternion1 = RotationAxis.POSITIVE_Y.rotationDegrees(-32F * if (reversed) -1F else 1F)
-        val quaternion2 = RotationAxis.POSITIVE_X.rotationDegrees(5F)
+        val quaternion1 = Axis.YP.rotationDegrees(-32F * if (reversed) -1F else 1F)
+        val quaternion2 = Axis.XP.rotationDegrees(5F)
 
         state.currentModel = model
         state.setPoseToFirstSuitable(PoseType.PORTRAIT)
@@ -412,7 +412,7 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
 
         matrixStack.scale(scale, scale, -scale)
         matrixStack.translate(0.0, 5.5, -4.0)
-        matrixStack.push()
+        matrixStack.pushPose()
 
         matrixStack.scale(scale * state.scale, scale * state.scale, 0.1F)
 
@@ -427,11 +427,11 @@ class BattleOverlay : InGameHud(Minecraft.getInstance()), Schedulable {
         val immediate = Minecraft.getInstance().bufferBuilders.entityVertexConsumers
         val buffer = immediate.getBuffer(renderType)
         val packedLight = LightmapTextureManager.pack(11, 7)
-        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, -0x1)
 
         immediate.draw()
 
-        matrixStack.pop()
+        matrixStack.popPose()
 
         DiffuseLighting.enableGuiDepthLighting()
     }

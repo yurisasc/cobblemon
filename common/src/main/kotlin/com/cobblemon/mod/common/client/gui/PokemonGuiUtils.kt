@@ -18,16 +18,16 @@ import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Minecraft
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
-import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.resources.ResourceLocation
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
 fun drawProfilePokemon(
     renderablePokemon: RenderablePokemon,
-    matrixStack: MatrixStack,
+    matrixStack: PoseStack,
     rotation: Quaternionf,
     state: PosableState,
     partialTicks: Float,
@@ -45,7 +45,7 @@ fun drawProfilePokemon(
 fun drawProfilePokemon(
     species: ResourceLocation,
     aspects: Set<String>,
-    matrixStack: MatrixStack,
+    matrixStack: PoseStack,
     rotation: Quaternionf,
     state: PosableState,
     partialTicks: Float,
@@ -92,7 +92,7 @@ fun drawProfilePokemon(
     val packedLight = LightmapTextureManager.pack(11, 7)
 
     model.withLayerContext(bufferSource, state, PokemonModelRepository.getLayers(species, aspects)) {
-        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, -0x1)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, -0x1)
         bufferSource.draw()
     }
     model.setDefault()

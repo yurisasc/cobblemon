@@ -31,7 +31,7 @@ import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.core.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
 import net.minecraft.world.chunk.ChunkCache
 import net.minecraft.world.level.pathfinder.PathComputationType
@@ -60,13 +60,13 @@ class OmniPathNodeMaker : PathNodeMaker() {
     }
 
     override fun getNode(x: Double, y: Double, z: Double): TargetPathNode {
-        return TargetPathNode(super.getNode(MathHelper.floor(x), MathHelper.floor(y + 0.5), MathHelper.floor(z)))
+        return TargetPathNode(super.getNode(Mth.floor(x), Mth.floor(y + 0.5), Mth.floor(z)))
     }
 
     override fun getStart(): PathNode? {
-        val x = MathHelper.floor(entity.boundingBox.minX)
-        val y = MathHelper.floor(entity.boundingBox.minY + 0.5)
-        val z = MathHelper.floor(entity.boundingBox.minZ)
+        val x = Mth.floor(entity.boundingBox.minX)
+        val y = Mth.floor(entity.boundingBox.minY + 0.5)
+        val z = Mth.floor(entity.boundingBox.minZ)
         val node = super.getNode(x, y, z)
         node.type = this.getNodeType(entity, node.blockPos)
         node.penalty = entity.getPathfindingPenalty(node.type)

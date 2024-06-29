@@ -12,19 +12,19 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.HorizontalDirectionalBlock
-import net.minecraft.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.client.Minecraft
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
+import net.minecraft.client.render.block.entity.BlockEntityRendererProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.RotationAxis
+import com.mojang.math.Axis
 
 
 @Suppress("UNUSED_PARAMETER")
-class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Context): BlockEntityRenderer<T> {
+class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererProvider.Context): BlockEntityRenderer<T> {
     companion object {
         private val offsets = listOf(
             0.2 to 0.385,
@@ -36,10 +36,10 @@ class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Con
         )
     }
 
-    override fun render(blockEntity: T, tickDelta: Float, poseStack: MatrixStack, multiBufferSource: VertexConsumerProvider, light: Int, overlay: Int) {
+    override fun render(blockEntity: T, tickDelta: Float, poseStack: PoseStack, multiBufferSource: MultiBufferSource, light: Int, overlay: Int) {
         if (blockEntity !is HealingMachineBlockEntity) return
 
-        poseStack.push()
+        poseStack.pushPose()
 
         val blockState = if (blockEntity.world != null) blockEntity.cachedState
             else (CobblemonBlocks.HEALING_MACHINE.defaultState.with(HorizontalDirectionalBlock.FACING, Direction.SOUTH) as BlockState)
@@ -48,16 +48,16 @@ class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Con
         // Position Poké Balls
         poseStack.translate(0.5, 0.5, 0.5)
 
-        poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
+        poseStack.multiply(Axis.YP.rotationDegrees(-yRot))
         poseStack.scale(0.65F, 0.65F, 0.65F)
 
         blockEntity.pokeBalls().forEach { (index, pokeBall) ->
-            poseStack.push()
+            poseStack.pushPose()
             val offset = offsets[index]
             poseStack.translate(offset.first, 0.4, offset.second)
             Minecraft.getInstance().itemRenderer.renderItem(pokeBall.stack(), ModelTransformationMode.GROUND, light, overlay, poseStack, multiBufferSource, blockEntity.world, 0)
-            poseStack.pop()
+            poseStack.popPose()
         }
-        poseStack.pop()
+        poseStack.popPose()
     }
 }

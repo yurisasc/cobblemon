@@ -14,7 +14,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.entity.ai.goal.BreatheAirGoal
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.core.BlockPos
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.pathfinder.PathComputationType
 
@@ -44,12 +44,12 @@ class PokemonBreatheAirGoal(val pokemonEntity: PokemonEntity) : BreatheAirGoal(p
         val behaviour = pokemonEntity.behaviour
         if (!behaviour.moving.swim.canBreatheUnderwater) {
             val iterable = BlockPos.iterate(
-                MathHelper.floor(pokemonEntity.x - 8.0),
+                Mth.floor(pokemonEntity.x - 8.0),
                 pokemonEntity.blockY,
-                MathHelper.floor(pokemonEntity.z - 8.0),
-                MathHelper.floor(pokemonEntity.x + 8.0),
-                MathHelper.floor(pokemonEntity.y + 2.0),
-                MathHelper.floor(pokemonEntity.z + 8.0)
+                Mth.floor(pokemonEntity.z - 8.0),
+                Mth.floor(pokemonEntity.x + 8.0),
+                Mth.floor(pokemonEntity.y + 2.0),
+                Mth.floor(pokemonEntity.z + 8.0)
             )
             val blockPos = pokemonEntity.closestPosition(iterable) { isAirPos(pokemonEntity.world, it) }
                 ?: return

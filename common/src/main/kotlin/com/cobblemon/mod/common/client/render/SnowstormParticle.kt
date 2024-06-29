@@ -30,7 +30,7 @@ import net.minecraft.client.texture.Sprite
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
 import net.minecraft.util.shape.VoxelShapes
 import org.joml.AxisAngle4d
@@ -156,12 +156,12 @@ class SnowstormParticle(
 
         val vec3d = camera.pos
 
-        val interpLocalX = MathHelper.lerp(tickDelta.toDouble(), prevLocalX, localX)
-        val interpLocalY = MathHelper.lerp(tickDelta.toDouble(), prevLocalY, localY)
-        val interpLocalZ = MathHelper.lerp(tickDelta.toDouble(), prevLocalZ, localZ)
+        val interpLocalX = Mth.lerp(tickDelta.toDouble(), prevLocalX, localX)
+        val interpLocalY = Mth.lerp(tickDelta.toDouble(), prevLocalY, localY)
+        val interpLocalZ = Mth.lerp(tickDelta.toDouble(), prevLocalZ, localZ)
 
         val pos = if (storm.effect.space.localRotation) {
-            val interpRotation = MathHelper.lerp(tickDelta.toDouble(), 0.0, currentRotation.angle)
+            val interpRotation = Mth.lerp(tickDelta.toDouble(), 0.0, currentRotation.angle)
             val vec = Vector3d(interpLocalX, interpLocalY, interpLocalZ)
             oldAxisRotation.transform(vec)
             currentRotation.get(AxisAngle4d()).also { it.angle = interpRotation }.transform(vec)

@@ -10,12 +10,12 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PosableEntity
-import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.model.EntityModel
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.resources.ResourceLocation
@@ -38,7 +38,7 @@ abstract class PosableEntityModel<T : Entity>(
     lateinit var posableModel: PosableModel
 
     override fun render(
-        stack: MatrixStack,
+        stack: PoseStack,
         buffer: VertexConsumer,
         packedLight: Int,
         packedOverlay: Int,
@@ -56,7 +56,7 @@ abstract class PosableEntityModel<T : Entity>(
                 OverlayTexture.getV(entity.hurtTime > 0 || entity.deathTime > 0)
             )
         } else if (entity != null) {
-            OverlayTexture.DEFAULT_UV
+            OverlayTexture.NO_OVERLAY
         } else {
             null
         }

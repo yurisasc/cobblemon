@@ -16,21 +16,21 @@ import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.render.DiffuseLighting
-import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumer
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.renderer.texture.TextureAtlas
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.client.util.math.MatrixStack.Entry
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.PoseStack.Entry
 import net.minecraft.world.item.ItemStack
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.OrderedText
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.math.RotationAxis
+import com.mojang.math.Axis
 
-fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: Double = 1.0, zTranslation: Float = 100.0F, matrixStack: MatrixStack? = null) {
+fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: Double = 1.0, zTranslation: Float = 100.0F, matrixStack: PoseStack? = null) {
     val itemRenderer = Minecraft.getInstance().itemRenderer
     val textureManager = Minecraft.getInstance().textureManager
     val model = itemRenderer.getModel(itemStack, null, null, 0)
@@ -41,15 +41,15 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
     RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
     //TODO Make sure this doesnt break anything
-    val modelViewStack = matrixStack ?: MatrixStack()
-    modelViewStack.push()
+    val modelViewStack = matrixStack ?: PoseStack()
+    modelViewStack.pushPose()
     modelViewStack.translate(x, y, (zTranslation + 0).toDouble())
     modelViewStack.translate(8.0 * scale, 8.0 * scale, 0.0)
     modelViewStack.scale(1.0F, -1.0F, 1.0F)
     modelViewStack.scale(16.0F * scale.toFloat(), 16.0F * scale.toFloat(), 16.0F * scale.toFloat())
     RenderSystem.applyModelViewMatrix()
 
-    val stack = matrixStack ?: MatrixStack()
+    val stack = matrixStack ?: PoseStack()
     val immediate = Minecraft.getInstance().bufferBuilders.entityVertexConsumers
     val bl = !model.isSideLit
     if (bl) DiffuseLighting.disableGuiDepthLighting()
@@ -61,7 +61,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
         stack,
         immediate,
         15728880,
-        OverlayTexture.DEFAULT_UV,
+        OverlayTexture.NO_OVERLAY,
         model
     )
 
@@ -69,7 +69,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
     RenderSystem.enableDepthTest()
     if (bl) DiffuseLighting.enableGuiDepthLighting()
 
-    modelViewStack.pop()
+    modelViewStack.popPose()
     RenderSystem.applyModelViewMatrix()
 }
 
@@ -121,7 +121,7 @@ fun drawScaledText(
     val extraScale = if (textWidth < maxCharacterWidth) 1F else (maxCharacterWidth / textWidth.toFloat())
     val fontHeight = if (font == null) 5 else 6
     val matrices = context.matrices
-    matrices.push()
+    matrices.pushPose()
     matrices.scale(scale * extraScale, scale * extraScale, 1F)
     val isHovered = drawText(
         context = context,
@@ -135,7 +135,7 @@ fun drawScaledText(
         pMouseX = pMouseX?.toFloat()?.div((scale * extraScale)),
         pMouseY = pMouseY?.toFloat()?.div(scale * extraScale)?.plus((1 - extraScale) * fontHeight * scale)
     )
-    matrices.pop()
+    matrices.popPose()
     // Draw tooltip that was created with onHover and is attached to the MutableText
     if (isHovered) {
         context.drawHoverEvent(Minecraft.getInstance().textRenderer, text.style, pMouseX!!, pMouseY!!)
@@ -158,7 +158,7 @@ fun drawScaledText(
         return
     }
     val matrixStack = context.matrices
-    matrixStack.push()
+    matrixStack.pushPose()
     matrixStack.scale(scaleX, scaleY, 1F)
     drawText(
         context = context,
@@ -169,12 +169,12 @@ fun drawScaledText(
         colour = colour,
         shadow = shadow
     )
-    matrixStack.pop()
+    matrixStack.popPose()
 }
 
 fun renderBeaconBeam(
-    matrixStack: MatrixStack,
-    buffer: VertexConsumerProvider,
+    matrixStack: PoseStack,
+    buffer: MultiBufferSource,
     textureLocation: ResourceLocation = CobblemonResources.PHASE_BEAM,
     partialTicks: Float,
     totalLevelTime: Long,
@@ -190,8 +190,8 @@ fun renderBeaconBeam(
 ) {
     val i = yOffset + height
     val beamRotation = Math.floorMod(totalLevelTime, 40).toFloat() + partialTicks
-    matrixStack.push()
-    matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(beamRotation * 2.25f - 45.0f))
+    matrixStack.pushPose()
+    matrixStack.multiply(Axis.YP.rotationDegrees(beamRotation * 2.25f - 45.0f))
     var f9 = -beamRadius
     val f12 = -beamRadius
     renderPart(
@@ -213,7 +213,7 @@ fun renderBeaconBeam(
         f12
     )
     // Undo the rotation so that the glow is at a rotated offset
-    matrixStack.pop()
+    matrixStack.popPose()
     val f6 = -glowRadius
     val f7 = -glowRadius
     val f8 = -glowRadius
@@ -239,7 +239,7 @@ fun renderBeaconBeam(
 }
 
 fun renderPart(
-    matrixStack: MatrixStack,
+    matrixStack: PoseStack,
     vertexBuffer: VertexConsumer,
     red: Float,
     green: Float,
@@ -354,7 +354,7 @@ fun addVertex(
         .vertex(matrixEntry.positionMatrix, x, y, z)
         .color(red, green, blue, alpha)
         .texture(texU, texV)
-        .overlay(OverlayTexture.DEFAULT_UV)
+        .overlay(OverlayTexture.NO_OVERLAY)
         .light(15728880)
         .normal(matrixEntry, 0.0f, 1.0f, 0.0f)
 }

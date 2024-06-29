@@ -67,7 +67,7 @@ class SimpleNPCTextInputWidget(
             texture = texture
         )
 
-        context.matrices.push()
+        context.matrices.pushPose()
         val scale = 0.8F
         context.matrices.scale(scale, scale, 1F)
         if (wrap) {
@@ -92,6 +92,6 @@ class SimpleNPCTextInputWidget(
                 colour = 0xFFFFFF
             )
         }
-        context.matrices.pop()
+        context.matrices.popPose()
     }
 }

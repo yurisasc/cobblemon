@@ -14,14 +14,14 @@ import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import net.minecraft.client.Minecraft
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 
 object SpawnSnowstormParticleHandler : ClientNetworkPacketHandler<SpawnSnowstormParticlePacket> {
     override fun handle(packet: SpawnSnowstormParticlePacket, client: Minecraft) {
         val wrapper = MatrixWrapper()
-        val matrix = MatrixStack()
+        val matrix = PoseStack()
         matrix.translate(packet.position.x, packet.position.y, packet.position.z)
-//        matrix.multiply(POSITIVE_Y.rotationDegrees(packet.yawDegrees))
+//        matrix.multiply(YP.rotationDegrees(packet.yawDegrees))
 //        matrix.multiply(NEGATIVE_X.rotationDegrees(packet.pitchDegrees))
         wrapper.updateMatrix(matrix.peek().positionMatrix)
         val world = Minecraft.getInstance().world ?: return

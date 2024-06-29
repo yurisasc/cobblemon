@@ -17,7 +17,7 @@ import net.minecraft.client.model.ModelPartBuilder
 import net.minecraft.client.model.ModelPartData
 import net.minecraft.client.model.ModelTransform
 import net.minecraft.client.model.TexturedModelData
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 
 /**
  * Bedrock's GEO format.
@@ -60,7 +60,7 @@ class TexturedModel {
      *
      * The major issue is that our GEO cumulative rotations must be converted to be done in a single rotation about
      * (0,0,0). We need both the orientation and the position to be the same. The way this has been accomplished is to:
-     * - use [MatrixStack]s to calculate the correct final-destination for each cube start position,
+     * - use [PoseStack]s to calculate the correct final-destination for each cube start position,
      * - convert the matrix we used to a rotation about zero by breaking it into euler angles
      * - note that this euler rotation is correct on orientation but wrong on final position, and is how flywheel does it.
      * - invert the euler rotation
@@ -86,7 +86,7 @@ class TexturedModel {
 //                // are only affected by the parent bones because of the rotations.
 //                //
 //                // This probably doesn't work but haven't tested it on models with joints so.
-//                val stack = MatrixStack()
+//                val stack = PoseStack()
 //                for (bone in resolveParentsFromRoot(mutableMapOf(), bone)) {
 //                    val rotation = bone.rotation?.takeIf { it[0] != 0F || it[1] != 0F || it[2] != 0F } ?: continue
 //                    stack.translate(-bone.pivot[0], bone.pivot[1], -bone.pivot[2])
@@ -115,12 +115,12 @@ class TexturedModel {
 //
 //                    // Apply translate, rotate, then translate back because the pivots don't actually directly translate
 //                    // to shifted positions in Bedrock.
-//                    stack.push()
+//                    stack.pushPose()
 //                    stack.translate(pivot.x, pivot.y, pivot.z)
 //                    stack.multiply(Quaternionf().rotationXYZ(rotation.x.toRadians(), rotation.y.toRadians(), rotation.z.toRadians()))
 //                    stack.translate(-pivot.x, -pivot.y, -pivot.z)
 //                    val rotationMatrix = stack.peek().positionMatrix
-//                    stack.pop()
+//                    stack.popPose()
 //
 //                    // Finds where Bedrock put the start of the cube. The matrix does the rotation correctly because we
 //                    // are chasing rotations around very specific points.

@@ -26,7 +26,7 @@ import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.gui.widget.ButtonWidget.NarrationSupplier
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.network.chat.Component
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 
 class MoveSlotButton(
     x: Int, y: Int,
@@ -82,7 +82,7 @@ class MoveSlotButton(
         if (pp != -1 && ppMax != -1) {
             var movePPText = Component.literal("$pp/$ppMax").bold()
 
-            if (pp <= MathHelper.floor(ppMax / 2F)) {
+            if (pp <= Mth.floor(ppMax / 2F)) {
                 movePPText = if (pp == 0) movePPText.red() else movePPText.gold()
             }
 

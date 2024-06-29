@@ -17,26 +17,26 @@ import java.awt.Color
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
-import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.render.VertexConsumer
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.entity.EntityRenderer
-import net.minecraft.client.render.entity.EntityRendererFactory
+import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.entity.EntityRenderer
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.world.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.util.Arm
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.RotationAxis
+import net.minecraft.util.Mth
+import com.mojang.math.Axis
 import org.joml.Quaternionf
 
 @Environment(value = EnvType.CLIENT)
-class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : EntityRenderer<PokeRodFishingBobberEntity>(context) {
+class PokeBobberEntityRenderer(context: EntityRendererProvider.Context?) : EntityRenderer<PokeRodFishingBobberEntity>(context) {
 
-    override fun render(fishingBobberEntity: PokeRodFishingBobberEntity, elapsedPartialTicks: Float, tickDelta: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, light: Int) {
+    override fun render(fishingBobberEntity: PokeRodFishingBobberEntity, elapsedPartialTicks: Float, tickDelta: Float, matrixStack: PoseStack, vertexConsumerProvider: MultiBufferSource, light: Int) {
         var playerPosXWorld: Double
         val eyeHeightOffset: Float
         val playerPosZWorld: Double
@@ -47,7 +47,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val berryAdjustY = 0.0 // for tweaking height pos of some berry baits
         val berryAdjustX = 0.0 // for tweaking width pos of some berry baits
 
-        matrixStack.push() // prepare for overall rendering transforms
+        matrixStack.pushPose() // prepare for overall rendering transforms
 
         // Generate controlled random pitch and yaw for each cast, with constraints
         if (fishingBobberEntity.age <= 1) {
@@ -57,7 +57,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             fishingBobberEntity.randomPitch = (-40 + Math.random() * 80).toFloat() // Example: -40 to +40 degrees
         }
 
-        matrixStack.push() // prepare for bobber rendering transforms
+        matrixStack.pushPose() // prepare for bobber rendering transforms
 
         // Apply spinning effect only if the bobber is in the air
         // Modify spinning effect based on whether the bobber is in open water
@@ -91,15 +91,15 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             // Assuming randomPitch is the rotation around X axis that needs to be adjusted
             // Simple linear interpolation towards 0 degrees; adjust 'lerpFactor' as needed for speed
             val lerpFactor = 0.04f // This controls the speed of the adjustment
-            fishingBobberEntity.randomPitch = MathHelper.lerp(lerpFactor, fishingBobberEntity.randomPitch, 0f) // Adjust towards 0 degrees within range
+            fishingBobberEntity.randomPitch = Mth.lerp(lerpFactor, fishingBobberEntity.randomPitch, 0f) // Adjust towards 0 degrees within range
         }
 
         // Apply random pitch and yaw before rendering the Poke Ball
-        matrixStack.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(fishingBobberEntity.randomPitch))
-        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(fishingBobberEntity.randomYaw))
+        matrixStack.multiply(Axis.NEGATIVE_X.rotationDegrees(fishingBobberEntity.randomPitch))
+        matrixStack.multiply(Axis.NEGATIVE_Y.rotationDegrees(fishingBobberEntity.randomYaw))
 
         // Apply rotation based on last spin angle
-        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(fishingBobberEntity.lastSpinAngle))
+        matrixStack.multiply(Axis.NEGATIVE_Y.rotationDegrees(fishingBobberEntity.lastSpinAngle))
 
         // Scale down the Poke Ball to 70% of its original size
         matrixStack.scale(0.7f, 0.7f, 0.7f) // Apply the scaling transformation
@@ -140,14 +140,14 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             ballItem.defaultStack,
             ModelTransformationMode.GROUND,
             light,
-            OverlayTexture.DEFAULT_UV,
+            OverlayTexture.NO_OVERLAY,
             matrixStack,
             vertexConsumerProvider,
             fishingBobberEntity.world,
             0
         )
 
-        matrixStack.push() // prepare for transforms for Bait rendering
+        matrixStack.pushPose() // prepare for transforms for Bait rendering
 
         // check if any adjustments are needed for the certain kind of bait
         val berryAdjust = adjustBerry(pokeBobberBaitItemStack)
@@ -168,15 +168,15 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
                 pokeBobberBaitItemStack,
                 ModelTransformationMode.GROUND,
                 light,
-                OverlayTexture.DEFAULT_UV,
+                OverlayTexture.NO_OVERLAY,
                 matrixStack,
                 vertexConsumerProvider,
                 fishingBobberEntity.world,
                 0
         )
 
-        matrixStack.pop() // close bait rendering transforms
-        matrixStack.pop() // close bobber rendering transforms
+        matrixStack.popPose() // close bait rendering transforms
+        matrixStack.popPose() // close bobber rendering transforms
 
         var armOffset = if (playerEntity.mainArm == Arm.RIGHT) 1 else -1
         val itemStack = playerEntity.mainHandStack
@@ -184,15 +184,15 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             armOffset = -armOffset
         }
         val handSwingProgress = playerEntity.getHandSwingProgress(tickDelta)
-        val swingAngle = MathHelper.sin(MathHelper.sqrt(handSwingProgress) * Math.PI.toFloat())
-        val bodyYawRadians = MathHelper.lerp(tickDelta, playerEntity.prevBodyYaw, playerEntity.bodyYaw) * (Math.PI.toFloat() / 180)
-        val sinBodyYaw = MathHelper.sin(bodyYawRadians).toDouble()
-        val cosBodyYaw = MathHelper.cos(bodyYawRadians).toDouble()
+        val swingAngle = Mth.sin(Mth.sqrt(handSwingProgress) * Math.PI.toFloat())
+        val bodyYawRadians = Mth.lerp(tickDelta, playerEntity.prevBodyYaw, playerEntity.bodyYaw) * (Math.PI.toFloat() / 180)
+        val sinBodyYaw = Mth.sin(bodyYawRadians).toDouble()
+        val cosBodyYaw = Mth.cos(bodyYawRadians).toDouble()
         val horizontalOffset = armOffset.toDouble() * 0.35
         if (dispatcher.gameOptions != null && !dispatcher.gameOptions.perspective.isFirstPerson || playerEntity !== Minecraft.getInstance().player) {
-            playerEyeYWorld = MathHelper.lerp(tickDelta.toDouble(), playerEntity.prevX, playerEntity.x) - cosBodyYaw * horizontalOffset - sinBodyYaw * 0.8
+            playerEyeYWorld = Mth.lerp(tickDelta.toDouble(), playerEntity.prevX, playerEntity.x) - cosBodyYaw * horizontalOffset - sinBodyYaw * 0.8
             playerPosYWorld = playerEntity.prevY + playerEntity.standingEyeHeight.toDouble() + (playerEntity.y - playerEntity.prevY) * tickDelta.toDouble() - 0.45
-            playerPosZWorld = MathHelper.lerp(tickDelta.toDouble(), playerEntity.prevZ, playerEntity.z) - sinBodyYaw * horizontalOffset + cosBodyYaw * 0.8
+            playerPosZWorld = Mth.lerp(tickDelta.toDouble(), playerEntity.prevZ, playerEntity.z) - sinBodyYaw * horizontalOffset + cosBodyYaw * 0.8
             eyeHeightOffset = if (playerEntity.isInSneakingPose) -0.1875f else 0.0f
         } else {
             playerPosXWorld = 960.0 / dispatcher.gameOptions.fov.value.toDouble()
@@ -200,15 +200,15 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             vec3d = vec3d.multiply(playerPosXWorld)
             vec3d = vec3d.rotateY(swingAngle * 0.5f)
             vec3d = vec3d.rotateX(-swingAngle * 0.7f)
-            playerEyeYWorld = MathHelper.lerp(tickDelta.toDouble(), playerEntity.prevX, playerEntity.getX()) + vec3d.x
-            playerPosYWorld = MathHelper.lerp(tickDelta.toDouble(), playerEntity.prevY, playerEntity.getY()) + vec3d.y
-            playerPosZWorld = MathHelper.lerp(tickDelta.toDouble(), playerEntity.prevZ, playerEntity.getZ()) + vec3d.z
+            playerEyeYWorld = Mth.lerp(tickDelta.toDouble(), playerEntity.prevX, playerEntity.getX()) + vec3d.x
+            playerPosYWorld = Mth.lerp(tickDelta.toDouble(), playerEntity.prevY, playerEntity.getY()) + vec3d.y
+            playerPosZWorld = Mth.lerp(tickDelta.toDouble(), playerEntity.prevZ, playerEntity.getZ()) + vec3d.z
             eyeHeightOffset = playerEntity.getStandingEyeHeight()
         }
-        playerPosXWorld = MathHelper.lerp(tickDelta.toDouble(), fishingBobberEntity.prevX, fishingBobberEntity.x)
+        playerPosXWorld = Mth.lerp(tickDelta.toDouble(), fishingBobberEntity.prevX, fishingBobberEntity.x)
 
-        val bobberPosY = MathHelper.lerp(tickDelta.toDouble(), fishingBobberEntity.prevY, fishingBobberEntity.y) + 0.25
-        val bobberPosZ = MathHelper.lerp(tickDelta.toDouble(), fishingBobberEntity.prevZ, fishingBobberEntity.z)
+        val bobberPosY = Mth.lerp(tickDelta.toDouble(), fishingBobberEntity.prevY, fishingBobberEntity.y) + 0.25
+        val bobberPosZ = Mth.lerp(tickDelta.toDouble(), fishingBobberEntity.prevZ, fishingBobberEntity.z)
 
         val deltaX = (playerEyeYWorld - playerPosXWorld).toFloat()
         val deltaY = (playerPosYWorld - bobberPosY).toFloat() + eyeHeightOffset
@@ -219,7 +219,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             renderFishingLine(pokeRod.lineColor, deltaX, deltaY, deltaZ, vertexConsumer2, entry2, percentage(lineIndex, 16), percentage(lineIndex + 1, 16))
         }
 
-        matrixStack.pop() // close main rendering transforms
+        matrixStack.popPose() // close main rendering transforms
 
         super.render(fishingBobberEntity, elapsedPartialTicks, tickDelta, matrixStack, vertexConsumerProvider, light)
     }
@@ -236,12 +236,12 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         private val TEXTURE = cobblemonResource("textures/item/fishing/bobber_hook.png")
         private val LAYER = RenderType.getEntityCutout(TEXTURE)
 
-        private fun vertex(buffer: VertexConsumer, entry: MatrixStack.Entry, light: Int, x: Float, y: Float, u: Int, v: Int) {
+        private fun vertex(buffer: VertexConsumer, entry: PoseStack.Entry, light: Int, x: Float, y: Float, u: Int, v: Int) {
             buffer
                 .vertex(entry.positionMatrix, x - 0.5f, y - 0.5f, 0.0f)
                 .color(255, 255, 255, 255)
                 .texture(u.toFloat(), v.toFloat())
-                .overlay(OverlayTexture.DEFAULT_UV)
+                .overlay(OverlayTexture.NO_OVERLAY)
                 .light(light)
                 .normal(entry, 0.0f, 1.0f, 0.0f)
         }
@@ -252,7 +252,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         }
 
         @JvmStatic
-        private fun renderFishingLine(color: String, deltaX: Float, deltaY: Float, deltaZ: Float, vertexBuffer: VertexConsumer, matrixEntry: MatrixStack.Entry, segmentStartFraction: Float, segmentEndFraction: Float) {
+        private fun renderFishingLine(color: String, deltaX: Float, deltaY: Float, deltaZ: Float, vertexBuffer: VertexConsumer, matrixEntry: PoseStack.Entry, segmentStartFraction: Float, segmentEndFraction: Float) {
             val colorObj = Color.decode(color)
             // Calculate the starting X position of the current segment based on the start fraction
             val startX = deltaX * segmentStartFraction
@@ -269,7 +269,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             var deltaZSegment = deltaZ * segmentEndFraction - startZ
 
             // Normalize the segment vector to use it for the normal vector in the vertex data
-            val length = MathHelper.sqrt(deltaXSegment * deltaXSegment + deltaYSegment * deltaYSegment + deltaZSegment * deltaZSegment)
+            val length = Mth.sqrt(deltaXSegment * deltaXSegment + deltaYSegment * deltaYSegment + deltaZSegment * deltaZSegment)
             deltaXSegment /= length
             deltaYSegment /= length
             deltaZSegment /= length

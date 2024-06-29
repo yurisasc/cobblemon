@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
 
 /**
@@ -41,7 +41,7 @@ class BarSummarySpeciesFeatureRenderer(
     override fun render(drawContext: GuiGraphics, x: Float, y: Float, pokemon: Pokemon, feature: IntSpeciesFeature) {
         val value = feature.value
         val barRatio = (value - min) / (max - min).toFloat()
-        val barWidth = MathHelper.ceil(barRatio * 108)
+        val barWidth = Mth.ceil(barRatio * 108)
 
         blitk(
             matrixStack = drawContext.matrices,
@@ -100,7 +100,7 @@ class BarSummarySpeciesFeatureRenderer(
 
         drawScaledText(
             context = drawContext,
-            text = "${MathHelper.floor(barRatio * 100)}%".text(),
+            text = "${Mth.floor(barRatio * 100)}%".text(),
             x = x + 113,
             y = y + 6,
             scale = StatWidget.SCALE,

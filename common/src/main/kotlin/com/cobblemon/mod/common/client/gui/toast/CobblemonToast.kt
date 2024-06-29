@@ -17,7 +17,7 @@ import net.minecraft.client.toast.ToastManager
 import net.minecraft.world.item.ItemStack
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 import java.util.*
 import kotlin.math.min
 
@@ -46,7 +46,7 @@ class CobblemonToast(
         context.drawItemWithoutEntity(this.icon, 8, 8)
         if (this.hasProgressBar()) {
             context.fill(3, 28, 157, 29, -1)
-            val f = MathHelper.clampedLerp(this.lastProgress, this.progress, (startTime - this.lastTime).toFloat() / 100F)
+            val f = Mth.clampedLerp(this.lastProgress, this.progress, (startTime - this.lastTime).toFloat() / 100F)
             context.fill(3, 28, (3F + 154F * f).toInt(), 29, this.progressColor)
             this.lastProgress = f
         }

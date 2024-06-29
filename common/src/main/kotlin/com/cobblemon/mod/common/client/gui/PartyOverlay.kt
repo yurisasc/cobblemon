@@ -37,7 +37,7 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.render.RenderTickCounter
 import net.minecraft.client.toast.AdvancementToast
 import net.minecraft.client.toast.Toast
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 
 class PartyOverlay : InGameHud(Minecraft.getInstance()) {
 
@@ -65,7 +65,7 @@ class PartyOverlay : InGameHud(Minecraft.getInstance()) {
     )
 
     val starterToast = CobblemonToast(
-        MathHelper.randomUuid(),
+        Mth.randomUuid(),
         CobblemonItems.POKE_BALL.defaultStack,
         lang("ui.starter.choose_starter_title", SummaryBinding.boundKey().localizedText).red(),
         lang("ui.starter.choose_starter_description", SummaryBinding.boundKey().localizedText).darkGray(),
@@ -147,7 +147,7 @@ class PartyOverlay : InGameHud(Minecraft.getInstance()) {
                     y + PORTRAIT_DIAMETER
                 )
 
-                matrices.push()
+                matrices.pushPose()
                 matrices.translate(
                     panelX + portraitFrameOffsetX + selectedOffsetX + PORTRAIT_DIAMETER / 2.0 - 1.0,
                     y.toDouble() - 12,
@@ -163,7 +163,7 @@ class PartyOverlay : InGameHud(Minecraft.getInstance()) {
                     repository = PokemonModelRepository,
                     state = state
                 )
-                matrices.pop()
+                matrices.popPose()
                 context.disableScissor()
             }
 

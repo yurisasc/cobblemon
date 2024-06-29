@@ -22,8 +22,8 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.math.*
-import net.minecraft.util.math.MathHelper.ceil
-import net.minecraft.util.math.MathHelper.floor
+import net.minecraft.util.Mth.ceil
+import net.minecraft.util.Mth.floor
 import net.minecraft.world.BlockView
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.biome.Biome

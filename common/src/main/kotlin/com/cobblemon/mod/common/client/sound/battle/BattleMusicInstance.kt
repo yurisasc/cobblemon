@@ -15,7 +15,7 @@ import net.minecraft.client.sound.*
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.core.BlockPos
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
 
 /**
  * A [SoundInstance] for [PokemonBattle] music.
@@ -59,7 +59,7 @@ class BattleMusicInstance(sound: SoundEvent, volume: Float = 1.0F, pitch: Float 
         ++tickCount
         if (fade) {
             ++fadeCount
-            this.volume = MathHelper.lerp(fadeCount/fadeTime, initVolume, 0.0).toFloat()
+            this.volume = Mth.lerp(fadeCount/fadeTime, initVolume, 0.0).toFloat()
             if (volume <= 0) this.done = true
         }
     }
