@@ -27,8 +27,8 @@ import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.util.math.Direction
 import com.mojang.math.Axis
+import net.minecraft.core.Direction
 
 class RestorationTankRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEntityRenderer<RestorationTankBlockEntity> {
     val context = RenderContext().also {
@@ -51,18 +51,18 @@ class RestorationTankRenderer(ctx: BlockEntityRendererProvider.Context) : BlockE
         val connectionDir = struct.tankConnectorDirection
         // FYI, rendering models this way ignores the pivots set in the model, so set the pivots manually
         when (connectionDir) {
-            Direction.NORTH -> matrices.mulPose(Axis.YP.rotationDegrees(0f), 0.5f, 0f, 0.5f)
-            Direction.EAST -> matrices.mulPose(Axis.YP.rotationDegrees(270f), 0.5f, 0f, 0.5f)
-            Direction.SOUTH -> matrices.mulPose(Axis.YP.rotationDegrees(180f), 0.5f, 0f, 0.5f)
-            Direction.WEST -> matrices.mulPose(Axis.YP.rotationDegrees(90f), 0.5f, 0f, 0.5f)
+            Direction.NORTH -> matrices.rotateAround(Axis.YP.rotationDegrees(0f), 0.5f, 0f, 0.5f)
+            Direction.EAST -> matrices.rotateAround(Axis.YP.rotationDegrees(270f), 0.5f, 0f, 0.5f)
+            Direction.SOUTH -> matrices.rotateAround(Axis.YP.rotationDegrees(180f), 0.5f, 0f, 0.5f)
+            Direction.WEST -> matrices.rotateAround(Axis.YP.rotationDegrees(90f), 0.5f, 0f, 0.5f)
             else -> {}
         }
 
-        val cutoutBuffer = vertexConsumers.getBuffer(RenderType.getCutout())
+        val cutoutBuffer = vertexConsumers.getBuffer(RenderType.cutout())
         if (connectionDir != null) {
             matrices.pushPose()
-            CONNECTOR_MODEL.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
-                cutoutBuffer.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, 1f, light, OverlayTexture.NO_OVERLAY)
+            CONNECTOR_MODEL.getQuads(entity.blockState, null, entity.level?.random).forEach { quad ->
+                cutoutBuffer.putBulkData(matrices.last(), quad, 0.75f, 0.75f, 0.75f, 1f, light, OverlayTexture.NO_OVERLAY)
             }
             matrices.popPose()
         }
@@ -76,13 +76,13 @@ class RestorationTankRenderer(ctx: BlockEntityRendererProvider.Context) : BlockE
         }
 
         matrices.pushPose()
-        val transparentBuffer = vertexConsumers.getBuffer(RenderType.getTranslucent())
+        val transparentBuffer = vertexConsumers.getBuffer(RenderType.translucent())
 
         val fluidModel = if (struct.isRunning()) FLUID_MODELS[8]
         else if (struct.hasCreatedPokemon) FLUID_MODELS[7]
         else FLUID_MODELS[fillLevel.coerceAtMost(FLUID_MODELS.size - 1) - 1]
-        fluidModel.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
-            transparentBuffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, 1f, light, OverlayTexture.NO_OVERLAY)
+        fluidModel.getQuads(entity.blockState, null, entity.level?.random).forEach { quad ->
+            transparentBuffer?.putBulkData(matrices.last(), quad, 0.75f, 0.75f, 0.75f, 1f, light, OverlayTexture.NO_OVERLAY)
         }
 
         matrices.popPose()
@@ -148,7 +148,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererProvider.Context) : BlockE
                 matrices.pushPose()
                 matrices.translate(0.5, 1.0 + fossilFetusModel.yTranslation,  0.5);
                 matrices.mulPose(Axis.ZP.rotationDegrees(180F))
-                if (tankDirection.rotateCounterclockwise(Direction.Axis.Y) == connectionDir) {
+                if (tankDirection.getCounterClockWise(Direction.Axis.Y) == connectionDir) {
                     matrices.mulPose(Axis.YP.rotationDegrees(-90F))
                 } else if (tankDirection == connectionDir) {
                     matrices.mulPose(Axis.YP.rotationDegrees(180F))

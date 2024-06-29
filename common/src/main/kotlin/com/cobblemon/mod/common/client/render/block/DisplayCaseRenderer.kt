@@ -14,22 +14,16 @@ import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.block.DisplayCaseBlock
 import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-//import com.cobblemon.mod.common.item.PokemonItem
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Axis
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
-import net.minecraft.client.renderer.model.json.ModelTransformationMode
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.CustomModelDataComponent
-import net.minecraft.item.BannerItem
-import net.minecraft.item.BedItem
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
-import net.minecraft.util.math.Direction
-import com.mojang.math.Axis
+import net.minecraft.core.Direction
+import net.minecraft.core.component.DataComponents
+import net.minecraft.world.item.*
+import net.minecraft.world.item.component.CustomModelData
 import net.minecraft.world.level.Level
 
 class DisplayCaseRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEntityRenderer<DisplayCaseBlockEntity> {
@@ -38,7 +32,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEntit
     }
     val coinPouchStack: ItemStack by lazy { ItemStack(
         CobblemonItems.RELIC_COIN_POUCH
-    ).also { it.set(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelDataComponent(1)) } }
+    ).also { it.set(DataComponents.CUSTOM_MODEL_DATA, CustomModelData(1)) } }
     override fun render(
         entity: DisplayCaseBlockEntity,
         tickDelta: Float,
@@ -52,12 +46,12 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEntit
         } else {
             entity.getStack()
         }
-        val world = entity.world ?: return
+        val world = entity.level ?: return
         val posType = getPositioningType(stack, world)
-        val blockState = if (entity.world != null) entity.cachedState
-            else (CobblemonBlocks.DISPLAY_CASE.defaultState.with(DisplayCaseBlock.ITEM_DIRECTION, Direction.NORTH))
-        val yRot = if (posType == PositioningType.ITEM_MODEL) blockState.getValue(DisplayCaseBlock.ITEM_DIRECTION).opposite.asRotation()
-            else blockState.getValue(DisplayCaseBlock.ITEM_DIRECTION).asRotation()
+        val blockState = if (entity.level != null) entity.blockState
+            else (CobblemonBlocks.DISPLAY_CASE.defaultBlockState().setValue(DisplayCaseBlock.ITEM_DIRECTION, Direction.NORTH))
+        val yRot = if (posType == PositioningType.ITEM_MODEL) blockState.getValue(DisplayCaseBlock.ITEM_DIRECTION).opposite.toYRot()
+            else blockState.getValue(DisplayCaseBlock.ITEM_DIRECTION).toYRot()
 
         /*
         if (stack.item is PokemonItem) {
@@ -82,14 +76,14 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEntit
         matrices.mulPose(Axis.YP.rotationDegrees(-yRot))
         matrices.mulPose(Axis.YP.rotationDegrees(posType.rotY))
 
-        Minecraft.getInstance().itemRenderer.renderItem(
+        Minecraft.getInstance().itemRenderer.renderStatic(
             stack,
-            ModelTransformationMode.GROUND,
+            ItemDisplayContext.GROUND,
             light,
             overlay,
             matrices,
             vertexConsumers,
-            entity.world,
+            entity.level,
             0
         )
 
@@ -164,13 +158,13 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEntit
             mobHeads.contains(stack.item) -> PositioningType.MOB_HEAD
             stack.item is BedItem -> PositioningType.BED
             stack.item is BannerItem -> PositioningType.BANNER
-            stack.isIn(CobblemonItemTags.POKE_BALLS) -> PositioningType.POKE_BALL
+            stack.`is`(CobblemonItemTags.POKE_BALLS) -> PositioningType.POKE_BALL
             stack.item == CobblemonItems.RELIC_COIN_POUCH -> PositioningType.COIN_POUCH
             stack.item == CobblemonItems.PASTURE -> PositioningType.PASTURE
             //stack.item == CobblemonItems.POKEMON_MODEL -> PositioningType.ITEM_MODEL
             stack.item == Items.SHIELD -> PositioningType.SHIELD
             stack.item == Items.DECORATED_POT -> PositioningType.MOB_HEAD
-            Minecraft.getInstance().itemRenderer.getModel(stack, world, null, 0).hasDepth() -> PositioningType.BLOCK_MODEL
+            Minecraft.getInstance().itemRenderer.getModel(stack, world, null, 0).isGui3d -> PositioningType.BLOCK_MODEL
             else -> PositioningType.ITEM_MODEL
         }
     }

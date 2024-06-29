@@ -21,15 +21,15 @@ import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveDouble
+import net.minecraft.CrashReport
+import net.minecraft.ReportedException
 import net.minecraft.client.Minecraft
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.resources.sounds.SimpleSoundInstance
-import net.minecraft.client.world.ClientWorld
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
-import net.minecraft.util.crash.CrashException
-import net.minecraft.util.crash.CrashReport
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.phys.Vec3
 import java.util.*
@@ -64,7 +64,7 @@ class BedrockParticleKeyframe(
     }
 
     override fun run(entity: Entity, state: PosableState) {
-        val world = entity.world as? ClientWorld ?: return
+        val world = entity.level() as? ClientLevel ?: return
         val matrixWrapper = state.locatorStates[locator] ?: state.locatorStates["root"]!!
 
         if (this in state.poseParticles) {
@@ -81,7 +81,7 @@ class BedrockParticleKeyframe(
             matrixWrapper = matrixWrapper,
             world = world,
             runtime = particleRuntime,
-            sourceVelocity = { entity.velocity },
+            sourceVelocity = { entity.deltaMovement },
             sourceAlive = { !entity.isRemoved && this in state.poseParticles },
             sourceVisible = { !entity.isInvisible },
             entity = entity,
@@ -153,30 +153,30 @@ data class BedrockAnimation(
             val part = model.relevantPartsByName[boneName] ?: if (boneName == "root_part") (model.rootPart as ModelPart) else null
             if (part !== null) {
                 if (!timeline.position.isEmpty()) {
-                    val position = timeline.position.resolve(animationSeconds.toDouble(), runtime).multiply(intensity.toDouble())
+                    val position = timeline.position.resolve(animationSeconds.toDouble(), runtime).scale(intensity.toDouble())
                     part.apply {
-                        pivotX += position.x.toFloat()
-                        pivotY += position.y.toFloat()
-                        pivotZ += position.z.toFloat()
+                        x += position.x.toFloat()
+                        y += position.y.toFloat()
+                        z += position.z.toFloat()
                     }
                 }
 
                 if (!timeline.rotation.isEmpty()) {
                     try {
-                        val rotation = timeline.rotation.resolve(animationSeconds.toDouble(), runtime).multiply(intensity.toDouble())
+                        val rotation = timeline.rotation.resolve(animationSeconds.toDouble(), runtime).scale(intensity.toDouble())
                         part.apply {
-                            pitch += rotation.x.toFloat().toRadians()
-                            yaw += rotation.y.toFloat().toRadians()
-                            roll += rotation.z.toFloat().toRadians()
+                            xRot += rotation.x.toFloat().toRadians()
+                            yRot += rotation.y.toFloat().toRadians()
+                            zRot += rotation.z.toFloat().toRadians()
                         }
                     } catch (e: Exception) {
                         val exception = IllegalStateException("Bad animation for entity: ${(model.context.request(RenderContext.ENTITY))!!.effectiveName().string}", e)
                         val crash = CrashReport("Cobblemon encountered an unexpected crash", exception)
-                        val section = crash.addElement("Animation Details")
-                        section.add("Pose", state.currentPose!!)
-                        section.add("Bone", boneName)
+                        val section = crash.addCategory("Animation Details")
+                        section.setDetail("Pose", state.currentPose!!)
+                        section.setDetail("Bone", boneName)
 
-                        throw CrashException(crash)
+                        throw ReportedException(crash)
                     }
                 }
 
@@ -189,9 +189,9 @@ data class BedrockAnimation(
                         part.zScale *= scale.z.toFloat()
                     } else {
                         // The deviation from 1 is what we want to multiply by the intensity of the animation.
-                        val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0)
-                        val weakenedDeviation = deviation.multiply(intensity.toDouble())
-                        scale = weakenedDeviation.subtract(1.0, 1.0, 1.0).multiply(-1.0)
+                        val deviation = scale.scale(-1.0).add(1.0, 1.0, 1.0)
+                        val weakenedDeviation = deviation.scale(intensity.toDouble())
+                        scale = weakenedDeviation.subtract(1.0, 1.0, 1.0).scale(-1.0)
                         part.xScale *= scale.x.toFloat()
                         part.yScale *= scale.y.toFloat()
                         part.zScale *= scale.z.toFloat()
@@ -240,8 +240,8 @@ class MolangBoneValue(
     override fun resolve(time: Double, runtime: MoLangRuntime): Vec3 {
         val environment = runtime.environment
         environment.setSimpleVariable("anim_time", DoubleValue(time))
-        environment.setSimpleVariable("camera_rotation_x", DoubleValue(Minecraft.getInstance().gameRenderer.camera.rotation.x.toDouble()))
-        environment.setSimpleVariable("camera_rotation_y", DoubleValue(Minecraft.getInstance().gameRenderer.camera.rotation.y.toDouble()))
+        environment.setSimpleVariable("camera_rotation_x", DoubleValue(Minecraft.getInstance().gameRenderer.mainCamera.rotation().x.toDouble()))
+        environment.setSimpleVariable("camera_rotation_y", DoubleValue(Minecraft.getInstance().gameRenderer.mainCamera.rotation().y.toDouble()))
         return Vec3(
             runtime.resolveDouble(x),
             runtime.resolveDouble(y) * yMul,

@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPo
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class VoltorbModel(root: ModelPart) : PokemonPosableModel(root) {

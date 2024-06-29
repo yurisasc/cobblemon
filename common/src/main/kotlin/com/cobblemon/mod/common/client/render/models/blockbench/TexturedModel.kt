@@ -11,13 +11,9 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 import com.cobblemon.mod.common.client.util.adapters.LocatorBoneAdapter
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
-import net.minecraft.client.model.Dilation
-import net.minecraft.client.model.ModelData
-import net.minecraft.client.model.ModelPartBuilder
-import net.minecraft.client.model.ModelPartData
-import net.minecraft.client.model.ModelTransform
-import net.minecraft.client.model.geom.builders.LayerDefinition
 import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.client.model.geom.PartPose
+import net.minecraft.client.model.geom.builders.*
 
 /**
  * Bedrock's GEO format.
@@ -152,14 +148,14 @@ class TexturedModel {
 //    }
 
     fun createWithUvOverride(isForLivingEntityRenderer: Boolean, u: Int, v: Int, textureWidth: Int?, textureHeight: Int?) : LayerDefinition {
-        val modelData = ModelData()
-        val parts = HashMap<String, ModelPartData>()
+        val modelData = MeshDefinition()
+        val parts = HashMap<String, PartDefinition>()
         val bones = HashMap<String, ModelBone>()
 
         try {
             val geometry = this.geometry!![0]
             val geometryBones = geometry.bones!!.toMutableList()
-            var parentPart: ModelPartData
+            var parentPart: PartDefinition
 
             // We want all the regular bones, but then we want locators to be mapped into being empty bones.
             // Reasoning there is that in many ways they really do function the same. Creating a bespoke locator
@@ -185,14 +181,14 @@ class TexturedModel {
                 parentPart = if (bone.parent != null) parts[bone.parent]!! else modelData.root
 
                 val boneRotation = bone.rotation
-                val modelTransform : ModelTransform
+                val modelTransform : PartPose
                 when {
                     bone.parent == null -> {
                         // The root part always has a 24 Y offset. One of life's great mysteries.
-                        modelTransform = ModelTransform.pivot(0F, if (isForLivingEntityRenderer) 24F else 0F, 0F)
+                        modelTransform = PartPose.offset(0F, if (isForLivingEntityRenderer) 24F else 0F, 0F)
                     }
                     boneRotation != null -> {
-                        modelTransform = ModelTransform.of(
+                        modelTransform = PartPose.offsetAndRotation(
                             -(bones[bone.parent]!!.pivot[0] - bone.pivot[0]),
                             bones[bone.parent]!!.pivot[1] - bone.pivot[1],
                             -(bones[bone.parent]!!.pivot[2] - bone.pivot[2]),
@@ -202,7 +198,7 @@ class TexturedModel {
                         )
                     }
                     else -> {
-                        modelTransform = ModelTransform.pivot(
+                        modelTransform = PartPose.offset(
                             -(bones[bone.parent]!!.pivot[0] - bone.pivot[0]),
                             bones[bone.parent]!!.pivot[1] - bone.pivot[1],
                             -(bones[bone.parent]!!.pivot[2] - bone.pivot[2])
@@ -210,30 +206,30 @@ class TexturedModel {
                     }
                 }
 
-                val modelPart = ModelPartBuilder.create()
-                val subParts = mutableListOf<ModelPartBuilder>()
-                val modelTransforms = mutableListOf<ModelTransform>()
+                val modelPart = CubeListBuilder.create()
+                val subParts = mutableListOf<CubeListBuilder>()
+                val modelTransforms = mutableListOf<PartPose>()
 
                 val boneCubes = bone.cubes
                 if (boneCubes != null) {
                     var pivot: List<Float>
-                    var subPart: ModelPartBuilder
+                    var subPart: CubeListBuilder
 
                     for (cube in boneCubes) {
-                        subPart = if (cube.rotation != null) ModelPartBuilder.create() else modelPart
+                        subPart = if (cube.rotation != null) CubeListBuilder.create() else modelPart
                         pivot = cube.pivot ?: bone.pivot
 
                         if (cube.uv != null) {
-                            subPart.uv(
+                            subPart.texOffs(
                                 cube.uv[0] + u,
                                 cube.uv[1] + v
                             )
                         }
                         if (cube.mirror != null && cube.mirror == true) {
-                            subPart.mirrored()
+                            subPart.mirror()
                         }
                         if (cube.size != null && cube.origin != null) {
-                            subPart.cuboid(
+                            subPart.addBox(
                                 cube.origin[0] - pivot[0],
                                 // Y is inverted in Java Edition, but that also means counting from the other side of the cube.
                                 -(cube.origin[1] - pivot[1] + cube.size[1]),
@@ -241,15 +237,15 @@ class TexturedModel {
                                 cube.size[0],
                                 cube.size[1],
                                 cube.size[2],
-                                Dilation(cube.inflate ?: 0f)
+                                CubeDeformation(cube.inflate ?: 0f)
                             )
                         }
                         if (cube.mirror != null && cube.mirror == true) {
-                            subPart.mirrored(false)
+                            subPart.mirror(false)
                         }
 
                         if (subPart != modelPart) {
-                            modelTransforms.add(ModelTransform.of(
+                            modelTransforms.add(PartPose.offsetAndRotation(
                                 -(bone.pivot[0] - cube.pivot!![0]),
                                 bone.pivot[1] - cube.pivot[1],
                                 -(bone.pivot[2] - cube.pivot[2]),
@@ -262,7 +258,7 @@ class TexturedModel {
                     }
                 }
 
-                parts[bone.name] = parentPart.addChild(
+                parts[bone.name] = parentPart.addOrReplaceChild(
                     bone.name,
                     modelPart,
                     modelTransform
@@ -270,7 +266,7 @@ class TexturedModel {
 
                 var counter = 0
                 subParts.forEachIndexed { index, part ->
-                    parts[bone.name]!!.addChild(
+                    parts[bone.name]!!.addOrReplaceChild(
                         bone.name + counter++.toString(),
                         part,
                         modelTransforms[index]
@@ -278,7 +274,7 @@ class TexturedModel {
                 }
             }
 
-            return LayerDefinition.of(
+            return LayerDefinition.create(
                 modelData,
                 textureWidth ?: geometry.description.textureWidth,
                 textureHeight ?: geometry.description.textureHeight

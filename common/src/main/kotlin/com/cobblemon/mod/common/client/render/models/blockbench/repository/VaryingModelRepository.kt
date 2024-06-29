@@ -14,11 +14,7 @@ import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.ModelVariationSet
 import com.cobblemon.mod.common.client.render.VaryingRenderableResolver
-import com.cobblemon.mod.common.client.render.models.blockbench.JsonModelAdapter
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseAdapter
-import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
+import com.cobblemon.mod.common.client.render.models.blockbench.*
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
@@ -32,15 +28,15 @@ import com.cobblemon.mod.common.util.fromJson
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import net.minecraft.client.model.geom.ModelPart
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.resources.Resource
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.world.phys.Vec3
 import java.io.File
 import java.nio.charset.StandardCharsets
 import java.util.function.BiFunction
 import java.util.function.Function
-import net.minecraft.client.model.ModelPart
-import net.minecraft.resource.Resource
-import net.minecraft.resource.ResourceManager
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.phys.Vec3
 
 /**
  * A repository for [PosableModel]s. Can be parameterized with [PosableModel] itself or a subclass.
@@ -127,11 +123,11 @@ abstract class VaryingModelRepository<T : PosableModel> {
     open fun registerJsonPosers(resourceManager: ResourceManager) {
         for (directory in poserDirectories) {
             resourceManager
-                .findResources(directory) { path -> path.endsWith(".json") }
+                .listResources(directory) { path -> path.endsWith(".json") }
                 .forEach { (identifier, resource) ->
-                    resource.inputStream.use { stream ->
+                    resource.open().use { stream ->
                         val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                        val resolvedIdentifier = ResourceLocation.parse(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                        val resolvedIdentifier = ResourceLocation.fromNamespaceAndPath(identifier.namespace, File(identifier.path).nameWithoutExtension)
                         posers[resolvedIdentifier] = loadJsonPoser(json)
                     }
                 }
@@ -147,9 +143,9 @@ abstract class VaryingModelRepository<T : PosableModel> {
         val nameToModelVariationSets = mutableMapOf<ResourceLocation, MutableList<ModelVariationSet>>()
         for (directory in variationDirectories) {
             resourceManager
-                .findResources(directory) { path -> path.endsWith(".json") }
+                .listResources(directory) { path -> path.endsWith(".json") }
                 .forEach { (_, resource) ->
-                    resource.inputStream.use { stream ->
+                    resource.open().use { stream ->
                         val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
                         val modelVariationSet = VaryingRenderableResolver.GSON.fromJson<ModelVariationSet>(json)
                         nameToModelVariationSets.getOrPut(modelVariationSet.name) { mutableListOf() }.add(modelVariationSet)
@@ -172,10 +168,10 @@ abstract class VaryingModelRepository<T : PosableModel> {
         var models = 0
         for (directory in modelDirectories) {
             MODEL_FACTORIES.forEach { (key, func) ->
-                resourceManager.findResources(directory) { path -> path.endsWith(key) }
+                resourceManager.listResources(directory) { path -> path.endsWith(key) }
                     .map { func.apply(it.key, it.value) }
                     .forEach {
-                        texturedModels[it.left] = { isForLivingEntityRenderer -> it.right.apply(isForLivingEntityRenderer) }
+                        texturedModels[it.first] = { isForLivingEntityRenderer -> it.second.apply(isForLivingEntityRenderer) }
                         models++
                     }
             }
@@ -247,12 +243,12 @@ abstract class VaryingModelRepository<T : PosableModel> {
          */
         private var MODEL_FACTORIES = mutableMapOf<String, BiFunction<ResourceLocation, Resource, Pair<ResourceLocation, Function<Boolean, Bone>>>>().also {
             it[".geo.json"] = BiFunction<ResourceLocation, Resource, Pair<ResourceLocation, Function<Boolean, Bone>>> { identifier: ResourceLocation, resource: Resource ->
-                resource.inputStream.use { stream ->
+                resource.open().use { stream ->
                     val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                    val resolvedIdentifier = ResourceLocation.parse(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    val resolvedIdentifier = ResourceLocation.fromNamespaceAndPath(identifier.namespace, File(identifier.path).nameWithoutExtension)
 
                     val texturedModel = TexturedModel.from(json)
-                    val boneCreator: Function<Boolean, Bone> = Function { texturedModel.create(it).createModel() }
+                    val boneCreator: Function<Boolean, Bone> = Function { texturedModel.create(it).bakeRoot() }
                     Pair(resolvedIdentifier, boneCreator)
                 }
             }

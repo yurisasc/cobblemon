@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class LampentModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {

@@ -11,16 +11,16 @@ package com.cobblemon.mod.common.client.render.block
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.FossilAnalyzerBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Axis
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
-import net.minecraft.client.renderer.model.json.ModelTransformationMode
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.util.math.Direction
-import com.mojang.math.Axis
+import net.minecraft.core.Direction
+import net.minecraft.world.item.ItemDisplayContext
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.Vec3
 
 class FossilAnalyzerRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEntityRenderer<FossilAnalyzerBlockEntity> {
@@ -33,14 +33,14 @@ class FossilAnalyzerRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEn
         light: Int,
         overlay: Int
     ) {
-        val blockState = if (entity.world != null) entity.cachedState
-            else (CobblemonBlocks.FOSSIL_ANALYZER.defaultState.with(HorizontalDirectionalBlock.FACING, Direction.SOUTH) as BlockState)
+        val blockState = if (entity.level != null) entity.blockState
+            else (CobblemonBlocks.FOSSIL_ANALYZER.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.SOUTH) as BlockState)
         // We shouldn't have to do any complex rendering when the block isn't a multiblock
         if (entity.multiblockStructure == null) {
             return
         }
         val direction = blockState.getValue(HorizontalDirectionalBlock.FACING)
-        val yRot = direction.asRotation() + if(direction == Direction.WEST || direction == Direction.EAST) 180F else 0F
+        val yRot = direction.toYRot() + if(direction == Direction.WEST || direction == Direction.EAST) 180F else 0F
         val struct = entity.multiblockStructure as FossilMultiblockStructure
 
         struct.fossilInventory.forEachIndexed { index, fossilStack ->
@@ -59,7 +59,7 @@ class FossilAnalyzerRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEn
             matrices.mulPose(Axis.XP.rotationDegrees(90F))
             matrices.scale(0.7F, 0.7F, 0.7F)
 
-            Minecraft.getInstance().itemRenderer.renderItem(fossilStack, ModelTransformationMode.NONE, light, overlay, matrices, vertexConsumers, entity.world, 0)
+            Minecraft.getInstance().itemRenderer.renderStatic(fossilStack, ItemDisplayContext.NONE, light, overlay, matrices, vertexConsumers, entity.level, 0)
 
             matrices.popPose()
         }

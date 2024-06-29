@@ -25,10 +25,14 @@ import net.minecraft.client.particle.ParticleRenderType
 import net.minecraft.client.particle.ParticleRenderType.NO_RENDER
 import net.minecraft.client.particle.ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
 import com.mojang.blaze3d.vertex.VertexConsumer
+import net.minecraft.client.Camera
 import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.client.renderer.texture.TextureAtlasSprite
+import net.minecraft.core.Direction
 import net.minecraft.world.phys.AABB
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
+import net.minecraft.world.phys.shapes.Shapes
 import org.joml.AxisAngle4d
 import org.joml.Quaterniond
 import org.joml.Vector3d
@@ -85,12 +89,12 @@ class SnowstormParticle(
     fun getY() = y
     fun getZ() = z
 
-    fun getVelocityX() = velocityX
-    fun getVelocityY() = velocityY
-    fun getVelocityZ() = velocityZ
+    fun getVelocityX() = xd
+    fun getVelocityY() = yd
+    fun getVelocityZ() = zd
 
-    fun getSpriteFromAtlas(): Sprite {
-        val atlas = Minecraft.getInstance().particleManager.particleAtlasTexture
+    fun getSpriteFromAtlas(): TextureAtlasSprite {
+        val atlas = Minecraft.getInstance().particleEngine.textureAtlas
 
 //        val field = atlas::class.java.getDeclaredField("sprites")
 //        field.isAccessible = true
@@ -109,14 +113,14 @@ class SnowstormParticle(
     }
 
     init {
-        setVelocity(initialVelocity.x, initialVelocity.y, initialVelocity.z)
-        angle = -storm.effect.particle.rotation.getInitialRotation(storm.runtime).toFloat()
-        prevAngle = angle
+        setParticleSpeed(initialVelocity.x, initialVelocity.y, initialVelocity.z)
+        roll = -storm.effect.particle.rotation.getInitialRotation(storm.runtime).toFloat()
+        oRoll = roll
         angularVelocity = storm.effect.particle.rotation.getInitialAngularVelocity(storm.runtime)
-        velocityMultiplier = 1F
-        maxAge = (storm.runtime.resolveDouble(storm.effect.particle.maxAge) * 20).toInt()
+        friction = 1F
+        lifetime = (storm.runtime.resolveDouble(storm.effect.particle.maxAge) * 20).toInt()
         storm.particles.add(this)
-        gravityStrength = 0F
+        gravity = 0F
         particleTextureSheet = if (invisible) NO_RENDER else PARTICLE_SHEET_TRANSLUCENT
         storm.effect.particle.creationEvents.forEach { it.trigger(storm, this) }
 //            when (storm.effect.particle.material) {
@@ -127,9 +131,9 @@ class SnowstormParticle(
 //        }
     }
 
-    override fun buildGeometry(vertexConsumer: VertexConsumer, camera: Camera, tickDelta: Float) {
+    override fun render(vertexConsumer: VertexConsumer, camera: Camera, tickDelta: Float) {
         if (Cobblemon.implementation.modAPI != ModAPI.FORGE) {
-           if (!Minecraft.getInstance().worldRenderer.frustum.isVisible(boundingBox)) {
+           if (!Minecraft.getInstance().levelRenderer.cullingFrustum.isVisible(boundingBox)) {
                return
            }
         }
@@ -142,15 +146,15 @@ class SnowstormParticle(
 //        // TODO need to implement the other materials but not sure exactly what they are GL wise
         when (storm.effect.particle.material) {
             // Alpha is the usual effect of "Cutout", this needs a shader but fabric fucking sucks so... Ignoring it.
-            ParticleMaterial.ALPHA -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
-            ParticleMaterial.OPAQUE -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_COLOR, GlStateManager.DstFactor.ZERO)
-            ParticleMaterial.BLEND -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
-            ParticleMaterial.ADD -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE)
+            ParticleMaterial.ALPHA -> RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
+            ParticleMaterial.OPAQUE -> RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO)
+            ParticleMaterial.BLEND -> RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
+            ParticleMaterial.ADD -> RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE)
         }
 
         RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
 
-        val vec3d = camera.pos
+        val vec3d = camera.position
 
         val interpLocalX = Mth.lerp(tickDelta.toDouble(), prevLocalX, localX)
         val interpLocalY = Mth.lerp(tickDelta.toDouble(), prevLocalY, localY)
@@ -165,19 +169,19 @@ class SnowstormParticle(
             Vector3d(interpLocalX, interpLocalY, interpLocalZ)
         }
 
-        val f = (pos.x + originPos.x - vec3d.getX()).toFloat()
-        val g = (pos.y + originPos.y - vec3d.getY()).toFloat()
-        val h = (pos.z + originPos.z - vec3d.getZ()).toFloat()
+        val f = (pos.x + originPos.x - vec3d.x()).toFloat()
+        val g = (pos.y + originPos.y - vec3d.y()).toFloat()
+        val h = (pos.z + originPos.z - vec3d.z()).toFloat()
         val quaternion = storm.effect.particle.cameraMode.getRotation(
             matrixWrapper = storm.matrixWrapper,
-            prevAngle = prevAngle,
-            angle = angle,
+            prevAngle = oRoll,
+            angle = roll,
             deltaTicks = tickDelta,
             particlePosition = Vec3(x, y, z),
-            cameraPosition = camera.pos,
-            cameraAngle = camera.rotation,
-            cameraYaw = camera.yaw,
-            cameraPitch = camera.pitch,
+            cameraPosition = camera.position,
+            cameraAngle = camera.rotation(),
+            cameraYaw = camera.yRot,
+            cameraPitch = camera.xRot,
             viewDirection = viewDirection
         )
         val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat() / 1.5.toFloat()
@@ -196,38 +200,38 @@ class SnowstormParticle(
             vertex.add(f, g, h)
         }
 
-        val uvs = storm.effect.particle.uvMode.get(storm.runtime, age / 20.0, maxAge / 20.0, uvDetails)
+        val uvs = storm.effect.particle.uvMode.get(storm.runtime, age / 20.0, lifetime / 20.0, uvDetails)
         val colour = storm.effect.particle.tinting.getTint(storm.runtime)
 
-        val spriteURange = sprite.maxU - sprite.minU
-        val spriteVRange = sprite.maxV - sprite.minV
+        val spriteURange = sprite.u1 - sprite.u0
+        val spriteVRange = sprite.v1 - sprite.v0
 
-        val minU = uvs.startU * spriteURange + sprite.minU
-        val maxU = uvs.endU * spriteURange + sprite.minU
-        val minV = uvs.startV * spriteVRange + sprite.minV
-        val maxV = uvs.endV * spriteVRange + sprite.minV
+        val minU = uvs.startU * spriteURange + sprite.u0
+        val maxU = uvs.endU * spriteURange + sprite.u0
+        val minV = uvs.startV * spriteVRange + sprite.v0
+        val maxV = uvs.endV * spriteVRange + sprite.v0
 
-        val p = if (storm.effect.particle.environmentLighting) getBrightness(tickDelta) else (15 shl 20 or (15 shl 4))
+        val p = if (storm.effect.particle.environmentLighting) getLightColor(tickDelta) else (15 shl 20 or (15 shl 4))
         vertexConsumer
-            .vertex(particleVertices[0].x, particleVertices[0].y, particleVertices[0].z)
-            .texture(maxU, maxV)
-            .color(colour.x, colour.y, colour.z, colour.w)
-            .light(p)
+            .addVertex(particleVertices[0].x, particleVertices[0].y, particleVertices[0].z)
+            .setUv(maxU, maxV)
+            .setColor(colour.x, colour.y, colour.z, colour.w)
+            .setLight(p)
         vertexConsumer
-            .vertex(particleVertices[1].x, particleVertices[1].y, particleVertices[1].z)
-            .texture(maxU, minV)
-            .color(colour.x, colour.y, colour.z, colour.w)
-            .light(p)
+            .addVertex(particleVertices[1].x, particleVertices[1].y, particleVertices[1].z)
+            .setUv(maxU, minV)
+            .setColor(colour.x, colour.y, colour.z, colour.w)
+            .setLight(p)
         vertexConsumer
-            .vertex(particleVertices[2].x, particleVertices[2].y, particleVertices[2].z)
-            .texture(minU, minV)
-            .color(colour.x, colour.y, colour.z, colour.w)
-            .light(p)
+            .addVertex(particleVertices[2].x, particleVertices[2].y, particleVertices[2].z)
+            .setUv(minU, minV)
+            .setColor(colour.x, colour.y, colour.z, colour.w)
+            .setLight(p)
         vertexConsumer
-            .vertex(particleVertices[3].x, particleVertices[3].y, particleVertices[3].z)
-            .texture(minU, maxV)
-            .color(colour.x, colour.y, colour.z, colour.w)
-            .light(p)
+            .addVertex(particleVertices[3].x, particleVertices[3].y, particleVertices[3].z)
+            .setUv(minU, maxV)
+            .setColor(colour.x, colour.y, colour.z, colour.w)
+            .setLight(p)
     }
 
     fun runExpirationEvents() {
@@ -243,33 +247,33 @@ class SnowstormParticle(
         setParticleAgeInRuntime()
         storm.effect.curves.forEach { it.apply(storm.runtime) }
         storm.runtime.execute(storm.effect.particle.updateExpressions)
-        angularVelocity = storm.effect.particle.rotation.getAngularVelocity(storm.runtime, -angle.toDouble(), angularVelocity) / 20
+        angularVelocity = storm.effect.particle.rotation.getAngularVelocity(storm.runtime, -roll.toDouble(), angularVelocity) / 20
 
-        if (age >= maxAge || storm.runtime.resolveBoolean(storm.effect.particle.killExpression)) {
+        if (age >= lifetime || storm.runtime.resolveBoolean(storm.effect.particle.killExpression)) {
             runExpirationEvents()
-            markDead()
+            remove()
             return
         } else {
             val velocity = storm.effect.particle.motion.getVelocity(storm.runtime, this,
-                Vec3(velocityX, velocityY, velocityZ)
+                Vec3(xd, yd, zd)
             )
-            velocityX = velocity.x
-            velocityY = velocity.y
-            velocityZ = velocity.z
-            prevAngle = angle
+            xd = velocity.x
+            yd = velocity.y
+            zd = velocity.z
+            oRoll = roll
             // Subtract because Bedrock particles are counter-clockwise and Java Edition is clockwise.
-            angle = prevAngle - angularVelocity.toFloat()
+            roll = oRoll - angularVelocity.toFloat()
         }
 
         viewDirection = storm.effect.particle.viewDirection.getDirection(
             runtime = storm.runtime,
             lastDirection = viewDirection,
-            currentVelocity = Vec3(velocityX, velocityY, velocityZ)
+            currentVelocity = Vec3(xd, yd, zd)
         ).normalize()
 
-        prevPosX = x
-        prevPosY = y
-        prevPosZ = z
+        xo = x
+        yo = y
+        zo = z
 
         prevLocalX = localX
         prevLocalY = localY
@@ -284,7 +288,7 @@ class SnowstormParticle(
 
         age++
 
-        this.move(velocityX, velocityY, velocityZ)
+        this.move(xd, yd, zd)
 
         storm.effect.particle.timeline.check(storm, this, (age - 1) / 20.0, age / 20.0)
     }
@@ -303,11 +307,11 @@ class SnowstormParticle(
         var dz = dz
 
         if (storm.runtime.resolveBoolean(collision.enabled) && radius > 0.0 && !storm.effect.space.isLocalSpace) {
-            collidesWithWorld = true
+            hasPhysics = true
 
             val newMovement = checkCollision(Vec3(dx, dy, dz))
 
-            if (dead) {
+            if (removed) {
                 return
             }
 
@@ -327,7 +331,7 @@ class SnowstormParticle(
 //            }
 
             if (dx != 0.0 || dy != 0.0 || dz != 0.0) {
-                boundingBox = boundingBox.offset(dx, dy, dz)
+                boundingBox = boundingBox.move(dx, dy, dz)
                 localX += dx
                 localY += dy
                 localZ += dz
@@ -338,13 +342,13 @@ class SnowstormParticle(
 //            }
 //            onGround = dy != dy && e < 0.0
 //            if (d != dx) {
-//                velocityX = 0.0
+//                xd = 0.0
 //            }
 //            if (dz != dz) {
-//                velocityZ = 0.0
+//                zd = 0.0
 //            }
         } else {
-            collidesWithWorld = false
+            hasPhysics = false
             if (dx != 0.0 || dy != 0.0 || dz != 0.0) {
                 localX += dx
                 localY += dy
@@ -374,13 +378,13 @@ class SnowstormParticle(
         val friction = storm.runtime.resolveDouble(collision.friction)
         val expiresOnContact = collision.expiresOnContact
 
-        val collisions = world.getBlockCollisions(null, box.stretch(movement))
+        val collisions = level.getBlockCollisions(null, box.expandTowards(movement))
         if (collisions.none()) {
             colliding = false
             return movement
         } else if (expiresOnContact) {
             runExpirationEvents()
-            markDead()
+            remove()
             return movement
         }
 
@@ -401,86 +405,86 @@ class SnowstormParticle(
 //            if (yCollisions.none { it.boundingBox.center.y in originalCollisionYs }) {
 //                yMovement = 0.0
 //                if (bounciness > 0.0 && abs(movement.y) > MAXIMUM_DISTANCE_CHANGE_PER_TICK_FOR_FRICTION) {
-//                    velocityY *= -1 * bounciness
+//                    yd *= -1 * bounciness
 //                    yMovement = -1 * bounciness * movement.y
 //                    bouncing = true
 //                } else if (friction > 0.0) {
 //                    sliding = true
-//                    velocityY = 0.0
+//                    yd = 0.0
 //                } else {
-//                    velocityY = 0.0
+//                    yd = 0.0
 //                }
 //            } else {
 //            }
 
 
-            yMovement = VoxelShapes.calculateMaxOffset(Direction.Axis.Y, box, collisions, yMovement)
+            yMovement = Shapes.collide(Direction.Axis.Y, box, collisions, yMovement)
             if (yMovement != 0.0) {
-                box = box.offset(0.0, 0.0, zMovement)
+                box = box.move(0.0, 0.0, zMovement)
             } else {
                 if (bounciness > 0.0 && abs(movement.y) > MAXIMUM_DISTANCE_CHANGE_PER_TICK_FOR_FRICTION) {
-                    velocityY *= -1 * bounciness
+                    yd *= -1 * bounciness
                     yMovement = -1 * bounciness * movement.y
                     bouncing = true
                 } else if (friction > 0.0) {
                     sliding = true
-                    velocityY = 0.0
+                    yd = 0.0
                 } else {
-                    velocityY = 0.0
+                    yd = 0.0
                 }
             }
         }
 
         val mostlyIsZMovement = abs(xMovement) < abs(zMovement)
         if (mostlyIsZMovement && zMovement != 0.0) {
-            zMovement = VoxelShapes.calculateMaxOffset(Direction.Axis.Z, box, collisions, zMovement)
+            zMovement = Shapes.collide(Direction.Axis.Z, box, collisions, zMovement)
             if (zMovement != 0.0) {
-                box = box.offset(0.0, 0.0, zMovement)
+                box = box.move(0.0, 0.0, zMovement)
             } else {
                 if (bounciness > 0.0 && abs(movement.z) > MAXIMUM_DISTANCE_CHANGE_PER_TICK_FOR_FRICTION) {
-                    velocityZ *= -1 * bounciness
+                    zd *= -1 * bounciness
                     zMovement = -1 * bounciness * movement.z
                     bouncing = true
                 } else if (friction > 0.0) {
                     sliding = true
-                    velocityZ = 0.0
+                    zd = 0.0
                 } else {
-                    velocityZ = 0.0
+                    zd = 0.0
                 }
             }
         }
 
         if (xMovement != 0.0) {
-            xMovement = VoxelShapes.calculateMaxOffset(Direction.Axis.X, box, collisions, xMovement)
+            xMovement = Shapes.collide(Direction.Axis.X, box, collisions, xMovement)
             if (!mostlyIsZMovement && xMovement != 0.0) {
-                box = box.offset(xMovement, 0.0, 0.0)
+                box = box.move(xMovement, 0.0, 0.0)
             } else {
                 if (bounciness > 0.0 && abs(movement.x) > MAXIMUM_DISTANCE_CHANGE_PER_TICK_FOR_FRICTION) {
-                    velocityX *= -1 * bounciness
+                    xd *= -1 * bounciness
                     xMovement = -1 * bounciness * movement.x
                     bouncing = true
                 } else if (friction > 0.0) {
                     sliding = true
-                    velocityZ = 0.0
+                    zd = 0.0
                 } else {
-                    velocityZ = 0.0
+                    zd = 0.0
                 }
             }
         }
 
         if (!mostlyIsZMovement && zMovement != 0.0) {
-            zMovement = VoxelShapes.calculateMaxOffset(Direction.Axis.Z, box, collisions, zMovement)
+            zMovement = Shapes.collide(Direction.Axis.Z, box, collisions, zMovement)
             if (zMovement != 0.0) {
             } else {
                 if (bounciness > 0.0 && abs(movement.z) > MAXIMUM_DISTANCE_CHANGE_PER_TICK_FOR_FRICTION) {
-                    velocityZ *= -1 * bounciness
+                    zd *= -1 * bounciness
                     zMovement = -1 * bounciness * movement.z
                     bouncing = true
                 } else if (friction > 0.0) {
                     sliding = true
-                    velocityZ = 0.0
+                    zd = 0.0
                 } else {
-                    velocityZ = 0.0
+                    zd = 0.0
                 }
             }
         }
@@ -492,15 +496,15 @@ class SnowstormParticle(
             newMovement = if (newMovement.length() * 20 < friction) {
                 Vec3.ZERO
             } else {
-                newMovement.subtract(newMovement.normalize().multiply(friction / 20))
+                newMovement.subtract(newMovement.normalize().scale(friction / 20))
             }
 
-            var velocity = Vec3(velocityX, velocityY, velocityZ)
+            var velocity = Vec3(xd, yd, zd)
             if (velocity.length() * 20 < friction) {
-                setVelocity(0.0, 0.0, 0.0)
+                setParticleSpeed(0.0, 0.0, 0.0)
             } else {
-                velocity = velocity.subtract(velocity.normalize().multiply(friction / 20))
-                setVelocity(velocity.x, velocity.y, velocity.z)
+                velocity = velocity.subtract(velocity.normalize().scale(friction / 20))
+                setParticleSpeed(velocity.x, velocity.y, velocity.z)
             }
         }
 
@@ -510,13 +514,13 @@ class SnowstormParticle(
 
     private fun setParticleAgeInRuntime() {
         storm.runtime.environment.variable.setDirectly("particle_age", DoubleValue(age / 20.0))
-        storm.runtime.environment.variable.setDirectly("particle_lifetime", DoubleValue(maxAge / 20.0))
+        storm.runtime.environment.variable.setDirectly("particle_lifetime", DoubleValue(lifetime / 20.0))
     }
 
-    override fun getType() = particleTextureSheet
+    override fun getRenderType() = particleTextureSheet
 
-    override fun markDead() {
-        super.markDead()
+    override fun remove() {
+        super.remove()
         storm.particles.remove(this)
     }
 }

@@ -61,7 +61,7 @@ abstract class PoseAnimation {
         intensity: Float
     ) {
         if (!condition(state)) return
-        setAngles(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity)
+        setupAnim(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity)
     }
 
     open fun applyEffects(entity: Entity, state: PosableState, previousSeconds: Float, newSeconds: Float) {}

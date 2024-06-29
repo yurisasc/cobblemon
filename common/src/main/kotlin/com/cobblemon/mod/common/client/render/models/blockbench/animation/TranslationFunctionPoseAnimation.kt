@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.addPosition
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 
 /**
  * Animation simply works by moving a part along a particular function

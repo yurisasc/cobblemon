@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.PoseType.STAND
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class BidoofModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, QuadrupedFrame {

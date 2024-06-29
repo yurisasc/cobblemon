@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPo
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.isBattling
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class CufantModel (root: ModelPart) : PokemonPosableModel(root) {

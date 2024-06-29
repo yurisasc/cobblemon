@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedF
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class DeerlingModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, QuadrupedFrame {

@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.util.isBattling
 import com.cobblemon.mod.common.util.isDusk
 import com.cobblemon.mod.common.util.isInWaterOrRain
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class KrabbyModel(root: ModelPart) : PokemonPosableModel(root) {

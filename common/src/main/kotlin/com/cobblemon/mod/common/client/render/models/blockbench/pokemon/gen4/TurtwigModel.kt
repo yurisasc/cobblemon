@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class TurtwigModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, QuadrupedFrame {

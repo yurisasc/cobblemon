@@ -65,15 +65,15 @@ class BerryBlockRenderer(private val context: BlockEntityRendererProvider.Contex
         }
         if (renderState.drawVbo) {
             matrices.pushPose()
-            CobblemonRenderLayers.BERRY_LAYER.startDrawing()
+            CobblemonRenderLayers.BERRY_LAYER.setupRenderState()
             renderState.vbo.bind()
-            renderState.vbo.draw(
-                matrices.peek().positionMatrix.mul(RenderSystem.getModelViewMatrix()),
+            renderState.vbo.drawWithShader(
+                matrices.last().pose().mul(RenderSystem.getModelViewMatrix()),
                 RenderSystem.getProjectionMatrix(),
-                GameRenderer.getRenderTypeCutoutProgram()
+                GameRenderer.getRendertypeCutoutShader()
             )
             VertexBuffer.unbind()
-            CobblemonRenderLayers.BERRY_LAYER.endDrawing()
+            CobblemonRenderLayers.BERRY_LAYER.clearRenderState()
             matrices.popPose()
         }
         drawMulch(matrices, vertexConsumers, entity, light, overlay)
@@ -88,11 +88,11 @@ class BerryBlockRenderer(private val context: BlockEntityRendererProvider.Contex
     ) {
         matrices.pushPose()
         //Mulch is rendered on a different layer than the actual berries so
-        val mulchBuf = vertexConsumers.getBuffer(RenderType.getCutout())
+        val mulchBuf = vertexConsumers.getBuffer(RenderType.cutout())
         val model = mulchModels[entity.mulchVariant]
         model?.let {
-            it.getModel().getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
-                mulchBuf.quad(matrices.peek(), quad, 1F, 1F, 1F, 1F, light, overlay)
+            it.getModel().getQuads(entity.blockState, null, entity.level?.random).forEach { quad ->
+                mulchBuf.putBulkData(matrices.last(), quad, 1F, 1F, 1F, 1F, light, overlay)
             }
         }
         matrices.popPose()
@@ -100,11 +100,11 @@ class BerryBlockRenderer(private val context: BlockEntityRendererProvider.Contex
 
 
     fun renderToBuffer(entity: BerryBlockEntity, light: Int, overlay: Int, renderState: BerryBlockEntityRenderState) {
-        if (entity.cachedState.get(BerryBlock.AGE) == 0) {
+        if (entity.blockState.getValue(BerryBlock.AGE) == 0) {
             renderBabyToBuffer(entity, light, overlay, renderState.vbo)
             renderState.drawVbo = true
         }
-        else if (entity.cachedState.get(BerryBlock.AGE) > BerryBlock.MATURE_AGE){
+        else if (entity.blockState.getValue(BerryBlock.AGE) > BerryBlock.MATURE_AGE){
             renderAdultToBuffer(entity, light, overlay, renderState.vbo)
             renderState.drawVbo = true
         }
@@ -114,7 +114,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererProvider.Contex
     }
 
     fun renderBabyToBuffer(entity: BerryBlockEntity, light: Int, overlay: Int, buffer: VertexBuffer) {
-        val bufferBuilder = Tesselator.getInstance().begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
+        val bufferBuilder = Tesselator.getInstance().begin(CobblemonRenderLayers.BERRY_LAYER.mode(), CobblemonRenderLayers.BERRY_LAYER.format())
         val berry = entity.berry() ?: return
         val model = BerryModelRepository.modelOf(berry.fruitModelIdentifier) ?: return
         val pos = berry.stageOnePositioning.position
@@ -122,29 +122,29 @@ class BerryBlockRenderer(private val context: BlockEntityRendererProvider.Contex
         model.setPosition(Axis.Y_AXIS.ordinal, pos.y.toFloat())
         model.setPosition(Axis.Z_AXIS.ordinal, pos.z.toFloat())
         val rot = berry.stageOnePositioning.rotation
-        model.setupAnim(
+        model.setRotation(
             Math.toRadians(180 - rot.x).toFloat(),
             Math.toRadians(180 + rot.y).toFloat(),
             Math.toRadians(rot.z).toFloat()
         )
         model.render(PoseStack(), bufferBuilder, light, overlay)
-        val bufferBuilderFinal = bufferBuilder.end()
+        val bufferBuilderFinal = bufferBuilder.buildOrThrow()
         buffer.bind()
         buffer.upload(bufferBuilderFinal)
         VertexBuffer.unbind()
     }
 
     fun renderAdultToBuffer(entity: BerryBlockEntity, light: Int, overlay: Int, buffer: VertexBuffer) {
-        val blockState = entity.cachedState
+        val blockState = entity.blockState
         val age = blockState.getValue(BerryBlock.AGE)
         if (age <= BerryBlock.MATURE_AGE) {
             return
         }
         val isFlower = age == BerryBlock.FLOWER_AGE
-        val bufferBuilder = Tesselator.getInstance().begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
+        val bufferBuilder = Tesselator.getInstance().begin(CobblemonRenderLayers.BERRY_LAYER.mode(), CobblemonRenderLayers.BERRY_LAYER.format())
         for ((berry, growthPoint) in entity.berryAndGrowthPoint()) {
             val model = (if (isFlower) BerryModelRepository.modelOf(berry.flowerModelIdentifier) else BerryModelRepository.modelOf(berry.fruitModelIdentifier)) ?: continue
-            model.setupAnim(
+            model.setRotation(
                 Math.toRadians(180.0 - growthPoint.rotation.x).toFloat(),
                 Math.toRadians(180.0 + growthPoint.rotation.y).toFloat(),
                 Math.toRadians(growthPoint.rotation.z).toFloat()
@@ -154,7 +154,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererProvider.Contex
             model.setPosition(Axis.Z_AXIS.ordinal, growthPoint.position.z.toFloat())
             model.render(PoseStack(), bufferBuilder, light, overlay)
         }
-        val bufferBuilderFinal = bufferBuilder.end()
+        val bufferBuilderFinal = bufferBuilder.buildOrThrow()
         buffer.bind()
         buffer.upload(bufferBuilderFinal)
         VertexBuffer.unbind()

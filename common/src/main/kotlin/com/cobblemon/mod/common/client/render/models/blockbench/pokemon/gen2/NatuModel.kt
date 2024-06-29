@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class NatuModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, HeadedFrame {

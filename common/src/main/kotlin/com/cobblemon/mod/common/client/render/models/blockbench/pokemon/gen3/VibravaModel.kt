@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPo
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.triangleFunction
 import com.cobblemon.mod.common.entity.PoseType
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class VibravaModel  (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame, HeadedFrame {

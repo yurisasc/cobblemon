@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 
 import net.minecraft.server.packs.PackType
 import net.minecraft.server.level.ServerPlayer
@@ -61,16 +61,16 @@ object BerryModelRepository : JsonDataRegistry<TexturedModel> {
                 false,
                 fruitTex.x,
                 fruitTex.y,
-                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.width,
-                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.height
-            )?.createModel()!!
+                CobblemonAtlases.BERRY_SPRITE_ATLAS.textureAtlas.width,
+                CobblemonAtlases.BERRY_SPRITE_ATLAS.textureAtlas.height
+            )?.bakeRoot()!!
             processedModels[it.flowerModelIdentifier] = flowerModel?.createWithUvOverride(
                 false,
                 flowerTex.x,
                 flowerTex.y,
-                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.width,
-                CobblemonAtlases.BERRY_SPRITE_ATLAS.atlas.height
-            )?.createModel()!!
+                CobblemonAtlases.BERRY_SPRITE_ATLAS.textureAtlas.width,
+                CobblemonAtlases.BERRY_SPRITE_ATLAS.textureAtlas.height
+            )?.bakeRoot()!!
         }
     }
 

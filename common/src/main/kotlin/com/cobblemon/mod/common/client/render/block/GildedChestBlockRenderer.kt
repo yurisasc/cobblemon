@@ -11,14 +11,14 @@ package com.cobblemon.mod.common.client.render.block
 import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BlockEntityModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.client.renderer.RenderType
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Axis
 import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.state.property.Properties
-import com.mojang.math.Axis
+import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
 class GildedChestBlockRenderer(context: BlockEntityRendererProvider.Context) : BlockEntityRenderer<GildedChestBlockEntity> {
     override fun render(
@@ -51,7 +51,7 @@ class GildedChestBlockRenderer(context: BlockEntityRendererProvider.Context) : B
         matrices.pushPose()
         matrices.mulPose(Axis.ZP.rotationDegrees(180f))
         matrices.translate(-0.5, 0.0, 0.5)
-        matrices.mulPose(Axis.YP.rotationDegrees(entity.cachedState.get(Properties.HORIZONTAL_FACING).asRotation()))
+        matrices.mulPose(Axis.YP.rotationDegrees(entity.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()))
         matrices.mulPose(Axis.YP.rotationDegrees(180f))
 
         model.applyAnimations(

@@ -15,11 +15,10 @@ import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import net.minecraft.client.model.ModelPart
-
-import net.minecraft.server.packs.PackType
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.packs.PackType
 
 /**
  * The data registry responsible for "one off" models that are usually used in BERs and don't really need their own repo
@@ -39,7 +38,7 @@ object MiscModelRepository : JsonDataRegistry<TexturedModel> {
 
     override fun reload(data: Map<ResourceLocation, TexturedModel>) {
         data.forEach { (identifier, model) ->
-            this.models[identifier] = model.create(false).createModel()
+            this.models[identifier] = model.create(false).bakeRoot()
         }
         observable.emit(this)
         Cobblemon.LOGGER.info("Loaded {} misc models",this.models.size)

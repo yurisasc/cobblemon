@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.tri
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class YanmaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {

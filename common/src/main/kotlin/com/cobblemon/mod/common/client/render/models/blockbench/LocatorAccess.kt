@@ -76,24 +76,24 @@ class LocatorAccess(
         if (isRoot) {
             matrixStack.pushPose()
             matrixStack.scale(-1F, -1F, 1F)
-            state.getOrPut("root") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
+            state.getOrPut("root") { MatrixWrapper() }.updateMatrix(matrixStack.last().pose())
             matrixStack.popPose()
 
             // Put in an approximation of the target locator. If the model has one defined,
             // this will be overridden.
             matrixStack.pushPose()
-            matrixStack.translate(0.0, -entity.boundingBox.lengthY / 2.0 / scale, -entity.width * 0.6 / scale)
+            matrixStack.translate(0.0, -entity.boundingBox.ysize / 2.0 / scale, -entity.bbWidth * 0.6 / scale)
             matrixStack.scale(-1F, -1F, 1F)
-            state.getOrPut("target") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
-            state.getOrPut("special_attack") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
+            state.getOrPut("target") { MatrixWrapper() }.updateMatrix(matrixStack.last().pose())
+            state.getOrPut("special_attack") { MatrixWrapper() }.updateMatrix(matrixStack.last().pose())
             matrixStack.popPose()
 
             // If we have the entity, put in a "middle" locator for center of mass
             // this will be overridden.
             matrixStack.pushPose()
-            matrixStack.translate(0.0, -entity.boundingBox.lengthY / 2.0 / scale, 0.0)
+            matrixStack.translate(0.0, -entity.boundingBox.ysize / 2.0 / scale, 0.0)
             matrixStack.scale(-1F, -1F, 1F)
-            state.getOrPut("middle") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
+            state.getOrPut("middle") { MatrixWrapper() }.updateMatrix(matrixStack.last().pose())
             matrixStack.popPose()
 
         }
@@ -102,7 +102,7 @@ class LocatorAccess(
             matrixStack.pushPose()
             locator.transform(matrixStack)
             matrixStack.scale(-1F, -1F, 1F)
-            state.getOrPut(name) { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
+            state.getOrPut(name) { MatrixWrapper() }.updateMatrix(matrixStack.last().pose())
             matrixStack.popPose()
         }
 

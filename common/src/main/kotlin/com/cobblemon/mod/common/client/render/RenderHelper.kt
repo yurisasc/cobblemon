@@ -15,19 +15,18 @@ import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.PoseStack.Entry
 import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.math.Axis
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.model.json.ModelTransformationMode
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.texture.TextureAtlas
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.FormattedCharSequence
+import net.minecraft.world.item.ItemDisplayContext
 import net.minecraft.world.item.ItemStack
 
 fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: Double = 1.0, zTranslation: Float = 100.0F, matrixStack: PoseStack? = null) {
@@ -51,12 +50,12 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
 
     val stack = matrixStack ?: PoseStack()
     val immediate = Minecraft.getInstance().renderBuffers().bufferSource()
-    val bl = !model.isSideLit
+    val bl = !model.usesBlockLight()
     if (bl) Lighting.setupForFlatItems()
 
-    itemRenderer.renderItem(
+    itemRenderer.render(
         itemStack,
-        ModelTransformationMode.GUI,
+        ItemDisplayContext.GUI,
         false,
         stack,
         immediate,
@@ -65,7 +64,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
         model
     )
 
-    immediate.draw()
+    immediate.endBatch()
     RenderSystem.enableDepthTest()
     if (bl) Lighting.setupFor3DItems()
 
@@ -138,7 +137,7 @@ fun drawScaledText(
     matrices.popPose()
     // Draw tooltip that was created with onHover and is attached to the MutableText
     if (isHovered) {
-        context.drawHoverEvent(Minecraft.getInstance().font, text.style, pMouseX!!, pMouseY!!)
+        context.renderComponentHoverEffect(Minecraft.getInstance().font, text.style, pMouseX!!, pMouseY!!)
     }
 }
 
@@ -196,7 +195,7 @@ fun renderBeaconBeam(
     val f12 = -beamRadius
     renderPart(
         matrixStack,
-        buffer.getBuffer(RenderType.getBeaconBeam(textureLocation, false)),
+        buffer.getBuffer(RenderType.beaconBeam(textureLocation, false)),
         red,
         green,
         blue,
@@ -220,7 +219,7 @@ fun renderBeaconBeam(
     f9 = -glowRadius
     renderPart(
         matrixStack,
-        buffer.getBuffer(RenderType.getBeaconBeam(textureLocation, true)),
+        buffer.getBuffer(RenderType.beaconBeam(textureLocation, true)),
         red,
         green,
         blue,
@@ -256,9 +255,9 @@ fun renderPart(
     p_112170_: Float,
     p_112171_: Float
 ) {
-    val pose = matrixStack.peek()
-    val matrix4f = pose.positionMatrix
-    val matrix3f = pose.normalMatrix
+    val pose = matrixStack.last()
+    val matrix4f = pose.pose()
+    val matrix3f = pose.normal()
     renderQuad(
         pose,
         vertexBuffer,
@@ -318,7 +317,7 @@ fun renderPart(
 }
 
 fun renderQuad(
-    matrixEntry: Entry,
+    matrixEntry: PoseStack.Pose,
     buffer: VertexConsumer,
     red: Float,
     green: Float,
@@ -338,7 +337,7 @@ fun renderQuad(
 }
 
 fun addVertex(
-    matrixEntry: Entry,
+    matrixEntry: PoseStack.Pose,
     buffer: VertexConsumer,
     red: Float,
     green: Float,
@@ -351,10 +350,10 @@ fun addVertex(
     texV: Float
 ) {
     buffer
-        .vertex(matrixEntry.positionMatrix, x, y, z)
-        .color(red, green, blue, alpha)
-        .texture(texU, texV)
-        .overlay(OverlayTexture.NO_OVERLAY)
-        .light(15728880)
-        .normal(matrixEntry, 0.0f, 1.0f, 0.0f)
+        .addVertex(matrixEntry.pose(), x, y, z)
+        .setColor(red, green, blue, alpha)
+        .setUv(texU, texV)
+        .setOverlay(OverlayTexture.NO_OVERLAY)
+        .setLight(15728880)
+        .setNormal(matrixEntry, 0.0f, 1.0f, 0.0f)
 }

@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTr
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class HuntailModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {

@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.util.isBattling
 import com.cobblemon.mod.common.util.isStandingOnRedSand
 import com.cobblemon.mod.common.util.isStandingOnSand
 import com.cobblemon.mod.common.util.isStandingOnSandOrRedSand
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {

@@ -120,7 +120,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         if (currentSelection == null || currentSelection is BattleGeneralActionSelection ) {
             drawScaledText(
                 context = context,
-                text = battleLang("ui.hide_label", PartySendBinding.boundKey().localizedText),
+                text = battleLang("ui.hide_label", PartySendBinding.boundKey().displayName),
                 x = Minecraft.getInstance().window.guiScaledWidth / 2,
                 y = (Minecraft.getInstance().window.guiScaledHeight / 5),
                 opacity = 0.75F * opacity,
@@ -129,7 +129,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         } else if (currentSelection is ForfeitConfirmationSelection) {
             drawScaledText(
                 context = context,
-                text = battleLang("ui.forfeit_confirmation", PartySendBinding.boundKey().localizedText),
+                text = battleLang("ui.forfeit_confirmation", PartySendBinding.boundKey().displayName),
                 x = Minecraft.getInstance().window.guiScaledWidth / 2,
                 y = (Minecraft.getInstance().window.guiScaledHeight / 5),
                 opacity = 0.75F * opacity,
@@ -169,7 +169,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     }
 
     override fun charTyped(chr: Char, modifiers: Int): Boolean {
-        if (chr.toString().equals(PartySendBinding.boundKey().localizedText.string, ignoreCase = true) && CobblemonClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY && PartySendBinding.canAction()) {
+        if (chr.toString().equals(PartySendBinding.boundKey().displayName.string, ignoreCase = true) && CobblemonClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY && PartySendBinding.canAction()) {
             val battle = CobblemonClient.battle ?: return false
             battle.minimised = !battle.minimised
             PartySendBinding.actioned()

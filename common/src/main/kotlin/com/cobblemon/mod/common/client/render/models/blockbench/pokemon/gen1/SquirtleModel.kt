@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.isBattling
 import com.cobblemon.mod.common.util.isUnderWater
 import com.cobblemon.mod.common.util.isInWater
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class SquirtleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {

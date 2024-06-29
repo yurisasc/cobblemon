@@ -45,7 +45,7 @@ class CobblemonBoatRenderer(ctx: EntityRendererProvider.Context, private val has
         val h = entity.hurtTime - tickDelta
         val j = (entity.damage - tickDelta).coerceAtLeast(0F)
         if (h > 0F) {
-            matrices.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10F * entity.damageWobbleSide))
+            matrices.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10F * entity.hurtDir))
         }
         val k = entity.getBubbleAngle(tickDelta)
         if (!Mth.equal(k, 0F)) {
@@ -75,7 +75,7 @@ class CobblemonBoatRenderer(ctx: EntityRendererProvider.Context, private val has
 
         private fun generateBoatModel(ctx: EntityRendererProvider.Context, type: CobblemonBoatType, hasChest: Boolean): BoatModel {
             val modelLayer = this.createBoatModelLayer(type, hasChest)
-            val modelPart = ctx.getPart(modelLayer)
+            val modelPart = ctx.bakeLayer(modelLayer)
             return if (hasChest) ChestBoatModel(modelPart) else BoatModel(modelPart)
         }
 

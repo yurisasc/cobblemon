@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTr
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isUnderWater
 import com.cobblemon.mod.common.util.isInWater
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.phys.Vec3
 
 class BuizelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
