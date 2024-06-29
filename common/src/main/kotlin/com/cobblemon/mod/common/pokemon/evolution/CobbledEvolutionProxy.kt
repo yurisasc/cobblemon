@@ -8,11 +8,7 @@
 
 package com.cobblemon.mod.common.pokemon.evolution
 
-import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
-import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
-import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionDisplay
-import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionLike
-import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionProxy
+import com.cobblemon.mod.common.api.pokemon.evolution.*
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.controller.ClientEvolutionController
 import com.cobblemon.mod.common.pokemon.evolution.controller.ServerEvolutionController
@@ -20,7 +16,7 @@ import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 class CobblemonEvolutionProxy(private val pokemon: Pokemon, private val clientSide: Boolean) : EvolutionProxy<EvolutionDisplay, Evolution> {
@@ -39,13 +35,13 @@ class CobblemonEvolutionProxy(private val pokemon: Pokemon, private val clientSi
         return this.controller as? EvolutionController<Evolution> ?: throw ClassCastException("Cannot use the server implementation from the client side")
     }
 
-    override fun saveToNBT(): NbtElement {
+    override fun saveToNBT(): Tag {
         val nbt = CompoundTag()
         nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.current().saveToNBT())
         return nbt
     }
 
-    override fun loadFromNBT(nbt: NbtElement) {
+    override fun loadFromNBT(nbt: Tag) {
         val compound = nbt as? CompoundTag ?: return
         this.current().loadFromNBT(compound.get(DataKeys.POKEMON_PENDING_EVOLUTIONS) ?: return)
     }

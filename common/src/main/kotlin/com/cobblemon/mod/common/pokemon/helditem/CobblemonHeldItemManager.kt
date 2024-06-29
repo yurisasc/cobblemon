@@ -91,7 +91,7 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
             battle.broadcastChatMessage(battleLang("item.$itemID", battlerName))
             return
         }
-        val sourceName = battleMessage.battlePokemonFromOptional(battle)?.getName() ?: Component.of("UNKNOWN")
+        val sourceName = battleMessage.battlePokemonFromOptional(battle)?.getName() ?: Component.literal("UNKNOWN")
         val itemName = this.nameOf(itemID)
         val effectId = effect.id
         val text = when (effectId) {
@@ -134,7 +134,7 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
             if (consumeHeldItems) this.take(pokemon, itemID)
             return
         }
-        val sourceName = battleMessage.battlePokemonFromOptional(battle)?.getName() ?: Component.of("UNKNOWN")
+        val sourceName = battleMessage.battlePokemonFromOptional(battle)?.getName() ?: Component.literal("UNKNOWN")
         val effect = battleMessage.effect()
         val text = when {
             effect?.id != null -> battleLang("enditem.${effect.id}", battlerName, itemName, sourceName)
@@ -154,7 +154,7 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
             battle.isPvN -> CobblemonItemTags.CONSUMED_IN_NPC_BATTLE
             else -> CobblemonItemTags.CONSUMED_IN_WILD_BATTLE
         }
-        return pokemon.effectedPokemon.heldItem().isIn(tag)
+        return pokemon.effectedPokemon.heldItem().`is`(tag)
     }
 
     /**

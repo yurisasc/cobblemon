@@ -10,8 +10,7 @@ package com.cobblemon.mod.common.pokemon
 
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.*
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 /**

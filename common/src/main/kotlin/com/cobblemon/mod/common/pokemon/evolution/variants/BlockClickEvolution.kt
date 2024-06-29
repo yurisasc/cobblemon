@@ -15,10 +15,10 @@ import com.cobblemon.mod.common.api.pokemon.evolution.ContextEvolution
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.registry.BlockIdentifierCondition
-import net.minecraft.world.level.block.Block
-import net.minecraft.resources.ResourceKeys
+import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Block
 
 /**
  * Represents a [ContextEvolution] with [RegistryLikeCondition] of type [Block] context.
@@ -42,7 +42,7 @@ open class BlockClickEvolution(
         id = "id",
         result = PokemonProperties(),
         shedder = null,
-        requiredContext = BlockIdentifierCondition(ResourceLocation.parse("minecraft", "dirt")),
+        requiredContext = BlockIdentifierCondition(ResourceLocation.fromNamespaceAndPath("minecraft", "dirt")),
         optional = true,
         consumeHeldItem = true,
         requirements = mutableSetOf(),
@@ -50,7 +50,7 @@ open class BlockClickEvolution(
     )
 
     override fun testContext(pokemon: Pokemon, context: BlockInteractionContext): Boolean {
-        return this.requiredContext.fits(context.block, context.world.registryManager.get(ResourceKeys.BLOCK))
+        return this.requiredContext.fits(context.block, context.world.registryAccess().registryOrThrow(Registries.BLOCK))
     }
 
     override fun equals(other: Any?) = other is BlockClickEvolution && other.id.equals(this.id, true)

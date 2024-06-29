@@ -28,10 +28,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtElement
-import net.minecraft.nbt.NbtList
-import net.minecraft.nbt.NbtString
+import net.minecraft.nbt.*
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionController<Evolution> {
@@ -69,14 +66,14 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         return existing as P
     }
 
-    override fun saveToNBT(): NbtElement {
+    override fun saveToNBT(): Tag {
         val nbt = CompoundTag()
-        val pendingList = NbtList()
+        val pendingList = ListTag()
         this.evolutions.forEach { evolution ->
-            pendingList += NbtString.of(evolution.id)
+            pendingList += StringTag.valueOf(evolution.id)
         }
         nbt.put(PENDING, pendingList)
-        val progressList = NbtList()
+        val progressList = ListTag()
         this.progress.forEach { progress ->
             progressList += progress.saveToNBT().apply { putString(ID, progress.id().toString()) }
         }
@@ -84,20 +81,20 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         return nbt
     }
 
-    override fun loadFromNBT(nbt: NbtElement) {
+    override fun loadFromNBT(nbt: Tag) {
         this.clear()
-        val pendingList: NbtList
-        val progressList: NbtList
+        val pendingList: ListTag
+        val progressList: ListTag
         if (nbt is CompoundTag) {
-            pendingList = nbt.getList(PENDING, NbtElement.STRING_TYPE.toInt())
-            progressList = nbt.getList(PROGRESS, NbtElement.COMPOUND_TYPE.toInt())
+            pendingList = nbt.getList(PENDING, Tag.TAG_STRING.toInt())
+            progressList = nbt.getList(PROGRESS, Tag.TAG_COMPOUND.toInt())
         }
         else {
-            pendingList = nbt as? NbtList ?: return
-            progressList = NbtList()
+            pendingList = nbt as? ListTag ?: return
+            progressList = ListTag()
         }
-        for (tag in pendingList.filterIsInstance<NbtString>()) {
-            val id = tag.asString()
+        for (tag in pendingList.filterIsInstance<StringTag>()) {
+            val id = tag.asString
             val evolution = this.findEvolutionFromId(id) ?: continue
             this.add(evolution)
         }
@@ -156,7 +153,7 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         if (!toClient) {
             return
         }
-        buffer.writeCollection(this.evolutions) { pb, value -> value.convertToDisplay(this.pokemon).encode(pb) }
+        buffer.writeCollection(this.evolutions) { pb, value -> value.convertToDisplay(this.pokemon).encode(pb as RegistryFriendlyByteBuf) }
     }
 
     override fun loadFromBuffer(buffer: RegistryFriendlyByteBuf) {
@@ -165,7 +162,7 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
 
     override fun add(element: Evolution): Boolean {
         if (this.evolutions.add(element)) {
-            this.pokemon.getOwnerPlayer()?.sendMessage("cobblemon.ui.evolve.hint".asTranslated(pokemon.getDisplayName()).green())
+            this.pokemon.getOwnerPlayer()?.sendSystemMessage("cobblemon.ui.evolve.hint".asTranslated(pokemon.getDisplayName()).green())
             this.pokemon.notify(AddEvolutionPacket(this.pokemon, element))
             this.pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.CAN_EVOLVE, 1F, 1F)
             return true

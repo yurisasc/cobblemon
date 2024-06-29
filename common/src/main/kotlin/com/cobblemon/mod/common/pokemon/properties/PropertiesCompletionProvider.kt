@@ -26,10 +26,10 @@ import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import java.util.concurrent.CompletableFuture
-import net.minecraft.resource.ResourceManager
-import net.minecraft.server.packs.PackType
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.packs.PackType
+import net.minecraft.server.packs.resources.ResourceManager
+import java.util.concurrent.CompletableFuture
 
 /**
  * A data registry responsible for providing tab completion for Pokemon properties.

@@ -131,29 +131,26 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.JsonOps
+import net.minecraft.ResourceLocationException
 import net.minecraft.block.*
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
-import net.minecraft.entity.vehicle.BoatEntity
 import net.minecraft.world.item.ItemStack
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
-import net.minecraft.nbt.NbtList
-import net.minecraft.nbt.NbtOps
-import net.minecraft.nbt.NbtString
-import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.text.PlainTextContent
 import net.minecraft.world.InteractionHand
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.core.BlockPos
+import net.minecraft.nbt.*
+import net.minecraft.network.chat.contents.PlainTextContents
+import net.minecraft.tags.FluidTags
 import net.minecraft.util.Mth.ceil
 import net.minecraft.util.Mth.clamp
+import net.minecraft.world.entity.vehicle.Boat
 import net.minecraft.world.phys.Vec3
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.*
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import kotlin.math.absoluteValue
@@ -208,7 +205,7 @@ open class Pokemon : ShowdownIdentifiable {
         }
 
     // Floating Platform for surface water battles
-    var battleSurface: BoatEntity? = null
+    var battleSurface: Boat? = null
 
     // Need to happen before currentHealth init due to the calc
     val ivs = IVs.createRandomIVs()
@@ -238,7 +235,7 @@ open class Pokemon : ShowdownIdentifiable {
             _nickname.emit(value)
         }
 
-    fun getDisplayName(): MutableComponent = nickname?.copy()?.takeIf { it.content != PlainTextContent.EMPTY } ?: species.translatedName.copy()
+    fun getDisplayName(): MutableComponent = nickname?.copy()?.takeIf { it.contents != PlainTextContents.EMPTY } ?: species.translatedName.copy()
 
     var level = 1
         set(value) {
@@ -566,7 +563,7 @@ open class Pokemon : ShowdownIdentifiable {
                 entity.setPos(position.x, position.y, position.z)
             }
             mutation(entity)
-            level.spawnEntity(entity)
+            level.addFreshEntity(entity)
             state = SentOutState(entity)
             return entity
         }
@@ -586,23 +583,23 @@ open class Pokemon : ShowdownIdentifiable {
         // send out raft if over water
         if (position != null) {
             // todo if send out position is over water then add a raft entity to stand on
-            if (level.isWater(
+            if (level.isWaterAt(
                     BlockPos(
                         position.x.toInt(),
                         position.y.toInt() - 1,
                         position.z.toInt()
                     )
                 ) && this.species.types.all { it != ElementalTypes.WATER && it != ElementalTypes.FLYING }) {
-                val boatType = BoatEntity.Type.getType("bamboo")
+                val boatType = Boat.Type.byName("bamboo")
                 // Create a new boat entity with the generic EntityType.BOAT
-                val raftEntity = BoatEntity(level, position.x, position.y, position.z)
+                val raftEntity = Boat(level, position.x, position.y, position.z)
 
-                raftEntity.variant = BoatEntity.Type.BAMBOO
+                raftEntity.variant = Boat.Type.BAMBOO
 
-                raftEntity.setPosition(position.x, position.y, position.z) // Set the position of the boat
+                raftEntity.setPos(position.x, position.y, position.z) // Set the position of the boat
 
                 // Spawn the boat entity in the world
-                level.spawnEntity(raftEntity)
+                level.addFreshEntity(raftEntity)
 
                 this.battleSurface = raftEntity
             }
@@ -625,12 +622,12 @@ open class Pokemon : ShowdownIdentifiable {
             sendOut(level, position, illusion) {
                 val owner = getOwnerEntity()
                 if (owner is LivingEntity) {
-                    owner.swingHand(Hand.MAIN_HAND, true)
+                    owner.swing(InteractionHand.MAIN_HAND, true)
                 }
                 if (owner != null) {
-                    level.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_THROW, volume = 0.6F)
+                    level.playSoundServer(owner.position(), CobblemonSounds.POKE_BALL_THROW, volume = 0.6F)
                 }
-                it.ownerUuid = getOwnerUUID()
+                it.ownerUUID = getOwnerUUID()
                 it.phasingTargetId = source.id
                 it.beamMode = 1
                 it.battleId = battleId
@@ -668,16 +665,16 @@ open class Pokemon : ShowdownIdentifiable {
 
         // get the current position of the cobblemon on the players shoulder
         val isLeftShoulder = (state as ShoulderedState).isLeftShoulder
-        val arbitraryXOffset = player.width * 0.3 + this.form.hitbox.width * 0.3
+        val arbitraryXOffset = player.bbWidth * 0.3 + this.form.hitbox.width * 0.3
         val shoulderHorizontalOffset = if (isLeftShoulder) arbitraryXOffset else -arbitraryXOffset
-        val rotation = player.yaw
-        val approxShoulderMonHight = player.height.toDouble() - this.form.hitbox.height * 0.4
+        val rotation = player.yRot
+        val approxShoulderMonHight = player.bbHeight.toDouble() - this.form.hitbox.height * 0.4
         val rotatedOffset = Vec3(
             shoulderHorizontalOffset,
             approxShoulderMonHight,
             0.0
-        ).rotateY(-rotation * (Math.PI.toFloat() / 180f))
-        val currentPosition = player.pos.add(rotatedOffset)
+        ).yRot(-rotation * (Math.PI.toFloat() / 180f))
+        val currentPosition = player.position().add(rotatedOffset)
 
         recall()
         sendOut(level, currentPosition, illusion) {
@@ -685,7 +682,7 @@ open class Pokemon : ShowdownIdentifiable {
             level.playSoundServer(currentPosition, CobblemonSounds.PC_DROP, volume = 0.6F)
 
             // Make the Cobblemon walk to the target Position with haste
-            it.moveControl.moveTo(targetPosition.x, targetPosition.y, targetPosition.z, 1.2)
+            it.moveControl.setWantedPosition(targetPosition.x, targetPosition.y, targetPosition.z, 1.2)
             it.battleId = battleId
 
             afterOnServer(seconds = SEND_OUT_DURATION) {
@@ -773,9 +770,9 @@ open class Pokemon : ShowdownIdentifiable {
         // To make sure a location is safe, both the block the Pokemon is standing ON,
         // and the block it's standing IN need to be safe. pos2 represents the other position in that set.
         val pos2: BlockPos = if (world.getBlockState(pos1).isSolid) {
-            pos1.up()
+            pos1.above()
         } else {
-            pos1.down()
+            pos1.below()
         }
 
         val positions = arrayOf(pos1, pos2)
@@ -796,7 +793,7 @@ open class Pokemon : ShowdownIdentifiable {
                     if (block is FireBlock ||
                         block is MagmaBlock ||
                         block is CampfireBlock ||
-                        world.getBlockState(pos).fluidState.isIn(FluidTags.LAVA)
+                        world.getBlockState(pos).fluidState.`is`(FluidTags.LAVA)
                     ) {
                         isSafe = false
                     }
@@ -925,10 +922,10 @@ open class Pokemon : ShowdownIdentifiable {
         nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         nbt.putInt(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
         nbt.putInt(DataKeys.POKEMON_HEALING_TIMER, healTimer)
-        nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(NbtList()))
+        nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(ListTag()))
         nbt.put(DataKeys.POKEMON_EVOLUTIONS, this.evolutionProxy.saveToNBT())
-        val propertyList = customProperties.map { it.asString() }.map { NbtString.of(it) }
-        nbt.put(DataKeys.POKEMON_DATA, NbtList().also { it.addAll(propertyList) })
+        val propertyList = customProperties.map { it.asString() }.map { StringTag.valueOf(it) }
+        nbt.put(DataKeys.POKEMON_DATA, ListTag().also { it.addAll(propertyList) })
         nbt.putString(DataKeys.POKEMON_NATURE, nature.name.toString())
         mintedNature?.let { nbt.putString(DataKeys.POKEMON_MINTED_NATURE, it.name.toString()) }
         features.forEach { it.saveToNBT(nbt) }
@@ -952,7 +949,7 @@ open class Pokemon : ShowdownIdentifiable {
             nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER, originalTrainer)
         }
         nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE, originalTrainerType.name)
-        nbt.put(DataKeys.POKEMON_FORCED_ASPECTS, NbtList().also { it.addAll(forcedAspects.map { NbtString.of(it) }) })
+        nbt.put(DataKeys.POKEMON_FORCED_ASPECTS, ListTag().also { it.addAll(forcedAspects.map { StringTag.valueOf(it) }) })
         return nbt
     }
 
@@ -963,7 +960,7 @@ open class Pokemon : ShowdownIdentifiable {
             val rawID = nbt.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER).replace("pokemonCobblemon", "cobblemon")
             species = PokemonSpecies.getByIdentifier(ResourceLocation.parse(rawID))
                 ?: throw InvalidSpeciesException(ResourceLocation.parse(rawID))
-        } catch (e: InvalidIdentifierException) {
+        } catch (e: ResourceLocationException) {
             throw IllegalStateException("Failed to read a species identifier from NBT")
         }
         //nickname = nbt.getString(DataKeys.POKEMON_NICKNAME).takeIf { it.isNotBlank() }?.let { Text.Serialization.fromJson(it) }
@@ -977,7 +974,7 @@ open class Pokemon : ShowdownIdentifiable {
         currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         moveSet.loadFromNBT(nbt)
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
-        if (nbt.contains(DataKeys.POKEMON_ABILITY, COMPOUND_TYPE.toInt())) {
+        if (nbt.contains(DataKeys.POKEMON_ABILITY, Tag.TAG_COMPOUND.toInt())) {
             this.ability.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_ABILITY))
         }
         shiny = nbt.getBoolean(DataKeys.POKEMON_SHINY)
@@ -995,9 +992,9 @@ open class Pokemon : ShowdownIdentifiable {
         healTimer = nbt.getInt(DataKeys.POKEMON_HEALING_TIMER)
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(ResourceLocation.parse(ballName)) ?: PokeBalls.POKE_BALL
-        benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
-        val propertiesList = nbt.getList(DataKeys.POKEMON_DATA, NbtString.STRING_TYPE.toInt())
-        val properties = PokemonProperties.parse(propertiesList.joinToString(separator = " ") { it.asString() }, " ")
+        benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, Tag.TAG_COMPOUND.toInt()))
+        val propertiesList = nbt.getList(DataKeys.POKEMON_DATA, Tag.TAG_STRING.toInt())
+        val properties = PokemonProperties.parse(propertiesList.joinToString(separator = " ") { it.asString }, " ")
         this.customProperties.clear()
         this.customProperties.addAll(properties.customProperties)
         SpeciesFeatures.getFeaturesFor(species).forEach {
@@ -1011,7 +1008,7 @@ open class Pokemon : ShowdownIdentifiable {
             this.mintedNature = nbt.getString(DataKeys.POKEMON_MINTED_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(
                 ResourceLocation.parse(it)) }
         }
-        this.forcedAspects = nbt.getList(DataKeys.POKEMON_FORCED_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
+        this.forcedAspects = nbt.getList(DataKeys.POKEMON_FORCED_ASPECTS, Tag.TAG_STRING.toInt()).map { it.asString }.toSet()
         updateAspects()
         updateForm() // If saved with an incorrect form, readjust on load
         nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
@@ -1019,7 +1016,7 @@ open class Pokemon : ShowdownIdentifiable {
             this.heldItem = NbtOps.INSTANCE.withDecoder(ItemStack.CODEC).apply(nbt.get(DataKeys.HELD_ITEM)).result().get().first
         }
         this.persistentData = nbt.getCompound(DataKeys.POKEMON_PERSISTENT_DATA)
-        tetheringId = if (nbt.containsUuid(DataKeys.TETHERING_ID)) nbt.getUUID(DataKeys.TETHERING_ID) else null
+        tetheringId = if (nbt.hasUUID(DataKeys.TETHERING_ID)) nbt.getUUID(DataKeys.TETHERING_ID) else null
         TeraTypes.get(nbt.getString(DataKeys.POKEMON_TERA_TYPE).asIdentifierDefaultingNamespace())?.let {
             this.teraType = it
         }
@@ -1088,7 +1085,7 @@ open class Pokemon : ShowdownIdentifiable {
             val rawID = json.get(DataKeys.POKEMON_SPECIES_IDENTIFIER).asString.replace("pokemonCobblemon", "cobblemon")
             species = PokemonSpecies.getByIdentifier(ResourceLocation.parse(rawID))
                 ?: throw InvalidSpeciesException(ResourceLocation.parse(rawID))
-        } catch (e: InvalidIdentifierException) {
+        } catch (e: ResourceLocationException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
         /*
@@ -1203,7 +1200,7 @@ open class Pokemon : ShowdownIdentifiable {
     fun getOwnerEntity(): LivingEntity? {
         return storeCoordinates.get()?.let {
             if (isPlayerOwned()) {
-                server()?.playerManager?.getPlayer(it.store.uuid)
+                server()?.playerList?.getPlayer(it.store.uuid)
             } else if (isNPCOwned()) {
                 (it.store as NPCPartyStore).npc
             } else {
@@ -1325,7 +1322,7 @@ open class Pokemon : ShowdownIdentifiable {
         {
             OriginalTrainerType.PLAYER -> {
                 UUID.fromString(originalTrainer)?.let { uuid ->
-                    server()?.userCache?.getByUuid(uuid)?.orElse(null)?.name?.let {
+                    server()?.profileCache?.get(uuid)?.orElse(null)?.name?.let {
                         originalTrainerName = it
                     }
                 }
@@ -1554,9 +1551,9 @@ open class Pokemon : ShowdownIdentifiable {
         if (result.experienceAdded <= 0) {
             return result
         }
-        player.sendMessage(lang("experience.gained", getDisplayName(), xp), true)
+        player.sendSystemMessage(lang("experience.gained", getDisplayName(), xp), true)
         if (result.oldLevel != result.newLevel) {
-            player.sendMessage(lang("experience.level_up", getDisplayName(), result.newLevel))
+            player.sendSystemMessage(lang("experience.level_up", getDisplayName(), result.newLevel))
             val repeats = result.newLevel - result.oldLevel
             // Someone can technically trigger a "delevel"
             if (repeats >= 1) {
@@ -1565,7 +1562,7 @@ open class Pokemon : ShowdownIdentifiable {
                 }
             }
             result.newMoves.forEach {
-                player.sendMessage(lang("experience.learned_move", getDisplayName(), it.displayName))
+                player.sendSystemMessage(lang("experience.learned_move", getDisplayName(), it.displayName))
             }
         }
         return result

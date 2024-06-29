@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.pokemon.evolution.requirements
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.template.EntityQueryRequirement
-import net.minecraft.advancement.Advancement
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
@@ -26,7 +25,7 @@ import net.minecraft.resources.ResourceLocation
 class PlayerHasAdvancementRequirement(val requiredAdvancement: ResourceLocation) : EntityQueryRequirement {
     override fun check(pokemon: Pokemon, queriedEntity: LivingEntity): Boolean {
         val player = queriedEntity as? ServerPlayer ?: return false
-        for (entry in player.advancementTracker.progress) {
+        for (entry in player.advancements.progress) {
             if (entry.key.id == requiredAdvancement && entry.value.isDone) {
                 return true
             }

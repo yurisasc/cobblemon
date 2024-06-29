@@ -26,6 +26,6 @@ class AreaRequirement : EntityQueryRequirement {
         const val ADAPTER_VARIANT = "area"
     }
 
-    val box: Box = Box.from(Vec3.ZERO)
-    override fun check(pokemon: Pokemon, queriedEntity: LivingEntity) = box.contains(queriedEntity.pos)
+    val box: AABB = AABB.unitCubeFromLowerCorner(Vec3.ZERO)
+    override fun check(pokemon: Pokemon, queriedEntity: LivingEntity) = box.contains(queriedEntity.position())
 }

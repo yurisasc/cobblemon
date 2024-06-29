@@ -31,9 +31,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
-import com.cobblemon.mod.common.util.readEntityDimensions
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.*
 import com.mojang.serialization.Codec
 import net.minecraft.world.entity.EntityDimensions
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -131,7 +129,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
 
-    var battleTheme: ResourceLocation = CobblemonSounds.PVW_BATTLE.id
+    var battleTheme: ResourceLocation = CobblemonSounds.PVW_BATTLE.location
 
     var lightingData: LightingData? = null
         private set
@@ -166,7 +164,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: VANILLA_DEFAULT_EYE_HEIGHT
-        return entity.height * multiplier
+        return entity.bbHeight * multiplier
     }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {

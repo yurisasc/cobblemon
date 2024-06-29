@@ -30,7 +30,7 @@ class MoonPhaseRequirement(moonPhase: MoonPhase) : EntityQueryRequirement {
 
     override fun check(pokemon: Pokemon, queriedEntity: LivingEntity): Boolean {
         return try {
-            val moonPhase = MoonPhase.ofWorld(queriedEntity.world)
+            val moonPhase = MoonPhase.ofWorld(queriedEntity.level())
             this.moonPhase == moonPhase
         } catch (e: IndexOutOfBoundsException) {
             false

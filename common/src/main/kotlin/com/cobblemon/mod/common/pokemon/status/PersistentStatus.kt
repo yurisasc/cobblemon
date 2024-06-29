@@ -32,7 +32,7 @@ open class PersistentStatus(
      * Called when a status duration is expired.
      */
     open fun onStatusExpire(player: ServerPlayer, pokemon: Pokemon, random: Random) {
-        player.sendMessage(removeMessage.asTranslated(pokemon.getDisplayName()))
+        player.sendSystemMessage(removeMessage.asTranslated(pokemon.getDisplayName()))
     }
 
     /**

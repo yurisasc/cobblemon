@@ -205,7 +205,7 @@ class FormData(
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)
-        return entity.height * multiplier
+        return entity.bbHeight * multiplier
     }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
@@ -291,7 +291,7 @@ class FormData(
                 EntityDimensions.fixed(pb.readFloat(), pb.readFloat())
             }
             else {
-                EntityDimensions.changing(pb.readFloat(), pb.readFloat())
+                EntityDimensions.scalable(pb.readFloat(), pb.readFloat())
             }
         }
         this._moves = buffer.readNullable { _ -> Learnset().apply { decode(buffer) }}
