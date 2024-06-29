@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.world.structureprocessors
 
-import net.minecraft.resources.ResourceKeys
+import net.minecraft.core.registries.Registries
 import net.minecraft.server.MinecraftServer
 
 object CobblemonStructureProcessorListOverrides {
-    val ResourceKey = ResourceKeys.PROCESSOR_LIST
+    val ResourceKey = Registries.PROCESSOR_LIST
 
     fun register(server: MinecraftServer) {
         //val registry = server.registryManager.get(ResourceKey)

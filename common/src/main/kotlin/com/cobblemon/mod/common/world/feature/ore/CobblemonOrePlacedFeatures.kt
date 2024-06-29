@@ -11,13 +11,12 @@ package com.cobblemon.mod.common.world.feature.ore
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceKeys
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.levelgen.GenerationStep
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
-import net.minecraft.world.level.levelgen.placement.PlacedFeatures
 
 object CobblemonOrePlacedFeatures {
 
@@ -87,13 +86,12 @@ object CobblemonOrePlacedFeatures {
 
     fun register() {
         this.features.forEach { holder ->
-            Cobblemon.implementation.addFeatureToWorldGen(holder.feature, GenerationStep.Feature.UNDERGROUND_ORES, holder.validBiomes)
+            Cobblemon.implementation.addFeatureToWorldGen(holder.feature, GenerationStep.Decoration.UNDERGROUND_ORES, holder.validBiomes)
         }
     }
 
     private fun of(id: String, validBiomes: TagKey<Biome>): ResourceKey<PlacedFeature> {
-        val feature = ResourceKey.create(
-            ResourceKeys.PLACED_FEATURE, cobblemonResource("ore/$id"))
+        val feature = ResourceKey.create(Registries.PLACED_FEATURE, cobblemonResource("ore/$id"))
         features += FeatureHolder(feature, validBiomes)
         return feature
     }

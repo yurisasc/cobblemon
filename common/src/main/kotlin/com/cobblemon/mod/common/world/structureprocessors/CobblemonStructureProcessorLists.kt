@@ -9,10 +9,10 @@
 package com.cobblemon.mod.common.world.structureprocessors
 
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceKeys
 
 object CobblemonStructureProcessorLists {
     @JvmField
-    val CROP_TO_BERRY = ResourceKey.create(ResourceKeys.PROCESSOR_LIST, cobblemonResource("crop_to_berry"))
+    val CROP_TO_BERRY = ResourceKey.create(Registries.PROCESSOR_LIST, cobblemonResource("crop_to_berry"))
 }

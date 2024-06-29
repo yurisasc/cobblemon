@@ -11,14 +11,13 @@ package com.cobblemon.mod.common.world.placementmodifier
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import java.util.stream.Stream
 import net.minecraft.core.BlockPos
 import net.minecraft.util.RandomSource
-import net.minecraft.util.math.random.Random
-import net.minecraft.world.gen.blockpredicate.BlockPredicate
-import net.minecraft.world.gen.feature.FeaturePlacementContext
-import net.minecraft.world.gen.placementmodifier.PlacementModifier
-import net.minecraft.world.gen.placementmodifier.PlacementModifierType
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate
+import net.minecraft.world.level.levelgen.placement.PlacementContext
+import net.minecraft.world.level.levelgen.placement.PlacementModifier
+import net.minecraft.world.level.levelgen.placement.PlacementModifierType
+import java.util.stream.Stream
 
 class LocatePredicatePlacementModifier(
     val predicate: BlockPredicate,
@@ -29,7 +28,7 @@ class LocatePredicatePlacementModifier(
     companion object {
         val MODIFIER_CODEC: MapCodec<LocatePredicatePlacementModifier> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
-                BlockPredicate.BASE_CODEC.fieldOf("predicate").forGetter {it.predicate},
+                BlockPredicate.CODEC.fieldOf("predicate").forGetter {it.predicate},
                 PrimitiveCodec.INT.fieldOf("maxTries").forGetter {it.maxTries},
                 PrimitiveCodec.INT.fieldOf("xzRange").forGetter {it.xzRange},
                 PrimitiveCodec.INT.fieldOf("yRange").forGetter {it.yRange}
@@ -40,20 +39,18 @@ class LocatePredicatePlacementModifier(
         }
     }
     override fun getPositions(
-        context: FeaturePlacementContext,
+        context: PlacementContext,
         random: RandomSource,
         pos: BlockPos
     ): Stream<BlockPos> {
         for (i in 0..maxTries) {
-            val newPos = pos.add(random.nextIntBetweenInclusive(0, xzRange), random.nextIntBetweenInclusive(-yRange, yRange), random.nextIntBetweenInclusive(0, xzRange))
-            if (predicate.test(context.world, newPos)) {
+            val newPos = pos.offset(random.nextIntBetweenInclusive(0, xzRange), random.nextIntBetweenInclusive(-yRange, yRange), random.nextIntBetweenInclusive(0, xzRange))
+            if (predicate.test(context.level, newPos)) {
                 return Stream.of(newPos)
             }
         }
         return Stream.empty()
     }
 
-    override fun getType(): PlacementModifierType<*> {
-        return CobblemonPlacementModifierTypes.LOCATE_PREDICATE
-    }
+    override fun type(): PlacementModifierType<*> = CobblemonPlacementModifierTypes.LOCATE_PREDICATE
 }

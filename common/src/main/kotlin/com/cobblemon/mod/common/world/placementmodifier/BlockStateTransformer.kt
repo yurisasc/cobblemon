@@ -73,8 +73,8 @@ class BerryTransformBlockStateTransformer(val minAge: Int, val maxAge: Int, val 
 
     override val type = BlockStateTransformerType.NONE
     override fun transform(blockState: BlockState) = blockState
-        .with(BerryBlock.AGE, Random.Default.nextInt(minAge, maxAge + 1))
-        .with(BerryBlock.WAS_GENERATED, wild)
+        .setValue(BerryBlock.AGE, Random.Default.nextInt(minAge, maxAge + 1))
+        .setValue(BerryBlock.WAS_GENERATED, wild)
 
     override fun <T> encode(ops: DynamicOps<T>): DataResult<T> = CODEC.encodeStart(ops, this)
     override fun readFromBuffer(buffer: RegistryFriendlyByteBuf) = throw NotImplementedError("Not supposed to use this for block state transformers")
