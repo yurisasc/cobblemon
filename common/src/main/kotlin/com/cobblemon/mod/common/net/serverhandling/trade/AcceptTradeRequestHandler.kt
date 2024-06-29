@@ -13,8 +13,11 @@ import com.cobblemon.mod.common.net.messages.server.trade.AcceptTradeRequestPack
 import com.cobblemon.mod.common.net.serverhandling.RequestInteractionsHandler
 import com.cobblemon.mod.common.trade.TradeManager
 import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.traceFirstEntityCollision
+import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.world.RaycastContext
 
 object AcceptTradeRequestHandler : ServerNetworkPacketHandler<AcceptTradeRequestPacket> {
     override fun handle(packet: AcceptTradeRequestPacket, server: MinecraftServer, player: ServerPlayerEntity) {
@@ -22,7 +25,12 @@ object AcceptTradeRequestHandler : ServerNetworkPacketHandler<AcceptTradeRequest
         // Check range and line of sight
         val request = TradeManager.requests.find { it.tradeOfferId == packet.tradeOfferId }
         val otherPlayer = request?.senderId?.getPlayer() ?: return
-        if (!player.canSee(otherPlayer) || !(player.pos.squaredDistanceTo(otherPlayer.pos) <= RequestInteractionsHandler.MAX_TRADE_DISTANCE_SQ)) return
+        if (player.traceFirstEntityCollision(
+            entityClass = LivingEntity::class.java,
+            ignoreEntity = player,
+            maxDistance = RequestInteractionsHandler.MAX_ENTITY_INTERACTION_DISTANCE.toFloat(),
+            collideBlock = RaycastContext.FluidHandling.NONE
+        ) != otherPlayer) return
         TradeManager.acceptTradeRequest(player, packet.tradeOfferId)
     }
 }

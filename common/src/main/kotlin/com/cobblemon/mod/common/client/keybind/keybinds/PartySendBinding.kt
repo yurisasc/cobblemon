@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
 import com.cobblemon.mod.common.net.messages.server.RequestPlayerInteractionsPacket
 import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
+import com.cobblemon.mod.common.net.serverhandling.RequestInteractionsHandler
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
 import net.minecraft.client.MinecraftClient
@@ -24,6 +25,7 @@ import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.util.InputUtil
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.RaycastContext
 
 object PartySendBinding : CobblemonBlockingKeyBinding(
     "key.cobblemon.throwpartypokemon",
@@ -75,7 +77,11 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
         if (CobblemonClient.storage.selectedSlot != -1 && MinecraftClient.getInstance().currentScreen == null) {
             val pokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot)
             if (pokemon != null && pokemon.currentHealth > 0) {
-                val targetEntity = player.traceFirstEntityCollision(entityClass = LivingEntity::class.java, ignoreEntity = player, maxDistance = 50F)
+                val targetEntity = player.traceFirstEntityCollision(
+                        entityClass = LivingEntity::class.java,
+                        ignoreEntity = player,
+                        maxDistance = RequestInteractionsHandler.MAX_ENTITY_INTERACTION_DISTANCE.toFloat(),
+                        collideBlock = RaycastContext.FluidHandling.NONE)
                 if (targetEntity == null || (targetEntity is PokemonEntity && targetEntity.ownerUuid == player.uuid)) {
                     sendPacketToServer(SendOutPokemonPacket(CobblemonClient.storage.selectedSlot))
                 }
@@ -94,7 +100,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
                 sendPacketToServer(RequestPlayerInteractionsPacket(entity.uuid, entity.id, pokemon.uuid))
             }
             is PokemonEntity -> {
-                if (!entity.canBattle(player)) return
+                if (!entity.canBattle(player) || entity.pos.squaredDistanceTo(player.pos) > RequestInteractionsHandler.MAX_PVE_WILD_DISTANCE_SQ) return
                 sendPacketToServer(BattleChallengePacket(entity.id,  pokemon.uuid))
             }
         }

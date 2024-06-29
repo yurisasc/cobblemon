@@ -17,9 +17,12 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.TeamRequestNotificationPacket
 import com.cobblemon.mod.common.net.messages.server.BattleTeamRequestPacket
 import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.traceFirstEntityCollision
+import net.minecraft.entity.LivingEntity
 import java.util.UUID
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.world.RaycastContext
 
 object TeamRequestHandler : ServerNetworkPacketHandler<BattleTeamRequestPacket> {
     override fun handle(packet: BattleTeamRequestPacket, server: MinecraftServer, player: ServerPlayerEntity) {
@@ -36,8 +39,12 @@ object TeamRequestHandler : ServerNetworkPacketHandler<BattleTeamRequestPacket> 
         } ?: return
 
         // Check los and range
-        if (!player.canSee(targetedEntity) || !(player.pos.squaredDistanceTo(targetedEntity.pos) <= RequestInteractionsHandler.MAX_PVP_DISTANCE_SQ)) {
-            player.sendMessage(lang("cobblemon.ui.interact.too_far").yellow())
+        if (player.traceFirstEntityCollision(
+            entityClass = LivingEntity::class.java,
+            ignoreEntity = player,
+            maxDistance = RequestInteractionsHandler.MAX_PVP_DISTANCE.toFloat(),
+            collideBlock = RaycastContext.FluidHandling.NONE) != targetedEntity) {
+            player.sendMessage(lang("ui.interact.failed").yellow())
             return
         }
 

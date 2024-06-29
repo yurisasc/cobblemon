@@ -23,9 +23,12 @@ import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
-import java.util.UUID
+import com.cobblemon.mod.common.util.traceFirstEntityCollision
+import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.world.RaycastContext
+import java.util.UUID
 
 object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
     override fun handle(packet: BattleChallengePacket, server: MinecraftServer, player: ServerPlayerEntity) {
@@ -42,12 +45,14 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
         } ?: return
 
         // Check los and range
-        if (!player.canSee(targetedEntity)
-                || !(player.pos.squaredDistanceTo(targetedEntity.pos)
-                        <= if (targetedEntity is PokemonEntity) RequestInteractionsHandler.MAX_PVP_WILD_DISTANCE_SQ
-                else RequestInteractionsHandler.MAX_PVP_DISTANCE_SQ)) {
+        val maxDistance = if(targetedEntity is PokemonEntity) RequestInteractionsHandler.MAX_PVE_WILD_DISTANCE.toFloat() else RequestInteractionsHandler.MAX_PVP_DISTANCE.toFloat()
+        if (player.traceFirstEntityCollision(
+                entityClass = LivingEntity::class.java,
+                ignoreEntity = player,
+                maxDistance = maxDistance,
+                collideBlock = RaycastContext.FluidHandling.NONE) != targetedEntity) {
             if(targetedEntity !is PokemonEntity) {
-                player.sendMessage(lang("cobblemon.ui.interact.too_far").yellow())
+                player.sendMessage(lang("cobblemon.ui.interact.failed").yellow())
             }
             return
         }

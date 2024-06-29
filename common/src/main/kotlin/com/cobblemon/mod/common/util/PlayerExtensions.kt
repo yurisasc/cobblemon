@@ -31,6 +31,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.*
 import net.minecraft.world.RaycastContext
 import java.util.*
@@ -111,16 +112,18 @@ class EntityTraceResult<T : Entity>(
 )
 
 fun <T : Entity> PlayerEntity.traceFirstEntityCollision(
-    maxDistance: Float = 10F,
-    stepDistance: Float = 0.05F,
-    entityClass: Class<T>,
-    ignoreEntity: T? = null
+        maxDistance: Float = 10F,
+        stepDistance: Float = 0.05F,
+        entityClass: Class<T>,
+        ignoreEntity: T? = null,
+        collideBlock: RaycastContext.FluidHandling? = null
 ): T? {
     return traceEntityCollision(
         maxDistance,
         stepDistance,
         entityClass,
-        ignoreEntity
+        ignoreEntity,
+        collideBlock
     )?.let { it.entities.minByOrNull { it.distanceTo(this) } }
 }
 
@@ -128,7 +131,8 @@ fun <T : Entity> PlayerEntity.traceEntityCollision(
     maxDistance: Float = 10F,
     stepDistance: Float = 0.05F,
     entityClass: Class<T>,
-    ignoreEntity: T? = null
+    ignoreEntity: T? = null,
+    collideBlock: RaycastContext.FluidHandling?
 ): EntityTraceResult<T>? {
     var step = stepDistance
     val startPos = eyePos
@@ -140,7 +144,6 @@ fun <T : Entity> PlayerEntity.traceEntityCollision(
         Box(startPos.subtract(maxDistanceVector), startPos.add(maxDistanceVector)),
         { entityClass.isInstance(it) }
     )
-
     while (step <= maxDistance) {
         val location = startPos.add(direction.multiply(step.toDouble()))
         step += stepDistance
@@ -148,6 +151,10 @@ fun <T : Entity> PlayerEntity.traceEntityCollision(
         val collided = entities.filter { ignoreEntity != it && location in it.boundingBox }.filter { entityClass.isInstance(it) }
 
         if (collided.isNotEmpty()) {
+            if(collideBlock != null && world.raycast(RaycastContext(startPos, location, RaycastContext.ShapeType.COLLIDER, collideBlock, this)).type == HitResult.Type.BLOCK) {
+                // Collided with block on the way to the entity
+                return null
+            }
             return EntityTraceResult(location, collided.filterIsInstance(entityClass))
         }
     }

@@ -13,20 +13,25 @@ import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.net.messages.client.PlayerInteractOptionsPacket
 import com.cobblemon.mod.common.net.messages.server.RequestPlayerInteractionsPacket
+import com.cobblemon.mod.common.util.traceFirstEntityCollision
+import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.world.RaycastContext
 import java.util.EnumSet
 
 object RequestInteractionsHandler : ServerNetworkPacketHandler<RequestPlayerInteractionsPacket> {
 
-    const val MAX_PVP_WILD_DISTANCE = 12
-    const val MAX_PVP_WILD_DISTANCE_SQ = MAX_PVP_WILD_DISTANCE * MAX_PVP_WILD_DISTANCE
+    const val MAX_PVE_WILD_DISTANCE = 12
+    const val MAX_PVE_WILD_DISTANCE_SQ = MAX_PVE_WILD_DISTANCE * MAX_PVE_WILD_DISTANCE
     const val MAX_TRADE_DISTANCE = 12
     const val MAX_TRADE_DISTANCE_SQ = MAX_TRADE_DISTANCE * MAX_TRADE_DISTANCE
     const val MAX_PVP_DISTANCE = 32
     const val MAX_PVP_DISTANCE_SQ = MAX_PVP_DISTANCE * MAX_PVP_DISTANCE
     const val MAX_SPECTATE_DISTANCE = 64
     const val MAX_SPECTATE_DISTANCE_SQ = MAX_SPECTATE_DISTANCE * MAX_SPECTATE_DISTANCE
+    const val MAX_ENTITY_INTERACTION_DISTANCE = 64
+
     override fun handle(
         packet: RequestPlayerInteractionsPacket,
         server: MinecraftServer,
@@ -35,7 +40,12 @@ object RequestInteractionsHandler : ServerNetworkPacketHandler<RequestPlayerInte
         val world = player.world
         val targetPlayerEntity = world.getPlayerByUuid(packet.targetId)
         val options = EnumSet.noneOf(PlayerInteractOptionsPacket.Options::class.java)
-        if (targetPlayerEntity != null && player.canSee(targetPlayerEntity)) {
+        if (targetPlayerEntity != null && player.traceFirstEntityCollision(
+            entityClass = LivingEntity::class.java,
+            ignoreEntity = player,
+            maxDistance = MAX_ENTITY_INTERACTION_DISTANCE.toFloat(),
+            collideBlock = RaycastContext.FluidHandling.NONE
+        ) == targetPlayerEntity) {
             //We could potentially check if the targeted player has pokemon here
             val squaredDistance = targetPlayerEntity.pos.squaredDistanceTo(player.pos)
             if(squaredDistance <= MAX_TRADE_DISTANCE_SQ) {

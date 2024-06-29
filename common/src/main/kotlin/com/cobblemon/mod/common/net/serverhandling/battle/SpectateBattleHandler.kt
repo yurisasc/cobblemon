@@ -21,8 +21,11 @@ import com.cobblemon.mod.common.net.messages.server.battle.SpectateBattlePacket
 import com.cobblemon.mod.common.net.serverhandling.RequestInteractionsHandler
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.traceFirstEntityCollision
+import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.world.RaycastContext
 import org.apache.logging.log4j.LogManager
 
 object SpectateBattleHandler : ServerNetworkPacketHandler<SpectateBattlePacket> {
@@ -38,8 +41,12 @@ object SpectateBattleHandler : ServerNetworkPacketHandler<SpectateBattlePacket> 
 
             // Check los and range
             val targetedPlayerEntity = packet.targetedEntityId.getPlayer() ?: return
-            if (!player.canSee(targetedPlayerEntity) || !(player.pos.squaredDistanceTo(targetedPlayerEntity.pos) <= RequestInteractionsHandler.MAX_PVP_DISTANCE_SQ)) {
-                player.sendMessage(lang("ui.interact.too_far").yellow())
+            if (player.traceFirstEntityCollision(
+                            entityClass = LivingEntity::class.java,
+                            ignoreEntity = player,
+                            maxDistance = RequestInteractionsHandler.MAX_SPECTATE_DISTANCE.toFloat(),
+                            collideBlock = RaycastContext.FluidHandling.NONE) != targetedPlayerEntity) {
+                player.sendMessage(lang("ui.interact.failed").yellow())
                 return
             }
             battle.spectators.add(player.uuid)
