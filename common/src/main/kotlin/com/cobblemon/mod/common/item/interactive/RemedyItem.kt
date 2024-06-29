@@ -25,7 +25,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
-class RemedyItem(val remedyStrength: String) : CobblemonItem(Settings()), PokemonSelectingItem {
+class RemedyItem(val remedyStrength: String) : CobblemonItem(Properties()), PokemonSelectingItem {
     companion object {
         const val NORMAL = "normal"
         const val FINE = "fine"

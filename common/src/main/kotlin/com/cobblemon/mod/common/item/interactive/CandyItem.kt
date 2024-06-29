@@ -31,7 +31,7 @@ import net.minecraft.world.level.Level
  * @author Licious
  * @since May 5th, 2022
  */
-class CandyItem(val calculator: Calculator) : CobblemonItem(Settings()), PokemonSelectingItem {
+class CandyItem(val calculator: Calculator) : CobblemonItem(Properties()), PokemonSelectingItem {
     override val bagItem = null
 
     override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {

@@ -19,10 +19,10 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
-import net.minecraft.command.argument.EntityArgumentType
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.Commands.literal
-import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.server.level.ServerPlayer
 
 /**
@@ -42,10 +42,10 @@ object PokeboxCommand {
     private val STORAGE_IS_FULL_EXCEPTION = commandLang("pokebox.storage_is_full")
     private val LAST_POKE_MESSAGE = commandLang("pokebox.last_pokemon")
 
-    fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
+    fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
         dispatcher.register(literal("pokebox")
             .permission(CobblemonPermissions.POKEBOX)
-            .then(Commands.argument("player", EntityArgumentType.player())
+            .then(Commands.argument("player", EntityArgument.player())
                 .then(Commands.argument("slot", PartySlotArgumentType.partySlot())
                     .then(Commands.argument("box", IntegerArgumentType.integer(1))
                         .executes { context ->
@@ -64,7 +64,7 @@ object PokeboxCommand {
 
         dispatcher.register(literal("pokeboxall")
             .permission(CobblemonPermissions.POKEBOX)
-            .then(Commands.argument("player", EntityArgumentType.player())
+            .then(Commands.argument("player", EntityArgument.player())
                 .then(Commands.argument("box", IntegerArgumentType.integer(1))
                     .executes { context ->
                         val player = context.player()
@@ -78,7 +78,7 @@ object PokeboxCommand {
     }
 
     private fun execute(
-        context: CommandContext<ServerCommandSource>,
+        context: CommandContext<CommandSourceStack>,
         player: ServerPlayer,
         pokemons: Collection<Pokemon>,
         box: Int? = null,
@@ -102,7 +102,7 @@ object PokeboxCommand {
         // Operate in reverse so that the party "lead" pokemon would be kept
         pokemons.reversed().forEach { pokemon ->
             if (ServerSettings.preventCompletePartyDeposit && playerParty.occupied() == 1) {
-                context.source.sendFeedback({ LAST_POKE_MESSAGE.red() }, false)
+                context.source.sendSuccess({ LAST_POKE_MESSAGE.red() }, false)
                 return pokemons.size - 1
             }
 

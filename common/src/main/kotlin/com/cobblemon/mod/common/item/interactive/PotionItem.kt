@@ -30,7 +30,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
-class PotionItem(val type: PotionType) : CobblemonItem(Settings()), PokemonSelectingItem {
+class PotionItem(val type: PotionType) : CobblemonItem(Properties()), PokemonSelectingItem {
     override val bagItem = type
     override fun canUseOnPokemon(pokemon: Pokemon) = !pokemon.isFullHealth() && pokemon.currentHealth > 0
     override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {

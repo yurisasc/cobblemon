@@ -17,12 +17,12 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.FloatArgumentType
 import com.mojang.brigadier.context.CommandContext
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
-import net.minecraft.server.command.ServerCommandSource
 
 object ChangeWalkSpeed {
 
-    fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
+    fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
         val command = Commands.literal("changewalkspeed")
             .permission(CobblemonPermissions.CHANGE_WALK_SPEED)
             .then(
@@ -36,7 +36,7 @@ object ChangeWalkSpeed {
 
 
 
-    private fun execute(context: CommandContext<ServerCommandSource>) : Int {
+    private fun execute(context: CommandContext<CommandSourceStack>) : Int {
         val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
         val walkSpeed = FloatArgumentType.getFloat(context, "walkSpeed")
 

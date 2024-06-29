@@ -38,8 +38,8 @@ import com.cobblemon.mod.common.util.toPokemon
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
-import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.network.chat.Component
 import net.minecraft.world.phys.AABB
@@ -47,7 +47,7 @@ import net.minecraft.world.phys.AABB
 @Suppress("unused")
 object TestCommand {
 
-    fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
+    fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
         val command = Commands.literal("testcommand")
             .requires { it.hasPermission(4) }
             .executes { execute(it) }
@@ -55,7 +55,7 @@ object TestCommand {
     }
 
     @Suppress("SameReturnValue")
-    private fun execute(context: CommandContext<ServerCommandSource>): Int {
+    private fun execute(context: CommandContext<CommandSourceStack>): Int {
         if (context.source.entity !is ServerPlayer) {
             return Command.SINGLE_SUCCESS
         }
@@ -124,15 +124,15 @@ object TestCommand {
     var trade: ActiveTrade? = null
     var lastDebugId = 0
 
-    private fun testClosestBattle(context: CommandContext<ServerCommandSource>) {
-        val player = context.source.playerOrThrow
+    private fun testClosestBattle(context: CommandContext<CommandSourceStack>) {
+        val player = context.source.playerOrException
         val cloneTeam = player.party().toBattleTeam(true)
         cloneTeam.forEach { it.effectedPokemon.level = 100 }
-        val scanBox = AABB.ofSize(player.pos, 9.0, 9.0, 9.0)
-        val results = player.level().getEntitiesByType(CobblemonEntities.POKEMON, scanBox) { entityPokemon -> entityPokemon.pokemon.isWild() }
+        val scanBox = AABB.ofSize(player.position(), 9.0, 9.0, 9.0)
+        val results = player.level().getEntities(CobblemonEntities.POKEMON, scanBox) { entityPokemon -> entityPokemon.pokemon.isWild() }
         val pokemonEntity = results.firstOrNull()
         if (pokemonEntity == null) {
-            context.source.sendError(Component.literal("Cannot find any wild Pokémon in a 9x9x9 area"))
+            context.source.sendFailure(Component.literal("Cannot find any wild Pokémon in a 9x9x9 area"))
             return
         }
         BattleRegistry.startBattle(
@@ -259,7 +259,7 @@ object TestCommand {
 //        }
 //    }
 
-    private fun testAbilitiesBetweenEvolution(context: CommandContext<ServerCommandSource>) {
+    private fun testAbilitiesBetweenEvolution(context: CommandContext<CommandSourceStack>) {
         val results = Component.literal("Ability test results (Assumed default assets)")
             .append(Component.literal("\n"))
             .append(this.testHiddenAbilityThroughoutEvolutions())
@@ -273,7 +273,7 @@ object TestCommand {
             .append(this.testAbilityCapsule())
             .append(Component.literal("\n"))
             .append(this.testAbilityPatch())
-        context.source.sendMessage(results)
+        context.source.sendSystemMessage(results)
     }
 
     private fun testHiddenAbilityThroughoutEvolutions(): Component {

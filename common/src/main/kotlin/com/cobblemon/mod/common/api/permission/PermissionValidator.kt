@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.permission
 
 import com.cobblemon.mod.common.Cobblemon
 import net.minecraft.commands.CommandSource
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.server.level.ServerPlayer
 
 /**
@@ -43,6 +44,6 @@ interface PermissionValidator {
      * @param permission The [Permission] being queried.
      * @return If the [source] has the [permission].
      */
-    fun hasPermission(source: CommandSource, permission: Permission): Boolean
+    fun hasPermission(source: CommandSourceStack, permission: Permission): Boolean
 
 }

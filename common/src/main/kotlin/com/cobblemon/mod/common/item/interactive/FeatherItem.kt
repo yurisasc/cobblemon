@@ -21,7 +21,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
-class FeatherItem(val stat: Stat) : CobblemonItem(Settings()), PokemonSelectingItem {
+class FeatherItem(val stat: Stat) : CobblemonItem(Properties()), PokemonSelectingItem {
 
     companion object {
         const val EV_YIELD = 1

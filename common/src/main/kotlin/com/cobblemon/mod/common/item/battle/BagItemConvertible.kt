@@ -15,9 +15,9 @@ import com.cobblemon.mod.common.battles.BagItemActionResponse
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.battleLang
-import net.minecraft.world.item.ItemStack
-import net.minecraft.registry.Registries
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.item.ItemStack
 
 /**
  * Something that can be a bag item. This needs to be registered in [BagItems]
@@ -42,18 +42,18 @@ interface BagItemLike {
         val battle = battlePokemon.actor.battle
         val bagItem = getBagItem(stack) ?: return false
         if (!battlePokemon.actor.canFitForcedAction()) {
-            player.sendMessage(battleLang("bagitem.cannot").red())
+            player.sendSystemMessage(battleLang("bagitem.cannot").red())
             return false
         }
 
         if (!bagItem.canUse(battle, battlePokemon)) {
-            player.sendMessage(battleLang("bagitem.invalid").red())
+            player.sendSystemMessage(battleLang("bagitem.invalid").red())
             return false
         }
 
         battlePokemon.actor.forceChoose(BagItemActionResponse(bagItem, battlePokemon))
         stack.shrink(1)
-        CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(battlePokemon.entity!!.pokemon.species.resourceIdentifier, Registries.ITEM.getId(stack.item)))
+        CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(battlePokemon.entity!!.pokemon.species.resourceIdentifier, BuiltInRegistries.ITEM.getKey(stack.item)))
         return true
     }
 }

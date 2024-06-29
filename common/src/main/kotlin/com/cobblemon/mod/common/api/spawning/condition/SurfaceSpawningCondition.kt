@@ -32,7 +32,7 @@ abstract class SurfaceTypeSpawningCondition<T : SurfaceSpawningContext> : AreaTy
             false
         } else if (maxDepth != null && ctx.depth > maxDepth!!) {
             false
-        } else !(ctx.baseBlock.fluidState.isEmpty || (fluid != null && !fluid!!.fits(ctx.baseBlock.fluidState.fluid, ctx.fluidRegistry)))
+        } else !(ctx.baseBlock.fluidState.isEmpty || (fluid != null && !fluid!!.fits(ctx.baseBlock.fluidState.type, ctx.fluidRegistry)))
     }
 
     override fun copyFrom(other: SpawningCondition<*>, merger: Merger) {

@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.api.pokemon.experience
 
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import net.minecraft.commands.CommandSource
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.ItemStack
 
@@ -37,7 +37,7 @@ open class CandyExperienceSource(
 ) : ExperienceSource
 
 open class CommandExperienceSource(
-    val source: CommandSource
+    val source: CommandSourceStack
 ) : ExperienceSource
 
 open class BattleExperienceSource(

@@ -22,9 +22,9 @@ import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.Commands.literal
-import net.minecraft.server.command.ServerCommandSource
 
 /**
  * Spawn Pokemon From Surrounding Pool
@@ -40,7 +40,7 @@ object SpawnPokemonFromPool {
 
     private val UNABLE_TO_SPAWN = commandLang("spawnpokemonfrompool.unable_to_spawn")
 
-    fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
+    fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
         val spawnPokemonFromPoolCommand = dispatcher.register(literal(NAME)
             .permission(CobblemonPermissions.SPAWN_POKEMON)
             .then(Commands.argument("amount", IntegerArgumentType.integer(1))
@@ -52,8 +52,8 @@ object SpawnPokemonFromPool {
         dispatcher.register(spawnPokemonFromPoolCommand.alias(ALIAS))
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, amount: Int): Int {
-        val player = context.source.playerOrThrow
+    private fun execute(context: CommandContext<CommandSourceStack>, amount: Int): Int {
+        val player = context.source.playerOrException
         val spawner = CobblemonWorldSpawnerManager.spawnersForPlayers.getValue(player.uuid)
 
         var spawnsTriggered = 0
@@ -72,13 +72,13 @@ object SpawnPokemonFromPool {
             //   means two attempts to spawn in the same location can have differing results (which is expected for
             //   randomness).
             if (contexts.isEmpty()) {
-                player.sendMessage(UNABLE_TO_SPAWN.red())
+                player.sendSystemMessage(UNABLE_TO_SPAWN.red())
                 continue
             }
 
             val result = spawner.getSpawningSelector().select(spawner, contexts)
             if (result == null) {
-                player.sendMessage(UNABLE_TO_SPAWN.red())
+                player.sendSystemMessage(UNABLE_TO_SPAWN.red())
                 continue
             }
 
@@ -87,7 +87,7 @@ object SpawnPokemonFromPool {
             spawnAction.future.thenApply {
                 if (it is EntitySpawnResult) {
                     for (entity in it.entities) {
-                        player.sendMessage(commandLang("spawnpokemonfrompool.success", entity.effectiveName()).green())
+                        player.sendSystemMessage(commandLang("spawnpokemonfrompool.success", entity.effectiveName()).green())
                     }
                 }
             }

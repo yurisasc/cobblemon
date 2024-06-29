@@ -12,12 +12,12 @@ import com.cobblemon.mod.common.CobblemonBuildDetails
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import net.minecraft.ChatFormatting
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.network.chat.ClickEvent
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.HoverEvent
 import net.minecraft.network.chat.TextColor
-import net.minecraft.server.command.ServerCommandSource
 
 object CobblemonInfoCommand {
 
@@ -29,9 +29,9 @@ object CobblemonInfoCommand {
     private val NEW_LINE: Component = Component.literal("\n")
     private val SPACE: Component = Component.literal(" ")
 
-    fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
+    fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
         dispatcher.register(Commands.literal("cobblemon")
-            .then(LiteralArgumentBuilder.literal<ServerCommandSource?>("info")
+            .then(LiteralArgumentBuilder.literal<CommandSourceStack?>("info")
                 .executes { ctx ->
                     val message = Component.empty().append(
                         Component.literal("Cobblemon Build Details").withStyle { it.withColor(this.YELLOW) })
@@ -66,7 +66,7 @@ object CobblemonInfoCommand {
                         .append(this.SPACE)
                         .append(CobblemonBuildDetails.BRANCH)
 
-                    ctx.source.sendMessage(message)
+                    ctx.source.sendSystemMessage(message)
                     0
                 }
             )

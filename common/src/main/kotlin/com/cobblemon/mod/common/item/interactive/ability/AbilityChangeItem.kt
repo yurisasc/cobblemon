@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.util.lang
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
 
-open class AbilityChangeItem<T : PotentialAbility>(val changer: AbilityChanger<T>) : CobblemonItem(Settings()), PokemonEntityInteraction {
+open class AbilityChangeItem<T : PotentialAbility>(val changer: AbilityChanger<T>) : CobblemonItem(Properties()), PokemonEntityInteraction {
 
     override val accepted: Set<PokemonEntityInteraction.Ownership> = setOf(PokemonEntityInteraction.Ownership.OWNER)
 
@@ -30,7 +30,7 @@ open class AbilityChangeItem<T : PotentialAbility>(val changer: AbilityChanger<T
                 entity.pokemon.getDisplayName(),
                 entity.pokemon.ability.displayName.asTranslated()
             )
-            player.sendMessage(feedback)
+            player.sendSystemMessage(feedback)
             return true
         }
         return false

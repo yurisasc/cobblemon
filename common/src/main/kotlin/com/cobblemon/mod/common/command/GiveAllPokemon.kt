@@ -16,11 +16,11 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
-import net.minecraft.server.command.ServerCommandSource
 
 object GiveAllPokemon {
-    fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
+    fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
         dispatcher.register(
             Commands.literal("giveallpokemon")
                 .requiresWithPermission(CobblemonPermissions.GIVE_ALL_POKEMON) { it.player != null }
@@ -38,8 +38,8 @@ object GiveAllPokemon {
         )
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, range: IntRange) : Int {
-        val player = context.source.playerOrThrow
+    private fun execute(context: CommandContext<CommandSourceStack>, range: IntRange) : Int {
+        val player = context.source.playerOrException
         val pc = player.party().getOverflowPC() ?: return 0
 
         val orderedSpeces = PokemonSpecies.implemented.sortedBy { it.nationalPokedexNumber }

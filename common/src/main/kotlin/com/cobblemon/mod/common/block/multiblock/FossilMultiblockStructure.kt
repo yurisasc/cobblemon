@@ -366,7 +366,7 @@ class FossilMultiblockStructure (
 
     override fun setRemoved(world: Level) {
         if(world.isClientSide) {
-            CancellableSoundController.stopSound(this.tankBasePos, CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id)
+            CancellableSoundController.stopSound(this.tankBasePos, CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.location)
         }
     }
 
@@ -468,7 +468,7 @@ class FossilMultiblockStructure (
         fossilInventory.clear()
 
         if(world.isClientSide) {
-            CancellableSoundController.stopSound(tankBasePos, CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.id)
+            CancellableSoundController.stopSound(tankBasePos, CobblemonSounds.FOSSIL_MACHINE_ACTIVE_LOOP.location)
         }
 
         this.updateOnStatus(world)

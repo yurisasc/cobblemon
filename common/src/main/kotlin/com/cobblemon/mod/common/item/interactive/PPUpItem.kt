@@ -20,7 +20,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
-class PPUpItem(val amount: Int) : CobblemonItem(Settings()), PokemonAndMoveSelectingItem {
+class PPUpItem(val amount: Int) : CobblemonItem(Properties()), PokemonAndMoveSelectingItem {
     override val bagItem = null
     override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.moveSet.any(::canUseOnMove)
     override fun canUseOnMove(move: Move) = move.raisedPpStages < 3

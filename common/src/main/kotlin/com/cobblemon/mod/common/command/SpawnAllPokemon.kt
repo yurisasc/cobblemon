@@ -16,12 +16,12 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
-import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerLevel
 
 object SpawnAllPokemon {
-    fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
+    fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
         dispatcher.register(
             Commands.literal("spawnallpokemon")
                 .requiresWithPermission(CobblemonPermissions.SPAWN_ALL_POKEMON) { it.player != null }
@@ -39,13 +39,13 @@ object SpawnAllPokemon {
         )
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, range: IntRange) : Int {
-        val player = context.source.playerOrThrow
+    private fun execute(context: CommandContext<CommandSourceStack>, range: IntRange) : Int {
+        val player = context.source.playerOrException
 
         for (species in PokemonSpecies.implemented) {
             if (species.nationalPokedexNumber in range) {
                 LOGGER.debug(species.name)
-                species.create().sendOut(player.level() as ServerLevel, player.pos, null)
+                species.create().sendOut(player.level() as ServerLevel, player.position(), null)
             }
         }
 

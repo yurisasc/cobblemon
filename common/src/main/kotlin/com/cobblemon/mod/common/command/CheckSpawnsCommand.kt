@@ -27,9 +27,9 @@ import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
+import net.minecraft.commands.CommandSourceStack
 import java.text.DecimalFormat
 import net.minecraft.commands.Commands
-import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.network.chat.MutableComponent
@@ -41,17 +41,17 @@ object CheckSpawnsCommand {
     const val YELLOW_THRESHOLD = 5F
     val df = DecimalFormat("#.##")
 
-    fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
+    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
         dispatcher.register(Commands.literal("checkspawn")
             .permission(CobblemonPermissions.CHECKSPAWNS)
             .then(
                 Commands.argument("bucket", SpawnBucketArgumentType.spawnBucket())
                     .requires { it.player != null }
-                    .executes { execute(it, it.source.playerOrThrow) }
+                    .executes { execute(it, it.source.playerOrException) }
             ))
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayer) : Int {
+    private fun execute(context: CommandContext<CommandSourceStack>, player: ServerPlayer) : Int {
         if (!config.enableSpawning) {
             return 0
         }
@@ -101,14 +101,14 @@ object CheckSpawnsCommand {
         }
 
         if (messages.isEmpty()) {
-            player.sendMessage(lang("command.checkspawns.nothing").red())
+            player.sendSystemMessage(lang("command.checkspawns.nothing").red())
         } else {
-            player.sendMessage(lang("command.checkspawns.spawns").underline())
+            player.sendSystemMessage(lang("command.checkspawns.spawns").underline())
             val msg = messages[0]
             for (nextMessage in messages.subList(1, messages.size)) {
                 msg.add(", ".text() + nextMessage)
             }
-            player.sendMessage(msg)
+            player.sendSystemMessage(msg)
         }
 
         return Command.SINGLE_SUCCESS

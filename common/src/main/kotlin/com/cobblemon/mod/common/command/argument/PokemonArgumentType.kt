@@ -18,9 +18,9 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import java.util.concurrent.CompletableFuture
-import net.minecraft.command.CommandSource
+import net.minecraft.commands.SharedSuggestionProvider
 import net.minecraft.network.chat.Component
+import java.util.concurrent.CompletableFuture
 
 //Very helpful for all command related stuff: https://fabricmc.net/wiki/tutorial:commands#brigadier_explained
 class PokemonArgumentType : ArgumentType<Species> {
@@ -46,7 +46,7 @@ class PokemonArgumentType : ArgumentType<Species> {
         builder: SuggestionsBuilder
     ): CompletableFuture<Suggestions> {
         // Just a neat shortcut for our own Pokémon since that will be the most common setup no need to overcomplicate
-        return CommandSource.suggestMatching(PokemonSpecies.species.map { if (it.resourceIdentifier.namespace == Cobblemon.MODID) it.resourceIdentifier.path else it.resourceIdentifier.toString() }, builder)
+        return SharedSuggestionProvider.suggest(PokemonSpecies.species.map { if (it.resourceIdentifier.namespace == Cobblemon.MODID) it.resourceIdentifier.path else it.resourceIdentifier.toString() }, builder)
     }
 
     override fun getExamples() = EXAMPLES

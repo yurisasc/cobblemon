@@ -41,12 +41,12 @@ import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.ifClient
 import com.cobblemon.mod.common.util.server
-import java.util.UUID
-import net.minecraft.resource.ResourceManager
-import net.minecraft.server.packs.PackType
-import net.minecraft.resource.SynchronousResourceReloader
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.packs.PackType
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener
+import java.util.*
 
 object CobblemonDataProvider : DataProvider {
 
@@ -109,7 +109,7 @@ object CobblemonDataProvider : DataProvider {
     override fun fromIdentifier(registryIdentifier: ResourceLocation): DataRegistry? = this.registries.find { it.id == registryIdentifier }
 
     override fun sync(player: ServerPlayer) {
-        if (!player.networkHandler.connection.isLocal) {
+        if (!player.connection.connection.isMemoryConnection) {
             this.registries.forEach { registry -> registry.sync(player) }
         }
 
@@ -126,8 +126,8 @@ object CobblemonDataProvider : DataProvider {
         }
     }
 
-    private class SimpleResourceReloader(private val type: PackType) : SynchronousResourceReloader {
-        override fun reload(manager: ResourceManager) {
+    private class SimpleResourceReloader(private val type: PackType) : ResourceManagerReloadListener {
+        override fun onResourceManagerReload(manager: ResourceManager) {
             // Check for a server running, this is due to the create a world screen triggering datapack reloads, these are fine to happen as many times as needed as players may be in the process of adding their datapacks.
             val isInGame = server() != null
             if (isInGame && this.type == PackType.SERVER_DATA && !canReload) {

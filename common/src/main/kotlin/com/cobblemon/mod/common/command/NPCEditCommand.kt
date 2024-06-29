@@ -17,22 +17,22 @@ import com.cobblemon.mod.common.util.traceFirstEntityCollision
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
-import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 
 object NPCEditCommand {
-    fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
+    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
         dispatcher.register(
             Commands.literal("npcedit")
             .requiresWithPermission(CobblemonPermissions.NPC_EDIT) { it.player != null }
-            .executes { execute(it, it.source.playerOrThrow) })
+            .executes { execute(it, it.source.playerOrException) })
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayer) : Int {
+    private fun execute(context: CommandContext<CommandSourceStack>, player: ServerPlayer) : Int {
         val targetEntity = player.traceFirstEntityCollision(entityClass = NPCEntity::class.java)
         if (targetEntity == null) {
-            player.sendMessage(commandLang("npcedit.non_npc").red())
+            player.sendSystemMessage(commandLang("npcedit.non_npc").red())
             return 0
         }
 

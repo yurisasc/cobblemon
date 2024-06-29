@@ -17,27 +17,27 @@ import com.cobblemon.mod.common.util.openDialogue
 import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
-import net.minecraft.command.argument.EntityArgumentType
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
-import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 
 object OpenDialogueCommand {
-    fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
+    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
         val command = dispatcher.register(Commands.literal("opendialogue")
             .permission(CobblemonPermissions.OPEN_DIALOGUE)
             .then(
                 Commands.argument("dialogue", DialogueArgumentType.dialogue())
                     .then(
-                        Commands.argument("player", EntityArgumentType.player())
+                        Commands.argument("player", EntityArgument.player())
                             .executes {
                                 val dialogueId = DialogueArgumentType.getDialogue(it, "dialogue")
                                 if (!Dialogues.dialogues.containsKey(dialogueId)) {
-                                    it.source.sendMessage("Invalid dialogue: $dialogueId".text())
+                                    it.source.sendFailure("Invalid dialogue: $dialogueId".text())
                                     return@executes Command.SINGLE_SUCCESS
                                 }
-                                val player = EntityArgumentType.getPlayer(it, "player")
+                                val player = EntityArgument.getPlayer(it, "player")
                                 return@executes execute(it.source, dialogueId, player)
                             }
                     )
@@ -46,9 +46,9 @@ object OpenDialogueCommand {
         dispatcher.register(command.alias("opendialogue"))
     }
 
-    private fun execute(source: ServerCommandSource, dialogueId: ResourceLocation, player: ServerPlayer): Int {
+    private fun execute(source: CommandSourceStack, dialogueId: ResourceLocation, player: ServerPlayer): Int {
         val dialogue = Dialogues.dialogues[dialogueId] ?: return run {
-            source.sendMessage("Invalid dialogue ID: $dialogueId".text())
+            source.sendSystemMessage("Invalid dialogue ID: $dialogueId".text())
             Command.SINGLE_SUCCESS
         }
         try {

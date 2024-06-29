@@ -18,9 +18,9 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import java.util.concurrent.CompletableFuture
-import net.minecraft.command.CommandSource
+import net.minecraft.commands.SharedSuggestionProvider
 import net.minecraft.resources.ResourceLocation
+import java.util.concurrent.CompletableFuture
 
 class DialogueArgumentType : ArgumentType<ResourceLocation> {
 
@@ -47,7 +47,7 @@ class DialogueArgumentType : ArgumentType<ResourceLocation> {
         context: CommandContext<S>,
         builder: SuggestionsBuilder
     ): CompletableFuture<Suggestions> {
-        return CommandSource.suggestMatching(Dialogues.dialogues.keys.map { if (it.namespace == Cobblemon.MODID) it.path else it.toString() }, builder)
+        return SharedSuggestionProvider.suggest(Dialogues.dialogues.keys.map { if (it.namespace == Cobblemon.MODID) it.path else it.toString() }, builder)
     }
 
     override fun getExamples() = EXAMPLES

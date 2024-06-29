@@ -10,22 +10,22 @@ package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.mulch.Mulchable
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.ItemUsageContext
+import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.InteractionResult
-import net.minecraft.core.BlockPos
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.LevelEvent
 
 class MulchItem(val variant: MulchVariant) : CobblemonItem(Properties()) {
 
-    override fun useOnBlock(context: ItemUsageContext): InteractionResult {
-        val world = context.world
-        val pos = context.blockPos
-        if (this.useOnMulchAble(context.stack, world, pos)) {
+    override fun useOn(context: UseOnContext): InteractionResult {
+        val world = context.level
+        val pos = context.clickedPos
+        if (this.useOnMulchAble(context.itemInHand, world, pos)) {
             // Plays bone meal effect
-            if (!world.isClient) {
+            if (!world.isClientSide) {
                 world.levelEvent(LevelEvent.PARTICLES_AND_SOUND_PLANT_GROWTH, pos, 0)
             }
             return InteractionResult.sidedSuccess(true)

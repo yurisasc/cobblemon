@@ -21,7 +21,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
-class MintItem(val nature: Nature) : CobblemonItem(Settings()), PokemonSelectingItem {
+class MintItem(val nature: Nature) : CobblemonItem(Properties()), PokemonSelectingItem {
 
     override val bagItem = null
     override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.effectiveNature != nature
@@ -36,10 +36,10 @@ class MintItem(val nature: Nature) : CobblemonItem(Settings()), PokemonSelecting
             }
             player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
             pokemon.mintedNature = nature
-            player.sendMessage(lang("mint.interact", pokemon.getDisplayName(), stack.name), true)
+            player.sendSystemMessage(lang("mint.interact", pokemon.getDisplayName(), stack.hoverName), true)
             InteractionResultHolder.success(stack)
         } else {
-            player.sendMessage(lang("mint.same_nature", pokemon.getDisplayName(), stack.name), true)
+            player.sendSystemMessage(lang("mint.same_nature", pokemon.getDisplayName(), stack.hoverName), true)
             InteractionResultHolder.fail(stack)
         }
     }

@@ -43,12 +43,12 @@ interface InteractOrBagItem {
 
         val bagItem = getBagItem(stack) ?: return false
         if (!battlePokemon.actor.canFitForcedAction()) {
-            player.sendMessage(battleLang("bagitem.cannot").red())
+            player.sendSystemMessage(battleLang("bagitem.cannot").red())
             return false
         }
 
         if (!bagItem.canUse(battle, battlePokemon)) {
-            player.sendMessage(battleLang("bagitem.invalid").red())
+            player.sendSystemMessage(battleLang("bagitem.invalid").red())
             return false
         }
 
@@ -76,12 +76,12 @@ interface InteractOrBagItem {
         val bagItem = getBagItem(stack) ?: return false
 
         if (!actor.canFitForcedAction()) {
-            player.sendMessage(battleLang("bagitem.cannot").red())
+            player.sendSystemMessage(battleLang("bagitem.cannot").red())
             return false
         }
 
         if (!bagItem.canUse(battle, battlePokemon)) {
-            player.sendMessage(battleLang("bagitem.invalid").red())
+            player.sendSystemMessage(battleLang("bagitem.invalid").red())
             return false
         }
 

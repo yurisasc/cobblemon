@@ -16,12 +16,12 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.FloatArgumentType
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.world.entity.EntityDimensions
+import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
-import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.world.entity.EntityDimensions
 
 object ChangeScaleAndSize {
-    fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
+    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
         val command = Commands.literal("changescaleandsize")
             .permission(CobblemonPermissions.CHANGE_SCALE_AND_SIZE)
             .then(
@@ -37,14 +37,14 @@ object ChangeScaleAndSize {
         dispatcher.register(command)
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>) : Int {
+    private fun execute(context: CommandContext<CommandSourceStack>) : Int {
         val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
         val scale = FloatArgumentType.getFloat(context, "scale")
         val width = FloatArgumentType.getFloat(context, "width")
         val height = FloatArgumentType.getFloat(context, "height")
 
         pkm.baseScale = scale
-        pkm.hitbox = EntityDimensions.changing(width, height)
+        pkm.hitbox = EntityDimensions.scalable(width, height)
         pkm.forms.clear()
         pkm.forms.add(FormData().also { it.initialize(pkm) })
         return Command.SINGLE_SUCCESS

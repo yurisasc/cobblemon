@@ -13,8 +13,8 @@ import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.codec.PacketCodec
-import net.minecraft.network.codec.PacketCodecs
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceLocation
 
 /**
@@ -29,6 +29,6 @@ class RodBaitComponent(val bait: FishingBait) {
             ResourceLocation.CODEC.fieldOf("bait").forGetter { it.bait.item },
         ).apply(builder) { bait -> RodBaitComponent(FishingBaits.getFromIdentifier(bait) ?: FishingBait.BLANK_BAIT) } }
 
-        val PACKET_CODEC: PacketCodec<ByteBuf, RodBaitComponent> = PacketCodecs.codec(CODEC)
+        val PACKET_CODEC: StreamCodec<ByteBuf, RodBaitComponent> = ByteBufCodecs.fromCodec(CODEC)
     }
 }

@@ -21,7 +21,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 
-class VitaminItem(val stat: Stat) : CobblemonItem(Settings()), PokemonSelectingItem {
+class VitaminItem(val stat: Stat) : CobblemonItem(Properties()), PokemonSelectingItem {
 
     companion object {
         const val EV_YIELD = 10
