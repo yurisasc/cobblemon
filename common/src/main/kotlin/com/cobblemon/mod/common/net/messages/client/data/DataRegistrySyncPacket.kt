@@ -9,9 +9,9 @@
 package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.util.writeCollection
-import net.minecraft.network.RegistryByteBuf
+import io.netty.buffer.Unpooled
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val registryEntries: Collection<T>) : NetworkPacket<N> {
 
@@ -19,12 +19,16 @@ abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val regis
     internal val entries = arrayListOf<T>()
 
     override fun encode(buffer: RegistryByteBuf) {
-        buffer.writeCollection(this.registryEntries) { _, entry -> encodeEntry(buffer, entry) }
+        val newBuffer = RegistryByteBuf(Unpooled.buffer(), buffer.registryManager)
+        newBuffer.writeCollection(registryEntries) { _, entry -> encodeEntry(newBuffer, entry) }
+        buffer.writeInt(newBuffer.readableBytes())
+        buffer.writeBytes(newBuffer)
     }
 
     internal fun decodeBuffer(buffer: RegistryByteBuf) {
-        this.buffer = buffer
-        buffer.retain()
+        val size = buffer.readInt()
+        val newBuffer = RegistryByteBuf(buffer.readBytes(size), buffer.registryManager)
+        this.buffer = newBuffer
     }
 
     /**
