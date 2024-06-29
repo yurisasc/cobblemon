@@ -63,8 +63,8 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                 if (existingChallenge != null && !existingChallenge.isExpired() && existingChallenge.challengedPlayerUUID == player.uuid) {
                     if (targetedEntity.party()[existingChallengePokemon!!] == null) {
                         if (targetedEntity.party().none()) {
-                            player.sendMessage(battleLang("error.no_pokemon_opponent"))
-                            targetedEntity.sendMessage(battleLang("error.no_pokemon"))
+                            player.sendSystemMessage(battleLang("error.no_pokemon_opponent"))
+                            targetedEntity.sendSystemMessage(battleLang("error.no_pokemon"))
                             BattleRegistry.removeChallenge(targetedEntity.uuid)
                             return
                         }
@@ -79,7 +79,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                         BattleRegistry.removeChallenge(player.uuid, challengeId = challenge.challengeId)
                     }
                     targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua()))
-                    player.sendMessage(lang("challenge.sender", targetedEntity.name).yellow())
+                    player.sendSystemMessage(lang("challenge.sender", targetedEntity.name).yellow())
                 }
             }
             else -> {

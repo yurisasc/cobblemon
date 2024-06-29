@@ -21,15 +21,11 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readMapK
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeMapK
-import com.cobblemon.mod.common.util.writeSizedInt
-import java.util.UUID
+import com.cobblemon.mod.common.util.*
 import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.chat.ComponentSerialization
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.text.TextCodecs
+import java.util.*
 
 /**
  * Initializes the client's understanding of a battle. This can be for a participant or for a spectator.
@@ -82,7 +78,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
             buffer.writeSizedInt(IntSize.U_BYTE, side.actors.size)
             for (actor in side.actors) {
                 buffer.writeUUID(actor.uuid)
-                TextCodecs.PACKET_CODEC.encode(buffer, actor.displayName)
+                ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.encode(buffer, actor.displayName)
                 buffer.writeString(actor.showdownId)
                 buffer.writeSizedInt(IntSize.U_BYTE, actor.activePokemon.size)
                 for (activePokemon in actor.activePokemon) {
@@ -102,7 +98,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
             val actors = mutableListOf<BattleActorDTO>()
             repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
                 val uuid = buffer.readUUID()
-                val displayName = TextCodecs.PACKET_CODEC.decode(buffer) as MutableComponent
+                val displayName = ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.decode(buffer) as MutableComponent
                 val showdownId = buffer.readString()
                 val activePokemon = mutableListOf<ActiveBattlePokemonDTO?>()
                 repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
@@ -194,7 +190,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
 
             fun loadFromBuffer(buffer: RegistryFriendlyByteBuf): ActiveBattlePokemonDTO {
                 val uuid = buffer.readUUID()
-                val pokemonDisplayName = TextCodecs.PACKET_CODEC.decode(buffer).copy()
+                val pokemonDisplayName = ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.decode(buffer).copy()
                 val properties = PokemonProperties.parse(buffer.readString(), delimiter = " ")
                 val aspects = buffer.readList { buffer.readString() }.toSet()
                 val status = if (buffer.readBoolean()) {
@@ -227,7 +223,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
 
         fun saveToBuffer(buffer: RegistryFriendlyByteBuf): ActiveBattlePokemonDTO {
             buffer.writeUUID(uuid)
-            TextCodecs.PACKET_CODEC.encode(buffer, displayName)
+            ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.encode(buffer, displayName)
             buffer.writeString(properties.asString())
             buffer.writeCollection(aspects) { buf, it -> buf.writeString(it) }
             buffer.writeBoolean(status != null)

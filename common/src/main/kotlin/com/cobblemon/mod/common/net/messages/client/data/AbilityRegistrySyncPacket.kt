@@ -11,7 +11,8 @@ package com.cobblemon.mod.common.net.messages.client.data
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryFriendlyByteBuf
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeString
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 class AbilityRegistrySyncPacket(abilities: Collection<AbilityTemplate>) : DataRegistrySyncPacket<AbilityTemplate, AbilityRegistrySyncPacket>(abilities) {

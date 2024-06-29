@@ -10,9 +10,9 @@ package com.cobblemon.mod.common.registry
 
 import com.cobblemon.mod.common.api.conditional.RegistryLikeIdentifierCondition
 import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
-import net.minecraft.fluid.Fluid
-import net.minecraft.tags.TagKey
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.TagKey
+import net.minecraft.world.level.material.Fluid
 
 /**
  * A tag condition for fluids. Built off of [RegistryLikeTagCondition].
@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceLocation
  * @since December 15th, 2022
  */
 class FluidTagCondition(tag: TagKey<Fluid>) : RegistryLikeTagCondition<Fluid>(tag)
+
 /**
  * An identifier condition for fluids. Built off of [RegistryLikeIdentifierCondition].
  *

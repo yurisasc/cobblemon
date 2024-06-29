@@ -39,25 +39,25 @@ object TradeManager {
             existingFromPlayer.receiverId.getPlayer()?.sendPacket(TradeOfferExpiredPacket(existingFromPlayer.tradeOfferId))
         }
         if (getActiveTrade(otherPlayerEntity.uuid) != null) {
-            player.sendMessage(lang("trade.occupied", otherPlayerEntity.name), true)
+            player.sendSystemMessage(lang("trade.occupied", otherPlayerEntity.name), true)
         } else {
             val request = TradeRequest(UUID.randomUUID(), player.uuid, otherPlayerEntity.uuid)
             requests.add(request)
             afterOnServer(seconds = 60F) {
                 if (requests.remove(request)) {
-                    player.sendMessage(lang("trade.request_expired", otherPlayerEntity.name), true)
+                    player.sendSystemMessage(lang("trade.request_expired", otherPlayerEntity.name), true)
                 }
             }
 
             otherPlayerEntity.sendPacket(TradeOfferNotificationPacket(request.tradeOfferId, player.uuid, player.name.copy()))
-            player.sendMessage(lang("trade.request_sent", otherPlayerEntity.name), true)
+            player.sendSystemMessage(lang("trade.request_sent", otherPlayerEntity.name), true)
         }
     }
 
     fun acceptTradeRequest(player: ServerPlayer, tradeOfferId: UUID) {
         val request = requests.find { it.tradeOfferId == tradeOfferId }
         if (request == null) {
-            player.sendMessage(lang("trade.request_already_expired"), true)
+            player.sendSystemMessage(lang("trade.request_already_expired"), true)
         } else {
             requests.remove(request)
             val otherPlayer = request.senderId.getPlayer() ?: return

@@ -20,9 +20,9 @@ object RequestStarterScreenHandler : ServerNetworkPacketHandler<RequestStarterSc
     override fun handle(packet: RequestStarterScreenPacket, server: MinecraftServer, player: ServerPlayer) {
         val playerData = Cobblemon.playerData.get(player)
         if (playerData.starterSelected) {
-            return player.sendMessage(lang("ui.starter.alreadyselected").red())
+            return player.sendSystemMessage(lang("ui.starter.alreadyselected").red())
         } else if (playerData.starterLocked) {
-            return player.sendMessage(lang("ui.starter.cannotchoose").red())
+            return player.sendSystemMessage(lang("ui.starter.cannotchoose").red())
         } else {
             Cobblemon.starterHandler.requestStarterChoice(player)
         }

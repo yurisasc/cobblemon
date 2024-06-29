@@ -11,6 +11,8 @@ package com.cobblemon.mod.common.net.messages.client.effect
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleOptions
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.writeIdentifier
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.phys.Vec3

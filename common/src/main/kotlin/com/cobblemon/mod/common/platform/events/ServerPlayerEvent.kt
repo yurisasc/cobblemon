@@ -9,12 +9,12 @@
 package com.cobblemon.mod.common.platform.events
 
 import com.cobblemon.mod.common.api.events.Cancelable
-import net.minecraft.world.entity.Entity
-import net.minecraft.world.item.ItemStack
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
-import net.minecraft.core.BlockPos
-import net.minecraft.util.math.Direction
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.item.ItemStack
 
 /**
  * Events related to a [ServerPlayer].
@@ -54,7 +54,7 @@ interface ServerPlayerEvent {
      * @property hand The [Hand] that hit the block.
      * @property face The [Direction] of the block if any.
      */
-    data class RightClickBlock(override val player: ServerPlayer, val pos: BlockPos, val hand: Hand, val face: Direction?) : ServerPlayerEvent, Cancelable()
+    data class RightClickBlock(override val player: ServerPlayer, val pos: BlockPos, val hand: InteractionHand, val face: Direction?) : ServerPlayerEvent, Cancelable()
 
     /**
      * Fired when the [player] right clicks an entity.
@@ -64,5 +64,5 @@ interface ServerPlayerEvent {
      * @property hand The [Hand] that clicked the [entity].
      * @property entity The [Entity] the [player] clicked.
      */
-    data class RightClickEntity(override val player: ServerPlayer, val item: ItemStack, val hand: Hand, val entity: Entity): ServerPlayerEvent, Cancelable()
+    data class RightClickEntity(override val player: ServerPlayer, val item: ItemStack, val hand: InteractionHand, val entity: Entity): ServerPlayerEvent, Cancelable()
 }

@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.Component
-import net.minecraft.text.TextCodecs
+import net.minecraft.network.chat.ComponentSerialization
 
 /**
  * Sends messages to add to the battle message queue on the client.
@@ -27,11 +27,11 @@ class BattleMessagePacket(val messages: List<Component>) : NetworkPacket<BattleM
     constructor(vararg messages: Component): this(messages.toList())
 
     override fun encode(buffer: RegistryFriendlyByteBuf) {
-        buffer.writeCollection(this.messages) { pb, value -> TextCodecs.PACKET_CODEC.encode(buffer, value) }
+        buffer.writeCollection(this.messages) { pb, value -> ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.encode(buffer, value) }
     }
 
     companion object {
         val ID = cobblemonResource("battle_message")
-        fun decode(buffer: RegistryFriendlyByteBuf) = BattleMessagePacket(buffer.readList { TextCodecs.PACKET_CODEC.decode(buffer) })
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleMessagePacket(buffer.readList { ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.decode(buffer) })
     }
 }

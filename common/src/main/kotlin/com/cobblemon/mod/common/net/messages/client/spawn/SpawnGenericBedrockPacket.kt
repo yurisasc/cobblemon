@@ -12,12 +12,11 @@ import com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.writeSizedInt
-import net.minecraft.world.entity.Entity
+import com.cobblemon.mod.common.util.*
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.Entity
 
 /**
  * Spawn packet for [GenericBedrockEntity]. Wraps around vanilla spawn packet behaviour.
@@ -33,7 +32,7 @@ class SpawnGenericBedrockPacket(
     val width: Float,
     val height: Float,
     val startAge: Int,
-    vanillaSpawnPacket: EntitySpawnS2CPacket
+    vanillaSpawnPacket: ClientboundAddEntityPacket
 ) : SpawnExtraDataEntityPacket<SpawnGenericBedrockPacket, GenericBedrockEntity>(vanillaSpawnPacket) {
     override val id: ResourceLocation = ID
 
@@ -50,12 +49,12 @@ class SpawnGenericBedrockPacket(
     override fun applyData(entity: GenericBedrockEntity) {
         entity.category = this.category
         entity.aspects = this.aspects
-        entity.dataTracker.set(GenericBedrockEntity.POSE_TYPE, this.poseType)
+        entity.entityData.set(GenericBedrockEntity.POSE_TYPE, this.poseType)
         entity.scale = this.scale
         entity.colliderWidth = this.width
         entity.colliderHeight = this.height
         entity.delegate.initialize(entity)
-        entity.age = startAge
+        entity.tickCount = startAge
         (entity.delegate as GenericBedrockClientDelegate).updateAge(startAge)
     }
 

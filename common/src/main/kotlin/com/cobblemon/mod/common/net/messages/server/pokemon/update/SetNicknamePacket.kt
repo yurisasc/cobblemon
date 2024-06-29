@@ -11,6 +11,8 @@ package com.cobblemon.mod.common.net.messages.server.pokemon.update
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.serverhandling.pokemon.update.SetNicknameHandler
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeString
 import java.util.UUID
 import net.minecraft.network.RegistryFriendlyByteBuf
 

@@ -45,7 +45,7 @@ class DialoguePageDTO : Encodable, Decodable {
 
     override fun decode(buffer: RegistryFriendlyByteBuf) {
         speaker = buffer.readNullable { buffer.readString() }
-        lines = buffer.readList { it.readText().copy() }.toMutableList()
+        lines = buffer.readList { (it as RegistryFriendlyByteBuf).readText().copy() }.toMutableList()
         val clientActionsSize = buffer.readInt()
         for (i in 0 until clientActionsSize) {
             clientActions.add(buffer.readString())

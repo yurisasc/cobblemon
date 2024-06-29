@@ -11,25 +11,22 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.mojang.brigadier.arguments.ArgumentType
-import kotlin.reflect.KClass
-import net.minecraft.block.ComposterBlock
-import net.minecraft.command.argument.serialize.ArgumentSerializer
-import net.minecraft.world.level.ItemLike
+import net.minecraft.commands.synchronization.ArgumentTypeInfo
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
-import net.minecraft.tags.TagKey
-import net.minecraft.resource.ResourceManager
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.PackType
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
-
+import net.minecraft.tags.TagKey
 import net.minecraft.world.level.GameRules
+import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.biome.Biome
-import net.minecraft.world.level.levelgen.placement.PlacedFeature
 import net.minecraft.world.level.levelgen.GenerationStep
+import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import kotlin.reflect.KClass
 
 interface CobblemonImplementation {
     val modAPI: ModAPI
@@ -127,7 +124,7 @@ interface CobblemonImplementation {
      * @param argumentClass
      * @param serializer
      */
-    fun <A : ArgumentType<*>, T : ArgumentSerializer.ArgumentTypeProperties<A>> registerCommandArgument(identifier: ResourceLocation, argumentClass: KClass<A>, serializer: ArgumentSerializer<A, T>)
+    fun <A : ArgumentType<*>, T : ArgumentTypeInfo.Template<A>> registerCommandArgument(identifier: ResourceLocation, argumentClass: KClass<A>, serializer: ArgumentTypeInfo<A, T>)
 
     /**
      * TODO
@@ -138,7 +135,7 @@ interface CobblemonImplementation {
      * @param type
      * @return
      */
-    fun <T : GameRules.Rule<T>> registerGameRule(name: String, category: GameRules.Category, type: GameRules.Type<T>): GameRules.Key<T>
+    fun <T : GameRules.Value<T>> registerGameRule(name: String, category: GameRules.Category, type: GameRules.Type<T>): GameRules.Key<T>
 
     /**
      * TODO

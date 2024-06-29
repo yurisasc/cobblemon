@@ -16,12 +16,9 @@ import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.entity.npc.NPCEntity
-import com.cobblemon.mod.common.util.asExpressionLike
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readText
-import com.cobblemon.mod.common.util.writeText
+import com.cobblemon.mod.common.util.*
 import com.mojang.datafixers.util.Either
-import net.minecraft.network.RegistryFriendlyByteBuf
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
@@ -51,7 +48,7 @@ class NPCConfigurationDTO : Encodable, Decodable {
             buffer.writeBoolean(value.map({ true }, { false }))
             buffer.writeString(value.map({ it.toString() }, { it.toString() }))
         }
-        buffer.writeCollection(aspects, RegistryFriendlyByteBuf::writeString)
+        buffer.writeCollection(aspects, ByteBuf::writeString)
     }
 
     override fun decode(buffer: RegistryFriendlyByteBuf) {

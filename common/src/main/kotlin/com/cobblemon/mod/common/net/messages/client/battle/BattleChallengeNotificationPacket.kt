@@ -10,10 +10,10 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.chat.ComponentSerialization
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.text.TextCodecs
+import java.util.*
 
 /**
  * Packet send when a player has challenged to battle. The responsibility
@@ -35,11 +35,11 @@ class BattleChallengeNotificationPacket(
     override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeUUID(battleChallengeId)
         buffer.writeUUID(challengerId)
-        TextCodecs.PACKET_CODEC.encode(buffer, challengerName)
+        ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.encode(buffer, challengerName)
     }
 
     companion object {
         val ID = cobblemonResource("battle_challenge_notification")
-        fun decode(buffer: RegistryFriendlyByteBuf) = BattleChallengeNotificationPacket(buffer.readUUID(), buffer.readUUID(), TextCodecs.PACKET_CODEC.decode(buffer).copy())
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleChallengeNotificationPacket(buffer.readUUID(), buffer.readUUID(), ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.decode(buffer).copy())
     }
 }

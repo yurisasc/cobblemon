@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readIdentifier
 import com.cobblemon.mod.common.util.writeIdentifier
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.network.RegistryFriendlyByteBuf
 
 // We do not need to know every single attribute as a client, as such, we only sync the aspects that matter
 class SpeciesRegistrySyncPacket(species: Collection<Species>) : DataRegistrySyncPacket<Species, SpeciesRegistrySyncPacket>(species) {

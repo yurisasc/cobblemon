@@ -17,7 +17,7 @@ import net.minecraft.server.level.ServerPlayer
 
 object InteractPokemonHandler : ServerNetworkPacketHandler<InteractPokemonPacket> {
     override fun handle(packet: InteractPokemonPacket, server: MinecraftServer, player: ServerPlayer) {
-        val pokemonEntity = player.serverWorld.getEntity(packet.pokemonID)
+        val pokemonEntity = player.serverLevel().getEntity(packet.pokemonID)
         if (pokemonEntity is PokemonEntity) {
             if (packet.mountShoulder) {
                 if (!pokemonEntity.canSitOnShoulder() || player.party().none { it == pokemonEntity.pokemon }) {
@@ -25,7 +25,7 @@ object InteractPokemonHandler : ServerNetworkPacketHandler<InteractPokemonPacket
                 }
                 pokemonEntity.tryMountingShoulder(player)
             } else {
-                pokemonEntity.offerHeldItem(player, player.mainHandStack)
+                pokemonEntity.offerHeldItem(player, player.mainHandItem)
             }
         }
     }

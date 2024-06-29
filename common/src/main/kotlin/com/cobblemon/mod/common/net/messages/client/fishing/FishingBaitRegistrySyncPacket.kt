@@ -12,9 +12,9 @@ import com.cobblemon.mod.common.api.fishing.FishingBait
 import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.net.messages.client.data.DataRegistrySyncPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.writeIdentifier
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.network.RegistryFriendlyByteBuf
-
 
 class FishingBaitRegistrySyncPacket(fishingBaits: List<FishingBait>) : DataRegistrySyncPacket<FishingBait, FishingBaitRegistrySyncPacket>(fishingBaits) {
     companion object {

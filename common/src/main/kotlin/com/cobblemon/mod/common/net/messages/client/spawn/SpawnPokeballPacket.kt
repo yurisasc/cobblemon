@@ -11,16 +11,16 @@ package com.cobblemon.mod.common.net.messages.client.spawn
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.world.entity.Entity
+import com.cobblemon.mod.common.util.*
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.Entity
 
 class SpawnPokeballPacket(
     val pokeBall: PokeBall,
     val aspects: Set<String>,
-    vanillaSpawnPacket: EntitySpawnS2CPacket
+    vanillaSpawnPacket: ClientboundAddEntityPacket
 ) : SpawnExtraDataEntityPacket<SpawnPokeballPacket, EmptyPokeBallEntity>(vanillaSpawnPacket) {
 
     override val id: ResourceLocation = ID

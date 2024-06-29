@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.net.messages
 
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.Environment
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.moves.BenchedMoves
 import com.cobblemon.mod.common.api.moves.MoveSet
@@ -22,26 +24,19 @@ import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeaturePr
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.pokemon.EVs
-import com.cobblemon.mod.common.pokemon.Gender
-import com.cobblemon.mod.common.pokemon.IVs
-import com.cobblemon.mod.common.pokemon.OriginalTrainerType
-import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
-import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.*
 import io.netty.buffer.Unpooled
-import java.util.UUID
-import net.minecraft.world.item.ItemStack
+import net.minecraft.client.Minecraft
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.chat.ComponentSerialization
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.text.TextCodecs
 import net.minecraft.resources.ResourceLocation
-import java.util.Optional
+import net.minecraft.world.item.ItemStack
+import java.util.*
 
 /**
  * A data transfer object for an entire [Pokemon], complete with all of the information a player is allowed
@@ -90,6 +85,14 @@ class PokemonDTO : Encodable, Decodable {
 
     constructor()
     constructor(pokemon: Pokemon, toClient: Boolean) {
+        // todo (techdaan): figure out if there is a better way to do this, move this to utils
+        //                  it is problematic because we may be working with a registry that we shouldn't be working with.
+        val registryAccess = if (Cobblemon.implementation.environment() == Environment.CLIENT) {
+            Minecraft.getInstance().connection!!.registryAccess()
+        } else {
+            server()!!.registryAccess()
+        }
+
         this.toClient = toClient
         this.uuid = pokemon.uuid
         this.species = pokemon.species.resourceIdentifier
@@ -111,7 +114,7 @@ class PokemonDTO : Encodable, Decodable {
         this.caughtBall = pokemon.caughtBall.name
         this.benchedMoves = pokemon.benchedMoves
         this.aspects = pokemon.aspects
-        evolutionBuffer = RegistryFriendlyByteBuf(Unpooled.buffer())
+        evolutionBuffer = RegistryFriendlyByteBuf(Unpooled.buffer(), registryAccess)
         pokemon.evolutionProxy.saveToBuffer(evolutionBuffer, toClient)
         this.nature = pokemon.nature.name
         this.mintNature = pokemon.mintedNature?.name
@@ -121,7 +124,7 @@ class PokemonDTO : Encodable, Decodable {
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
-        this.featuresBuffer = RegistryFriendlyByteBuf(Unpooled.buffer())
+        this.featuresBuffer = RegistryFriendlyByteBuf(Unpooled.buffer(), registryAccess)
         val visibleFeatures = pokemon.features
             .filterIsInstance<SynchronizedSpeciesFeature>()
             .filter { (SpeciesFeatures.getFeature(it.name) as? SynchronizedSpeciesFeatureProvider<*>)?.visible == true }
@@ -139,7 +142,7 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeBoolean(toClient)
         buffer.writeUUID(uuid)
         buffer.writeIdentifier(species)
-        TextCodecs.OPTIONAL_PACKET_CODEC.encode(buffer, Optional.ofNullable(nickname))
+        ComponentSerialization.OPTIONAL_STREAM_CODEC.encode(buffer, Optional.ofNullable(nickname))
         buffer.writeString(form)
         buffer.writeInt(experience)
         buffer.writeSizedInt(IntSize.U_SHORT, level)
@@ -164,7 +167,7 @@ class PokemonDTO : Encodable, Decodable {
         evolutionBuffer.release()
         buffer.writeIdentifier(nature)
         buffer.writeNullable(mintNature) { _, v -> buffer.writeIdentifier(v) }
-        ItemStack.OPTIONAL_PACKET_CODEC.encode(buffer, heldItem)
+        ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, heldItem)
         buffer.writeNullable(tetheringId) { _, v -> buffer.writeUUID(v) }
         buffer.writeString(teraType)
         buffer.writeInt(dmaxLevel)
@@ -183,7 +186,7 @@ class PokemonDTO : Encodable, Decodable {
         toClient = buffer.readBoolean()
         uuid = buffer.readUUID()
         species = buffer.readIdentifier()
-        nickname = TextCodecs.OPTIONAL_PACKET_CODEC.decode(buffer).map { it::copy as MutableComponent }.orElse(null)
+        nickname = ComponentSerialization.OPTIONAL_STREAM_CODEC.decode(buffer).map { it::copy as MutableComponent }.orElse(null)
         form = buffer.readString()
         experience = buffer.readInt()
         level = buffer.readSizedInt(IntSize.U_SHORT)
@@ -207,10 +210,10 @@ class PokemonDTO : Encodable, Decodable {
         this.aspects = aspects
         val bytesToRead = buffer.readSizedInt(IntSize.U_SHORT)
         evolutionBuffer =
-            RegistryFriendlyByteBuf(buffer.readBytes(bytesToRead))
+            RegistryFriendlyByteBuf(buffer.readBytes(bytesToRead), buffer.registryAccess())
         nature = buffer.readIdentifier()
         mintNature = buffer.readNullable { buffer.readIdentifier() }
-        heldItem = ItemStack.OPTIONAL_PACKET_CODEC.decode(buffer)
+        heldItem = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer)
         tetheringId = buffer.readNullable { buffer.readUUID() }
         teraType = buffer.readString()
         dmaxLevel = buffer.readInt()
@@ -219,7 +222,7 @@ class PokemonDTO : Encodable, Decodable {
 
         val featureBytesToRead = buffer.readSizedInt(IntSize.U_SHORT)
         featuresBuffer =
-            RegistryFriendlyByteBuf(buffer.readBytes(featureBytesToRead))
+            RegistryFriendlyByteBuf(buffer.readBytes(featureBytesToRead), buffer.registryAccess())
         originalTrainerType = OriginalTrainerType.valueOf(buffer.readString())
         originalTrainer = buffer.readNullable { buffer.readString() }
         originalTrainerName = buffer.readNullable { buffer.readString() }

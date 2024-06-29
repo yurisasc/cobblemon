@@ -10,9 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.scripting.CobblemonScripts
-import com.cobblemon.mod.common.util.asExpressionLike
-import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryFriendlyByteBuf
+import com.cobblemon.mod.common.util.*
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
 

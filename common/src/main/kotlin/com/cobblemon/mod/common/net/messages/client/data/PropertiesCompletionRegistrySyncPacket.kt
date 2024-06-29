@@ -10,7 +10,8 @@ package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryFriendlyByteBuf
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeString
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 internal class PropertiesCompletionRegistrySyncPacket(suggestions: Collection<PropertiesCompletionProvider.SuggestionHolder>) : DataRegistrySyncPacket<PropertiesCompletionProvider.SuggestionHolder, PropertiesCompletionRegistrySyncPacket>(suggestions) {

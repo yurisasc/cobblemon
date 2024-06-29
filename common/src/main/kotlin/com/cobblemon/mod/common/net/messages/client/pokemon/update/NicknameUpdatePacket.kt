@@ -20,7 +20,7 @@ class NicknameUpdatePacket(pokemon: () -> Pokemon, value: MutableComponent?): Si
     override val id = ID
 
     override fun encodeValue(buffer: RegistryFriendlyByteBuf) {
-        buffer.writeNullable(value) { _, v -> buffer.writeText(value) }
+        buffer.writeNullable(value) { _, v -> buffer.writeText(v) }
     }
 
     override fun set(pokemon: Pokemon, value: MutableComponent?) { pokemon.nickname = value }

@@ -18,8 +18,6 @@ import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeIdentifier
 import com.cobblemon.mod.common.util.writeString
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.network.RegistryFriendlyByteBuf
-
 
 class NaturalMaterialRegistrySyncPacket(naturalMaterials: List<NaturalMaterial>) : DataRegistrySyncPacket<NaturalMaterial, NaturalMaterialRegistrySyncPacket>(naturalMaterials) {
     companion object {
@@ -31,7 +29,7 @@ class NaturalMaterialRegistrySyncPacket(naturalMaterials: List<NaturalMaterial>)
     override val id = ID
     override fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: NaturalMaterial) {
         buffer.writeNullable(entry.item) {pb, type -> pb.writeIdentifier(entry.item!!)}
-        buffer.writeNullable(entry.tag) { pb, type -> pb.writeString(NaturalMaterials.gson.toJson("#" + entry.tag?.tag?.id.toString()) ) }
+        buffer.writeNullable(entry.tag) { pb, type -> pb.writeString(NaturalMaterials.gson.toJson("#" + entry.tag?.tag?.location.toString()) ) }
         buffer.writeNullable(entry.returnItem) { pb, type -> pb.writeIdentifier(entry.returnItem!!) }
     }
 

@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.util.raycastSafeSendout
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.RaycastContext
+import net.minecraft.world.level.ClipContext
 
 object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> {
 
@@ -31,10 +31,10 @@ object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> 
         }
         val state = pokemon.state
         if (state is ShoulderedState || state !is ActivePokemonState) {
-            val position = player.raycastSafeSendout(pokemon, 12.0, 5.0, RaycastContext.FluidHandling.ANY)
+            val position = player.raycastSafeSendout(pokemon, 12.0, 5.0, ClipContext.Fluid.ANY)
 
             if (position != null) {
-                pokemon.sendOutWithAnimation(player, player.serverWorld, position)
+                pokemon.sendOutWithAnimation(player, player.serverLevel(), position)
             }
         } else {
             val entity = state.entity

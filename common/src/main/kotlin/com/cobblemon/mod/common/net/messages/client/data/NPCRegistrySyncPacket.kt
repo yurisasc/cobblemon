@@ -12,7 +12,8 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.npc.NPCClass
 import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryFriendlyByteBuf
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.writeIdentifier
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 // We do not need to know every single attribute as a client, as such, we only sync the aspects that matter

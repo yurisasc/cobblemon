@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.util.readIdentifier
 import com.cobblemon.mod.common.util.writeEnumConstant
 import com.cobblemon.mod.common.util.writeIdentifier
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket
 import net.minecraft.sounds.SoundSource
 import net.minecraft.resources.ResourceLocation
 

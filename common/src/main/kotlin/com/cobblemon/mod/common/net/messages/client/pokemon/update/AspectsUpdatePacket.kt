@@ -10,7 +10,9 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryFriendlyByteBuf
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 class AspectsUpdatePacket(pokemon: () -> Pokemon, value: Set<String>): SingleUpdatePacket<Set<String>, AspectsUpdatePacket>(pokemon, value) {
@@ -27,7 +29,7 @@ class AspectsUpdatePacket(pokemon: () -> Pokemon, value: Set<String>): SingleUpd
         val ID = cobblemonResource("aspects_update")
         fun decode(buffer: RegistryFriendlyByteBuf): AspectsUpdatePacket {
             val pokemon = decodePokemon(buffer)
-            val aspects = buffer.readList(RegistryFriendlyByteBuf::readString).toSet()
+            val aspects = buffer.readList(ByteBuf::readString).toSet()
             return AspectsUpdatePacket(pokemon, aspects)
         }
     }

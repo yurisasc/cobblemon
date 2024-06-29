@@ -11,12 +11,10 @@ package com.cobblemon.mod.common.net.messages.client.callback
 import com.cobblemon.mod.common.api.callback.MoveSelectDTO
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.writeCollection
-import com.cobblemon.mod.common.util.writeUUID
 import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.chat.ComponentSerialization
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.text.TextCodecs
-import java.util.UUID
+import java.util.*
 
 /**
  * Packet send to the client to force them to open a move selection GUI.
@@ -29,7 +27,7 @@ class OpenMoveCallbackPacket(val uuid: UUID, val title: MutableComponent, val mo
         val ID = cobblemonResource("open_move_callback")
         fun decode(buffer: RegistryFriendlyByteBuf) = OpenMoveCallbackPacket(
             uuid = buffer.readUUID(),
-            title = TextCodecs.PACKET_CODEC.decode(buffer).copy(),
+            title = ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.decode(buffer).copy(),
             moves = buffer.readList { _ -> MoveSelectDTO(buffer) }
         )
     }
@@ -37,7 +35,7 @@ class OpenMoveCallbackPacket(val uuid: UUID, val title: MutableComponent, val mo
     override val id = ID
     override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeUUID(uuid)
-        TextCodecs.PACKET_CODEC.encode(buffer, title)
+        ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.encode(buffer, title)
         buffer.writeCollection(moves) { _, v -> v.writeToBuffer(buffer) }
     }
 }

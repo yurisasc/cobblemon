@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.config.starter.RenderableStarterCategory
 import com.cobblemon.mod.common.config.starter.StarterCategory
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeString
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 class OpenStarterUIPacket internal constructor(val categories: List<RenderableStarterCategory>) : NetworkPacket<OpenStarterUIPacket> {

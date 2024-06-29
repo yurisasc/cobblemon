@@ -16,10 +16,8 @@ import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionDisplay
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.SingleUpdatePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionDisplay
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.*
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, AddEvolutionPacket>(pokemon, value) {

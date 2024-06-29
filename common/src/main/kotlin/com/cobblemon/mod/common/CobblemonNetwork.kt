@@ -205,7 +205,7 @@ object CobblemonNetwork {
 
     fun ServerPlayer.sendPacket(packet: NetworkPacket<*>) = sendPacketToPlayer(this, packet)
     fun sendToServer(packet: NetworkPacket<*>) = Cobblemon.implementation.networkManager.sendToServer(packet)
-    fun sendToAllPlayers(packet: NetworkPacket<*>) = sendPacketToPlayers(server()!!.playerManager.playerList, packet)
+    fun sendToAllPlayers(packet: NetworkPacket<*>) = sendPacketToPlayers(server()!!.playerList.players, packet)
     fun sendPacketToPlayers(players: Iterable<ServerPlayer>, packet: NetworkPacket<*>) = players.forEach { sendPacketToPlayer(it, packet) }
 
     val s2cPayloads = generateS2CPacketInfoList()
