@@ -43,7 +43,7 @@ class PoseAdapter(
         val pose = JsonPose(model, obj)
 
         val conditionsList = mutableListOf<(PosableState) -> Boolean>()
-        val mustBeTouchingWater = json.get("isInWater")?.asBoolean
+        val mustBeTouchingWater = json.get("isTouchingWater")?.asBoolean
         if (mustBeTouchingWater != null) {
             conditionsList.add { mustBeTouchingWater == it.getEntity()?.isInWater }
         }

@@ -1084,7 +1084,7 @@ Thank you so much to all of our community translators that bring the mod to the 
 - Added support for jump keyframes (i.e. pre and post keyframes)
 - Added structure spawning conditions
 - Added Advancement trigger for defeating Pokémon and collecting varieties of Pokémon.
-- Added support for "isBattle" and "isInWater" properties on resource pack Pokémon poses. This allows your custom Pokémon to be posed differently when in battle.
+- Added support for "isBattle" and "isTouchingWater" properties on resource pack Pokémon poses. This allows your custom Pokémon to be posed differently when in battle.
 - Added support for "isVisible" on a transformed part on resource pack Pokémon poses. This allows your custom Pokémon to have bones disappear in specific poses, such as hiding Greninja's throwing star when not in a battle pose.
 - Added support for battle music. Sounds can be added to the ``battle.pvp.default`` and ``battle.pvw.default`` sound events.
 - Added 'enabled' optional property on model layers, allowing later variations to disable previously-defined layers. See [this issue](https://gitlab.com/cable-mc/cobblemon/-/issues/335) for how this looks.
