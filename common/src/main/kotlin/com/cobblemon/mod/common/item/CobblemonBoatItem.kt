@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.HitResult
 
 class CobblemonBoatItem(val boatType: CobblemonBoatType, val hasChest: Boolean, settings: Properties) : CobblemonItem(settings) {
@@ -30,7 +31,7 @@ class CobblemonBoatItem(val boatType: CobblemonBoatType, val hasChest: Boolean, 
             return InteractionResultHolder.pass(stack)
         }
         val vec3d = user.getRotationVec(1F)
-        val eyePos = user.eyePos
+        val eyePos = user.eyePosition
         world.getEntities(user, user.boundingBox.stretch(vec3d.multiply(5.0)).expand(1.0), RIDERS).forEach { entity ->
             val box = entity.boundingBox.expand(entity.targetingMargin.toDouble())
             if (box.contains(eyePos)) {
@@ -43,13 +44,13 @@ class CobblemonBoatItem(val boatType: CobblemonBoatType, val hasChest: Boolean, 
         val boatEntity = this.createBoat(world, hitResult)
         boatEntity.boatType = this.boatType
         boatEntity.yaw = user.yaw
-        if (!world.isSpaceEmpty(boatEntity, boatEntity.boundingBox)) {
+        if (!world.noCollision(boatEntity, boatEntity.boundingBox)) {
             return InteractionResultHolder.fail(stack)
         }
-        if (!world.isClient) {
-            world.spawnEntity(boatEntity)
-            world.emitGameEvent(user, GameEvent.ENTITY_PLACE, hitResult.pos)
-            if (!user.abilities.creativeMode) {
+        if (!world.isClientSide) {
+            world.addFreshEntity(boatEntity)
+            world.gameEvent(user, GameEvent.ENTITY_PLACE, hitResult.blockPos)
+            if (!user.abilities.instabuild) {
                 stack.shrink(1)
             }
         }

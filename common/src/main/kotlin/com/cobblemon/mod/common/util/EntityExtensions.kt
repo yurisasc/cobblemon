@@ -69,7 +69,7 @@ fun Entity.setPositionSafely(pos: Vec3): Boolean {
                 if (conflicts.contains(direction)) continue
 
                 val conflict = target.toVec3d()
-                if (x.add(direction.vector) == target) {
+                if (x.add(direction.normal) == target) {
                     conflicts.add(direction)
                     when (direction) {
                         Direction.UP -> return false

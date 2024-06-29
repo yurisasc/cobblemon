@@ -25,13 +25,13 @@ import com.cobblemon.mod.common.util.update
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import java.util.Optional
 import net.minecraft.world.entity.Entity
-import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.network.chat.Component
+import net.minecraft.world.level.pathfinder.PathType
 
 /** Handles purely server logic for a Pokémon */
 class PokemonServerDelegate : PokemonSideDelegate {
@@ -50,21 +50,21 @@ class PokemonServerDelegate : PokemonSideDelegate {
 
     fun updatePathfindingPenalties(pokemon: Pokemon) {
         val moving = pokemon.form.behaviour.moving
-        entity.setPathfindingPenalty(PathNodeType.LAVA, if (moving.swim.canSwimInLava) 12F else -1F)
-        entity.setPathfindingPenalty(PathNodeType.WATER, if (moving.swim.canSwimInWater) 12F else -1F)
-        entity.setPathfindingPenalty(PathNodeType.WATER_BORDER, if (moving.swim.canSwimInWater) 6F else -1F)
+        entity.setPathfindingPenalty(PathType.LAVA, if (moving.swim.canSwimInLava) 12F else -1F)
+        entity.setPathfindingPenalty(PathType.WATER, if (moving.swim.canSwimInWater) 12F else -1F)
+        entity.setPathfindingPenalty(PathType.WATER_BORDER, if (moving.swim.canSwimInWater) 6F else -1F)
         if (moving.swim.canBreatheUnderwater) {
-            entity.setPathfindingPenalty(PathNodeType.WATER, if (moving.walk.avoidsLand) 0F else 4F)
+            entity.setPathfindingPenalty(PathType.WATER, if (moving.walk.avoidsLand) 0F else 4F)
         }
         if (moving.swim.canBreatheUnderlava) {
-            entity.setPathfindingPenalty(PathNodeType.LAVA, if (moving.swim.canSwimInLava) 4F else -1F)
+            entity.setPathfindingPenalty(PathType.LAVA, if (moving.swim.canSwimInLava) 4F else -1F)
         }
         if (moving.walk.avoidsLand) {
-            entity.setPathfindingPenalty(PathNodeType.WALKABLE, 12F)
+            entity.setPathfindingPenalty(PathType.WALKABLE, 12F)
         }
 
         if (moving.walk.canWalk && moving.fly.canFly) {
-            entity.setPathfindingPenalty(PathNodeType.WALKABLE, 0F)
+            entity.setPathfindingPenalty(PathType.WALKABLE, 0F)
         }
 
         entity.navigation.setCanPathThroughFire(entity.isFireImmune)

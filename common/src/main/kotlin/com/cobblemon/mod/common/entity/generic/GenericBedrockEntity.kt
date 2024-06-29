@@ -21,7 +21,6 @@ import com.cobblemon.mod.common.net.messages.client.spawn.SpawnGenericBedrockPac
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.world.entity.EntityDimensions
-import net.minecraft.world.entity.EntityPose
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.CompoundTag
@@ -35,6 +34,7 @@ import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.Pose
 import net.minecraft.world.level.Level
 
 class GenericBedrockEntity(world: Level) : Entity(CobblemonEntities.GENERIC_BEDROCK_ENTITY, world), PosableEntity, Schedulable {
@@ -124,7 +124,7 @@ class GenericBedrockEntity(world: Level) : Entity(CobblemonEntities.GENERIC_BEDR
     override fun isCollidable() = true
 
     override fun shouldSave() = super.shouldSave() && this.savesToWorld
-    override fun getDimensions(pose: EntityPose) = EntityDimensions.changing(colliderWidth, colliderHeight).scaled(scale)
+    override fun getDimensions(pose: Pose) = EntityDimensions.scalable(colliderWidth, colliderHeight).scale(scale)
     override fun getCurrentPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
 
     override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry) = CustomPayloadS2CPacket(

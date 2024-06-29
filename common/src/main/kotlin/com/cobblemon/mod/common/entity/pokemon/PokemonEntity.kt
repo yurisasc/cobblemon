@@ -78,15 +78,14 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
-import net.minecraft.world.entity.AgeableMob
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.Shearable
+import net.minecraft.world.entity.*
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.animal.ShoulderRidingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.gameevent.GameEvent
+import net.minecraft.world.level.pathfinder.PathType
 
 @Suppress("unused")
 open class PokemonEntity(
@@ -557,12 +556,12 @@ open class PokemonEntity(
 
     override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry): Packet<ClientPlayPacketListener> = CustomPayloadS2CPacket(SpawnPokemonPacket(this, super.createSpawnPacket(entityTrackerEntry) as EntitySpawnS2CPacket)) as Packet<ClientPlayPacketListener>
 
-    override fun getPathfindingPenalty(nodeType: PathNodeType): Float {
-        return if (nodeType == PathNodeType.OPEN) 2F else super.getPathfindingPenalty(nodeType)
+    override fun getPathfindingPenalty(nodeType: PathType): Float {
+        return if (nodeType == PathType.OPEN) 2F else super.getPathfindingPenalty(nodeType)
     }
 
     override fun getNavigation() = navigation as PokemonNavigation
-    override fun createNavigation(world: World) = PokemonNavigation(world, this)
+    override fun createNavigation(world: Level) = PokemonNavigation(world, this)
 
     @Suppress("SENSELESS_COMPARISON")
     public override fun initGoals() {
@@ -606,10 +605,10 @@ open class PokemonEntity(
 
     fun canSleep(): Boolean {
         val rest = behaviour.resting
-        val worldTime = (world.timeOfDay % 24000).toInt()
-        val light = world.getLightLevel(blockPos)
-        val block = world.getBlockState(blockPos).block
-        val biome = world.getBiome(blockPos).value()
+        val worldTime = (level().dayTime % 24000).toInt()
+        val light = level().getMaxLocalRawBrightness(blockPos)
+        val block = level().getBlockState(blockPos).block
+        val biome = level().getBiome(blockPos).value()
 
         return rest.canSleep &&
                 !this.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) &&
@@ -634,14 +633,14 @@ open class PokemonEntity(
         if (ownerUuid == player.uuid || ownerUuid == null) {
             if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
                 this.sheared(SoundCategory.PLAYERS)
-                this.emitGameEvent(GameEvent.SHEAR, player)
-                itemStack.damage(1, player, EquipmentSlot.MAINHAND)
+                this.gameEvent(GameEvent.SHEAR, player)
+                itemStack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND)
                 return InteractionResult.SUCCESS
             } else if (itemStack.isOf(Items.BUCKET)) {
                 if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
                     player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
                     val milkBucket = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.defaultStack)
-                    player.setStackInHand(hand, milkBucket)
+                    player.setItemInHand(hand, milkBucket)
                     return InteractionResult.success(world.isClient)
                 }
             } else if (itemStack.isOf(Items.BOWL)) {
@@ -667,14 +666,14 @@ open class PokemonEntity(
                             //SuspiciousStewItem.addEffectsToStew(susStewStack, listOf(StewEffect(it.first, it.second)))
                             val susStewEffect = ItemUsage.exchangeStack(itemStack, player, susStewStack)
                             //give player modified Suspicious Stew
-                            player.setStackInHand(hand, susStewEffect)
+                            player.setItemInHand(hand, susStewEffect)
                             // reset the flower fed state
                             pokemon.lastFlowerFed = ItemStack.EMPTY
                         }
                         return InteractionResult.success(world.isClient)
                     } else {
                         val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
-                        player.setStackInHand(hand, mushroomStew)
+                        player.setItemInHand(hand, mushroomStew)
                         return InteractionResult.success(world.isClient)
                     }
                 }
@@ -761,9 +760,9 @@ open class PokemonEntity(
         return super.interactMob(player, hand)
     }
 
-    override fun getDimensions(pose: EntityPose): EntityDimensions {
+    override fun getDimensions(pose: Pose): EntityDimensions {
         val scale = effects.mockEffect?.scale ?: (form.baseScale * pokemon.scaleModifier)
-        return this.exposedForm.hitbox.scaled(scale)
+        return this.exposedForm.hitbox.scale(scale)
     }
 
     override fun canTakeDamage() = super.canTakeDamage() && !isBusy

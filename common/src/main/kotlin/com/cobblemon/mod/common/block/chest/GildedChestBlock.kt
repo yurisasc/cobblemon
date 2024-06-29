@@ -18,38 +18,28 @@ import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toVec3d
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.block.Blocks
-import net.minecraft.block.ShapeContext
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.sound.SoundCategory
-import net.minecraft.world.InteractionResult
-import net.minecraft.util.Mirror
-import net.minecraft.util.BlockRotation
-import net.minecraft.util.ItemScatterer
-import net.minecraft.util.StringIdentifiable
+import net.minecraft.sounds.SoundSource
+import net.minecraft.util.RandomSource
 import net.minecraft.util.StringRepresentable
-import net.minecraft.util.math.random.Random
-import net.minecraft.world.BlockView
+import net.minecraft.world.Containers
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.monster.piglin.PiglinAi
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
-import net.minecraft.world.level.block.BaseEntityBlock
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.HorizontalDirectionalBlock
-import net.minecraft.world.level.block.RenderShape
-import net.minecraft.world.level.block.SimpleWaterloggedBlock
+import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING
@@ -58,6 +48,7 @@ import net.minecraft.world.level.material.FluidState
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.pathfinder.PathComputationType
 import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
@@ -96,13 +87,13 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
         )
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState) = GildedChestBlockEntity(pos, state, type)
+    override fun newBlockEntity(pos: BlockPos, state: BlockState) = GildedChestBlockEntity(pos, state, type)
 
-    override fun getOutlineShape(
+    override fun getShape(
         state: BlockState,
-        world: BlockView,
+        world: BlockGetter,
         pos: BlockPos,
-        context: ShapeContext
+        context: CollisionContext
     ): VoxelShape {
         return when (state.getValue(HorizontalDirectionalBlock.FACING)) {
             Direction.NORTH -> NORTH_OUTLINE
@@ -120,7 +111,7 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
         pos: BlockPos,
         neighborPos: BlockPos
     ): BlockState {
-        if (state.getValue(WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
+        if (state.getValue(WATERLOGGED)) world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world))
         return super.updateShape(state, direction, neighborState, world, pos, neighborPos)
     }
 
@@ -149,19 +140,19 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
 
     fun isFake() = (type == Type.FAKE)
 
-    override fun onBreak(world: Level, pos: BlockPos, state: BlockState, player: Player): BlockState {
-        if (!world.isClient) {
+    override fun playerWillDestroy(world: Level, pos: BlockPos, state: BlockState, player: Player): BlockState {
+        if (!world.isClientSide) {
             if (isFake() && (player is ServerPlayer)) {
                 spawnPokemon(world, pos, state, player)
             }
             val bEntity = world.getBlockEntity(pos) as? GildedChestBlockEntity
-            bEntity?.markRemoved()
+            bEntity?.setRemoved()
             val resultState =
-                if (state.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState
-            world.setBlockState(pos, resultState)
+                if (state.fluidState.`is`(Fluids.WATER)) Blocks.WATER.defaultBlockState() else Blocks.AIR.defaultBlockState()
+            world.setBlockAndUpdate(pos, resultState)
             return resultState
         }
-        return Blocks.AIR.defaultState
+        return Blocks.AIR.defaultBlockState()
     }
 
     private fun spawnPokemon(world: Level, pos: BlockPos, state: BlockState, player: ServerPlayer): InteractionResult {
@@ -170,24 +161,24 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
         val entity = pokemon.createEntity(world)
 
         // The yaw based on the block's facing direction
-        val yaw = facingToYaw[state[HorizontalDirectionalBlock.FACING]] ?: 0.0F
+        val yaw = facingToYaw[state.getValue(HorizontalDirectionalBlock.FACING)] ?: 0.0F
 
-        entity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, facingToYaw[state[HorizontalDirectionalBlock.FACING]])
-        val offsetDir = state[HorizontalDirectionalBlock.FACING]
-        val vec = pos.toVec3d().add(offsetDir.offsetX * 0.1 + 0.5, 0.0, offsetDir.offsetZ * 0.1 + 0.5)
-        entity.refreshPositionAndAngles(vec.x, vec.y, vec.z, yaw, entity.pitch)
-        world.spawnEntity(entity)
+        entity.entityData.set(PokemonEntity.SPAWN_DIRECTION, facingToYaw[state.getValue(HorizontalDirectionalBlock.FACING)])
+        val offsetDir = state.getValue(HorizontalDirectionalBlock.FACING)
+        val vec = pos.toVec3d().add(offsetDir.stepX * 0.1 + 0.5, 0.0, offsetDir.stepZ * 0.1 + 0.5)
+        entity.moveTo(vec.x, vec.y, vec.z, yaw, entity.xRot)
+        world.addFreshEntity(entity)
 
         world.removeBlock(pos, false)
         afterOnServer(ticks = 2) {
-            if (player !in player.level().players) {
+            if (player !in player.level().players()) {
                 return@afterOnServer
             }
             val party = player.party()
             if (!player.isCreative) {
                 entity.forceBattle(player)
             } else {
-                world.playSound(null, pos, CobblemonSounds.GIMMIGHOUL_REVEAL, SoundCategory.NEUTRAL)
+                world.playSound(null, pos, CobblemonSounds.GIMMIGHOUL_REVEAL, SoundSource.NEUTRAL)
             }
         }
         return InteractionResult.SUCCESS
@@ -216,7 +207,7 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
         return InteractionResult.SUCCESS
     }
 
-    override fun onStateReplaced(
+    override fun onRemove(
         state: BlockState,
         world: Level,
         pos: BlockPos,
@@ -226,7 +217,7 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
         if (!state.`is`(newState.block) && !world.isClientSide) {
             val chest = world.getBlockEntity(pos) as? GildedChestBlockEntity
             chest?.let {
-                ItemScatterer.spawn(world, pos, chest.inventoryContents)
+                Containers.dropContents(world, pos, chest.inventoryContents)
             }
         }
     }
@@ -240,7 +231,7 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
     }
 
     @Deprecated("Deprecated in Java")
-    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState {
+    override fun rotate(state: BlockState, rotation: Rotation): BlockState {
         return state.setValue(
             HORIZONTAL_FACING, rotation.rotate(
                 state.getValue(HORIZONTAL_FACING) as Direction
@@ -248,12 +239,12 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
         ) as BlockState
     }
 
-    override fun hasComparatorOutput(state: BlockState?): Boolean {
+    override fun hasAnalogOutputSignal(state: BlockState): Boolean {
         return true
     }
 
-    override fun getComparatorOutput(state: BlockState?, world: Level, pos: BlockPos?): Int {
-        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
+    override fun getAnalogOutputSignal(state: BlockState, world: Level, pos: BlockPos): Int {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos))
     }
 
     override fun mirror(state: BlockState, mirror: Mirror): BlockState {
@@ -282,11 +273,11 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
         return false
     }
 
-    override fun getCodec(): MapCodec<out BaseEntityBlock> {
+    override fun codec(): MapCodec<out BaseEntityBlock> {
         return CODEC
     }
 
-    override fun onPlaced(
+    override fun setPlacedBy(
         world: Level,
         pos: BlockPos,
         state: BlockState,
@@ -302,14 +293,9 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
         */
     }
 
-    override fun scheduledTick(
-        state: BlockState?,
-        world: ServerLevel?,
-        pos: BlockPos?,
-        random: Random?
-    ) {
-        val blockEntity = world?.getBlockEntity(pos) as? GildedChestBlockEntity ?: return
-        blockEntity.onScheduledTick()
+    override fun tick(state: BlockState, world: ServerLevel, pos: BlockPos, random: RandomSource) {
+        val blockEntity = world.getBlockEntity(pos) as? GildedChestBlockEntity ?: return
+        blockEntity.tick()
     }
 
 }

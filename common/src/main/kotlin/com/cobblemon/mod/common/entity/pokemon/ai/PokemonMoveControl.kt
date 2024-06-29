@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.util.math.geometry.toDegrees
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveFloat
 import net.minecraft.world.entity.ai.control.MoveControl
+import net.minecraft.world.level.pathfinder.PathType
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -199,7 +200,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
                         entity.blockY,
                         Mth.floor(entity.z + zMovement.toDouble())
                     )
-                ) != PathNodeType.WALKABLE
+                ) != PathType.WALKABLE
             ) {
                 return false
             }

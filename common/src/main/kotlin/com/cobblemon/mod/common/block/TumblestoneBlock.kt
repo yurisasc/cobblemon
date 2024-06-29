@@ -18,6 +18,7 @@ import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.DirectionalBlock
 import net.minecraft.world.level.block.SimpleWaterloggedBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
@@ -54,18 +55,18 @@ class TumblestoneBlock(
     override fun canGrow(pos: BlockPos, world: BlockGetter): Boolean {
         if (stage == MAX_STAGE) return false
         val iterator: Iterator<BlockPos> =
-            BlockPos.betweenClosed(pos.add(-1, -1, -1), pos.add(1, 1, 1))
+            BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))
                 .iterator()
 
         var blockPos: BlockPos
         do { if (!iterator.hasNext()) { return false }
             blockPos = iterator.next()
-        } while (!world.getBlockState(blockPos).isIn(CobblemonBlockTags.TUMBLESTONE_HEAT_SOURCE))
+        } while (!world.getBlockState(blockPos).`is`(CobblemonBlockTags.TUMBLESTONE_HEAT_SOURCE))
 
         return true
     }
 
-    override fun codec(): MapCodec<out FacingBlock> {
+    override fun codec(): MapCodec<out DirectionalBlock> {
         return CODEC
     }
 
@@ -93,7 +94,7 @@ class TumblestoneBlock(
         pos: BlockPos,
         neighborPos: BlockPos
     ): BlockState {
-        if (state.getValue(WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world))
+        if (state.getValue(WATERLOGGED)) world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world))
         return super.updateShape(state, direction, neighborState, world, pos, neighborPos)
     }
 }

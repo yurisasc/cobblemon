@@ -20,52 +20,27 @@ import com.cobblemon.mod.common.util.isInBattle
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
-import net.minecraft.world.level.block.Block
-import net.minecraft.block.Blocks
-import net.minecraft.world.level.block.HorizontalDirectionalBlock
-import net.minecraft.block.ShapeContext
-import net.minecraft.block.Waterloggable
-import net.minecraft.world.level.block.entity.BlockEntity
-import net.minecraft.world.level.block.entity.BlockEntityType
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.fluid.FluidState
-import net.minecraft.fluid.Fluids
-import net.minecraft.world.item.ItemPlacementContext
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.EnumProperty
-import net.minecraft.world.InteractionResult
-import net.minecraft.util.Mirror
-import net.minecraft.util.BlockRotation
-import net.minecraft.util.StringIdentifiable
-import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.StringRepresentable
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
 import net.minecraft.world.InteractionResult
-import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldEvents
-import net.minecraft.world.level.LevelReader
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
-import net.minecraft.world.level.block.BaseEntityBlock
-import net.minecraft.world.level.block.RenderShape
-import net.minecraft.world.level.block.SimpleWaterloggedBlock
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.block.state.properties.EnumProperty
+import net.minecraft.world.level.material.FluidState
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.pathfinder.PathComputationType
 import net.minecraft.world.phys.BlockHitResult
@@ -75,7 +50,7 @@ import net.minecraft.world.phys.shapes.VoxelShape
 
 class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterloggedBlock {
     companion object {
-        val CODEC = codec(::PCBlock)
+        val CODEC = simpleCodec(::PCBlock)
         val PART = EnumProperty.create("part", PCPart::class.java)
         val ON = BooleanProperty.create("on")
         val WATERLOGGED = BooleanProperty.create("waterlogged")
@@ -159,7 +134,7 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
             .setValue(WATERLOGGED, false))
     }
 
-    override fun createBlockEntity(blockPos: BlockPos, blockState: BlockState) = if (blockState.getValue(PART) == PCPart.BOTTOM) PCBlockEntity(blockPos, blockState) else null
+    override fun newBlockEntity(blockPos: BlockPos, blockState: BlockState) = if (blockState.getValue(PART) == PCPart.BOTTOM) PCBlockEntity(blockPos, blockState) else null
 
     override fun getShape(
         blockState: BlockState,
@@ -185,10 +160,10 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
     }
 
     fun getPositionOfOtherPart(state: BlockState, pos: BlockPos): BlockPos {
-        return if (state.get(PART) == PCPart.BOTTOM) {
-            pos.up()
+        return if (state.getValue(PART) == PCPart.BOTTOM) {
+            pos.above()
         } else {
-            pos.down()
+            pos.below()
         }
     }
 
@@ -196,25 +171,32 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
         return if (isBase(state)) {
             pos
         } else {
-            pos.down()
+            pos.below()
         }
     }
 
-    private fun isBase(state: BlockState): Boolean = state.get(PART) == PCPart.BOTTOM
+    private fun isBase(state: BlockState): Boolean = state.getValue(PART) == PCPart.BOTTOM
 
-    override fun onPlaced(world: Level, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack?) {
-        world.setBlockState(pos.up(), state
-            .with(PART, PCPart.TOP)
-            .with(WATERLOGGED, world.getFluidState((pos.up())).fluid == Fluids.WATER)
-                as BlockState, 3)
-        world.updateNeighbors(pos, Blocks.AIR)
-        state.updateNeighbors(world, pos, 3)
+    override fun setPlacedBy(
+        world: Level,
+        pos: BlockPos,
+        state: BlockState,
+        placer: LivingEntity?,
+        itemStack: ItemStack
+    ) {
+        world.setBlock(pos.above(),
+            state
+            .setValue(PART, PCPart.TOP)
+            .setValue(WATERLOGGED, world.getFluidState((pos.above())).type == Fluids.WATER)
+            , 3)
+        world.blockUpdated(pos, Blocks.AIR)
+        state.updateNeighbourShapes(world, pos, 3)
     }
 
     override fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState? {
         val abovePosition = blockPlaceContext.clickedPos.above()
         val world = blockPlaceContext.level
-        if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
+        if (world.getBlockState(abovePosition).canBeReplaced(blockPlaceContext) && !world.isOutsideBuildHeight(abovePosition)) {
             return defaultBlockState()
                 .setValue(HorizontalDirectionalBlock.FACING, blockPlaceContext.horizontalDirection)
                 .setValue(PART, PCPart.BOTTOM)
@@ -227,21 +209,21 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
     override fun canSurvive(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
         val blockPos = pos.below()
         val blockState = world.getBlockState(blockPos)
-        return if (state.getValue(PART) == PCPart.BOTTOM) blockState.isSideSolidFullSquare(world, blockPos, Direction.UP) else blockState.`is`(this)
+        return if (state.getValue(PART) == PCPart.BOTTOM) blockState.isFaceSturdy(world, blockPos, Direction.UP) else blockState.`is`(this)// todo (techdaan): ensure this is the right mapping
     }
 
-    override fun onBreak(world: Level, pos: BlockPos, state: BlockState, player: Player?): BlockState {
-        if (!world.isClient && player?.isCreative == true) {
-            var blockPos: BlockPos = BlockPos.ORIGIN
+    override fun playerWillDestroy(world: Level, pos: BlockPos, state: BlockState, player: Player): BlockState {
+        if (!world.isClientSide && player?.isCreative == true) {
+            var blockPos: BlockPos = BlockPos.ZERO
             var blockState: BlockState = state
-            val part = state.get(PART)
-            if (part == PCPart.TOP && world.getBlockState(pos.down().also { blockPos = it }).also { blockState = it }.isOf(state.block) && blockState.getValue(PART) == PCPart.BOTTOM) {
-                val blockState2 = if (blockState.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState
-                world.setBlockState(blockPos, blockState2, NOTIFY_ALL or SKIP_DROPS)
-                world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, blockPos, getRawIdFromState(blockState))
+            val part = state.getValue(PART)
+            if (part == PCPart.TOP && world.getBlockState(pos.below().also { blockPos = it }).also { blockState = it }.`is`(state.block) && blockState.getValue(PART) == PCPart.BOTTOM) {
+                val blockState2 = if (blockState.fluidState.`is`(Fluids.WATER)) Blocks.WATER.defaultBlockState() else Blocks.AIR.defaultBlockState()
+                world.setBlock(blockPos, blockState2, UPDATE_ALL or UPDATE_SUPPRESS_DROPS)
+                world.levelEvent(player, LevelEvent.PARTICLES_DESTROY_BLOCK, blockPos, getId(blockState))
             }
         }
-        return super.onBreak(world, pos, state, player)
+        return super.playerWillDestroy(world, pos, state, player)
     }
 
     override fun codec() = CODEC
@@ -260,8 +242,8 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
     }
 
     @Deprecated("Deprecated in Java")
-    override fun rotate(blockState: BlockState, rotation: BlockRotation) =
-        blockState.with(
+    override fun rotate(blockState: BlockState, rotation: Rotation) =
+        blockState.setValue(
             HorizontalDirectionalBlock.FACING, rotation.rotate(blockState.getValue(
                 HorizontalDirectionalBlock.FACING)))
 
@@ -270,9 +252,8 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
         return blockState.rotate(mirror.getRotation(blockState.getValue(HorizontalDirectionalBlock.FACING)))
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onStateReplaced(state: BlockState, world: Level, pos: BlockPos?, newState: BlockState, moved: Boolean) {
-        if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
+    override fun onRemove(state: BlockState, world: Level, pos: BlockPos, newState: BlockState, moved: Boolean) {
+        if (!state.`is`(newState.block)) super.onRemove(state, world, pos, newState, moved)
     }
 
     override fun useWithoutItem(
@@ -310,7 +291,7 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
         return InteractionResult.SUCCESS
     }
 
-    override fun <T : BlockEntity> getTicker(world: Level, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>) = validateTicker(BlockWithEntityType, CobblemonBlockEntities.PC, PCBlockEntity.TICKER::tick)
+    override fun <T : BlockEntity> getTicker(world: Level, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>) = createTickerHelper(BlockWithEntityType, CobblemonBlockEntities.PC, PCBlockEntity.TICKER::tick)
 
     @Deprecated("Deprecated in Java")
     override fun getRenderShape(blockState: BlockState): RenderShape {
@@ -318,8 +299,8 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
     }
 
     override fun getFluidState(state: BlockState): FluidState? {
-        return if (state.get(WATERLOGGED)) {
-            Fluids.WATER.getStill(false)
+        return if (state.getValue(WATERLOGGED)) {
+            Fluids.WATER.getSource(false)
         } else super.getFluidState(state)
     }
 
@@ -332,15 +313,15 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
         neighborPos: BlockPos
     ): BlockState {
         if (state.getValue(WATERLOGGED)) {
-            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
+            world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world))
         }
 
         val isPC = neighborState.`is`(this)
-        val part = state.get(PART)
-        if (!isPC && part == PCPart.TOP && neighborPos == pos.down()) {
-            return Blocks.AIR.defaultState
-        } else if (!isPC && part == PCPart.BOTTOM && neighborPos == pos.up()) {
-            return Blocks.AIR.defaultState
+        val part = state.getValue(PART)
+        if (!isPC && part == PCPart.TOP && neighborPos == pos.below()) {
+            return Blocks.AIR.defaultBlockState()
+        } else if (!isPC && part == PCPart.BOTTOM && neighborPos == pos.above()) {
+            return Blocks.AIR.defaultBlockState()
         }
 
         return state

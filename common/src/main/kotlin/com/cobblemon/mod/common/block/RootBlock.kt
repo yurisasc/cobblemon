@@ -13,25 +13,22 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.world.BigRootPropagatedEvent
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
-import net.minecraft.block.Blocks
+import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.sound.SoundCategory
 import net.minecraft.sounds.SoundEvents
-import net.minecraft.core.BlockPos
+import net.minecraft.sounds.SoundSource
 import net.minecraft.util.RandomSource
-import net.minecraft.util.math.random.Random
-import net.minecraft.world.WorldAccess
-import net.minecraft.world.level.LevelReader
-import net.minecraft.world.event.GameEvent
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.BonemealableBlock
 import net.minecraft.world.level.block.RenderShape
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.gameevent.GameEvent
 
 @Suppress("OVERRIDE_DEPRECATION", "UNUSED_PARAMETER", "MemberVisibilityCanBePrivate", "DEPRECATION")
 abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBlock, ShearableBlock {
@@ -40,14 +37,14 @@ abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBl
 
     override fun randomTick(state: BlockState, world: ServerLevel, pos: BlockPos, random: RandomSource) {
         // Check for propagation
-        if (random.nextDouble() < Cobblemon.config.bigRootPropagationChance && world.getLightLevel(pos) < MAX_PROPAGATING_LIGHT_LEVEL && !hasReachedSpreadCap(world, pos)) {
+        if (random.nextDouble() < Cobblemon.config.bigRootPropagationChance && world.getMaxLocalRawBrightness(pos) < MAX_PROPAGATING_LIGHT_LEVEL && !hasReachedSpreadCap(world, pos)) {
             this.spreadFrom(world, pos, random)
         }
     }
 
     fun hasReachedSpreadCap(world: Level, pos: BlockPos): Boolean {
         var nearby = 0
-        val nearbyPositions = BlockPos.iterate(pos.offset(-4, -1, -4), pos.offset(4, 1, 4)).iterator()
+        val nearbyPositions = BlockPos.betweenClosed(pos.offset(-4, -1, -4), pos.offset(4, 1, 4)).iterator()
         while (nearbyPositions.hasNext()) {
             val blockPos = nearbyPositions.next()
             if (world.getBlockState(blockPos).`is`(CobblemonBlockTags.ROOTS)) {
@@ -83,13 +80,13 @@ abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBl
 
     override fun getRenderShape(state: BlockState) = RenderShape.MODEL
 
-    fun spreadFrom(world: ServerLevel, pos: BlockPos, random: Random) {
+    fun spreadFrom(world: ServerLevel, pos: BlockPos, random: RandomSource) {
         val possibleDirections = this.possibleDirections.toMutableSet()
         while (possibleDirections.isNotEmpty()) {
             val picked = possibleDirections.random()
             possibleDirections.remove(picked)
-            val adjacent = pos.offset(picked)
-            if (this.canSpreadTo(this.defaultState, world, adjacent)) {
+            val adjacent = pos.relative(picked)
+            if (this.canSpreadTo(this.defaultBlockState(), world, adjacent)) {
                 val resultingSpread = this.spreadingRoot(random)
                 val event = BigRootPropagatedEvent(
                     world = world,
@@ -100,7 +97,7 @@ abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBl
                 CobblemonEvents.BIG_ROOT_PROPAGATED.postThen(
                     event = event,
                     ifSucceeded = { ev ->
-                        world.setBlockState(
+                        world.setBlockAndUpdate(
                             ev.newRootPosition,
                             ev.resultingSpread
                         )
@@ -113,13 +110,13 @@ abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBl
 
     override fun attemptShear(world: Level, state: BlockState, pos: BlockPos, successCallback: () -> Unit): Boolean {
         // We always allow the shearing at the moment but hey if it ever changes at least it's easy to do so.
-        world.playSound(null, pos, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.BLOCKS, 1F, 1F)
-        world.setBlockState(pos, this.shearedResultingState())
+        world.playSound(null, pos, SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1F, 1F)
+        world.setBlockAndUpdate(pos, this.shearedResultingState())
         val shearedDrop = this.shearedDrop()
         if (!shearedDrop.isEmpty) {
-            dropStack(world, pos, shearedDrop)
+            popResource(world, pos, shearedDrop)
         }
-        world.emitGameEvent(null, GameEvent.SHEAR, pos)
+        world.gameEvent(null, GameEvent.SHEAR, pos)
         return true
     }
 
@@ -132,8 +129,8 @@ abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBl
      * @return If any direction supports spreading.
      */
     protected fun canSpread(world: LevelReader, pos: BlockPos, state: BlockState): Boolean = this.possibleDirections.any { direction ->
-        val adjacent = pos.offset(direction)
-        this.canSpreadTo(this.defaultState, world, adjacent)
+        val adjacent = pos.relative(direction)
+        this.canSpreadTo(this.defaultBlockState(), world, adjacent)
     }
 
     /**
@@ -147,7 +144,7 @@ abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBl
     protected fun canSpreadTo(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
         val existingState = world.getBlockState(pos)
         // Isn't this useless since it's always air or replaceable if this is happening, not! See the spread implementation for the need of a valid block in the target pos as well.
-        return (existingState.isAir || existingState.isReplaceable) && this.canGoOn(state, world, pos) { ceiling -> ceiling.isIn(CobblemonBlockTags.ROOTS_SPREADABLE) }
+        return (existingState.isAir || existingState.canBeReplaced()) && this.canGoOn(state, world, pos) { ceiling -> ceiling.`is`(CobblemonBlockTags.ROOTS_SPREADABLE) }
     }
 
     /**
@@ -156,7 +153,9 @@ abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBl
      * @param random The [Random] instance used during a spread attempt.
      * @return The [BlockState] that will represent the spread root.
      */
-    protected fun spreadingRoot(random: Random): BlockState = if (random.nextFloat() < Cobblemon.config.energyRootChance) CobblemonBlocks.ENERGY_ROOT.defaultState else this.defaultState
+    protected fun spreadingRoot(random: RandomSource): BlockState =
+        if (random.nextFloat() < Cobblemon.config.energyRootChance) CobblemonBlocks.ENERGY_ROOT.defaultBlockState()
+        else this.defaultBlockState()
 
     /**
      * Checks if the given coordinates allow for a root to be placed with some context.
@@ -168,9 +167,9 @@ abstract class RootBlock(settings: Properties) : Block(settings), BonemealableBl
      * @return If the given coordinates allow for a root to be set.
      */
     protected fun canGoOn(state: BlockState, world: LevelReader, pos: BlockPos, ceilingValidator: (ceiling: BlockState) -> Boolean): Boolean {
-        val up = pos.up()
+        val up = pos.above()
         val upState = world.getBlockState(up)
-        return upState.isSideSolidFullSquare(world, up, Direction.DOWN) && ceilingValidator(upState)
+        return upState.isFaceSturdy(world, up, Direction.DOWN) && ceilingValidator(upState) // todo (techdaan): ensure this is the right mapping
     }
 
     /**

@@ -12,10 +12,12 @@ import com.cobblemon.mod.common.block.MintBlock
 import net.minecraft.world.level.block.Block
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.core.BlockPos
+import net.minecraft.tags.BlockTags
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.SingleStateFeatureConfig
 import net.minecraft.world.gen.feature.util.FeatureContext
+import net.minecraft.world.level.block.CropBlock.UPDATE_CLIENTS
 
 class MintBlockFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureConfig.CODEC) {
 
@@ -35,9 +37,9 @@ class MintBlockFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureCon
         val maxAge = MintBlock.MATURE_AGE
 
         // Generate the blocks
-        world.setBlockState(blockPos, blockState.with(MintBlock.AGE, context.random.nextBetween(minAge, maxAge)), Block.NOTIFY_LISTENERS)
+        world.setBlock(blockPos, blockState.with(MintBlock.AGE, context.random.nextBetween(minAge, maxAge)), UPDATE_CLIENTS)
         validPlacements.shuffled().take(2).forEach { position ->
-            world.setBlockState(position, blockState.with(MintBlock.AGE, context.random.nextBetween(minAge, maxAge)), Block.NOTIFY_LISTENERS)
+            world.setBlock(position, blockState.with(MintBlock.AGE, context.random.nextBetween(minAge, maxAge)), UPDATE_CLIENTS)
         }
         return true
     }
@@ -49,8 +51,8 @@ class MintBlockFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureCon
             for (y in -1..1) {
                 for (z in -1..1) {
                     if (x == 0 && z == 0) continue
-                    val offsetPos = origin.add(x, y, z)
-                    val floorBlockState = world.getBlockState(offsetPos.down())
+                    val offsetPos = origin.offset(x, y, z)
+                    val floorBlockState = world.getBlockState(offsetPos.below())
                     if (world.isAir(offsetPos) && floorBlockState.isIn(BlockTags.DIRT)) {
                         validPositions.add(offsetPos)
                     }

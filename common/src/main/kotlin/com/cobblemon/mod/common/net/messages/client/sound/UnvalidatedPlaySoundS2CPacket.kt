@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.util.writeEnumConstant
 import com.cobblemon.mod.common.util.writeIdentifier
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket
-import net.minecraft.sound.SoundCategory
+import net.minecraft.sounds.SoundSource
 import net.minecraft.resources.ResourceLocation
 
 /**
@@ -28,7 +28,7 @@ import net.minecraft.resources.ResourceLocation
  */
 internal class UnvalidatedPlaySoundS2CPacket(
     val sound: ResourceLocation,
-    val category: SoundCategory,
+    val category: SoundSource,
     val x: Double,
     val y: Double,
     val z: Double,
@@ -52,7 +52,7 @@ internal class UnvalidatedPlaySoundS2CPacket(
         val ID = cobblemonResource("unvalidated_play_sound")
         fun decode(buffer: RegistryFriendlyByteBuf) = UnvalidatedPlaySoundS2CPacket(
             buffer.readIdentifier(),
-            buffer.readEnumConstant(SoundCategory::class.java),
+            buffer.readEnumConstant(SoundSource::class.java),
             buffer.readDouble(),
             buffer.readDouble(),
             buffer.readDouble(),

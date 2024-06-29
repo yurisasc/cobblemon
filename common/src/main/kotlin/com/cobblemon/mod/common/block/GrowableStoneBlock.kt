@@ -11,17 +11,12 @@ package com.cobblemon.mod.common.block
 import net.minecraft.block.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.world.item.ItemPlacementContext
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.state.StateManager
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.random.Random
-import net.minecraft.world.BlockView
-import net.minecraft.world.WorldAccess
+import net.minecraft.util.RandomSource
 import net.minecraft.world.item.context.BlockPlaceContext
-import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelAccessor
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.DirectionalBlock
@@ -107,14 +102,15 @@ abstract class GrowableStoneBlock(
         builder.add(FACING)
     }
 
-    override fun isRandomlyTicking(state: BlockState?) = stage < MAX_STAGE
-    override fun randomTick(state: BlockState, world: ServerLevel, pos: BlockPos, random: Random) {
+    override fun isRandomlyTicking(state: BlockState): Boolean = stage < MAX_STAGE
+
+    override fun randomTick(state: BlockState, world: ServerLevel, pos: BlockPos, random: RandomSource) {
         if (world.random.nextInt(5) == 0 && canGrow(pos, world)) {
             val block = nextStage
 
             if (block != null) {
-                val newState = block.defaultState.with(FACING, state.get(FACING)) as BlockState
-                world.setBlockState(pos, newState)
+                val newState = block.defaultBlockState().setValue(FACING, state.getValue(FACING)) as BlockState
+                world.setBlockAndUpdate(pos, newState)
             }
         }
     }
@@ -133,7 +129,7 @@ abstract class GrowableStoneBlock(
     override fun canSurvive(state: BlockState, world: LevelReader, pos: BlockPos): Boolean {
         val direction = state.getValue(FACING) as Direction
         val blockState = world.getBlockState(pos.relative(direction.opposite))
-        return blockState.isSideSolidFullSquare(world, pos, direction)
+        return blockState.isFaceSturdy(world, pos, direction) // todo (techdaan): ensure this is the right mapping
     }
 
     override fun updateShape(

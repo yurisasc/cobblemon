@@ -15,23 +15,22 @@ import com.cobblemon.mod.common.pokemon.ai.OmniPathNodeMaker
 import com.cobblemon.mod.common.util.getWaterAndLavaIn
 import com.cobblemon.mod.common.util.toVec3d
 import com.google.common.collect.ImmutableSet
-import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.acos
-import net.minecraft.world.entity.Entity
+import net.minecraft.core.BlockPos
 import net.minecraft.entity.ai.pathing.MobNavigation
-import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.ai.pathing.Path
 import net.minecraft.entity.ai.pathing.PathNode
 import net.minecraft.entity.ai.pathing.PathNodeNavigator
-import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.registry.tag.FluidTags
-import net.minecraft.core.BlockPos
 import net.minecraft.util.Mth
-import net.minecraft.world.phys.Vec3
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.pathfinder.PathComputationType
+import net.minecraft.world.level.pathfinder.PathType
+import net.minecraft.world.phys.Vec3
+import kotlin.math.PI
+import kotlin.math.abs
+import kotlin.math.acos
 
 class PokemonNavigation(val world: Level, val pokemonEntity: PokemonEntity) : MobNavigation(pokemonEntity, world) {
     // Lazy init because navigation is instantiated during entity construction and pokemonEntity.form isn't set yet.
@@ -89,7 +88,7 @@ class PokemonNavigation(val world: Level, val pokemonEntity: PokemonEntity) : Mo
             navigationContext.onArrival()
             // If we arrived at a not-flying destination
             val node = currentPath?.currentNode?.type
-            if (node != null && node != PathNodeType.OPEN && pokemonEntity.couldStopFlying()) {
+            if (node != null && node != PathType.OPEN && pokemonEntity.couldStopFlying()) {
                 pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)
             }
             return
@@ -123,15 +122,15 @@ class PokemonNavigation(val world: Level, val pokemonEntity: PokemonEntity) : Mo
                 currentPath = null
                 navigationContext.onArrival()
                 // If we arrived at a not-flying destination
-                if (currentNode.type != PathNodeType.OPEN && pokemonEntity.couldStopFlying()) {
+                if (currentNode.type != PathType.OPEN && pokemonEntity.couldStopFlying()) {
                     pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)
                 }
             } else {
                 val newNode = currentPath!!.currentNode
                 if (currentNode.type != newNode.type) {
-                    if (newNode.type == PathNodeType.OPEN) {
+                    if (newNode.type == PathType.OPEN) {
                         pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
-                    } else if (currentNode.type != PathNodeType.OPEN && pokemonEntity.couldStopFlying()) { // if we just reached a non-flying node and the next node isn't a flying node, stop flying
+                    } else if (currentNode.type != PathType.OPEN && pokemonEntity.couldStopFlying()) { // if we just reached a non-flying node and the next node isn't a flying node, stop flying
                         pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)
                     }
                 }
@@ -237,7 +236,7 @@ class PokemonNavigation(val world: Level, val pokemonEntity: PokemonEntity) : Mo
 //            pokemonEntity.discard()
 //            return false
             // If we just started moving and it's to an open node, fly
-            if (node.type == PathNodeType.OPEN && pokemonEntity.form.behaviour.moving.fly.canFly && !pokemonEntity.isFlying()) {
+            if (node.type == PathType.OPEN && pokemonEntity.form.behaviour.moving.fly.canFly && !pokemonEntity.isFlying()) {
                 pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
             }
         }
@@ -259,7 +258,7 @@ class PokemonNavigation(val world: Level, val pokemonEntity: PokemonEntity) : Mo
 
             val directionToMiddle = middleNode.blockPos.subtract(firstNode.blockPos).toVec3d().normalize()
             val nodeType = firstNode.type
-            if (nodeType != middleNode.type || nodeType != nextNode.type || nodeType == PathNodeType.WALKABLE) {
+            if (nodeType != middleNode.type || nodeType != nextNode.type || nodeType == PathType.WALKABLE) {
                 i++
                 continue
             }

@@ -10,13 +10,13 @@ package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.CobblemonSounds
 import net.minecraft.world.level.block.Block
-import net.minecraft.block.FacingBlock
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemUsageContext
-import net.minecraft.sound.SoundCategory
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.level.block.DirectionalBlock
 
-class TumblestoneItem(settings: Settings, val block: Block) : Item(settings) {
+class TumblestoneItem(settings: Properties, val block: Block) : Item(settings) {
 
     override fun useOnBlock(context: ItemUsageContext): InteractionResult {
         if (context.player == null) return InteractionResult.FAIL
@@ -26,11 +26,11 @@ class TumblestoneItem(settings: Settings, val block: Block) : Item(settings) {
         val pos = context.blockPos
         val direction = context.side
 
-        if (state.isSideSolidFullSquare(world, pos, direction)) {
+        if (state.isFaceSturdy(world, pos, direction)) { // todo (techdaan): ensure this is the right mapping
             if (!world.getBlockState(pos.offset(direction)).isAir) return InteractionResult.FAIL
             if (!context.player!!.isCreative) context.stack.shrink(1)
-            world.setBlockState(pos.offset(direction), block.defaultState.with(FacingBlock.FACING, direction))
-            world.playSound(null, pos, CobblemonSounds.TUMBLESTONE_PLACE, SoundCategory.BLOCKS)
+            world.setBlockAndUpdate(pos.offset(direction), block.defaultBlockState().setValue(DirectionalBlock.FACING, direction))
+            world.playSound(null, pos, CobblemonSounds.TUMBLESTONE_PLACE, SoundSource.BLOCKS)
             return InteractionResult.SUCCESS
         }
 

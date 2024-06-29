@@ -28,7 +28,7 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.world.entity.Entity
-import net.minecraft.sound.SoundCategory
+import net.minecraft.sounds.SoundSource
 import net.minecraft.sound.SoundEvent
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.crash.CrashException
@@ -105,7 +105,7 @@ class BedrockSoundKeyframe(
             Minecraft.getInstance().soundManager.play(
                 PositionedSoundInstance(
                     soundEvent,
-                    SoundCategory.NEUTRAL,
+                    SoundSource.NEUTRAL,
                     1F,
                     1F,
                     entity.world.random,

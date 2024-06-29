@@ -32,6 +32,8 @@ import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.client.resources.sounds.SoundInstance
+import net.minecraft.core.BlockPos
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import kotlin.math.sqrt
@@ -39,6 +41,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundSource
+import net.minecraft.util.Mth
 import net.minecraft.util.RandomSource
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
@@ -47,6 +50,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.projectile.FishingHook
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.Vec3
 
 
@@ -111,7 +115,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         val posX = thrower.x - sinYaw.toDouble() * 0.3
         val posY = thrower.eyeY
         val posZ = thrower.z - cosYaw.toDouble() * 0.3
-        this.refreshPositionAndAngles(posX, posY, posZ, throwerYaw, throwerPitch)
+        this.moveTo(posX, posY, posZ, throwerYaw, throwerPitch)
         var vec3d = Vec3d((-sinYaw).toDouble(), Mth.clamp(-(sinPitch / cosPitch), -5.0f, 5.0f).toDouble(), (-cosYaw).toDouble())
         val m = vec3d.length()
         vec3d = vec3d.multiply(0.6 / m + random.nextTriangular(0.5, 0.0103365), 0.6 / m + random.nextTriangular(0.5, 0.0103365), 0.6 / m + random.nextTriangular(0.5, 0.0103365))
@@ -275,14 +279,14 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // todo maybe custom behavior for fishing logic
     private fun tickFishingLogic(pos: BlockPos) {
-        val serverWorld = world as ServerWorld
+        val serverWorld = level() as ServerLevel
         var i = 1
-        val blockPos = pos.up()
+        val blockPos = pos.above()
 
-        if (random.nextFloat() < 0.25f && world.hasRain(blockPos)) {
+        if (random.nextFloat() < 0.25f && level().hasRain(blockPos)) {
             ++i
         }
-        if (random.nextFloat() < 0.5f && !world.isSkyVisible(blockPos)) {
+        if (random.nextFloat() < 0.5f && !level().canSeeSky(blockPos)) {
             --i
         }
         if (this.hookCountdown > 0) {
@@ -305,7 +309,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 val j = this.z + (h * this.fishTravelCountdown.toFloat() * 0.1f).toDouble()
                 val blockState = serverWorld.getBlockState(BlockPos.ofFloored(offsetX, offsetY - 1.0, j))
                 //val blockState = serverWorld.getBlockState(BlockPos.ofFloored(offsetX, (Mth.floor(this.y).toFloat() + 1.0f).toDouble().also { offsetY = it } - 1.0, this.z + (h * this.fishTravelCountdown.toFloat() * 0.1f).toDouble().also { j = it }))
-                if (blockState.isOf(Blocks.WATER)) {
+                if (blockState.`is`(Blocks.WATER)) {
                     if (random.nextFloat() < 0.15f) {
                         // random bubble particles that spawn around
                         //serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.x, this.y, this.z, 3, g.toDouble(), 0.1, h.toDouble(), 0.0)
@@ -323,7 +327,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             } else {
                 //playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25f, 1.0f + (random.nextFloat() - random.nextFloat()) * 0.4f)
                 // play bobber hook notification sound
-                world.playSound(null, this.blockPos, CobblemonSounds.FISHING_NOTIFICATION, SoundCategory.BLOCKS, 1.0F, 1.0F)
+                world.playSound(null, this.blockPosition(), CobblemonSounds.FISHING_NOTIFICATION, SoundCategory.BLOCKS, 1.0F, 1.0F)
 
                 // create tiny splash particle when there is a bite
                 particleEntityHandler(this, ResourceLocation.parse("cobblemon","bob_splash"))
@@ -373,7 +377,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 val e = (Mth.floor(this.y).toFloat() + 1.0f).toDouble() // Y
                 val j = this.z + (Mth.cos(g) * h).toDouble() * 0.1 // randomized Z value
                 val blockState = serverWorld.getBlockState(BlockPos.ofFloored(d, e - 1.0, j))
-                if (blockState.isOf(Blocks.WATER)) {
+                if (blockState.`is`(Blocks.WATER)) {
                     serverWorld.spawnParticles(ParticleTypes.SPLASH, d, e, j, 2 + random.nextInt(2), 0.10000000149011612, 0.0, 0.10000000149011612, 0.0)
                 }
             }
@@ -384,7 +388,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         } else {
             if (isCast != true) {
                 // When bobber lands on the water for the first time
-                world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_LAND, SoundCategory.NEUTRAL, 1.0F, 1.0F)
+                level().playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_LAND, SoundCategory.NEUTRAL, 1.0F, 1.0F)
 
                 // create tiny splash particle
                 particleEntityHandler(this, ResourceLocation.parse("cobblemon","bob_splash"))

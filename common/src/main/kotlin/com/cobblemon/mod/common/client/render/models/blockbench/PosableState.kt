@@ -41,7 +41,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.world.entity.Entity
-import net.minecraft.sound.SoundCategory
+import net.minecraft.sounds.SoundSource
 import net.minecraft.sound.SoundEvent
 import net.minecraft.world.phys.Vec3
 
@@ -142,7 +142,7 @@ abstract class PosableState : Schedulable {
                 val volume = if (params.contains(1)) params.getDouble(1).toFloat() else 1F
                 val pitch = if (params.contains(2)) params.getDouble(2).toFloat() else 1F
                 Minecraft.getInstance().soundManager.play(
-                    PositionedSoundInstance(soundEvent, SoundCategory.NEUTRAL, volume, pitch, entity.world.random, entity.x, entity.y, entity.z)
+                    PositionedSoundInstance(soundEvent, SoundSource.NEUTRAL, volume, pitch, entity.world.random, entity.x, entity.y, entity.z)
                 )
             }
         }

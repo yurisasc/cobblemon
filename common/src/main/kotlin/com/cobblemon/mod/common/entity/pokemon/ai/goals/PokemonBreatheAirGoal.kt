@@ -43,7 +43,7 @@ class PokemonBreatheAirGoal(val pokemonEntity: PokemonEntity) : BreatheAirGoal(p
     fun moveToBreathable() {
         val behaviour = pokemonEntity.behaviour
         if (!behaviour.moving.swim.canBreatheUnderwater) {
-            val iterable = BlockPos.iterate(
+            val iterable = BlockPos.betweenClosed(
                 Mth.floor(pokemonEntity.x - 8.0),
                 pokemonEntity.blockY,
                 Mth.floor(pokemonEntity.z - 8.0),

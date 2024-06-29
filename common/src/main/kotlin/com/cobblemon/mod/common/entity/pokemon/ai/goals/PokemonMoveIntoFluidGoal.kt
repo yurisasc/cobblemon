@@ -18,8 +18,10 @@ import net.minecraft.registry.tag.FluidTags
 import net.minecraft.tags.TagKey
 import net.minecraft.core.BlockPos
 import net.minecraft.core.BlockPos.Mutable
+import net.minecraft.tags.FluidTags
 import net.minecraft.world.phys.AABB
 import net.minecraft.util.Mth
+import net.minecraft.world.level.material.Fluid
 import net.minecraft.world.phys.Vec3
 
 class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
@@ -32,9 +34,9 @@ class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
         val allowsWater = mob.behaviour.moving.swim.canSwimInWater
         val allowsLava = mob.behaviour.moving.swim.canSwimInLava
 
-        val pos = mob.blockPos
+        val pos = mob.blockPosition()
 
-        val fluid = mob.world.getFluidState(pos)
+        val fluid = mob.level().getFluidState(pos)
 
         val allowedFluids = mutableListOf<TagKey<Fluid>>()
         if (allowsWater) {
@@ -48,17 +50,17 @@ class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
         val allZ = floor(mob.boundingBox.minZ).toInt()..ceil(mob.boundingBox.maxZ).toInt()
 
         var onSolid = false
-        val mutablePos = Mutable()
+        val mutablePos = BlockPos.MutableBlockPos()
 
         outer@
         for (blockX in allX) {
             for (blockZ in allZ) {
-                if (mob.world.getBlockState(mutablePos.set(blockX, mob.blockY - 1, blockZ)).isSolid) {
+                if (mob.level().getBlockState(mutablePos.set(blockX, mob.blockY - 1, blockZ)).isSolid) {
                     onSolid = true
                 }
                 for (y in mob.blockY..ceil(mob.boundingBox.maxY).toInt()) {
-                    val fluidState = mob.world.getFluidState(mutablePos.set(blockX, y, blockZ))
-                    if (allowedFluids.any { fluidState.isIn(it) }) {
+                    val fluidState = mob.level().getFluidState(mutablePos.set(blockX, y, blockZ))
+                    if (allowedFluids.any { fluidState.`is`(it) }) {
                         return false
                     } else if (mob.y > 62.0) {
                     }
@@ -78,7 +80,7 @@ class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
         if (swim.canSwimInWater) {
             appropriateFluids.add(FluidTags.WATER)
         }
-        val iterable = BlockPos.iterate(
+        val iterable = BlockPos.betweenClosed(
             Mth.floor(mob.x - 8.0),
             Mth.floor(mob.y - 8.0),
             Mth.floor(mob.z - 8.0),
@@ -92,18 +94,18 @@ class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
             if (mob.tethering?.canRoamTo(pos) == false) {
                 return@closestPosition false
             }
-            val fluid = mob.world.getFluidState(pos)
-            return@closestPosition appropriateFluids.any { fluid.isIn(it) } &&
-                    mob.world.isSpaceEmpty(
+            val fluid = mob.level().getFluidState(pos)
+            return@closestPosition appropriateFluids.any { fluid.`is`(it) } &&
+                    mob.level().noCollision(
                         AABB.ofSize(
                             Vec3(
                                 pos.x.toDouble(),
                                 pos.y - 1.0,
                                 pos.z.toDouble()
                             ),
-                            box.lengthX,
-                            box.lengthY,
-                            box.lengthZ
+                            box.xsize,
+                            box.ysize,
+                            box.zsize
                         )
                     )
         }

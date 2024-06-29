@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.util.resumeSounds
 import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.*
-import net.minecraft.sound.SoundCategory
+import net.minecraft.sounds.SoundSource
 import net.minecraft.sound.SoundEvent
 import net.minecraft.core.BlockPos
 import net.minecraft.util.Mth
@@ -21,13 +21,13 @@ import net.minecraft.util.Mth
  * A [SoundInstance] for [PokemonBattle] music.
  *
  * While an instance is being played, the [MusicTracker] will be frozen and the [SoundManager] will not play
- * [SoundCategory]s belonging to [BattleMusicController.filteredCategories].
+ * [SoundSource]s belonging to [BattleMusicController.filteredCategories].
  *
  * @author Segfault Guy
  * @since April 22nd, 2023
  */
 class BattleMusicInstance(sound: SoundEvent, volume: Float = 1.0F, pitch: Float = 1.0F) :
-        PositionedSoundInstance(sound, SoundCategory.MUSIC, volume, pitch, SoundInstance.createRandom(), BlockPos.ORIGIN), TickableSoundInstance {
+        PositionedSoundInstance(sound, SoundSource.MUSIC, volume, pitch, SoundInstance.createRandom(), BlockPos.ORIGIN), TickableSoundInstance {
 
     private val soundManager = Minecraft.getInstance().soundManager;
     private var fade: Boolean = false

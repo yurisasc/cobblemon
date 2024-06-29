@@ -30,7 +30,7 @@ interface MultiblockStructure {
         blockHitResult: BlockHitResult
     ): InteractionResult
 
-    fun onBreak(world: Level, pos: BlockPos, state: BlockState, player: Player?)
+    fun playerWillDestroy(world: Level, pos: BlockPos, state: BlockState, player: Player?)
 
     fun tick(world: Level)
 
@@ -38,10 +38,10 @@ interface MultiblockStructure {
 
     fun markDirty(world: Level)
     fun writeToNbt(registryLookup: HolderLookup.Provider): CompoundTag
-    fun getComparatorOutput(state: BlockState, world: Level?, pos: BlockPos?): Int {
+    fun getAnalogOutputSignal(state: BlockState, world: Level?, pos: BlockPos?): Int {
         return 0
     }
 
-    fun markRemoved(world: Level)
+    fun setRemoved(world: Level)
     fun onTriggerEvent(state: BlockState?, world: ServerLevel?, pos: BlockPos?, random: RandomSource?)
 }

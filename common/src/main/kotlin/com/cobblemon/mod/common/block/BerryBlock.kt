@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.block
 
+//import dev.lambdaurora.lambdynlights.util.SodiumDynamicLightHandler.pos
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.berry.Berries
@@ -21,52 +22,24 @@ import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-//import dev.lambdaurora.lambdynlights.util.SodiumDynamicLightHandler.pos
-import net.minecraft.world.level.block.Block
-import net.minecraft.block.Blocks
-import net.minecraft.block.Fertilizable
-import net.minecraft.block.ShapeContext
-import net.minecraft.world.level.block.entity.BlockEntity
-import net.minecraft.world.level.block.entity.BlockEntityTicker
-import net.minecraft.world.level.block.entity.BlockEntityType
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.sounds.SoundSource
+import net.minecraft.util.RandomSource
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import net.minecraft.item.ShovelItem
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.sound.SoundCategory
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.EnumProperty
-import net.minecraft.state.property.IntProperty
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.InteractionHand
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
-import net.minecraft.sounds.SoundSource
-import net.minecraft.util.RandomSource
-import net.minecraft.world.phys.AABB
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.random.Random
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.InteractionHand
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.level.Level
-import net.minecraft.world.WorldAccess
-import net.minecraft.world.item.Items
 import net.minecraft.world.item.ShovelItem
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
-import net.minecraft.world.level.block.BaseEntityBlock
-import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.BonemealableBlock
-import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityTicker
 import net.minecraft.world.level.block.entity.BlockEntityType
@@ -75,6 +48,7 @@ import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.block.state.properties.EnumProperty
 import net.minecraft.world.level.block.state.properties.IntegerProperty
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
@@ -92,21 +66,21 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Proper
      */
     fun berry(): Berry? = Berries.getByIdentifier(this.berryIdentifier)
 
-    override fun onBreak(world: Level, pos: BlockPos, state: BlockState, player: Player): BlockState {
-        if (!player.isCreative && state.get(AGE) == FRUIT_AGE) {
+    override fun playerWillDestroy(world: Level, pos: BlockPos, state: BlockState, player: Player): BlockState {
+        if (!player.isCreative && state.getValue(AGE) == FRUIT_AGE) {
             val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
-            treeEntity.harvest(world, state, pos, player).forEach { drop -> Block.dropStack(world, pos, drop) }
+            treeEntity.harvest(world, state, pos, player).forEach { drop -> Block.popResource(world, pos, drop) }
         }
-        return super.onBreak(world, pos, state, player)
+        return super.playerWillDestroy(world, pos, state, player)
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState) = BerryBlockEntity(pos, state, berryIdentifier)
+    override fun newBlockEntity(pos: BlockPos, state: BlockState) = BerryBlockEntity(pos, state, berryIdentifier)
 
     override fun isValidBonemealTarget(world: LevelReader, pos: BlockPos, state: BlockState) = !this.isMaxAge(state)
 
     override fun isBonemealSuccess(world: Level, random: RandomSource, pos: BlockPos, state: BlockState) = !this.isMaxAge(state)
 
-    override fun <T : BlockEntity> getTicker(world: Level, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = validateTicker(blockWithEntityType, CobblemonBlockEntities.BERRY, BerryBlockEntity.TICKER)
+    override fun <T : BlockEntity> getTicker(world: Level, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = createTickerHelper(blockWithEntityType, CobblemonBlockEntities.BERRY, BerryBlockEntity.TICKER)
 
     init {
         registerDefaultState(stateDefinition.any()
@@ -121,30 +95,30 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Proper
     }
 
     //grow, but cooler
-    fun growHelper(world: ServerLevel, random: Random, pos: BlockPos, state: BlockState, boneMealed: Boolean = false) {
+    fun growHelper(world: ServerLevel, random: RandomSource, pos: BlockPos, state: BlockState, boneMealed: Boolean = false) {
         val berry = berry() ?: return
         if (boneMealed && random.nextFloat() > berry.boneMealChance) return
-        val curAge = state.get(AGE)
+        val curAge = state.getValue(AGE)
         val newAge = curAge + 1
         if (newAge > FRUIT_AGE) return
-        val newState = state.with(AGE, newAge)
+        val newState = state.setValue(AGE, newAge)
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         if (curAge == MATURE_AGE) {
             treeEntity.generateGrowthPoints(world, newState, pos, null)
             determineMutation(world, random, pos, newState)
         }
 
-        world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
+        world.setBlock(pos, newState, Block.UPDATE_CLIENTS)
         convertMulchToEntity(world, newState, pos)
         treeEntity.goToNextStageTimer(FRUIT_AGE - curAge)
-        treeEntity.markDirty()
+        treeEntity.setChanged()
     }
 
-    fun determineMutation(world: Level, random: Random, pos: BlockPos, state: BlockState) {
+    fun determineMutation(world: Level, random: RandomSource, pos: BlockPos, state: BlockState) {
         val mutations = hashSetOf<Berry>()
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         for (direction in this.lookupDirections) {
-            val redirectedPos = pos.add(direction.vector)
+            val redirectedPos = pos.offset(direction.normal)
             val redirectedState = world.getBlockState(redirectedPos)
             val berryBlock = redirectedState.block as? BerryBlock ?: continue
             val berry = berryBlock.berry() ?: continue
@@ -176,22 +150,22 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Proper
         state: BlockState,
         variant: MulchVariant
     ): Boolean {
-        val underBlockState = world.getBlockState(pos.down())
-        val validSoil = state.get(IS_ROOTED) || underBlockState.isIn(CobblemonBlockTags.BERRY_SOIL)
+        val underBlockState = world.getBlockState(pos.below())
+        val validSoil = state.getValue(IS_ROOTED) || underBlockState.`is`(CobblemonBlockTags.BERRY_SOIL)
         val treeEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return false
-        return getMulch(treeEntity) == MulchVariant.NONE && state.get(AGE) < FLOWER_AGE && validSoil
+        return getMulch(treeEntity) == MulchVariant.NONE && state.getValue(AGE) < FLOWER_AGE && validSoil
     }
 
     override fun applyMulch(
         world: ServerLevel,
-        random: Random,
+        random: RandomSource,
         pos: BlockPos,
         state: BlockState,
         variant: MulchVariant
     ) {
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         treeEntity.setMulch(variant, world, state, pos)
-        world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS, 0.6F, 1F)
+        world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundSource.BLOCKS, 0.6F, 1F)
     }
 
     override fun useWithoutItem(
@@ -203,7 +177,7 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Proper
     ): InteractionResult {
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         if (player.getItemInHand(InteractionHand.MAIN_HAND).item is ShovelItem && getMulch(treeEntity) != MulchVariant.NONE) {
-            treeEntity.markDirty()
+            treeEntity.setChanged()
             world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundSource.BLOCKS, 0.6F, 1F)
             this.spawnDestroyParticles(world, player, pos, state.setValue(AGE, 0))
             return InteractionResult.SUCCESS
@@ -214,7 +188,7 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Proper
         } else if (this.isMaxAge(state)) {
             val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return InteractionResult.PASS
             blockEntity.harvest(world, state, pos, player).forEach { drop ->
-                Block.dropStack(world, pos, drop)
+                Block.popResource(world, pos, drop)
             }
             world.playSound(null, pos, CobblemonSounds.BERRY_HARVEST, SoundSource.BLOCKS, 0.4F, 1F)
             return InteractionResult.sidedSuccess(world.isClientSide)
@@ -239,7 +213,7 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Proper
         return if (state.canSurvive(world, pos)) super.updateShape(state, direction, neighborState, world, pos, neighborPos) else Blocks.AIR.defaultBlockState()
     }
 
-    override fun onPlaced(world: Level, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack) {
+    override fun setPlacedBy(world: Level, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack) {
 //        if (!world.isClient) {
 //            val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return
 //            blockEntity.generateGrowthPoints(world, state, pos, placer)
@@ -253,7 +227,7 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Proper
         builder.add(IS_ROOTED)
     }
 
-    override fun getCloneItemStack(world: LevelReader?, pos: BlockPos?, state: BlockState?): ItemStack {
+    override fun getCloneItemStack(world: LevelReader, pos: BlockPos, state: BlockState): ItemStack {
         val berryItem = this.berry()?.item() ?: return ItemStack.EMPTY
         return ItemStack(berryItem)
     }
@@ -269,7 +243,7 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Proper
         }
     }
 
-    private fun isMaxAge(state: BlockState) = state.get(AGE) == FRUIT_AGE
+    private fun isMaxAge(state: BlockState) = state.getValue(AGE) == FRUIT_AGE
 
     @Deprecated("Deprecated in Java")
     override fun getRenderShape(blockState: BlockState) = RenderShape.MODEL
@@ -292,71 +266,71 @@ class BerryBlock(private val berryIdentifier: ResourceLocation, settings: Proper
 //            VoxelShapes.cuboid(0.3125, -0.0625, 0.3125, 0.6875, 0.0, 0.6875),
 //            VoxelShapes.cuboid(0.375, 0.0, 0.375, 0.625, 0.0625, 0.625)
 //        )
-        val PLANTED_SHAPE = VoxelShapes.cuboid(0.0, -0.1, 0.0, 1.0, 0.25, 1.0)
+        val PLANTED_SHAPE = Shapes.box(0.0, -0.1, 0.0, 1.0, 0.25, 1.0)
 
 
-        val STANDARD_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
-        val STANDARD_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+        val STANDARD_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val STANDARD_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
 
-        val SHORT_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 12.0, 16.0))
-        val SHORT_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val SHORT_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 12.0, 16.0))
+        val SHORT_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
 
-        val VOLCANO_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 6.0, 16.0))
-        val VOLCANO_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val VOLCANO_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 6.0, 16.0))
+        val VOLCANO_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
 
-        val NEST_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 6.0, 16.0))
-        val NEST_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 20.0, 16.0))
+        val NEST_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 6.0, 16.0))
+        val NEST_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 20.0, 16.0))
 
-        val FRILL_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 8.0, 16.0))
-        val FRILL_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 14.0, 16.0))
+        val FRILL_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 8.0, 16.0))
+        val FRILL_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 14.0, 16.0))
 
-        val BLOCK_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 17.0, 16.0))
-        val BLOCK_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+        val BLOCK_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 17.0, 16.0))
+        val BLOCK_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
 
-        val PYRAMID_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 17.0, 16.0))
-        val PYRAMID_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+        val PYRAMID_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 17.0, 16.0))
+        val PYRAMID_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
 
-        val TAIL_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
-        val TAIL_MATURE = listOf(Box(0.0, 1.0, 0.0, 16.0, 24.0, 16.0))
+        val TAIL_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val TAIL_MATURE = listOf(AABB(0.0, 1.0, 0.0, 16.0, 24.0, 16.0))
 
-        val SWORD_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 5.0, 16.0))
-        val SWORD_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+        val SWORD_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 5.0, 16.0))
+        val SWORD_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
 
-        val PLATFORM_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 7.0, 16.0))
-        val PLATFORM_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 22.0, 16.0))
+        val PLATFORM_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 7.0, 16.0))
+        val PLATFORM_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 22.0, 16.0))
 
-        val STAND_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 13.0, 16.0))
-        val STAND_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+        val STAND_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 13.0, 16.0))
+        val STAND_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
 
-        val CONE_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
-        val CONE_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 23.0, 16.0))
+        val CONE_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val CONE_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 23.0, 16.0))
 
-        val SQUAT_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 12.0, 16.0))
-        val SQUAT_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 22.0, 16.0))
+        val SQUAT_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 12.0, 16.0))
+        val SQUAT_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 22.0, 16.0))
 
-        val LANTERN_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 20.0, 16.0))
-        val LANTERN_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+        val LANTERN_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 20.0, 16.0))
+        val LANTERN_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
 
-        val BOX_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
-        val BOX_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+        val BOX_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val BOX_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
 
-        val BLOSSOM_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 4.0, 16.0))
-        val BLOSSOM_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 6.0, 16.0))
+        val BLOSSOM_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 4.0, 16.0))
+        val BLOSSOM_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 6.0, 16.0))
 
-        val LILYPAD_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 11.0, 16.0))
-        val LILYPAD_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val LILYPAD_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 11.0, 16.0))
+        val LILYPAD_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
 
-        val TALL_SPROUT = listOf(Box(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
-        val TALL_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
+        val TALL_SPROUT = listOf(AABB(0.0, -1.0, 0.0, 16.0, 16.0, 16.0))
+        val TALL_MATURE = listOf(AABB(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
 
 
         fun getMulch(entity: BerryBlockEntity) = entity.mulchVariant
 
         fun convertMulchToEntity(world: ServerLevel, state: BlockState, pos: BlockPos) {
             val entity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return
-            if (state.get(MULCH) != MulchVariant.NONE && state.get(MULCH) != entity.mulchVariant) {
-                entity.mulchVariant = state.get(MULCH)
-                world.setBlockState(pos, state.with(MULCH, MulchVariant.NONE))
+            if (state.getValue(MULCH) != MulchVariant.NONE && state.getValue(MULCH) != entity.mulchVariant) {
+                entity.mulchVariant = state.getValue(MULCH)
+                world.setBlockAndUpdate(pos, state.setValue(MULCH, MulchVariant.NONE))
             }
         }
     }

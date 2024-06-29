@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.util.resumeSounds
 import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.SoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.sound.SoundCategory
+import net.minecraft.sounds.SoundSource
 import net.minecraft.sounds.SoundEvents
 
 /**
@@ -29,11 +29,11 @@ object BattleMusicController {
         private set
 
     /**
-     * The [SoundCategory]s that are filtered while the [SoundManager] is playing a [BattleMusicInstance].
+     * The [SoundSource]s that are filtered while the [SoundManager] is playing a [BattleMusicInstance].
      *
      * Applicable [SoundInstance]s are blocked while a [BattleMusicInstance] is active, or paused if played before.
      */
-    val filteredCategories = listOf(SoundCategory.AMBIENT, SoundCategory.MUSIC, SoundCategory.RECORDS)
+    val filteredCategories = listOf(SoundSource.AMBIENT, SoundSource.MUSIC, SoundSource.RECORDS)
 
     private val manager = Minecraft.getInstance().soundManager
 
@@ -43,7 +43,7 @@ object BattleMusicController {
         manager.play(music)
         if (manager.isPlaying(music)) {
             filteredCategories.forEach { manager.pauseSounds(null, it) }
-            manager.resumeSounds(music.id, SoundCategory.MUSIC) // lazy :)
+            manager.resumeSounds(music.id, SoundSource.MUSIC) // lazy :)
         }
     }
 

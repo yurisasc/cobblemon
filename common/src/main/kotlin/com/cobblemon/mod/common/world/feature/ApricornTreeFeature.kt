@@ -67,7 +67,7 @@ class ApricornTreeFeature : Feature<SingleStateFeatureConfig>(SingleStateFeature
         for (y in 0..4) {
             try {
                 val logPos = origin.offset(UP, y)
-                worldGenLevel.setBlockState(logPos, logState, 2)
+                worldGenLevel.setBlock(logPos, logState, 2)
             } catch (exception: Exception) {
                 exception.printStackTrace()
             }
@@ -181,7 +181,7 @@ class ApricornTreeFeature : Feature<SingleStateFeatureConfig>(SingleStateFeature
         if (!TreeFeature.isAirOrLeaves(worldGenLevel, blockPos)) {
             return
         }
-        worldGenLevel.setBlockState(blockPos, blockState, 3)
+        worldGenLevel.setBlock(blockPos, blockState, 3)
     }
 
     private fun getLayerOneVariation(origin: BlockPos, random: Random): Pair<BlockPos, BlockPos> {

@@ -35,9 +35,8 @@ import net.minecraft.client.Minecraft
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.world.entity.Entity
 import net.minecraft.entity.data.TrackedData
-import net.minecraft.sound.SoundCategory
+import net.minecraft.sounds.SoundSource
 import net.minecraft.sound.SoundEvent
-import net.minecraft.world.InteractionHand
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.phys.Vec3
 
@@ -133,7 +132,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
                             }
                         }
                         val client = Minecraft.getInstance()
-                        val sound = MovingSoundInstance(SoundEvent.of(CobblemonSounds.POKE_BALL_TRAIL.id), SoundCategory.PLAYERS, { sendOutPosition?.add(sendOutOffset) }, 0.1f, 1f, false, 20, 0)
+                        val sound = MovingSoundInstance(SoundEvent.of(CobblemonSounds.POKE_BALL_TRAIL.id), SoundSource.PLAYERS, { sendOutPosition?.add(sendOutOffset) }, 0.1f, 1f, false, 20, 0)
                         if (!playedThrowingSound){
                             client.soundManager.play(sound)
                             playedThrowingSound = true
@@ -145,11 +144,11 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
                             beamStartTime = System.currentTimeMillis()
                             ballDone = true
                             if (client.soundManager.get(CobblemonSounds.POKE_BALL_SEND_OUT.id) != null && !playedSendOutSound) {
-                                client.world?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, SoundEvent.of(CobblemonSounds.POKE_BALL_SEND_OUT.id), SoundCategory.PLAYERS, 0.6f, 1f)
+                                client.world?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, SoundEvent.of(CobblemonSounds.POKE_BALL_SEND_OUT.id), SoundSource.PLAYERS, 0.6f, 1f)
                                 playedSendOutSound = true
                             }
                             currentEntity.ownerUuid?.let {
-                                    client.world?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, SoundEvent.of(CobblemonSounds.POKE_BALL_SEND_OUT.id), SoundCategory.PLAYERS, 0.6f, 1f)
+                                    client.world?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, SoundEvent.of(CobblemonSounds.POKE_BALL_SEND_OUT.id), SoundSource.PLAYERS, 0.6f, 1f)
                                     playedSendOutSound = true
                                     /// create end rod particles in a 0.1 radius around the soundPos with a count of 50 and a random velocity of 0.1
                                     sendOutPosition?.let{
@@ -204,7 +203,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
                                 soundPos.y,
                                 soundPos.z,
                                 CobblemonSounds.POKE_BALL_SEND_OUT,
-                                SoundCategory.PLAYERS,
+                                SoundSource.PLAYERS,
                                 0.6f,
                                 1f
                             )

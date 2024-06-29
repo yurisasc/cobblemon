@@ -18,6 +18,8 @@ import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.tags.TagKey
 import net.minecraft.core.BlockPos
+import net.minecraft.tags.FluidTags
+import net.minecraft.world.level.material.Fluid
 import net.minecraft.world.phys.Vec3
 
 /**
@@ -62,7 +64,7 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
     @Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
     fun getLandTarget(): Vec3? {
         val roamDistanceCondition: (BlockPos) -> Boolean = { entity.tethering?.canRoamTo(it) != false }
-        val iterable: Iterable<BlockPos> = BlockPos.iterateRandomly(entity.random, 64, entity.blockX - 10, entity.blockY, entity.blockZ - 10, entity.blockX + 10, entity.blockY, entity.blockZ + 10)
+        val iterable: Iterable<BlockPos> = BlockPos.randomInCube(entity.random, 64, entity.blockX - 10, entity.blockY, entity.blockZ - 10, entity.blockX + 10, entity.blockY, entity.blockZ + 10)
         val condition: (BlockState, BlockPos) -> Boolean = { _, pos -> entity.canFit(pos) && roamDistanceCondition(pos) }
         val iterator = iterable.iterator()
         position@
@@ -120,25 +122,25 @@ class PokemonWanderAroundGoal(val entity: PokemonEntity) : WanderAroundGoal(enti
     fun getFluidTarget(fluidTag: TagKey<Fluid>): Vec3? {
         val roamDistanceCondition: (BlockPos) -> Boolean = { entity.tethering?.canRoamTo(it) != false }
         val walksOnFloor = !entity.behaviour.moving.swim.canSwimInFluid(fluidTag)
-        var iterable: Iterable<BlockPos> = BlockPos.iterateRandomly(entity.random, 32, entity.blockPos, 12)
-        var condition: (BlockState, BlockPos) -> Boolean = { blockState, pos -> roamDistanceCondition(pos) && blockState.fluidState.isIn(fluidTag) && entity.canFit(pos) }
+        var iterable: Iterable<BlockPos> = BlockPos.randomInCube(entity.random, 32, entity.blockPosition(), 12)
+        var condition: (BlockState, BlockPos) -> Boolean = { blockState, pos -> roamDistanceCondition(pos) && blockState.fluidState.`is`(fluidTag) && entity.canFit(pos) }
         if (walksOnFloor) {
             condition = { blockState, blockPos ->
-                val down = blockPos.down()
-                val below = entity.world.getBlockState(down)
-                roamDistanceCondition(blockPos) && blockState.fluidState.isIn(fluidTag) && below.isSolidBlock(entity.world, down) && entity.canFit(blockPos)
+                val down = blockPos.below()
+                val below = entity.level().getBlockState(down)
+                roamDistanceCondition(blockPos) && blockState.fluidState.`is`(fluidTag) && below.isSolidBlock(entity.level(), down) && entity.canFit(blockPos)
             }
         }
-        if (entity.world.isAir(entity.blockPos.up())) {
+        if (entity.level().isAir(entity.blockPosition().above())) {
             if ((fluidTag == FluidTags.WATER && entity.behaviour.moving.swim.canWalkOnWater) ||
                     fluidTag == FluidTags.LAVA && entity.behaviour.moving.swim.canWalkOnLava) {
-                iterable = BlockPos.iterateRandomly(entity.random, 16, entity.blockX - 16, entity.blockY, entity.blockZ - 16, entity.blockX + 16, entity.blockY, entity.blockZ + 16)
+                iterable = BlockPos.randomBetweenClosed(entity.random, 16, entity.blockX - 16, entity.blockY, entity.blockZ - 16, entity.blockX + 16, entity.blockY, entity.blockZ + 16)
             }
         }
         val iterator = iterable.iterator()
         while (iterator.hasNext()) {
             val pos = iterator.next()
-            val blockState = entity.world.getBlockState(pos)
+            val blockState = entity.level().getBlockState(pos)
             if (condition(blockState, pos)) {
                 return pos.toVec3d()
             }

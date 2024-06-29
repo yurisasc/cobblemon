@@ -16,45 +16,34 @@ import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.*
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.player.Player
-import net.minecraft.inventory.SidedInventory
-import net.minecraft.inventory.SimpleInventory
-import net.minecraft.world.item.ItemPlacementContext
-import net.minecraft.world.item.ItemStack
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.EnumProperty
-import net.minecraft.util.StringIdentifiable
-import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.util.RandomSource
 import net.minecraft.util.StringRepresentable
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.random.Random
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.*
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
-import net.minecraft.world.level.block.BaseEntityBlock
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.block.state.properties.EnumProperty
 import net.minecraft.world.level.pathfinder.PathComputationType
+import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
 
-class RestorationTankBlock(settings: Properties) : MultiblockBlock(properties), InventoryProvider {
+class RestorationTankBlock(settings: Properties) : MultiblockBlock(settings), WorldlyContainerHolder {
 
     init {
         registerDefaultState(stateDefinition.any()
@@ -65,10 +54,10 @@ class RestorationTankBlock(settings: Properties) : MultiblockBlock(properties), 
     }
 
     fun getPositionOfOtherPart(state: BlockState, pos: BlockPos): BlockPos {
-        return if (state.get(PART) == TankPart.BOTTOM) {
-            pos.up()
+        return if (state.getValue(PART) == TankPart.BOTTOM) {
+            pos.above()
         } else {
-            pos.down()
+            pos.below()
         }
     }
 
@@ -76,24 +65,24 @@ class RestorationTankBlock(settings: Properties) : MultiblockBlock(properties), 
         return if (isBase(state)) {
             pos
         } else {
-            pos.down()
+            pos.below()
         }
     }
 
-    private fun isBase(state: BlockState): Boolean = state.get(PART) == TankPart.BOTTOM
+    private fun isBase(state: BlockState): Boolean = state.getValue(PART) == TankPart.BOTTOM
 
     override fun playerWillDestroy(world: Level, pos: BlockPos, state: BlockState, player: Player): BlockState {
         val result = super.playerWillDestroy(world, pos, state, player)
-        if (!world.isClient) {
+        if (!world.isClientSide) {
             val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
 
             if (otherPart.block is RestorationTankBlock) {
-                world.setBlockState(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultState, Block.NOTIFY_ALL)
-                world.syncWorldEvent(
+                world.setBlock(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultBlockState(), UPDATE_CLIENTS)
+                world.levelEvent(
                     player,
-                    WorldEvents.BLOCK_BROKEN,
+                    LevelEvent.PARTICLES_DESTROY_BLOCK,
                     getPositionOfOtherPart(state, pos),
-                    getRawIdFromState(otherPart)
+                    getId(otherPart)
                 )
             }
         }
@@ -101,21 +90,20 @@ class RestorationTankBlock(settings: Properties) : MultiblockBlock(properties), 
         return result
     }
 
-    override fun onPlaced(
+    override fun setPlacedBy(
         world: Level,
         pos: BlockPos,
         state: BlockState,
         placer: LivingEntity?,
-        itemStack: ItemStack?
+        itemStack: ItemStack
     ) {
         //Place the full block before we call to super to validate the multiblock
-        world.setBlockState(pos.up(), state.with(PART, TankPart.TOP) as BlockState, Block.NOTIFY_ALL)
-        world.updateNeighbors(pos, Blocks.AIR)
-        state.updateNeighbors(world, pos, Block.NOTIFY_ALL)
+        world.setBlock(pos.above(), state.setValue(PART, TankPart.TOP) as BlockState, UPDATE_ALL)
+        world.blockUpdated(pos, Blocks.AIR)
+        state.updateNeighbourShapes(world, pos, UPDATE_ALL)
         super.setPlacedBy(world, pos, state, placer, itemStack)
     }
 
-    @Deprecated("Deprecated in Java")
     override fun useWithoutItem(
         state: BlockState,
         world: Level,
@@ -123,11 +111,11 @@ class RestorationTankBlock(settings: Properties) : MultiblockBlock(properties), 
         player: Player,
         hit: BlockHitResult
     ): InteractionResult {
-        if(state.get(PART) == TankPart.TOP) {
+        if(state.getValue(PART) == TankPart.TOP) {
             // TankTop isn't reliably up to date on clients, need to look at the bottom half
-            val tankBottomPos = pos.down()
+            val tankBottomPos = pos.below()
             val tankBottomState = world.getBlockState(tankBottomPos)
-            if(tankBottomState.block.equals(CobblemonBlocks.RESTORATION_TANK.asBlock()) && tankBottomState.get(PART) == TankPart.BOTTOM) {
+            if(tankBottomState.block.equals(CobblemonBlocks.RESTORATION_TANK.asBlock()) && tankBottomState.getValue(PART) == TankPart.BOTTOM) {
                 return super.useWithoutItem(tankBottomState, world, tankBottomPos, player, hit)
             }
         }
@@ -135,7 +123,7 @@ class RestorationTankBlock(settings: Properties) : MultiblockBlock(properties), 
     }
 
     override fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity {
-        return if (state.get(PART) == TankPart.BOTTOM) {
+        return if (state.getValue(PART) == TankPart.BOTTOM) {
             RestorationTankBlockEntity(pos, state, FossilMultiblockBuilder(pos))
         } else {
             FossilMultiblockEntity(pos, state, FossilMultiblockBuilder(pos))
@@ -145,7 +133,7 @@ class RestorationTankBlock(settings: Properties) : MultiblockBlock(properties), 
     override fun getStateForPlacement(blockPlaceContext: BlockPlaceContext): BlockState? {
         val abovePosition = blockPlaceContext.clickedPos.above()
         val world = blockPlaceContext.level
-        if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
+        if (world.getBlockState(abovePosition).canBeReplaced(blockPlaceContext) && !world.isOutsideBuildHeight(abovePosition)) {
             return defaultBlockState()
                 .setValue(HorizontalDirectionalBlock.FACING, blockPlaceContext.horizontalDirection)
                 .setValue(PART, TankPart.BOTTOM)
@@ -166,44 +154,47 @@ class RestorationTankBlock(settings: Properties) : MultiblockBlock(properties), 
         builder.add(ON)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun hasComparatorOutput(state: BlockState?): Boolean {
+    override fun hasAnalogOutputSignal(state: BlockState): Boolean {
         // TODO: return false if not attached to a multiblock structure
         return true
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun getComparatorOutput(state: BlockState, world: Level?, pos: BlockPos?): Int {
+    override fun getAnalogOutputSignal(state: BlockState, world: Level, pos: BlockPos): Int {
         if(world == null || pos == null) {
             return 0
         }
         val tankEntity = world.getBlockEntity(pos) as? MultiblockEntity
         val multiBlockEntity = tankEntity?.multiblockStructure
         if(multiBlockEntity != null) {
-            return multiBlockEntity.getComparatorOutput(state, world, pos)
+            return multiBlockEntity.getAnalogOutputSignal(state, world, pos)
         }
         return 0
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onStateReplaced(state: BlockState, world: Level, pos: BlockPos?, newState: BlockState, moved: Boolean) {
-        if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
+    override fun onRemove(state: BlockState, world: Level, pos: BlockPos, newState: BlockState, moved: Boolean) {
+        if (!state.`is`(newState.block)) super.onRemove(state, world, pos, newState, moved)
     }
 
     @Deprecated("Deprecated in Java")
-    override fun neighborUpdate(state: BlockState, world: Level, pos: BlockPos, sourceBlock: Block?, sourcePos: BlockPos?, notify: Boolean) {
-        val bl = world.isReceivingRedstonePower(pos) || world.isReceivingRedstonePower(pos.up())
-        val bl2 = state.get(TRIGGERED)
+    override fun neighborChanged(
+        state: BlockState,
+        world: Level,
+        pos: BlockPos,
+        sourceBlock: Block,
+        sourcePos: BlockPos,
+        notify: Boolean
+    ) {
+        val bl = world.hasNeighborSignal(pos) || world.hasNeighborSignal(pos.above())
+        val bl2 = state.getValue(TRIGGERED)
         if (bl && !bl2) {
-            world.scheduleBlockTick(pos, this, 4)
-            world.setBlockState(pos, state.with(TRIGGERED, true) as BlockState, NO_REDRAW)
+            world.scheduleTick(pos, this, 4)
+            world.setBlock(pos, state.setValue(TRIGGERED, true) as BlockState, UPDATE_INVISIBLE)
         } else if (!bl && bl2) {
-            world.setBlockState(pos, state.with(TRIGGERED, false) as BlockState, NO_REDRAW)
+            world.setBlock(pos, state.setValue(TRIGGERED, false) as BlockState, UPDATE_INVISIBLE)
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun scheduledTick(state: BlockState?, world: ServerLevel?, pos: BlockPos?, random: Random?) {
+    override fun tick(state: BlockState, world: ServerLevel, pos: BlockPos, random: RandomSource) {
         if(world == null || pos == null) {
             return
         }
@@ -227,13 +218,13 @@ class RestorationTankBlock(settings: Properties) : MultiblockBlock(properties), 
             shape
         }
     }
-    override fun getInventory(
+    override fun getContainer(
         state: BlockState,
-        world: WorldAccess,
+        world: LevelAccessor,
         pos: BlockPos
-    ): SidedInventory {
+    ): WorldlyContainer {
         val tankEntity =
-            (if (state.get(PART) == TankPart.TOP) world.getBlockEntity(pos.down())
+            (if (state.getValue(PART) == TankPart.TOP) world.getBlockEntity(pos.below())
             else world.getBlockEntity(pos))
         return if(tankEntity != null && tankEntity is RestorationTankBlockEntity) tankEntity.inv else DummyInventory()
     }
@@ -254,22 +245,22 @@ class RestorationTankBlock(settings: Properties) : MultiblockBlock(properties), 
     }
 
     companion object {
-        val CODEC = createCodec(::RestorationTankBlock)
+        val CODEC = simpleCodec(::RestorationTankBlock)
 
         val PART = EnumProperty.create("part", TankPart::class.java)
         val TRIGGERED = BlockStateProperties.TRIGGERED
         val ON = BooleanProperty.create("on")
 
-        class DummyInventory : SimpleInventory(0), SidedInventory {
-            override fun getAvailableSlots(side: Direction): IntArray {
+        class DummyInventory : SimpleContainer(0), WorldlyContainer {
+            override fun getSlotsForFace(side: Direction): IntArray {
                 return IntArray(0)
             }
 
-            override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean {
+            override fun canPlaceItemThroughFace(slot: Int, stack: ItemStack, dir: Direction?): Boolean {
                 return false
             }
 
-            override fun canExtract(slot: Int, stack: ItemStack, dir: Direction): Boolean {
+            override fun canTakeItemThroughFace(slot: Int, stack: ItemStack, dir: Direction): Boolean {
                 return false
             }
         }

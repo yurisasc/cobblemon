@@ -16,6 +16,7 @@ import net.minecraft.command.argument.EnumArgumentType
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.StringIdentifiable
+import net.minecraft.util.StringRepresentable
 
 class PokemonStoreArgumentType : EnumArgumentType<StoreType>(StoreType.CODEC, StoreType::values) {
     companion object {
@@ -24,16 +25,16 @@ class PokemonStoreArgumentType : EnumArgumentType<StoreType>(StoreType.CODEC, St
     }
 }
 
-enum class StoreType(val storeFetcher: (ServerPlayer) -> Collection<Pokemon>) : StringIdentifiable {
+enum class StoreType(val storeFetcher: (ServerPlayer) -> Collection<Pokemon>) : StringRepresentable {
 
     PARTY({ player -> player.party().filterNotNull() }),
     PC({ player -> player.pc().filterNotNull() }),
     ALL({ player -> PARTY.storeFetcher(player) + PC.storeFetcher(player) });
 
-    override fun asString(): String = this.name.lowercase()
+    override fun getSerializedName(): String = name.lowercase()
 
     companion object {
-        val CODEC = StringIdentifiable.createCodec(::values)
+        val CODEC = StringRepresentable.fromEnum(::values)
     }
 
 }

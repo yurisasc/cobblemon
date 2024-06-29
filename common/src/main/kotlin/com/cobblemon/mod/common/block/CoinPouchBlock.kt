@@ -11,25 +11,17 @@ package com.cobblemon.mod.common.block
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.block.Blocks
-import net.minecraft.world.level.block.HorizontalDirectionalBlock
-import net.minecraft.block.ShapeContext
-import net.minecraft.world.item.ItemPlacementContext
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.WorldAccess
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelAccessor
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
@@ -85,7 +77,7 @@ class CoinPouchBlock(settings: Properties, val small: Boolean) : HorizontalDirec
     }
 
     companion object {
-        val NATURAL: BooleanProperty = BooleanProperty.of("natural")
+        val NATURAL: BooleanProperty = BooleanProperty.create("natural")
 
         val CODEC: MapCodec<CoinPouchBlock> = RecordCodecBuilder.mapCodec { it.group(
             propertiesCodec(),

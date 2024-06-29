@@ -30,7 +30,7 @@ object PasturePokemonHandler : ServerNetworkPacketHandler<PasturePokemonPacket> 
 
         val pastureBlockEntity = player.level().getBlockEntity(pastureLink.pos) as? PokemonPastureBlockEntity ?: return
         val state = player.level().getBlockState(pastureLink.pos)
-        val direction = state.get(HorizontalDirectionalBlock.FACING)
+        val direction = state.getValue(HorizontalDirectionalBlock.FACING)
 
         if (pokemon.tetheringId != null) {
             return

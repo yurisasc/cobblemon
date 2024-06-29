@@ -47,7 +47,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEntit
         light: Int,
         overlay: Int
     ) {
-        val stack: ItemStack = if (entity.getStack().isOf(CobblemonItems.RELIC_COIN_POUCH)) {
+        val stack: ItemStack = if (entity.getStack().`is`(CobblemonItems.RELIC_COIN_POUCH)) {
             coinPouchStack
         } else {
             entity.getStack()

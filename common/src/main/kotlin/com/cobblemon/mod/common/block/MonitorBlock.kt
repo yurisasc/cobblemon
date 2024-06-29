@@ -13,29 +13,21 @@ import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.mojang.serialization.MapCodec
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.block.HorizontalDirectionalBlock
-import net.minecraft.block.ShapeContext
-import net.minecraft.world.item.ItemPlacementContext
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.EnumProperty
-import net.minecraft.util.StringIdentifiable
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.util.StringRepresentable
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.BaseEntityBlock
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.EnumProperty
 import net.minecraft.world.level.pathfinder.PathComputationType
 import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
 class MonitorBlock(settings: Properties) : MultiblockBlock(settings) {
@@ -66,21 +58,16 @@ class MonitorBlock(settings: Properties) : MultiblockBlock(settings) {
         builder.add(SCREEN)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun hasComparatorOutput(state: BlockState?): Boolean {
+    override fun hasAnalogOutputSignal(state: BlockState): Boolean {
         // TODO: return false if not attached to a multiblock structure
         return true
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun getComparatorOutput(state: BlockState, world: Level?, pos: BlockPos?): Int {
-        if(world == null || pos == null) {
-            return 0
-        }
+    override fun getAnalogOutputSignal(state: BlockState, world: Level, pos: BlockPos): Int {
         val monitorEntity = world.getBlockEntity(pos) as? MultiblockEntity
         val multiBlockEntity = monitorEntity?.multiblockStructure
         if(multiBlockEntity != null) {
-            return multiBlockEntity.getComparatorOutput(state, world, pos)
+            return multiBlockEntity.getAnalogOutputSignal(state, world, pos)
         }
         return 0
     }
@@ -99,16 +86,16 @@ class MonitorBlock(settings: Properties) : MultiblockBlock(settings) {
     }
 
     companion object {
-        val CODEC = createCodec(::MonitorBlock)
+        val CODEC = simpleCodec(::MonitorBlock)
 
         //0 is off
         val SCREEN = EnumProperty.create("screen", MonitorScreen::class.java)
-        val HITBOX = VoxelShapes.union(
-            VoxelShapes.cuboid(0.0625, 0.0, 0.0625, 0.9375, 0.375, 0.9375),
-            VoxelShapes.cuboid(0.0625, 0.875, 0.0625, 0.9375, 1.0, 0.9375),
-            VoxelShapes.cuboid(0.8125, 0.375, 0.0625, 0.9375, 0.875, 0.9375),
-            VoxelShapes.cuboid(0.1875, 0.375, 0.125, 0.8125, 0.875, 0.9375),
-            VoxelShapes.cuboid(0.0625, 0.375, 0.0625, 0.1875, 0.875, 0.9375)
+        val HITBOX = Shapes.or(
+            Shapes.box(0.0625, 0.0, 0.0625, 0.9375, 0.375, 0.9375),
+            Shapes.box(0.0625, 0.875, 0.0625, 0.9375, 1.0, 0.9375),
+            Shapes.box(0.8125, 0.375, 0.0625, 0.9375, 0.875, 0.9375),
+            Shapes.box(0.1875, 0.375, 0.125, 0.8125, 0.875, 0.9375),
+            Shapes.box(0.0625, 0.375, 0.0625, 0.1875, 0.875, 0.9375)
         )
     }
     enum class MonitorScreen : StringRepresentable {

@@ -62,6 +62,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.AgeableMob
+import net.minecraft.world.entity.Pose
 import net.minecraft.world.entity.ai.Brain
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
@@ -287,7 +288,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         updateAspects()
     }
 
-    override fun getBaseDimensions(pose: EntityPose) = npc.hitbox
+    override fun getBaseDimensions(pose: Pose) = npc.hitbox
 
     override fun interactMob(player: PlayerEntity, hand: InteractionHand): InteractionResult {
         if (player is ServerPlayer && hand == Hand.MAIN_HAND) {

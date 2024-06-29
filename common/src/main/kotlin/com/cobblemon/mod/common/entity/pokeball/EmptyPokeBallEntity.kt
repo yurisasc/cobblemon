@@ -43,10 +43,6 @@ import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.util.*
-import net.minecraft.world.entity.EntityDimensions
-import net.minecraft.world.entity.EntityPose
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
@@ -68,6 +64,7 @@ import net.minecraft.world.level.Level
 import java.util.concurrent.CompletableFuture
 import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
 import net.minecraft.server.network.EntityTrackerEntry
+import net.minecraft.world.entity.*
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile
 
 class EmptyPokeBallEntity : ThrowableItemProjectile, PosableEntity, WaterDragModifier, Schedulable {
@@ -383,7 +380,7 @@ class EmptyPokeBallEntity : ThrowableItemProjectile, PosableEntity, WaterDragMod
 
     override fun getDefaultItem(): Item = pokeBall.item()
 
-    override fun getDimensions(pPose: EntityPose) = DIMENSIONS
+    override fun getDimensions(pPose: Pose) = DIMENSIONS
 
     private fun attemptCatch(pokemonEntity: PokemonEntity) {
         pokemonEntity.busyLocks.add(this)

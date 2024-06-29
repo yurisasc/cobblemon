@@ -16,9 +16,9 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.InteractionResult
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
-import net.minecraft.world.WorldEvents
+import net.minecraft.world.level.block.LevelEvent
 
-class MulchItem(val variant: MulchVariant) : CobblemonItem(Settings()) {
+class MulchItem(val variant: MulchVariant) : CobblemonItem(Properties()) {
 
     override fun useOnBlock(context: ItemUsageContext): InteractionResult {
         val world = context.world
@@ -26,9 +26,9 @@ class MulchItem(val variant: MulchVariant) : CobblemonItem(Settings()) {
         if (this.useOnMulchAble(context.stack, world, pos)) {
             // Plays bone meal effect
             if (!world.isClient) {
-                world.syncWorldEvent(WorldEvents.BONE_MEAL_USED, pos, 0)
+                world.levelEvent(LevelEvent.PARTICLES_AND_SOUND_PLANT_GROWTH, pos, 0)
             }
-            return InteractionResult.success(true)
+            return InteractionResult.sidedSuccess(true)
         }
         return InteractionResult.PASS
     }

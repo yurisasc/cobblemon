@@ -9,22 +9,22 @@
 package com.cobblemon.mod.common.util
 
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Registry
 import net.minecraft.core.SectionPos
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.enchantment.Enchantment
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.item.Item
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.registry.Registry
-import net.minecraft.resources.ResourceKeys
+import net.minecraft.core.registries.Registries
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvent
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundSource
 import net.minecraft.util.math.*
 import net.minecraft.util.Mth.ceil
 import net.minecraft.util.Mth.floor
 import net.minecraft.world.BlockView
+import net.minecraft.world.item.enchantment.Enchantment
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.phys.AABB
@@ -33,7 +33,7 @@ import net.minecraft.world.phys.Vec3
 fun Level.playSoundServer(
     position: Vec3,
     sound: SoundEvent,
-    category: SoundCategory = SoundCategory.NEUTRAL,
+    category: SoundSource = SoundSource.NEUTRAL,
     volume: Float = 1F,
     pitch: Float = 1F
 ) = (this as ServerLevel).playSound(null, position.x, position.y, position.z, sound, category, volume, pitch)
@@ -121,18 +121,18 @@ fun BlockView.getWaterAndLavaIn(box: Box): Pair<Boolean, Boolean> {
 fun Entity.canFit(pos: BlockPos) = canFit(pos.toVec3d())
 
 fun Entity.canFit(vec: Vec3): Boolean {
-    val box = boundingBox.offset(vec.subtract(this.pos))
-    return world.isSpaceEmpty(box)
+    val box = boundingBox.move(vec.subtract(this.position()))
+    return level().noCollision(box)
 }
 
 val Level.itemRegistry: Registry<Item>
-    get() = registryManager.get(ResourceKeys.ITEM)
+    get() = registryAccess().registryOrThrow(Registries.ITEM)
 val Level.biomeRegistry: Registry<Biome>
-    get() = registryManager.get(ResourceKeys.BIOME)
+    get() = registryAccess().registryOrThrow(Registries.BIOME)
 val Level.worldRegistry: Registry<Level>
-    get() = registryManager.get(ResourceKeys.WORLD)
+    get() = registryAccess().registryOrThrow(Registries.DIMENSION)
 val Level.enchantmentRegistry: Registry<Enchantment>
-    get() = registryManager.get(ResourceKeys.ENCHANTMENT)
+    get() = registryAccess().registryOrThrow(Registries.ENCHANTMENT)
 
 
 fun Vec3.traceDownwards(

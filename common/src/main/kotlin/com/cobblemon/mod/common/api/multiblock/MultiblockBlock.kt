@@ -61,7 +61,7 @@ abstract class MultiblockBlock(properties: Properties) : BaseEntityBlock(propert
         if (!world.isClientSide) {
             val entity = world.getBlockEntity(pos)
             if (entity is MultiblockEntity && entity.multiblockStructure != null) {
-                entity.multiblockStructure!!.onBreak(world, pos, state, player)
+                entity.multiblockStructure!!.playerWillDestroy(world, pos, state, player)
             }
             entity?.setRemoved()
         }

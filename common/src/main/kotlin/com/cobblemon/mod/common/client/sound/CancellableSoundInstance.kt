@@ -10,13 +10,13 @@ package com.cobblemon.mod.common.client.sound
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.*
-import net.minecraft.sound.SoundCategory
+import net.minecraft.sounds.SoundSource
 import net.minecraft.sound.SoundEvent
 import net.minecraft.core.BlockPos
 import net.minecraft.world.phys.Vec3
 
 class CancellableSoundInstance(sound: SoundEvent, pos: BlockPos = BlockPos.ORIGIN, repeat: Boolean = false, volume: Float = 1.0F, pitch: Float = 1.0F,  ) :
-        PositionedSoundInstance(sound, SoundCategory.BLOCKS, volume, pitch, SoundInstance.createRandom(), pos), TickableSoundInstance {
+        PositionedSoundInstance(sound, SoundSource.BLOCKS, volume, pitch, SoundInstance.createRandom(), pos), TickableSoundInstance {
 
     private val soundManager = Minecraft.getInstance().soundManager;
     private var done: Boolean = false

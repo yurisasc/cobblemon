@@ -26,7 +26,7 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.registry.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.sound.SoundCategory
+import net.minecraft.sounds.SoundSource
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.*
@@ -318,7 +318,7 @@ fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropH
         }
 
         // If a valid block was found below the player's aim, return the location directly above it
-        return fallLoc?.blockPos?.up()?.toCenterPos()
+        return fallLoc?.blockPos?.above()?.center
     } else if (result.side != Direction.UP) {
         // If the player targets the side or bottom of a block, try to find a valid spot in front of / below that block
         val offset: Double = if (result.side == Direction.DOWN) {
@@ -329,9 +329,9 @@ fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropH
 
         val posOffset = result.pos.offset(result.side, offset)
 
-        val traceDown = posOffset.traceDownwards(this.world, maxDistance = dropHeight.toFloat())
+        val traceDown = posOffset.traceDownwards(this.level(), maxDistance = dropHeight.toFloat())
 
-        return if (traceDown == null || !pokemon.isPositionSafe(world, traceDown.blockPos)) {
+        return if (traceDown == null || !pokemon.isPositionSafe(leve, traceDown.blockPos)) {
             null
         } else {
             return Vec3(
@@ -340,7 +340,7 @@ fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropH
                 traceDown.location.z
             )
         }
-    } else if (!this.world.getBlockState(result.blockPos.up()).isSolid && pokemon.isPositionSafe(world, result.blockPos)) {
+    } else if (!this.level().getBlockState(result.blockPos.up()).isSolid && pokemon.isPositionSafe(level(), result.blockPos)) {
         // If the player is targeting the top of a block, and the block above it isn't solid, it will spawn on that block
         return Vec3(
             result.pos.x,
@@ -367,9 +367,9 @@ fun Player.giveOrDropItemStack(stack: ItemStack, playSound: Boolean = true) {
         stack.count = 1
         this.dropItem(stack, false)?.setDespawnImmediately()
         if (playSound) {
-            this.world.playSound(null, this.x, this.y, this.z, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2f, ((this.random.nextFloat() - this.random.nextFloat()) * 0.7f + 1.0f) * 2.0f)
+            this.world.playSound(null, this.x, this.y, this.z, SoundEvents.ENTITY_ITEM_PICKUP, SoundSource.PLAYERS, 0.2f, ((this.random.nextFloat() - this.random.nextFloat()) * 0.7f + 1.0f) * 2.0f)
         }
-        this.currentScreenHandler.sendContentUpdates()
+        this.containerMenu.broadcastChanges()
     }
     else {
         this.dropItem(stack, false)?.let { itemEntity ->

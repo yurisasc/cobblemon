@@ -71,8 +71,8 @@ object SpawnPokemon {
             throw NO_SPECIES_EXCEPTION.create()
         }
         val pokemonEntity = properties.createEntity(world)
-        pokemonEntity.refreshPositionAndAngles(pos.x, pos.y, pos.z, pokemonEntity.yaw, pokemonEntity.pitch)
-        pokemonEntity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, pokemonEntity.random.nextFloat() * 360F)
+        pokemonEntity.moveTo(pos.x, pos.y, pos.z, pokemonEntity.yaw, pokemonEntity.pitch)
+        pokemonEntity.entityData.set(PokemonEntity.SPAWN_DIRECTION, pokemonEntity.random.nextFloat() * 360F)
         if (world.spawnEntity(pokemonEntity)) {
             return Command.SINGLE_SUCCESS
         }

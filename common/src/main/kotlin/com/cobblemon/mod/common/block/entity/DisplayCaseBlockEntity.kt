@@ -10,30 +10,31 @@ package com.cobblemon.mod.common.block.entity
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonSounds
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.core.HolderLookup
+import net.minecraft.core.NonNullList
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.protocol.Packet
+import net.minecraft.network.protocol.game.ClientGamePacketListener
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.ContainerHelper
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.WorldlyContainer
 import net.minecraft.world.entity.player.Player
-import net.minecraft.inventory.Inventories
-import net.minecraft.inventory.SidedInventory
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.listener.ClientPlayPacketListener
-import net.minecraft.network.packet.Packet
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.sound.SoundCategory
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.InteractionHand
-import net.minecraft.util.collection.DefaultedList
-import net.minecraft.core.BlockPos
-import net.minecraft.util.math.Direction
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.state.BlockState
 
-class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.DISPLAY_CASE, pos, state), SidedInventory {
+class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.DISPLAY_CASE, pos, state),
+    WorldlyContainer {
 
-    val inv: DefaultedList<ItemStack> = DefaultedList.ofSize(1, ItemStack.EMPTY)
+    val inv: NonNullList<ItemStack> = NonNullList.withSize(1, ItemStack.EMPTY)
 
     /**
      * Updates the [ItemStack] stored in this entity
@@ -52,16 +53,16 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
 
         // Player's hand is empty, case is not empty - give player the item in the case
         if (playerStack.isEmpty && !getStack().isEmpty) {
-            if (!player.isCreative) player.setStackInHand(hand, getStack())
+            if (!player.isCreative) player.setItemInHand(hand, getStack())
             setCaseStack(ItemStack.EMPTY)
-            return InteractionResult.success(true)
+            return InteractionResult.sidedSuccess(true)
         }
 
         // Case is empty, player's hand is not - put playerStack in the case
         if (getStack().isEmpty && !playerStack.isEmpty) {
             setCaseStack(playerStack.copy())
             if (!player.isCreative) playerStack.shrink(1)
-            return InteractionResult.success(true)
+            return InteractionResult.sidedSuccess(true)
         }
 
         // Player has item, case has item - swap items
@@ -70,7 +71,7 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
             setCaseStack(playerStack.copy())
             if (!player.isCreative) {
                 playerStack.shrink(1)
-                player.giveItemStack(oldCaseStack)
+                player.addItem(oldCaseStack)
             }
 
             return InteractionResult.SUCCESS
@@ -84,48 +85,48 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
     }
 
     private fun setCaseStack(newStack: ItemStack) {
-        if (world == null) return
-        val oldState = world!!.getBlockState(pos)
+        val level = level ?: return
+        val oldState = level.getBlockState(blockPos)
         newStack.count = 1
         inv[0] = newStack
         if (newStack.isEmpty) {
-            world!!.playSound(null, pos, CobblemonSounds.DISPLAY_CASE_REMOVE_ITEM, SoundCategory.BLOCKS)
+            level.playSound(null, blockPos, CobblemonSounds.DISPLAY_CASE_REMOVE_ITEM, SoundSource.BLOCKS)
         } else {
-            world!!.playSound(null, pos, CobblemonSounds.DISPLAY_CASE_ADD_ITEM, SoundCategory.BLOCKS)
+            level.playSound(null, blockPos, CobblemonSounds.DISPLAY_CASE_ADD_ITEM, SoundSource.BLOCKS)
         }
-        onItemUpdated(world!!, oldState, world!!.getBlockState(pos))
+        onItemUpdated(level, oldState, level.getBlockState(blockPos))
     }
 
-    override fun writeNbt(nbt: CompoundTag, registryLookup: RegistryWrapper.WrapperLookup) {
-        super.writeNbt(nbt, registryLookup)
-        Inventories.writeNbt(nbt, inv, true, registryLookup)
+    override fun saveAdditional(nbt: CompoundTag, registryLookup: HolderLookup.Provider) {
+        super.saveAdditional(nbt, registryLookup)
+        ContainerHelper.saveAllItems(nbt, inv, true, registryLookup)
     }
 
-    override fun readNbt(nbt: CompoundTag, registryLookup: RegistryWrapper.WrapperLookup) {
-        super.readNbt(nbt, registryLookup)
+    override fun loadAdditional(nbt: CompoundTag, registryLookup: HolderLookup.Provider) {
+        super.loadAdditional(nbt, registryLookup)
         inv.clear()
-        Inventories.readNbt(nbt, inv, registryLookup)
+        ContainerHelper.loadAllItems(nbt, inv, registryLookup)
     }
 
-    override fun toUpdatePacket(): Packet<ClientPlayPacketListener>? {
-        return BlockEntityUpdateS2CPacket.create(this)
+    override fun getUpdatePacket(): Packet<ClientGamePacketListener>? {
+        return ClientboundBlockEntityDataPacket.create(this)
     }
 
-    override fun getUpdateTag(registryLookup: RegistryWrapper.WrapperLookup): CompoundTag? {
-        return this.createNbt(registryLookup)
+    override fun getUpdateTag(registryLookup: HolderLookup.Provider): CompoundTag {
+        return this.saveWithoutMetadata(registryLookup)
     }
 
     private fun onItemUpdated(world: Level, oldState: BlockState, newState: BlockState) {
-        world.updateListeners(pos, oldState, newState, Block.NOTIFY_LISTENERS)
-        world.updateComparators(pos, world.getBlockState(pos).block)
-        markDirty()
+        world.sendBlockUpdated(blockPos, oldState, newState, Block.UPDATE_CLIENTS)
+        world.updateNeighbourForOutputSignal(blockPos, world.getBlockState(blockPos).block)
+        setChanged()
     }
 
-    override fun clear() {
+    override fun clearContent() {
         inv.clear()
     }
 
-    override fun size(): Int {
+    override fun getContainerSize(): Int {
         return inv.size
     }
 
@@ -133,36 +134,36 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
         return getStack().isEmpty
     }
 
-    override fun getStack(slot: Int): ItemStack {
+    override fun getItem(slot: Int): ItemStack {
         return getStack()
     }
 
-    override fun removeStack(slot: Int, amount: Int): ItemStack {
-        val oldState = cachedState
-        val result = Inventories.splitStack(inv, slot, amount)
-        if (world != null) onItemUpdated(world!!, oldState, world!!.getBlockState(pos))
+    override fun removeItem(slot: Int, amount: Int): ItemStack {
+        val oldState = blockState
+        val result = ContainerHelper.removeItem(inv, slot, amount)
+        if (level != null) onItemUpdated(level!!, oldState, level!!.getBlockState(blockPos))
         return result
     }
 
-    override fun removeStack(slot: Int): ItemStack {
-        val oldState = cachedState
-        val result = Inventories.removeStack(inv, slot)
-        if (world != null) onItemUpdated(world!!, oldState, world!!.getBlockState(pos))
+    override fun removeItemNoUpdate(slot: Int): ItemStack {
+        val oldState = blockState
+        val result = ContainerHelper.takeItem(inv, slot)
+        if (level != null) onItemUpdated(level!!, oldState, level!!.getBlockState(blockPos))
         return result
     }
 
-    override fun setStack(slot: Int, stack: ItemStack) {
-        val oldState = cachedState
+    override fun setItem(slot: Int, stack: ItemStack) {
+        val oldState = blockState
         inv[slot] = stack
-        if (stack.count > stack.maxCount) {
-            stack.count = stack.maxCount
+        if (stack.count > stack.maxStackSize) {
+            stack.count = stack.maxStackSize
         }
-        if (world != null) onItemUpdated(world!!, oldState, world!!.getBlockState(pos))
+        if (level != null) onItemUpdated(level!!, oldState, level!!.getBlockState(blockPos))
     }
 
-    override fun canPlayerUse(player: Player?) = false
+    override fun stillValid(player: Player): Boolean = false
 
-    override fun getAvailableSlots(side: Direction?): IntArray {
+    override fun getSlotsForFace(side: Direction): IntArray {
         val result = IntArray(inv.size)
         for (i in result.indices) {
             result[i] = i
@@ -170,11 +171,12 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
         return result
     }
 
-    override fun getMaxCountPerStack() = 1
+    override fun getMaxStackSize() = 1
 
-    override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
+    override fun canPlaceItemThroughFace(slot: Int, stack: ItemStack, dir: Direction?): Boolean {
         if(dir == Direction.DOWN) return false
         return getStack().isEmpty
     }
-    override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean = (dir == Direction.DOWN)
+
+    override fun canTakeItemThroughFace(slot: Int, stack: ItemStack, direction: Direction): Boolean = (direction == Direction.DOWN)
 }
