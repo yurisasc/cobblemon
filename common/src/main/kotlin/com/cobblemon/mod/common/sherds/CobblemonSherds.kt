@@ -14,14 +14,14 @@ import net.minecraft.block.DecoratedPotPattern
 import net.minecraft.item.Item
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.resources.ResourceLocation
 
 @Suppress("Unused")
 object CobblemonSherds {
     val allSherds = mutableListOf<CobblemonSherd>()
-    val sherdToPattern = mutableMapOf<Item, RegistryKey<DecoratedPotPattern>>()
+    val sherdToPattern = mutableMapOf<Item, ResourceKey<DecoratedPotPattern>>()
 
     val BYGONE_SHERD = addSherd(cobblemonResource("bygone_pottery_pattern"), CobblemonItems.BYGONE_SHERD)
 
@@ -37,19 +37,19 @@ object CobblemonSherds {
 
     fun addSherd(patternId: ResourceLocation, item: Item): CobblemonSherd {
         val sherd = CobblemonSherd(patternId, item)
-        val registryKey = RegistryKey.of(RegistryKeys.DECORATED_POT_PATTERN, patternId)
-        sherdToPattern[item] = registryKey
+        val ResourceKey = ResourceKey.create(ResourceKeys.DECORATED_POT_PATTERN, patternId)
+        sherdToPattern[item] = ResourceKey
         allSherds.add(sherd)
         return sherd
     }
     fun registerSherds() {
         val registry = Registries.DECORATED_POT_PATTERN
         for (sherd in allSherds) {
-            val regKey = RegistryKey.of(RegistryKeys.DECORATED_POT_PATTERN, sherd.patternId)
+            val regKey = ResourceKey.create(ResourceKeys.DECORATED_POT_PATTERN, sherd.patternId)
             Registry.register(
                 registry,
                 regKey,
-                DecoratedPotPattern(sherd.item.registryEntry.registryKey().value) // TODO check me
+                DecoratedPotPattern(sherd.item.registryEntry.resourceKey().value) // TODO check me
             )
         }
     }

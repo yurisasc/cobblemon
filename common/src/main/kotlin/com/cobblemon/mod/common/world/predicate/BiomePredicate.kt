@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.world.predicate
 
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.core.BlockPos
 import net.minecraft.world.StructureWorldAccess
@@ -42,8 +42,8 @@ class BiomePredicate(
     companion object {
         val CODEC : MapCodec<BiomePredicate> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
-                TagKey.codec(RegistryKeys.BIOME).listOf().optionalFieldOf("includedBiomes").forGetter { it.includedBiomes },
-                TagKey.codec(RegistryKeys.BIOME).listOf().optionalFieldOf("excludedBiomes").forGetter { it.excludedBiomes }
+                TagKey.codec(ResourceKeys.BIOME).listOf().optionalFieldOf("includedBiomes").forGetter { it.includedBiomes },
+                TagKey.codec(ResourceKeys.BIOME).listOf().optionalFieldOf("excludedBiomes").forGetter { it.excludedBiomes }
             ).apply(instance, ::BiomePredicate)
         }
     }

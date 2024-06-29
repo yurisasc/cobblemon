@@ -270,12 +270,12 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
 
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
-        npc = NPCClasses.getByIdentifier(ResourceLocation.of(nbt.getString(DataKeys.NPC_CLASS))) ?: NPCClasses.classes.first()
+        npc = NPCClasses.getByIdentifier(ResourceLocation.parse(nbt.getString(DataKeys.NPC_CLASS))) ?: NPCClasses.classes.first()
         data = MoLangFunctions.readMoValueFromNBT(nbt.getCompound(DataKeys.NPC_DATA)) as VariableStruct
         appliedAspects.addAll(nbt.getList(DataKeys.NPC_ASPECTS, NbtList.STRING_TYPE.toInt()).map { it.asString() })
         nbt.getString(DataKeys.NPC_INTERACTION).takeIf { it.isNotBlank() }?.let {
             if (ResourceLocation.tryParse(it) != null) {
-                interaction = Either.left(ResourceLocation.of(it))
+                interaction = Either.left(ResourceLocation.parse(it))
             } else {
                 interaction = Either.right(it.asExpressionLike())
             }

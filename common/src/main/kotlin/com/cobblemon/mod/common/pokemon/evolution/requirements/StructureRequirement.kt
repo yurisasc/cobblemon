@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.template.EntityQueryRequirement
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.world.gen.structure.Structure
 
 /**
@@ -27,7 +27,7 @@ class StructureRequirement : EntityQueryRequirement {
     val structureAnticondition: RegistryLikeCondition<Structure>? = null
     override fun check(pokemon: Pokemon, queriedEntity: LivingEntity): Boolean {
         val structures = queriedEntity.world.getChunk(queriedEntity.blockPos).structureReferences
-        val registry = queriedEntity.world.registryManager.get(RegistryKeys.STRUCTURE)
+        val registry = queriedEntity.world.registryManager.get(ResourceKeys.STRUCTURE)
         return (structureCondition == null || structures.any { structureCondition.fits(it.key, registry) }) && (structureAnticondition == null || !structures.any { structureAnticondition.fits(it.key, registry) })
     }
 

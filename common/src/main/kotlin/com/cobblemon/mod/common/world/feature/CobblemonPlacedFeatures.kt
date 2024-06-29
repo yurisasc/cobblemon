@@ -11,8 +11,8 @@ package com.cobblemon.mod.common.world.feature
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.registry.tag.BiomeTags
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
@@ -51,5 +51,5 @@ object CobblemonPlacedFeatures {
         Cobblemon.implementation.addFeatureToWorldGen(BERRY_GROVE, GenerationStep.Feature.VEGETAL_DECORATION, BiomeTags.IS_OVERWORLD)
     }
 
-    private fun of(id: String): RegistryKey<PlacedFeature> = RegistryKey.of(RegistryKeys.PLACED_FEATURE, cobblemonResource(id))
+    private fun of(id: String): ResourceKey<PlacedFeature> = ResourceKey.create(ResourceKeys.PLACED_FEATURE, cobblemonResource(id))
 }

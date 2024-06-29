@@ -50,10 +50,10 @@ class ReviveItem(val max: Boolean): CobblemonItem(Settings()) {
 
     override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
         if (world !is ServerLevel) {
-            return InteractionResultHolder.success(user.getStackInHand(hand))
+            return InteractionResultHolder.success(user.getItemInHand(hand))
         } else {
             val player = user as ServerPlayer
-            val stack = user.getStackInHand(hand)
+            val stack = user.getItemInHand(hand)
             val battle = BattleRegistry.getBattleByParticipatingPlayer(player)
             if (battle != null) {
                 val actor = battle.getActor(player)!!

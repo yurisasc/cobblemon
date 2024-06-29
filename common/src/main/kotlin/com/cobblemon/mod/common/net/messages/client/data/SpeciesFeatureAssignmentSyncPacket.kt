@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureAssignments
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
 
@@ -44,6 +44,6 @@ class SpeciesFeatureAssignmentSyncPacket(
 
     companion object {
         val ID = cobblemonResource("species_feature_assignment_sync")
-        fun decode(buffer: RegistryByteBuf) = SpeciesFeatureAssignmentSyncPacket(emptyMap()).apply { decodeBuffer(buffer) }
+        fun decode(buffer: RegistryFriendlyByteBuf) = SpeciesFeatureAssignmentSyncPacket(emptyMap()).apply { decodeBuffer(buffer) }
     }
 }

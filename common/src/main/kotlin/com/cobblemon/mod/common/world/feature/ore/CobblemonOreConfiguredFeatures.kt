@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.world.feature.ore
 
 import com.cobblemon.mod.common.Cobblemon
-import net.minecraft.registry.RegistryKey
+import net.minecraft.resources.ResourceKey
 import net.minecraft.world.gen.feature.ConfiguredFeature
 import net.minecraft.world.gen.feature.ConfiguredFeatures
 
@@ -29,6 +29,6 @@ object CobblemonOreConfiguredFeatures {
     val ORE_THUNDER_STONE = of("thunder_stone")
     val ORE_WATER_STONE = of("water_stone")
 
-    private fun of(id: String): RegistryKey<ConfiguredFeature<*, *>> = ConfiguredFeatures.of("${Cobblemon.MODID}:ore/$id")
+    private fun of(id: String): ResourceKey<ConfiguredFeature<*, *>> = ConfiguredFeatures.of("${Cobblemon.MODID}:ore/$id")
 
 }

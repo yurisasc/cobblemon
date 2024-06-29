@@ -20,8 +20,8 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import net.minecraft.command.argument.EntityArgumentType
-import net.minecraft.server.command.CommandManager
-import net.minecraft.server.command.CommandManager.literal
+import net.minecraft.commands.Commands
+import net.minecraft.commands.Commands.literal
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 
@@ -45,9 +45,9 @@ object PokeboxCommand {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(literal("pokebox")
             .permission(CobblemonPermissions.POKEBOX)
-            .then(CommandManager.argument("player", EntityArgumentType.player())
-                .then(CommandManager.argument("slot", PartySlotArgumentType.partySlot())
-                    .then(CommandManager.argument("box", IntegerArgumentType.integer(1))
+            .then(Commands.argument("player", EntityArgumentType.player())
+                .then(Commands.argument("slot", PartySlotArgumentType.partySlot())
+                    .then(Commands.argument("box", IntegerArgumentType.integer(1))
                         .executes { context ->
                             val player = context.player()
                             val pokemon = PartySlotArgumentType.getPokemonOf(context, "slot", player)
@@ -64,8 +64,8 @@ object PokeboxCommand {
 
         dispatcher.register(literal("pokeboxall")
             .permission(CobblemonPermissions.POKEBOX)
-            .then(CommandManager.argument("player", EntityArgumentType.player())
-                .then(CommandManager.argument("box", IntegerArgumentType.integer(1))
+            .then(Commands.argument("player", EntityArgumentType.player())
+                .then(Commands.argument("box", IntegerArgumentType.integer(1))
                     .executes { context ->
                         val player = context.player()
                         val box = IntegerArgumentType.getInteger(context, "box")

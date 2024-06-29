@@ -136,7 +136,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
 
     fun renderAdultToBuffer(entity: BerryBlockEntity, light: Int, overlay: Int, buffer: VertexBuffer) {
         val blockState = entity.cachedState
-        val age = blockState.get(BerryBlock.AGE)
+        val age = blockState.getValue(BerryBlock.AGE)
         if (age <= BerryBlock.MATURE_AGE) {
             return
         }

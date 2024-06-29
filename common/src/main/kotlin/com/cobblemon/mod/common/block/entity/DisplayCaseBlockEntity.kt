@@ -43,7 +43,7 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
      * @author whatsy
      */
     fun updateItem(player: Player, hand: Hand): ActionResult {
-        val playerStack = player.getStackInHand(hand)
+        val playerStack = player.getItemInHand(hand)
 
         // Player and case item are the same - do nothing
         if (playerStack.item == getStack().item) {

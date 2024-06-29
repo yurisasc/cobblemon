@@ -10,11 +10,14 @@ package com.cobblemon.mod.common.util
 
 import com.google.gson.JsonElement
 import com.mojang.serialization.JsonOps
-import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.tags.TagKey
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 
 fun ItemStack.saveToJson(): JsonElement = JsonOps.INSTANCE.withEncoder(
     ItemStack.CODEC).apply(this).getOrThrow {
     return@getOrThrow IllegalStateException("Cant serialize ItemStack")
 }
-fun ItemStack.isHeld(player: ServerPlayer) = this in player.handItems && !isEmpty
+fun ItemStack.isHeld(player: ServerPlayer) = this in player.handSlots && !isEmpty
+fun ItemStack.isOf(tag: TagKey<Item>) = `is`(tag)

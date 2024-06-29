@@ -20,8 +20,8 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import net.minecraft.command.argument.EntityArgumentType
-import net.minecraft.server.command.CommandManager
-import net.minecraft.server.command.CommandManager.literal
+import net.minecraft.commands.Commands
+import net.minecraft.commands.Commands.literal
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 
@@ -34,7 +34,7 @@ object HealPokemonCommand {
             .permission(CobblemonPermissions.HEAL_POKEMON_SELF)
             .executes { execute(it.source, it.source.playerOrThrow) }
             .then(
-                CommandManager.argument("player", EntityArgumentType.player())
+                Commands.argument("player", EntityArgumentType.player())
                     .permission(CobblemonPermissions.HEAL_POKEMON_OTHER)
                     .executes { execute(it.source, it.player("player")) }
             ))

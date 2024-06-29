@@ -24,7 +24,7 @@ object SpawnSnowstormEntityParticleHandler : ClientNetworkPacketHandler<SpawnSno
     override fun handle(packet: SpawnSnowstormEntityParticlePacket, client: Minecraft) {
         val world = Minecraft.getInstance().world ?: return
         val effect = BedrockParticleEffectRepository.getEffect(packet.effectId) ?: return
-        val entity = world.getEntityById(packet.entityId) as? PosableEntity ?: return
+        val entity = world.getEntity(packet.entityId) as? PosableEntity ?: return
         entity as Entity
         val state = entity.delegate as PosableState
         val matrixWrapper = state.locatorStates[packet.locator] ?: state.locatorStates["root"]!!

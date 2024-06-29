@@ -65,7 +65,7 @@ class HealingBerryItem(block: BerryBlock, val amount: () -> ExpressionLike): Ber
 
     override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
         if (world is ServerLevel && user is ServerPlayer) {
-            return use(user, user.getStackInHand(hand))
+            return use(user, user.getItemInHand(hand))
         }
         return super<BerryItem>.use(world, user, hand)
     }

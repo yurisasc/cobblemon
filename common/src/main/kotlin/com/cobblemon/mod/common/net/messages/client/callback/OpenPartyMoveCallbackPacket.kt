@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeText
 import java.util.UUID
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 
 /**
@@ -36,8 +36,8 @@ class OpenPartyMoveCallbackPacket(
 ) : NetworkPacket<OpenPartyMoveCallbackPacket> {
     companion object {
         val ID = cobblemonResource("open_party_move_callback")
-        fun decode(buffer: RegistryByteBuf): OpenPartyMoveCallbackPacket {
-            val uuid = buffer.readUuid()
+        fun decode(buffer: RegistryFriendlyByteBuf): OpenPartyMoveCallbackPacket {
+            val uuid = buffer.readUUID()
             val partyTitle = buffer.readText().copy()
             val pokemonList = mutableListOf<Pair<PartySelectPokemonDTO, List<MoveSelectDTO>>>()
             repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
@@ -58,8 +58,8 @@ class OpenPartyMoveCallbackPacket(
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
-        buffer.writeUuid(uuid)
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeUUID(uuid)
         buffer.writeText(partyTitle)
         buffer.writeSizedInt(IntSize.U_BYTE, pokemonList.size)
         for ((pkDTO, mvDTOs) in pokemonList) {

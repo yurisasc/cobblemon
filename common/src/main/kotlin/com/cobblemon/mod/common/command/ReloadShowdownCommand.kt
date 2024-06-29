@@ -12,15 +12,15 @@ import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.network.chat.Component
 
 object ReloadShowdownCommand {
 
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
-        val command = CommandManager.literal("reloadshowdown")
-            .requires { it.hasPermissionLevel(4) }
+        val command = Commands.literal("reloadshowdown")
+            .requires { it.hasPermission(4) }
             .executes(::execute)
         dispatcher.register(command)
     }

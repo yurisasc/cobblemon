@@ -105,7 +105,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
             // Block has been destroyed/replaced
             return
         }
-        val tankDirection = tankBlockState.get(HorizontalDirectionalBlock.FACING)
+        val tankDirection = tankblockState.getValue(HorizontalDirectionalBlock.FACING)
         val struct = entity.multiblockStructure as FossilMultiblockStructure
         val connectionDir = struct.tankConnectorDirection
 

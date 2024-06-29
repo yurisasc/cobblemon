@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.adapters.CobblemonStatTypeAdapter
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import kotlin.math.truncate
 import kotlin.random.Random
 import net.minecraft.resources.ResourceLocation
@@ -108,12 +108,12 @@ object CobblemonStatProvider : StatProvider {
 
     override fun fromIdentifierOrThrow(identifier: ResourceLocation): Stat = this.fromIdentifier(identifier) ?: throw IllegalArgumentException("No stat was found with the identifier $identifier")
 
-    override fun decode(buffer: RegistryByteBuf): Stat {
+    override fun decode(buffer: RegistryFriendlyByteBuf): Stat {
         val ordinal = buffer.readSizedInt(IntSize.U_BYTE)
         return this.ordinalLookup(ordinal)
     }
 
-    override fun encode(buffer: RegistryByteBuf, stat: Stat) {
+    override fun encode(buffer: RegistryFriendlyByteBuf, stat: Stat) {
         val ordinal = this.identifierLookup(stat.identifier)
         buffer.writeSizedInt(IntSize.U_BYTE, ordinal)
     }

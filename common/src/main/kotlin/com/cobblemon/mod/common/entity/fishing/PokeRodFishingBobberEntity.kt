@@ -133,7 +133,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     override fun onTrackedDataSet(data: TrackedData<*>) {
         if (HOOK_ENTITY_ID == data) {
             val i = getDataTracker().get(HOOK_ENTITY_ID) as Int
-            this.hookedEntity = if (i > 0) world.getEntityById(i - 1) else null
+            this.hookedEntity = if (i > 0) world.getEntity(i - 1) else null
         }
 
         if (CAUGHT_FISH == data) {
@@ -326,7 +326,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 world.playSound(null, this.blockPos, CobblemonSounds.FISHING_NOTIFICATION, SoundCategory.BLOCKS, 1.0F, 1.0F)
 
                 // create tiny splash particle when there is a bite
-                particleEntityHandler(this, ResourceLocation.of("cobblemon","bob_splash"))
+                particleEntityHandler(this, ResourceLocation.parse("cobblemon","bob_splash"))
 
                 val m = this.y + 0.5
                 serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
@@ -387,7 +387,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_LAND, SoundCategory.NEUTRAL, 1.0F, 1.0F)
 
                 // create tiny splash particle
-                particleEntityHandler(this, ResourceLocation.of("cobblemon","bob_splash"))
+                particleEntityHandler(this, ResourceLocation.parse("cobblemon","bob_splash"))
 
                 isCast = true
             }
@@ -460,7 +460,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     }
 
     override fun tick() {
-        velocityRandom.setSeed(getUuid().leastSignificantBits xor world.time)
+        velocityRandom.setSeed(getUUID().leastSignificantBits xor world.time)
         //super.tick()
         val playerEntity = this.playerOwner
         if (playerEntity == null) {
@@ -506,7 +506,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             } else {
                 if (state == State.HOOKED_IN_ENTITY) {
                     if (hookedEntity != null) {
-                        if (!hookedEntity!!.isRemoved && hookedEntity!!.world.registryKey === world.registryKey) {
+                        if (!hookedEntity!!.isRemoved && hookedEntity!!.world.resourceKey === world.resourceKey) {
                             this.setPosition(hookedEntity!!.x, hookedEntity!!.getBodyY(0.8), hookedEntity!!.z)
                         } else {
                             updateHookedEntityId(null as Entity?)
@@ -578,7 +578,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 // check if thing caught was an item
                 if (this.typeCaught == "ITEM") {
                     val lootContextParameterSet = LootContextParameterSet.Builder(world as ServerWorld).add(LootContextParameters.ORIGIN, pos).add(LootContextParameters.TOOL, usedItem).add(LootContextParameters.THIS_ENTITY, this).luck(this.luckOfTheSeaLevel.toFloat() + playerEntity.luck).build(LootContextTypes.FISHING)
-                    val lootTable = world.registryManager.get(RegistryKeys.LOOT_TABLE).get(CobblemonLootTables.FISHING_GAMEPLAY)!!
+                    val lootTable = world.registryManager.get(ResourceKeys.LOOT_TABLE).get(CobblemonLootTables.FISHING_GAMEPLAY)!!
                     val list: List<ItemStack> = lootTable.generateLoot(lootContextParameterSet)
                     Criteria.FISHING_ROD_HOOKED.trigger(playerEntity as ServerPlayer?, usedItem, this, list)
                     val var7: Iterator<*> = list.iterator()

@@ -17,14 +17,14 @@ import com.cobblemon.mod.common.util.traceFirstEntityCollision
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 
 object NPCEditCommand {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(
-            CommandManager.literal("npcedit")
+            Commands.literal("npcedit")
             .requiresWithPermission(CobblemonPermissions.NPC_EDIT) { it.player != null }
             .executes { execute(it, it.source.playerOrThrow) })
     }

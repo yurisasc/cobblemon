@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeString
 import com.cobblemon.mod.common.util.writeText
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 
 class DialogueOptionDTO(
@@ -23,13 +23,13 @@ class DialogueOptionDTO(
     var value: String = "",
     var selectable: Boolean = true
 ): Encodable, Decodable {
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeText(text)
         buffer.writeString(value)
         buffer.writeBoolean(selectable)
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: RegistryFriendlyByteBuf) {
         text = buffer.readText().copy()
         value = buffer.readString()
         selectable = buffer.readBoolean()

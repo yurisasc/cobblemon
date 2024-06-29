@@ -19,13 +19,13 @@ object UUIDSetDataSerializer : EntityDataSerializer<Set<UUID>> {
     val ID = cobblemonResource("uuidset")
     fun write(buffer: RegistryFriendlyByteBuf, set: Set<UUID>) {
         buffer.writeSizedInt(IntSize.U_BYTE, set.size)
-        set.forEach(buffer::writeUuid)
+        set.forEach(buffer::writeUUID)
     }
 
     fun read(buffer: RegistryFriendlyByteBuf): Set<UUID> {
         val set = mutableSetOf<UUID>()
         repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
-            set.add(buffer.readUuid())
+            set.add(buffer.readUUID())
         }
         return set
     }

@@ -161,9 +161,9 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: FeatureRendererCo
 
     private fun extractUuid(shoulderNbt: CompoundTag): UUID {
         if (!shoulderNbt.contains(DataKeys.SHOULDER_UUID)) {
-            return shoulderNbt.getCompound(DataKeys.POKEMON).getUuid(DataKeys.POKEMON_UUID)
+            return shoulderNbt.getCompound(DataKeys.POKEMON).getUUID(DataKeys.POKEMON_UUID)
         }
-        return shoulderNbt.getUuid(DataKeys.SHOULDER_UUID)
+        return shoulderNbt.getUUID(DataKeys.SHOULDER_UUID)
     }
 
     private fun extractData(shoulderNbt: CompoundTag, pokemonUUID: UUID): ShoulderData? {
@@ -172,7 +172,7 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: FeatureRendererCo
             val pokemon = Pokemon().apply { isClient = true }.loadFromNBT(shoulderNbt.getCompound(DataKeys.POKEMON))
             return ShoulderData(pokemonUUID, pokemon.species, pokemon.form, pokemon.aspects, pokemon.scaleModifier)
         }
-        val species = PokemonSpecies.getByIdentifier(ResourceLocation.of(shoulderNbt.getString(DataKeys.SHOULDER_SPECIES)))
+        val species = PokemonSpecies.getByIdentifier(ResourceLocation.parse(shoulderNbt.getString(DataKeys.SHOULDER_SPECIES)))
             ?: return null
 
         val formName = shoulderNbt.getString(DataKeys.SHOULDER_FORM)

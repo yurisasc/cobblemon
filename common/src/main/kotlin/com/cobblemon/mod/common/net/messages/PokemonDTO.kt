@@ -37,7 +37,7 @@ import io.netty.buffer.Unpooled
 import java.util.UUID
 import net.minecraft.world.item.ItemStack
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.TextCodecs
 import net.minecraft.resources.ResourceLocation
@@ -135,9 +135,9 @@ class PokemonDTO : Encodable, Decodable {
         this.originalTrainerName = pokemon.originalTrainerName
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeBoolean(toClient)
-        buffer.writeUuid(uuid)
+        buffer.writeUUID(uuid)
         buffer.writeIdentifier(species)
         TextCodecs.OPTIONAL_PACKET_CODEC.encode(buffer, Optional.ofNullable(nickname))
         buffer.writeString(form)
@@ -165,7 +165,7 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeIdentifier(nature)
         buffer.writeNullable(mintNature) { _, v -> buffer.writeIdentifier(v) }
         ItemStack.OPTIONAL_PACKET_CODEC.encode(buffer, heldItem)
-        buffer.writeNullable(tetheringId) { _, v -> buffer.writeUuid(v) }
+        buffer.writeNullable(tetheringId) { _, v -> buffer.writeUUID(v) }
         buffer.writeString(teraType)
         buffer.writeInt(dmaxLevel)
         buffer.writeBoolean(gmaxFactor)
@@ -179,9 +179,9 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeNullable(originalTrainerName) { _, v -> buffer.writeString(v) }
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: RegistryFriendlyByteBuf) {
         toClient = buffer.readBoolean()
-        uuid = buffer.readUuid()
+        uuid = buffer.readUUID()
         species = buffer.readIdentifier()
         nickname = TextCodecs.OPTIONAL_PACKET_CODEC.decode(buffer).map { it::copy as MutableComponent }.orElse(null)
         form = buffer.readString()
@@ -211,7 +211,7 @@ class PokemonDTO : Encodable, Decodable {
         nature = buffer.readIdentifier()
         mintNature = buffer.readNullable { buffer.readIdentifier() }
         heldItem = ItemStack.OPTIONAL_PACKET_CODEC.decode(buffer)
-        tetheringId = buffer.readNullable { buffer.readUuid() }
+        tetheringId = buffer.readNullable { buffer.readUUID() }
         teraType = buffer.readString()
         dmaxLevel = buffer.readInt()
         gmaxFactor = buffer.readBoolean()

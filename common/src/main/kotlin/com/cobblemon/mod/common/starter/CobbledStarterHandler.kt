@@ -61,7 +61,7 @@ open class CobblemonStarterHandler : StarterHandler {
                 it.pokemon.also {
                     playerData.starterSelected = true
                     playerData.starterUUID = it.uuid
-                    if (player.world.gameRules.getBoolean(CobblemonGameRules.SHINY_STARTERS)) { pokemon.shiny = true }
+                    if (player.level().gameRules.getBoolean(CobblemonGameRules.SHINY_STARTERS)) { pokemon.shiny = true }
                 }
             )
             CobblemonCriteria.PICK_STARTER.trigger(player, pokemon)

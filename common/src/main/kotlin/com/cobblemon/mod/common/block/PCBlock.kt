@@ -36,7 +36,7 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.ActionResult
-import net.minecraft.util.BlockMirror
+import net.minecraft.util.Mirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.hit.BlockHitResult
@@ -159,7 +159,7 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
             .setValue(WATERLOGGED, false))
     }
 
-    override fun createBlockEntity(blockPos: BlockPos, blockState: BlockState) = if (blockState.get(PART) == PCPart.BOTTOM) PCBlockEntity(blockPos, blockState) else null
+    override fun createBlockEntity(blockPos: BlockPos, blockState: BlockState) = if (blockState.getValue(PART) == PCPart.BOTTOM) PCBlockEntity(blockPos, blockState) else null
 
     override fun getShape(
         blockState: BlockState,
@@ -235,7 +235,7 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
             var blockPos: BlockPos = BlockPos.ORIGIN
             var blockState: BlockState = state
             val part = state.get(PART)
-            if (part == PCPart.TOP && world.getBlockState(pos.down().also { blockPos = it }).also { blockState = it }.isOf(state.block) && blockState.get(PART) == PCPart.BOTTOM) {
+            if (part == PCPart.TOP && world.getBlockState(pos.down().also { blockPos = it }).also { blockState = it }.isOf(state.block) && blockState.getValue(PART) == PCPart.BOTTOM) {
                 val blockState2 = if (blockState.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState
                 world.setBlockState(blockPos, blockState2, NOTIFY_ALL or SKIP_DROPS)
                 world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, blockPos, getRawIdFromState(blockState))
@@ -262,12 +262,12 @@ class PCBlock(properties: Properties): BaseEntityBlock(properties), SimpleWaterl
     @Deprecated("Deprecated in Java")
     override fun rotate(blockState: BlockState, rotation: BlockRotation) =
         blockState.with(
-            HorizontalDirectionalBlock.FACING, rotation.rotate(blockState.get(
+            HorizontalDirectionalBlock.FACING, rotation.rotate(blockState.getValue(
                 HorizontalDirectionalBlock.FACING)))
 
     @Deprecated("Deprecated in Java")
-    override fun mirror(blockState: BlockState, mirror: BlockMirror): BlockState {
-        return blockState.rotate(mirror.getRotation(blockState.get(HorizontalDirectionalBlock.FACING)))
+    override fun mirror(blockState: BlockState, mirror: Mirror): BlockState {
+        return blockState.rotate(mirror.getRotation(blockState.getValue(HorizontalDirectionalBlock.FACING)))
     }
 
     @Deprecated("Deprecated in Java")

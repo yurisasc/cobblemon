@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.battle
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.TextCodecs
 
@@ -32,14 +32,14 @@ class BattleChallengeNotificationPacket(
     val challengerName: MutableComponent
 ): NetworkPacket<BattleChallengeNotificationPacket> {
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
-        buffer.writeUuid(battleChallengeId)
-        buffer.writeUuid(challengerId)
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeUUID(battleChallengeId)
+        buffer.writeUUID(challengerId)
         TextCodecs.PACKET_CODEC.encode(buffer, challengerName)
     }
 
     companion object {
         val ID = cobblemonResource("battle_challenge_notification")
-        fun decode(buffer: RegistryByteBuf) = BattleChallengeNotificationPacket(buffer.readUuid(), buffer.readUuid(), TextCodecs.PACKET_CODEC.decode(buffer).copy())
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleChallengeNotificationPacket(buffer.readUUID(), buffer.readUUID(), TextCodecs.PACKET_CODEC.decode(buffer).copy())
     }
 }

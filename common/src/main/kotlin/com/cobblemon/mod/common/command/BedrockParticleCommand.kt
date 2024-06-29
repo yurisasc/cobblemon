@@ -23,7 +23,7 @@ import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.command.argument.IdentifierArgumentType
 import net.minecraft.command.argument.Vec3ArgumentType
 import net.minecraft.entity.Entity
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.resources.ResourceLocation
@@ -31,19 +31,19 @@ import net.minecraft.world.phys.Vec3
 
 object BedrockParticleCommand {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        val command = dispatcher.register(CommandManager.literal("bedrockparticle")
+        val command = dispatcher.register(Commands.literal("bedrockparticle")
             .permission(CobblemonPermissions.BEDROCK_PARTICLE)
             .then(
-                CommandManager.argument("effect", IdentifierArgumentType.identifier())
+                Commands.argument("effect", IdentifierArgumentType.identifier())
                     .then(
-                        CommandManager.argument("target", EntityArgumentType.entities())
+                        Commands.argument("target", EntityArgumentType.entities())
                             .executes {
                                 val effectId = IdentifierArgumentType.getIdentifier(it, "effect")
                                 val entities = EntityArgumentType.getEntities(it, "target")
                                 return@executes entities.sumOf { entity -> execute(it.source, effectId, entity.world as ServerLevel, entity.pos) }
                             }
                             .then(
-                                CommandManager.argument("locator", StringArgumentType.word())
+                                Commands.argument("locator", StringArgumentType.word())
                                     .executes {
                                         val effectId = IdentifierArgumentType.getIdentifier(it, "effect")
                                         val entities = EntityArgumentType.getEntities(it, "target")
@@ -54,9 +54,9 @@ object BedrockParticleCommand {
                             )
                     )
                     .then(
-                        CommandManager.argument("world", DimensionArgumentType.dimension())
+                        Commands.argument("world", DimensionArgumentType.dimension())
                             .then(
-                                CommandManager.argument("pos", Vec3ArgumentType.vec3())
+                                Commands.argument("pos", Vec3ArgumentType.vec3())
                                     .executes {
                                         val effectId = IdentifierArgumentType.getIdentifier(it, "effect")
                                         val world = DimensionArgumentType.getDimensionArgument(it, "world")

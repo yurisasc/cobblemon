@@ -19,7 +19,7 @@ import net.minecraft.client.Minecraft
 object RunPosableMoLangHandler : ClientNetworkPacketHandler<RunPosableMoLangPacket> {
     override fun handle(packet: RunPosableMoLangPacket, client: Minecraft) {
         val world = client.world ?: return
-        val entity = world.getEntityById(packet.entityId) ?: return
+        val entity = world.getEntity(packet.entityId) ?: return
         if (entity is PosableEntity) {
             val state = entity.delegate as? PosableState ?: return
             for (expression in packet.expressions.map { it.asExpressionLike() }) {

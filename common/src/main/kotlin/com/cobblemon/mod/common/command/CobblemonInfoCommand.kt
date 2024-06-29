@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.CobblemonBuildDetails
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.text.ClickEvent
 import net.minecraft.text.HoverEvent
@@ -30,7 +30,7 @@ object CobblemonInfoCommand {
     private val SPACE: Component = Component.literal(" ")
 
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
-        dispatcher.register(CommandManager.literal("cobblemon")
+        dispatcher.register(Commands.literal("cobblemon")
             .then(LiteralArgumentBuilder.literal<ServerCommandSource?>("info")
                 .executes { ctx ->
                     val message = Component.empty().append(

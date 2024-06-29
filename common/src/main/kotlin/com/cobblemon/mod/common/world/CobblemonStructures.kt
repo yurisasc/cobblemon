@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.mixin.StructurePoolAccessor
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProcessorLists
 import com.mojang.datafixers.util.Pair
 import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.server.MinecraftServer
 import net.minecraft.structure.pool.LegacySinglePoolElement
 import net.minecraft.structure.pool.SinglePoolElement
@@ -23,20 +23,20 @@ import net.minecraft.structure.processor.StructureProcessorLists
 import net.minecraft.resources.ResourceLocation
 
 object CobblemonStructures {
-    private val EMPTY_PROCESSOR_LIST_KEY = RegistryKey.of(RegistryKeys.PROCESSOR_LIST, ResourceLocation.of("minecraft", "empty"))
+    private val EMPTY_PROCESSOR_LIST_KEY = ResourceKey.create(ResourceKeys.PROCESSOR_LIST, ResourceLocation.parse("minecraft", "empty"))
     private const val pokecenterWeight = 35
     private const val berryFarmWeight = 1
     private const val longPathWeight = 10
 
-    val plainsHousesPoolLocation = ResourceLocation.of("minecraft", "village/plains/houses")
-    val desertHousesPoolLocation = ResourceLocation.of("minecraft", "village/desert/houses")
-    val savannaHousesPoolLocation = ResourceLocation.of("minecraft", "village/savanna/houses")
-    val snowyHousesPoolLocation = ResourceLocation.of("minecraft", "village/snowy/houses")
-    val taigaHousesPoolLocation = ResourceLocation.of("minecraft", "village/taiga/houses")
+    val plainsHousesPoolLocation = ResourceLocation.parse("minecraft", "village/plains/houses")
+    val desertHousesPoolLocation = ResourceLocation.parse("minecraft", "village/desert/houses")
+    val savannaHousesPoolLocation = ResourceLocation.parse("minecraft", "village/savanna/houses")
+    val snowyHousesPoolLocation = ResourceLocation.parse("minecraft", "village/snowy/houses")
+    val taigaHousesPoolLocation = ResourceLocation.parse("minecraft", "village/taiga/houses")
 
     fun registerJigsaws(server: MinecraftServer) {
-        val templatePoolRegistry = server.registryManager.get(RegistryKeys.TEMPLATE_POOL)
-        val processorListRegistry = server.registryManager.get(RegistryKeys.PROCESSOR_LIST)
+        val templatePoolRegistry = server.registryManager.get(ResourceKeys.TEMPLATE_POOL)
+        val processorListRegistry = server.registryManager.get(ResourceKeys.PROCESSOR_LIST)
 
         //No pokecenters yet
         //addPokecenters(templatePoolRegistry, processorListRegistry);
@@ -48,7 +48,7 @@ object CobblemonStructures {
         templatePoolRegistry: Registry<StructurePool>,
         processorListRegistry: Registry<StructureProcessorList>
     ) {
-        val cropToBerryProcessorList = CobblemonStructureProcessorLists.CROP_TO_BERRY//RegistryKey.of(RegistryKeys.PROCESSOR_LIST, CobblemonProcessorTypes.RANDOM_POOLED_STATES_KEY)
+        val cropToBerryProcessorList = CobblemonStructureProcessorLists.CROP_TO_BERRY//ResourceKey.create(ResourceKeys.PROCESSOR_LIST, CobblemonProcessorTypes.RANDOM_POOLED_STATES_KEY)
 
         addBuildingToPool(
             templatePoolRegistry,
@@ -206,11 +206,11 @@ object CobblemonStructures {
         templatePoolRegistry: Registry<StructurePool>,
         processorListRegistry: Registry<StructureProcessorList>
     ) {
-        val plainsStreetsPoolLocation = ResourceLocation.of("minecraft:village/plains/streets")
-        val desertStreetsPoolLocation = ResourceLocation.of("minecraft:village/desert/streets")
-        val savannaStreetsPoolLocation = ResourceLocation.of("minecraft:village/savanna/streets")
-        val snowyStreetsPoolLocation = ResourceLocation.of("minecraft:village/snowy/streets")
-        val taigaStreetsPoolLocation = ResourceLocation.of("minecraft:village/taiga/streets")
+        val plainsStreetsPoolLocation = ResourceLocation.parse("minecraft:village/plains/streets")
+        val desertStreetsPoolLocation = ResourceLocation.parse("minecraft:village/desert/streets")
+        val savannaStreetsPoolLocation = ResourceLocation.parse("minecraft:village/savanna/streets")
+        val snowyStreetsPoolLocation = ResourceLocation.parse("minecraft:village/snowy/streets")
+        val taigaStreetsPoolLocation = ResourceLocation.parse("minecraft:village/taiga/streets")
         addLegacyBuildingToPool(
             templatePoolRegistry,
             processorListRegistry,
@@ -265,7 +265,7 @@ object CobblemonStructures {
         nbtPieceRL: ResourceLocation,
         weight: Int,
         projection: StructurePool.Projection,
-        processorListKey: RegistryKey<StructureProcessorList>
+        processorListKey: ResourceKey<StructureProcessorList>
     ) {
         addBuildingToPool(
             templatePoolRegistry,
@@ -287,7 +287,7 @@ object CobblemonStructures {
         nbtPieceRL: ResourceLocation,
         weight: Int,
         projection: StructurePool.Projection,
-        processorListKey: RegistryKey<StructureProcessorList>,
+        processorListKey: ResourceKey<StructureProcessorList>,
         shouldUseLegacySingePoolElement: Boolean = false
     ) {
         if (processorListRegistry.getEntry(processorListKey).isEmpty) {

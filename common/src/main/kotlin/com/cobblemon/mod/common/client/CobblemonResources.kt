@@ -22,5 +22,5 @@ object CobblemonResources {
     /**
      * Fonts
      */
-    val DEFAULT_LARGE = ResourceLocation.of("uniform")
+    val DEFAULT_LARGE = ResourceLocation.parse("uniform")
 }

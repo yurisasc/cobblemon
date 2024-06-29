@@ -14,7 +14,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.SoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
+import net.minecraft.sounds.SoundEvents
 
 /**
  * The controller for playing, switching, and stopping [BattleMusicInstance]s.

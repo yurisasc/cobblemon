@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.util.writeText
 import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
@@ -68,13 +68,13 @@ class SpawnPokemonPacket(
         vanillaSpawnPacket
     )
 
-    override fun encodeEntityData(buffer: RegistryByteBuf) {
-        buffer.writeNullable(ownerId) { _, v -> buffer.writeUuid(v) }
+    override fun encodeEntityData(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeNullable(ownerId) { _, v -> buffer.writeUUID(v) }
         buffer.writeFloat(this.scaleModifier)
         buffer.writeIdentifier(this.species.resourceIdentifier)
         buffer.writeString(this.form.formOnlyShowdownId())
         buffer.writeCollection(this.aspects) { pb, value -> pb.writeString(value) }
-        buffer.writeNullable(this.battleId) { pb, value -> pb.writeUuid(value) }
+        buffer.writeNullable(this.battleId) { pb, value -> pb.writeUUID(value) }
         buffer.writeInt(this.phasingTargetId)
         buffer.writeByte(this.beamMode.toInt())
         buffer.writeNullable(this.nickname) { _, v -> buffer.writeText(v) }
@@ -114,14 +114,14 @@ class SpawnPokemonPacket(
 
     companion object {
         val ID = cobblemonResource("spawn_pokemon_entity")
-        fun decode(buffer: RegistryByteBuf): SpawnPokemonPacket {
-            val ownerId = buffer.readNullable { buffer.readUuid() }
+        fun decode(buffer: RegistryFriendlyByteBuf): SpawnPokemonPacket {
+            val ownerId = buffer.readNullable { buffer.readUUID() }
             val scaleModifier = buffer.readFloat()
             val species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
             val showdownId = buffer.readString()
             val form = species.forms.firstOrNull { it.formOnlyShowdownId() == showdownId } ?: species.standardForm
             val aspects = buffer.readList(RegistryFriendlyByteBuf::readString).toSet()
-            val battleId = buffer.readNullable { buffer.readUuid() }
+            val battleId = buffer.readNullable { buffer.readUUID() }
             val phasingTargetId = buffer.readInt()
             val beamModeEmitter = buffer.readByte()
             val nickname = buffer.readNullable { buffer.readText().copy() }

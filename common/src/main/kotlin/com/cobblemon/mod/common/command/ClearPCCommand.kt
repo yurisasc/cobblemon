@@ -17,7 +17,7 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.argument.EntityArgumentType
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 
 object ClearPCCommand {
@@ -26,9 +26,9 @@ object ClearPCCommand {
     private const val PLAYER = "player"
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        val command = CommandManager.literal(NAME)
+        val command = Commands.literal(NAME)
             .permission(CobblemonPermissions.CLEAR_PC)
-            .then(CommandManager.argument(PLAYER, EntityArgumentType.players()).executes(::execute))
+            .then(Commands.argument(PLAYER, EntityArgumentType.players()).executes(::execute))
         dispatcher.register(command)
     }
 

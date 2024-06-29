@@ -33,7 +33,7 @@ import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Property
 import net.minecraft.network.chat.Component
 import net.minecraft.util.ActionResult
-import net.minecraft.util.BlockMirror
+import net.minecraft.util.Mirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.core.BlockPos
@@ -50,7 +50,9 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.BaseEntityBlock
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.Mirror
 import net.minecraft.world.level.block.RenderShape
+import net.minecraft.world.level.block.Rotation
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityTicker
 import net.minecraft.world.level.block.entity.BlockEntityType
@@ -125,22 +127,22 @@ class HealingMachineBlock(settings: Properties) : BaseEntityBlock(properties) {
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(HorizontalDirectionalBlock.FACING)
-        builder.add(*arrayOf<Property<*>>(CHARGE_LEVEL))
+        builder.add(*arrayOf<BlcokS<*>>(CHARGE_LEVEL))
     }
 
-    override fun rotate(blockState: BlockState, rotation: BlockRotation): BlockState {
+    override fun rotate(blockState: BlockState, rotation: Rotation): BlockState {
         return blockState.with(
-            HorizontalDirectionalBlock.FACING, rotation.rotate(blockState.get(
+            HorizontalDirectionalBlock.FACING, rotation.rotate(blockState.getValue(
                 HorizontalDirectionalBlock.FACING)))
     }
 
-    override fun mirror(blockState: BlockState, mirror: BlockMirror): BlockState {
-        return blockState.rotate(mirror.getRotation(blockState.get(HorizontalDirectionalBlock.FACING)))
+    override fun mirror(blockState: BlockState, mirror: Mirror): BlockState {
+        return blockState.rotate(mirror.getRotation(blockState.getValue(HorizontalDirectionalBlock.FACING)))
     }
 
     @Suppress("DEPRECATION")
     override fun onStateReplaced(state: BlockState, world: Level, pos: BlockPos?, newState: BlockState, moved: Boolean) {
-        if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
+        if (!state.`is`(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
     }
 
     override fun useWithoutItem(

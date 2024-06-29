@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeText
 import com.mojang.datafixers.util.Either
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
@@ -43,7 +43,7 @@ class NPCConfigurationDTO : Encodable, Decodable {
         aspects = npcEntity.appliedAspects
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeText(npcName)
         buffer.writeIdentifier(npcClass)
         buffer.writeNullable(battle) { _, value -> value.encode(buffer) }
@@ -54,13 +54,13 @@ class NPCConfigurationDTO : Encodable, Decodable {
         buffer.writeCollection(aspects, RegistryFriendlyByteBuf::writeString)
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: RegistryFriendlyByteBuf) {
         npcName = buffer.readText().copy()
         npcClass = buffer.readIdentifier()
         battle = buffer.readNullable { NPCBattleConfiguration().apply { decode(buffer) } }
         interaction = buffer.readNullable {
             if (buffer.readBoolean()) {
-                Either.left(ResourceLocation.of(buffer.readString()))
+                Either.left(ResourceLocation.parse(buffer.readString()))
             } else {
                 Either.right(buffer.readString().asExpressionLike())
             }

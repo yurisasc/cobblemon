@@ -57,7 +57,7 @@ import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.sound.SoundEvents
+import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.hit.HitResult
@@ -176,7 +176,7 @@ class EmptyPokeBallEntity : ThrowableItemProjectile, PosableEntity, WaterDragMod
             if (world.isServerSide()) {
                 super.onBlockHit(hitResult)
                 world.sendParticlesServer(ParticleTypes.CLOUD, hitResult.pos, 2, hitResult.pos.subtract(pos).normalize().multiply(-0.1), 0.0)
-                world.playSoundServer(pos, SoundEvents.BLOCK_WOOD_PLACE, pitch = 2.5F)
+                world.playSoundServer(pos, SoundEvents.WOOD_PLACE, pitch = 2.5F)
                 discard()
                 val player = this.owner as? ServerPlayer
                 if (player?.isCreative == false) {
@@ -398,7 +398,7 @@ class EmptyPokeBallEntity : ThrowableItemProjectile, PosableEntity, WaterDragMod
             x = pokemonEntity.x,
             y = pokemonEntity.y,
             z = pokemonEntity.z,
-            worldKey = pokemonEntity.world.registryKey,
+            worldKey = pokemonEntity.world.resourceKey,
             distance = 50.0
         )
 

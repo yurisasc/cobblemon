@@ -33,7 +33,7 @@ interface InteractOrBagItem {
     fun getBagItem(stack: ItemStack): BagItem?
 
     fun onRegularUse(world: ServerLevel, user: ServerPlayer, hand: Hand): InteractionResultHolder<ItemStack> {
-        return InteractionResultHolder.success(user.getStackInHand(hand))
+        return InteractionResultHolder.success(user.getItemInHand(hand))
     }
 
 
@@ -60,7 +60,7 @@ interface InteractOrBagItem {
                 return@map MoveSelectDTO(move).also { it.enabled = enabled }
             }
         ) { _, _, move ->
-            if (stack in player.handItems && !stack.isEmpty && battlePokemon.actor.canFitForcedAction() && battle.turn == turn) {
+            if (stack in player.handSlots && !stack.isEmpty && battlePokemon.actor.canFitForcedAction() && battle.turn == turn) {
                 battlePokemon.actor.forceChoose(BagItemActionResponse(bagItem, battlePokemon, move.moveTemplate.name))
                 if (!player.isCreative) {
                     stack.decrement(1)
@@ -85,6 +85,6 @@ interface InteractOrBagItem {
             return false
         }
 
-        return player.getStackInHand(hand) === stack
+        return player.getItemInHand(hand) === stack
     }
 }

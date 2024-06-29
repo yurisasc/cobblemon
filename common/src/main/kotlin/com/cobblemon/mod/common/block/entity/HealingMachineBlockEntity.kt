@@ -138,7 +138,7 @@ class HealingMachineBlockEntity(
         this.pokeBallMap.clear()
 
         if (compoundTag.containsUuid(DataKeys.HEALER_MACHINE_USER)) {
-            this.currentUser = compoundTag.getUuid(DataKeys.HEALER_MACHINE_USER)
+            this.currentUser = compoundTag.getUUID(DataKeys.HEALER_MACHINE_USER)
         }
         if (compoundTag.contains(DataKeys.HEALER_MACHINE_POKEBALLS)) {
             val pokeBallsTag = compoundTag.getCompound(DataKeys.HEALER_MACHINE_POKEBALLS)
@@ -150,7 +150,7 @@ class HealingMachineBlockEntity(
                     continue
                 }
                 val actualIndex = key.toIntOrNull() ?: index
-                val pokeBall = PokeBalls.getPokeBall(ResourceLocation.of(pokeBallId))
+                val pokeBall = PokeBalls.getPokeBall(ResourceLocation.parse(pokeBallId))
                 if (pokeBall != null) {
                     this.pokeBallMap[actualIndex] = pokeBall
                 }
@@ -175,7 +175,7 @@ class HealingMachineBlockEntity(
         super.writeNbt(compoundTag, registryLookup)
 
         if (this.currentUser != null) {
-            compoundTag.putUuid(DataKeys.HEALER_MACHINE_USER, this.currentUser!!)
+            compoundTag.putUUID(DataKeys.HEALER_MACHINE_USER, this.currentUser!!)
         } else {
             compoundTag.remove(DataKeys.HEALER_MACHINE_USER)
         }

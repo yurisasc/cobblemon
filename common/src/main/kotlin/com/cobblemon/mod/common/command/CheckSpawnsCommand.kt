@@ -28,7 +28,7 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import java.text.DecimalFormat
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
@@ -42,10 +42,10 @@ object CheckSpawnsCommand {
     val df = DecimalFormat("#.##")
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        dispatcher.register(CommandManager.literal("checkspawn")
+        dispatcher.register(Commands.literal("checkspawn")
             .permission(CobblemonPermissions.CHECKSPAWNS)
             .then(
-                CommandManager.argument("bucket", SpawnBucketArgumentType.spawnBucket())
+                Commands.argument("bucket", SpawnBucketArgumentType.spawnBucket())
                     .requires { it.player != null }
                     .executes { execute(it, it.source.playerOrThrow) }
             ))
@@ -64,7 +64,7 @@ object CheckSpawnsCommand {
             spawner = spawner,
             area = SpawningArea(
                 cause = cause,
-                world = player.world as ServerLevel,
+                world = player.level() as ServerLevel,
                 baseX = MathHelper.ceil(player.x - config.worldSliceDiameter / 2F),
                 baseY = MathHelper.ceil(player.y - config.worldSliceHeight / 2F),
                 baseZ = MathHelper.ceil(player.z - config.worldSliceDiameter / 2F),

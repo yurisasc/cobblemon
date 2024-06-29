@@ -149,12 +149,12 @@ fun ByteBuf.writePCPosition(pcPosition: PCPosition) {
 
 fun ByteBuf.readPCPosition() = PCPosition(readSizedInt(IntSize.U_SHORT), readSizedInt(IntSize.U_BYTE))
 
-fun ByteBuf.writeUuid(uuid: UUID) {
+fun ByteBuf.writeUUID(uuid: UUID) {
     writeLong(uuid.mostSignificantBits)
     writeLong(uuid.leastSignificantBits)
 }
 
-fun ByteBuf.readUuid() = UUID(readLong(), readLong())
+fun ByteBuf.readUUID() = UUID(readLong(), readLong())
 
 fun ByteBuf.writeEnumConstant(value: Enum<*>) {
     this.writeInt(value.ordinal)

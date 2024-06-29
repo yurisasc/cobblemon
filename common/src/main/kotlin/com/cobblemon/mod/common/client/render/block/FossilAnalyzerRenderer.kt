@@ -39,7 +39,7 @@ class FossilAnalyzerRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEnt
         if (entity.multiblockStructure == null) {
             return
         }
-        val direction = blockState.get(HorizontalDirectionalBlock.FACING)
+        val direction = blockState.getValue(HorizontalDirectionalBlock.FACING)
         val yRot = direction.asRotation() + if(direction == Direction.WEST || direction == Direction.EAST) 180F else 0F
         val struct = entity.multiblockStructure as FossilMultiblockStructure
 

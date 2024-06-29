@@ -14,8 +14,8 @@ import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTables
 import net.minecraft.loot.entry.LootTableEntry
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.resources.ResourceLocation
 import org.jetbrains.annotations.ApiStatus
 
@@ -106,7 +106,7 @@ object LootInjector {
         return LootPool.builder()
             .with(
                 LootTableEntry
-                    .builder(RegistryKey.of(RegistryKeys.LOOT_TABLE, resulting))
+                    .builder(ResourceKey.create(ResourceKeys.LOOT_TABLE, resulting))
                     .weight(1)
             )
             .bonusRolls(UniformLootNumberProvider.create(0F, 1F))

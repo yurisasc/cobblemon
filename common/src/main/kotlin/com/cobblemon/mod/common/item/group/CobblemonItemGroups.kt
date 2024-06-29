@@ -16,7 +16,7 @@ import net.minecraft.item.ItemGroup.*
 import net.minecraft.world.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryKey
+import net.minecraft.resources.ResourceKey
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
@@ -26,7 +26,7 @@ object CobblemonItemGroups {
     // See https://docs.google.com/spreadsheets/d/1QgaIlW-S9A-Blqhc-5G7OO3igaQdEAiYQqVEPnEBFmc/edit#gid=978365418 for what goes what
 
     private val ALL = arrayListOf<ItemGroupHolder>()
-    private val INJECTORS = hashMapOf<RegistryKey<ItemGroup>, (injector: Injector) -> Unit>()
+    private val INJECTORS = hashMapOf<ResourceKey<ItemGroup>, (injector: Injector) -> Unit>()
 
     @JvmStatic val BLOCKS_KEY = this.create("blocks", this::blockEntries) {
         ItemStack(
@@ -72,34 +72,34 @@ object CobblemonItemGroups {
     @JvmStatic val HELD_ITEMS get() = Registries.ITEM_GROUP.get(HELD_ITEMS_KEY)
     @JvmStatic val EVOLUTION_ITEMS get() = Registries.ITEM_GROUP.get(EVOLUTION_ITEMS_KEY)
 
-    @JvmStatic val FOOD_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, ResourceLocation.of("food_and_drinks")), this::foodInjections)
-    @JvmStatic val TOOLS_AND_UTILITIES_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, ResourceLocation.of("tools_and_utilities")), this::toolsAndUtilitiesInjections)
-    @JvmStatic val INGREDIENTS_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, ResourceLocation.of("ingredients")), this::ingredientsInjections)
+    @JvmStatic val FOOD_INJECTIONS = this.inject(ResourceKey.create(Registries.ITEM_GROUP.key, ResourceLocation.parse("food_and_drinks")), this::foodInjections)
+    @JvmStatic val TOOLS_AND_UTILITIES_INJECTIONS = this.inject(ResourceKey.create(Registries.ITEM_GROUP.key, ResourceLocation.parse("tools_and_utilities")), this::toolsAndUtilitiesInjections)
+    @JvmStatic val INGREDIENTS_INJECTIONS = this.inject(ResourceKey.create(Registries.ITEM_GROUP.key, ResourceLocation.parse("ingredients")), this::ingredientsInjections)
 
     fun register(consumer: (holder: ItemGroupHolder) -> ItemGroup) {
         ALL.forEach(consumer::invoke)
     }
 
-    fun inject(tabKey: RegistryKey<ItemGroup>, injector: Injector) {
+    fun inject(tabKey: ResourceKey<ItemGroup>, injector: Injector) {
         INJECTORS[tabKey]?.invoke(injector)
     }
 
-    fun injectorKeys(): Collection<RegistryKey<ItemGroup>> = this.INJECTORS.keys
+    fun injectorKeys(): Collection<ResourceKey<ItemGroup>> = this.INJECTORS.keys
 
     data class ItemGroupHolder(
-        val key: RegistryKey<ItemGroup>,
+        val key: ResourceKey<ItemGroup>,
         val displayIconProvider: () -> ItemStack,
         val entryCollector: EntryCollector,
         val displayName: Component = Component.translatable("itemGroup.${key.value.namespace}.${key.value.path}")
     )
 
-    private fun create(name: String, entryCollector: EntryCollector, displayIconProvider: () -> ItemStack): RegistryKey<ItemGroup> {
-        val key = RegistryKey.of(Registries.ITEM_GROUP.key, cobblemonResource(name))
+    private fun create(name: String, entryCollector: EntryCollector, displayIconProvider: () -> ItemStack): ResourceKey<ItemGroup> {
+        val key = ResourceKey.create(Registries.ITEM_GROUP.key, cobblemonResource(name))
         this.ALL += ItemGroupHolder(key, displayIconProvider, entryCollector)
         return key
     }
 
-    private fun inject(key: RegistryKey<ItemGroup>, consumer: (injector: Injector) -> Unit): (injector: Injector) -> Unit {
+    private fun inject(key: ResourceKey<ItemGroup>, consumer: (injector: Injector) -> Unit): (injector: Injector) -> Unit {
         this.INJECTORS[key] = consumer
         return consumer
     }

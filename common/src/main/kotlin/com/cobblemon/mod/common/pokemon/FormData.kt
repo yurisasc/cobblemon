@@ -33,7 +33,7 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
 import com.cobblemon.mod.common.util.*
 import com.google.gson.annotations.SerializedName
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.resources.ResourceLocation
 
@@ -242,7 +242,7 @@ class FormData(
 
     override fun hashCode(): Int = this.showdownId().hashCode()
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeString(this.name)
         buffer.writeCollection(this.aspects) { pb, aspect -> pb.writeString(aspect) }
         buffer.writeNullable(this._baseStats) { statsBuffer, map ->
@@ -270,7 +270,7 @@ class FormData(
         }
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: RegistryFriendlyByteBuf) {
         this.name = buffer.readString()
         this.aspects = buffer.readList { buffer.readString() }.toMutableList()
         buffer.readNullable { mapBuffer ->

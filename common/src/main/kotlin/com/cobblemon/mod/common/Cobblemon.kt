@@ -107,24 +107,23 @@ import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoClients
-import net.minecraft.client.Minecraft
-import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
-import net.minecraft.item.NameTagItem
-import net.minecraft.registry.RegistryKey
-import net.minecraft.util.WorldSavePath
-import net.minecraft.world.level.Level
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.io.PrintWriter
 import java.util.*
+import kotlin.math.roundToInt
 import kotlin.properties.Delegates
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 import kotlin.reflect.jvm.javaField
-import kotlin.math.roundToInt
+import net.minecraft.client.Minecraft
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.item.NameTagItem
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.storage.LevelResource
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 
 object Cobblemon {
     const val MODID = CobblemonBuildDetails.MOD_ID
@@ -215,18 +214,18 @@ object Cobblemon {
         }
 
         PlatformEvents.RIGHT_CLICK_ENTITY.subscribe { event ->
-            if (event.player.getStackInHand(event.hand).item is NameTagItem && event.entity.type.isIn(CobblemonEntityTypeTags.CANNOT_HAVE_NAME_TAG)) {
+            if (event.player.getItemInHand(event.hand).item is NameTagItem && event.entity.type.isIn(CobblemonEntityTypeTags.CANNOT_HAVE_NAME_TAG)) {
                 event.cancel()
             }
         }
         PlatformEvents.RIGHT_CLICK_BLOCK.subscribe { event ->
             val player = event.player
-            val block = player.world.getBlockState(event.pos).block
+            val block = player.level().getBlockState(event.pos).block
             player.party().forEach { pokemon ->
                 pokemon.lockedEvolutions
                     .filterIsInstance<BlockClickEvolution>()
                     .forEach { evolution ->
-                        evolution.attemptEvolution(pokemon, BlockClickEvolution.BlockInteractionContext(block, player.world))
+                        evolution.attemptEvolution(pokemon, BlockClickEvolution.BlockInteractionContext(block, player.level()))
                     }
             }
         }
@@ -242,7 +241,7 @@ object Cobblemon {
         CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(Priority.LOWEST) { event ->
             var increment = (event.newFriendship - event.pokemon.friendship).toFloat()
             // Our Luxury ball spec is diff from official, but we will still assume these stack
-            if (event.pokemon.heldItemNoCopy().isIn(CobblemonItemTags.IS_FRIENDSHIP_BOOSTER)) {
+            if (event.pokemon.heldItemNoCopy().`is`(CobblemonItemTags.IS_FRIENDSHIP_BOOSTER)) {
                 increment += increment * 0.5F
             }
             event.newFriendship = event.pokemon.friendship + increment.roundToInt()
@@ -294,7 +293,7 @@ object Cobblemon {
 
             val mongoClient: MongoClient?
 
-            val pokemonStoreRoot = server.getSavePath(WorldSavePath.ROOT).resolve("pokemon").toFile()
+            val pokemonStoreRoot = server.getWorldPath(LevelResource.ROOT).resolve("pokemon").toFile()
             val storeAdapter = when (config.storageFormat) {
                 "nbt", "json" -> {
                     val jsonFactory = JsonPlayerDataStoreFactory()
@@ -331,7 +330,7 @@ object Cobblemon {
 
                 else -> throw IllegalArgumentException("Unsupported storageFormat: ${config.storageFormat}")
             }
-                .with(ReforgedConversion(server.getSavePath(WorldSavePath.ROOT))) as FileStoreAdapter<*>
+                .with(ReforgedConversion(server.getWorldPath(LevelResource.ROOT))) as FileStoreAdapter<*>
 
             storage.registerFactory(
                 priority = Priority.LOWEST,
@@ -375,9 +374,9 @@ object Cobblemon {
         //CobblemonSherds.registerSherds()
     }
 
-    fun getLevel(dimension: RegistryKey<Level>): Level? {
+    fun getLevel(dimension: ResourceKey<Level>): Level? {
         return if (isDedicatedServer) {
-            server()?.getWorld(dimension)
+            server()?.getLevel(dimension)
         } else {
             val mc = Minecraft.getInstance()
             return mc.server?.getWorld(dimension) ?: mc.world

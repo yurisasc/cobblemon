@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeText
 import java.util.UUID
 import net.minecraft.world.item.ItemStack
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
@@ -42,9 +42,9 @@ class OpenPasturePacket(val pcId: UUID, val pastureId: UUID, val limit: Int, val
         val entityKnown: Boolean
     ) {
         companion object {
-            fun decode(buffer: RegistryByteBuf): PasturePokemonDataDTO {
-                val pokemonId = buffer.readUuid()
-                val playerId = buffer.readUuid()
+            fun decode(buffer: RegistryFriendlyByteBuf): PasturePokemonDataDTO {
+                val pokemonId = buffer.readUUID()
+                val playerId = buffer.readUUID()
                 val displayName = buffer.readText()
                 val species = buffer.readIdentifier()
                 val aspects = buffer.readList { it.readString() }.toSet()
@@ -65,9 +65,9 @@ class OpenPasturePacket(val pcId: UUID, val pastureId: UUID, val limit: Int, val
             }
         }
 
-        fun encode(buffer: RegistryByteBuf) {
-            buffer.writeUuid(pokemonId)
-            buffer.writeUuid(playerId)
+        fun encode(buffer: RegistryFriendlyByteBuf) {
+            buffer.writeUUID(pokemonId)
+            buffer.writeUUID(playerId)
             buffer.writeText(displayName)
             buffer.writeIdentifier(species)
             buffer.writeCollection(aspects) { _, v -> buffer.writeString(v) }
@@ -80,9 +80,9 @@ class OpenPasturePacket(val pcId: UUID, val pastureId: UUID, val limit: Int, val
     companion object {
         val ID = cobblemonResource("open_pasture")
 
-        fun decode(buffer: RegistryByteBuf): OpenPasturePacket {
-            val pcId = buffer.readUuid()
-            val pastureId = buffer.readUuid()
+        fun decode(buffer: RegistryFriendlyByteBuf): OpenPasturePacket {
+            val pcId = buffer.readUUID()
+            val pastureId = buffer.readUUID()
             val limit = buffer.readSizedInt(IntSize.U_BYTE)
             val dtos = mutableListOf<PasturePokemonDataDTO>()
             repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
@@ -95,9 +95,9 @@ class OpenPasturePacket(val pcId: UUID, val pastureId: UUID, val limit: Int, val
 
     override val id = ID
 
-    override fun encode(buffer: RegistryByteBuf) {
-        buffer.writeUuid(pcId)
-        buffer.writeUuid(pastureId)
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeUUID(pcId)
+        buffer.writeUUID(pastureId)
         buffer.writeSizedInt(IntSize.U_BYTE, limit)
         buffer.writeSizedInt(IntSize.U_BYTE, tetheredPokemon.size)
         for (tethered in tetheredPokemon) {

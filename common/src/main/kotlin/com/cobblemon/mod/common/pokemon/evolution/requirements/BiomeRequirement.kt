@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.template.EntityQueryRequirement
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.biome.Biome
 
@@ -28,7 +28,7 @@ class BiomeRequirement : EntityQueryRequirement {
     val biomeAnticondition: RegistryLikeCondition<Biome>? = null
     override fun check(pokemon: Pokemon, queriedEntity: LivingEntity): Boolean {
         val biome = queriedEntity.world.getBiome(queriedEntity.blockPos).value()
-        val registry = queriedEntity.world.registryManager.get(RegistryKeys.BIOME)
+        val registry = queriedEntity.world.registryManager.get(ResourceKeys.BIOME)
         return (biomeCondition == null || biomeCondition.fits(biome, registry)) && (biomeAnticondition == null || !biomeAnticondition.fits(biome, registry))
     }
 

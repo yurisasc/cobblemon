@@ -62,8 +62,8 @@ class EtherItem(val max: Boolean): CobblemonItem(Settings()), PokemonAndMoveSele
 
     override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
         if (world is ServerLevel && user is ServerPlayer) {
-            return use(user, user.getStackInHand(hand)) ?: InteractionResultHolder.pass(user.getStackInHand(hand))
+            return use(user, user.getItemInHand(hand)) ?: InteractionResultHolder.pass(user.getItemInHand(hand))
         }
-        return InteractionResultHolder.success(user.getStackInHand(hand))
+        return InteractionResultHolder.success(user.getItemInHand(hand))
     }
 }

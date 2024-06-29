@@ -100,7 +100,7 @@ object NeoForgePlatformEventHandler {
     fun onRightClickEntity(e: PlayerInteractEvent.EntityInteract) {
         val player = e.entity as? ServerPlayer ?: return
         val hand = e.hand
-        val item = player.getStackInHand(hand)
+        val item = player.getItemInHand(hand)
         val entity = e.target
         PlatformEvents.RIGHT_CLICK_ENTITY.postThen(
             event = ServerPlayerEvent.RightClickEntity(player, item, hand, entity),

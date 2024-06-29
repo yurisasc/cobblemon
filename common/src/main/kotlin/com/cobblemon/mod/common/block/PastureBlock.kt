@@ -31,7 +31,7 @@ import net.minecraft.fluid.FluidState
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.BlockMirror
+import net.minecraft.util.Mirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.StringRepresentable
 import net.minecraft.util.shape.VoxelShapes
@@ -206,7 +206,7 @@ class PastureBlock(settings: Properties): BaseEntityBlock(properties), SimpleWat
             var blockPos: BlockPos = BlockPos.ORIGIN
             var blockState: BlockState = state
             val part = state.get(PART)
-            if (part == PasturePart.TOP && world.getBlockState(pos.down().also { blockPos = it }).also { blockState = it }.isOf(state.block) && blockState.get(PART) == PasturePart.BOTTOM) {
+            if (part == PasturePart.TOP && world.getBlockState(pos.down().also { blockPos = it }).also { blockState = it }.isOf(state.block) && blockState.getValue(PART) == PasturePart.BOTTOM) {
                 checkBreakEntity(world, blockState, blockPos)
                 val blockState2 = if (blockState.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState
                 world.setBlockState(blockPos, blockState2, NOTIFY_ALL or SKIP_DROPS)
@@ -313,11 +313,11 @@ class PastureBlock(settings: Properties): BaseEntityBlock(properties), SimpleWat
     }
 
     override fun rotate(blockState: BlockState, rotation: BlockRotation): BlockState = blockState.with(
-        HorizontalDirectionalBlock.FACING, rotation.rotate(blockState.get(
+        HorizontalDirectionalBlock.FACING, rotation.rotate(blockState.getValue(
             HorizontalDirectionalBlock.FACING)))
 
-    override fun mirror(blockState: BlockState, mirror: BlockMirror): BlockState {
-        return blockState.rotate(mirror.getRotation(blockState.get(HorizontalDirectionalBlock.FACING)))
+    override fun mirror(blockState: BlockState, mirror: Mirror): BlockState {
+        return blockState.rotate(mirror.getRotation(blockState.getValue(HorizontalDirectionalBlock.FACING)))
     }
 
     override fun onStateReplaced(state: BlockState, world: Level, pos: BlockPos?, newState: BlockState, moved: Boolean) {

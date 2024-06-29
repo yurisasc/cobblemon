@@ -250,7 +250,7 @@ object CobblemonFabric : CobblemonImplementation {
         CobblemonParticles.register { identifier, particleType -> Registry.register(CobblemonParticles.registry, identifier, particleType) }
     }
 
-    override fun addFeatureToWorldGen(feature: RegistryKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?) {
+    override fun addFeatureToWorldGen(feature: ResourceKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?) {
         val predicate: (BiomeSelectionContext) -> Boolean = { context -> validTag == null || context.hasTag(validTag) }
         BiomeModifications.addFeature(predicate, step, feature)
     }

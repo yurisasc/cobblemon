@@ -12,16 +12,16 @@ import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvent
-import net.minecraft.sound.SoundEvents
+import net.minecraft.sounds.SoundEvents
 
-object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Registry<SoundEvent>>, SoundEvent>() {
+object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Registry<SoundEvent>>, SoundEvent>() {
 
     override val registry: Registry<SoundEvent> = Registries.SOUND_EVENT
-    override val registryKey: RegistryKey<Registry<SoundEvent>> = RegistryKeys.SOUND_EVENT
+    override val ResourceKey: ResourceKey<Registry<SoundEvent>> = ResourceKeys.SOUND_EVENT
 
     @JvmField
     val GUI_CLICK = this.create("gui.click")
@@ -280,64 +280,64 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     @JvmField
     val BERRY_BUSH_SOUNDS = BlockSoundGroup(1f, 1f,
         BERRY_BUSH_BREAK,
-        SoundEvents.BLOCK_GRASS_STEP,
+        SoundEvents.GRASS_STEP,
         BERRY_BUSH_PLACE,
-        SoundEvents.BLOCK_GRASS_HIT,
-        SoundEvents.BLOCK_GRASS_STEP
+        SoundEvents.GRASS_HIT,
+        SoundEvents.GRASS_STEP
     )
 
     @JvmField
     val BIG_ROOT_SOUNDS = BlockSoundGroup(1f, 1f,
         BIG_ROOT_BREAK,
-        SoundEvents.BLOCK_ROOTS_STEP,
-        SoundEvents.BLOCK_ROOTS_PLACE,
-        SoundEvents.BLOCK_ROOTS_HIT,
-        SoundEvents.BLOCK_ROOTS_FALL
+        SoundEvents.ROOTS_STEP,
+        SoundEvents.ROOTS_PLACE,
+        SoundEvents.ROOTS_HIT,
+        SoundEvents.ROOTS_FALL
     )
 
     @JvmField
     val ENERGY_ROOT_SOUNDS = BlockSoundGroup(1f, 1f,
-        SoundEvents.BLOCK_ROOTS_BREAK,
-        SoundEvents.BLOCK_ROOTS_STEP,
+        SoundEvents.ROOTS_BREAK,
+        SoundEvents.ROOTS_STEP,
         ENERGY_ROOT_PLACE,
-        SoundEvents.BLOCK_ROOTS_HIT,
-        SoundEvents.BLOCK_ROOTS_FALL
+        SoundEvents.ROOTS_HIT,
+        SoundEvents.ROOTS_FALL
     )
 
     @JvmField
     val MEDICINAL_LEEK_SOUNDS = BlockSoundGroup(1f, 1f,
         MEDICINAL_LEEK_BREAK,
-        SoundEvents.BLOCK_GRASS_STEP,
+        SoundEvents.GRASS_STEP,
         MEDICINAL_LEEK_PLACE,
-        SoundEvents.BLOCK_GRASS_HIT,
-        SoundEvents.BLOCK_GRASS_FALL
+        SoundEvents.GRASS_HIT,
+        SoundEvents.GRASS_FALL
     )
 
     @JvmField
     val VIVICHOKE_SOUNDS = BlockSoundGroup(1f, 1f,
         VIVICHOKE_BREAK,
-        SoundEvents.BLOCK_GRASS_STEP,
+        SoundEvents.GRASS_STEP,
         VIVICHOKE_PLACE,
-        SoundEvents.BLOCK_GRASS_HIT,
-        SoundEvents.BLOCK_GRASS_FALL
+        SoundEvents.GRASS_HIT,
+        SoundEvents.GRASS_FALL
     )
 
     @JvmField
     val MINT_SOUNDS = BlockSoundGroup(1f, 1f,
         MINT_BREAK,
-        SoundEvents.BLOCK_GRASS_STEP,
+        SoundEvents.GRASS_STEP,
         MINT_PLACE,
-        SoundEvents.BLOCK_GRASS_HIT,
-        SoundEvents.BLOCK_GRASS_FALL
+        SoundEvents.GRASS_HIT,
+        SoundEvents.GRASS_FALL
     )
 
     @JvmField
     val REVIVAL_HERB_SOUNDS = BlockSoundGroup(1f, 1f,
         REVIVAL_HERB_BREAK,
-        SoundEvents.BLOCK_GRASS_STEP,
+        SoundEvents.GRASS_STEP,
         REVIVAL_HERB_PLACE,
-        SoundEvents.BLOCK_GRASS_HIT,
-        SoundEvents.BLOCK_GRASS_FALL
+        SoundEvents.GRASS_HIT,
+        SoundEvents.GRASS_FALL
     )
 
     @JvmField

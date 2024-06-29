@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.Component
 import net.minecraft.text.TextCodecs
 
@@ -26,12 +26,12 @@ class BattleMessagePacket(val messages: List<Component>) : NetworkPacket<BattleM
 
     constructor(vararg messages: Component): this(messages.toList())
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeCollection(this.messages) { pb, value -> TextCodecs.PACKET_CODEC.encode(buffer, value) }
     }
 
     companion object {
         val ID = cobblemonResource("battle_message")
-        fun decode(buffer: RegistryByteBuf) = BattleMessagePacket(buffer.readList { TextCodecs.PACKET_CODEC.decode(buffer) })
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleMessagePacket(buffer.readList { TextCodecs.PACKET_CODEC.decode(buffer) })
     }
 }

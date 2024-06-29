@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
 
 /**
@@ -100,7 +100,7 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         return this
     }
 
-    fun saveToBuffer(buffer: RegistryByteBuf) {
+    fun saveToBuffer(buffer: RegistryFriendlyByteBuf) {
         buffer.writeSizedInt(IntSize.U_BYTE, stats.size)
         for ((stat, value) in stats) {
             Cobblemon.statProvider.encode(buffer, stat)
@@ -108,7 +108,7 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         }
     }
 
-    fun loadFromBuffer(buffer: RegistryByteBuf) {
+    fun loadFromBuffer(buffer: RegistryFriendlyByteBuf) {
         stats.clear()
         repeat(times = buffer.readUnsignedByte().toInt()) {
             val stat = Cobblemon.statProvider.decode(buffer)

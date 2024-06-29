@@ -23,7 +23,7 @@ import net.minecraft.resources.ResourceLocation
  */
 class HeldItemRequirement(val itemCondition: NbtItemPredicate) : EvolutionRequirement {
 
-    constructor() : this(NbtItemPredicate(ItemIdentifierCondition(ResourceLocation.of("air"))))
+    constructor() : this(NbtItemPredicate(ItemIdentifierCondition(ResourceLocation.parse("air"))))
 
     override fun check(pokemon: Pokemon): Boolean = this.itemCondition.test(pokemon.heldItemNoCopy())
 

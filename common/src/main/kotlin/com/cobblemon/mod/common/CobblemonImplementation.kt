@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
 import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
-import net.minecraft.registry.RegistryKey
+import net.minecraft.resources.ResourceKey
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
@@ -115,7 +115,7 @@ interface CobblemonImplementation {
      * @param step The [GenerationStep.Feature] of this feature.
      * @param validTag The [TagKey] required by the [Biome] for this feature to generate in, if null all biomes are valid.
      */
-    fun addFeatureToWorldGen(feature: RegistryKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?)
+    fun addFeatureToWorldGen(feature: ResourceKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?)
 
     /**
      * TODO

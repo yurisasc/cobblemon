@@ -152,8 +152,8 @@ object AdvancementHandler {
      * @param event the event to trigger the advancement from
      */
     fun onTumbleStonePlaced(event: ServerPlayerEvent.RightClickBlock) {
-        if (event.player.getStackInHand(event.hand).item == CobblemonItems.TUMBLESTONE.asItem()) {
-            val block = ((event.player.getStackInHand(event.hand).item as TumblestoneItem).block as TumblestoneBlock)
+        if (event.player.getItemInHand(event.hand).item == CobblemonItems.TUMBLESTONE.asItem()) {
+            val block = ((event.player.getItemInHand(event.hand).item as TumblestoneItem).block as TumblestoneBlock)
             CobblemonCriteria.PLANT_TUMBLESTONE.trigger(event.player, PlantTumblestoneContext(event.pos, block))
         }
     }

@@ -17,7 +17,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
+import net.minecraft.sounds.SoundEvents
 import net.minecraft.core.BlockPos
 import net.minecraft.util.RandomSource
 import net.minecraft.util.math.random.Random

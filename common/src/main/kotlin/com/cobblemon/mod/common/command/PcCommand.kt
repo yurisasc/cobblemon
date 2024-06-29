@@ -19,7 +19,7 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
-import net.minecraft.server.command.CommandManager.*
+import net.minecraft.commands.Commands.*
 import net.minecraft.server.command.ServerCommandSource
 
 object PcCommand {

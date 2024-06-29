@@ -17,17 +17,17 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.FloatArgumentType
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 
 object ChangeWalkSpeed {
 
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
-        val command = CommandManager.literal("changewalkspeed")
+        val command = Commands.literal("changewalkspeed")
             .permission(CobblemonPermissions.CHANGE_WALK_SPEED)
             .then(
-                CommandManager.argument("pokemon", PokemonArgumentType.pokemon())
-                    .then(CommandManager.argument("walkSpeed", FloatArgumentType.floatArg()).executes(::execute))
+                Commands.argument("pokemon", PokemonArgumentType.pokemon())
+                    .then(Commands.argument("walkSpeed", FloatArgumentType.floatArg()).executes(::execute))
             )
 
             .executes(::execute)

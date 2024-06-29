@@ -11,14 +11,14 @@ package com.cobblemon.mod.common.world.feature
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.world.gen.feature.Feature
 
-object CobblemonFeatures : PlatformRegistry<Registry<Feature<*>>, RegistryKey<Registry<Feature<*>>>, Feature<*>>() {
+object CobblemonFeatures : PlatformRegistry<Registry<Feature<*>>, ResourceKey<Registry<Feature<*>>>, Feature<*>>() {
 
     override val registry: Registry<Feature<*>> = Registries.FEATURE
-    override val registryKey: RegistryKey<Registry<Feature<*>>> = RegistryKeys.FEATURE
+    override val ResourceKey: ResourceKey<Registry<Feature<*>>> = ResourceKeys.FEATURE
 
     @JvmField
     val APRICORN_TREE_FEATURE = create("apricorn_tree", ApricornTreeFeature())

@@ -16,17 +16,17 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.argument.EntityArgumentType
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 
 object StopBattleCommand {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        dispatcher.register(CommandManager.literal("stopbattle")
+        dispatcher.register(Commands.literal("stopbattle")
             .permission(CobblemonPermissions.STOP_BATTLE)
             .then(
-                CommandManager.argument("player", EntityArgumentType.player())
+                Commands.argument("player", EntityArgumentType.player())
                     .executes(::execute)
             ))
     }
@@ -34,7 +34,7 @@ object StopBattleCommand {
     private fun execute(context: CommandContext<ServerCommandSource>) : Int {
         val entity = context.source.entity
         val player = context.player("player") ?: (if (entity is ServerPlayer) entity else return 0)
-        if (!player.world.isClient) {
+        if (!player.level().isClient) {
             val battle = BattleRegistry.getBattleByParticipatingPlayer(player) ?: return 0
             battle.stop()
         }

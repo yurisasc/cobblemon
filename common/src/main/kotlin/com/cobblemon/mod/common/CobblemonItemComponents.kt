@@ -44,6 +44,6 @@ object CobblemonItemComponents : PlatformRegistry<Registry<DataComponentType<*>>
     }
 
     override val registry = BuiltInRegistries.DATA_COMPONENT_TYPE
-    override val registryKey = Registries.DATA_COMPONENT_TYPE
+    override val ResourceKey = Registries.DATA_COMPONENT_TYPE
 
 }

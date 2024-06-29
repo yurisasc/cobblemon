@@ -63,7 +63,7 @@ class StatusCuringBerryItem(block: BerryBlock, vararg val status: Status): Berry
 
     override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
         if (user is ServerPlayer) {
-            return use(user, user.getStackInHand(hand))
+            return use(user, user.getItemInHand(hand))
         }
         return super<BerryItem>.use(world, user, hand)
     }

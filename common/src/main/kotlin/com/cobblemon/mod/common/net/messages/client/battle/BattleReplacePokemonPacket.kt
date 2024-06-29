@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.battles.ActiveBattlePokemon
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 /**
  * Updates the client about an [ActiveBattlePokemon] that was hidden by an illusion and has just been revealed during a battle.
@@ -30,7 +30,7 @@ class BattleReplacePokemonPacket(val pnx: String, val realPokemon: BattleInitial
     constructor(pnx: String, realPokemon: BattlePokemon, isAlly: Boolean) :
         this(pnx, BattleInitializePacket.ActiveBattlePokemonDTO.fromPokemon(realPokemon, isAlly), isAlly)
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeString(pnx)
         realPokemon.saveToBuffer(buffer)
         buffer.writeBoolean(isAlly)
@@ -38,6 +38,6 @@ class BattleReplacePokemonPacket(val pnx: String, val realPokemon: BattleInitial
 
     companion object {
         val ID = cobblemonResource("battle_replace_pokemon")
-        fun decode(buffer: RegistryByteBuf) = BattleReplacePokemonPacket(buffer.readString(), BattleInitializePacket.ActiveBattlePokemonDTO.loadFromBuffer(buffer), buffer.readBoolean())
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleReplacePokemonPacket(buffer.readString(), BattleInitializePacket.ActiveBattlePokemonDTO.loadFromBuffer(buffer), buffer.readBoolean())
     }
 }

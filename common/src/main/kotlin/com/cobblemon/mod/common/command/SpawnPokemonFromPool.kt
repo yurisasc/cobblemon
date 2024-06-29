@@ -22,8 +22,8 @@ import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.server.command.CommandManager
-import net.minecraft.server.command.CommandManager.literal
+import net.minecraft.commands.Commands
+import net.minecraft.commands.Commands.literal
 import net.minecraft.server.command.ServerCommandSource
 
 /**
@@ -43,7 +43,7 @@ object SpawnPokemonFromPool {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         val spawnPokemonFromPoolCommand = dispatcher.register(literal(NAME)
             .permission(CobblemonPermissions.SPAWN_POKEMON)
-            .then(CommandManager.argument("amount", IntegerArgumentType.integer(1))
+            .then(Commands.argument("amount", IntegerArgumentType.integer(1))
                 .executes { context -> execute(context, IntegerArgumentType.getInteger(context, "amount")) }
             )
             .executes { context -> execute(context, 1) }

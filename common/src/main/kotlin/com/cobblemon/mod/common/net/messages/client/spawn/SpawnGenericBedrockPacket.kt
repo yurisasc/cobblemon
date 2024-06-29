@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.entity.Entity
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.resources.ResourceLocation
 
@@ -37,7 +37,7 @@ class SpawnGenericBedrockPacket(
 ) : SpawnExtraDataEntityPacket<SpawnGenericBedrockPacket, GenericBedrockEntity>(vanillaSpawnPacket) {
     override val id: ResourceLocation = ID
 
-    override fun encodeEntityData(buffer: RegistryByteBuf) {
+    override fun encodeEntityData(buffer: RegistryFriendlyByteBuf) {
         buffer.writeIdentifier(this.category)
         buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect) }
         buffer.writeSizedInt(size = IntSize.U_BYTE, poseType.ordinal)
@@ -63,7 +63,7 @@ class SpawnGenericBedrockPacket(
 
     companion object {
         val ID = cobblemonResource("spawn_generic_bedrock_entity")
-        fun decode(buffer: RegistryByteBuf): SpawnGenericBedrockPacket {
+        fun decode(buffer: RegistryFriendlyByteBuf): SpawnGenericBedrockPacket {
             val category = buffer.readIdentifier()
             val aspects = buffer.readList { it.readString() }.toSet()
             val poseType = buffer.readEnumConstant(PoseType::class.java)

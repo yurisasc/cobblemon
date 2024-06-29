@@ -18,19 +18,19 @@ import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.argument.EntityArgumentType
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
 
 object OpenDialogueCommand {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        val command = dispatcher.register(CommandManager.literal("opendialogue")
+        val command = dispatcher.register(Commands.literal("opendialogue")
             .permission(CobblemonPermissions.OPEN_DIALOGUE)
             .then(
-                CommandManager.argument("dialogue", DialogueArgumentType.dialogue())
+                Commands.argument("dialogue", DialogueArgumentType.dialogue())
                     .then(
-                        CommandManager.argument("player", EntityArgumentType.player())
+                        Commands.argument("player", EntityArgumentType.player())
                             .executes {
                                 val dialogueId = DialogueArgumentType.getDialogue(it, "dialogue")
                                 if (!Dialogues.dialogues.containsKey(dialogueId)) {

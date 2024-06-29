@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.net.UnsplittablePacket
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 /**
  * Packet sent to the client to give a player a total update of one of their battle
@@ -28,11 +28,11 @@ import net.minecraft.network.RegistryByteBuf
 class BattleUpdateTeamPokemonPacket(val pokemon: PokemonDTO) : NetworkPacket<BattleUpdateTeamPokemonPacket>, UnsplittablePacket {
     override val id = ID
     constructor(pokemon: Pokemon) : this(PokemonDTO(pokemon, true))
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         pokemon.encode(buffer)
     }
     companion object {
         val ID = cobblemonResource("battle_update_team")
-        fun decode(buffer: RegistryByteBuf) = BattleUpdateTeamPokemonPacket(PokemonDTO().also { it.decode(buffer) })
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleUpdateTeamPokemonPacket(PokemonDTO().also { it.decode(buffer) })
     }
 }

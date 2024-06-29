@@ -15,17 +15,17 @@ import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 
 object FriendshipCommand {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        dispatcher.register(CommandManager.literal("friendship")
+        dispatcher.register(Commands.literal("friendship")
             .permission(CobblemonPermissions.FRIENDSHIP)
             .then(
-                CommandManager.argument("slot", PartySlotArgumentType.partySlot())
+                Commands.argument("slot", PartySlotArgumentType.partySlot())
                     .executes { execute(it.source, it.source.playerOrThrow, PartySlotArgumentType.getPokemon(it, "slot")) }
             ))
     }

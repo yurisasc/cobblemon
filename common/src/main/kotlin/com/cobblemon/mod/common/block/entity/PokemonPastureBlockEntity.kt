@@ -76,7 +76,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
                 aspects = pokemon.aspects,
                 heldItem = pokemon.heldItem(),
                 level = pokemon.level,
-                entityKnown = (player.getWorld().getEntityById(entityId) as? PokemonEntity)?.tethering?.tetheringId == tetheringId
+                entityKnown = (player.getWorld().getEntity(entityId) as? PokemonEntity)?.tethering?.tetheringId == tetheringId
             )
         }
     }
@@ -116,7 +116,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         val radius = Cobblemon.config.pastureMaxWanderDistance.toDouble()
         val bottom = pos.toVec3d().multiply(1.0, 0.0, 1.0)
 
-        val pokemonWithinPastureWander = player.world.getEntitiesByClass(PokemonEntity::class.java, Box.of(bottom, radius, 99999.0, radius)) { true }.count()
+        val pokemonWithinPastureWander = player.level().getEntitiesByClass(PokemonEntity::class.java, Box.of(bottom, radius, 99999.0, radius)) { true }.count()
         val chunkDiameter = (radius / 16) * 2 // Diameter
         if (pokemonWithinPastureWander >= Cobblemon.config.pastureMaxPerChunk * chunkDiameter * chunkDiameter) {
             player.sendPacket(ClosePasturePacket())
@@ -297,20 +297,20 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
 
     private fun isPlayerViewing(player: ServerPlayer): Boolean {
         val pastureLink = PastureLinkManager.getLinkByPlayer(player)
-        return pastureLink != null && pastureLink.pos == pos && pastureLink.dimension == ResourceLocation.tryParse(player.world.dimensionEntry.idAsString)
+        return pastureLink != null && pastureLink.pos == pos && pastureLink.dimension == ResourceLocation.tryParse(player.level().dimensionEntry.idAsString)
     }
 
     override fun readNbt(nbt: CompoundTag, registryLookup: RegistryWrapper.WrapperLookup) {
         super.readNbt(nbt, registryLookup)
         val list = nbt.getList(DataKeys.TETHER_POKEMON, CompoundTag.COMPOUND_TYPE.toInt())
-        this.ownerId = if (nbt.containsUuid(DataKeys.TETHER_OWNER_ID)) nbt.getUuid(DataKeys.TETHER_OWNER_ID) else null
+        this.ownerId = if (nbt.containsUuid(DataKeys.TETHER_OWNER_ID)) nbt.getUUID(DataKeys.TETHER_OWNER_ID) else null
         this.ownerName = nbt.getString(DataKeys.TETHER_OWNER_NAME).takeIf { it.isNotEmpty() } ?: ""
         for (tetheringNBT in list) {
             tetheringNBT as CompoundTag
-            val tetheringId = tetheringNBT.getUuid(DataKeys.TETHERING_ID)
-            val pokemonId = tetheringNBT.getUuid(DataKeys.POKEMON_UUID)
-            val pcId = tetheringNBT.getUuid(DataKeys.PC_ID)
-            val playerId = tetheringNBT.getUuid(DataKeys.TETHERING_PLAYER_ID)
+            val tetheringId = tetheringNBT.getUUID(DataKeys.TETHERING_ID)
+            val pokemonId = tetheringNBT.getUUID(DataKeys.POKEMON_UUID)
+            val pcId = tetheringNBT.getUUID(DataKeys.PC_ID)
+            val playerId = tetheringNBT.getUUID(DataKeys.TETHERING_PLAYER_ID)
             val entityId = tetheringNBT.getInt(DataKeys.TETHERING_ENTITY_ID)
             tetheredPokemon.add(Tethering(minRoamPos = minRoamPos, maxRoamPos = maxRoamPos, playerId = playerId, playerName = ownerName, tetheringId = tetheringId, pokemonId = pokemonId, pcId = pcId, entityId = entityId))
         }
@@ -323,17 +323,17 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         val list = NbtList()
         for (tethering in tetheredPokemon) {
             val tetheringNBT = CompoundTag()
-            tetheringNBT.putUuid(DataKeys.TETHERING_ID, tethering.tetheringId)
-            tetheringNBT.putUuid(DataKeys.TETHERING_PLAYER_ID, tethering.playerId)
-            tetheringNBT.putUuid(DataKeys.POKEMON_UUID, tethering.pokemonId)
-            tetheringNBT.putUuid(DataKeys.PC_ID, tethering.pcId)
+            tetheringNBT.putUUID(DataKeys.TETHERING_ID, tethering.tetheringId)
+            tetheringNBT.putUUID(DataKeys.TETHERING_PLAYER_ID, tethering.playerId)
+            tetheringNBT.putUUID(DataKeys.POKEMON_UUID, tethering.pokemonId)
+            tetheringNBT.putUUID(DataKeys.PC_ID, tethering.pcId)
             tetheringNBT.putInt(DataKeys.TETHERING_ENTITY_ID, tethering.entityId)
             list.add(tetheringNBT)
         }
         nbt.put(DataKeys.TETHER_POKEMON, list)
         nbt.put(DataKeys.TETHER_MIN_ROAM_POS, NbtHelper.fromBlockPos(minRoamPos))
         nbt.put(DataKeys.TETHER_MAX_ROAM_POS, NbtHelper.fromBlockPos(maxRoamPos))
-        ownerId?.let { nbt.putUuid(DataKeys.TETHER_OWNER_ID, it) }
+        ownerId?.let { nbt.putUUID(DataKeys.TETHER_OWNER_ID, it) }
         nbt.putString(DataKeys.TETHER_OWNER_NAME, this.ownerName)
     }
 }

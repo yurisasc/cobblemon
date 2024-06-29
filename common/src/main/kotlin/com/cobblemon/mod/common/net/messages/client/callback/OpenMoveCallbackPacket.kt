@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.api.callback.MoveSelectDTO
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.writeCollection
-import com.cobblemon.mod.common.util.writeUuid
-import net.minecraft.network.RegistryByteBuf
+import com.cobblemon.mod.common.util.writeUUID
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.TextCodecs
 import java.util.UUID
@@ -27,16 +27,16 @@ import java.util.UUID
 class OpenMoveCallbackPacket(val uuid: UUID, val title: MutableComponent, val moves: List<MoveSelectDTO>) : NetworkPacket<OpenMoveCallbackPacket> {
     companion object {
         val ID = cobblemonResource("open_move_callback")
-        fun decode(buffer: RegistryByteBuf) = OpenMoveCallbackPacket(
-            uuid = buffer.readUuid(),
+        fun decode(buffer: RegistryFriendlyByteBuf) = OpenMoveCallbackPacket(
+            uuid = buffer.readUUID(),
             title = TextCodecs.PACKET_CODEC.decode(buffer).copy(),
             moves = buffer.readList { _ -> MoveSelectDTO(buffer) }
         )
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
-        buffer.writeUuid(uuid)
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeUUID(uuid)
         TextCodecs.PACKET_CODEC.encode(buffer, title)
         buffer.writeCollection(moves) { _, v -> v.writeToBuffer(buffer) }
     }

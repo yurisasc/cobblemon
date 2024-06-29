@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
 import com.cobblemon.mod.common.registry.ItemIdentifierCondition
 import net.minecraft.world.item.ItemStack
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.Level
 
@@ -42,7 +42,7 @@ open class ItemInteractionEvolution(
         id = "id",
         result = PokemonProperties(),
         shedder = null,
-        requiredContext = NbtItemPredicate(ItemIdentifierCondition(ResourceLocation.of("minecraft", "fish")), null),
+        requiredContext = NbtItemPredicate(ItemIdentifierCondition(ResourceLocation.parse("minecraft", "fish")), null),
         optional = true,
         consumeHeldItem = true,
         requirements = mutableSetOf(),
@@ -50,7 +50,7 @@ open class ItemInteractionEvolution(
     )
 
     override fun testContext(pokemon: Pokemon, context: ItemInteractionContext): Boolean =
-        this.requiredContext.item.fits(context.stack.item, context.world.registryManager.get(RegistryKeys.ITEM))
+        this.requiredContext.item.fits(context.stack.item, context.world.registryManager.get(ResourceKeys.ITEM))
         && this.requiredContext.nbt?.test(context.stack) ?: true
 
     override fun equals(other: Any?) = other is ItemInteractionEvolution && other.id.equals(this.id, true)

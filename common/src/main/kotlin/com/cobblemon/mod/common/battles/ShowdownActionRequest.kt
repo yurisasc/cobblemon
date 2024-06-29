@@ -191,12 +191,12 @@ data class HealItemActionResponse(var item: String) : ShowdownActionResponse(Sho
 data class SwitchActionResponse(var newPokemonId: UUID) : ShowdownActionResponse(ShowdownActionResponseType.SWITCH) {
     override fun saveToBuffer(buffer: RegistryFriendlyByteBuf) {
         super.saveToBuffer(buffer)
-        buffer.writeUuid(newPokemonId)
+        buffer.writeUUID(newPokemonId)
     }
 
     override fun loadFromBuffer(buffer: RegistryFriendlyByteBuf): ShowdownActionResponse {
         super.loadFromBuffer(buffer)
-        newPokemonId = buffer.readUuid()
+        newPokemonId = buffer.readUUID()
         return this
     }
 
@@ -365,13 +365,13 @@ class ShowdownSide {
     lateinit var id: String
     lateinit var pokemon: List<ShowdownPokemon>
     fun saveToBuffer(buffer: RegistryFriendlyByteBuf) {
-        buffer.writeUuid(name)
+        buffer.writeUUID(name)
         buffer.writeString(id)
         buffer.writeSizedInt(IntSize.U_BYTE, pokemon.size)
         pokemon.forEach { it.saveToBuffer(buffer) }
     }
     fun loadFromBuffer(buffer: RegistryFriendlyByteBuf): ShowdownSide {
-        name = buffer.readUuid()
+        name = buffer.readUUID()
         id = buffer.readString()
         val pokemon = mutableListOf<ShowdownPokemon>()
         repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {

@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.conditional.RegistryLikeIdentifierCondition
 import com.cobblemon.mod.common.api.conditional.RegistryLikeTagCondition
 import com.cobblemon.mod.common.registry.BiomeIdentifierCondition
 import com.cobblemon.mod.common.registry.BiomeTagCondition
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.world.biome.Biome
 
 /**
@@ -24,7 +24,7 @@ import net.minecraft.world.biome.Biome
  */
 object BiomeLikeConditionAdapter : RegistryLikeAdapter<Biome> {
     override val registryLikeConditions = mutableListOf(
-        RegistryLikeTagCondition.resolver(RegistryKeys.BIOME, ::BiomeTagCondition),
+        RegistryLikeTagCondition.resolver(ResourceKeys.BIOME, ::BiomeTagCondition),
         RegistryLikeIdentifierCondition.resolver(::BiomeIdentifierCondition)
     )
 }

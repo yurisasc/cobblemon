@@ -16,7 +16,7 @@ import net.minecraft.server.level.ServerPlayer
 
 object SaveNPCHandler : ServerNetworkPacketHandler<SaveNPCPacket> {
     override fun handle(packet: SaveNPCPacket, server: MinecraftServer, player: ServerPlayer) {
-        val npcEntity = player.world.getEntityById(packet.npcId) as? NPCEntity ?: return
+        val npcEntity = player.level().getEntity(packet.npcId) as? NPCEntity ?: return
         if (npcEntity.editingPlayer != player.uuid) {
             return
         }

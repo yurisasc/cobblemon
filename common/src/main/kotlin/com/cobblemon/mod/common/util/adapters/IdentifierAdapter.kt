@@ -24,6 +24,6 @@ import net.minecraft.resources.ResourceLocation
  * @since January 24th, 2022
  */
 object IdentifierAdapter : JsonSerializer<ResourceLocation>, JsonDeserializer<ResourceLocation> {
-    override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext) = ResourceLocation.of(json.asString)
+    override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext) = ResourceLocation.parse(json.asString)
     override fun serialize(src: ResourceLocation, type: Type, ctx: JsonSerializationContext) = JsonPrimitive(src.toString())
 }

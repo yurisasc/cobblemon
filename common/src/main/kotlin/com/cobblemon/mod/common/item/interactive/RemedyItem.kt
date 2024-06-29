@@ -69,8 +69,8 @@ class RemedyItem(val remedyStrength: String) : CobblemonItem(Settings()), Pokemo
 
     override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
         if (user is ServerPlayer) {
-            return use(user, user.getStackInHand(hand))
+            return use(user, user.getItemInHand(hand))
         }
-        return InteractionResultHolder.success(user.getStackInHand(hand))
+        return InteractionResultHolder.success(user.getItemInHand(hand))
     }
 }

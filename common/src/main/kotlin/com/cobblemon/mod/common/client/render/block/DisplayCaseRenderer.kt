@@ -56,8 +56,8 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         val posType = getPositioningType(stack, world)
         val blockState = if (entity.world != null) entity.cachedState
             else (CobblemonBlocks.DISPLAY_CASE.defaultState.with(DisplayCaseBlock.ITEM_DIRECTION, Direction.NORTH))
-        val yRot = if (posType == PositioningType.ITEM_MODEL) blockState.get(DisplayCaseBlock.ITEM_DIRECTION).opposite.asRotation()
-            else blockState.get(DisplayCaseBlock.ITEM_DIRECTION).asRotation()
+        val yRot = if (posType == PositioningType.ITEM_MODEL) blockState.getValue(DisplayCaseBlock.ITEM_DIRECTION).opposite.asRotation()
+            else blockState.getValue(DisplayCaseBlock.ITEM_DIRECTION).asRotation()
 
         /*
         if (stack.item is PokemonItem) {

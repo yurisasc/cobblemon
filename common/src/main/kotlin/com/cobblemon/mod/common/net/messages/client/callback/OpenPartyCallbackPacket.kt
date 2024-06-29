@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.callback.PartySelectPokemonDTO
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.TextCodecs
 
@@ -31,8 +31,8 @@ class OpenPartyCallbackPacket(
 ) : NetworkPacket<OpenPartyCallbackPacket> {
     companion object {
         val ID = cobblemonResource("open_party_callback")
-        fun decode(buffer: RegistryByteBuf) = OpenPartyCallbackPacket(
-            uuid = buffer.readUuid(),
+        fun decode(buffer: RegistryFriendlyByteBuf) = OpenPartyCallbackPacket(
+            uuid = buffer.readUUID(),
             title = TextCodecs.PACKET_CODEC.decode(buffer).copy(),
 //            usePortraits = buffer.readBoolean(),
 //            animate = buffer.readBoolean(),
@@ -41,8 +41,8 @@ class OpenPartyCallbackPacket(
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
-        buffer.writeUuid(uuid)
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeUUID(uuid)
         TextCodecs.PACKET_CODEC.encode(buffer, title)
 //        buffer.writeBoolean(usePortraits)
 //        buffer.writeBoolean(animate)

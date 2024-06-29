@@ -17,18 +17,18 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.argument.EntityArgumentType
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 
 object TakePokemon {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        val command = CommandManager.literal("takepokemon")
+        val command = Commands.literal("takepokemon")
             .permission(CobblemonPermissions.TAKE_POKEMON)
             .then(
-                CommandManager.argument("player", EntityArgumentType.player())
+                Commands.argument("player", EntityArgumentType.player())
                     .then(
-                        CommandManager.argument("slot", IntegerArgumentType.integer(1, 99))
+                        Commands.argument("slot", IntegerArgumentType.integer(1, 99))
                             .executes(::execute)
                     )
             )

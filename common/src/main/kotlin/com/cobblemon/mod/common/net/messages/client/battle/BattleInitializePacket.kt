@@ -27,7 +27,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeMapK
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.text.TextCodecs
 
@@ -75,13 +75,13 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
         side2 = sides[1]
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
-        buffer.writeUuid(battleId)
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeUUID(battleId)
         battleFormat.saveToBuffer(buffer)
         for (side in arrayOf(side1, side2)) {
             buffer.writeSizedInt(IntSize.U_BYTE, side.actors.size)
             for (actor in side.actors) {
-                buffer.writeUuid(actor.uuid)
+                buffer.writeUUID(actor.uuid)
                 TextCodecs.PACKET_CODEC.encode(buffer, actor.displayName)
                 buffer.writeString(actor.showdownId)
                 buffer.writeSizedInt(IntSize.U_BYTE, actor.activePokemon.size)
@@ -94,14 +94,14 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
         }
     }
 
-    private fun decode(buffer: RegistryByteBuf) {
-        battleId = buffer.readUuid()
+    private fun decode(buffer: RegistryFriendlyByteBuf) {
+        battleId = buffer.readUUID()
         battleFormat = BattleFormat.loadFromBuffer(buffer)
         val sides = mutableListOf<BattleSideDTO>()
         repeat(times = 2) {
             val actors = mutableListOf<BattleActorDTO>()
             repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
-                val uuid = buffer.readUuid()
+                val uuid = buffer.readUUID()
                 val displayName = TextCodecs.PACKET_CODEC.decode(buffer) as MutableComponent
                 val showdownId = buffer.readString()
                 val activePokemon = mutableListOf<ActiveBattlePokemonDTO?>()
@@ -131,7 +131,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
 
     companion object {
         val ID = cobblemonResource("battle_initialize")
-        fun decode(buffer: RegistryByteBuf) = BattleInitializePacket().apply { decode(buffer) }
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleInitializePacket().apply { decode(buffer) }
     }
 
     data class BattleSideDTO(val actors: List<BattleActorDTO>)
@@ -192,8 +192,8 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
                 )
             }
 
-            fun loadFromBuffer(buffer: RegistryByteBuf): ActiveBattlePokemonDTO {
-                val uuid = buffer.readUuid()
+            fun loadFromBuffer(buffer: RegistryFriendlyByteBuf): ActiveBattlePokemonDTO {
+                val uuid = buffer.readUUID()
                 val pokemonDisplayName = TextCodecs.PACKET_CODEC.decode(buffer).copy()
                 val properties = PokemonProperties.parse(buffer.readString(), delimiter = " ")
                 val aspects = buffer.readList { buffer.readString() }.toSet()
@@ -225,8 +225,8 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
             }
         }
 
-        fun saveToBuffer(buffer: RegistryByteBuf): ActiveBattlePokemonDTO {
-            buffer.writeUuid(uuid)
+        fun saveToBuffer(buffer: RegistryFriendlyByteBuf): ActiveBattlePokemonDTO {
+            buffer.writeUUID(uuid)
             TextCodecs.PACKET_CODEC.encode(buffer, displayName)
             buffer.writeString(properties.asString())
             buffer.writeCollection(aspects) { buf, it -> buf.writeString(it) }

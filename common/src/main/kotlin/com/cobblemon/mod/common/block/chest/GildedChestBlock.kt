@@ -30,7 +30,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.ActionResult
-import net.minecraft.util.BlockMirror
+import net.minecraft.util.Mirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.StringIdentifiable
@@ -180,7 +180,7 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
 
         world.removeBlock(pos, false)
         afterOnServer(ticks = 2) {
-            if (player !in player.world.players) {
+            if (player !in player.level().players) {
                 return@afterOnServer
             }
             val party = player.party()
@@ -256,7 +256,7 @@ class GildedChestBlock(settings: Properties, val type: Type = Type.RED) : BaseEn
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
     }
 
-    override fun mirror(state: BlockState, mirror: BlockMirror): BlockState {
+    override fun mirror(state: BlockState, mirror: Mirror): BlockState {
         return state.rotate(mirror.getRotation(state.getValue(HORIZONTAL_FACING) as Direction))
     }
 

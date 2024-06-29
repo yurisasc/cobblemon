@@ -131,7 +131,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
                 .forEach { (identifier, resource) ->
                     resource.inputStream.use { stream ->
                         val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                        val resolvedIdentifier = ResourceLocation.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                        val resolvedIdentifier = ResourceLocation.parse(identifier.namespace, File(identifier.path).nameWithoutExtension)
                         posers[resolvedIdentifier] = loadJsonPoser(json)
                     }
                 }
@@ -249,7 +249,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
             it[".geo.json"] = BiFunction<ResourceLocation, Resource, Pair<ResourceLocation, Function<Boolean, Bone>>> { identifier: ResourceLocation, resource: Resource ->
                 resource.inputStream.use { stream ->
                     val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                    val resolvedIdentifier = ResourceLocation.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    val resolvedIdentifier = ResourceLocation.parse(identifier.namespace, File(identifier.path).nameWithoutExtension)
 
                     val texturedModel = TexturedModel.from(json)
                     val boneCreator: Function<Boolean, Bone> = Function { texturedModel.create(it).createModel() }

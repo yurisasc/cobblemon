@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.net
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.PacketHandler
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.packet.CustomPayload
 import net.minecraft.resources.ResourceLocation
@@ -23,9 +23,9 @@ import net.minecraft.resources.ResourceLocation
  */
 class PacketRegisterInfo<T : NetworkPacket<T>>(
     val id: ResourceLocation,
-    val decoder: (RegistryByteBuf) -> T,
+    val decoder: (RegistryFriendlyByteBuf) -> T,
     val handler: PacketHandler<T>,
-    codec: PacketCodec<RegistryByteBuf, T>? = null
+    codec: PacketCodec<RegistryFriendlyByteBuf, T>? = null
 ) {
     val payloadId = CustomPayload.Id<T>(id)
     val codec = codec ?: PacketCodec.of(

@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.api.permission
 /**
  * Represents the different permission levels used in Minecraft.
  * See the Minecraft Wiki [entry](https://minecraft.fandom.com/wiki/Permission_level) for more information.
- * This is mean as a human friendly util over the obfuscated fields in [CommandManager].
+ * This is mean as a human friendly util over the obfuscated fields in [Commands].
  *
  * @author Licious
  * @since September 25th, 2022

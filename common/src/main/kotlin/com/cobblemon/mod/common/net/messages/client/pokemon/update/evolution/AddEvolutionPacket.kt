@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readString
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.RegistryFriendlyByteBuf
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, AddEvolutionPacket>(pokemon, value) {
 
@@ -28,7 +28,7 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
 
     constructor(pokemon: Pokemon, value: Evolution) : this({ pokemon }, value.convertToDisplay(pokemon))
 
-    override fun encodeValue(buffer: RegistryByteBuf) {
+    override fun encodeValue(buffer: RegistryFriendlyByteBuf) {
         this.value.encode(buffer)
     }
 
@@ -40,7 +40,7 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
 
         val ID = cobblemonResource("add_evolution")
 
-        fun decode(buffer: RegistryByteBuf) = AddEvolutionPacket(decodePokemon(buffer), decodeDisplay(buffer))
+        fun decode(buffer: RegistryFriendlyByteBuf) = AddEvolutionPacket(decodePokemon(buffer), decodeDisplay(buffer))
 
         internal fun Evolution.convertToDisplay(pokemon: Pokemon): EvolutionDisplay {
             val result = pokemon.clone()

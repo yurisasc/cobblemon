@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.Minecraft
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.sound.SoundEvents
+import net.minecraft.sounds.SoundEvents
 
 /**
  * Button for toggling gimmicks during a battle.
@@ -58,7 +58,7 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
 
     abstract val tiles: List<BattleMoveSelection.MoveTile>
     var toggled = false
-    private val sfx = PositionedSoundInstance.master(SoundEvents.BLOCK_ANVIL_LAND, 1.0F)
+    private val sfx = PositionedSoundInstance.master(SoundEvents.ANVIL_LAND, 1.0F)
     private val texture = gimmick.id
 
     fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {

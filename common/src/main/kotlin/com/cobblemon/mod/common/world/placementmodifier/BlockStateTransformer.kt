@@ -18,7 +18,7 @@ import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import kotlin.random.Random
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 enum class BlockStateTransformerType {
     NONE,
@@ -54,8 +54,8 @@ class NoneBlockStateTransformer : BlockStateTransformer {
     override fun transform(blockState: BlockState) = blockState
 
     override fun <T> encode(ops: DynamicOps<T>): DataResult<T> = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: RegistryByteBuf) = throw NotImplementedError("Not supposed to use this for block state transformers")
-    override fun writeToBuffer(buffer: RegistryByteBuf) = throw NotImplementedError("Not supposed to use this for block state transformers")
+    override fun readFromBuffer(buffer: RegistryFriendlyByteBuf) = throw NotImplementedError("Not supposed to use this for block state transformers")
+    override fun writeToBuffer(buffer: RegistryFriendlyByteBuf) = throw NotImplementedError("Not supposed to use this for block state transformers")
 }
 
 // We could totally add mulch to this
@@ -77,6 +77,6 @@ class BerryTransformBlockStateTransformer(val minAge: Int, val maxAge: Int, val 
         .with(BerryBlock.WAS_GENERATED, wild)
 
     override fun <T> encode(ops: DynamicOps<T>): DataResult<T> = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: RegistryByteBuf) = throw NotImplementedError("Not supposed to use this for block state transformers")
-    override fun writeToBuffer(buffer: RegistryByteBuf) = throw NotImplementedError("Not supposed to use this for block state transformers")
+    override fun readFromBuffer(buffer: RegistryFriendlyByteBuf) = throw NotImplementedError("Not supposed to use this for block state transformers")
+    override fun writeToBuffer(buffer: RegistryFriendlyByteBuf) = throw NotImplementedError("Not supposed to use this for block state transformers")
 }

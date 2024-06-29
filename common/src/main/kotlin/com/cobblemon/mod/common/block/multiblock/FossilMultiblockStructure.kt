@@ -325,7 +325,7 @@ class FossilMultiblockStructure (
         val tankBaseEntity = world.getBlockEntity(tankBasePos) as? MultiblockEntity
         val tankTopEntity = world.getBlockEntity(tankBasePos.up()) as? MultiblockEntity
         val tankBaseBlockState = world.getBlockState(tankBaseEntity?.pos)
-        val direction = tankBaseBlockState.get(HorizontalDirectionalBlock.FACING).opposite
+        val direction = tankBaseblockState.getValue(HorizontalDirectionalBlock.FACING).opposite
         val wildPokemon: Pokemon? = if(hasCreatedPokemon) resultingFossil?.result?.create() else null
 
         monitorEntity?.multiblockStructure = null
@@ -607,7 +607,7 @@ class FossilMultiblockStructure (
         result.putInt(DataKeys.TIME_LEFT, timeRemaining)
         result.putInt(DataKeys.PROTECTED_TIME_LEFT, protectionTime)
         if(fossilOwnerUUID != null)
-            result.putUuid(DataKeys.FOSSIL_OWNER, fossilOwnerUUID)
+            result.putUUID(DataKeys.FOSSIL_OWNER, fossilOwnerUUID)
         result.putInt(DataKeys.ORGANIC_MATERIAL, organicMaterialInside)
         val fossilInv = NbtList()
         //TODO: Add this back
@@ -656,7 +656,7 @@ class FossilMultiblockStructure (
             result.organicMaterialInside = nbt.getInt(DataKeys.ORGANIC_MATERIAL)
             result.timeRemaining = nbt.getInt(DataKeys.TIME_LEFT)
             result.protectionTime = if(nbt.contains(DataKeys.PROTECTED_TIME_LEFT)) nbt.getInt(DataKeys.PROTECTED_TIME_LEFT) else -1
-            result.fossilOwnerUUID = if(nbt.contains(DataKeys.FOSSIL_OWNER)) nbt.getUuid(DataKeys.FOSSIL_OWNER) else null
+            result.fossilOwnerUUID = if(nbt.contains(DataKeys.FOSSIL_OWNER)) nbt.getUUID(DataKeys.FOSSIL_OWNER) else null
 
             val fossilInv = (nbt.get(DataKeys.FOSSIL_INVENTORY) as NbtList)
             val actualFossilList = mutableListOf<ItemStack>()
@@ -669,7 +669,7 @@ class FossilMultiblockStructure (
             result.tankConnectorDirection = Direction.byName(nbt.getString(DataKeys.CONNECTOR_DIRECTION))
 
             if (nbt.contains(DataKeys.INSERTED_FOSSIL)) {
-                val id = ResourceLocation.of(nbt.getString(DataKeys.INSERTED_FOSSIL))
+                val id = ResourceLocation.parse(nbt.getString(DataKeys.INSERTED_FOSSIL))
                 val fossil = Fossils.getByIdentifier(id)
 
                 if (fossil != null) {

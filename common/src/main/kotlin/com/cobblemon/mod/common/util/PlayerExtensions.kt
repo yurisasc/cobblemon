@@ -27,7 +27,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
+import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.*
 import net.minecraft.world.RaycastContext

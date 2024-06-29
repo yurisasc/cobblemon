@@ -12,14 +12,14 @@ import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.scripting.CobblemonScripts
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
 
 class ScriptRegistrySyncPacket(entries: Collection<Map.Entry<ResourceLocation, ExpressionLike>>) : DataRegistrySyncPacket<Map.Entry<ResourceLocation, ExpressionLike>, ScriptRegistrySyncPacket>(entries){
     companion object {
         val ID = cobblemonResource("script_registry_sync")
-        fun decode(buffer: RegistryByteBuf): ScriptRegistrySyncPacket = ScriptRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
+        fun decode(buffer: RegistryFriendlyByteBuf): ScriptRegistrySyncPacket = ScriptRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 
     override fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: Map.Entry<ResourceLocation, ExpressionLike>) {

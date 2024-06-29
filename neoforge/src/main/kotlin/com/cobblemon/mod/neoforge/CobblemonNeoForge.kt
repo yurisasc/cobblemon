@@ -44,8 +44,8 @@ import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.DirectoryResourcePack
 import net.minecraft.resource.ResourceManager
@@ -99,7 +99,7 @@ class CobblemonNeoForge : CobblemonImplementation {
     override val modAPI = ModAPI.NEOFORGE
     private val hasBeenSynced = hashSetOf<UUID>()
 
-    private val commandArgumentTypes = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
+    private val commandArgumentTypes = DeferredRegister.create(ResourceKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
     private val reloadableResources = arrayListOf<PreparableReloadListener>()
     private val queuedWork = arrayListOf<() -> Unit>()
     private val queuedBuiltinResourcePacks = arrayListOf<Triple<ResourceLocation, Component, ResourcePackActivationBehaviour>>()
@@ -162,33 +162,33 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     fun on(event: RegisterEvent) {
 
-        event.register(RegistryKeys.BLOCK_PREDICATE_TYPE) {
+        event.register(ResourceKeys.BLOCK_PREDICATE_TYPE) {
             CobblemonBlockPredicates.touch()
         }
-        event.register(RegistryKeys.PLACEMENT_MODIFIER_TYPE) {
+        event.register(ResourceKeys.PLACEMENT_MODIFIER_TYPE) {
             CobblemonPlacementModifierTypes.touch()
         }
-        event.register(RegistryKeys.DECORATED_POT_PATTERN) {
+        event.register(ResourceKeys.DECORATED_POT_PATTERN) {
             CobblemonSherds.registerSherds()
         }
 
-        event.register(RegistryKeys.STRUCTURE_PROCESSOR) {
+        event.register(ResourceKeys.STRUCTURE_PROCESSOR) {
             CobblemonProcessorTypes.touch()
         }
 
-        event.register(RegistryKeys.ACTIVITY) { registry ->
+        event.register(ResourceKeys.ACTIVITY) { registry ->
             CobblemonActivities.activities.forEach {
                 registry.register(cobblemonResource(it.id), it)
             }
         }
 
-        event.register(RegistryKeys.SENSOR_TYPE) { registry ->
+        event.register(ResourceKeys.SENSOR_TYPE) { registry ->
             CobblemonSensors.sensors.forEach { (key, sensorType) ->
                 registry.register(cobblemonResource(key), sensorType)
             }
         }
 
-        event.register(RegistryKeys.MEMORY_MODULE_TYPE) { registry ->
+        event.register(ResourceKeys.MEMORY_MODULE_TYPE) { registry ->
             CobblemonMemories.memories.forEach { (key, memoryModuleType) ->
                 registry.register(cobblemonResource(key), memoryModuleType)
             }
@@ -219,7 +219,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerSoundEvents() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonSounds.registryKey) { helper ->
+            event.register(CobblemonSounds.ResourceKey) { helper ->
                 CobblemonSounds.register { identifier, sounds -> helper.register(identifier, sounds) }
             }
         }
@@ -227,7 +227,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerDataComponents() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonItemComponents.registryKey) { helper ->
+            event.register(CobblemonItemComponents.ResourceKey) { helper ->
                 CobblemonItemComponents.register { identifier, ComponentType ->  helper.register(identifier, ComponentType)}
             }
         }
@@ -247,7 +247,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerBlocks() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonBlocks.registryKey) { helper ->
+            event.register(CobblemonBlocks.ResourceKey) { helper ->
                 CobblemonBlocks.register { identifier, block -> helper.register(identifier, block) }
             }
         }
@@ -255,7 +255,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerParticles() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonParticles.registryKey) { helper ->
+            event.register(CobblemonParticles.ResourceKey) { helper ->
                 CobblemonParticles.register { identifier, particleType -> helper.register(identifier, particleType) }
             }
         }
@@ -272,12 +272,12 @@ class CobblemonNeoForge : CobblemonImplementation {
     override fun registerItems() {
         with(MOD_BUS) {
             addListener<RegisterEvent> { event ->
-                event.register(CobblemonItems.registryKey) { helper ->
+                event.register(CobblemonItems.ResourceKey) { helper ->
                     CobblemonItems.register { identifier, item -> helper.register(identifier, item) }
                 }
             }
             addListener<RegisterEvent> { event ->
-                event.register(RegistryKeys.ITEM_GROUP) { helper ->
+                event.register(ResourceKeys.ITEM_GROUP) { helper ->
                     CobblemonItemGroups.register { holder ->
                         val itemGroup = ItemGroup.builder()
                             .displayName(holder.displayName)
@@ -294,7 +294,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerEntityTypes() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonEntities.registryKey) { helper ->
+            event.register(CobblemonEntities.ResourceKey) { helper ->
                 CobblemonEntities.register { identifier, type -> helper.register(identifier, type) }
             }
         }
@@ -313,7 +313,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerBlockEntityTypes() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonBlockEntities.registryKey) { helper ->
+            event.register(CobblemonBlockEntities.ResourceKey) { helper ->
                 CobblemonBlockEntities.register { identifier, type -> helper.register(identifier, type) }
             }
         }
@@ -321,13 +321,13 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerWorldGenFeatures() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonFeatures.registryKey) { helper ->
+            event.register(CobblemonFeatures.ResourceKey) { helper ->
                 CobblemonFeatures.register { identifier, feature -> helper.register(identifier, feature) }
             }
         }
     }
 
-    override fun addFeatureToWorldGen(feature: RegistryKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?) {
+    override fun addFeatureToWorldGen(feature: ResourceKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?) {
         CobblemonBiomeModifiers.add(feature, step, validTag)
     }
 
@@ -350,7 +350,7 @@ class CobblemonNeoForge : CobblemonImplementation {
     override fun registerCriteria() {
         MOD_BUS.addListener<RegisterEvent> { event ->
             CobblemonCriteria.register { id, obj ->
-                event.register(CobblemonCriteria.registryKey) { helper ->
+                event.register(CobblemonCriteria.resourceKey) { helper ->
                     CobblemonCriteria.register { identifier, criteria -> helper.register(identifier, criteria) }
                 }
             }
@@ -382,7 +382,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
             resource.inputStream.use { stream ->
                 stream.bufferedReader().use { reader ->
-                    val resolvedIdentifier = ResourceLocation.of(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    val resolvedIdentifier = ResourceLocation.parse(identifier.namespace, File(identifier.path).nameWithoutExtension)
                     try {
                         data[resolvedIdentifier] = registry.gson.fromJson(reader, registry.typeToken.type)
                     } catch (exception: Exception) {

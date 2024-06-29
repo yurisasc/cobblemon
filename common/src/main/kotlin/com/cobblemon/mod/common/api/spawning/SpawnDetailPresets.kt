@@ -25,7 +25,7 @@ import com.google.gson.reflect.TypeToken
 import com.mojang.datafixers.util.Either
 import net.minecraft.world.level.block.Block
 import net.minecraft.fluid.Fluid
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.level.ServerPlayer
@@ -60,7 +60,7 @@ object SpawnDetailPresets : JsonDataRegistry<SpawnDetailPreset> {
                     Structure::class.java
                 ).type
             ).type,
-            EitherIdentifierOrTagAdapter(RegistryKeys.STRUCTURE)
+            EitherIdentifierOrTagAdapter(ResourceKeys.STRUCTURE)
         )
         .registerTypeAdapter(SpawnDetailPreset::class.java, SpawnDetailPresetAdapter)
         .registerTypeAdapter(ResourceLocation::class.java, IdentifierAdapter)

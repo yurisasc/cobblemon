@@ -44,6 +44,6 @@ interface BagItem {
      * bag item can still be used.
      */
     fun canStillUse(player: ServerPlayer, battle: PokemonBattle, actor: BattleActor, target: BattlePokemon, stack: ItemStack): Boolean {
-        return stack in player.handItems && stack.count > 0 && canUse(battle, target) && actor.canFitForcedAction()
+        return stack in player.handSlots && stack.count > 0 && canUse(battle, target) && actor.canFitForcedAction()
     }
 }

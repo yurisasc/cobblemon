@@ -16,18 +16,18 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 
 object GiveAllPokemon {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(
-            CommandManager.literal("giveallpokemon")
+            Commands.literal("giveallpokemon")
                 .requiresWithPermission(CobblemonPermissions.GIVE_ALL_POKEMON) { it.player != null }
                 .then(
-                    CommandManager.argument("min", IntegerArgumentType.integer(1))
+                    Commands.argument("min", IntegerArgumentType.integer(1))
                         .then(
-                            CommandManager.argument("max", IntegerArgumentType.integer(1))
+                            Commands.argument("max", IntegerArgumentType.integer(1))
                                 .executes {
                                     execute(it, IntegerArgumentType.getInteger(it, "min")..IntegerArgumentType.getInteger(it, "max"))
                                 }
@@ -45,7 +45,7 @@ object GiveAllPokemon {
         val orderedSpeces = PokemonSpecies.implemented.sortedBy { it.nationalPokedexNumber }
 
         for (species in orderedSpeces) {
-            pc.add(species.create())//.sendOut(player.world as ServerWorld, player.pos)
+            pc.add(species.create())//.sendOut(player.level() as ServerWorld, player.pos)
         }
 
         return Command.SINGLE_SUCCESS

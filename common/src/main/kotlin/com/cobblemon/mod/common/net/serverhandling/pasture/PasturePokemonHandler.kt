@@ -28,8 +28,8 @@ object PasturePokemonHandler : ServerNetworkPacketHandler<PasturePokemonPacket> 
         val pc = Cobblemon.storage.getPC(pastureLink.pcId)
         val pokemon = pc[packet.pokemonId] ?: return
 
-        val pastureBlockEntity = player.world.getBlockEntity(pastureLink.pos) as? PokemonPastureBlockEntity ?: return
-        val state = player.world.getBlockState(pastureLink.pos)
+        val pastureBlockEntity = player.level().getBlockEntity(pastureLink.pos) as? PokemonPastureBlockEntity ?: return
+        val state = player.level().getBlockState(pastureLink.pos)
         val direction = state.get(HorizontalDirectionalBlock.FACING)
 
         if (pokemon.tetheringId != null) {

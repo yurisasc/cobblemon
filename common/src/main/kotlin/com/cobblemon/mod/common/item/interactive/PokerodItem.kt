@@ -70,14 +70,14 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
 
     override fun use(world: Level, user: Player, hand: Hand): InteractionResultHolder<ItemStack> {
         // if item in mainhand is berry item then don't do anything
-        if (user.getStackInHand(Hand.MAIN_HAND).item is BerryItem)
+        if (user.getItemInHand(Hand.MAIN_HAND).item is BerryItem)
             return InteractionResultHolder(
                 ActionResult.FAIL,
-                user.getStackInHand(hand)
+                user.getItemInHand(hand)
             )
 
-        val itemStack = user.getStackInHand(hand)
-        val offHandItem = user.getStackInHand(Hand.OFF_HAND)
+        val itemStack = user.getItemInHand(hand)
+        val offHandItem = user.getItemInHand(Hand.OFF_HAND)
         val offHandBait = FishingBaits.getFromBaitItemStack(offHandItem)
 
         // if there already is bait on the bobber then drop it on the ground

@@ -20,7 +20,7 @@ import java.lang.reflect.Type
  * [TagKey]s are just [ResourceLocation]s attached to a certain registry.
  *
  * @param T The type of the [Registry] this [TagKey] belongs to.
- * @property key The [RegistryKey] used to create new [TagKey]s.
+ * @property key The [ResourceKey] used to create new [TagKey]s.
  *
  * @author Licious
  * @since July 2nd, 2022

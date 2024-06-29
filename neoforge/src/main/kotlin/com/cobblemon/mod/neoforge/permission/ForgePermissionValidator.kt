@@ -39,19 +39,19 @@ object ForgePermissionValidator : PermissionValidator {
     }
 
     override fun hasPermission(player: ServerPlayer, permission: Permission): Boolean {
-        val node = this.findNode(permission) ?: return player.hasPermissionLevel(permission.level.numericalValue)
+        val node = this.findNode(permission) ?: return player.hasPermission(permission.level.numericalValue)
         return PermissionAPI.getPermission(player, node)
     }
 
     override fun hasPermission(source: CommandSource, permission: Permission): Boolean {
-        val player = this.extractPlayerFromSource(source) ?: return source.hasPermissionLevel(permission.level.numericalValue)
-        val node = this.findNode(permission) ?: return source.hasPermissionLevel(permission.level.numericalValue)
+        val player = this.extractPlayerFromSource(source) ?: return source.hasPermission(permission.level.numericalValue)
+        val node = this.findNode(permission) ?: return source.hasPermission(permission.level.numericalValue)
         return PermissionAPI.getPermission(player, node)
     }
 
     private fun createNodes() = CobblemonPermissions.all().map { permission ->
         // 3rd arg is default value if no implementation is present essentially
-        val node = PermissionNode(permission.identifier, PermissionTypes.BOOLEAN, { player, _, _ -> player?.hasPermissionLevel(permission.level.numericalValue) == true })
+        val node = PermissionNode(permission.identifier, PermissionTypes.BOOLEAN, { player, _, _ -> player?.hasPermission(permission.level.numericalValue) == true })
         this.nodes[permission.identifier] = node
         Cobblemon.LOGGER.debug("Registered Forge permission node ${node.nodeName}")
         node

@@ -448,10 +448,10 @@ open class PokemonEntity(
         val tethering = this.tethering
         if (tethering != null) {
             val tetheringNbt = NbtCompound()
-            tetheringNbt.putUuid(DataKeys.TETHERING_ID, tethering.tetheringId)
-            tetheringNbt.putUuid(DataKeys.POKEMON_UUID, tethering.pokemonId)
-            tetheringNbt.putUuid(DataKeys.POKEMON_OWNER_ID, tethering.playerId)
-            tetheringNbt.putUuid(DataKeys.PC_ID, tethering.pcId)
+            tetheringNbt.putUUID(DataKeys.TETHERING_ID, tethering.tetheringId)
+            tetheringNbt.putUUID(DataKeys.POKEMON_UUID, tethering.pokemonId)
+            tetheringNbt.putUUID(DataKeys.POKEMON_OWNER_ID, tethering.playerId)
+            tetheringNbt.putUUID(DataKeys.PC_ID, tethering.pcId)
             tetheringNbt.put(DataKeys.TETHER_MIN_ROAM_POS, NbtHelper.fromBlockPos(tethering.minRoamPos))
             tetheringNbt.put(DataKeys.TETHER_MAX_ROAM_POS, NbtHelper.fromBlockPos(tethering.maxRoamPos))
             nbt.put(DataKeys.TETHERING, tetheringNbt)
@@ -460,7 +460,7 @@ open class PokemonEntity(
         }
         val battleIdToSave = battleId
         if (battleIdToSave != null) {
-            nbt.putUuid(DataKeys.POKEMON_BATTLE_ID, battleIdToSave)
+            nbt.putUUID(DataKeys.POKEMON_BATTLE_ID, battleIdToSave)
         }
         nbt.putString(DataKeys.POKEMON_POSE_TYPE, SynchedEntityData.get(POSE_TYPE).name)
         nbt.putByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS, SynchedEntityData.get(BEHAVIOUR_FLAGS))
@@ -487,10 +487,10 @@ open class PokemonEntity(
         super.readNbt(nbt)
         if (nbt.contains(DataKeys.TETHERING)) {
             val tetheringNBT = nbt.getCompound(DataKeys.TETHERING)
-            val tetheringId = tetheringNBT.getUuid(DataKeys.TETHERING_ID)
-            val pcId = tetheringNBT.getUuid(DataKeys.PC_ID)
-            val pokemonId = tetheringNBT.getUuid(DataKeys.POKEMON_UUID)
-            val playerId = tetheringNBT.getUuid(DataKeys.POKEMON_OWNER_ID)
+            val tetheringId = tetheringNBT.getUUID(DataKeys.TETHERING_ID)
+            val pcId = tetheringNBT.getUUID(DataKeys.PC_ID)
+            val pokemonId = tetheringNBT.getUUID(DataKeys.POKEMON_UUID)
+            val playerId = tetheringNBT.getUUID(DataKeys.POKEMON_OWNER_ID)
             val minRoamPos = NbtHelper.toBlockPos(tetheringNBT, DataKeys.TETHER_MIN_ROAM_POS).get()
             val maxRoamPos = NbtHelper.toBlockPos(tetheringNBT, DataKeys.TETHER_MAX_ROAM_POS).get()
 
@@ -520,7 +520,7 @@ open class PokemonEntity(
             }
         }
 
-        val savedBattleId = if (nbt.containsUuid(DataKeys.POKEMON_BATTLE_ID)) nbt.getUuid(DataKeys.POKEMON_BATTLE_ID) else null
+        val savedBattleId = if (nbt.containsUuid(DataKeys.POKEMON_BATTLE_ID)) nbt.getUUID(DataKeys.POKEMON_BATTLE_ID) else null
         if (savedBattleId != null) {
             val battle = BattleRegistry.getBattle(savedBattleId)
             if (battle != null) {
@@ -615,8 +615,8 @@ open class PokemonEntity(
                 !this.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) &&
                 worldTime in this.behaviour.resting.times &&
                 light in rest.light &&
-                (rest.blocks.isEmpty() || rest.blocks.any { it.fits(block, this.world.registryManager.get(RegistryKeys.BLOCK)) }) &&
-                (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(RegistryKeys.BIOME)) })
+                (rest.blocks.isEmpty() || rest.blocks.any { it.fits(block, this.world.registryManager.get(ResourceKeys.BLOCK)) }) &&
+                (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(ResourceKeys.BIOME)) })
     }
 
     override fun getBreedOffspring(serverLevel: ServerLevel, ageableMob: AgeableMob) = null
@@ -626,7 +626,7 @@ open class PokemonEntity(
     }
 
     override fun interactMob(player: Player, hand: InteractionHand) : ActionResult {
-        val itemStack = player.getStackInHand(hand)
+        val itemStack = player.getItemInHand(hand)
         val colorFeatureType = SpeciesFeatures.getFeaturesFor(pokemon.species)
             .find { it is ChoiceSpeciesFeatureProvider && DataKeys.CAN_BE_COLORED in it.keys }
         val colorFeature = pokemon.getFeature<StringSpeciesFeature>(DataKeys.CAN_BE_COLORED)
@@ -751,10 +751,10 @@ open class PokemonEntity(
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayer && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
-                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer && pokemon in player.party()).sendToPlayer(player)
+                InteractPokemonUIPacket(this.getUUID(), isReadyToSitOnPlayer && pokemon in player.party()).sendToPlayer(player)
             } else {
                 // TODO #105
-                if (this.attemptItemInteraction(player, player.getStackInHand(hand))) return ActionResult.SUCCESS
+                if (this.attemptItemInteraction(player, player.getItemInHand(hand))) return ActionResult.SUCCESS
             }
         }
 
@@ -842,10 +842,10 @@ open class PokemonEntity(
 
     override fun playAmbientSound() {
         if (!this.isSilent || this.busyLocks.filterIsInstance<EmptyPokeBallEntity>().isEmpty()) {
-            val sound = ResourceLocation.of(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
+            val sound = ResourceLocation.parse(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
             // ToDo distance to travel is currently hardcoded to default we can maybe find a way to work around this down the line
             UnvalidatedPlaySoundS2CPacket(sound, this.soundCategory, this.x, this.y, this.z, this.soundVolume, this.soundPitch)
-                .sendToPlayersAround(this.x, this.y, this.z, 16.0, this.world.registryKey)
+                .sendToPlayersAround(this.x, this.y, this.z, 16.0, this.world.resourceKey)
         }
     }
 
@@ -877,7 +877,7 @@ open class PokemonEntity(
 
         // Check evolution item interaction
         if (pokemon.getOwnerPlayer() == player) {
-            val context = ItemInteractionEvolution.ItemInteractionContext(stack, player.world)
+            val context = ItemInteractionEvolution.ItemInteractionContext(stack, player.level())
             pokemon.lockedEvolutions
                 .filterIsInstance<ItemInteractionEvolution>()
                 .forEach { evolution ->
@@ -968,11 +968,11 @@ open class PokemonEntity(
             return false
         }
         val nbt = when {
-            player.shoulderEntityRight.isPokemonEntity() && player.shoulderEntityRight.getCompound(DataKeys.POKEMON).getUuid(DataKeys.POKEMON_UUID) == this.pokemon.uuid -> player.shoulderEntityRight
-            player.shoulderEntityLeft.isPokemonEntity() && player.shoulderEntityLeft.getCompound(DataKeys.POKEMON).getUuid(DataKeys.POKEMON_UUID) == this.pokemon.uuid -> player.shoulderEntityLeft
+            player.shoulderEntityRight.isPokemonEntity() && player.shoulderEntityRight.getCompound(DataKeys.POKEMON).getUUID(DataKeys.POKEMON_UUID) == this.pokemon.uuid -> player.shoulderEntityRight
+            player.shoulderEntityLeft.isPokemonEntity() && player.shoulderEntityLeft.getCompound(DataKeys.POKEMON).getUUID(DataKeys.POKEMON_UUID) == this.pokemon.uuid -> player.shoulderEntityLeft
             else -> return true
         }
-        nbt.putUuid(DataKeys.SHOULDER_UUID, this.pokemon.uuid)
+        nbt.putUUID(DataKeys.SHOULDER_UUID, this.pokemon.uuid)
         nbt.putString(DataKeys.SHOULDER_SPECIES, this.pokemon.species.resourceIdentifier.toString())
         nbt.putString(DataKeys.SHOULDER_FORM, this.pokemon.form.name)
         nbt.put(DataKeys.SHOULDER_ASPECTS, this.pokemon.aspects.map(NbtString::of).toNbtList())

@@ -36,7 +36,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.mojang.serialization.Codec
 import net.minecraft.entity.EntityDimensions
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -177,7 +177,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
 
     fun canGmax() = this.forms.find { it.formOnlyShowdownId() == "gmax" } != null
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeBoolean(this.implemented)
         buffer.writeString(this.name)
         buffer.writeInt(this.nationalPokedexNumber)
@@ -208,7 +208,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         }
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: RegistryFriendlyByteBuf) {
         this.implemented = buffer.readBoolean()
         this.name = buffer.readString()
         this.nationalPokedexNumber = buffer.readInt()
@@ -289,7 +289,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         val CODEC: Codec<Species> = Codec.STRING.xmap(
             // TODO: 1.21 uses the one below
             //{ speciesId -> PokemonSpecies.getByIdentifier(Identifier.of(speciesId)) },
-            { speciesId -> PokemonSpecies.getByIdentifier(ResourceLocation.of(speciesId)) },
+            { speciesId -> PokemonSpecies.getByIdentifier(ResourceLocation.parse(speciesId)) },
             { it.resourceIdentifier.toString() }
         )
     }

@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.util.writeCollection
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeString
 import com.cobblemon.mod.common.util.writeText
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 
 class DialoguePageDTO : Encodable, Decodable {
@@ -36,14 +36,14 @@ class DialoguePageDTO : Encodable, Decodable {
         this.clientActions = dialoguePage.clientActions.map { it.originalString }.toMutableList()
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeNullable(speaker) { _, value -> buffer.writeString(value)}
         buffer.writeCollection(lines) { _, value -> buffer.writeText(value) }
         buffer.writeInt(clientActions.size)
         clientActions.forEach { buffer.writeString(it) }
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: RegistryFriendlyByteBuf) {
         speaker = buffer.readNullable { buffer.readString() }
         lines = buffer.readList { it.readText().copy() }.toMutableList()
         val clientActionsSize = buffer.readInt()

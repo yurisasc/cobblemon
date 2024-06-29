@@ -903,7 +903,7 @@ open class Pokemon : ShowdownIdentifiable {
 
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putString(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
-        nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
+        nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
         nbt.putString(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
         Cobblemon.LOGGER.error("MAKE SURE TO FIX THIS")
         //nickname?.let { nbt.putString(DataKeys.POKEMON_NICKNAME, Text.Serialization.toJsonString(it)) }
@@ -941,7 +941,7 @@ open class Pokemon : ShowdownIdentifiable {
         }
         nbt.put(DataKeys.POKEMON_PERSISTENT_DATA, persistentData)
         if (tetheringId != null) {
-            nbt.putUuid(DataKeys.TETHERING_ID, tetheringId)
+            nbt.putUUID(DataKeys.TETHERING_ID, tetheringId)
         }
         nbt.putString(DataKeys.POKEMON_TERA_TYPE, teraType.id.toString())
         nbt.putInt(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
@@ -958,11 +958,11 @@ open class Pokemon : ShowdownIdentifiable {
 
     fun loadFromNBT(nbt: CompoundTag): Pokemon {
         val version = nbt.getString(DataKeys.POKEMON_LAST_SAVED_VERSION).takeIf { it.isNotBlank() } ?: "1.1.1"
-        uuid = nbt.getUuid(DataKeys.POKEMON_UUID)
+        uuid = nbt.getUUID(DataKeys.POKEMON_UUID)
         try {
             val rawID = nbt.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER).replace("pokemonCobblemon", "cobblemon")
-            species = PokemonSpecies.getByIdentifier(ResourceLocation.of(rawID))
-                ?: throw InvalidSpeciesException(ResourceLocation.of(rawID))
+            species = PokemonSpecies.getByIdentifier(ResourceLocation.parse(rawID))
+                ?: throw InvalidSpeciesException(ResourceLocation.parse(rawID))
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to read a species identifier from NBT")
         }
@@ -994,7 +994,7 @@ open class Pokemon : ShowdownIdentifiable {
         faintedTimer = nbt.getInt(DataKeys.POKEMON_FAINTED_TIMER)
         healTimer = nbt.getInt(DataKeys.POKEMON_HEALING_TIMER)
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
-        caughtBall = PokeBalls.getPokeBall(ResourceLocation.of(ballName)) ?: PokeBalls.POKE_BALL
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation.parse(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
         val propertiesList = nbt.getList(DataKeys.POKEMON_DATA, NbtString.STRING_TYPE.toInt())
         val properties = PokemonProperties.parse(propertiesList.joinToString(separator = " ") { it.asString() }, " ")
@@ -1006,10 +1006,10 @@ open class Pokemon : ShowdownIdentifiable {
             features.add(feature)
         }
         this.nature = nbt.getString(DataKeys.POKEMON_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(
-            ResourceLocation.of(it))!! } ?: Natures.getRandomNature()
+            ResourceLocation.parse(it))!! } ?: Natures.getRandomNature()
         if (nbt.contains(DataKeys.POKEMON_MINTED_NATURE)) {
             this.mintedNature = nbt.getString(DataKeys.POKEMON_MINTED_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(
-                ResourceLocation.of(it)) }
+                ResourceLocation.parse(it)) }
         }
         this.forcedAspects = nbt.getList(DataKeys.POKEMON_FORCED_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
         updateAspects()
@@ -1019,7 +1019,7 @@ open class Pokemon : ShowdownIdentifiable {
             this.heldItem = NbtOps.INSTANCE.withDecoder(ItemStack.CODEC).apply(nbt.get(DataKeys.HELD_ITEM)).result().get().first
         }
         this.persistentData = nbt.getCompound(DataKeys.POKEMON_PERSISTENT_DATA)
-        tetheringId = if (nbt.containsUuid(DataKeys.TETHERING_ID)) nbt.getUuid(DataKeys.TETHERING_ID) else null
+        tetheringId = if (nbt.containsUuid(DataKeys.TETHERING_ID)) nbt.getUUID(DataKeys.TETHERING_ID) else null
         TeraTypes.get(nbt.getString(DataKeys.POKEMON_TERA_TYPE).asIdentifierDefaultingNamespace())?.let {
             this.teraType = it
         }
@@ -1086,8 +1086,8 @@ open class Pokemon : ShowdownIdentifiable {
         uuid = UUID.fromString(json.get(DataKeys.POKEMON_UUID).asString)
         try {
             val rawID = json.get(DataKeys.POKEMON_SPECIES_IDENTIFIER).asString.replace("pokemonCobblemon", "cobblemon")
-            species = PokemonSpecies.getByIdentifier(ResourceLocation.of(rawID))
-                ?: throw InvalidSpeciesException(ResourceLocation.of(rawID))
+            species = PokemonSpecies.getByIdentifier(ResourceLocation.parse(rawID))
+                ?: throw InvalidSpeciesException(ResourceLocation.parse(rawID))
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
@@ -1128,7 +1128,7 @@ open class Pokemon : ShowdownIdentifiable {
             status = PersistentStatusContainer.loadFromJSON(statusJson)
         }
         val ballName = json.get(DataKeys.POKEMON_CAUGHT_BALL).asString
-        caughtBall = PokeBalls.getPokeBall(ResourceLocation.of(ballName)) ?: PokeBalls.POKE_BALL
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation.parse(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
         healTimer = json.get(DataKeys.POKEMON_HEALING_TIMER).asInt
@@ -1141,10 +1141,10 @@ open class Pokemon : ShowdownIdentifiable {
             features.removeIf { it.name == feature.name }
             features.add(feature)
         }
-        this.nature = json.get(DataKeys.POKEMON_NATURE).asString?.let { Natures.getNature(ResourceLocation.of(it))!! } ?: Natures.getRandomNature()
+        this.nature = json.get(DataKeys.POKEMON_NATURE).asString?.let { Natures.getNature(ResourceLocation.parse(it))!! } ?: Natures.getRandomNature()
         if (json.has(DataKeys.POKEMON_MINTED_NATURE)) {
             this.mintedNature = json.get(DataKeys.POKEMON_MINTED_NATURE).asString?.let { Natures.getNature(
-                ResourceLocation.of(it)) }
+                ResourceLocation.parse(it)) }
         }
         this.forcedAspects = json.getAsJsonArray(DataKeys.POKEMON_FORCED_ASPECTS)?.map { it.asString }?.toSet() ?: emptySet()
         updateAspects()

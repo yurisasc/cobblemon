@@ -10,8 +10,8 @@ package com.cobblemon.mod.neoforge.worldgen
 
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.serialization.MapCodec
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.core.Holder
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.world.biome.Biome
@@ -43,7 +43,7 @@ internal object CobblemonBiomeModifiers : BiomeModifier {
         }
     }
 
-    fun add(feature: RegistryKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?) {
+    fun add(feature: ResourceKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?) {
         this.entries += Entry(feature, step, validTag)
     }
 
@@ -52,7 +52,7 @@ internal object CobblemonBiomeModifiers : BiomeModifier {
             return
         }
         val server = ServerLifecycleHooks.getCurrentServer()!!
-        val registry = server.registryManager.get(RegistryKeys.PLACED_FEATURE)
+        val registry = server.registryManager.get(ResourceKeys.PLACED_FEATURE)
         this.entries.forEach { entry ->
             if (entry.validTag == null || arg.isIn(entry.validTag)) {
                 builder.generationSettings.feature(entry.step, Holder.of(registry.get(entry.feature)))
@@ -62,6 +62,6 @@ internal object CobblemonBiomeModifiers : BiomeModifier {
 
     override fun codec(): MapCodec<out BiomeModifier> = this.codec ?: MapCodec.unit(CobblemonBiomeModifiers)
 
-    private data class Entry(val feature: RegistryKey<PlacedFeature>, val step: GenerationStep.Feature, val validTag: TagKey<Biome>?)
+    private data class Entry(val feature: ResourceKey<PlacedFeature>, val step: GenerationStep.Feature, val validTag: TagKey<Biome>?)
 
 }

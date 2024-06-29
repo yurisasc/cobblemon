@@ -16,7 +16,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sound.SoundCategory
@@ -126,13 +126,13 @@ fun Entity.canFit(vec: Vec3): Boolean {
 }
 
 val Level.itemRegistry: Registry<Item>
-    get() = registryManager.get(RegistryKeys.ITEM)
+    get() = registryManager.get(ResourceKeys.ITEM)
 val Level.biomeRegistry: Registry<Biome>
-    get() = registryManager.get(RegistryKeys.BIOME)
+    get() = registryManager.get(ResourceKeys.BIOME)
 val Level.worldRegistry: Registry<Level>
-    get() = registryManager.get(RegistryKeys.WORLD)
+    get() = registryManager.get(ResourceKeys.WORLD)
 val Level.enchantmentRegistry: Registry<Enchantment>
-    get() = registryManager.get(RegistryKeys.ENCHANTMENT)
+    get() = registryManager.get(ResourceKeys.ENCHANTMENT)
 
 
 fun Vec3.traceDownwards(

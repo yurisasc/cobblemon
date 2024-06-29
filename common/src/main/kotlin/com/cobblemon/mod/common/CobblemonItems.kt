@@ -56,7 +56,7 @@ import net.minecraft.world.level.block.Block
 @Suppress("unused")
 object CobblemonItems : PlatformRegistry<Registry<Item>, ResourceKey<Registry<Item>>, Item>() {
     override val registry: Registry<Item> = BuiltInRegistries.ITEM
-    override val registryKey: ResourceKey<Registry<Item>> = Registries.ITEM
+    override val ResourceKey: ResourceKey<Registry<Item>> = Registries.ITEM
 
     @JvmField
     val pokeBalls = mutableListOf<PokeBallItem>()

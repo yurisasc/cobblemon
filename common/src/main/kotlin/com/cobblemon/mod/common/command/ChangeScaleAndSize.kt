@@ -17,19 +17,19 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.FloatArgumentType
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.entity.EntityDimensions
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 
 object ChangeScaleAndSize {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        val command = CommandManager.literal("changescaleandsize")
+        val command = Commands.literal("changescaleandsize")
             .permission(CobblemonPermissions.CHANGE_SCALE_AND_SIZE)
             .then(
-                CommandManager.argument("pokemon", PokemonArgumentType.pokemon())
+                Commands.argument("pokemon", PokemonArgumentType.pokemon())
                     .then(
-                        CommandManager.argument("scale", FloatArgumentType.floatArg())
-                            .then(CommandManager.argument("width", FloatArgumentType.floatArg())
-                                .then(CommandManager.argument("height", FloatArgumentType.floatArg()).executes(::execute))
+                        Commands.argument("scale", FloatArgumentType.floatArg())
+                            .then(Commands.argument("width", FloatArgumentType.floatArg())
+                                .then(Commands.argument("height", FloatArgumentType.floatArg()).executes(::execute))
                             )
                     )
 

@@ -24,14 +24,14 @@ import net.minecraft.entity.SpawnGroup
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceKeys
 
-object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey<Registry<EntityType<*>>>, EntityType<*>>() {
+object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, ResourceKey<Registry<EntityType<*>>>, EntityType<*>>() {
 
 
     override val registry: Registry<EntityType<*>> = Registries.ENTITY_TYPE
-    override val registryKey: RegistryKey<Registry<EntityType<*>>> = RegistryKeys.ENTITY_TYPE
+    override val ResourceKey: ResourceKey<Registry<EntityType<*>>> = ResourceKeys.ENTITY_TYPE
     @JvmField
     val POKEMON_KEY = cobblemonResource("pokemon")
     @JvmField

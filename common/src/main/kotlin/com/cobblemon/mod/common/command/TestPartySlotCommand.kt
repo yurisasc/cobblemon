@@ -19,7 +19,7 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.argument.EntityArgumentType
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 
 object TestPartySlotCommand {
@@ -32,11 +32,11 @@ object TestPartySlotCommand {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(
-            CommandManager.literal(NAME)
+            Commands.literal(NAME)
                 .permission(CobblemonPermissions.TEST_PARTY_SLOT)
-                .then(CommandManager.argument(PLAYER, EntityArgumentType.player())
-                    .then(CommandManager.argument(SLOT, IntegerArgumentType.integer(1, 6))
-                        .then(CommandManager.argument(PROPERTIES, PokemonPropertiesArgumentType.properties())
+                .then(Commands.argument(PLAYER, EntityArgumentType.player())
+                    .then(Commands.argument(SLOT, IntegerArgumentType.integer(1, 6))
+                        .then(Commands.argument(PROPERTIES, PokemonPropertiesArgumentType.properties())
                             .executes(this::execute))))
         )
     }

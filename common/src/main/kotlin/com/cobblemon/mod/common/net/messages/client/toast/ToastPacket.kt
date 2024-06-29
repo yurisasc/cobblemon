@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.toast
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.*
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import java.util.UUID
 import net.minecraft.world.item.ItemStack
 import net.minecraft.network.chat.Component
@@ -29,14 +29,14 @@ class ToastPacket(
 
     override val id: ResourceLocation = ID
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeText(this.title)
         buffer.writeText(this.description)
         buffer.writeItemStack(this.icon)
         buffer.writeIdentifier(this.frameTexture)
         buffer.writeFloat(this.progress)
         buffer.writeInt(this.progressColor)
-        buffer.writeUuid(this.uuid)
+        buffer.writeUUID(this.uuid)
         buffer.writeEnumConstant(this.behaviour)
     }
 
@@ -44,14 +44,14 @@ class ToastPacket(
 
         val ID = cobblemonResource("toast")
 
-        fun decode(buffer: RegistryByteBuf): ToastPacket = ToastPacket(
+        fun decode(buffer: RegistryFriendlyByteBuf): ToastPacket = ToastPacket(
             buffer.readText(),
             buffer.readText(),
             buffer.readItemStack(),
             buffer.readIdentifier(),
             buffer.readFloat(),
             buffer.readInt(),
-            buffer.readUuid(),
+            buffer.readUUID(),
             buffer.readEnumConstant(Behaviour::class.java)
         )
 

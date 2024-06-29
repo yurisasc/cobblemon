@@ -16,8 +16,8 @@ import com.cobblemon.mod.common.util.player
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.argument.EntityArgumentType
-import net.minecraft.server.command.CommandManager.argument
-import net.minecraft.server.command.CommandManager.literal
+import net.minecraft.commands.Commands.argument
+import net.minecraft.commands.Commands.literal
 import net.minecraft.server.command.ServerCommandSource
 
 object TestStoreCommand {

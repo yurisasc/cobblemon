@@ -13,14 +13,14 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import java.util.UUID
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 
 object ClickTextCommand {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(
-            CommandManager.literal("cobblemonclicktext")
+            Commands.literal("cobblemonclicktext")
                 .requires { src -> src.entity is ServerPlayer }
                 .then(
                     RequiredArgumentBuilder

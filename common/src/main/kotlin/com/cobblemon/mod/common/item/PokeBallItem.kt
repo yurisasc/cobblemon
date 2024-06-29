@@ -25,7 +25,7 @@ class PokeBallItem(
 ) : CobblemonItem(Settings()) {
 
     override fun use(world: Level, player: Player, usedHand: Hand): InteractionResultHolder<ItemStack> {
-        val itemStack = player.getStackInHand(usedHand)
+        val itemStack = player.getItemInHand(usedHand)
         if (world.isServerSide()) {
             throwPokeBall(world, player as ServerPlayer)
         }
@@ -36,7 +36,7 @@ class PokeBallItem(
     }
 
     private fun throwPokeBall(world: Level, player: ServerPlayer) {
-        val pokeBallEntity = EmptyPokeBallEntity(pokeBall, player.world, player).apply {
+        val pokeBallEntity = EmptyPokeBallEntity(pokeBall, player.level(), player).apply {
             val overhandFactor: Float = if (player.pitch < 0) {
                 5f * cos(player.pitch.toRadians())
             } else {

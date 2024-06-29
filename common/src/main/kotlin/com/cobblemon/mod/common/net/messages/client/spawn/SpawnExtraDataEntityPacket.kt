@@ -14,17 +14,17 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
 import net.minecraft.network.NetworkThreadUtils
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.world.phys.Vec3
 
 abstract class SpawnExtraDataEntityPacket<T: NetworkPacket<T>, E : Entity>(private val vanillaSpawnPacket: EntitySpawnS2CPacket) : NetworkPacket<T> {
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         this.encodeEntityData(buffer)
         this.vanillaSpawnPacket.write(buffer)
     }
 
-    abstract fun encodeEntityData(buffer: RegistryByteBuf)
+    abstract fun encodeEntityData(buffer: RegistryFriendlyByteBuf)
 
     abstract fun applyData(entity: E)
 
@@ -33,7 +33,7 @@ abstract class SpawnExtraDataEntityPacket<T: NetworkPacket<T>, E : Entity>(priva
     fun spawnAndApply(client: Minecraft) {
         client.execute {
             val player = client.player ?: return@execute
-            val world = player.world as? ClientWorld ?: return@execute
+            val world = player.level() as? ClientWorld ?: return@execute
             // This is a copy pasta of ClientPlayNetworkHandler#onEntitySpawn
             // This exists due to us needing to do everything it does except spawn the entity in the world.
             // We invoke applyData then we add the entity to the world.
@@ -57,6 +57,6 @@ abstract class SpawnExtraDataEntityPacket<T: NetworkPacket<T>, E : Entity>(priva
     }
 
     companion object {
-        fun decodeVanillaPacket(buffer: RegistryByteBuf) = EntitySpawnS2CPacket(buffer)
+        fun decodeVanillaPacket(buffer: RegistryFriendlyByteBuf) = EntitySpawnS2CPacket(buffer)
     }
 }

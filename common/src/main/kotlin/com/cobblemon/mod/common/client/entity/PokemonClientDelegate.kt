@@ -84,7 +84,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
         super.onTrackedDataSet(data)
         if (this::currentEntity.isInitialized) {
             if (data == PokemonEntity.SPECIES) {
-                val identifier = ResourceLocation.of(currentEntity.dataTracker.get(PokemonEntity.SPECIES))
+                val identifier = ResourceLocation.parse(currentEntity.dataTracker.get(PokemonEntity.SPECIES))
                 currentPose = null
                 currentEntity.pokemon.species = PokemonSpecies.getByIdentifier(identifier)!! // TODO exception handling
                 // force a model update - handles edge case where the PosableState's tracked PosableModel isn't updated until the LivingEntityRenderer render is run
@@ -292,7 +292,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
     }
 
     fun setPhaseTarget(targetId: Int) {
-        this.phaseTarget = currentEntity.world.getEntityById(targetId)
+        this.phaseTarget = currentEntity.world.getEntity(targetId)
     }
 
     override fun handleStatus(status: Byte) {

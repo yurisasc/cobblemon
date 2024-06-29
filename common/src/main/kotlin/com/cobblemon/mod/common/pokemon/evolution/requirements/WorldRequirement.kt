@@ -25,6 +25,6 @@ class WorldRequirement : EntityQueryRequirement {
     companion object {
         const val ADAPTER_VARIANT = "world"
     }
-    val identifier: ResourceLocation = ResourceLocation.of("minecraft:the_overworld")
-    override fun check(pokemon: Pokemon, queriedEntity: LivingEntity) = queriedEntity.world.registryKey.value == this.identifier
+    val identifier: ResourceLocation = ResourceLocation.parse("minecraft:the_overworld")
+    override fun check(pokemon: Pokemon, queriedEntity: LivingEntity) = queriedEntity.world.resourceKey.value == this.identifier
 }

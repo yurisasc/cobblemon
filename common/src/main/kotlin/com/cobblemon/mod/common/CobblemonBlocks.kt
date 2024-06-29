@@ -30,20 +30,20 @@ import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceKeys
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.world.level.block.Block
 
 @Suppress("SameParameterValue", "HasPlatformType", "MemberVisibilityCanBePrivate", "unused")
-object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<Block>>, Block>() {
+object CobblemonBlocks : PlatformRegistry<Registry<Block>, ResourceKey<Registry<Block>>, Block>() {
 
 
 
     override val registry: Registry<Block> = Registries.BLOCK
-    override val registryKey: RegistryKey<Registry<Block>> = RegistryKeys.BLOCK
+    override val ResourceKey: ResourceKey<Registry<Block>> = ResourceKeys.BLOCK
 
     val APRICORN_BLOCK_SET_TYPE = BlockSetType("apricorn")
     val APRICORN_WOOD_TYPE = WoodType.register(WoodType("apricorn", APRICORN_BLOCK_SET_TYPE))

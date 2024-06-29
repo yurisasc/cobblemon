@@ -11,11 +11,11 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.command.*
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.CommandRegistryAccess
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 
 object CobblemonCommands {
-    fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registry: CommandRegistryAccess, selection: CommandManager.RegistrationEnvironment) {
+    fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registry: CommandRegistryAccess, selection: Commands.RegistrationEnvironment) {
         SpawnPokemon.register(dispatcher)
         GivePokemon.register(dispatcher)
         TakePokemon.register(dispatcher)

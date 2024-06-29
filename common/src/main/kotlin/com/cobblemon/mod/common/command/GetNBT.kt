@@ -13,20 +13,20 @@ import com.cobblemon.mod.common.util.requiresWithPermission
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.server.command.CommandManager
+import net.minecraft.commands.Commands
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.level.ServerPlayer
 
 object GetNBT {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        dispatcher.register(CommandManager.literal("getnbt")
+        dispatcher.register(Commands.literal("getnbt")
             .requiresWithPermission(CobblemonPermissions.GET_NBT) { it.player != null }
             .executes { execute(it, it.source.playerOrThrow) })
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayer) : Int {
         /*
-        val stack = player.getStackInHand(Hand.MAIN_HAND)
+        val stack = player.getItemInHand(Hand.MAIN_HAND)
         try {
             val formatter = NbtOrderedStringFormatter("", 0, mutableListOf())
             val str = formatter.apply(stack.nbt)

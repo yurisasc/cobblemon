@@ -101,7 +101,7 @@ class GenericBedrockEntity(world: Level) : Entity(CobblemonEntities.GENERIC_BEDR
     }
 
     override fun readCustomDataFromNbt(nbt: CompoundTag) {
-        this.category = ResourceLocation.of(nbt.getString(DataKeys.GENERIC_BEDROCK_CATEGORY))
+        this.category = ResourceLocation.parse(nbt.getString(DataKeys.GENERIC_BEDROCK_CATEGORY))
         this.aspects = nbt.getList(DataKeys.GENERIC_BEDROCK_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
         this.dataTracker.set(POSE_TYPE, PoseType.values()[nbt.getByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE).toInt()])
         this.scale = nbt.getFloat(DataKeys.GENERIC_BEDROCK_SCALE)
