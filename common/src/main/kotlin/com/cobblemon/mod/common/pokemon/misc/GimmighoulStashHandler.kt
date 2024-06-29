@@ -33,7 +33,8 @@ object GimmighoulStashHandler {
     val SCRAP_VALUE = 1
     val INGOT_VALUE = SCRAP_VALUE * 4
     val BLOCK_VALUE = INGOT_VALUE * 9
-    fun interactMob(player: Player, hand: Hand, pokemon:Pokemon) : Boolean {
+
+    fun mobInteract(player: Player, hand: InteractionHand, pokemon:Pokemon) : Boolean {
         val itemStack = player.getItemInHand(hand)
         var success = false
         if(player is ServerPlayer && pokemon.getOwnerPlayer() == player) {
@@ -52,6 +53,7 @@ object GimmighoulStashHandler {
             pokemon.removeHeldItem()
         }
     }
+
     fun handleItem(pokemon: Pokemon, item: Item) : Boolean {
         val goldHoard = pokemon.getFeature<IntSpeciesFeature>("gimmighoul_coins")
         val netheriteHoard = pokemon.getFeature<IntSpeciesFeature>("gimmighoul_netherite")

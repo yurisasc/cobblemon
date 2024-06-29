@@ -19,7 +19,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.text.OrderedText
+import net.minecraft.util.FormattedCharSequence
 import net.minecraft.util.Language
 
 /**
@@ -176,7 +176,7 @@ class DialogueBox(
                 && mouseY < bottom
     }
 
-    class DialogueLine(val line: OrderedText) : Entry<DialogueLine>() {
+    class DialogueLine(val line: FormattedCharSequence) : Entry<DialogueLine>() {
         override fun getNarration() = "".text()
         override fun drawBorder(
             context: GuiGraphics?,

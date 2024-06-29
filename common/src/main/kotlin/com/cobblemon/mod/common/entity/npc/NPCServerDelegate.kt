@@ -20,8 +20,8 @@ import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.ai.memory.MemoryModuleType
 
 class NPCServerDelegate : NPCSideDelegate {
     lateinit var entity: NPCEntity
@@ -42,7 +42,7 @@ class NPCServerDelegate : NPCSideDelegate {
                 val opponent = if (opponentValue is ObjectValue<*>) {
                     opponentValue.obj as ServerPlayer
                 } else {
-                    opponentValue.asString().let { entity.server!!.playerManager.getPlayer(it)!! }
+                    opponentValue.asString().let { entity.server!!.playerList.getPlayerByName(it)!! }
                 }
                 val battleStartResult = BattleBuilder.pvn(
                     player = opponent,
@@ -64,7 +64,7 @@ class NPCServerDelegate : NPCSideDelegate {
             }
             .addFunction("was_hurt_by") { params ->
                 val entity = params.get<ObjectValue<LivingEntity>>(0).obj
-                val hurtByEntity = this.entity.brain.getOptionalRegisteredMemory(MemoryModuleType.HURT_BY_ENTITY).orElse(null)
+                val hurtByEntity = this.entity.brain.getMemory(MemoryModuleType.HURT_BY_ENTITY).orElse(null)
                 return@addFunction DoubleValue(hurtByEntity == entity)
             }
     }

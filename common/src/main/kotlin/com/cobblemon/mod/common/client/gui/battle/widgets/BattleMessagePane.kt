@@ -17,6 +17,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.text.OrderedText
+import net.minecraft.util.FormattedCharSequence
 
 /**
  * Pane for seeing and interacting with battle messages.
@@ -145,7 +146,7 @@ class BattleMessagePane(
                 && mouseY < bottom
     }
 
-    class BattleMessageLine(val pane: BattleMessagePane, val line: OrderedText) : Entry<BattleMessageLine>() {
+    class BattleMessageLine(val pane: BattleMessagePane, val line: FormattedCharSequence) : Entry<BattleMessageLine>() {
         override fun getNarration() = "".text()
         override fun render(
             context: GuiGraphics,

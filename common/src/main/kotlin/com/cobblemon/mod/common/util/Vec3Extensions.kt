@@ -16,7 +16,7 @@ import org.joml.Vector3f
  * For conversion from Vec3dto BlockPos, loses accuracy
  */
 fun Vec3.toBlockPos(): BlockPos {
-    return BlockPos.ofFloored(this.x, this.y, this.z)
+    return BlockPos.containing(this.x, this.y, this.z)
 }
 
 fun Vec3.toVec3f(): Vector3f = Vector3f(x.toFloat(), y.toFloat(), z.toFloat())

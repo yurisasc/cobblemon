@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.registry.Registries
 import net.minecraft.resources.ResourceLocation
@@ -32,6 +33,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.*
 import net.minecraft.world.RaycastContext
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.state.BlockState
@@ -287,7 +289,7 @@ fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropH
     val result = world.raycast(RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, fluidHandling, this))
 
 
-    if (world.getBlockState(result.blockPos).isAir) {
+    if (level().getBlockState(result.blockPos).isAir) {
         // If the trace returns air, the player isn't aiming at any blocks within range
         var traceDown: TraceResult?
         val minDrop = min(2.5, maxDistance)
@@ -305,8 +307,8 @@ fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropH
             if (minDrop != maxDistance) {
                 stepDrop = ((step - minDrop) / (maxDistance - minDrop)) * dropHeight
             }
-            traceDown = stepPos.traceDownwards(this.world, maxDistance = stepDrop.toFloat())
-            if (traceDown != null && pokemon.isPositionSafe(world, traceDown.blockPos)) {
+            traceDown = stepPos.traceDownwards(this.level(), maxDistance = stepDrop.toFloat())
+            if (traceDown != null && pokemon.isPositionSafe(level(), traceDown.blockPos)) {
                 traceHeight = (stepPos.y - traceDown.location.y)
                 if (traceHeight < smallestHeight) {
                     smallestHeight = traceHeight
@@ -331,7 +333,7 @@ fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropH
 
         val traceDown = posOffset.traceDownwards(this.level(), maxDistance = dropHeight.toFloat())
 
-        return if (traceDown == null || !pokemon.isPositionSafe(leve, traceDown.blockPos)) {
+        return if (traceDown == null || !pokemon.isPositionSafe(level(), traceDown.blockPos)) {
             null
         } else {
             return Vec3(
@@ -351,7 +353,7 @@ fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropH
     return null
 }
 
-fun PlayerInventory.usableItems() = offHand + main
+fun Inventory.usableItems() = offhand + items
 
 /**
  * Utility function meant to emulate the behavior seen across Minecraft when attempting to give items directly to player but there's not enough room for the entire stack.
@@ -362,22 +364,22 @@ fun PlayerInventory.usableItems() = offHand + main
  * @param playSound If the pickup sound should be played for any successfully added items.
  */
 fun Player.giveOrDropItemStack(stack: ItemStack, playSound: Boolean = true) {
-    val inserted = this.inventory.insertStack(stack)
+    val inserted = this.inventory.add(stack)
     if (inserted && stack.isEmpty) {
         stack.count = 1
-        this.dropItem(stack, false)?.setDespawnImmediately()
+        this.drop(stack, false)?.makeFakeItem()
         if (playSound) {
-            this.world.playSound(null, this.x, this.y, this.z, SoundEvents.ENTITY_ITEM_PICKUP, SoundSource.PLAYERS, 0.2f, ((this.random.nextFloat() - this.random.nextFloat()) * 0.7f + 1.0f) * 2.0f)
+            this.level().playSound(null, this.x, this.y, this.z, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2f, ((this.random.nextFloat() - this.random.nextFloat()) * 0.7f + 1.0f) * 2.0f)
         }
         this.containerMenu.broadcastChanges()
     }
     else {
-        this.dropItem(stack, false)?.let { itemEntity ->
-            itemEntity.resetPickupDelay()
-            itemEntity.setOwner(this.uuid)
+        this.drop(stack, false)?.let { itemEntity ->
+            itemEntity.setNoPickUpDelay()
+            itemEntity.setTarget(this.uuid)
         }
     }
 }
 
 /** Retrieves the battle theme associated with this player, or the default PVP theme if null. */
-fun ServerPlayer.getBattleTheme() = Cobblemon.playerData.get(this).battleTheme?.let { Registries.SOUND_EVENT.get(it) } ?: CobblemonSounds.PVP_BATTLE
+fun ServerPlayer.getBattleTheme() = Cobblemon.playerData.get(this).battleTheme?.let { BuiltInRegistries.SOUND_EVENT.get(it) } ?: CobblemonSounds.PVP_BATTLE

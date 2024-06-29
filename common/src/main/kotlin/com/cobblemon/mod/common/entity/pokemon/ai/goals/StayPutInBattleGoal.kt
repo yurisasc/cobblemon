@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.entity.npc.ai
+package com.cobblemon.mod.common.entity.pokemon.ai.goals
 
 import com.cobblemon.mod.common.entity.npc.NPCEntity
+import net.minecraft.world.entity.ai.goal.Goal
 import java.util.EnumSet
-import net.minecraft.entity.ai.goal.Goal
 
 /**
  * AI goal that stops movement tasks while the NPC is in battle.
@@ -19,6 +19,7 @@ import net.minecraft.entity.ai.goal.Goal
  * @since August 25th, 2023
  */
 class StayPutInBattleGoal(val npc: NPCEntity) : Goal() {
-    override fun canStart() = npc.isInBattle()
-    override fun getControls() = EnumSet.of(Control.MOVE)
+    override fun canUse() = npc.isInBattle()
+
+    override fun getFlags() = EnumSet.of(Flag.MOVE)
 }

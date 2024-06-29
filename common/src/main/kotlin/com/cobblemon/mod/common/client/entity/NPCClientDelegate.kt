@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.client.entity
 import com.cobblemon.mod.common.api.entity.NPCSideDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.entity.npc.NPCEntity
-import net.minecraft.entity.data.TrackedData
+import net.minecraft.network.syncher.EntityDataAccessor
 
 class NPCClientDelegate : PosableState(), NPCSideDelegate {
     lateinit var npcEntity: NPCEntity
@@ -19,7 +19,7 @@ class NPCClientDelegate : PosableState(), NPCSideDelegate {
         get() = npcEntity.schedulingTracker
     override fun initialize(entity: NPCEntity) {
         this.npcEntity = entity
-        this.age = entity.age
+        this.age = entity.tickCount
     }
 
     override fun tick(entity: NPCEntity) {
@@ -27,10 +27,10 @@ class NPCClientDelegate : PosableState(), NPCSideDelegate {
         incrementAge(entity)
     }
 
-    override fun onTrackedDataSet(data: TrackedData<*>) {
-        super.onTrackedDataSet(data)
+    override fun onSyncedDataUpdated(data: EntityDataAccessor<*>) {
+        super.onSyncedDataUpdated(data)
         if (data == NPCEntity.ASPECTS) {
-            currentAspects = getEntity().dataTracker.get(NPCEntity.ASPECTS)
+            currentAspects = getEntity().entityData.get(NPCEntity.ASPECTS)
         }
     }
 

@@ -21,18 +21,18 @@ import com.cobblemon.mod.common.net.messages.client.spawn.SpawnGenericBedrockPac
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.world.entity.EntityDimensions
-import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtList
-import net.minecraft.nbt.NbtString
-import net.minecraft.network.listener.ClientPlayPacketListener
-import net.minecraft.network.packet.Packet
-import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.StringTag
+import net.minecraft.nbt.Tag
+import net.minecraft.network.protocol.Packet
+import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket
+import net.minecraft.network.protocol.game.ClientGamePacketListener
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket
+import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
-import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerEntity
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.Pose
 import net.minecraft.world.level.Level
@@ -42,7 +42,7 @@ class GenericBedrockEntity(world: Level) : Entity(CobblemonEntities.GENERIC_BEDR
         val CATEGORY = SynchedEntityData.defineId(GenericBedrockEntity::class.java, IdentifierDataSerializer)
         val ASPECTS = SynchedEntityData.defineId(GenericBedrockEntity::class.java, StringSetDataSerializer)
         val POSE_TYPE = SynchedEntityData.defineId(GenericBedrockEntity::class.java, PoseTypeDataSerializer)
-        val SCALE = SynchedEntityData.defineId(GenericBedrockEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
+        val SCALE = SynchedEntityData.defineId(GenericBedrockEntity::class.java, EntityDataSerializers.FLOAT)
     }
 
     var savesToWorld = false
@@ -76,15 +76,15 @@ class GenericBedrockEntity(world: Level) : Entity(CobblemonEntities.GENERIC_BEDR
 
     var colliderWidth = 1F
         set(value) {
-            super.getWidth()
+            super.getBbWidth()
             field = value
-            calculateDimensions()
+            refreshDimensions()
         }
 
     var colliderHeight = 1F
         set(value) {
             field = value
-            calculateDimensions()
+            refreshDimensions()
         }
 
     var syncAge = false
@@ -93,26 +93,26 @@ class GenericBedrockEntity(world: Level) : Entity(CobblemonEntities.GENERIC_BEDR
         addPosableFunctions(struct)
     }
 
-    override fun initDataTracker(builder: DataTracker.Builder) {
-        builder.add(CATEGORY, cobblemonResource("generic"))
-        builder.add(ASPECTS, emptySet())
-        builder.add(SCALE, 1F)
-        builder.add(POSE_TYPE, PoseType.NONE)
+    override fun defineSynchedData(builder: SynchedEntityData.Builder) {
+        builder.define(CATEGORY, cobblemonResource("generic"))
+        builder.define(ASPECTS, emptySet())
+        builder.define(SCALE, 1F)
+        builder.define(POSE_TYPE, PoseType.NONE)
     }
 
-    override fun readCustomDataFromNbt(nbt: CompoundTag) {
+    override fun readAdditionalSaveData(nbt: CompoundTag) {
         this.category = ResourceLocation.parse(nbt.getString(DataKeys.GENERIC_BEDROCK_CATEGORY))
-        this.aspects = nbt.getList(DataKeys.GENERIC_BEDROCK_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
-        this.dataTracker.set(POSE_TYPE, PoseType.values()[nbt.getByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE).toInt()])
+        this.aspects = nbt.getList(DataKeys.GENERIC_BEDROCK_ASPECTS, Tag.TAG_STRING.toInt()).map { it.asString }.toSet()
+        this.entityData.set(POSE_TYPE, PoseType.values()[nbt.getByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE).toInt()])
         this.scale = nbt.getFloat(DataKeys.GENERIC_BEDROCK_SCALE)
         this.colliderWidth = nbt.getFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_WIDTH)
         this.colliderHeight = nbt.getFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_HEIGHT)
         this.syncAge = nbt.getBoolean(DataKeys.GENERIC_BEDROCK_SYNC_AGE)
     }
 
-    override fun writeCustomDataToNbt(nbt: CompoundTag) {
+    override fun addAdditionalSaveData(nbt: CompoundTag) {
         nbt.putString(DataKeys.GENERIC_BEDROCK_CATEGORY, category.toString())
-        nbt.put(DataKeys.GENERIC_BEDROCK_ASPECTS, NbtList().also { it.addAll(aspects.map(NbtString::of)) })
+        nbt.put(DataKeys.GENERIC_BEDROCK_ASPECTS, ListTag().also { it.addAll(aspects.map(StringTag::valueOf)) })
         nbt.putByte(DataKeys.GENERIC_BEDROCK_POSE_TYPE, getCurrentPoseType().ordinal.toByte())
         nbt.putFloat(DataKeys.GENERIC_BEDROCK_SCALE, scale)
         nbt.putFloat(DataKeys.GENERIC_BEDROCK_COLLIDER_WIDTH, colliderWidth)
@@ -120,14 +120,14 @@ class GenericBedrockEntity(world: Level) : Entity(CobblemonEntities.GENERIC_BEDR
         nbt.putBoolean(DataKeys.GENERIC_BEDROCK_SYNC_AGE, syncAge)
     }
 
-    override fun canHit() = true
-    override fun isCollidable() = true
+    override fun isPickable() = true
+    override fun canBeCollidedWith() = true
 
-    override fun shouldSave() = super.shouldSave() && this.savesToWorld
+    override fun shouldBeSaved() = super.shouldBeSaved() && this.savesToWorld
     override fun getDimensions(pose: Pose) = EntityDimensions.scalable(colliderWidth, colliderHeight).scale(scale)
-    override fun getCurrentPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
+    override fun getCurrentPoseType(): PoseType = this.entityData.get(POSE_TYPE)
 
-    override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry) = CustomPayloadS2CPacket(
+    override fun getAddEntityPacket(entityTrackerEntry: ServerEntity) = ClientboundCustomPayloadPacket(
         SpawnGenericBedrockPacket(
             category = category,
             aspects = aspects,
@@ -135,10 +135,10 @@ class GenericBedrockEntity(world: Level) : Entity(CobblemonEntities.GENERIC_BEDR
             scale = scale,
             width = colliderWidth,
             height = colliderHeight,
-            startAge = if (syncAge) age else 0,
-            vanillaSpawnPacket = super.createSpawnPacket(entityTrackerEntry) as EntitySpawnS2CPacket
+            startAge = if (syncAge) tickCount else 0,
+            vanillaSpawnPacket = super.getAddEntityPacket(entityTrackerEntry) as ClientboundAddEntityPacket
         )
-    ) as Packet<ClientPlayPacketListener>
+    ) as Packet<ClientGamePacketListener>
 
     override fun tick() {
         super.tick()

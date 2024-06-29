@@ -13,6 +13,7 @@ import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.util.stream.Stream
 import net.minecraft.core.BlockPos
+import net.minecraft.util.RandomSource
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.gen.blockpredicate.BlockPredicate
 import net.minecraft.world.gen.feature.FeaturePlacementContext
@@ -40,11 +41,11 @@ class LocatePredicatePlacementModifier(
     }
     override fun getPositions(
         context: FeaturePlacementContext,
-        random: Random,
+        random: RandomSource,
         pos: BlockPos
     ): Stream<BlockPos> {
         for (i in 0..maxTries) {
-            val newPos = pos.add(random.nextBetween(0, xzRange), random.nextBetween(-yRange, yRange), random.nextBetween(0, xzRange))
+            val newPos = pos.add(random.nextIntBetweenInclusive(0, xzRange), random.nextIntBetweenInclusive(-yRange, yRange), random.nextIntBetweenInclusive(0, xzRange))
             if (predicate.test(context.world, newPos)) {
                 return Stream.of(newPos)
             }

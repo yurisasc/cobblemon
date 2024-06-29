@@ -55,23 +55,33 @@ import com.mojang.datafixers.util.Either
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.Dynamic
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.StringTag
+import net.minecraft.nbt.Tag
+import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.SynchedEntityData
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.AgeableMob
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.Pose
 import net.minecraft.world.entity.ai.Brain
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.behavior.LookAtTargetSink
 import net.minecraft.world.entity.ai.behavior.RunOne
+import net.minecraft.world.entity.ai.behavior.SetEntityLookTarget
 import net.minecraft.world.entity.ai.behavior.StopBeingAngryIfTargetDead
 import net.minecraft.world.entity.ai.memory.MemoryModuleType
 import net.minecraft.world.entity.ai.sensing.Sensor
 import net.minecraft.world.entity.ai.sensing.SensorType
 import net.minecraft.world.entity.npc.Npc
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.schedule.Activity
 import net.minecraft.world.level.Level
 
@@ -200,8 +210,8 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         brain.addActivity(Activity.IDLE, ImmutableList.of(
             Pair.of(1, RunOne(
                 ImmutableList.of(
-                    Pair.of(LookAroundTask(45, 90), 2),
-                    Pair.of(LookAtMobTask.create(15F), 2),
+                    Pair.of(LookAtTargetSink(45, 90), 2),
+                    Pair.of(SetEntityLookTarget.create(15F), 2),
                     Pair.of(ChooseWanderTargetTask.create(horizontalRange = 10, verticalRange = 5, walkSpeed = 0.33F, completionRange = 1), 1)
                 )
             )),
@@ -223,19 +233,19 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         return brain
     }
 
-    override fun tryAttack(target: Entity): Boolean {
+    override fun doHurtTarget(target: Entity): Boolean {
         target as ServerPlayer
-        return target.damage(this.damageSources.mobAttack(this), attributes.getValue(EntityAttributes.GENERIC_ATTACK_DAMAGE).toFloat() * 5F)
+        return target.hurt(this.damageSources().mobAttack(this), attributes.getValue(Attributes.ATTACK_DAMAGE).toFloat() * 5F)
     }
 
-    override fun onFinishPathfinding() {
+    override fun onPathfindingDone() {
 //        brain.forget(MemoryModuleType.WALK_TARGET)
     }
 
     override fun getBrain() = super.getBrain() as Brain<NPCEntity>
 
     fun updateAspects() {
-        dataTracker.set(ASPECTS, appliedAspects)
+        entityData.set(ASPECTS, appliedAspects)
     }
 
     fun isInBattle() = battleIds.isNotEmpty()
@@ -256,24 +266,24 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         super.saveWithoutId(nbt)
         nbt.put(DataKeys.NPC_DATA, MoLangFunctions.writeMoValueToNBT(data))
         nbt.putString(DataKeys.NPC_CLASS, npc.resourceIdentifier.toString())
-        nbt.put(DataKeys.NPC_ASPECTS, NbtList().also { list -> appliedAspects.forEach { list.add(NbtString.of(it)) } })
+        nbt.put(DataKeys.NPC_ASPECTS, ListTag().also { list -> appliedAspects.forEach { list.add(StringTag.valueOf(it)) } })
         interaction?.let {
             nbt.putString(DataKeys.NPC_INTERACTION, it.map(ResourceLocation::toString, ExpressionLike::toString))
         }
         val battle = battle
         if (battle != null) {
-            val battleNBT = NbtCompound()
+            val battleNBT = CompoundTag()
             battle.saveToNBT(battleNBT)
             nbt.put(DataKeys.NPC_BATTLE_CONFIGURATION, battleNBT)
         }
         return nbt
     }
 
-    override fun readNbt(nbt: NbtCompound) {
-        super.readNbt(nbt)
+    override fun load(nbt: CompoundTag) {
+        super.load(nbt)
         npc = NPCClasses.getByIdentifier(ResourceLocation.parse(nbt.getString(DataKeys.NPC_CLASS))) ?: NPCClasses.classes.first()
         data = MoLangFunctions.readMoValueFromNBT(nbt.getCompound(DataKeys.NPC_DATA)) as VariableStruct
-        appliedAspects.addAll(nbt.getList(DataKeys.NPC_ASPECTS, NbtList.STRING_TYPE.toInt()).map { it.asString() })
+        appliedAspects.addAll(nbt.getList(DataKeys.NPC_ASPECTS, Tag.TAG_STRING.toInt()).map { it.asString })
         nbt.getString(DataKeys.NPC_INTERACTION).takeIf { it.isNotBlank() }?.let {
             if (ResourceLocation.tryParse(it) != null) {
                 interaction = Either.left(ResourceLocation.parse(it))
@@ -288,10 +298,10 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         updateAspects()
     }
 
-    override fun getBaseDimensions(pose: Pose) = npc.hitbox
+    override fun getDefaultDimensions(pose: Pose) = npc.hitbox
 
-    override fun interactMob(player: PlayerEntity, hand: InteractionHand): InteractionResult {
-        if (player is ServerPlayer && hand == Hand.MAIN_HAND) {
+    override fun mobInteract(player: Player, hand: InteractionHand): InteractionResult {
+        if (player is ServerPlayer && hand == InteractionHand.MAIN_HAND) {
             (interaction ?: npc.interaction)?.runScript(runtime.withPlayerValue(value = player))
             runtime.environment.query.functions.remove("player")
 //            val battle = getBattleConfiguration()
@@ -315,7 +325,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
             animation = animation.toSet(),
             expressions = emptySet()
         )
-        packet.sendToPlayers(world.players.filterIsInstance<ServerPlayer>().filter { it.distanceTo(this) < 256 })
+        packet.sendToPlayers(level().players().filterIsInstance<ServerPlayer>().filter { it.distanceTo(this) < 256 })
     }
 
     override fun recalling(pokemonEntity: PokemonEntity): CompletableFuture<Unit> {
@@ -328,8 +338,8 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         return delayedFuture(seconds = 1.6F)
     }
 
-    override fun onTrackedDataSet(data: TrackedData<*>) {
-        super.onTrackedDataSet(data)
+    override fun onSyncedDataUpdated(data: EntityDataAccessor<*>) {
+        super.onSyncedDataUpdated(data)
     }
 
     fun edit(player: ServerPlayer) {

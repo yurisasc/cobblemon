@@ -24,7 +24,7 @@ import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.level.Level
 import net.minecraft.world.item.Items
 
-class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
+class BerryJuiceItem : CobblemonItem(Properties()), PokemonSelectingItem {
     override val bagItem = object : BagItem {
         override val itemName = "item.cobblemon.berry_juice"
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "potion 20"
@@ -52,9 +52,9 @@ class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
         if (!player.isCreative)  {
             stack.shrink(1)
             val woodenBowlItemStack = ItemStack(Items.BOWL)
-            if (!player.inventory.insertStack(woodenBowlItemStack)) {
+            if (!player.inventory.add(woodenBowlItemStack)) {
                 // Drop the item into the world if the inventory is full
-                player.dropItem(woodenBowlItemStack, false)
+                player.drop(woodenBowlItemStack, false)
             }
         }
         return InteractionResultHolder.success(stack)
@@ -65,9 +65,9 @@ class BerryJuiceItem : CobblemonItem(Settings()), PokemonSelectingItem {
         player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
         if (!player.isCreative)  {
             val woodenBowlItemStack = ItemStack(Items.BOWL)
-            if (!player.inventory.insertStack(woodenBowlItemStack)) {
+            if (!player.inventory.add(woodenBowlItemStack)) {
                 // Drop the item into the world if the inventory is full
-                player.dropItem(woodenBowlItemStack, false)
+                player.drop(woodenBowlItemStack, false)
             }
         }
     }

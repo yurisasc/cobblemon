@@ -10,18 +10,18 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceKeys
-import net.minecraft.sound.BlockSoundGroup
-import net.minecraft.sound.SoundEvent
+import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
+import net.minecraft.world.level.block.SoundType
 
 object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Registry<SoundEvent>>, SoundEvent>() {
 
-    override val registry: Registry<SoundEvent> = Registries.SOUND_EVENT
-    override val ResourceKey: ResourceKey<Registry<SoundEvent>> = ResourceKeys.SOUND_EVENT
+    override val registry: Registry<SoundEvent> = BuiltInRegistries.SOUND_EVENT
+    override val ResourceKey: ResourceKey<Registry<SoundEvent>> = Registries.SOUND_EVENT
 
     @JvmField
     val GUI_CLICK = this.create("gui.click")
@@ -206,7 +206,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     val GILDED_CHEST_PLACE = this.create("gilded_chest.place")
 
     @JvmField
-    val RELIC_COIN_SACK_SOUNDS = BlockSoundGroup(1f, 1f,
+    val RELIC_COIN_SACK_SOUNDS = SoundType(1f, 1f,
         RELIC_COIN_SACK_BREAK,
         RELIC_COIN_SACK_STEP,
         RELIC_COIN_SACK_PLACE,
@@ -214,7 +214,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
         RELIC_COIN_SACK_STEP
     )
     @JvmField
-    val RELIC_COIN_POUCH_SOUNDS = BlockSoundGroup(1f, 1f,
+    val RELIC_COIN_POUCH_SOUNDS = SoundType(1f, 1f,
         RELIC_COIN_POUCH_BREAK,
         RELIC_COIN_SACK_STEP,
         RELIC_COIN_POUCH_PLACE,
@@ -260,7 +260,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     val IMPACT_WATER = this.create("impact.water")
 
     @JvmField
-    val TUMBLESTONE_SOUNDS = BlockSoundGroup(1f, 1f,
+    val TUMBLESTONE_SOUNDS = SoundType(1f, 1f,
         TUMBLESTONE_BREAK,
         TUMBLESTONE_STEP,
         TUMBLESTONE_PLACE,
@@ -269,7 +269,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     )
 
     @JvmField
-    val TUMBLESTONE_BLOCK_SOUNDS = BlockSoundGroup(1f, 1f,
+    val TUMBLESTONE_BLOCK_SOUNDS = SoundType(1f, 1f,
         TUMBLESTONE_BLOCK_BREAK,
         TUMBLESTONE_STEP,
         TUMBLESTONE_PLACE,
@@ -278,7 +278,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     )
 
     @JvmField
-    val BERRY_BUSH_SOUNDS = BlockSoundGroup(1f, 1f,
+    val BERRY_BUSH_SOUNDS = SoundType(1f, 1f,
         BERRY_BUSH_BREAK,
         SoundEvents.GRASS_STEP,
         BERRY_BUSH_PLACE,
@@ -287,7 +287,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     )
 
     @JvmField
-    val BIG_ROOT_SOUNDS = BlockSoundGroup(1f, 1f,
+    val BIG_ROOT_SOUNDS = SoundType(1f, 1f,
         BIG_ROOT_BREAK,
         SoundEvents.ROOTS_STEP,
         SoundEvents.ROOTS_PLACE,
@@ -296,7 +296,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     )
 
     @JvmField
-    val ENERGY_ROOT_SOUNDS = BlockSoundGroup(1f, 1f,
+    val ENERGY_ROOT_SOUNDS = SoundType(1f, 1f,
         SoundEvents.ROOTS_BREAK,
         SoundEvents.ROOTS_STEP,
         ENERGY_ROOT_PLACE,
@@ -305,7 +305,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     )
 
     @JvmField
-    val MEDICINAL_LEEK_SOUNDS = BlockSoundGroup(1f, 1f,
+    val MEDICINAL_LEEK_SOUNDS = SoundType(1f, 1f,
         MEDICINAL_LEEK_BREAK,
         SoundEvents.GRASS_STEP,
         MEDICINAL_LEEK_PLACE,
@@ -314,7 +314,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     )
 
     @JvmField
-    val VIVICHOKE_SOUNDS = BlockSoundGroup(1f, 1f,
+    val VIVICHOKE_SOUNDS = SoundType(1f, 1f,
         VIVICHOKE_BREAK,
         SoundEvents.GRASS_STEP,
         VIVICHOKE_PLACE,
@@ -323,7 +323,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     )
 
     @JvmField
-    val MINT_SOUNDS = BlockSoundGroup(1f, 1f,
+    val MINT_SOUNDS = SoundType(1f, 1f,
         MINT_BREAK,
         SoundEvents.GRASS_STEP,
         MINT_PLACE,
@@ -332,7 +332,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     )
 
     @JvmField
-    val REVIVAL_HERB_SOUNDS = BlockSoundGroup(1f, 1f,
+    val REVIVAL_HERB_SOUNDS = SoundType(1f, 1f,
         REVIVAL_HERB_BREAK,
         SoundEvents.GRASS_STEP,
         REVIVAL_HERB_PLACE,
@@ -341,7 +341,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     )
 
     @JvmField
-    val GILDED_CHEST_SOUNDS = BlockSoundGroup(1f, 1f,
+    val GILDED_CHEST_SOUNDS = SoundType(1f, 1f,
         GILDED_CHEST_BREAK,
         GILDED_CHEST_STEP,
         GILDED_CHEST_PLACE,
@@ -363,7 +363,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
     val DISPLAY_CASE_STEP = this.create("display_case.step")
 
     @JvmField
-    val DISPLAY_CASE_SOUNDS = BlockSoundGroup(1f, 1f,
+    val DISPLAY_CASE_SOUNDS = SoundType(1f, 1f,
         DISPLAY_CASE_BREAK,
         DISPLAY_CASE_STEP,
         DISPLAY_CASE_PLACE,
@@ -371,5 +371,5 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Regi
         DISPLAY_CASE_STEP
     )
 
-    private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
+    private fun create(name: String): SoundEvent = this.create(name, SoundEvent.createVariableRangeEvent(cobblemonResource(name)))
 }

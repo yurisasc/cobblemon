@@ -46,7 +46,7 @@ fun Entity.setPositionSafely(pos: Vec3): Boolean {
     var result = pos
     val eyes = pos.withAxis(Direction.Axis.Y, pos.y + this.standingEyeHeight)
 
-    var box = boundingBox.offset(pos)
+    var box = boundingBox.move(pos)
     val conflicts = mutableSetOf<Direction>()
 
     if (!world.getBlockCollisions(this, box).iterator().hasNext()) {
@@ -54,7 +54,7 @@ fun Entity.setPositionSafely(pos: Vec3): Boolean {
         return true
     }
 
-    for (target in BlockPos.stream(box)) {
+    for (target in BlockPos.betweenClosedStream(box)) {
         val blockState = this.world.getBlockState(target)
         val collides = !blockState.isAir &&
                 blockState.shouldSuffocate(this.world, target) &&
@@ -158,7 +158,7 @@ fun Entity.setPositionSafely(pos: Vec3): Boolean {
     val resultEyeBox = AABB.ofSize(resultEyes, width.toDouble(), 1.0E-6, width.toDouble())
     var collides = false
 
-    for (target in BlockPos.stream(resultEyeBox)) {
+    for (target in BlockPos.betweenClosedStream(resultEyeBox)) {
         val blockState = this.world.getBlockState(target)
         collides = !blockState.isAir &&
                 blockState.shouldSuffocate(this.world, target) &&

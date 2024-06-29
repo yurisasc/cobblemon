@@ -94,7 +94,7 @@ fun <T> ByteBuf.readCollection(reader: (ByteBuf) -> T): List<T> {
 
 fun <T> ByteBuf.readList(reader: (ByteBuf) -> T) = readCollection(reader)
 
-fun ByteBuf.readString():String {
+fun ByteBuf.readString(): String {
     return Utf8String.read(this, 32767)
 }
 

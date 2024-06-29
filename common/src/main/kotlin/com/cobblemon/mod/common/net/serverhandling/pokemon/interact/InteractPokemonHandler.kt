@@ -20,7 +20,7 @@ object InteractPokemonHandler : ServerNetworkPacketHandler<InteractPokemonPacket
         val pokemonEntity = player.serverWorld.getEntity(packet.pokemonID)
         if (pokemonEntity is PokemonEntity) {
             if (packet.mountShoulder) {
-                if (!pokemonEntity.isReadyToSitOnPlayer || player.party().none { it == pokemonEntity.pokemon }) {
+                if (!pokemonEntity.canSitOnShoulder() || player.party().none { it == pokemonEntity.pokemon }) {
                     return
                 }
                 pokemonEntity.tryMountingShoulder(player)

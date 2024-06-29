@@ -37,9 +37,9 @@ class MintBlockFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureCon
         val maxAge = MintBlock.MATURE_AGE
 
         // Generate the blocks
-        world.setBlock(blockPos, blockState.with(MintBlock.AGE, context.random.nextBetween(minAge, maxAge)), UPDATE_CLIENTS)
+        world.setBlock(blockPos, blockState.with(MintBlock.AGE, context.random.nextIntBetweenInclusive(minAge, maxAge)), UPDATE_CLIENTS)
         validPlacements.shuffled().take(2).forEach { position ->
-            world.setBlock(position, blockState.with(MintBlock.AGE, context.random.nextBetween(minAge, maxAge)), UPDATE_CLIENTS)
+            world.setBlock(position, blockState.with(MintBlock.AGE, context.random.nextIntBetweenInclusive(minAge, maxAge)), UPDATE_CLIENTS)
         }
         return true
     }

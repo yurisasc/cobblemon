@@ -11,12 +11,12 @@ package com.cobblemon.mod.common.entity.pokemon.ai.goals
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
-import net.minecraft.block.BedBlock
-import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.world.entity.player.Player
-import net.minecraft.registry.tag.BlockTags
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.core.BlockPos
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.tags.BlockTags
+import net.minecraft.world.entity.ai.goal.Goal
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.block.BedBlock
 import net.minecraft.world.phys.AABB
 
 /**
@@ -30,7 +30,7 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
     private var bedPos: BlockPos? = null
     private var ticksOnBed = 0
 
-    override fun canStart(): Boolean {
+    override fun canUse(): Boolean {
         if (!pokemonEntity.pokemon.isPlayerOwned() || !pokemonEntity.behaviour.resting.willSleepOnBed || pokemonEntity.pokemon.status != null) {
             return false
         }
@@ -40,14 +40,14 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
             if (!livingEntity.isSleeping()) {
                 return false
             }
-            if (pokemonEntity.squaredDistanceTo(owner) > 100.0) {
+            if (pokemonEntity.distanceToSqr(owner) > 100.0) {
                 return false
             }
-            val blockPos = owner!!.blockPos
-            val blockState = pokemonEntity.world.getBlockState(blockPos)
-            if (blockState.isIn(BlockTags.BEDS)) {
-                bedPos = blockState.getOrEmpty(BedBlock.FACING).orElse(null)
-                    ?.let { direction -> blockPos.offset(direction.opposite) }
+            val blockPos = owner!!.blockPosition()
+            val blockState = pokemonEntity.level().getBlockState(blockPos)
+            if (blockState.`is`(BlockTags.BEDS)) {
+                bedPos = blockState.getOptionalValue(BedBlock.FACING).orElse(null)
+                    ?.let { direction -> blockPos.relative(direction.opposite) }
                     ?: BlockPos(blockPos)
                 return !cannotSleep()
             }
@@ -57,18 +57,18 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
     }
 
     private fun cannotSleep(): Boolean {
-        val closePokemon = pokemonEntity.world.getNonSpectatingEntities(PokemonEntity::class.java, Box(bedPos).expand(2.0))
+        val closePokemon = pokemonEntity.level().getEntitiesOfClass(PokemonEntity::class.java, AABB(bedPos).inflate(2.0))
         return closePokemon.any { it.pokemon.status?.status == Statuses.SLEEP && it != pokemonEntity }
     }
 
-    override fun shouldContinue(): Boolean {
+    override fun canContinueToUse(): Boolean {
         val owner = owner
         return owner is ServerPlayer && owner.isSleeping && bedPos != null && !cannotSleep()
     }
 
     override fun start() {
         if (bedPos != null) {
-            pokemonEntity.navigation.startMovingTo(
+            pokemonEntity.navigation.moveTo(
                 bedPos!!.x.toDouble(),
                 bedPos!!.y.toDouble(),
                 bedPos!!.z.toDouble(),
@@ -122,12 +122,12 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
 
     override fun tick() {
         if (owner != null && bedPos != null) {
-            if (pokemonEntity.squaredDistanceTo(owner) < 1.5) {
+            if (pokemonEntity.distanceTo(owner) < 1.5) {
                 ++ticksOnBed
-                if (ticksOnBed > getTickCount(16)) {
+                if (ticksOnBed > adjustedTickDelay(16)) {
                     pokemonEntity.pokemon.status = PersistentStatusContainer(Statuses.SLEEP)
                 } else {
-                    pokemonEntity.lookAtEntity(owner, 45.0f, 45.0f)
+                    pokemonEntity.lookAt(owner, 45.0f, 45.0f)
                 }
             } else {
                 pokemonEntity.pokemon.status = null

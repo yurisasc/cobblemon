@@ -15,8 +15,8 @@ import org.jetbrains.annotations.ApiStatus
 @ApiStatus.Internal
 class CobblemonItemIngredient(val item: Item) : CobblemonIngredient {
 
-    override fun matches(stack: ItemStack): Boolean = stack.isOf(this.item)
+    override fun matches(stack: ItemStack): Boolean = stack.`is`(this.item)
 
-    override fun matchingStacks(): List<ItemStack> = listOf(this.item.defaultStack)
+    override fun matchingStacks(): List<ItemStack> = listOf(this.item.defaultInstance)
 
 }

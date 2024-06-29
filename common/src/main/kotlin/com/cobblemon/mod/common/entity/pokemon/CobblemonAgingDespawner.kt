@@ -47,7 +47,7 @@ class CobblemonAgingDespawner<T : Entity>(
         }
 
         // TODO an AFK check at some point, don't count the AFK ones.
-        val closestDistance = entity.world.players.minOfOrNull { it.distanceTo(entity) } ?: Float.MAX_VALUE
+        val closestDistance = entity.level().players().minOfOrNull { it.distanceTo(entity) } ?: Float.MAX_VALUE
         return when {
             closestDistance < nearDistance -> false
             age > maxAgeTicks || closestDistance > farDistance -> true

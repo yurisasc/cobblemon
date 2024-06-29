@@ -10,22 +10,19 @@ package com.cobblemon.mod.common.entity.pokemon.ai.goals
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.closestPosition
+import net.minecraft.core.BlockPos
+import net.minecraft.tags.FluidTags
+import net.minecraft.tags.TagKey
+import net.minecraft.util.Mth
+import net.minecraft.world.entity.ai.goal.Goal
+import net.minecraft.world.level.material.Fluid
+import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.Vec3
 import kotlin.math.ceil
 import kotlin.math.floor
-import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.fluid.Fluid
-import net.minecraft.registry.tag.FluidTags
-import net.minecraft.tags.TagKey
-import net.minecraft.core.BlockPos
-import net.minecraft.core.BlockPos.Mutable
-import net.minecraft.tags.FluidTags
-import net.minecraft.world.phys.AABB
-import net.minecraft.util.Mth
-import net.minecraft.world.level.material.Fluid
-import net.minecraft.world.phys.Vec3
 
 class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
-    override fun canStart(): Boolean {
+    override fun canUse(): Boolean {
         val avoidsLand = mob.behaviour.moving.walk.avoidsLand
         if (!avoidsLand || mob.owner != null) {
             return false
@@ -110,7 +107,7 @@ class PokemonMoveIntoFluidGoal(private val mob: PokemonEntity) : Goal() {
                     )
         }
         if (blockPos != null) {
-            mob.navigation.startMovingTo(blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), 1.0)
+            mob.navigation.moveTo(blockPos.x.toDouble(), blockPos.y.toDouble(), blockPos.z.toDouble(), 1.0)
         }
     }
 }

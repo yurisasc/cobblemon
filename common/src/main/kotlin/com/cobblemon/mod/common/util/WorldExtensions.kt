@@ -44,7 +44,7 @@ fun <T : ParticleOptions> Level.sendParticlesServer(
     particles: Int,
     offset: Vec3,
     speed: Double
-) = (this as ServerLevel).spawnParticles(particleType, position.x, position.y, position.z, particles, offset.x, offset.y, offset.z, speed)
+) = (this as ServerLevel).sendParticles(particleType, position.x, position.y, position.z, particles, offset.x, offset.y, offset.z, speed)
 
 fun Level.squeezeWithinBounds(pos: BlockPos): BlockPos {
     val border = worldBorder

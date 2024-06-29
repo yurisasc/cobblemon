@@ -13,22 +13,22 @@ import com.cobblemon.mod.common.api.text.font
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.PoseStack.Entry
+import com.mojang.blaze3d.vertex.VertexConsumer
+import com.mojang.math.Axis
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.DiffuseLighting
-import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.client.renderer.RenderType
-import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.model.json.ModelTransformationMode
+import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.texture.TextureAtlas
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.PoseStack.Entry
-import net.minecraft.world.item.ItemStack
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.text.OrderedText
 import net.minecraft.resources.ResourceLocation
-import com.mojang.math.Axis
+import net.minecraft.util.FormattedCharSequence
+import net.minecraft.world.item.ItemStack
 
 fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: Double = 1.0, zTranslation: Float = 100.0F, matrixStack: PoseStack? = null) {
     val itemRenderer = Minecraft.getInstance().itemRenderer
@@ -38,7 +38,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
     textureManager.getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false)
     RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS)
     RenderSystem.enableBlend()
-    RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
+    RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
     //TODO Make sure this doesnt break anything
     val modelViewStack = matrixStack ?: PoseStack()
@@ -117,10 +117,10 @@ fun drawScaledText(
         return
     }
 
-    val textWidth = Minecraft.getInstance().textRenderer.getWidth(if (font != null) text.font(font) else text)
+    val textWidth = Minecraft.getInstance().font.width(if (font != null) text.font(font) else text)
     val extraScale = if (textWidth < maxCharacterWidth) 1F else (maxCharacterWidth / textWidth.toFloat())
     val fontHeight = if (font == null) 5 else 6
-    val matrices = context.matrices
+    val matrices = context.pose()
     matrices.pushPose()
     matrices.scale(scale * extraScale, scale * extraScale, 1F)
     val isHovered = drawText(
@@ -138,13 +138,13 @@ fun drawScaledText(
     matrices.popPose()
     // Draw tooltip that was created with onHover and is attached to the MutableText
     if (isHovered) {
-        context.drawHoverEvent(Minecraft.getInstance().textRenderer, text.style, pMouseX!!, pMouseY!!)
+        context.drawHoverEvent(Minecraft.getInstance().font, text.style, pMouseX!!, pMouseY!!)
     }
 }
 
 fun drawScaledText(
     context: GuiGraphics,
-    text: OrderedText,
+    text: FormattedCharSequence,
     x: Number,
     y: Number,
     scaleX: Float = 1F,
@@ -157,7 +157,7 @@ fun drawScaledText(
     if (opacity.toFloat() < 0.05F) {
         return
     }
-    val matrixStack = context.matrices
+    val matrixStack = context.pose()
     matrixStack.pushPose()
     matrixStack.scale(scaleX, scaleY, 1F)
     drawText(
@@ -191,7 +191,7 @@ fun renderBeaconBeam(
     val i = yOffset + height
     val beamRotation = Math.floorMod(totalLevelTime, 40).toFloat() + partialTicks
     matrixStack.pushPose()
-    matrixStack.multiply(Axis.YP.rotationDegrees(beamRotation * 2.25f - 45.0f))
+    matrixStack.mulPose(Axis.YP.rotationDegrees(beamRotation * 2.25f - 45.0f))
     var f9 = -beamRadius
     val f12 = -beamRadius
     renderPart(
