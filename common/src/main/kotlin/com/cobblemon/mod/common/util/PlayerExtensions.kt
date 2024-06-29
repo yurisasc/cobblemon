@@ -23,21 +23,20 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.registry.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.sounds.SoundSource
 import net.minecraft.sounds.SoundEvents
-import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.sounds.SoundSource
+import net.minecraft.util.Mth
 import net.minecraft.util.math.*
-import net.minecraft.world.RaycastContext
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.Vec3
 import java.util.*
 import kotlin.math.min
@@ -102,10 +101,10 @@ class TraceResult(
 fun Entity.isLookingAt(other: Entity, maxDistance: Float = 10F, stepDistance: Float = 0.01F): Boolean {
     var step = stepDistance
     val startPos = eyePosition
-    val direction = rotationVector
+    val direction = lookAngle
 
     while (step <= maxDistance) {
-        val location = startPos.add(direction.multiply(step.toDouble()))
+        val location = startPos.add(direction.scale(step.toDouble()))
         step += stepDistance
 
         if (location in other.boundingBox) {
@@ -140,18 +139,18 @@ fun <T : Entity> Player.traceEntityCollision(
     ignoreEntity: T? = null
 ): EntityTraceResult<T>? {
     var step = stepDistance
-    val startPos = eyePos
-    val direction = rotationVector
-    val maxDistanceVector = Vec3(1.0, 1.0, 1.0).multiply(maxDistance.toDouble())
+    val startPos = eyePosition
+    val direction = lookAngle
+    val maxDistanceVector = Vec3(1.0, 1.0, 1.0).scale(maxDistance.toDouble())
 
-    val entities = world.getEntities(
+    val entities = level().getEntities(
         null,
-        Box(startPos.subtract(maxDistanceVector), startPos.add(maxDistanceVector)),
+        AABB(startPos.subtract(maxDistanceVector), startPos.add(maxDistanceVector)),
         { entityClass.isInstance(it) }
     )
 
     while (step <= maxDistance) {
-        val location = startPos.add(direction.multiply(step.toDouble()))
+        val location = startPos.add(direction.scale(step.toDouble()))
         step += stepDistance
 
         val collided = entities.filter { ignoreEntity != it && location in it.boundingBox }.filter { entityClass.isInstance(it) }
@@ -171,12 +170,12 @@ fun Player.traceBlockCollision(
 ): TraceResult? {
     var step = stepDistance
     val startPos = eyePosition
-    val direction = rotationVector
+    val direction = lookAngle
 
     var lastBlockPos = startPos.toBlockPos()
 
     while (step <= maxDistance) {
-        val location = startPos.add(direction.multiply(step.toDouble()))
+        val location = startPos.add(direction.scale(step.toDouble()))
         step += stepDistance
 
         val blockPos = location.toBlockPos()
@@ -187,7 +186,7 @@ fun Player.traceBlockCollision(
             lastBlockPos = blockPos
         }
 
-        val block = world.getBlockState(blockPos)
+        val block = level().getBlockState(blockPos)
         if (blockFilter(block)) {
             val dir = findDirectionForIntercept(startPos, location, blockPos)
             return TraceResult(
@@ -262,9 +261,9 @@ fun findDirectionForIntercept(p0: Vec3, p1: Vec3, blockPos: BlockPos): Direction
 }
 
 fun ServerPlayer.raycast(maxDistance: Float, fluidHandling: ClipContext.Fluid?): BlockHitResult {
-    val f = pitch
-    val g = yaw
-    val vec3d = eyePos
+    val f = xRot
+    val g = yRot
+    val vec3d = eyePosition
     val h = Mth.cos(-g * 0.017453292f - 3.1415927f)
     val i = Mth.sin(-g * 0.017453292f - 3.1415927f)
     val j = -Mth.cos(-f * 0.017453292f)
@@ -272,14 +271,14 @@ fun ServerPlayer.raycast(maxDistance: Float, fluidHandling: ClipContext.Fluid?):
     val l = i * j
     val n = h * j
     val vec3d2 = vec3d.add(l.toDouble() * maxDistance, k.toDouble() * maxDistance, n.toDouble() * maxDistance)
-    return world.raycast(RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, fluidHandling, this))
+    return level().clip(ClipContext(vec3d, vec3d2, ClipContext.Block.OUTLINE, fluidHandling, this))
 }
 
 fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropHeight: Double, fluidHandling: ClipContext.Fluid?): Vec3? {
     // Crazy math stuff, don't worry about it
-    val f = pitch
-    val g = yaw
-    val vec3d = eyePos
+    val f = xRot
+    val g = yRot
+    val vec3d = eyePosition
     val h = Mth.cos(-g * 0.017453292f - 3.1415927f)
     val i = Mth.sin(-g * 0.017453292f - 3.1415927f)
     val j = -Mth.cos(-f * 0.017453292f)
@@ -287,7 +286,7 @@ fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropH
     val l = i * j
     val n = h * j
     val vec3d2 = vec3d.add(l.toDouble() * maxDistance, k.toDouble() * maxDistance, n.toDouble() * maxDistance)
-    val result = world.raycast(RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, fluidHandling, this))
+    val result = level().clip(ClipContext(vec3d, vec3d2, ClipContext.Block.OUTLINE, fluidHandling, this))
 
 
     if (level().getBlockState(result.blockPos).isAir) {
@@ -322,15 +321,15 @@ fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropH
 
         // If a valid block was found below the player's aim, return the location directly above it
         return fallLoc?.blockPos?.above()?.center
-    } else if (result.side != Direction.UP) {
+    } else if (result.direction != Direction.UP) {
         // If the player targets the side or bottom of a block, try to find a valid spot in front of / below that block
-        val offset: Double = if (result.side == Direction.DOWN) {
+        val offset: Double = if (result.direction == Direction.DOWN) {
             0.125 + pokemon.form.hitbox.height*pokemon.form.baseScale*0.5
         } else {
             0.125 + pokemon.form.hitbox.width*pokemon.form.baseScale*0.5
         }
 
-        val posOffset = result.pos.offset(result.side, offset)
+        val posOffset = result.location.relative(result.direction, offset)
 
         val traceDown = posOffset.traceDownwards(this.level(), maxDistance = dropHeight.toFloat())
 
@@ -339,16 +338,16 @@ fun ServerPlayer.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropH
         } else {
             return Vec3(
                 traceDown.location.x,
-                traceDown.blockPos.up().toVec3d().y,
+                traceDown.blockPos.above().toVec3d().y,
                 traceDown.location.z
             )
         }
-    } else if (!this.level().getBlockState(result.blockPos.up()).isSolid && pokemon.isPositionSafe(level(), result.blockPos)) {
+    } else if (!this.level().getBlockState(result.blockPos.above()).isSolid && pokemon.isPositionSafe(level(), result.blockPos)) {
         // If the player is targeting the top of a block, and the block above it isn't solid, it will spawn on that block
         return Vec3(
-            result.pos.x,
-            result.blockPos.up().toVec3d().y,
-            result.pos.z
+            result.location.x,
+            result.blockPos.above().toVec3d().y,
+            result.location.z
         )
     }
     return null

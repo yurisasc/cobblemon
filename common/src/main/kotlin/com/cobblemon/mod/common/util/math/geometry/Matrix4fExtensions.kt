@@ -44,5 +44,5 @@ fun Matrix4f.transformDirection(direction: Vec3): Vec3 {
     )
         .subtract(originVec)
         .normalize()
-        .multiply(magnitude)
+        .scale(magnitude)
 }

@@ -9,11 +9,9 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.duck.SoundManagerDuck
-import net.minecraft.client.sound.SoundInstance
-import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.sound.Source
-import net.minecraft.sounds.SoundSource
+import net.minecraft.client.sounds.SoundManager
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundSource
 
 /**
  * Pauses the audio [Source]s belonging to the queried [SoundInstance]s.

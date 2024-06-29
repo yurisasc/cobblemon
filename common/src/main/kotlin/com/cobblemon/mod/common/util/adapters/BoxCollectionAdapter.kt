@@ -15,8 +15,8 @@ import com.google.gson.JsonElement
 import java.lang.reflect.Type
 import net.minecraft.world.phys.AABB
 
-object BoxCollectionAdapter : JsonDeserializer<Collection<Box>> {
-    val boxesByName = mutableMapOf<String, Collection<Box>>()
+object BoxCollectionAdapter : JsonDeserializer<Collection<AABB>> {
+    val boxesByName = mutableMapOf<String, Collection<AABB>>()
 
     init {
         boxesByName["standard-sprout"] = BerryBlock.STANDARD_SPROUT
@@ -59,11 +59,11 @@ object BoxCollectionAdapter : JsonDeserializer<Collection<Box>> {
 
     }
 
-    override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Collection<Box> {
+    override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Collection<AABB> {
         if (json.isJsonPrimitive)  {
             return boxesByName[json.asString] ?: throw IllegalArgumentException("Unrecognized box collection name: ${json.asString}")
         } else {
-            return json.asJsonArray.map { ctx.deserialize<Box>(it, Box::class.java) }.toList()
+            return json.asJsonArray.map { ctx.deserialize<AABB>(it, AABB::class.java) }.toList()
         }
     }
 }

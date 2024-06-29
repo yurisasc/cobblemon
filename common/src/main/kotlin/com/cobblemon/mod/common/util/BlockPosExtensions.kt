@@ -14,5 +14,5 @@ import net.minecraft.world.phys.Vec3
 /**
  * For conversion from BlockPos to Vec3d */
 fun BlockPos.toVec3d(): Vec3 {
-    return Vec3d(this.x.toDouble(), this.y.toDouble(), this.z.toDouble())
+    return Vec3(this.x.toDouble(), this.y.toDouble(), this.z.toDouble())
 }

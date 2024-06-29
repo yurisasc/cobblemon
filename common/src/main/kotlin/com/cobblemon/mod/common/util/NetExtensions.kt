@@ -54,7 +54,7 @@ fun ByteBuf.readTimes(size: IntSize = IntSize.U_BYTE, readEntry: () -> Unit) {
     repeat(times) { readEntry() }
 }
 
-fun ByteBuf.writeBox(box: Box) {
+fun ByteBuf.writeBox(box: AABB) {
     this.writeDouble(box.minX)
     this.writeDouble(box.minY)
     this.writeDouble(box.minZ)
@@ -63,7 +63,7 @@ fun ByteBuf.writeBox(box: Box) {
     this.writeDouble(box.maxZ)
 }
 
-fun ByteBuf.readBox(): Box = Box(this.readDouble(), this.readDouble(), this.readDouble(), this.readDouble(), this.readDouble(), this.readDouble())
+fun ByteBuf.readBox(): AABB = AABB(this.readDouble(), this.readDouble(), this.readDouble(), this.readDouble(), this.readDouble(), this.readDouble())
 
 fun <K, V> ByteBuf.writeMapK(size: IntSize = IntSize.U_BYTE, map: Map<K, V>, entryWriter: (Map.Entry<K, V>) -> Unit) {
     writeSizedInt(size, map.size)

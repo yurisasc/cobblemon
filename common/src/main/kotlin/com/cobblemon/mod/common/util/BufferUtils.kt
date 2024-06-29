@@ -182,7 +182,7 @@ fun ByteBuf.readNbt(): Tag? {
     val nbtElement: Tag
     try {
         nbtElement = NbtIo.read(ByteBufInputStream(this), NbtAccounter.create(2097152L))
-        if (nbtElement.type.toInt() == 0) { // TODO (techdaan): investigate
+        if (nbtElement.type == EndTag.TYPE) { // TODO (techdaan): ensure this works
             return null
         }
     } catch (var4: IOException) {

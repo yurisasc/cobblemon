@@ -16,15 +16,16 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.item.Item
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.core.registries.Registries
-import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
+import net.minecraft.tags.FluidTags
 import net.minecraft.util.math.*
 import net.minecraft.util.Mth.ceil
 import net.minecraft.util.Mth.floor
-import net.minecraft.world.BlockView
 import net.minecraft.world.item.enchantment.Enchantment
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.phys.AABB
@@ -49,9 +50,9 @@ fun <T : ParticleOptions> Level.sendParticlesServer(
 fun Level.squeezeWithinBounds(pos: BlockPos): BlockPos {
     val border = worldBorder
     return BlockPos(
-        pos.x.coerceIn(border.boundWest.toInt(), border.boundEast.toInt()),
-        pos.y.coerceIn(bottomY, topY),
-        pos.z.coerceIn(border.boundNorth.toInt(), border.boundSouth.toInt())
+        pos.x.coerceIn(border.minX.toInt(), border.maxX.toInt()),
+        pos.y.coerceIn(minBuildHeight, maxBuildHeight),
+        pos.z.coerceIn(border.minZ.toInt(), border.maxZ.toInt())
     )
 }
 
@@ -63,7 +64,7 @@ fun ServerLevel.isBoxLoaded(box: AABB): Boolean {
 
     for (chunkX in startChunkX..endChunkX) {
         for (chunkZ in startChunkZ..endChunkZ) {
-            if (!this.isChunkLoaded(ChunkPos.toLong(chunkX, chunkZ))) {
+            if (!this.areEntitiesLoaded(ChunkPos.asLong(chunkX, chunkZ))) {
                 return false
             }
         }
@@ -72,11 +73,11 @@ fun ServerLevel.isBoxLoaded(box: AABB): Boolean {
     return true
 }
 
-fun Box.getRanges(): Triple<IntRange, IntRange, IntRange> {
+fun AABB.getRanges(): Triple<IntRange, IntRange, IntRange> {
     return Triple(floor(minX)..ceil(maxX), minY.toInt()..ceil(maxY), minZ.toInt()..ceil(maxZ))
 }
 
-fun BlockView.doForAllBlocksIn(box: AABB, useMutablePos: Boolean, action: (BlockState, BlockPos) -> Unit) {
+fun BlockGetter.doForAllBlocksIn(box: AABB, useMutablePos: Boolean, action: (BlockState, BlockPos) -> Unit) {
     val mutable = BlockPos.MutableBlockPos()
     val (xRange, yRange, zRange) = box.getRanges()
     for (x in xRange) {
@@ -90,27 +91,27 @@ fun BlockView.doForAllBlocksIn(box: AABB, useMutablePos: Boolean, action: (Block
     }
 }
 
-fun BlockView.getBlockStates(box: Box): Iterable<BlockState> {
+fun BlockGetter.getBlockStates(box: AABB): Iterable<BlockState> {
     val states = mutableListOf<BlockState>()
     doForAllBlocksIn(box, useMutablePos = true) { state, _ -> states.add(state) }
     return states
 }
 
-fun BlockView.getBlockStatesWithPos(box: Box): Iterable<Pair<BlockState, BlockPos>> {
+fun BlockGetter.getBlockStatesWithPos(box: AABB): Iterable<Pair<BlockState, BlockPos>> {
     val states = mutableListOf<Pair<BlockState, BlockPos>>()
     doForAllBlocksIn(box, useMutablePos = true) { state, pos -> states.add(state to pos) }
     return states
 }
 
-fun BlockView.getWaterAndLavaIn(box: Box): Pair<Boolean, Boolean> {
+fun BlockGetter.getWaterAndLavaIn(box: AABB): Pair<Boolean, Boolean> {
     var hasWater = false
     var hasLava = false
 
     doForAllBlocksIn(box, useMutablePos = true) { state, _ ->
-        if (!hasWater && state.fluidState.isIn(FluidTags.WATER)) {
+        if (!hasWater && state.fluidState.`is`(FluidTags.WATER)) {
             hasWater = true
         }
-        if (!hasLava && state.fluidState.isIn(FluidTags.LAVA)) {
+        if (!hasLava && state.fluidState.`is`(FluidTags.LAVA)) {
             hasLava = true
         }
     }
@@ -147,7 +148,7 @@ fun Vec3.traceDownwards(
     var lastBlockPos = startPos.toBlockPos()
 
     while (step <= maxDistance) {
-        val location = startPos.add(direction.multiply(step.toDouble()))
+        val location = startPos.add(direction.scale(step.toDouble()))
         step += stepDistance
 
         val blockPos = location.toBlockPos()
