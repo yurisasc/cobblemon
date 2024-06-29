@@ -44,7 +44,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
 
     override fun changePokemon(pokemon: Pokemon) {
         updatePathfindingPenalties(pokemon)
-        entity.initGoals()
+        entity.registerGoals()
         updateMaxHealth()
     }
 

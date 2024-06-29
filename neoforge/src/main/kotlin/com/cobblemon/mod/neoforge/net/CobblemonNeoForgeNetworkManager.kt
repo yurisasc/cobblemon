@@ -29,10 +29,10 @@ object CobblemonNeoForgeNetworkManager : NetworkManager {
     }
 
     override fun sendPacketToPlayer(player: ServerPlayer, packet: NetworkPacket<*>) {
-        player.networkHandler.send(packet)
+        player.connection.send(packet)
     }
 
     override fun sendToServer(packet: NetworkPacket<*>) {
-        Minecraft.getInstance().networkHandler?.send(packet)
+        Minecraft.getInstance().connection?.send(packet)
     }
 }

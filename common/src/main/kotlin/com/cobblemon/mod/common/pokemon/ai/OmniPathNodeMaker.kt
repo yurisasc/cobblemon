@@ -24,7 +24,6 @@ import net.minecraft.world.level.PathNavigationRegion
 import net.minecraft.world.level.block.BaseRailBlock
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.FenceGateBlock
-import net.minecraft.world.level.block.RailBlock
 import net.minecraft.world.level.material.FluidState
 import net.minecraft.world.level.pathfinder.*
 import net.minecraft.world.level.pathfinder.Target
@@ -39,7 +38,7 @@ import java.util.*
  * @author Hiroku
  * @since September 10th, 2022
  */
-class OmniNodeMaker : NodeEvaluator() {
+class OmniPathNodeMaker : NodeEvaluator() {
     private val nodePosToType: Long2ObjectMap<PathType> = Long2ObjectOpenHashMap()
 
     var canPathThroughFire: Boolean = false

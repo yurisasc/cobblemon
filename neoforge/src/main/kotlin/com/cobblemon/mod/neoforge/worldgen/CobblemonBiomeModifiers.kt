@@ -10,9 +10,9 @@ package com.cobblemon.mod.neoforge.worldgen
 
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.serialization.MapCodec
-import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceKeys
 import net.minecraft.core.Holder
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.levelgen.GenerationStep
@@ -43,7 +43,7 @@ internal object CobblemonBiomeModifiers : BiomeModifier {
         }
     }
 
-    fun add(feature: ResourceKey<PlacedFeature>, step: GenerationStep.Feature, validTag: TagKey<Biome>?) {
+    fun add(feature: ResourceKey<PlacedFeature>, step: GenerationStep.Decoration, validTag: TagKey<Biome>?) {
         this.entries += Entry(feature, step, validTag)
     }
 
@@ -52,16 +52,16 @@ internal object CobblemonBiomeModifiers : BiomeModifier {
             return
         }
         val server = ServerLifecycleHooks.getCurrentServer()!!
-        val registry = server.registryManager.get(ResourceKeys.PLACED_FEATURE)
+        val registry = server.registryAccess().registryOrThrow(Registries.PLACED_FEATURE)
         this.entries.forEach { entry ->
-            if (entry.validTag == null || arg.isIn(entry.validTag)) {
-                builder.generationSettings.feature(entry.step, Holder.of(registry.get(entry.feature)))
+            if (entry.validTag == null || arg.`is`(entry.validTag)) {
+                builder.generationSettings.addFeature(entry.step, Holder.direct(registry.getOrThrow(entry.feature)))
             }
         }
     }
 
     override fun codec(): MapCodec<out BiomeModifier> = this.codec ?: MapCodec.unit(CobblemonBiomeModifiers)
 
-    private data class Entry(val feature: ResourceKey<PlacedFeature>, val step: GenerationStep.Feature, val validTag: TagKey<Biome>?)
+    private data class Entry(val feature: ResourceKey<PlacedFeature>, val step: GenerationStep.Decoration, val validTag: TagKey<Biome>?)
 
 }

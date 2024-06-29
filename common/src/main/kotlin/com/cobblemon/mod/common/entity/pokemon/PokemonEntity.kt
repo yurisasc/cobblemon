@@ -609,7 +609,7 @@ open class PokemonEntity(
     override fun createNavigation(world: Level) = PokemonNavigation(world, this)
 
     @Suppress("SENSELESS_COMPARISON")
-    override fun registerGoals() {
+    public override fun registerGoals() {
         // DO NOT REMOVE
         // LivingEntity#getActiveEyeHeight is called in the constructor of Entity
         // Pokémon param is not available yet

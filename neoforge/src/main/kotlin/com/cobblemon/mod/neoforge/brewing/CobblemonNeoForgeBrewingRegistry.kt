@@ -55,7 +55,7 @@ internal object CobblemonNeoForgeBrewingRegistry {
                     }
 
                     override fun getOutput(arg: ItemStack, arg2: ItemStack): ItemStack {
-                        return output.defaultStack
+                        return output.defaultInstance
                     }
 
                 }
