@@ -26,6 +26,9 @@
 - Palafin
 - Farigiraf
 
+### Changes
+- Kakuna, Beedrill, Snorlax, Munchlax, Lurantis, received model updates
+
 ### Developer
 - SpawnCause is now an implementation of SpawningInfluence.
 - Added "forcedAspects" to Pokemon to make it easier to easily add basic aspects to a Pokémon in a way that persists. We already know that everyone is going to overuse this.
