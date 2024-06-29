@@ -19,10 +19,10 @@ import com.cobblemon.mod.common.util.adapters.ExpressionAdapter
 import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
-import net.minecraft.resource.ResourceManager
-import net.minecraft.server.packs.PackType
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.packs.PackType
+import net.minecraft.server.packs.resources.ResourceManager
 
 object CobblemonMechanics : DataRegistry {
     override val id: ResourceLocation = cobblemonResource("mechanics")
@@ -46,7 +46,7 @@ object CobblemonMechanics : DataRegistry {
     }
 
     private fun <T> loadMechanic(manager: ResourceManager, name: String, clazz: Class<T>): T {
-        manager.getResourceOrThrow(cobblemonResource("mechanics/$name.json")).inputStream.use {
+        manager.getResourceOrThrow(cobblemonResource("mechanics/$name.json")).open().use {
             return gson.fromJson(it.reader(), clazz)
         }
     }
