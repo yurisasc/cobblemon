@@ -114,7 +114,8 @@ class SpawnPokemonPacket(
         fun decode(buffer: RegistryFriendlyByteBuf): SpawnPokemonPacket {
             val ownerId = buffer.readNullable { buffer.readUUID() }
             val scaleModifier = buffer.readFloat()
-            val species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
+            val identifier = buffer.readIdentifier()
+            val species = requireNotNull(PokemonSpecies.getByIdentifier(identifier)) { "received unknown PokemonSpecies: $identifier" }
             val showdownId = buffer.readString()
             val form = species.forms.firstOrNull { it.formOnlyShowdownId() == showdownId } ?: species.standardForm
             val aspects = buffer.readList { it.readString() }.toSet()
