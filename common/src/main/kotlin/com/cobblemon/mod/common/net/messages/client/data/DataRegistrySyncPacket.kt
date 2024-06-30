@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import io.netty.buffer.Unpooled
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val registryEntries: Collection<T>) : NetworkPacket<N> {
@@ -17,12 +18,17 @@ abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val regis
     internal val entries = arrayListOf<T>()
 
     override fun encode(buffer: RegistryFriendlyByteBuf) {
-        buffer.writeCollection(this.registryEntries) { _, entry -> encodeEntry(buffer, entry) }
+        val newBuffer = RegistryFriendlyByteBuf(Unpooled.buffer(), buffer.registryAccess())
+        newBuffer.writeCollection(registryEntries) { _, entry -> encodeEntry(newBuffer, entry) }
+        buffer.writeInt(newBuffer.readableBytes())
+        buffer.writeBytes(newBuffer)
+        // TODO (techdaan): should newBuffer be released here? I don't think writeBytes does that for us.
     }
 
     internal fun decodeBuffer(buffer: RegistryFriendlyByteBuf) {
-        this.buffer = buffer
-        buffer.retain()
+        val size = buffer.readInt()
+        val newBuffer = RegistryFriendlyByteBuf(buffer.readBytes(size), buffer.registryAccess())
+        this.buffer = newBuffer
     }
 
     /**

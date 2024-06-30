@@ -40,7 +40,9 @@ class NPCBattleConfiguration {
             val providerBuilder = NPCPartyProvider.types[type]
                 ?: throw IllegalArgumentException("Failed to load NPC party provider of type: $type")
 
-            providerBuilder(type)
+            val decodedParty = providerBuilder(type)
+            decodedParty.decode(buffer)
+            decodedParty
         }
     }
 

@@ -162,7 +162,7 @@ object CobblemonNeoForgeClient : CobblemonClientImplementation {
             event.register(
                 ModelResourceLocation(
                     pokeball.model3d,
-                    "inventory"
+                    "standalone"
                 )
             )
         }
