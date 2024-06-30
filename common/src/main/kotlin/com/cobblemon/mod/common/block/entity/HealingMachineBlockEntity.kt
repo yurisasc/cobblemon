@@ -30,6 +30,7 @@ import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -127,8 +128,11 @@ class HealingMachineBlockEntity(
         clearData()
     }
 
-    override fun readNbt(compoundTag: NbtCompound) {
-        super.readNbt(compoundTag)
+    override fun readNbt(
+        compoundTag: NbtCompound,
+        registryLookup: RegistryWrapper.WrapperLookup
+    ) {
+        super.readNbt(compoundTag, registryLookup)
 
         this.pokeBallMap.clear()
 
@@ -145,7 +149,7 @@ class HealingMachineBlockEntity(
                     continue
                 }
                 val actualIndex = key.toIntOrNull() ?: index
-                val pokeBall = PokeBalls.getPokeBall(Identifier(pokeBallId))
+                val pokeBall = PokeBalls.getPokeBall(Identifier.of(pokeBallId))
                 if (pokeBall != null) {
                     this.pokeBallMap[actualIndex] = pokeBall
                 }
@@ -163,8 +167,11 @@ class HealingMachineBlockEntity(
         }
     }
 
-    override fun writeNbt(compoundTag: NbtCompound) {
-        super.writeNbt(compoundTag)
+    override fun writeNbt(
+        compoundTag: NbtCompound,
+        registryLookup: RegistryWrapper.WrapperLookup
+    ) {
+        super.writeNbt(compoundTag, registryLookup)
 
         if (this.currentUser != null) {
             compoundTag.putUuid(DataKeys.HEALER_MACHINE_USER, this.currentUser!!)
@@ -188,8 +195,8 @@ class HealingMachineBlockEntity(
     }
 
     override fun toUpdatePacket(): BlockEntityUpdateS2CPacket =  BlockEntityUpdateS2CPacket.create(this)
-    override fun toInitialChunkDataNbt(): NbtCompound {
-        return super.createNbtWithIdentifyingData()
+    override fun toInitialChunkDataNbt(registryLookup: RegistryWrapper.WrapperLookup?): NbtCompound? {
+        return super.createNbtWithIdentifyingData(registryLookup)
     }
 
     override fun markRemoved() {

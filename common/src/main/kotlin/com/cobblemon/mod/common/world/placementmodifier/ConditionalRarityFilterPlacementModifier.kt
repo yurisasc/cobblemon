@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.world.placementmodifier
 
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.util.math.BlockPos
@@ -28,7 +29,7 @@ class ConditionalRarityFilterPlacementModifier(
     val chance: Int
 ) : AbstractConditionalPlacementModifier() {
     companion object {
-        val MODIFIER_CODEC: Codec<ConditionalRarityFilterPlacementModifier> = RecordCodecBuilder.create { instance ->
+        val MODIFIER_CODEC: MapCodec<ConditionalRarityFilterPlacementModifier> = RecordCodecBuilder.mapCodec { instance ->
             instance
                 .group(
                     BlockPredicate.BASE_CODEC.fieldOf("predicate").forGetter { it.predicate },

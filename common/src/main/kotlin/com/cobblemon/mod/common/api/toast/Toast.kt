@@ -197,7 +197,7 @@ class Toast(
         /**
          * The default Minecraft toast frame texture.
          */
-        val VANILLA_FRAME = Identifier("minecraft", "textures/gui/toasts.png")
+        val VANILLA_FRAME = Identifier.of("minecraft", "textures/gui/toasts.png")
 
         const val VANILLA_PROGRESS_COLOR = -1675545
 

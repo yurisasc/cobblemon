@@ -48,7 +48,7 @@ class HealPowderItem : CobblemonItem(Settings()), PokemonSelectingItem {
         val currentStatus = pokemon.status?.status
         return if (currentStatus != null) {
             pokemon.status = null
-            player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
+            player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
             if (!player.isCreative)  {
                 stack.decrement(1)
             }
@@ -60,7 +60,7 @@ class HealPowderItem : CobblemonItem(Settings()), PokemonSelectingItem {
 
     override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
-        player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
+        player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {

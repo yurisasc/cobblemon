@@ -10,8 +10,9 @@ package com.cobblemon.mod.common.net.messages.client.storage
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.StorePosition
+import com.cobblemon.mod.common.util.writeUuid
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Base packet class for moving a Pokémon from one position to another in the same store.
@@ -24,10 +25,10 @@ abstract class MoveClientPokemonPacket<T : StorePosition, N : NetworkPacket<N>>(
     val pokemonID: UUID,
     val newPosition: T
 ) : NetworkPacket<N> {
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(this.storeID)
         buffer.writeUuid(this.pokemonID)
         encodePosition(buffer, this.newPosition)
     }
-    abstract fun encodePosition(buffer: PacketByteBuf, position: T)
+    abstract fun encodePosition(buffer: RegistryByteBuf, position: T)
 }

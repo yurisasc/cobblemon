@@ -15,5 +15,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtOps
 import net.minecraft.server.network.ServerPlayerEntity
 
-fun ItemStack.saveToJson(): JsonElement = NbtOps.INSTANCE.convertTo(JsonOps.INSTANCE, this.writeNbt(NbtCompound()))
+fun ItemStack.saveToJson(): JsonElement = JsonOps.INSTANCE.withEncoder(ItemStack.CODEC).apply(this).getOrThrow {
+    return@getOrThrow IllegalStateException("Cant serialize ItemStack")
+}
 fun ItemStack.isHeld(player: ServerPlayerEntity) = this in player.handItems && !isEmpty

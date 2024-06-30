@@ -54,14 +54,6 @@ class ForfeitConfirmationSelection(
         }
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        if (opacity <= 0.05F) {
-            return
-        }
-        forfeitButton.render(context, mouseX, mouseY, delta)
-        backButton.render(context.matrices, mouseX, mouseY, delta)
-    }
-
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         if (backButton.isHovered(mouseX, mouseY)) {
             battleGUI.changeActionSelection(null)
@@ -70,6 +62,14 @@ class ForfeitConfirmationSelection(
         }
 
         return forfeitButton.mouseClicked(mouseX, mouseY, button)
+    }
+
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        if (opacity <= 0.05F) {
+            return
+        }
+        forfeitButton.render(context, mouseX, mouseY, delta)
+        backButton.render(context.matrices, mouseX, mouseY, delta)
     }
 
 }

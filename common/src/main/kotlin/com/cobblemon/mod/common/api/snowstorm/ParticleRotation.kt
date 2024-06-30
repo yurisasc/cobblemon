@@ -22,7 +22,7 @@ import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import kotlin.math.abs
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 interface ParticleRotation : CodecMapped {
     companion object : ArbitrarilyMappedSerializableCompanion<ParticleRotation, ParticleRotationType>(
@@ -61,11 +61,11 @@ class ParametricParticleRotation(var expression: Expression = NumberExpression(0
     override fun getInitialAngularVelocity(runtime: MoLangRuntime) = 0.0
     override fun getAngularVelocity(runtime: MoLangRuntime, angle: Double, angularVelocity: Double) = runtime.resolveDouble(expression) - angle
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         expression = MoLang.createParser(buffer.readString()).parseExpression()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(expression.getString())
     }
 }
@@ -105,14 +105,14 @@ class DynamicParticleRotation(
         })
     }
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         startRotation = MoLang.createParser(buffer.readString()).parseExpression()
         speed = MoLang.createParser(buffer.readString()).parseExpression()
         acceleration = MoLang.createParser(buffer.readString()).parseExpression()
         drag = MoLang.createParser(buffer.readString()).parseExpression()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(startRotation.getString())
         buffer.writeString(speed.getString())
         buffer.writeString(acceleration.getString())

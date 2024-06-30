@@ -15,6 +15,8 @@ import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.block.Blocks
+import net.minecraft.component.ComponentChanges
+import net.minecraft.component.ComponentMap
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
@@ -37,8 +39,8 @@ open class ItemDropEntry : DropEntry {
     open val quantityRange: IntRange? = null
     override val maxSelectableTimes = 1
     open val dropMethod: ItemDropMethod? = null
-    open val item = Identifier("minecraft:fish")
-    open val nbt: NbtCompound? = null
+    open val item = Identifier.of("minecraft:fish")
+    open val components: ComponentMap? = null
 
     override fun drop(entity: LivingEntity?, world: ServerWorld, pos: Vec3d, player: ServerPlayerEntity?) {
         val item = world.registryManager.get(RegistryKeys.ITEM).get(item) ?: return LOGGER.error("Unable to load drop item: $item")
@@ -51,7 +53,11 @@ open class ItemDropEntry : DropEntry {
                 it
             }
         }
-        nbt?.let { stack.nbt = it }
+        val builder = ComponentChanges.builder()
+        components?.forEach {
+            builder.add(it)
+        }
+        stack.applyChanges(builder.build())
 
         if (dropMethod == ItemDropMethod.ON_PLAYER && player != null) {
             world.spawnEntity(ItemEntity(player.world, player.x, player.y, player.z, stack))

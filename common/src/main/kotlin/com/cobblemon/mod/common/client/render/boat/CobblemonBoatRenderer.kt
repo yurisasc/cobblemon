@@ -56,7 +56,7 @@ class CobblemonBoatRenderer(ctx: EntityRendererFactory.Context, private val hasC
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90F))
         entityModel.setAngles(entity, tickDelta, 0F, -0.1F, 0F, 0F)
         val vertexConsumer = vertexConsumers.getBuffer(entityModel.getLayer(identifier))
-        entityModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        entityModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, -0x1)
         if (!entity.isSubmergedInWater) {
             val vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getWaterMask())
             entityModel.waterPatch.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV)

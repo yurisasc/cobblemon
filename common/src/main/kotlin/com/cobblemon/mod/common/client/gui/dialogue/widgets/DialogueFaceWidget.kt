@@ -42,9 +42,9 @@ class DialogueFaceWidget(
         )
 
         context.enableScissor(
-            x + 2,
+            x + 1,
             y + 2,
-            x + 2 + width - 4,
+            x + 1 + width - 4,
             y + 2 + height - 4
         )
         context.matrices.push()

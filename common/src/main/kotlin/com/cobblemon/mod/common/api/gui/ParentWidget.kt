@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.api.gui
 
 import net.minecraft.client.gui.Drawable
 import net.minecraft.client.gui.Element
+import net.minecraft.client.gui.navigation.GuiNavigation
+import net.minecraft.client.gui.navigation.GuiNavigationPath
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.text.Text
@@ -47,10 +49,10 @@ abstract class ParentWidget(
         super.mouseMoved(pMouseX, pMouseY)
     }
 
-    override fun mouseScrolled(pMouseX: Double, pMouseY: Double, pDelta: Double): Boolean {
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, horizontalAmount: Double, verticalAmount: Double): Boolean {
         return children.any {
-            it.mouseScrolled(pMouseX, pMouseY, pDelta)
-        } || super.mouseScrolled(pMouseX, pMouseY, pDelta)
+            it.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
+        } || super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
     }
 
     override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {

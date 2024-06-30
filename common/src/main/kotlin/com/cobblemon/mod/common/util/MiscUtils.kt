@@ -9,20 +9,26 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.entity.npc.NPCEntity
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.math.min
 import kotlin.random.Random
 import net.minecraft.client.util.ModelIdentifier
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.text.Text
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.shape.VoxelShape
 
-fun cobblemonResource(path: String) = Identifier(Cobblemon.MODID, path)
-fun cobblemonModel(path: String, variant: String) = ModelIdentifier("cobblemon", path, variant)
+fun cobblemonResource(path: String) = Identifier.of(Cobblemon.MODID, path)
+fun cobblemonModel(path: String, variant: String) = ModelIdentifier(cobblemonResource(path), variant)
 
 fun String.asTranslated() = Text.translatable(this)
-fun String.asResource() = Identifier(this)
+fun String.asResource() = Identifier.of(this)
 fun String.asTranslated(vararg data: Any) = Text.translatable(this, *data)
 fun String.isInt() = this.toIntOrNull() != null
 fun String.isHigherVersion(other: String): Boolean {
@@ -89,4 +95,39 @@ fun VoxelShape.blockPositionsAsList(): List<BlockPos> {
 
 operator fun <T> Consumer<T>.plus(action: (T) -> Unit): Consumer<T> {
     return andThen(action)
+}
+
+fun chainFutures(others: Iterator<() -> CompletableFuture<*>>, finalFuture: CompletableFuture<Unit>) {
+    if (!others.hasNext()) {
+        finalFuture.complete(Unit)
+        return
+    }
+
+    others.next().invoke().thenApply {
+        chainFutures(others, finalFuture)
+    }
+}
+
+val PosableState.isBattling: Boolean
+    get() = (getEntity() as? PokemonEntity)?.isBattling == true || (getEntity() as? NPCEntity)?.isInBattle() == true
+val PosableState.isSubmergedInWater: Boolean
+    get() = getEntity()?.isSubmergedInWater == true
+val PosableState.isTouchingWater: Boolean
+    get() = getEntity()?.isTouchingWater == true
+val PosableState.isTouchingWaterOrRain: Boolean
+    get() = getEntity()?.isTouchingWaterOrRain == true
+
+fun Hand.toEquipmentSlot(): EquipmentSlot {
+    return when (this) {
+        Hand.MAIN_HAND -> EquipmentSlot.MAINHAND
+        Hand.OFF_HAND -> EquipmentSlot.OFFHAND
+    }
+}
+
+fun EquipmentSlot.toHand(): Hand {
+    return when (this) {
+        EquipmentSlot.MAINHAND -> Hand.MAIN_HAND
+        EquipmentSlot.OFFHAND -> Hand.OFF_HAND
+        else -> throw IllegalArgumentException("Invalid equipment slot: $this")
+    }
 }

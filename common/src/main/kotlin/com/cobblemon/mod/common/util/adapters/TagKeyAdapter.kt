@@ -33,7 +33,7 @@ import net.minecraft.util.Identifier
 class TagKeyAdapter<T>(private val key: RegistryKey<Registry<T>>) : JsonDeserializer<TagKey<T>>, JsonSerializer<TagKey<T>> {
 
     override fun deserialize(element: JsonElement, type: Type, ctx: JsonDeserializationContext): TagKey<T> {
-        val identifier = Identifier(element.asString)
+        val identifier = Identifier.of(element.asString)
         return TagKey.of(this.key, identifier)
     }
 

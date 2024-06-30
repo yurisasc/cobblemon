@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequi
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
 import com.cobblemon.mod.common.registry.ItemIdentifierCondition
-import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 
 /**
@@ -24,9 +23,9 @@ import net.minecraft.util.Identifier
  */
 class HeldItemRequirement(val itemCondition: NbtItemPredicate) : EvolutionRequirement {
 
-    constructor() : this(NbtItemPredicate(ItemIdentifierCondition(Identifier("air"))))
+    constructor() : this(NbtItemPredicate(ItemIdentifierCondition(Identifier.of("air"))))
 
-    override fun check(pokemon: Pokemon): Boolean = this.itemCondition.item.fits(pokemon.heldItemNoCopy().item, Registries.ITEM) && this.itemCondition.nbt.test(pokemon.heldItemNoCopy())
+    override fun check(pokemon: Pokemon): Boolean = this.itemCondition.test(pokemon.heldItemNoCopy())
 
     companion object {
         const val ADAPTER_VARIANT = "held_item"

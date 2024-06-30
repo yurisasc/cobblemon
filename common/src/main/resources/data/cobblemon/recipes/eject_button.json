@@ -3,7 +3,7 @@
     "pattern": [
         "IBI",
         "YPY",
-		"IRI"
+        "IRI"
     ],
     "key": {
         "Y": {
@@ -23,6 +23,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:eject_button"
+        "id": "cobblemon:eject_button"
     }
 }

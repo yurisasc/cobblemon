@@ -46,7 +46,7 @@ class ReforgedConversion(val base: Path) : CobblemonConverter<NbtCompound> {
             return null
         }
 
-        val nbt = NbtIo.read(target.toFile())
+        val nbt = NbtIo.read(target)
         if(nbt != null) {
             return (if (extension == "pk") party(uuid, nbt) else pc(uuid, nbt)) as T
         }
@@ -102,8 +102,8 @@ class ReforgedConversion(val base: Path) : CobblemonConverter<NbtCompound> {
         Abilities.get(nbt.getString("Ability"))?.let { template ->
             result.updateAbility(template.create(forced = result.form.abilities.none { it.template == template }))
         }
-        result.nature = Natures.getNature(Identifier(ReforgedNatures.values()[nbt.getInt("Nature")].name.lowercase())) ?: Natures.getRandomNature()
-        result.mintedNature = Natures.getNature(Identifier(ReforgedNatures.values()[nbt.getInt("MintNature")].name.lowercase()))
+        result.nature = Natures.getNature(Identifier.of(ReforgedNatures.values()[nbt.getInt("Nature")].name.lowercase())) ?: Natures.getRandomNature()
+        result.mintedNature = Natures.getNature(Identifier.of(ReforgedNatures.values()[nbt.getInt("MintNature")].name.lowercase()))
         result.currentHealth = nbt.getInt("Health")
 
         // Stats
@@ -144,7 +144,7 @@ class ReforgedConversion(val base: Path) : CobblemonConverter<NbtCompound> {
         // result.nickname = this.find(nbt, "Nickname", NbtCompound::getString)
 
         val ball = this.find(nbt, "CaughtBall", NbtCompound::getString)
-        result.caughtBall = if(ball != null) PokeBalls.getPokeBall(Identifier(ball)) ?: PokeBalls.POKE_BALL else PokeBalls.POKE_BALL
+        result.caughtBall = if(ball != null) PokeBalls.getPokeBall(Identifier.of(ball)) ?: PokeBalls.POKE_BALL else PokeBalls.POKE_BALL
 
         return result
     }

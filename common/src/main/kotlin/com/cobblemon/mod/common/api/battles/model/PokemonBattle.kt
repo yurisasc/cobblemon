@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.battles.model
 
+import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
@@ -20,6 +21,7 @@ import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.api.text.red
@@ -29,6 +31,7 @@ import com.cobblemon.mod.common.battles.BattleCaptureAction
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
+import com.cobblemon.mod.common.battles.ForfeitActionResponse
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
@@ -37,7 +40,6 @@ import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
-import com.cobblemon.mod.common.battles.ForfeitActionResponse
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
@@ -51,10 +53,11 @@ import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import java.io.File
 import java.util.UUID
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ConcurrentLinkedDeque
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import java.util.concurrent.ConcurrentLinkedDeque
 
 /**
  * Individual battle instance
@@ -69,7 +72,11 @@ open class PokemonBattle(
     val side2: BattleSide
 ) {
     /** Whether logging will be silenced for this battle. */
-    var mute = false
+    var mute = true
+    val struct = this.asMoLangValue()
+    val runtime = MoLangRuntime().also { it.environment.query = struct }
+
+    val onEndHandlers: MutableList<(PokemonBattle) -> Unit> = mutableListOf()
 
     init {
         side1.battle = this
@@ -101,6 +108,8 @@ open class PokemonBattle(
     val battleLog = mutableListOf<String>()
     val chatLog = mutableListOf<Text>()
     var started = false
+    var winners = listOf<BattleActor>()
+    var losers = listOf<BattleActor>()
     var ended = false
     // TEMP battle showcase stuff
     var announcingRules = false
@@ -279,6 +288,7 @@ open class PokemonBattle(
         }
         sendUpdate(BattleEndPacket())
         BattleRegistry.closeBattle(this)
+        onEndHandlers.forEach { it(this) }
     }
 
     fun finishCaptureAction(captureAction: BattleCaptureAction) {
@@ -364,6 +374,14 @@ open class PokemonBattle(
             dispatcher()
             WaitDispatch(delaySeconds)
         }
+    }
+
+    fun dispatchFuture(future: () -> CompletableFuture<*>) {
+        val dispatch = BattleDispatch {
+            val generatedFuture = future()
+            return@BattleDispatch DispatchResult { generatedFuture.isDone }
+        }
+        dispatches.add(dispatch)
     }
 
     fun dispatchInsert(dispatcher: () -> Iterable<BattleDispatch>) {
@@ -507,7 +525,6 @@ open class PokemonBattle(
         queryStruct.addFunction("pvn") { DoubleValue(isPvN) }
         queryStruct.addFunction("pvw") { DoubleValue(isPvW) }
         queryStruct.addFunction("has_rule") { params -> DoubleValue(params.getString(0) in format.ruleSet) }
-
         return queryStruct
     }
 }

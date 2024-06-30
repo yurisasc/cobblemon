@@ -3,7 +3,7 @@
     "pattern": [
         "WQW",
         "LMQ",
-		"RLW"
+        "RLW"
     ],
     "key": {
         "W": {
@@ -23,6 +23,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:choice_band"
+        "id": "cobblemon:choice_band"
     }
 }

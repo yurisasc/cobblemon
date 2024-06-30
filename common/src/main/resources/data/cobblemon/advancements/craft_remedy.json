@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:remedy"
+      "id": "cobblemon:remedy"
     },
     "title": {
       "translate": "advancements.cobblemon.craft_remedy"

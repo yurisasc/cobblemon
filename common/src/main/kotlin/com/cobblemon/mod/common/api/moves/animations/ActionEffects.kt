@@ -62,7 +62,7 @@ object ActionEffects : JsonDataRegistry<ActionEffectTimeline> {
         .disableHtmlEscaping()
         .setPrettyPrinting()
         .registerTypeAdapter(ActionEffectKeyframe::class.java, ActionEffectKeyframeAdapter)
-        .registerTypeAdapter(NumberRange.FloatRange::class.java, FloatNumberRangeAdapter)
+        .registerTypeAdapter(NumberRange.DoubleRange::class.java, FloatNumberRangeAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(Collection::class.java, Box::class.java).type, BoxCollectionAdapter)
         .registerTypeAdapter(Box::class.java, BoxAdapter)
         .registerTypeAdapter(Vec3d::class.java, VerboseVec3dAdapter)

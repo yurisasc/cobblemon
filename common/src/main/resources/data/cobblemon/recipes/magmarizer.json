@@ -3,7 +3,7 @@
     "pattern": [
         "PIP",
         "IBI",
-		"MIM"
+        "MIM"
     ],
     "key": {
         "M": {
@@ -20,6 +20,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:magmarizer"
+        "id": "cobblemon:magmarizer"
     }
 }

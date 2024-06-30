@@ -9,11 +9,13 @@
 package com.cobblemon.mod.common.client.gui.battle.subscreen
 
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.battles.*
+import com.cobblemon.mod.common.battles.ShowdownPokemon
+import com.cobblemon.mod.common.battles.SwitchActionResponse
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
+import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.MinecraftClient
@@ -22,9 +24,8 @@ import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.MathHelper.ceil
+
 class BattleSwitchPokemonSelection(
     battleGUI: BattleGUI,
     request: SingleActionRequest
@@ -54,6 +55,8 @@ class BattleSwitchPokemonSelection(
         val pokemon: Pokemon,
         val showdownPokemon: ShowdownPokemon
     ) {
+        val state = FloatingState()
+
         fun isHovered(mouseX: Double, mouseY: Double) = mouseX in x..(x + SWITCH_TILE_WIDTH) && mouseY in (y..(y + SWITCH_TILE_HEIGHT))
         fun render(context: DrawContext, mouseX: Double, mouseY: Double, deltaTicks: Float) {
             val healthRatioSplits = showdownPokemon.condition.split(" ")[0].split("/")
@@ -77,7 +80,7 @@ class BattleSwitchPokemonSelection(
                     maxHealth = maxHp,
                     health = hp.toFloat(),
                     isFlatHealth = true,
-                    state = null,
+                    state = state,
                     colour = null,
                     opacity = selection.opacity,
                     partialTicks = deltaTicks
@@ -121,7 +124,7 @@ class BattleSwitchPokemonSelection(
         }
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (opacity <= 0.05F) {
             return
         }

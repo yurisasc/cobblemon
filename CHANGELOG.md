@@ -1,5 +1,54 @@
 # Changelog
 
+## [1.6.0 - The Bass Pro Fishing Update (Month Xth, 2024)](#1-6-0)
+#### "Now that there's a fishing mechanic, the mod is actually good!"
+
+### Additions
+- Added Pokémon (and item) fishing using modified fishing rods - Poké Rods! You'll need a Poké Rod smithing template, a fishing rod, and some type of Poké Ball. Each Poké Ball makes a differently themed rod. Why not?
+- Added Lure Ball functionality, increasing the catch rate of Pokémon that were caught on a fishing rod.
+- Added property chaining support for duplicate CustomPokemonPropertyType elements.
+- Added aspect and unaspect PokemonProperty arguments (which also includes commands such as /pokemonedit, /spawnpokemon, and /givepokemon) to allow forcing or un-forcing an aspect on a Pokémon.
+
+### Developer
+- SpawnCause is now an implementation of SpawningInfluence.
+- Added "forcedAspects" to Pokemon to make it easier to easily add basic aspects to a Pokémon in a way that persists. We already know that everyone is going to overuse this.
+- Made the Pokemon.aspects setter private. This could technically break sidemods but if you are affected by this then you were using it wrong! Use Pokemon.forcedAspects to fix it.
+
+## [1.5.3](#1-5-3)
+### Fixes
+- Scaled down Amaura's fetus model to avoid clipping through the tank while animating
+- Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
+- Fixed Cubone's cry not having a sound.
+- Fixed the Seafloor spawning context not being a usable context.
+- Fixed Pokemon spawning in non-full blocks like slabs.
+- Fixed Gilded Chests not dropping the chest itself when broken, only the contents.
+- Fixed Pokémon losing their Hidden Ability through evolution if the middle stage did not have a Hidden Ability.
+- Fixed Chimchar and Monferno T posing whenever they sleep.
+- Fixed the Magby line not having any placeholder walk animations.
+- Fixed Duskull and Dusclops using skylight levels for their nether spawn data. There is no sun in the Nether!
+- Fixed Crumbling Arch not blending in with the world.
+- Fixed Energy Root applying being usable on a fainted Pokemon.
+- Fixed Pokémon entity not spawning when starting a battle while recalling said Pokémon
+- Fixed species comparison not using namespace for both sides in PokemonProperties.isSubsetOf.
+
+### Additions
+- Added extra visuals to early berry growth stages
+
+### Added cries to the following Pokémon
+- Timburr, Gurdurr, Conkeldurr
+- Golett, Golurk
+
+### Changes
+- Altered the item model for Medicinal Leeks and Roasted Leeks to be held like sticks and other rod items. 
+- Adjusted some berry balance values like yield and growth times
+- Changes to mulch buffs/durations
+- Dreepy is now shoulder mountable
+
+### Developer
+
+### Data Pack & Resource Pack Creators
+- Added support for "shedders" similar to Shedinja's evolution logic.
+
 ## [1.5.2 (May 27th, 2024)](#1-5-2)
 ### Fixes
 - Fixed Wooloo and Dubwool dyeing making your game start dying. Only if you do it on a server.
@@ -83,7 +132,7 @@
 - Fixed a bunch of spam during world generation.
 - Fixed a bug in which throwing a Poké Ball at a player owned Pokémon with the ability Illusion would reveal its true species. Hilarious meta strategy.
 - Fixed root-part animations not working for JSON posed Pokémon. You didn't notice this but if we didn't fix this in this update then if you use Quick Attack a lot you'd have seen a whole lot of [this](https://cdn.discordapp.com/attachments/1076993968803434627/1242660506783715369/Minecraft__1.20.1_-_Singleplayer_2024-05-21_22-08-17.mp4?ex=66549408&is=66534288&hm=ff95ee293eb15634fd63e6546534ea279540a1c892605e8d561593ca2c5600c5&) which is damn funny but very unintended.
- 
+
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. Provides more information this way.
 - Added an event that fires when a fossil is revived, with or without a player.

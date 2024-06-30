@@ -141,9 +141,9 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
     }
 
     fun isAirborne(world: World, pos: BlockPos) =
-        world.getBlockState(pos).canPathfindThrough(world, pos, NavigationType.AIR)
-                && world.getBlockState(pos.down(1)).canPathfindThrough(world, pos.down(1), NavigationType.AIR)
-                && world.getBlockState(pos.down(2)).canPathfindThrough(world, pos.down(2), NavigationType.AIR)
+        world.getBlockState(pos).canPathfindThrough(NavigationType.AIR)
+                && world.getBlockState(pos.down(1)).canPathfindThrough(NavigationType.AIR)
+                && world.getBlockState(pos.down(2)).canPathfindThrough(NavigationType.AIR)
 
     override fun tick() {
         super.tick()
@@ -276,14 +276,17 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
             directionFromFirstToEnd = directionFromFirstToEnd.normalize()
 
             // Get all the nodes our hitbox would touch on our way there
+            /*
             for (dist in 1..ceil(length).toInt() * 2) {
                 val vec = firstNode.pos.add(directionFromFirstToEnd.multiply(dist.toDouble() / 2.0))
-                val interveningNodeType = pokemonEntity.navigation.nodeMaker.getNodeType(world, vec.x.toInt(), vec.y.toInt(), vec.z.toInt(), pokemonEntity)
+                val interveningNodeType = pokemonEntity.navigation.nodeMaker.getNodeType(, BlockPos(vec.x.toInt(), vec.y.toInt(), vec.z.toInt()))
                 if (interveningNodeType != nodeType) {
                     i++
                     continue@skipLoop
                 }
             }
+
+             */
 
             // Construct a new node list that cuts out unnecessary in-between bits
             val remainingNodes = mutableListOf<PathNode>()

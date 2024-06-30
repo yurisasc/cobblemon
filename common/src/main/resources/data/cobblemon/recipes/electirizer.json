@@ -3,7 +3,7 @@
     "pattern": [
         "RIR",
         "IBI",
-		"GIG"
+        "GIG"
     ],
     "key": {
         "G": {
@@ -20,6 +20,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:electirizer"
+        "id": "cobblemon:electirizer"
     }
 }

@@ -31,7 +31,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 import net.minecraft.entity.Entity
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 
@@ -94,7 +94,7 @@ class SphereParticleEmitterShape(
         return CODEC.encodeStart(ops, this)
     }
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         offset = Triple(
             MoLang.createParser(buffer.readString()).parseExpression(),
             MoLang.createParser(buffer.readString()).parseExpression(),
@@ -104,7 +104,7 @@ class SphereParticleEmitterShape(
         surfaceOnly = buffer.readBoolean()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(offset.first.getString())
         buffer.writeString(offset.second.getString())
         buffer.writeString(offset.third.getString())
@@ -149,7 +149,7 @@ class PointParticleEmitterShape(
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         offset = Triple(
             MoLang.createParser(buffer.readString()).parseExpression(),
             MoLang.createParser(buffer.readString()).parseExpression(),
@@ -157,7 +157,7 @@ class PointParticleEmitterShape(
         )
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(offset.first.getString())
         buffer.writeString(offset.second.getString())
         buffer.writeString(offset.third.getString())
@@ -200,7 +200,7 @@ class BoxParticleEmitterShape(
         return CODEC.encodeStart(ops, this)
     }
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         offset = Triple(
             MoLang.createParser(buffer.readString()).parseExpression(),
             MoLang.createParser(buffer.readString()).parseExpression(),
@@ -214,7 +214,7 @@ class BoxParticleEmitterShape(
         surfaceOnly = buffer.readBoolean()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(offset.first.getString())
         buffer.writeString(offset.second.getString())
         buffer.writeString(offset.third.getString())
@@ -305,7 +305,7 @@ class DiscParticleEmitterShape(
 
     override fun getCenter(runtime: MoLangRuntime, entity: Entity?) = runtime.resolveVec3d(offset)
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         offset = Triple(
             MoLang.createParser(buffer.readString()).parseExpression(),
             MoLang.createParser(buffer.readString()).parseExpression(),
@@ -320,7 +320,7 @@ class DiscParticleEmitterShape(
         surfaceOnly = buffer.readBoolean()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(offset.first.getString())
         buffer.writeString(offset.second.getString())
         buffer.writeString(offset.third.getString())
@@ -374,11 +374,11 @@ class EntityBoundingBoxParticleEmitterShape(
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
     fun getBox(entity: Entity?) = entity?.boundingBox ?: Box.of(Vec3d(0.0, 0.0, 0.0), 1.0, 2.0, 1.0)
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         surfaceOnly = buffer.readBoolean()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeBoolean(surfaceOnly)
     }
 }

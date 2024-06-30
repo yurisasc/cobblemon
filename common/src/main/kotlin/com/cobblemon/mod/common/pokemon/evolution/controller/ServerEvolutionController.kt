@@ -33,7 +33,6 @@ import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.sound.SoundCategory
 
 class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionController<Evolution> {
 
@@ -168,7 +167,7 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         if (this.evolutions.add(element)) {
             this.pokemon.getOwnerPlayer()?.sendMessage("cobblemon.ui.evolve.hint".asTranslated(pokemon.getDisplayName()).green())
             this.pokemon.notify(AddEvolutionPacket(this.pokemon, element))
-            this.pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.CAN_EVOLVE, SoundCategory.NEUTRAL, 1F, 1F)
+            this.pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.CAN_EVOLVE, 1F, 1F)
             return true
         }
         return false

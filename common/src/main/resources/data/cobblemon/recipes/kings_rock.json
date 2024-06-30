@@ -3,7 +3,7 @@
     "pattern": [
         " C ",
         "GSG",
-		"SGS"
+        "SGS"
     ],
     "key": {
         "C": {
@@ -17,6 +17,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:kings_rock"
+        "id": "cobblemon:kings_rock"
     }
 }

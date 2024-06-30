@@ -51,7 +51,7 @@ class EtherItem(val max: Boolean): CobblemonItem(Settings()), PokemonAndMoveSele
         val moveToRecover = pokemon.moveSet.find { it.template == move.template }
         if (moveToRecover != null && moveToRecover.currentPp < moveToRecover.maxPp) {
             moveToRecover.currentPp = if (max) moveToRecover.maxPp else min(moveToRecover.maxPp, moveToRecover.currentPp + 10)
-            player.playSound(CobblemonSounds.MEDICINE_LIQUID_USE, SoundCategory.PLAYERS, 1F, 1F)
+            player.playSound(CobblemonSounds.MEDICINE_LIQUID_USE, 1F, 1F)
             if (!player.isCreative) {
                 stack.decrement(1)
                 player.giveOrDropItemStack(ItemStack(Items.GLASS_BOTTLE))
@@ -61,7 +61,7 @@ class EtherItem(val max: Boolean): CobblemonItem(Settings()), PokemonAndMoveSele
 
     override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon, move: Move) {
         super.applyToBattlePokemon(player, stack, battlePokemon, move)
-        player.playSound(CobblemonSounds.MEDICINE_LIQUID_USE, SoundCategory.PLAYERS, 1F, 1F)
+        player.playSound(CobblemonSounds.MEDICINE_LIQUID_USE, 1F, 1F)
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {

@@ -26,7 +26,7 @@ import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.lang.Integer.min
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 interface ParticleEmitterRate : CodecMapped {
     companion object : ArbitrarilyMappedSerializableCompanion<ParticleEmitterRate, ParticleEmitterRateType>(
@@ -71,11 +71,11 @@ class InstantParticleEmitterRate(var amount: Expression = "1".asExpression()) : 
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         amount = buffer.readString().asExpression()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(amount.getString())
     }
 }
@@ -103,7 +103,7 @@ class SteadyParticleEmitterRate(
         // The emitting rates are all per second, but this runs every tick. Presents some difficulties.
 
         val max = runtime.resolveDouble(maximum).toInt()
-        val variables = runtime.environment.structs["variable"] as VariableStruct
+        val variables = runtime.environment.variable
 
         /*
          * The strategy is that per tick it might be calculated to be 1.2 particles. We can't spawn a fifth
@@ -129,12 +129,12 @@ class SteadyParticleEmitterRate(
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         rate = buffer.readString().asExpression()
         maximum = buffer.readString().asExpression()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(rate.getString())
         buffer.writeString(maximum.getString())
     }

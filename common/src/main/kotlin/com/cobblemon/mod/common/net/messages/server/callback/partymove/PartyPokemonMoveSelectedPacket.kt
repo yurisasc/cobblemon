@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to the server when the player has responded to a party move selection callback.
@@ -25,11 +25,11 @@ import net.minecraft.network.PacketByteBuf
 class PartyPokemonMoveSelectedPacket(val uuid: UUID, val pokemonIndex: Int, val moveIndex: Int) : NetworkPacket<PartyPokemonMoveSelectedPacket> {
     companion object {
         val ID = cobblemonResource("party_pokemon_move_selected")
-        fun decode(buffer: PacketByteBuf) = PartyPokemonMoveSelectedPacket(buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE), buffer.readSizedInt(IntSize.U_BYTE))
+        fun decode(buffer: RegistryByteBuf) = PartyPokemonMoveSelectedPacket(buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE), buffer.readSizedInt(IntSize.U_BYTE))
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(uuid)
         buffer.writeSizedInt(IntSize.U_BYTE, pokemonIndex)
         buffer.writeSizedInt(IntSize.U_BYTE, moveIndex)

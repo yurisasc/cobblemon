@@ -20,6 +20,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:ability_shield"
+        "id": "cobblemon:ability_shield"
     }
 }

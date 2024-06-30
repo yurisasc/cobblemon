@@ -22,10 +22,13 @@ import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtString
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.registry.tag.FluidTags
+import net.minecraft.registry.tag.TagGroupLoader.TrackedEntry
+import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.GameRules
@@ -65,11 +68,11 @@ open class CobblemonBoatEntity(entityType: EntityType<out BoatEntity>, world: Wo
 
     override fun asItem(): Item = this.boatType.boatItem
 
-    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = EntitySpawnS2CPacket(this)
+    override fun createSpawnPacket(entityTrackerEntry: EntityTrackerEntry): Packet<ClientPlayPacketListener> = EntitySpawnS2CPacket(this, entityTrackerEntry)
 
-    override fun initDataTracker() {
-        super.initDataTracker()
-        this.dataTracker.startTracking(TYPE_TRACKED_DATA, CobblemonBoatType.APRICORN.ordinal)
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(TYPE_TRACKED_DATA, CobblemonBoatType.APRICORN.ordinal)
     }
 
     override fun getDefaultName(): Text = EntityType.BOAT.name
@@ -92,7 +95,7 @@ open class CobblemonBoatEntity(entityType: EntityType<out BoatEntity>, world: Wo
         throw UnsupportedOperationException("The vanilla boat type is not present in the Cobblemon implementation use the type property")
     }
 
-    override fun getMountedHeightOffset(): Double = this.boatType.mountedOffset
+    override fun getPassengerHorizontalOffset(): Float = this.boatType.mountedOffset
 
     override fun fall(heightDifference: Double, onGround: Boolean, state: BlockState, landedPosition: BlockPos) {
         val accessor = this.accessor()

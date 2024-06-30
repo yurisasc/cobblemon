@@ -3,7 +3,7 @@
     "pattern": [
         "B B",
         "GWG",
-		"RGR"
+        "RGR"
     ],
     "key": {
         "G": {
@@ -20,6 +20,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:choice_specs"
+        "id": "cobblemon:choice_specs"
     }
 }

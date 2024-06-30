@@ -28,7 +28,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.util.math.MatrixStack
+
 class BattleGUI : Screen(battleLang("gui.title")) {
     companion object {
         const val OPTION_VERTICAL_SPACING = 3
@@ -83,12 +83,14 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        super.render(context, mouseX, mouseY, delta)
+
         opacity = CobblemonClient.battleOverlay.opacityRatio.toFloat()
         children().filterIsInstance<BattleMessagePane>().forEach { it.opacity = opacity.coerceAtLeast(0.3F) }
 
         queuedActions.forEach { it() }
         queuedActions.clear()
-        super.render(context, mouseX, mouseY, delta)
+
         val battle = CobblemonClient.battle
         if (battle == null) {
             close()
@@ -139,6 +141,10 @@ class BattleGUI : Screen(battleLang("gui.title")) {
 
         queuedActions.forEach { it() }
         queuedActions.clear()
+    }
+
+    override fun renderBackground(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+
     }
 
     fun deriveRootActionSelection(actor: ClientBattleActor, request: SingleActionRequest): BattleActionSelection? {

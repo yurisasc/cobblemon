@@ -31,6 +31,7 @@ import net.minecraft.world.World
 open class BlockClickEvolution(
     override val id: String,
     override val result: PokemonProperties,
+    override val shedder: PokemonProperties?,
     override val requiredContext: RegistryLikeCondition<Block>,
     override var optional: Boolean,
     override var consumeHeldItem: Boolean,
@@ -40,7 +41,8 @@ open class BlockClickEvolution(
     constructor(): this(
         id = "id",
         result = PokemonProperties(),
-        requiredContext = BlockIdentifierCondition(Identifier("minecraft", "dirt")),
+        shedder = null,
+        requiredContext = BlockIdentifierCondition(Identifier.of("minecraft", "dirt")),
         optional = true,
         consumeHeldItem = true,
         requirements = mutableSetOf(),

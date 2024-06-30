@@ -14,6 +14,8 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.text.blue
+import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.MintBlock.MintType
@@ -23,6 +25,7 @@ import com.cobblemon.mod.common.item.armor.CobblemonArmorTrims
 import com.cobblemon.mod.common.item.battle.DireHitItem
 import com.cobblemon.mod.common.item.battle.GuardSpecItem
 import com.cobblemon.mod.common.item.battle.XStatItem
+import com.cobblemon.mod.common.item.berry.BerryItem
 import com.cobblemon.mod.common.item.berry.FriendshipRaisingBerryItem
 import com.cobblemon.mod.common.item.berry.HealingBerryItem
 import com.cobblemon.mod.common.item.berry.PPRestoringBerryItem
@@ -30,21 +33,29 @@ import com.cobblemon.mod.common.item.berry.PortionHealingBerryItem
 import com.cobblemon.mod.common.item.berry.StatusCuringBerryItem
 import com.cobblemon.mod.common.item.berry.VolatileCuringBerryItem
 import com.cobblemon.mod.common.item.interactive.*
-import com.cobblemon.mod.common.item.interactive.PotionItem
 import com.cobblemon.mod.common.item.interactive.ability.AbilityChangeItem
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.Block
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.FoodComponent
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.item.*
+import net.minecraft.item.BlockItem
+import net.minecraft.item.HangingSignItem
+import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
+import net.minecraft.item.SignItem
+import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
@@ -408,15 +419,15 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val CLEVER_FEATHER = create("clever_feather", FeatherItem(Stats.SPECIAL_DEFENCE))
     @JvmField
-    val MEDICINAL_LEEK = heldItem("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().hunger(1).saturationModifier(0.2f).build())), "leek")
+    val MEDICINAL_LEEK = heldItem("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().nutrition(1).saturationModifier(0.2f).build())), "leek")
     @JvmField
-    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(3).saturationModifier(0.3f).build())))
+    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().nutrition(3).saturationModifier(0.3f).build())))
     @JvmField
-    val BRAISED_VIVICHOKE = create("braised_vivichoke", Item(Item.Settings().food(FoodComponent.Builder().hunger(6).saturationModifier(0.6f).build())))
+    val BRAISED_VIVICHOKE = create("braised_vivichoke", Item(Item.Settings().food(FoodComponent.Builder().nutrition(6).saturationModifier(0.6f).build())))
     @JvmField
-    val VIVICHOKE_DIP = create("vivichoke_dip", object : StewItem(Settings().maxCount(1)
+    val VIVICHOKE_DIP = create("vivichoke_dip", object : Item(Settings().maxCount(1)
         .food(FoodComponent.Builder()
-            .hunger(10)
+            .nutrition(10)
             .saturationModifier(1.2F)
             .statusEffect(StatusEffectInstance(StatusEffects.ABSORPTION, 900, 0), 1F)
             .alwaysEdible()
@@ -427,7 +438,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         }
     })
     @JvmField
-    val ENERGY_ROOT = compostableItem("energy_root", EnergyRootItem(CobblemonBlocks.ENERGY_ROOT, Item.Settings().food(FoodComponent.Builder().hunger(1).snack().saturationModifier(0.2f).build())))
+    val ENERGY_ROOT = compostableItem("energy_root", EnergyRootItem(CobblemonBlocks.ENERGY_ROOT, Item.Settings().food(FoodComponent.Builder().nutrition(1).snack().saturationModifier(0.2f).build())))
     @JvmField
     val REVIVAL_HERB = compostableItem("revival_herb", RevivalHerbItem(CobblemonBlocks.REVIVAL_HERB))
     @JvmField
@@ -455,7 +466,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val HEAL_POWDER = create("heal_powder", HealPowderItem())
     @JvmField
-    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(8).saturationModifier(0.6f).build()).maxCount(1)))
+    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", Item(Item.Settings().food(FoodComponent.Builder().nutrition(8).saturationModifier(0.6f).build()).maxCount(1)))
     @JvmField
     val REVIVE = create("revive", ReviveItem(max = false))
     @JvmField
@@ -933,10 +944,180 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val BLACK_TUMBLESTONE_BLOCK = blockItem("black_tumblestone_block", CobblemonBlocks.BLACK_TUMBLESTONE_BLOCK)
 
     @JvmField
+    val POKEROD_SMITHING_TEMPLATE = create("pokerod_smithing_template", SmithingTemplateItem(
+        Text.translatable("item.minecraft.fishing_rod").blue(),
+        Text.translatable("item.cobblemon.smithing_template.pokerod.ingredients").blue(),
+        Text.translatable("upgrade.cobblemon.pokerod").gray(),
+        Text.translatable("item.cobblemon.smithing_template.pokerod.base_slot_description"),
+        Text.translatable("item.cobblemon.smithing_template.pokerod.additions_slot_description"),
+        listOf(cobblemonResource("item/empty_slot_fishing_rod")),
+        listOf(cobblemonResource("item/empty_slot_pokeball"))
+    ))
+
+    @JvmField
+    val POLISHED_TUMBLESTONE = blockItem("polished_tumblestone", CobblemonBlocks.POLISHED_TUMBLESTONE)
+    @JvmField
+    val POLISHED_TUMBLESTONE_STAIRS = blockItem("polished_tumblestone_stairs", CobblemonBlocks.POLISHED_TUMBLESTONE_STAIRS)
+    @JvmField
+    val POLISHED_TUMBLESTONE_SLAB = blockItem("polished_tumblestone_slab", CobblemonBlocks.POLISHED_TUMBLESTONE_SLAB)
+    @JvmField
+    val POLISHED_TUMBLESTONE_WALL = blockItem("polished_tumblestone_wall", CobblemonBlocks.POLISHED_TUMBLESTONE_WALL)
+    @JvmField
+    val CHISELED_POLISHED_TUMBLESTONE = blockItem("chiseled_polished_tumblestone", CobblemonBlocks.CHISELED_POLISHED_TUMBLESTONE)
+    @JvmField
+    val TUMBLESTONE_BRICKS = blockItem("tumblestone_bricks", CobblemonBlocks.TUMBLESTONE_BRICKS)
+    @JvmField
+    val TUMBLESTONE_BRICK_STAIRS = blockItem("tumblestone_brick_stairs", CobblemonBlocks.TUMBLESTONE_BRICK_STAIRS)
+    @JvmField
+    val TUMBLESTONE_BRICK_SLAB = blockItem("tumblestone_brick_slab", CobblemonBlocks.TUMBLESTONE_BRICK_SLAB)
+    @JvmField
+    val TUMBLESTONE_BRICK_WALL = blockItem("tumblestone_brick_wall", CobblemonBlocks.TUMBLESTONE_BRICK_WALL)
+    @JvmField
+    val CHISELED_TUMBLESTONE_BRICKS = blockItem("chiseled_tumblestone_bricks", CobblemonBlocks.CHISELED_TUMBLESTONE_BRICKS)
+    @JvmField
+    val POLISHED_SKY_TUMBLESTONE = blockItem("polished_sky_tumblestone", CobblemonBlocks.POLISHED_SKY_TUMBLESTONE)
+    @JvmField
+    val POLISHED_SKY_TUMBLESTONE_STAIRS = blockItem("polished_sky_tumblestone_stairs", CobblemonBlocks.POLISHED_SKY_TUMBLESTONE_STAIRS)
+    @JvmField
+    val POLISHED_SKY_TUMBLESTONE_SLAB = blockItem("polished_sky_tumblestone_slab", CobblemonBlocks.POLISHED_SKY_TUMBLESTONE_SLAB)
+    @JvmField
+    val POLISHED_SKY_TUMBLESTONE_WALL = blockItem("polished_sky_tumblestone_wall", CobblemonBlocks.POLISHED_SKY_TUMBLESTONE_WALL)
+    @JvmField
+    val CHISELED_POLISHED_SKY_TUMBLESTONE = blockItem("chiseled_polished_sky_tumblestone", CobblemonBlocks.CHISELED_POLISHED_SKY_TUMBLESTONE)
+    @JvmField
+    val SKY_TUMBLESTONE_BRICKS = blockItem("sky_tumblestone_bricks", CobblemonBlocks.SKY_TUMBLESTONE_BRICKS)
+    @JvmField
+    val SKY_TUMBLESTONE_BRICK_STAIRS = blockItem("sky_tumblestone_brick_stairs", CobblemonBlocks.SKY_TUMBLESTONE_BRICK_STAIRS)
+    @JvmField
+    val SKY_TUMBLESTONE_BRICK_SLAB = blockItem("sky_tumblestone_brick_slab", CobblemonBlocks.SKY_TUMBLESTONE_BRICK_SLAB)
+    @JvmField
+    val SKY_TUMBLESTONE_BRICK_WALL = blockItem("sky_tumblestone_brick_wall", CobblemonBlocks.SKY_TUMBLESTONE_BRICK_WALL)
+    @JvmField
+    val CHISELED_SKY_TUMBLESTONE_BRICKS = blockItem("chiseled_sky_tumblestone_bricks", CobblemonBlocks.CHISELED_SKY_TUMBLESTONE_BRICKS)
+    @JvmField
+    val POLISHED_BLACK_TUMBLESTONE = blockItem("polished_black_tumblestone", CobblemonBlocks.POLISHED_BLACK_TUMBLESTONE)
+    @JvmField
+    val POLISHED_BLACK_TUMBLESTONE_STAIRS = blockItem("polished_black_tumblestone_stairs", CobblemonBlocks.POLISHED_BLACK_TUMBLESTONE_STAIRS)
+    @JvmField
+    val POLISHED_BLACK_TUMBLESTONE_SLAB = blockItem("polished_black_tumblestone_slab", CobblemonBlocks.POLISHED_BLACK_TUMBLESTONE_SLAB)
+    @JvmField
+    val POLISHED_BLACK_TUMBLESTONE_WALL = blockItem("polished_black_tumblestone_wall", CobblemonBlocks.POLISHED_BLACK_TUMBLESTONE_WALL)
+    @JvmField
+    val CHISELED_POLISHED_BLACK_TUMBLESTONE = blockItem("chiseled_polished_black_tumblestone", CobblemonBlocks.CHISELED_POLISHED_BLACK_TUMBLESTONE)
+    @JvmField
+    val BLACK_TUMBLESTONE_BRICKS = blockItem("black_tumblestone_bricks", CobblemonBlocks.BLACK_TUMBLESTONE_BRICKS)
+    @JvmField
+    val BLACK_TUMBLESTONE_BRICK_STAIRS = blockItem("black_tumblestone_brick_stairs", CobblemonBlocks.BLACK_TUMBLESTONE_BRICK_STAIRS)
+    @JvmField
+    val BLACK_TUMBLESTONE_BRICK_SLAB = blockItem("black_tumblestone_brick_slab", CobblemonBlocks.BLACK_TUMBLESTONE_BRICK_SLAB)
+    @JvmField
+    val BLACK_TUMBLESTONE_BRICK_WALL = blockItem("black_tumblestone_brick_wall", CobblemonBlocks.BLACK_TUMBLESTONE_BRICK_WALL)
+    @JvmField
+    val CHISELED_BLACK_TUMBLESTONE_BRICKS = blockItem("chiseled_black_tumblestone_bricks", CobblemonBlocks.CHISELED_BLACK_TUMBLESTONE_BRICKS)
+
+    @JvmField
     val AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE: SmithingTemplateItem = this.create(
         "automaton_armor_trim_smithing_template",
         SmithingTemplateItem.of(CobblemonArmorTrims.AUTOMATON)
     )
+
+    val pokeRods = mutableListOf<PokerodItem>()
+    @JvmField
+    val POKE_ROD = pokerodItem(cobblemonResource("poke_rod"))
+    @JvmField
+    val CITRINE_ROD = pokerodItem(cobblemonResource("citrine_rod"))
+    @JvmField
+    val VERDANT_ROD = pokerodItem(cobblemonResource("verdant_rod"))
+    @JvmField
+    val AZURE_ROD = pokerodItem(cobblemonResource("azure_rod"))
+    @JvmField
+    val ROSEATE_ROD = pokerodItem(cobblemonResource("roseate_rod"))
+    @JvmField
+    val SLATE_ROD = pokerodItem(cobblemonResource("slate_rod"))
+    @JvmField
+    val PREMIER_ROD = pokerodItem(cobblemonResource("premier_rod"))
+    @JvmField
+    val GREAT_ROD = pokerodItem(cobblemonResource("great_rod"))
+    @JvmField
+    val ULTRA_ROD = pokerodItem(cobblemonResource("ultra_rod"))
+    @JvmField
+    val SAFARI_ROD = pokerodItem(cobblemonResource("safari_rod"))
+    @JvmField
+    val FAST_ROD = pokerodItem(cobblemonResource("fast_rod"))
+    @JvmField
+    val LEVEL_ROD = pokerodItem(cobblemonResource("level_rod"))
+    @JvmField
+    val LURE_ROD = pokerodItem(cobblemonResource("lure_rod"))
+    @JvmField
+    val HEAVY_ROD = pokerodItem(cobblemonResource("heavy_rod"))
+    @JvmField
+    val LOVE_ROD = pokerodItem(cobblemonResource("love_rod"))
+    @JvmField
+    val FRIEND_ROD = pokerodItem(cobblemonResource("friend_rod"))
+    @JvmField
+    val MOON_ROD = pokerodItem(cobblemonResource("moon_rod"))
+    @JvmField
+    val SPORT_ROD = pokerodItem(cobblemonResource("sport_rod"))
+    @JvmField
+    val PARK_ROD = pokerodItem(cobblemonResource("park_rod"))
+    @JvmField
+    val NET_ROD = pokerodItem(cobblemonResource("net_rod"))
+    @JvmField
+    val DIVE_ROD = pokerodItem(cobblemonResource("dive_rod"))
+    @JvmField
+    val NEST_ROD = pokerodItem(cobblemonResource("nest_rod"))
+    @JvmField
+    val REPEAT_ROD = pokerodItem(cobblemonResource("repeat_rod"))
+    @JvmField
+    val TIMER_ROD = pokerodItem(cobblemonResource("timer_rod"))
+    @JvmField
+    val LUXURY_ROD = pokerodItem(cobblemonResource("luxury_rod"))
+    @JvmField
+    val DUSK_ROD = pokerodItem(cobblemonResource("dusk_rod"))
+    @JvmField
+    val HEAL_ROD = pokerodItem(cobblemonResource("heal_rod"))
+    @JvmField
+    val QUICK_ROD = pokerodItem(cobblemonResource("quick_rod"))
+    @JvmField
+    val DREAM_ROD = pokerodItem(cobblemonResource("dream_rod"))
+    @JvmField
+    val BEAST_ROD = pokerodItem(cobblemonResource("beast_rod"))
+    @JvmField
+    val MASTER_ROD = pokerodItem(cobblemonResource("master_rod"))
+    @JvmField
+    val CHERISH_ROD = pokerodItem(cobblemonResource("cherish_rod"))
+    @JvmField
+    val ANCIENT_POKE_ROD = pokerodItem(cobblemonResource("ancient_poke_rod"))
+    @JvmField
+    val ANCIENT_CITRINE_ROD = pokerodItem(cobblemonResource("ancient_citrine_rod"))
+    @JvmField
+    val ANCIENT_VERDANT_ROD = pokerodItem(cobblemonResource("ancient_verdant_rod"))
+    @JvmField
+    val ANCIENT_AZURE_ROD = pokerodItem(cobblemonResource("ancient_azure_rod"))
+    @JvmField
+    val ANCIENT_ROSEATE_ROD = pokerodItem(cobblemonResource("ancient_roseate_rod"))
+    @JvmField
+    val ANCIENT_SLATE_ROD = pokerodItem(cobblemonResource("ancient_slate_rod"))
+    @JvmField
+    val ANCIENT_IVORY_ROD = pokerodItem(cobblemonResource("ancient_ivory_rod"))
+    @JvmField
+    val ANCIENT_GREAT_ROD = pokerodItem(cobblemonResource("ancient_great_rod"))
+    @JvmField
+    val ANCIENT_ULTRA_ROD = pokerodItem(cobblemonResource("ancient_ultra_rod"))
+    @JvmField
+    val ANCIENT_FEATHER_ROD = pokerodItem(cobblemonResource("ancient_feather_rod"))
+    @JvmField
+    val ANCIENT_WING_ROD = pokerodItem(cobblemonResource("ancient_wing_rod"))
+    @JvmField
+    val ANCIENT_JET_ROD = pokerodItem(cobblemonResource("ancient_jet_rod"))
+    @JvmField
+    val ANCIENT_HEAVY_ROD = pokerodItem(cobblemonResource("ancient_heavy_rod"))
+    @JvmField
+    val ANCIENT_LEADEN_ROD = pokerodItem(cobblemonResource("ancient_leaden_rod"))
+    @JvmField
+    val ANCIENT_GIGATON_ROD = pokerodItem(cobblemonResource("ancient_gigaton_rod"))
+    @JvmField
+    val ANCIENT_ORIGIN_ROD = pokerodItem(cobblemonResource("ancient_origin_rod"))
 
     // Misc
     @JvmField
@@ -985,6 +1166,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val STEEL_GEM = noSettingsItem("steel_gem")
     @JvmField
     val FAIRY_GEM = noSettingsItem("fairy_gem")
+    //@JvmField
+    //val BINDING_SOIL = blockItem("binding_soil", CobblemonBlocks.BINDING_SOIL)
 
     private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 
@@ -1002,6 +1185,13 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     }
 
     private fun candyItem(name: String, calculator: CandyItem.Calculator): CandyItem  = this.create(name, CandyItem(calculator))
+
+    private fun pokerodItem(pokeRodId: Identifier): PokerodItem {
+        val settings = Item.Settings().maxCount(1).maxDamage(Items.FISHING_ROD.components.get(DataComponentTypes.MAX_DAMAGE)!!)
+        val item = create(pokeRodId.path, PokerodItem(pokeRodId, settings))
+        pokeRods.add(item)
+        return item
+    }
 
     private fun heldItem(name: String, remappedName: String? = null): CobblemonItem = create(
         name,

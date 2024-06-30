@@ -11,11 +11,6 @@ package com.cobblemon.mod.common.api.net
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
-interface ServerNetworkPacketHandler<T: NetworkPacket<T>> {
-
+interface ServerNetworkPacketHandler<T: NetworkPacket<T>>: PacketHandler<T> {
     fun handle(packet: T, server: MinecraftServer, player: ServerPlayerEntity)
-
-    fun handleOnNettyThread(packet: T, server: MinecraftServer, player: ServerPlayerEntity) {
-        server.execute { handle(packet, server, player) }
-    }
 }

@@ -13,6 +13,8 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.mojang.serialization.JsonOps
+import net.minecraft.component.ComponentMap
 import java.lang.reflect.Type
 import net.minecraft.nbt.NbtHelper
 
@@ -27,18 +29,19 @@ object PossibleHeldItemAdapter : JsonDeserializer<PossibleHeldItem> {
         if (json.isJsonPrimitive) {
             return PossibleHeldItem(
                 item = json.asString,
-                percentage = 100.0,
-                nbt = null
+                percentage = 100.0
             )
         } else {
             json as JsonObject
-            val nbt = json.get("nbt")?.asString?.let { NbtHelper.fromNbtProviderString(it) }
+            val componentMap = JsonOps.INSTANCE.withDecoder(ComponentMap.CODEC).apply(json.get("nbt")).getOrThrow {
+                return@getOrThrow IllegalStateException("Cant serialize components for held item")
+            }.first
             val item = json.get("item").asString
             val percentage = json.get("percentage")?.asDouble ?: 100.0
             return PossibleHeldItem(
                 item = item,
                 percentage = percentage,
-                nbt = nbt
+                componentMap = componentMap
             )
         }
     }

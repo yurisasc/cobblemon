@@ -13,8 +13,7 @@
             "item": "cobblemon:water_stone"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:mystic_water"
+    "result": {
+        "id": "cobblemon:mystic_water"
     }
 }

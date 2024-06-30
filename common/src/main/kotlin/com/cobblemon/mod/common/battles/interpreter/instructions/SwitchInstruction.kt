@@ -49,7 +49,16 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
         if (!battle.started) {
             activePokemon.battlePokemon = pokemon
             activePokemon.illusion = illusion
-            val pokemonEntity = pokemon.entity
+            val pokemonEntity = pokemon.entity?.let {
+                // If a Pokémon entity is being recalled with an animation,
+                // wrap up the animation and recall the Pokémon immediately.
+                if (it.beamMode == 3) {
+                    pokemon.effectedPokemon.recall()
+                    return@let null
+                }
+                pokemon.entity
+            }
+
             if (pokemonEntity == null && entity != null) {
                 val targetPos = ShowdownInterpreter.getSendoutPosition(battle, pnx, battleActor)
                 actor.stillSendingOutCount++

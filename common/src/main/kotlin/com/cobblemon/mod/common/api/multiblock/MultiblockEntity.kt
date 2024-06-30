@@ -19,6 +19,7 @@ import net.minecraft.nbt.NbtHelper
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.math.BlockPos
 
 /**
@@ -41,24 +42,24 @@ abstract class MultiblockEntity(
         return BlockEntityUpdateS2CPacket.create(this)
     }
 
-    override fun toInitialChunkDataNbt(): NbtCompound {
+    override fun toInitialChunkDataNbt(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound? {
         val result = NbtCompound()
-        writeNbt(result)
+        writeNbt(result, registryLookup)
         return result
     }
 
-    override fun writeNbt(nbt: NbtCompound) {
-        super.writeNbt(nbt)
+    override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+        super.writeNbt(nbt, registryLookup)
         //Used for checking build conditions in multiblocks (Dont count a block if it has the FORMED flag)
         nbt.putBoolean(DataKeys.FORMED, masterBlockPos != null)
         if (multiblockStructure != null && multiblockStructure!!.controllerBlockPos == pos) {
-            nbt.put(DataKeys.MULTIBLOCK_STORAGE, multiblockStructure!!.writeToNbt())
+            nbt.put(DataKeys.MULTIBLOCK_STORAGE, multiblockStructure!!.writeToNbt(registryLookup))
         }
         else if (masterBlockPos != null) {
             nbt.put(DataKeys.CONTROLLER_BLOCK, NbtHelper.fromBlockPos(masterBlockPos))
         }
     }
 
-    abstract override fun readNbt(nbt: NbtCompound)
+    abstract override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup)
 
 }

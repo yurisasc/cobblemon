@@ -23,6 +23,7 @@ import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
+
 class BattleGeneralActionSelection(
     battleGUI: BattleGUI,
     request: SingleActionRequest
@@ -92,7 +93,7 @@ class BattleGeneralActionSelection(
         )
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if(lastAnwseredRequest != null) {
             backButton.render(context.matrices, mouseX, mouseY, delta)
         }

@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.world.placementmodifier
 
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.util.stream.Stream
@@ -26,7 +27,7 @@ class LocatePredicatePlacementModifier(
     val yRange: Int
 ) : PlacementModifier() {
     companion object {
-        val MODIFIER_CODEC: Codec<LocatePredicatePlacementModifier> = RecordCodecBuilder.create { instance ->
+        val MODIFIER_CODEC: MapCodec<LocatePredicatePlacementModifier> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
                 BlockPredicate.BASE_CODEC.fieldOf("predicate").forGetter {it.predicate},
                 PrimitiveCodec.INT.fieldOf("maxTries").forGetter {it.maxTries},

@@ -10,8 +10,10 @@ package com.cobblemon.mod.common.net.messages.client.trade
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeUuid
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Packet sent to the client when the other player has changed the acceptance status for the client's Pokémon.
@@ -27,11 +29,11 @@ import net.minecraft.network.PacketByteBuf
 class TradeAcceptanceChangedPacket(val pokemonId: UUID, val accepted: Boolean) : NetworkPacket<TradeAcceptanceChangedPacket> {
     companion object {
         val ID = cobblemonResource("trade_acceptance_changed")
-        fun decode(buffer: PacketByteBuf) = TradeAcceptanceChangedPacket(buffer.readUuid(), buffer.readBoolean())
+        fun decode(buffer: RegistryByteBuf) = TradeAcceptanceChangedPacket(buffer.readUuid(), buffer.readBoolean())
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonId)
         buffer.writeBoolean(accepted)
     }

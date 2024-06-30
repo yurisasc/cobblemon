@@ -32,6 +32,7 @@ import net.minecraft.world.World
 open class ItemInteractionEvolution(
     override val id: String,
     override val result: PokemonProperties,
+    override val shedder: PokemonProperties?,
     override val requiredContext: NbtItemPredicate,
     override var optional: Boolean,
     override var consumeHeldItem: Boolean,
@@ -41,7 +42,8 @@ open class ItemInteractionEvolution(
     constructor(): this(
         id = "id",
         result = PokemonProperties(),
-        requiredContext = NbtItemPredicate(ItemIdentifierCondition(Identifier("minecraft", "fish")), NbtPredicate.ANY),
+        shedder = null,
+        requiredContext = NbtItemPredicate(ItemIdentifierCondition(Identifier.of("minecraft", "fish")), null),
         optional = true,
         consumeHeldItem = true,
         requirements = mutableSetOf(),
@@ -50,7 +52,7 @@ open class ItemInteractionEvolution(
 
     override fun testContext(pokemon: Pokemon, context: ItemInteractionContext): Boolean =
         this.requiredContext.item.fits(context.stack.item, context.world.registryManager.get(RegistryKeys.ITEM))
-        && this.requiredContext.nbt.test(context.stack)
+        && this.requiredContext.nbt?.test(context.stack) ?: true
 
     override fun equals(other: Any?) = other is ItemInteractionEvolution && other.id.equals(this.id, true)
 

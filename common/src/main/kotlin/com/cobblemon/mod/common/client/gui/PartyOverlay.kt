@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.gui
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
+import com.cobblemon.mod.common.api.gui.drawPosablePortrait
 import com.cobblemon.mod.common.api.text.darkGray
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.text
@@ -23,6 +23,8 @@ import com.cobblemon.mod.common.client.keybind.keybinds.HidePartyBinding
 import com.cobblemon.mod.common.client.keybind.keybinds.SummaryBinding
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.getDepletableRedGreen
+import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -32,10 +34,12 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.render.RenderTickCounter
+import net.minecraft.client.toast.AdvancementToast
 import net.minecraft.client.toast.Toast
 import net.minecraft.util.math.MathHelper
 
-class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
+class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
     companion object {
         private const val SLOT_HEIGHT = 30
@@ -52,6 +56,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
         private val genderIconMale = cobblemonResource("textures/gui/party/party_gender_male.png")
         private val genderIconFemale = cobblemonResource("textures/gui/party/party_gender_female.png")
         private val portraitBackground = cobblemonResource("textures/gui/party/party_slot_portrait_background.png")
+        val state = FloatingState()
     }
 
     private val screenExemptions: List<Class<out Screen>> = listOf(
@@ -64,7 +69,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
         CobblemonItems.POKE_BALL.defaultStack,
         lang("ui.starter.choose_starter_title", SummaryBinding.boundKey().localizedText).red(),
         lang("ui.starter.choose_starter_description", SummaryBinding.boundKey().localizedText).darkGray(),
-        Toast.TEXTURE,
+        AdvancementToast.TEXTURE,
         -1F,
         0
     )
@@ -78,7 +83,8 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
         attachedToast = false
     }
 
-    override fun render(context: DrawContext, partialDeltaTicks: Float) {
+    override fun render(context: DrawContext, tickCounter: RenderTickCounter) {
+        val partialDeltaTicks = tickCounter.getTickDelta(false)
         val minecraft = MinecraftClient.getInstance()
 
         // Hiding if a Screen is open and not exempt
@@ -86,7 +92,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
             if (!screenExemptions.contains(minecraft.currentScreen?.javaClass as Class<out Screen>))
                 return
         }
-        if (minecraft.options.debugEnabled) {
+        if (minecraft.debugHud.shouldShowDebugHud()) {
             return
         }
         // Hiding if toggled via Keybind
@@ -148,7 +154,15 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                     0.0
                 )
 
-                drawPortraitPokemon(pokemon.species, pokemon.aspects, matrices, partialTicks = partialDeltaTicks)
+                drawPosablePortrait(
+                    identifier = pokemon.species.resourceIdentifier,
+                    aspects = pokemon.aspects,
+                    matrixStack = matrices,
+                    partialTicks = 0F, // partialDeltaTicks, //Before you get any funny ideas about party animated pokemon, make sure they each get their own state instead of sharing.
+                    contextScale = pokemon.form.baseScale,
+                    repository = PokemonModelRepository,
+                    state = state
+                )
                 matrices.pop()
                 context.disableScissor()
             }

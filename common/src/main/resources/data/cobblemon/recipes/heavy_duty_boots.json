@@ -3,7 +3,7 @@
     "pattern": [
         "O O",
         "OBO",
-		"I I"
+        "I I"
     ],
     "key": {
         "I": {
@@ -12,11 +12,11 @@
         "O": {
             "item": "minecraft:obsidian"
         },
-		"B": {
-			"item": "minecraft:leather_boots"
-		}
+        "B": {
+            "item": "minecraft:leather_boots"
+        }
     },
     "result": {
-        "item": "cobblemon:heavy_duty_boots"
+        "id": "cobblemon:heavy_duty_boots"
     }
 }

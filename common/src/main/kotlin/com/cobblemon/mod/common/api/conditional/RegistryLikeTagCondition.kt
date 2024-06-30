@@ -31,7 +31,7 @@ open class RegistryLikeTagCondition<T>(val tag: TagKey<T>) : RegistryLikeConditi
         ): (JsonElement) -> RegistryLikeTagCondition<T>? = {
             val firstSymbol = it.asString.substring(0, 1)
             if (firstSymbol == PREFIX) {
-                val identifier = Identifier(it.asString.substring(1))
+                val identifier = Identifier.of(it.asString.substring(1))
                 constructor(TagKey.of(registryKey, identifier))
             } else {
                 null

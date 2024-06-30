@@ -20,6 +20,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.FenceGateBlock
 import net.minecraft.entity.ai.pathing.LandPathNodeMaker
 import net.minecraft.entity.ai.pathing.NavigationType
+import net.minecraft.entity.ai.pathing.PathContext
 import net.minecraft.entity.ai.pathing.PathNode
 import net.minecraft.entity.ai.pathing.PathNodeMaker
 import net.minecraft.entity.ai.pathing.PathNodeType
@@ -58,8 +59,8 @@ class OmniPathNodeMaker : PathNodeMaker() {
         nodePosToType.clear()
     }
 
-    override fun getNode(x: Double, y: Double, z: Double): TargetPathNode? {
-        return asTargetPathNode(super.getNode(MathHelper.floor(x), MathHelper.floor(y + 0.5), MathHelper.floor(z)))
+    override fun getNode(x: Double, y: Double, z: Double): TargetPathNode {
+        return TargetPathNode(super.getNode(MathHelper.floor(x), MathHelper.floor(y + 0.5), MathHelper.floor(z)))
     }
 
     override fun getStart(): PathNode? {
@@ -80,7 +81,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
         return this.nodePosToType.computeIfAbsent(BlockPos.asLong(x, y, z),
             Long2ObjectFunction<PathNodeType?> {
                 this.getNodeType(
-                    cachedWorld, x, y, z,
+                    context, x, y, z,
                     entity
                 )
             })
@@ -138,8 +139,8 @@ class OmniPathNodeMaker : PathNodeMaker() {
         // Downward non-diagonals
         for (direction in Direction.Type.HORIZONTAL.iterator()) {
             connectingBlockPos.set(node.blockPos.add(direction.vector))
-            val blockState = cachedWorld.getBlockState(connectingBlockPos)
-            val traversableByTangent = blockState.canPathfindThrough(cachedWorld, connectingBlockPos, NavigationType.AIR)
+            val blockState = context.getBlockState(connectingBlockPos)
+            val traversableByTangent = blockState.canPathfindThrough(NavigationType.AIR)
             val pathNode2 = getNode(node.x + direction.offsetX, node.y - 1, node.z + direction.offsetZ) ?: continue
             if (hasNotVisited(pathNode2) && traversableByTangent) {
                 successors[i++] = pathNode2
@@ -220,14 +221,14 @@ class OmniPathNodeMaker : PathNodeMaker() {
     }
 
     fun addPathNodePos(x: Int, y: Int, z: Int): PathNodeType {
-        return nodePosToType.computeIfAbsent(BlockPos.asLong(x, y, z), Long2ObjectFunction { getNodeType(cachedWorld, x, y, z, entity) })
+        return nodePosToType.computeIfAbsent(BlockPos.asLong(x, y, z), Long2ObjectFunction { getNodeType(context, x, y, z, entity) })
     }
 
-    override fun getDefaultNodeType(world: BlockView, x: Int, y: Int, z: Int): PathNodeType {
+    override fun getDefaultNodeType(context: PathContext, x: Int, y: Int, z: Int): PathNodeType? {
         val pos = BlockPos(x, y, z)
         val below = BlockPos(x, y - 1, z)
-        val blockState = world.getBlockState(pos)
-        val blockStateBelow = world.getBlockState(below)
+        val blockState = context.getBlockState(pos)
+        val blockStateBelow = context.getBlockState(below)
         val belowSolid = blockStateBelow.isSolid
         val isWater = blockState.fluidState.isIn(FluidTags.WATER)
         val isLava = blockState.fluidState.isIn(FluidTags.LAVA)
@@ -267,15 +268,21 @@ class OmniPathNodeMaker : PathNodeMaker() {
 //            PathNodeType.OPEN
         } else PathNodeType.BLOCKED
 
-        return adjustNodeType(world, canOpenDoors, canEnterOpenDoors, below, figuredNode)
+        return adjustNodeType(context, canOpenDoors, canEnterOpenDoors, below, figuredNode)
     }
 
-    override fun getNodeType(world: BlockView, x: Int, y: Int, z: Int, mob: MobEntity): PathNodeType? {
+    override fun getNodeType(
+        context: PathContext,
+        x: Int,
+        y: Int,
+        z: Int,
+        mob: MobEntity
+    ): PathNodeType? {
         val set = EnumSet.noneOf(PathNodeType::class.java)
         val sizeX = (mob.boundingBox.maxX - mob.boundingBox.minX).toInt() + 1
         val sizeY = (mob.boundingBox.maxY - mob.boundingBox.minY).toInt() + 1
         val sizeZ = (mob.boundingBox.maxZ - mob.boundingBox.minZ).toInt() + 1
-        val type = findNearbyNodeTypes(world, x, y, z, sizeX, sizeY, sizeZ, canOpenDoors, canEnterOpenDoors, set, PathNodeType.BLOCKED, BlockPos(x, y, z))
+        val type = findNearbyNodeTypes(context, x, y, z, sizeX, sizeY, sizeZ, canOpenDoors, canEnterOpenDoors, set, PathNodeType.BLOCKED, BlockPos(x, y, z))
 
         if (PathNodeType.DAMAGE_CAUTIOUS in set) {
             return PathNodeType.DAMAGE_CAUTIOUS
@@ -312,7 +319,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
     }
 
     fun findNearbyNodeTypes(
-        world: BlockView,
+        context: PathContext,
         x: Int,
         y: Int,
         z: Int,
@@ -332,9 +339,11 @@ class OmniPathNodeMaker : PathNodeMaker() {
                     val l = i + x
                     val m = j + y
                     val n = k + z
-                    val pathNodeType = getDefaultNodeType(world, l, m, n)
+                    val pathNodeType = getDefaultNodeType(context, l, m, n)
                     if (i == 0 && j == 0 && k == 0) {
-                        type = pathNodeType
+                        if (pathNodeType != null) {
+                            type = pathNodeType
+                        }
                     }
                     nearbyTypes.add(pathNodeType)
                 }
@@ -344,24 +353,24 @@ class OmniPathNodeMaker : PathNodeMaker() {
     }
 
     protected fun adjustNodeType(
-        world: BlockView,
+        context: PathContext,
         canOpenDoors: Boolean,
         canEnterOpenDoors: Boolean,
         pos: BlockPos,
         type: PathNodeType
     ): PathNodeType {
-        val blockState = world.getBlockState(pos)
+        val blockState = context.getBlockState(pos)
         val block = blockState.block
 
         if (blockState.isOf(Blocks.CACTUS) || blockState.isOf(Blocks.SWEET_BERRY_BUSH)) {
             return PathNodeType.DANGER_OTHER
         }
 
-        if (LandPathNodeMaker.inflictsFireDamage(blockState) && !this.canPathThroughFire) {
+        if (LandPathNodeMaker.isFireDamaging(blockState) && !this.canPathThroughFire) {
             return PathNodeType.DANGER_FIRE
         }
 
-        if (world.getFluidState(pos).isIn(FluidTags.WATER)) {
+        if (context.getBlockState(pos).fluidState.isIn(FluidTags.WATER)) {
             return PathNodeType.WATER_BORDER
         }
 
@@ -373,7 +382,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
             PathNodeType.WALKABLE_DOOR
         } else if (type == PathNodeType.DOOR_OPEN && !canEnterOpenDoors) {
             PathNodeType.BLOCKED
-        } else if (type == PathNodeType.RAIL && block !is AbstractRailBlock && world.getBlockState(pos.down()).block !is AbstractRailBlock) {
+        } else if (type == PathNodeType.RAIL && block !is AbstractRailBlock && context.getBlockState(pos.down()).block !is AbstractRailBlock) {
             PathNodeType.UNPASSABLE_RAIL
         } else if (type == PathNodeType.LEAVES) {
             PathNodeType.BLOCKED

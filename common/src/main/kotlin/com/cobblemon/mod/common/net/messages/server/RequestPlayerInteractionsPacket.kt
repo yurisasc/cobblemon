@@ -10,8 +10,8 @@ package com.cobblemon.mod.common.net.messages.server
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Sent from client to request a [com.cobblemon.mod.common.net.messages.client.PlayerInteractOptionsPacket]
@@ -27,11 +27,11 @@ class RequestPlayerInteractionsPacket(
 ) : NetworkPacket<RequestPlayerInteractionsPacket> {
     companion object {
         val ID = cobblemonResource("request_interactions")
-        fun decode(buffer: PacketByteBuf) = RequestPlayerInteractionsPacket(buffer.readUuid(), buffer.readInt(), buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = RequestPlayerInteractionsPacket(buffer.readUuid(), buffer.readInt(), buffer.readUuid())
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(targetId)
         buffer.writeInt(targetNumericId)
         buffer.writeUuid(pokemonId)

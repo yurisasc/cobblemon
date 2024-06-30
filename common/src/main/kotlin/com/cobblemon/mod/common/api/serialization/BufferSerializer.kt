@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.serialization
 
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * A Netty serializer.

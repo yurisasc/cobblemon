@@ -12,21 +12,35 @@ import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.SpriteProvider
 import net.minecraft.client.world.ClientWorld
+import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.codec.PacketCodec
 import net.minecraft.particle.ParticleType
 import net.minecraft.util.math.Vec3d
 
-class SnowstormParticleType : ParticleType<SnowstormParticleEffect>(true, SnowstormParticleEffect.PARAMETERS_FACTORY) {
+class SnowstormParticleType : ParticleType<SnowstormParticleEffect>(true) {
     companion object {
-        val CODEC: Codec<SnowstormParticleEffect> = RecordCodecBuilder.create { instance ->
+        val CODEC: MapCodec<SnowstormParticleEffect> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
                 BedrockParticleEffect.CODEC.fieldOf("effect").forGetter { it.effect }
             ).apply(instance, ::SnowstormParticleEffect)
         }
+
+        val encoder = { effect: SnowstormParticleEffect, buf: RegistryByteBuf ->
+            effect.effect.writeToBuffer(buf)
+        }
+
+        val decoder = { buf: RegistryByteBuf ->
+            SnowstormParticleEffect(BedrockParticleEffect().also { it.readFromBuffer(buf) })
+        }
+
+        val PACKET_CODEC = PacketCodec.of(encoder, decoder)
+
     }
 
     class Factory(val spriteProvider: SpriteProvider) : ParticleFactory<SnowstormParticleEffect> {
@@ -51,4 +65,7 @@ class SnowstormParticleType : ParticleType<SnowstormParticleEffect>(true, Snowst
     }
 
     override fun getCodec() = CODEC
+    override fun getPacketCodec(): PacketCodec<in RegistryByteBuf, SnowstormParticleEffect> {
+        TODO("Not yet implemented")
+    }
 }

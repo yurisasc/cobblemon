@@ -3,7 +3,7 @@
     "pattern": [
         "WIW",
         "D I",
-		"WDW"
+        "WDW"
     ],
     "key": {
         "W": {
@@ -17,6 +17,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:muscle_band"
+        "id": "cobblemon:muscle_band"
     }
 }

@@ -12,12 +12,15 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
-import net.minecraft.network.PacketByteBuf
+
 class BenchedMoves : Iterable<BenchedMove> {
     val observable = SimpleObservable<BenchedMoves>()
     private var emit = true
@@ -59,7 +62,7 @@ class BenchedMoves : Iterable<BenchedMove> {
         return json
     }
 
-    fun saveToBuffer(buffer: PacketByteBuf) {
+    fun saveToBuffer(buffer: RegistryByteBuf) {
         buffer.writeShort(benchedMoves.size)
         benchedMoves.forEach { it.saveToBuffer(buffer) }
     }
@@ -81,7 +84,7 @@ class BenchedMoves : Iterable<BenchedMove> {
         return this
     }
 
-    fun loadFromBuffer(buffer: PacketByteBuf): BenchedMoves {
+    fun loadFromBuffer(buffer: RegistryByteBuf): BenchedMoves {
         doThenEmit {
             clear()
             repeat(times = buffer.readShort().toInt()) {
@@ -105,7 +108,7 @@ data class BenchedMove(val moveTemplate: MoveTemplate, val ppRaisedStages: Int) 
         return json
     }
 
-    fun saveToBuffer(buffer: PacketByteBuf) {
+    fun saveToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(moveTemplate.name)
         buffer.writeSizedInt(IntSize.U_BYTE, ppRaisedStages)
     }
@@ -127,7 +130,7 @@ data class BenchedMove(val moveTemplate: MoveTemplate, val ppRaisedStages: Int) 
             )
         }
 
-        fun loadFromBuffer(buffer: PacketByteBuf): BenchedMove {
+        fun loadFromBuffer(buffer: RegistryByteBuf): BenchedMove {
             val name = buffer.readString()
             return BenchedMove(
                 Moves.getByName(name) ?: MoveTemplate.dummy(name),

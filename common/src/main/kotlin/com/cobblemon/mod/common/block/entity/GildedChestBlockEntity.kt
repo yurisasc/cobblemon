@@ -18,12 +18,11 @@ import net.minecraft.block.entity.LootableContainerBlockEntity
 import net.minecraft.block.entity.ViewerCountManager
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.inventory.DoubleInventory
 import net.minecraft.inventory.Inventories
-import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.screen.GenericContainerScreenHandler
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.property.Properties
@@ -35,7 +34,7 @@ import net.minecraft.world.World
 
 class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = Type.RED) : LootableContainerBlockEntity(CobblemonBlockEntities.GILDED_CHEST, pos, state), SidedInventory {
     var inventoryContents: DefaultedList<ItemStack> = DefaultedList.ofSize(NUM_SLOTS, ItemStack.EMPTY)
-    val poseableState: GildedState = GildedState()
+    val posableState: GildedState = GildedState()
 
     private val stateManager: ViewerCountManager = object : ViewerCountManager() {
         override fun onContainerOpen(world: World, pos: BlockPos, state: BlockState) {
@@ -72,6 +71,8 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
     override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory?) =
         GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this)
 
+    override fun getHeldStacks() = inventoryContents
+
     override fun onOpen(player: PlayerEntity) {
         if (!this.removed && !player.isSpectator && type != Type.FAKE) {
             stateManager.openContainer(player, this.getWorld(), this.getPos(), this.cachedState)
@@ -98,10 +99,10 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
         return dir == Direction.DOWN
     }
 
-    override fun getInvStackList(): DefaultedList<ItemStack> = inventoryContents
+    override fun canPlayerUse(player: PlayerEntity) = !player.isSpectator
 
-    override fun setInvStackList(list: DefaultedList<ItemStack>) {
-        inventoryContents = list
+    override fun setHeldStacks(inventory: DefaultedList<ItemStack>) {
+        inventoryContents = inventory
     }
 
     companion object {
@@ -129,12 +130,12 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
     override fun onSyncedBlockEvent(type: Int, data: Int): Boolean {
         if (type == 1) {
             val isNowOpen = data > 0
-            val wasOpen = poseableState.currentPose == "OPEN"
-            val model = poseableState.currentModel ?: return true
+            val wasOpen = posableState.currentPose == "open"
+            val model = posableState.currentModel ?: return true
             if (isNowOpen && !wasOpen) {
-                model.moveToPose(null, poseableState, model.getPose("OPEN")!!)
+                model.moveToPose(posableState, model.poses["open"]!!)
             } else if (!isNowOpen && wasOpen) {
-                model.moveToPose(null, poseableState, model.getPose("CLOSED")!!)
+                model.moveToPose(posableState, model.poses["closed"]!!)
             }
             return true
         }
@@ -145,20 +146,20 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
         val block = state.block
         world.addSyncedBlockEvent(pos, block, 1, newViewerCount)
     }
-    override fun writeNbt(nbt: NbtCompound?) {
-        super.writeNbt(nbt)
-        if (!serializeLootTable(nbt)) {
-            Inventories.writeNbt(nbt, inventoryContents)
+    override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+        super.writeNbt(nbt, registryLookup)
+        if (!writeLootTable(nbt)) {
+            Inventories.writeNbt(nbt, inventoryContents, registryLookup)
         }
     }
 
-    override fun readNbt(nbt: NbtCompound?) {
-        super.readNbt(nbt)
+    override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+        super.readNbt(nbt, registryLookup)
         inventoryContents= DefaultedList.ofSize(
             size(), ItemStack.EMPTY
         )
-        if (!deserializeLootTable(nbt)) {
-            Inventories.readNbt(nbt, inventoryContents)
+        if (!readLootTable(nbt)) {
+            Inventories.readNbt(nbt, inventoryContents, registryLookup)
         }
     }
 

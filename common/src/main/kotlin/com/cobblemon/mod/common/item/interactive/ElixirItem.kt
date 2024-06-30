@@ -66,7 +66,7 @@ class ElixirItem(val max: Boolean) : CobblemonItem(Settings()), PokemonSelecting
                 stack.decrement(1)
                 player.giveOrDropItemStack(ItemStack(bagItem.returnItem))
             }
-            player.playSound(CobblemonSounds.MEDICINE_LIQUID_USE, SoundCategory.PLAYERS, 1F, 1F)
+            player.playSound(CobblemonSounds.MEDICINE_LIQUID_USE, 1F, 1F)
             TypedActionResult.success(stack)
         } else {
             TypedActionResult.fail(stack)
@@ -75,7 +75,7 @@ class ElixirItem(val max: Boolean) : CobblemonItem(Settings()), PokemonSelecting
 
     override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
-        player.playSound(CobblemonSounds.MEDICINE_LIQUID_USE, SoundCategory.PLAYERS, 1F, 1F)
+        player.playSound(CobblemonSounds.MEDICINE_LIQUID_USE, 1F, 1F)
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {

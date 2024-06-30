@@ -19,6 +19,9 @@ import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.mulch.Mulchable
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+//import dev.lambdaurora.lambdynlights.util.SodiumDynamicLightHandler.pos
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -68,41 +71,50 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
      */
     fun berry(): Berry? = Berries.getByIdentifier(this.berryIdentifier)
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity): BlockState {
         if (!player.isCreative && state.get(AGE) == FRUIT_AGE) {
             val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
             treeEntity.harvest(world, state, pos, player).forEach { drop -> Block.dropStack(world, pos, drop) }
         }
-        super.onBreak(world, pos, state, player)
+        return super.onBreak(world, pos, state, player)
     }
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BerryBlockEntity(pos, state, berryIdentifier)
 
-    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState, isClient: Boolean) = !this.isMaxAge(state)
+    override fun isFertilizable(world: WorldView, pos: BlockPos, state: BlockState) = !this.isMaxAge(state)
 
     override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = !this.isMaxAge(state)
 
-    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = checkType(blockWithEntityType, CobblemonBlockEntities.BERRY, BerryBlockEntity.TICKER)
+    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = validateTicker(blockWithEntityType, CobblemonBlockEntities.BERRY, BerryBlockEntity.TICKER)
 
     init {
         defaultState = this.stateManager.defaultState
             .with(WAS_GENERATED, false)
-            .with(AGE, 0)
             .with(MULCH, MulchVariant.NONE)
+            .with(AGE, 0)
+            .with(IS_ROOTED, false)
     }
 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
+        growHelper(world, random, pos, state, true)
+    }
+
+    //grow, but cooler
+    fun growHelper(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState, boneMealed: Boolean = false) {
+        val berry = berry() ?: return
+        if (boneMealed && random.nextFloat() > berry.boneMealChance) return
         val curAge = state.get(AGE)
         val newAge = curAge + 1
         if (newAge > FRUIT_AGE) return
         val newState = state.with(AGE, newAge)
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         if (curAge == MATURE_AGE) {
-            treeEntity.generateGrowthPoints(world, state, pos, null)
-            determineMutation(world, random, pos, state)
+            treeEntity.generateGrowthPoints(world, newState, pos, null)
+            determineMutation(world, random, pos, newState)
         }
 
         world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
+        convertMulchToEntity(world, newState, pos)
         treeEntity.goToNextStageTimer(FRUIT_AGE - curAge)
         treeEntity.markDirty()
     }
@@ -122,7 +134,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             CobblemonEvents.BERRY_MUTATION_OFFER.post(BerryMutationOfferEvent(berry, world, state, pos, mutations)) { berryMutationOffer ->
                 if (berryMutationOffer.mutations.isNotEmpty()) {
                     var mutateChance = 125
-                    if (getMulch(state) == MulchVariant.SURPRISE) {
+                    if (getMulch(treeEntity) == MulchVariant.SURPRISE) {
                         mutateChance *= 4
                         treeEntity.decrementMulchDuration(world, pos, state)
                     }
@@ -143,7 +155,10 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         state: BlockState,
         variant: MulchVariant
     ): Boolean {
-        return getMulch(state) == MulchVariant.NONE && state.get(AGE) < FLOWER_AGE && world.getBlockState(pos.down()).isOf(Blocks.FARMLAND)
+        val underBlockState = world.getBlockState(pos.down())
+        val validSoil = state.get(IS_ROOTED) || underBlockState.isIn(CobblemonBlockTags.BERRY_SOIL)
+        val treeEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return false
+        return getMulch(treeEntity) == MulchVariant.NONE && state.get(AGE) < FLOWER_AGE && validSoil
     }
 
     override fun applyMulch(
@@ -154,24 +169,27 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         variant: MulchVariant
     ) {
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
-        setMulch(world, pos, state, variant)
-        treeEntity.mulchDuration = variant.duration
+        treeEntity.setMulch(variant, world, state, pos)
         world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS, 0.6F, 1F)
-        treeEntity.refreshTimers(pos)
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+    override fun onUse(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        player: PlayerEntity,
+        hit: BlockHitResult
+    ): ActionResult? {
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
-        if (player.getStackInHand(hand).item is ShovelItem && getMulch(state) != MulchVariant.NONE) {
-            setMulch(world, pos, state, MulchVariant.NONE)
+        if (player.getStackInHand(Hand.MAIN_HAND).item is ShovelItem && getMulch(treeEntity) != MulchVariant.NONE) {
             treeEntity.markDirty()
             world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundCategory.BLOCKS, 0.6F, 1F)
             this.spawnBreakParticles(world, player, pos, state.with(AGE, 0))
             return ActionResult.SUCCESS
         }
 
-        if (player.getStackInHand(hand).isOf(Items.BONE_MEAL) && !this.isMaxAge(state)) {
+        if (player.getStackInHand(Hand.MAIN_HAND).isOf(Items.BONE_MEAL) && !this.isMaxAge(state)) {
             return ActionResult.PASS
         } else if (this.isMaxAge(state)) {
             val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return ActionResult.PASS
@@ -181,7 +199,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             world.playSound(null, pos, CobblemonSounds.BERRY_HARVEST, SoundCategory.BLOCKS, 0.4F, 1F)
             return ActionResult.success(world.isClient)
         }
-        return super.onUse(state, world, pos, player, hand, hit)
+        return super.onUse(state, world, pos, player, hit)
     }
 
     @Deprecated("Deprecated in Java")
@@ -189,7 +207,11 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val below = world.getBlockState(pos.down())
         return (state.get(WAS_GENERATED) && below.isIn(CobblemonBlockTags.BERRY_WILD_SOIL))
                 || below.isIn(CobblemonBlockTags.BERRY_SOIL)
-                || below.block is FarmlandBlock
+                || state.get(IS_ROOTED)
+    }
+
+    override fun getCodec(): MapCodec<out BlockWithEntity> {
+        return CODEC
     }
 
     @Deprecated("Deprecated in Java")
@@ -208,9 +230,10 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         builder.add(AGE)
         builder.add(WAS_GENERATED)
         builder.add(MULCH)
+        builder.add(IS_ROOTED)
     }
 
-    override fun getPickStack(world: BlockView?, pos: BlockPos?, state: BlockState?): ItemStack {
+    override fun getPickStack(world: WorldView?, pos: BlockPos?, state: BlockState?): ItemStack {
         val berryItem = this.berry()?.item() ?: return ItemStack.EMPTY
         return ItemStack(berryItem)
     }
@@ -232,6 +255,11 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     override fun getRenderType(blockState: BlockState) = BlockRenderType.MODEL
 
     companion object {
+        val CODEC: MapCodec<BerryBlock> = RecordCodecBuilder.mapCodec { it.group(
+            Identifier.CODEC.fieldOf("berry").forGetter(BerryBlock::berryIdentifier),
+            createSettingsCodec()
+        ).apply(it, ::BerryBlock) }
+
         const val MATURE_AGE = 3
         const val FLOWER_AGE = 4
         const val FRUIT_AGE = 5
@@ -239,6 +267,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val AGE: IntProperty = IntProperty.of("age", 0, FRUIT_AGE)
         val MULCH: EnumProperty<MulchVariant> = EnumProperty.of("mulch", MulchVariant::class.java)
         val WAS_GENERATED: BooleanProperty = BooleanProperty.of("generated")
+        val IS_ROOTED: BooleanProperty = BooleanProperty.of("rooted")
 //        val PLANTED_SHAPE = VoxelShapes.union(
 //            VoxelShapes.cuboid(0.3125, -0.0625, 0.3125, 0.6875, 0.0, 0.6875),
 //            VoxelShapes.cuboid(0.375, 0.0, 0.375, 0.625, 0.0625, 0.625)
@@ -301,15 +330,14 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val TALL_MATURE = listOf(Box(0.0, -1.0, 0.0, 16.0, 24.0, 16.0))
 
 
-        fun getMulch(state: BlockState): MulchVariant {
-            if (!state.contains(MULCH)) {
-                return MulchVariant.NONE
-            }
-            return state.get(MULCH)
-        }
+        fun getMulch(entity: BerryBlockEntity) = entity.mulchVariant
 
-        fun setMulch(world: World, pos: BlockPos, state: BlockState, mulch: MulchVariant) {
-            world.setBlockState(pos, state.with(MULCH, mulch))
+        fun convertMulchToEntity(world: ServerWorld, state: BlockState, pos: BlockPos) {
+            val entity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return
+            if (state.get(MULCH) != MulchVariant.NONE && state.get(MULCH) != entity.mulchVariant) {
+                entity.mulchVariant = state.get(MULCH)
+                world.setBlockState(pos, state.with(MULCH, MulchVariant.NONE))
+            }
         }
     }
 }
