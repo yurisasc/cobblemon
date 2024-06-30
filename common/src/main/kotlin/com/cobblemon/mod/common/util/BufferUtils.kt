@@ -48,12 +48,14 @@ fun RegistryFriendlyByteBuf.writeText(text: Component) { // TODO (techdaan): why
 }
 
 fun ByteBuf.readEntityDimensions(): EntityDimensions {
+    val width = readFloat()
+    val height = readFloat()
     val isFixed = this.readBoolean()
     return if (isFixed) {
-        EntityDimensions.fixed(this.readFloat(), this.readFloat())
+        EntityDimensions.fixed(width, height)
     }
     else {
-        EntityDimensions.scalable(this.readFloat(), this.readFloat())
+        EntityDimensions.scalable(width, height)
     }
 }
 
