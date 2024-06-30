@@ -196,19 +196,19 @@ class OmniPathNodeMaker : NodeEvaluator() {
         }
     }
 
-    override fun getNode(x: Int, y: Int, z: Int): Node {
+    override fun getNode(x: Int, y: Int, z: Int): Node? {
         var nodePenalty = 0F
         var pathNode: Node? = null
 
-        val PathType = addNodePos(x, y, z)
-        if (isValidPathType(PathType) &&
-            mob.getPathfindingMalus(PathType).also { nodePenalty = it } >= 0.0f &&
+        val type = addNodePos(x, y, z)
+        if (isValidPathType(type) &&
+            mob.getPathfindingMalus(type).also { nodePenalty = it } >= 0.0f &&
             super.getNode(x, y, z).also { pathNode = it } != null
         ) {
-            pathNode!!.type = PathType
+            pathNode!!.type = type
             pathNode!!.costMalus = pathNode!!.costMalus.coerceAtLeast(nodePenalty)
         }
-        return pathNode!!
+        return pathNode
     }
 
     fun addNodePos(x: Int, y: Int, z: Int): PathType {
