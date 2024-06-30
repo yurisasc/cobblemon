@@ -40,6 +40,6 @@ class VolatileCuringBerryItem(block: BerryBlock, val volatileStatus: String): Be
 
     override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
-        player.playSound(CobblemonSounds.BERRY_EAT, SoundCategory.PLAYERS, 1F, 1F)
+        player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
     }
 }

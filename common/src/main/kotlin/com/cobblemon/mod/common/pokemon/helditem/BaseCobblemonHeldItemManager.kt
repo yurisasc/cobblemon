@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.pokemon.helditem
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonItemComponents
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
@@ -47,7 +48,16 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
         }
     }
 
-    override fun showdownId(pokemon: BattlePokemon): String? = this.showdownIdOf(pokemon.effectedPokemon.heldItemNoCopy().item)
+    override fun showdownId(pokemon: BattlePokemon): String? {
+        val item = pokemon.effectedPokemon.heldItemNoCopy()
+        val identifier = item.get(CobblemonItemComponents.HELD_ITEM_REP)?.item ?: Registries.ITEM.getId(item.item)
+
+        val formattedPath = identifier.path.replace("_", "")
+        if (this.itemIds.containsKey(formattedPath)) {
+            return formattedPath
+        }
+        return null
+    }
 
     override fun nameOf(showdownId: String): Text = this.itemIds[showdownId]?.name ?: Text.of(showdownId)
 
@@ -68,21 +78,4 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
      * @return The amount of loaded item IDs.
      */
     protected fun loadedItemCount() = this.itemIds.size
-
-    /**
-     * Find the Showdown literal ID of the given [item].
-     * This only works for items under the [Cobblemon.MODID] namespace.
-     * If you wish to support your own items you need to implement your own [HeldItemManager].
-     *
-     * @param item The [Item] being queried.
-     * @return The literal Showdown ID if any.
-     */
-    fun showdownIdOf(item: Item): String? {
-        val identifier = Registries.ITEM.getId(item)
-        val formattedPath = identifier.path.replace("_", "")
-        if (this.itemIds.containsKey(formattedPath)) {
-            return formattedPath
-        }
-        return null
-    }
 }

@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to change the status of a Pokémon in battle, such as paralysis or sleep.
@@ -24,14 +24,14 @@ import net.minecraft.network.PacketByteBuf
  */
 class BattlePersistentStatusPacket(val pnx: String, val status: PersistentStatus?) : NetworkPacket<BattlePersistentStatusPacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeString(pnx)
         buffer.writeNullable(status) { buf, value -> buf.writeIdentifier(value.name)}
     }
 
     companion object {
         val ID = cobblemonResource("battle_persistent_status")
-        fun decode(buffer: PacketByteBuf): BattlePersistentStatusPacket {
+        fun decode(buffer: RegistryByteBuf): BattlePersistentStatusPacket {
             val pnx = buffer.readString()
             val statusId = buffer.readNullable { it.readIdentifier() } ?: return BattlePersistentStatusPacket(pnx, null)
             val status = Statuses.getStatus(statusId) as? PersistentStatus

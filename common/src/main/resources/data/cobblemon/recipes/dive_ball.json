@@ -22,9 +22,8 @@
             "item": "cobblemon:blue_apricorn"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:dive_ball",
-        "count": 4
+    "result": {
+        "count": 4,
+        "id": "cobblemon:dive_ball"
     }
 }

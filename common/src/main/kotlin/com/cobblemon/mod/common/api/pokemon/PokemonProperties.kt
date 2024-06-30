@@ -27,11 +27,13 @@ import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.mojang.serialization.Codec
 import kotlin.random.Random
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -54,14 +56,19 @@ import java.util.UUID
  */
 open class PokemonProperties {
     companion object {
+        val CODEC: Codec<PokemonProperties> = Codec.STRING.xmap(
+            { parse(it) },
+            { it.originalString }
+        )
+
         @JvmOverloads
         fun parse(string: String, delimiter: String = " ", assigner: String = "="): PokemonProperties {
             val props = PokemonProperties()
             props.originalString = string
             val keyPairs = string.splitMap(delimiter, assigner)
-            props.customProperties = CustomPokemonProperty.properties.mapNotNull { property ->
-                val matchedKeyPair = keyPairs.find { it.first.lowercase() in property.keys }
-                if (matchedKeyPair == null) {
+            props.customProperties = CustomPokemonProperty.properties.flatMap { property ->
+                val matchedKeyPairs = keyPairs.filter { it.first.lowercase() in property.keys }
+                if (matchedKeyPairs.isEmpty()) {
                     if (!property.needsKey) {
                         var savedProperty: CustomPokemonProperty? = null
                         val keyPair = keyPairs.find { keyPair ->
@@ -71,13 +78,20 @@ open class PokemonProperties {
                         if (keyPair != null) {
                             keyPairs.remove(keyPair)
                         }
-                        return@mapNotNull savedProperty
+                        return@flatMap savedProperty?.let { listOf(it) } ?: emptyList()
                     } else {
-                        return@mapNotNull null
+                        return@flatMap emptyList()
                     }
                 } else {
-                    keyPairs.remove(matchedKeyPair)
-                    return@mapNotNull property.fromString(matchedKeyPair.second)
+                    val properties = mutableListOf<CustomPokemonProperty>()
+                    for ((customKey, customValue) in matchedKeyPairs) {
+                        val property = property.fromString(customValue)
+                        keyPairs.remove(customKey to customValue)
+                        if (property != null) {
+                            properties.add(property)
+                        }
+                    }
+                    return@flatMap properties
                 }
             }.toMutableList()
             props.gender = Gender.values().toList().parsePropertyOfCollection(keyPairs, listOf("gender"), labelsOptional = true) { it.name.lowercase() }
@@ -489,14 +503,14 @@ open class PokemonProperties {
     }
 
     // TODO Codecs at some point
-    fun saveToNBT(): NbtCompound {
+    fun saveToNBT(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound {
         val nbt = NbtCompound()
         originalString.let { nbt.putString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT, it) }
         level?.let { nbt.putInt(DataKeys.POKEMON_LEVEL, it) }
         shiny?.let { nbt.putBoolean(DataKeys.POKEMON_SHINY, it) }
         gender?.let { nbt.putString(DataKeys.POKEMON_GENDER, it.name) }
         species?.let { nbt.putString(DataKeys.POKEMON_SPECIES_TEXT, it) }
-        nickname?.let { nbt.putString(DataKeys.POKEMON_NICKNAME, Text.Serializer.toJson(it)) }
+        nickname?.let { nbt.putString(DataKeys.POKEMON_NICKNAME, Text.Serialization.toJsonString(it, registryLookup)) }
         form?.let { nbt.putString(DataKeys.POKEMON_FORM_ID, it) }
         friendship?.let { nbt.putInt(DataKeys.POKEMON_FRIENDSHIP, it) }
         pokeball?.let { nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, it) }
@@ -518,13 +532,13 @@ open class PokemonProperties {
     }
 
     // TODO Codecs at some point
-    fun loadFromNBT(tag: NbtCompound): PokemonProperties {
+    fun loadFromNBT(tag: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup): PokemonProperties {
         originalString = tag.getString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT)
         level = if (tag.contains(DataKeys.POKEMON_LEVEL)) tag.getInt(DataKeys.POKEMON_LEVEL) else null
         shiny = if (tag.contains(DataKeys.POKEMON_SHINY)) tag.getBoolean(DataKeys.POKEMON_SHINY) else null
         gender = if (tag.contains(DataKeys.POKEMON_GENDER)) Gender.valueOf(tag.getString(DataKeys.POKEMON_GENDER)) else null
         species = if (tag.contains(DataKeys.POKEMON_SPECIES_TEXT)) tag.getString(DataKeys.POKEMON_SPECIES_TEXT) else null
-        nickname = if (tag.contains(DataKeys.POKEMON_NICKNAME)) Text.Serializer.fromJson(tag.getString(DataKeys.POKEMON_NICKNAME)) else null
+        nickname = if (tag.contains(DataKeys.POKEMON_NICKNAME)) Text.Serialization.fromJson(tag.getString(DataKeys.POKEMON_NICKNAME), registryLookup) else null
         form = if (tag.contains(DataKeys.POKEMON_FORM_ID)) tag.getString(DataKeys.POKEMON_FORM_ID) else null
         friendship = if (tag.contains(DataKeys.POKEMON_FRIENDSHIP)) tag.getInt(DataKeys.POKEMON_FRIENDSHIP) else null
         pokeball = if (tag.contains(DataKeys.POKEMON_CAUGHT_BALL)) tag.getString(DataKeys.POKEMON_CAUGHT_BALL) else null
@@ -554,7 +568,7 @@ open class PokemonProperties {
         shiny?.let { json.addProperty(DataKeys.POKEMON_SHINY, it) }
         gender?.let { json.addProperty(DataKeys.POKEMON_GENDER, it.name) }
         species?.let { json.addProperty(DataKeys.POKEMON_SPECIES_TEXT, it) }
-        nickname?.let { json.addProperty(DataKeys.POKEMON_NICKNAME, Text.Serializer.toJson(it)) }
+        //nickname?.let { json.addProperty(DataKeys.POKEMON_NICKNAME, Text.Serialization.toJsonString(it)) }
         form?.let { json.addProperty(DataKeys.POKEMON_FORM_ID, it) }
         friendship?.let { json.addProperty(DataKeys.POKEMON_FRIENDSHIP, it) }
         pokeball?.let { json.addProperty(DataKeys.POKEMON_CAUGHT_BALL, it) }
@@ -583,7 +597,7 @@ open class PokemonProperties {
         shiny = json.get(DataKeys.POKEMON_SHINY)?.asBoolean
         gender = json.get(DataKeys.POKEMON_GENDER)?.asString?.let { Gender.valueOf(it) }
         species = json.get(DataKeys.POKEMON_SPECIES_TEXT)?.asString
-        nickname = json.get(DataKeys.POKEMON_NICKNAME)?.asString?.let { Text.Serializer.fromJson(it) }
+        //nickname = json.get(DataKeys.POKEMON_NICKNAME)?.asString?.let { Text.Serialization.fromJson(it) }
         form = json.get(DataKeys.POKEMON_FORM_ID)?.asString
         friendship = json.get(DataKeys.POKEMON_FRIENDSHIP)?.asInt
         pokeball = json.get(DataKeys.POKEMON_CAUGHT_BALL)?.asString

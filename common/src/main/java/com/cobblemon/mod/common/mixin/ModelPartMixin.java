@@ -8,13 +8,11 @@
 
 package com.cobblemon.mod.common.mixin;
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel;
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone;
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +22,7 @@ import java.util.Map;
 
 @Mixin(ModelPart.class)
 public abstract class ModelPartMixin implements Bone {
-    @Shadow public abstract void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha);
+    @Shadow public abstract void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color);
 
     @Shadow public abstract void rotate(MatrixStack matrixStack);
 
@@ -38,8 +36,8 @@ public abstract class ModelPartMixin implements Bone {
     }
 
     @Override
-    public void render(RenderContext context, MatrixStack stack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
-        this.render(stack, buffer, packedLight, packedOverlay, r, g, b, a);
+    public void render(RenderContext context, MatrixStack stack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
+        this.render(stack, buffer, packedLight, packedOverlay, color);
     }
 
     @Override

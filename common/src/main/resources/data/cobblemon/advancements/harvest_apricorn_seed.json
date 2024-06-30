@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:green_apricorn_seed"
+      "id": "cobblemon:green_apricorn_seed"
     },
     "title": {
       "translate": "advancements.cobblemon.harvest_apricorn_seed"

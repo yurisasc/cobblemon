@@ -31,8 +31,8 @@
               "block": "cobblemon:vivichoke_seeds",
               "properties": {
                 "age": {
-                  "min": 0,
-                  "max": 6
+                  "min": "0",
+                  "max": "6"
                 }
               }
             }

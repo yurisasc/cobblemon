@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import net.minecraft.block.Block
+import net.minecraft.enchantment.Enchantment
 import net.minecraft.entity.Entity
 import net.minecraft.fluid.Fluid
 import net.minecraft.registry.Registry
@@ -68,7 +69,7 @@ abstract class SpawningContext {
     abstract val skyLight: Int
     /** Whether or not the sky is visible at this location. */
     abstract val canSeeSky: Boolean
-    /** A list of [SpawningInfluence]s that apply due to this specific context. */
+    /** A list of [SpawningInfluence]s that apply due to this specific context. This generally shouldn't be consumed; use [getAllInfluences].*/
     abstract val influences: MutableList<SpawningInfluence>
     /** Gets a cache of structures by block coordinates, grouped by chunk. */
     abstract fun getStructureCache(pos: BlockPos): StructureChunkCache
@@ -80,7 +81,8 @@ abstract class SpawningContext {
 
     val biomeRegistry: Registry<Biome> by lazy { world.registryManager.get(RegistryKeys.BIOME) }
     val blockRegistry: Registry<Block> by lazy { world.registryManager.get(RegistryKeys.BLOCK) }
-    val fluidRegistry: Registry<Fluid> by lazy { world.registryManager.get(RegistryKeys.FLUID)}
+    val fluidRegistry: Registry<Fluid> by lazy { world.registryManager.get(RegistryKeys.FLUID) }
+    val enchantmentRegistry: Registry<Enchantment> by lazy { world.registryManager.get(RegistryKeys.ENCHANTMENT) }
 
     val biomeName: Identifier
         get() = this.biomeRegistry.getId(biome)!!
@@ -147,7 +149,7 @@ abstract class SpawningContext {
      */
     open fun preFilter(detail: SpawnDetail): Boolean {
         /** Returns true if none of the influences.affectSpawnable return false */
-        return influences.none { !it.affectSpawnable(detail, this) }
+        return !anyForInfluences { !it.affectSpawnable(detail, this) }
     }
 
     /**
@@ -157,14 +159,12 @@ abstract class SpawningContext {
     open fun postFilter(detail: SpawnDetail): Boolean = true
 
     open fun afterSpawn(entity: Entity) {
-        influences.forEach { it.affectSpawn(entity) }
+        applyInfluences { it.affectSpawn(entity) }
     }
 
     open fun getWeight(detail: SpawnDetail): Float {
         var weight = detail.weight
-        for (influence in influences + detail.weightMultipliers) {
-            weight = influence.affectWeight(detail, this, weight)
-        }
+        applyInfluences(extraInfluences = detail.weightMultipliers) { weight = it.affectWeight(detail, this, weight) }
         return weight
     }
 
@@ -183,5 +183,35 @@ abstract class SpawningContext {
 
         structCompiled = true
         return struct
+    }
+
+    /**
+     * Gets all influences that apply to this context, including the cause, and does something with them.
+     *
+     * Technically we could simple make a list of influences + cause and run that, but influences MUST be able
+     * to run extremely frequently in performance-critical code, so we don't want to have to allocate a list.
+     */
+    fun applyInfluences(extraInfluences: List<SpawningInfluence>? = null, usage: (SpawningInfluence) -> Unit) {
+        influences.forEach(usage)
+        usage(cause)
+        extraInfluences?.forEach(usage)
+    }
+
+    /**
+     * Iterates through every operable influence to find if any match the predicate.
+     */
+    fun anyForInfluences(extraInfluences: List<SpawningInfluence>? = null, usage: (SpawningInfluence) -> Boolean): Boolean {
+        if (influences.any(usage)) {
+            return true
+        }
+        if (usage(cause)) {
+            return true
+        }
+        extraInfluences?.forEach {
+            if (usage(it)) {
+                return true
+            }
+        }
+        return false
     }
 }

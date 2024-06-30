@@ -10,8 +10,10 @@ package com.cobblemon.mod.common.api.pokemon.feature
 
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
+import com.cobblemon.mod.common.api.serialization.BufferSerializer
 import com.cobblemon.mod.common.client.gui.summary.featurerenderers.SummarySpeciesFeatureRenderer
 import com.cobblemon.mod.common.pokemon.Pokemon
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -23,7 +25,7 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 13th, 2023
  */
-interface SynchronizedSpeciesFeatureProvider<T : SynchronizedSpeciesFeature> : SpeciesFeatureProvider<T>, Encodable, Decodable {
+interface SynchronizedSpeciesFeatureProvider<T : SynchronizedSpeciesFeature> : SpeciesFeatureProvider<T>, BufferSerializer {
     var visible: Boolean
     operator fun invoke(buffer: PacketByteBuf, name: String): T?
     /** Gets the feature from this Pokémon, if it has been created yet. */

@@ -19,8 +19,19 @@ import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import com.cobblemon.mod.common.item.berry.BerryItem
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.util.readBox
+import com.cobblemon.mod.common.util.readEnumConstant
+import com.cobblemon.mod.common.util.readEnumSet
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readMap
 import com.cobblemon.mod.common.util.writeBox
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeEnumConstant
+import com.cobblemon.mod.common.util.writeEnumSet
+import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeMap
 import com.google.gson.annotations.SerializedName
+import net.minecraft.network.RegistryByteBuf
 import java.awt.Color
 import java.util.EnumSet
 import kotlin.math.min
@@ -248,7 +259,7 @@ class Berry(
         this.matureShape = this.createAndUniteShapes(this.matureShapeBoxes)
     }
 
-    internal fun encode(buffer: PacketByteBuf) {
+    internal fun encode(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(this.identifier)
         buffer.writeInt(this.baseYield.first)
         buffer.writeInt(this.baseYield.last)
@@ -329,7 +340,7 @@ class Berry(
 
     companion object {
 
-        internal fun decode(buffer: PacketByteBuf): Berry {
+        internal fun decode(buffer: RegistryByteBuf): Berry {
             val identifier = buffer.readIdentifier()
             val baseYield = IntRange(buffer.readInt(), buffer.readInt())
             val favMulchs = buffer.readEnumSet(MulchVariant::class.java)

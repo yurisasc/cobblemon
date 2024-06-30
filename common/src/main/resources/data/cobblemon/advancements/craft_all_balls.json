@@ -1,7 +1,7 @@
 {
 	"display": {
 		"icon": {
-			"item": "cobblemon:master_ball"
+			"id": "cobblemon:master_ball"
 		},
 		"frame": "challenge",
 		"title": {

@@ -1,7 +1,7 @@
 {
 	"display": {
 		"icon": {
-			"item": "cobblemon:link_cable",
+			"id": "cobblemon:link_cable",
 			"nbt": "{CustomModelData:6}"
 		},
 		"title": {

@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.util.lang
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
@@ -35,7 +34,7 @@ class MintItem(val nature: Nature) : CobblemonItem(Settings()), PokemonSelecting
             if (!player.isCreative) {
                 stack.decrement(1)
             }
-            player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
+            player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
             pokemon.mintedNature = nature
             player.sendMessage(lang("mint.interact", pokemon.getDisplayName(), stack.name), true)
             TypedActionResult.success(stack)

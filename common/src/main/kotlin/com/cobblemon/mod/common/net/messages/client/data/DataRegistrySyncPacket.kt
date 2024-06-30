@@ -9,20 +9,26 @@
 package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import io.netty.buffer.Unpooled
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val registryEntries: Collection<T>) : NetworkPacket<N> {
 
-    var buffer: PacketByteBuf? = null
+    var buffer: RegistryByteBuf? = null
     internal val entries = arrayListOf<T>()
 
-    override fun encode(buffer: PacketByteBuf) {
-        buffer.writeCollection(this.registryEntries, this::encodeEntry)
+    override fun encode(buffer: RegistryByteBuf) {
+        val newBuffer = RegistryByteBuf(Unpooled.buffer(), buffer.registryManager)
+        newBuffer.writeCollection(registryEntries) { _, entry -> encodeEntry(newBuffer, entry) }
+        buffer.writeInt(newBuffer.readableBytes())
+        buffer.writeBytes(newBuffer)
     }
 
-    internal fun decodeBuffer(buffer: PacketByteBuf) {
-        this.buffer = buffer
-        buffer.retain()
+    internal fun decodeBuffer(buffer: RegistryByteBuf) {
+        val size = buffer.readInt()
+        val newBuffer = RegistryByteBuf(buffer.readBytes(size), buffer.registryManager)
+        this.buffer = newBuffer
     }
 
     /**
@@ -31,7 +37,7 @@ abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val regis
      * @param buffer The [PacketByteBuf] being encoded to.
      * @param entry The entry of type [T].
      */
-    abstract fun encodeEntry(buffer: PacketByteBuf, entry: T)
+    abstract fun encodeEntry(buffer: RegistryByteBuf, entry: T)
 
     /**
      * Attempts to decode this entry, if null it will be skipped.
@@ -40,7 +46,7 @@ abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val regis
      * @param buffer The [PacketByteBuf] being decoded from.
      * @return The entry of type [T].
      */
-    abstract fun decodeEntry(buffer: PacketByteBuf): T?
+    abstract fun decodeEntry(buffer: RegistryByteBuf): T?
 
     /**
      * Synchronizes the final product the final product with the backing registry.

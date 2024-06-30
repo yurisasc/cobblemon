@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.pasture
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -21,9 +22,9 @@ import net.minecraft.network.PacketByteBuf
 class ClosePasturePacket : NetworkPacket<ClosePasturePacket> {
     companion object {
         val ID = cobblemonResource("close_pasture")
-        fun decode(buffer: PacketByteBuf) = ClosePasturePacket()
+        fun decode(buffer: RegistryByteBuf) = ClosePasturePacket()
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {}
+    override fun encode(buffer: RegistryByteBuf) {}
 }

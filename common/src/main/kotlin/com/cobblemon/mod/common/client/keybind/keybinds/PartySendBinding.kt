@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.keybind.keybinds
 
-import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToServer
+import com.cobblemon.mod.common.CobblemonNetwork.sendToServer
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.keybind.CobblemonBlockingKeyBinding
@@ -44,7 +44,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
 
     override fun onTick() {
         if (secondsSinceActioned < 100) {
-            secondsSinceActioned += MinecraftClient.getInstance().tickDelta
+            secondsSinceActioned += MinecraftClient.getInstance().renderTickCounter.getTickDelta(false)
         }
 
         super.onTick()
@@ -77,7 +77,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
             if (pokemon != null && pokemon.currentHealth > 0) {
                 val targetEntity = player.traceFirstEntityCollision(entityClass = LivingEntity::class.java, ignoreEntity = player)
                 if (targetEntity == null || (targetEntity is PokemonEntity && targetEntity.ownerUuid == player.uuid)) {
-                    sendPacketToServer(SendOutPokemonPacket(CobblemonClient.storage.selectedSlot))
+                    sendToServer(SendOutPokemonPacket(CobblemonClient.storage.selectedSlot))
                 }
                 else {
                     processEntityTarget(player, pokemon, targetEntity)
@@ -91,11 +91,11 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
             is PlayerEntity -> {
                 //This sends a packet to the server with the id of the player
                 //The server sends a packet back that opens the player interaction menu with the proper options
-                sendPacketToServer(RequestPlayerInteractionsPacket(entity.uuid, entity.id, pokemon.uuid))
+                sendToServer(RequestPlayerInteractionsPacket(entity.uuid, entity.id, pokemon.uuid))
             }
             is PokemonEntity -> {
                 if (!entity.canBattle(player)) return
-                sendPacketToServer(BattleChallengePacket(entity.id, pokemon.uuid))
+                sendToServer(BattleChallengePacket(entity.id, pokemon.uuid))
             }
         }
     }

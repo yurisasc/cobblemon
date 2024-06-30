@@ -10,8 +10,11 @@ package com.cobblemon.mod.common.net.messages.client.dialogue
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writeUuid
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
+import java.util.UUID
 
 /**
  * Packet sent to the client to close the active dialogue.
@@ -23,11 +26,11 @@ import net.minecraft.network.PacketByteBuf
 class DialogueClosedPacket(val dialogueId: UUID? = null) : NetworkPacket<DialogueClosedPacket> {
     companion object {
         val ID = cobblemonResource("dialogue_closed")
-        fun decode(buffer: PacketByteBuf) = DialogueClosedPacket(buffer.readNullable { it.readUuid() })
+        fun decode(buffer: RegistryByteBuf) = DialogueClosedPacket(buffer.readNullable { it.readUuid() })
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeNullable(dialogueId) { buff, value -> buff.writeUuid(value) }
     }
 }

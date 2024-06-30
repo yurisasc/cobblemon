@@ -3,7 +3,7 @@
     "pattern": [
         " G ",
         "TCT",
-		"G G"
+        "G G"
     ],
     "key": {
         "G": {
@@ -17,6 +17,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:protector"
+        "id": "cobblemon:protector"
     }
 }

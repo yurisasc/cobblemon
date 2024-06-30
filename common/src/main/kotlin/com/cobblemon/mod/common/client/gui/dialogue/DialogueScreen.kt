@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.api.dialogue.ArtificialDialogueFaceProvider
 import com.cobblemon.mod.common.api.dialogue.PlayerDialogueFaceProvider
 import com.cobblemon.mod.common.api.dialogue.ReferenceDialogueFaceProvider
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
@@ -24,11 +23,10 @@ import com.cobblemon.mod.common.client.gui.dialogue.widgets.DialogueNameWidget
 import com.cobblemon.mod.common.client.gui.dialogue.widgets.DialogueOptionWidget
 import com.cobblemon.mod.common.client.gui.dialogue.widgets.DialogueTextInputWidget
 import com.cobblemon.mod.common.client.gui.dialogue.widgets.DialogueTimerWidget
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.net.messages.client.dialogue.dto.DialogueDTO
 import com.cobblemon.mod.common.net.messages.client.dialogue.dto.DialogueInputDTO
 import com.cobblemon.mod.common.net.messages.server.dialogue.EscapeDialoguePacket
-import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.asExpressions
 import com.cobblemon.mod.common.util.asTranslated
@@ -47,7 +45,7 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
             is ReferenceDialogueFaceProvider -> {
                 key to DialogueRenderableSpeaker(
                     name = name,
-                    face = ReferenceRenderableFace(MinecraftClient.getInstance().world?.getEntityById(face.entityId) as? Poseable ?: return@mapNotNull null)
+                    face = ReferenceRenderableFace(MinecraftClient.getInstance().world?.getEntityById(face.entityId) as? PosableEntity ?: return@mapNotNull null)
                 )
             }
             else -> key to DialogueRenderableSpeaker(name, null)
@@ -105,18 +103,21 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
         )
     }
 
+    override fun renderBackground(context: DrawContext?, mouseX: Int, mouseY: Int, delta: Float) {}
+    override fun applyBlur(delta: Float) {}
+
     override fun init() {
         super.init()
 
         runtime.environment
-            .getQueryStruct()
+            .query
             .addFunctions(
                 dialogueMolangFunctions
                     .flatMap { it(this@DialogueScreen).entries }
                     .associate { it.key to it.value }
             )
 
-        dialogueDTO.currentPageDTO.clientActions.forEach { runtime.resolve(it.asExpression()) }
+        dialogueDTO.currentPageDTO.clientActions.forEach { runtime.resolve(it.asExpressionLike()) }
         val centerX = scaledWidth / 2F
         val boxMinY = (scaledHeight / 2F - BOX_HEIGHT / 2F) - 10
         val boxMaxY = boxMinY + BOX_HEIGHT
@@ -137,8 +138,8 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
         dialogueBox = DialogueBox(
             dialogueScreen = this,
             messages = dialogueDTO.currentPageDTO.lines,
-            x = (centerX - BOX_WIDTH / 2F).toInt(),
-            y = boxMinY.toInt(),
+            listX = (centerX - BOX_WIDTH / 2F).toInt(),
+            listY = boxMinY.toInt(),
             frameWidth = BOX_WIDTH,
             height = BOX_HEIGHT
         )
@@ -200,7 +201,7 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
         addDrawable(dialogueFaceWidget)
 
         if (dialogueDTO.dialogueInput.inputType == DialogueInputDTO.InputType.TEXT) {
-            focusOn(dialogueTextInputWidget)
+            //focusOn(dialogueTextInputWidget)
         }
 
         dialogueDTO.currentPageDTO.clientActions.flatMap(String::asExpressions).resolve(runtime)

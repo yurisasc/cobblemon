@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Updates whether the Pokémon has the Gigantamax factor.
@@ -27,6 +28,6 @@ class GmaxFactorUpdatePacket(pokemon: () -> Pokemon, value: Boolean) : BooleanUp
 
     companion object {
         val ID = cobblemonResource("gmax_factor_update")
-        fun decode(buffer: PacketByteBuf) = GmaxFactorUpdatePacket(decodePokemon(buffer), buffer.readBoolean())
+        fun decode(buffer: RegistryByteBuf) = GmaxFactorUpdatePacket(decodePokemon(buffer), buffer.readBoolean())
     }
 }

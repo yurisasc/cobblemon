@@ -135,6 +135,18 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val RELIC_COIN_POUCH_PLACE = this.create("relic_coin_pouch.place")
 
     @JvmField
+    val FISHING_NOTIFICATION = this.create("fishing.notification")
+    @JvmField
+    val FISHING_SPLASH_BIG = this.create("fishing.splash_big")
+    @JvmField
+    val FISHING_SPLASH_SMALL = this.create("fishing.splash_small")
+    @JvmField
+    val FISHING_BOBBER_LAND = this.create("fishing.bobber_land")
+    @JvmField
+    val FISHING_ROD_CAST = this.create("fishing.rod_cast")
+    @JvmField
+    val FISHING_ROD_REEL_IN = this.create("fishing.rod_reel_in")
+    @JvmField
     val TUMBLESTONE_BREAK = this.create("tumblestone.break")
     @JvmField
     val TUMBLESTONE_BLOCK_BREAK = this.create("tumblestone.block_break")

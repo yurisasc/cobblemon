@@ -1,4 +1,4 @@
-image: amazoncorretto:17
+image: amazoncorretto:21
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle

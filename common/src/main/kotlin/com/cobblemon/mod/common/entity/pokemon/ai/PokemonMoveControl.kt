@@ -8,6 +8,9 @@
 
 package com.cobblemon.mod.common.entity.pokemon.ai
 
+import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonBehaviourFlag
@@ -15,6 +18,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.getWaterAndLavaIn
 import com.cobblemon.mod.common.util.math.geometry.toDegrees
 import com.cobblemon.mod.common.util.math.geometry.toRadians
+import com.cobblemon.mod.common.util.resolveFloat
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -24,6 +28,7 @@ import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.FluidTags
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -31,6 +36,10 @@ import net.minecraft.util.math.Vec3d
 class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemonEntity) {
     companion object {
         const val VERY_CLOSE = 2.500000277905201E-3
+    }
+
+    val runtime = MoLangRuntime().also {
+        it.environment.query.addStandardFunctions().addFunctions(pokemonEntity.struct.functions)
     }
 
     override fun tick() {
@@ -41,13 +50,13 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
         }
 
         val behaviour = pokemonEntity.behaviour
-        val mediumSpeed = if (pokemonEntity.getCurrentPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
+        val mediumSpeed = runtime.resolveFloat(if (pokemonEntity.getCurrentPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
             behaviour.moving.fly.flySpeedHorizontal
         } else if (pokemonEntity.isSubmergedIn(FluidTags.WATER) || pokemonEntity.isSubmergedIn(FluidTags.LAVA)) {
             behaviour.moving.swim.swimSpeed
         } else {
-            behaviour.moving.walk.walkSpeed
-        }
+           behaviour.moving.walk.walkSpeed
+        })
 
         val baseSpeed = entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED).toFloat() * this.speed.toFloat()
         val adjustedSpeed = baseSpeed * mediumSpeed
@@ -141,7 +150,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             }
 
             if (!verticalHandled) {
-                val tooBigToStep = yDist > entity.stepHeight.toDouble()
+                val tooBigToStep = yDist > pokemonEntity.behaviour.moving.stepHeight
                 val xComponent = -MathHelper.sin(entity.yaw.toRadians()).toDouble()
                 val zComponent = MathHelper.cos(entity.yaw.toRadians()).toDouble()
 
@@ -192,10 +201,12 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             val pathNodeMaker = entityNavigation.nodeMaker
             if (pathNodeMaker != null &&
                 pathNodeMaker.getDefaultNodeType(
-                    entity.world,
-                    MathHelper.floor(entity.x + xMovement.toDouble()),
-                    entity.blockY,
-                    MathHelper.floor(entity.z + zMovement.toDouble())
+                    entity,
+                    BlockPos(
+                        MathHelper.floor(entity.x + xMovement.toDouble()),
+                        entity.blockY,
+                        MathHelper.floor(entity.z + zMovement.toDouble())
+                    )
                 ) != PathNodeType.WALKABLE
             ) {
                 return false

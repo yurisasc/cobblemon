@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon
 import com.cobblemon.mod.common.client.battle.animations.MoveTileOffscreenAnimation
 import com.cobblemon.mod.common.client.battle.animations.SwapAndMoveTileOnscreenAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
+import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
 import net.minecraft.client.MinecraftClient
 
@@ -42,14 +42,14 @@ object BattleSwitchPokemonHandler : ClientNetworkPacketHandler<BattleSwitchPokem
                         statChanges = statChanges
                     ).also {
                         it.actor = actor
-                        it.state = PokemonFloatingState()
+                        it.state = FloatingState()
                     }
                 }
             )
         )
 
         // Only update currently selected Pokémon if it's our Pokémon being switched in
-        if (actor == battle.getParticipatingActor(client.session.profile.id)) {
+        if (actor == battle.getParticipatingActor(client.session.uuidOrNull)) {
             CobblemonClient.storage.switchToPokemon(packet.newPokemon.uuid)
         }
     }

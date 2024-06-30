@@ -14,17 +14,17 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
 import net.minecraft.network.NetworkThreadUtils
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.util.math.Vec3d
 
 abstract class SpawnExtraDataEntityPacket<T: NetworkPacket<T>, E : Entity>(private val vanillaSpawnPacket: EntitySpawnS2CPacket) : NetworkPacket<T> {
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         this.encodeEntityData(buffer)
         this.vanillaSpawnPacket.write(buffer)
     }
 
-    abstract fun encodeEntityData(buffer: PacketByteBuf)
+    abstract fun encodeEntityData(buffer: RegistryByteBuf)
 
     abstract fun applyData(entity: E)
 
@@ -47,12 +47,12 @@ abstract class SpawnExtraDataEntityPacket<T: NetworkPacket<T>, E : Entity>(priva
                 this.applyData(entity as E)
             }
             // Cobblemon end
-            world.addEntity(this.vanillaSpawnPacket.id, entity)
+            world.addEntity(entity)
             (player.networkHandler as ClientPlayNetworkHandlerInvoker).callPlaySpawnSound(entity)
         }
     }
 
     companion object {
-        fun decodeVanillaPacket(buffer: PacketByteBuf) = EntitySpawnS2CPacket(buffer)
+        fun decodeVanillaPacket(buffer: RegistryByteBuf) = EntitySpawnS2CPacket(buffer)
     }
 }

@@ -10,8 +10,10 @@ package com.cobblemon.mod.common.net.messages.server.callback.move
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeUuid
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Packet sent to the server when the player closed the move selection GUI.
@@ -22,11 +24,11 @@ import net.minecraft.network.PacketByteBuf
 class MoveSelectCancelledPacket(val uuid: UUID) : NetworkPacket<MoveSelectCancelledPacket> {
     companion object {
         val ID = cobblemonResource("move_select_cancelled")
-        fun decode(buffer: PacketByteBuf) = MoveSelectCancelledPacket(buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = MoveSelectCancelledPacket(buffer.readUuid())
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(uuid)
     }
 }

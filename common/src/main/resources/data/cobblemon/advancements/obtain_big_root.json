@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:big_root"
+      "id": "cobblemon:big_root"
     },
     "title": {
       "translate": "advancements.cobblemon.obtain_big_root"

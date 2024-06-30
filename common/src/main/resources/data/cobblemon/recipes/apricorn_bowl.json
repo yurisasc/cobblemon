@@ -1,17 +1,17 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "#": {
-      "tag": "cobblemon:apricorns"
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+        "#": {
+            "tag": "cobblemon:apricorns"
+        }
+    },
+    "pattern": [
+        "# #",
+        " # "
+    ],
+    "result": {
+        "count": 3,
+        "id": "minecraft:bowl"
     }
-  },
-  "pattern": [
-    "# #",
-    " # "
-  ],
-  "result": {
-    "count": 3,
-    "item": "minecraft:bowl"
-  }
 }

@@ -124,6 +124,7 @@ class RevivalHerbBlock(settings: Settings) : CropBlock(settings), Mulchable {
     }
 
     companion object {
+        val CODEC = createCodec(::RevivalHerbBlock)
 
         const val MIN_AGE = 0
         const val MAX_AGE = 8

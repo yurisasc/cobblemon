@@ -119,6 +119,8 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     var sideScreenIndex = PARTY
     private val party = ArrayList(party)
 
+    override fun applyBlur(delta: Float) { }
+
     /**
      * Initializes the Summary Screen
      */
@@ -380,7 +382,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
                 if (movesWidget is MovesWidget && move != null) {
                     sideScreen = MoveSwapScreen(
                             x + 216,
-                            y + 22,
+                            y + 24,
                             movesWidget = movesWidget,
                             replacedMove = move
                     ).also { switchPane ->
@@ -411,9 +413,11 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         }
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        //this.renderBackground(context)
+    override fun renderDarkening(context: DrawContext?) {}
 
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+//        this.renderBackground(context, mouseX, mouseY, delta)
+//        super.render(context, mouseX, mouseY, delta)
         schedulingTracker.update(delta / 20F)
 
         val x = (width - BASE_WIDTH) / 2
@@ -593,8 +597,8 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
      */
     override fun shouldPause(): Boolean = false
 
-    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
-        return children().any { it.mouseScrolled(mouseX, mouseY, amount) }
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double, verticalAmount: Double): Boolean {
+        return children().any { it.mouseScrolled(mouseX, mouseY, amount, verticalAmount) }
     }
 
     /*

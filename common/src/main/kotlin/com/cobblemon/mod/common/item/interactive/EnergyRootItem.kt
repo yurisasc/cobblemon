@@ -49,7 +49,7 @@ class EnergyRootItem(block: EnergyRootBlock, settings: Settings) : AliasedBlockI
         return if (this.canUseOnPokemon(pokemon)) {
             pokemon.currentHealth += this.getHealAmount()
             pokemon.decrementFriendship(CobblemonMechanics.remedies.getFriendshipDrop(runtime))
-            player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
+            player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
             if (!player.isCreative)  {
                 stack.decrement(1)
             }
@@ -61,7 +61,7 @@ class EnergyRootItem(block: EnergyRootBlock, settings: Settings) : AliasedBlockI
 
     override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
-        player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
+        player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {

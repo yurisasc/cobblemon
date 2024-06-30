@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:helix_fossil"
+      "id": "cobblemon:helix_fossil"
     },
     "title": {
       "translate": "advancements.cobblemon.obtain_fossil"

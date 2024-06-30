@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:medicinal_brew"
+      "id": "cobblemon:medicinal_brew"
     },
     "title": {
       "translate": "advancements.cobblemon.medicinal_brew"

@@ -19,11 +19,10 @@ import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.resolveDouble
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
-import com.mojang.serialization.codecs.ListCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import kotlin.math.abs
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.math.MathHelper
 import org.joml.Vector4f
 
@@ -76,14 +75,14 @@ class ExpressionParticleTinting(
     )
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         red = MoLang.createParser(buffer.readString()).parseExpression()
         green = MoLang.createParser(buffer.readString()).parseExpression()
         blue = MoLang.createParser(buffer.readString()).parseExpression()
         alpha = MoLang.createParser(buffer.readString()).parseExpression()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(red.getString())
         buffer.writeString(green.getString())
         buffer.writeString(blue.getString())
@@ -116,7 +115,7 @@ class GradientParticleTinting(
             instance.group(
                 PrimitiveCodec.STRING.fieldOf("type").forGetter { it.type.name },
                 EXPRESSION_CODEC.fieldOf("interpolant").forGetter { it.interpolant },
-                ListCodec(GradientEntry.CODEC).fieldOf("gradient").forGetter { it.gradient.entries.map { (key, colour) -> GradientEntry(key, colour) } }
+                GradientEntry.CODEC.listOf().fieldOf("gradient").forGetter { it.gradient.entries.map { (key, colour) -> GradientEntry(key, colour) } }
             ).apply(instance) { _, interpolant, gradient ->
                 GradientParticleTinting(
                     interpolant = interpolant,
@@ -158,14 +157,14 @@ class GradientParticleTinting(
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         interpolant = MoLang.createParser(buffer.readString()).parseExpression()
         gradient = buffer
             .readList { buffer.readDouble() to Vector4f(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat()) }
             .toMap()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(interpolant.getString())
         buffer.writeCollection(gradient.entries) { pb, (key, colour) ->
             buffer.writeDouble(key)

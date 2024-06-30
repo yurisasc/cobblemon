@@ -3,7 +3,7 @@
     "pattern": [
         "STB",
         "TET",
-		"BTS"
+        "BTS"
     ],
     "key": {
         "S": {
@@ -20,6 +20,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:toxic_orb"
+        "id": "cobblemon:toxic_orb"
     }
 }

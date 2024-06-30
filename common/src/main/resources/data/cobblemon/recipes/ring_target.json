@@ -12,6 +12,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:ring_target"
+        "id": "cobblemon:ring_target"
     }
 }

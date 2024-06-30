@@ -16,10 +16,12 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyCallbackPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.readItemStack
+import com.cobblemon.mod.common.util.writeItemStack
 import java.util.UUID
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
@@ -143,8 +145,8 @@ open class PartySelectPokemonDTO(
         enabled = enabled
     )
 
-    constructor(buffer: PacketByteBuf): this(
-        pokemonProperties = PokemonProperties().loadFromNBT(buffer.readNbt() as NbtCompound),
+    constructor(buffer: RegistryByteBuf): this(
+        pokemonProperties = PokemonProperties().loadFromNBT(buffer.readNbt() as NbtCompound, buffer.registryManager),
         aspects = buffer.readList { it.readString() }.toSet(),
         heldItem = buffer.readItemStack(),
         currentHealth = buffer.readInt(),
@@ -152,8 +154,8 @@ open class PartySelectPokemonDTO(
         enabled = buffer.readBoolean()
     )
 
-    fun writeToBuffer(buffer: PacketByteBuf) {
-        buffer.writeNbt(pokemonProperties.saveToNBT())
+    fun writeToBuffer(buffer: RegistryByteBuf) {
+        buffer.writeNbt(pokemonProperties.saveToNBT(buffer.registryManager))
         buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect) }
         buffer.writeItemStack(heldItem)
         buffer.writeInt(currentHealth)
@@ -161,3 +163,4 @@ open class PartySelectPokemonDTO(
         buffer.writeBoolean(enabled)
     }
 }
+

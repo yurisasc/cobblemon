@@ -22,9 +22,8 @@
             "item": "cobblemon:green_apricorn"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:dusk_ball",
-        "count": 4
+    "result": {
+        "count": 4,
+        "id": "cobblemon:dusk_ball"
     }
 }

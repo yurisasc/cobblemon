@@ -22,9 +22,8 @@
             "item": "cobblemon:yellow_apricorn"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:ancient_citrine_ball",
-        "count": 4
+    "result": {
+        "count": 4,
+        "id": "cobblemon:ancient_citrine_ball"
     }
 }

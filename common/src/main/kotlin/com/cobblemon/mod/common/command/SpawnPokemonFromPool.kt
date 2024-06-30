@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.util.alias
 import com.cobblemon.mod.common.util.commandLang
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -83,14 +84,14 @@ object SpawnPokemonFromPool {
 
             val spawnAction = result.second.doSpawn(ctx = result.first)
 
-            spawnAction.future
-                .thenApply {
-                    if (it is EntitySpawnResult) {
-                        for (entity in it.entities) {
-                            player.sendMessage(commandLang("spawnpokemonfrompool", entity.displayName).green())
-                        }
+            spawnAction.future.thenApply {
+                if (it is EntitySpawnResult) {
+                    for (entity in it.entities) {
+                        player.sendMessage(commandLang("spawnpokemonfrompool.success", entity.effectiveName()).green())
                     }
                 }
+            }
+
             spawnAction.complete()
             spawnsTriggered++
         }

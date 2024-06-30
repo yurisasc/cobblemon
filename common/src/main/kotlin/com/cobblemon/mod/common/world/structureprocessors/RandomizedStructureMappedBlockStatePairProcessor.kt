@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.world.structureprocessors
 import com.cobblemon.mod.common.util.codec.pairCodec
 import com.cobblemon.mod.common.world.placementmodifier.BlockStateTransformer
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.block.Block
@@ -72,7 +73,7 @@ class RandomizedStructureMappedBlockStatePairProcessor(
     override fun getType() = CobblemonProcessorTypes.RANDOM_POOLED_STATES
 
     companion object {
-        val CODEC: Codec<RandomizedStructureMappedBlockStatePairProcessor> = RecordCodecBuilder.create { instance ->
+        val CODEC: MapCodec<RandomizedStructureMappedBlockStatePairProcessor> = RecordCodecBuilder.mapCodec { instance ->
             instance
                 .group(
                     pairCodec(Registries.BLOCK.codec, Registries.BLOCK.codec).listOf().fieldOf("targetBlockPairs").forGetter { it.targetBlockPairs },

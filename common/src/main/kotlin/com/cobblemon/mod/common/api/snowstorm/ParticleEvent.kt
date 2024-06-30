@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.api.snowstorm
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.molang.ExpressionLike
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
@@ -22,7 +21,7 @@ import com.cobblemon.mod.common.util.asExpressionLike
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
@@ -56,7 +55,7 @@ class ParticleEvent(
         }
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeNullable(particleEffect) { pb, effect ->
             pb.writeIdentifier(effect.effect)
             pb.writeEnumConstant(effect.type)
@@ -65,7 +64,7 @@ class ParticleEvent(
         buffer.writeNullable(soundEffect) { pb, effect -> pb.writeIdentifier(effect.sound) }
         buffer.writeNullable(expression) { pb, expr -> pb.writeString(expr.toString()) }
     }
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         particleEffect = buffer.readNullable { pb -> EventParticleEffect(
             pb.readIdentifier(),
             pb.readEnumConstant(EventParticleEffect.EventParticleType::class.java),
@@ -100,7 +99,7 @@ class ParticleEvent(
                 sourceAlive = storm.sourceAlive,
                 sourceVisible = storm.sourceVisible,
                 onDespawn = {},
-                runtime = MoLangRuntime().setup().also { it.environment.structs["query"] = storm.runtime.environment.getQueryStruct() },
+                runtime = MoLangRuntime().setup().also { it.environment.query = storm.runtime.environment.query },
                 entity = storm.entity
             )
 

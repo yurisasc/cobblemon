@@ -13,8 +13,8 @@ import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.FormData;
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData;
-import dev.lambdaurora.lambdynlights.api.DynamicLightHandler;
-import dev.lambdaurora.lambdynlights.api.DynamicLightHandlers;
+//import dev.lambdaurora.lambdynlights.api.DynamicLightHandler;
+//import dev.lambdaurora.lambdynlights.api.DynamicLightHandlers;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Pair;
@@ -32,36 +32,36 @@ public class LambDynamicLightsCompat {
     // Make sure not to call anything Fabric specific :)
     public static void hookCompat() {
         // Pokémon entities
-        DynamicLightHandlers.registerDynamicLightHandler(
-                CobblemonEntities.POKEMON,
-                DynamicLightHandler.makeHandler(
-                        pokemon -> resolvedPokemonLightLevel(pokemon, false),
-                        pokemon -> true
-                )
-        );
-        DynamicLightHandlers.registerDynamicLightHandler(
-                CobblemonEntities.POKEMON,
-                DynamicLightHandler.makeHandler(
-                        pokemon -> resolvedPokemonLightLevel(pokemon, true),
-                        pokemon -> false
-                )
-        );
+//        DynamicLightHandlers.registerDynamicLightHandler(
+//                CobblemonEntities.POKEMON,
+//                DynamicLightHandler.makeHandler(
+//                        pokemon -> resolvedPokemonLightLevel(pokemon, false),
+//                        pokemon -> true
+//                )
+//        );
+//        DynamicLightHandlers.registerDynamicLightHandler(
+//                CobblemonEntities.POKEMON,
+//                DynamicLightHandler.makeHandler(
+//                        pokemon -> resolvedPokemonLightLevel(pokemon, true),
+//                        pokemon -> false
+//                )
+//        );
 
         // Shouldered Pokémon
-        DynamicLightHandlers.registerDynamicLightHandler(
-                EntityType.PLAYER,
-                DynamicLightHandler.makeHandler(
-                        player -> resolvedShoulderLightLevel(player, false),
-                        player -> true
-                )
-        );
-        DynamicLightHandlers.registerDynamicLightHandler(
-                EntityType.PLAYER,
-                DynamicLightHandler.makeHandler(
-                        player -> resolvedShoulderLightLevel(player, true),
-                        player -> false
-                )
-        );
+//        DynamicLightHandlers.registerDynamicLightHandler(
+//                EntityType.PLAYER,
+//                DynamicLightHandler.makeHandler(
+//                        player -> resolvedShoulderLightLevel(player, false),
+//                        player -> true
+//                )
+//        );
+//        DynamicLightHandlers.registerDynamicLightHandler(
+//                EntityType.PLAYER,
+//                DynamicLightHandler.makeHandler(
+//                        player -> resolvedShoulderLightLevel(player, true),
+//                        player -> false
+//                )
+//        );
     }
 
     private static int resolvedPokemonLightLevel(PokemonEntity pokemon, boolean underwater) {
