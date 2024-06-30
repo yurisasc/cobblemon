@@ -35,8 +35,8 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         itemStack: ItemStack?
     ) {
         if (world is ServerWorld) {
-            val multiblockEntity = world.getBlockEntity(pos) as MultiblockEntity
-            multiblockEntity.multiblockBuilder?.validate(world)
+            val multiblockEntity = world.getBlockEntity(pos) as? MultiblockEntity
+            multiblockEntity?.multiblockBuilder?.validate(world)
         }
         super.onPlaced(world, pos, state, placer, itemStack)
     }
@@ -52,21 +52,22 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         if(hand == Hand.OFF_HAND) {
             return ActionResult.SUCCESS
         }
-        val entity = world.getBlockEntity(pos) as MultiblockEntity
-        if (entity.multiblockStructure != null) {
+        val entity = world.getBlockEntity(pos) as MultiblockEntity?
+        if (entity?.multiblockStructure != null) {
             return entity.multiblockStructure!!.onUse(state, world, pos, player, hand, hit)
         }
         return super.onUse(state, world, pos, player, hand, hit)
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
-        super.onBreak(world, pos, state, player)
         if (!world.isClient) {
             val entity = world.getBlockEntity(pos)
             if (entity is MultiblockEntity && entity.multiblockStructure != null) {
                 entity.multiblockStructure!!.onBreak(world, pos, state, player)
             }
+            entity?.markRemoved()
         }
+        super.onBreak(world, pos, state, player)
     }
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
@@ -78,6 +79,7 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         return BlockRenderType.MODEL
     }
 
+    //This is done so a block picked with NBT doesnt absolutely DESTROY multiblocks
     override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
         val blockEntity = world.getBlockEntity(pos) as? MultiblockEntity ?: return ItemStack.EMPTY
         return if (blockEntity.multiblockStructure == null) super.getPickStack(world, pos, state) else ItemStack.EMPTY

@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
+import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
@@ -74,6 +75,21 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
         return original
     }
 
+    fun showdownId(itemStack: ItemStack): String? {
+        if (remaps.containsKey(itemStack.item)) {
+            return remaps[itemStack.item]
+        }
+
+        for (remap in stackRemaps) {
+            val id = remap.apply(itemStack)
+            if (id != null) {
+                return id
+            }
+        }
+
+        return this.showdownIdOf(itemStack.item)
+    }
+
     override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {
         val itemID = battleMessage.effectAt(1)?.id ?: return
         val consumeHeldItems = this.shouldConsumeItem(pokemon, battle, itemID)
@@ -87,10 +103,10 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
         val battlerName = pokemon.getName()
         // Airballoon is the only item using the null effect gimmick
         if (effect == null) {
-            battle.broadcastChatMessage(battleLang("item.$itemID.start", battlerName))
+            battle.broadcastChatMessage(battleLang("item.$itemID", battlerName))
             return
         }
-        val sourceName = battleMessage.getSourceBattlePokemon(battle)?.getName() ?: Text.of("UNKNOWN")
+        val sourceName = battleMessage.battlePokemonFromOptional(battle)?.getName() ?: Text.of("UNKNOWN")
         val itemName = this.nameOf(itemID)
         val effectId = effect.id
         val text = when (effectId) {
@@ -104,29 +120,36 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
         if (this.takeItemEffect.contains(effectId) && this.giveItemEffect.contains(effectId) && !consumeHeldItems) {
             return
         }
-        if (this.giveItemEffect.contains(effectId)) {
+        // Block item swapping in PVP until we have a rule
+        if (battle.isPvP && !consumeHeldItems) {
+            return
+        }
+        // if items aren't consumed, then we don't want to give them to wild pokemon (dupe)
+        if (this.giveItemEffect.contains(effectId) && (pokemon.actor is PlayerBattleActor || consumeHeldItems)) {
             this.give(pokemon, itemID)
         }
-        if (this.takeItemEffect.contains(effectId)) {
+        // allow players to steal wild held items
+        if (this.takeItemEffect.contains(effectId) && (pokemon.actor !is PlayerBattleActor || consumeHeldItems)) {
             battleMessage.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.let { this.take(it, itemID) }
         }
     }
 
     override fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {
         val itemID = battleMessage.effectAt(1)?.id ?: return
+        val consumeHeldItems = this.shouldConsumeItem(pokemon, battle, itemID)
         // These are sent when showdown wants the client to animate something but not produce any text
         if (battleMessage.hasOptionalArgument("silent")) {
-            this.take(pokemon, itemID)
+            if (consumeHeldItems) this.take(pokemon, itemID)
             return
         }
         val battlerName = pokemon.getName()
         val itemName = this.nameOf(itemID)
         if (battleMessage.hasOptionalArgument("eat")) {
             battle.broadcastChatMessage(battleLang("item.eat", battlerName, itemName))
-            this.take(pokemon, itemID)
+            if (consumeHeldItems) this.take(pokemon, itemID)
             return
         }
-        val sourceName = battleMessage.getSourceBattlePokemon(battle)?.getName() ?: Text.of("UNKNOWN")
+        val sourceName = battleMessage.battlePokemonFromOptional(battle)?.getName() ?: Text.of("UNKNOWN")
         val effect = battleMessage.effect()
         val text = when {
             effect?.id != null -> battleLang("enditem.${effect.id}", battlerName, itemName, sourceName)
@@ -135,7 +158,7 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
                 else -> battleLang("enditem.$itemID", battlerName)
             }
         }
-        this.take(pokemon, itemID)
+        if (consumeHeldItems) this.take(pokemon, itemID)
         battle.broadcastChatMessage(text)
     }
 

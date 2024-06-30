@@ -18,7 +18,6 @@ import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.molang.ObjectValue
-import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.MatrixWrapper
@@ -46,6 +45,8 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.getDoubleOrNull
 import com.cobblemon.mod.common.util.getStringOrNull
+import com.cobblemon.mod.common.util.plus
+import com.cobblemon.mod.common.util.resolveBoolean
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
@@ -154,6 +155,7 @@ abstract class PoseableEntityModel<T : Entity>(
             val maxPitch = params.getDoubleOrNull(3) ?: 70F
             val minPitch = params.getDoubleOrNull(4) ?: -45F
             val maxYaw = params.getDoubleOrNull(5) ?: 45F
+            val minYaw = params.getDoubleOrNull(6) ?: -45F
             ObjectValue(
                 SingleBoneLookAnimation<T>(
                     frame = this,
@@ -162,7 +164,8 @@ abstract class PoseableEntityModel<T : Entity>(
                     yawMultiplier = yawMultiplier.toFloat(),
                     maxPitch = maxPitch.toFloat(),
                     minPitch = minPitch.toFloat(),
-                    maxYaw = maxYaw.toFloat()
+                    maxYaw = maxYaw.toFloat(),
+                    minYaw = minYaw.toFloat()
                 )
             )
         }
@@ -258,6 +261,41 @@ abstract class PoseableEntityModel<T : Entity>(
                 )
             )
         }
+            .addFunction("bedrock_primary_quirk") { params ->
+                val animationGroup = params.getString(0)
+                val animationNames = params.get<MoValue>(1)?.let { if (it is ArrayStruct) it.map.values.map { it.asString() } else listOf(it.asString()) } ?: listOf()
+                val minSeconds = params.getDoubleOrNull(2) ?: 8F
+                val maxSeconds = params.getDoubleOrNull(3) ?: 30F
+                val loopTimes = params.getDoubleOrNull(4)?.toInt() ?: 1
+                val excludedLabels = mutableSetOf<String>()
+                var curve: WaveFunction = { t ->
+                    if (t < 0.1) {
+                        t * 10
+                    } else if (t < 0.9) {
+                        1F
+                    } else {
+                        1F
+                    }
+                }
+                for (index in 5 until params.params.size) {
+                    val param = params.get<MoValue>(index)
+                    if (param is ObjectValue<*>) {
+                        curve = param.obj as WaveFunction
+                        continue
+                    }
+
+                    val label = params.getString(index) ?: continue
+                    excludedLabels.add(label)
+                }
+                ObjectValue(
+                        quirk(
+                                secondsBetweenOccurrences = minSeconds.toFloat() to maxSeconds.toFloat(),
+                                condition = { true },
+                                loopTimes = 1..loopTimes,
+                                animation = { PrimaryAnimation(bedrockStateful(animationGroup, animationNames.random()), excludedLabels = excludedLabels, curve = curve) }
+                        )
+                )
+            }
 
     @Transient
     val runtime = MoLangRuntime().setup().setupClient().also { it.environment.getQueryStruct().addFunctions(functions.functions) }
@@ -383,7 +421,7 @@ abstract class PoseableEntityModel<T : Entity>(
             transformedParts,
             quirks
         ).also {
-            poses[poseType.name] = it
+            setPose(poseType.name, it)
         }
     }
 
@@ -409,7 +447,7 @@ abstract class PoseableEntityModel<T : Entity>(
             transformedParts,
             quirks
         ).also {
-            poses[poseName] = it
+            setPose(poseName, it)
         }
     }
 
@@ -435,8 +473,16 @@ abstract class PoseableEntityModel<T : Entity>(
             transformedParts,
             quirks
         ).also {
-            poses[poseName] = it
+            setPose(poseName, it)
         }
+    }
+
+    fun <F : ModelFrame> setPose(poseName: String, pose: Pose<T, F>) {
+        // if pose already exists for poseName, log the name of the class and pose name
+        if (poses.containsKey(poseName)) {
+            LOGGER.error("Pose with name $poseName already exists for class ${this::class.simpleName}")
+        }
+        poses[poseName] = pose
     }
 
     fun ModelPart.registerChildWithAllChildren(name: String): ModelPart {
@@ -697,6 +743,7 @@ abstract class PoseableEntityModel<T : Entity>(
             val portion = (state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration
             state.primaryOverridePortion = 1 - primaryAnimation.curve(portion)
             if (!primaryAnimation.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1 - state.primaryOverridePortion)) {
+                primaryAnimation.afterAction.accept(Unit)
                 state.primaryAnimation = null
                 state.primaryOverridePortion = 1F
             }
@@ -715,6 +762,7 @@ abstract class PoseableEntityModel<T : Entity>(
     //This is used to set additional entity type specific context
     open fun setupEntityTypeContext(entity: T?) {}
 
+    //Called by LivingEntityRenderer's render method before calling model.render (which is this.render in this case)
     override fun setAngles(
         entity: T,
         limbSwing: Float,
@@ -745,19 +793,16 @@ abstract class PoseableEntityModel<T : Entity>(
                     curve = { 1F }
                 )
                 state.addPrimaryAnimation(primaryAnimation)
-                afterOnClient(seconds = primaryAnimation.duration) {
+                primaryAnimation.afterAction += {
                     state.setPose(desirablePose.poseName)
-                    if (state.primaryAnimation == primaryAnimation) {
-                        state.primaryAnimation = null
-                    }
                 }
             } else if (transition != null) {
                 val animation = transition(previousPose, desirablePose)
-                val primaryAnimation = PrimaryAnimation(animation, curve = { 1F })
-                state.addPrimaryAnimation(primaryAnimation)
-                afterOnClient(seconds = primaryAnimation.duration) {
+                val primaryAnimation = if (animation is PrimaryAnimation) animation else PrimaryAnimation(animation, curve = { 1F })
+                primaryAnimation.afterAction += {
                     state.setPose(desirablePose.poseName)
                 }
+                state.addPrimaryAnimation(primaryAnimation)
             } else {
                 state.setPose(poses.values.first { desirablePoseType in it.poseTypes && (it.condition == null || (entity != null && it.condition.invoke(entity))) }.poseName)
             }
@@ -778,7 +823,6 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
             scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
-
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
@@ -793,27 +837,14 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.scale(1F, -1F, 1F)
         }
 
-        matrixStack.push()
-        matrixStack.scale(1F, -1F, 1F)
         val states = state.locatorStates
-        states.getOrPut("root") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
-        matrixStack.pop()
 
         if (isForLivingEntityRenderer) {
             // Standard living entity offset, only God knows why Mojang did this.
             matrixStack.translate(0.0, -1.5, 0.0)
         }
 
-        // If we have the entity, put in an approximation of the target locator. If the model has one defined,
-        // this will be overridden.
-        matrixStack.push()
-        matrixStack.translate(0.0, -entity.boundingBox.yLength / 2.0 / scale + 1.5F, -entity.width * 0.6 / scale)
-        matrixStack.scale(1F, -1F, 1F)
-        states.getOrPut("target") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
-        states.getOrPut("special_attack") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
-        matrixStack.pop()
-
-        locatorAccess.update(matrixStack, states)
+        locatorAccess.update(matrixStack, entity, scale, states, isRoot = true)
     }
 
     fun ModelPart.translation(
@@ -866,6 +897,18 @@ abstract class PoseableEntityModel<T : Entity>(
         secondsBetweenOccurrences = secondsBetweenOccurrences,
         loopTimes = loopTimes,
         condition = condition,
+        animations = { listOf(animation(it)) }
+    )
+
+    fun quirkMoLangCondition(
+        secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
+        loopTimes: IntRange = 1..1,
+        conditionExpression: ExpressionLike = "true".asExpressionLike(),
+        animation: (state: PoseableEntityState<T>) -> StatefulAnimation<T, *>
+    ) = SimpleQuirk<T>(
+        secondsBetweenOccurrences = secondsBetweenOccurrences,
+        loopTimes = loopTimes,
+        condition = { it.runtime.resolveBoolean(conditionExpression) },
         animations = { listOf(animation(it)) }
     )
 

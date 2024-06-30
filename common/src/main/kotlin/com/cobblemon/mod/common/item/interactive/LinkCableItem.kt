@@ -19,7 +19,7 @@ class LinkCableItem : CobblemonItem(Settings()), PokemonEntityInteraction {
     override val accepted = setOf(PokemonEntityInteraction.Ownership.OWNER)
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon
-        pokemon.evolutions.filterIsInstance<TradeEvolution>().forEach { evolution ->
+        pokemon.lockedEvolutions.filterIsInstance<TradeEvolution>().forEach { evolution ->
             // If an evolution is possible non-optional or has been successfully queued we will consume the item and stop
             // validate requirements to respect required held items and such.
             if (evolution.requirements.all { it.check(pokemon) } && evolution.evolve(pokemon)) {

@@ -27,14 +27,15 @@ class RapidashGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFr
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.7, 1.11, 0.0)
+    override var portraitScale = 1.86F
+    override var portraitTranslation = Vec3d(-0.5, 1.3, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.67F
+    override var profileTranslation = Vec3d(0.0, 0.72, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battle_idle: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rapidash_galar", "cry") }
 
@@ -42,23 +43,35 @@ class RapidashGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFr
         val blink = quirk { bedrockStateful("rapidash_galar", "blink") }
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("rapidash_galar", "ground_idle")
+                bedrock("rapidash_galar", "ground_idle"),
+                bedrock("rapidash_galar", "hair")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
                 singleBoneLook(),
-                bedrock("rapidash_galar", "ground_idle")
-                //bedrock("rapidash_galar", "ground_walk")
+                bedrock("rapidash_galar", "ground_walk"),
+                bedrock("rapidash_galar", "hair")
+            )
+        )
+
+        battle_idle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("rapidash_galar", "battle_idle"),
+                bedrock("rapidash_galar", "hair")
             )
         )
     }

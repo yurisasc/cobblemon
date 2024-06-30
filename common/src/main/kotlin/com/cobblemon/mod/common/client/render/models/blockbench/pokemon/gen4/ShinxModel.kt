@@ -26,11 +26,11 @@ class ShinxModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val hindLeftLeg = getPart("back_leg_left")
     override val hindRightLeg = getPart("back_leg_right")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.6, -0.25, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.6, -0.25, 0.0)
 
-    override val profileScale = 0.66F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.66F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

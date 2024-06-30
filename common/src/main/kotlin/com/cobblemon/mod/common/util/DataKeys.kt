@@ -68,6 +68,14 @@ object DataKeys {
     const val POKEMON_ORIGINAL_TRAINER = "PokemonOriginalTrainer"
     const val POKEMON_ORIGINAL_TRAINER_TYPE = "PokemonOriginalTrainerType"
 
+    // Entity effects
+    const val ENTITY_EFFECTS = "EntityEffects"
+    const val ENTITY_EFFECT_MOCK = "EntityEffectMock"
+    const val ENTITY_EFFECT_ID = "EntityEffectID"
+
+    const val POKEMON_ENTITY_MOCK = "PokemonEntityMock"
+    const val POKEMON_ENTITY_SCALE = "PokemonEntityScale"
+
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
     const val POKEMON_PENDING_EVOLUTIONS = "Pending"
@@ -126,6 +134,7 @@ object DataKeys {
     // Features
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
+    const val CAN_BE_COLORED = "color"
 
     // Variants
     const val IS_MOOSHTANK = "mooshtank"
@@ -160,6 +169,7 @@ object DataKeys {
     const val PROTECTED_TIME_LEFT = "ProtectedTimeLeft"
     const val FORMED = "Formed"
     const val CREATED_POKEMON = "CreatedPokemon"
+    const val HAS_CREATED_POKEMON = "HasCreatedPokemon"
     const val FOSSIL_OWNER = "FossilOwner"
     const val FOSSIL_STATE = "FossilState"
 

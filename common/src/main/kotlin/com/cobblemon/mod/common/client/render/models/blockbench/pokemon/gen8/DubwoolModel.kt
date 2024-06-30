@@ -28,13 +28,13 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val foreRightLeg = getPart("leg_front_right")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
-    val wool = getPart("wool")
-    val neckWool = getPart("neck_wool")
+    val wool = getPart("wool_shearable")
+    val neckWool = getPart("neck_wool_shearable")
 
-    override val portraitScale = 3.1F
-    override val portraitTranslation = Vec3d(-1.2, -0.7, 0.0)
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var portraitScale = 3.1F
+    override var portraitTranslation = Vec3d(-1.2, -0.7, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

@@ -20,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class ShedinjaModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("shedinja")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.2, 0.2, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.2, 0.2, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -47,7 +47,6 @@ class ShedinjaModel (root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
-            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("shedinja", "ground_idle")

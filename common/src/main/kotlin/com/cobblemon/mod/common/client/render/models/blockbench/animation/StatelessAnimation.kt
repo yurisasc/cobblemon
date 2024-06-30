@@ -15,7 +15,7 @@ import net.minecraft.entity.Entity
 
 /**
  * An animation that can run without an entity associated. These are
- * locked to a specific frame, and CAN be given an entity along with
+ * locked to a specific [ModelFrame], and CAN be given an entity along with
  * limb swing and age information, but might not.
  *
  * @author Hiroku

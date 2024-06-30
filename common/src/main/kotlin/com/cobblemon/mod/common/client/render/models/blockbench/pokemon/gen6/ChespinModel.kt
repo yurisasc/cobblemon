@@ -26,11 +26,11 @@ class ChespinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.7F
-    override val portraitTranslation = Vec3d(-0.15, -1.2, 0.0)
+    override var portraitScale = 2.7F
+    override var portraitTranslation = Vec3d(-0.15, -1.2, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -40,11 +40,6 @@ class ChespinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("chespin", "blink")}
-
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("chespin", "sleep"))
-        )
 
         standing = registerPose(
             poseName = "standing",
@@ -67,9 +62,9 @@ class ChespinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         )
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                transformTicks = 10,
-                idleAnimations = arrayOf(bedrock("chespin", "sleep"))
+            poseType = PoseType.SLEEP,
+            transformTicks = 10,
+            idleAnimations = arrayOf(bedrock("chespin", "sleep"))
         )
     }
 }

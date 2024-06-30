@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.platform.events.*
+import com.cobblemon.mod.common.sherds.CobblemonSherds
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
@@ -96,6 +97,8 @@ object CobblemonFabric : CobblemonImplementation {
         this.networkManager.registerServerBound()
 
         Cobblemon.initialize()
+        //This has to be registered elsewhere on forge so we cant do it in common
+        CobblemonSherds.registerSherds()
 
         CobblemonBlockPredicates.touch()
         CobblemonPlacementModifierTypes.touch()
@@ -343,7 +346,7 @@ object CobblemonFabric : CobblemonImplementation {
 
     private fun attemptModCompat() {
         if (this.isModInstalled("adorn")) {
-            AdornCompatibility.register()
+            registerBuiltinResourcePack(cobblemonResource("adorncompatibility"), Text.literal("Adorn Compatibility"), ResourcePackActivationBehaviour.ALWAYS_ENABLED)
         }
     }
 

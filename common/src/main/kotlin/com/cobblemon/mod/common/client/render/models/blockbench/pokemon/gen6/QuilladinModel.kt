@@ -29,11 +29,11 @@ class QuilladinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2F
-    override val portraitTranslation = Vec3d(-0.3, 0.1, 0.0)
+    override var portraitScale = 2F
+    override var portraitTranslation = Vec3d(-0.3, 0.1, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -43,11 +43,6 @@ class QuilladinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("quilladin", "blink")}
-
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("quilladin", "sleep"))
-        )
 
         standing = registerPose(
             poseName = "standing",
@@ -70,9 +65,9 @@ class QuilladinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
         )
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                transformTicks = 10,
-                idleAnimations = arrayOf(bedrock("quilladin", "sleep"))
+            poseType = PoseType.SLEEP,
+            transformTicks = 10,
+            idleAnimations = arrayOf(bedrock("quilladin", "sleep"))
         )
     }
 }

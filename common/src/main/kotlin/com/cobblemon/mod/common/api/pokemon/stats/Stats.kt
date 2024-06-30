@@ -49,6 +49,25 @@ enum class Stats(override val identifier: Identifier, override val displayName: 
          */
         val BATTLE_ONLY: Set<Stat> = EnumSet.of(EVASION, ACCURACY)
 
+        /** Gets the [Stat] from the respective Showdown id. */
+        fun getStat(statKey: String) = when(statKey) {
+            "atk", "Attack" -> ATTACK // Hyper Cutter states the full stat name "Attack"
+            "def", "Defense" -> DEFENCE // Big Pecks states the full stat name "Defense"
+            "spa" -> SPECIAL_ATTACK
+            "spd" -> SPECIAL_DEFENCE
+            "spe" -> SPEED
+            "evasion" -> EVASION
+            else -> ACCURACY
+        }
+
+        /** Gets the severity lang key from the respective boost/unboost stage. */
+        fun getSeverity(stages: Int) = when(stages) {
+            0 -> "cap.single"
+            1 -> "slight"
+            2 -> "sharp"
+            else -> "severe"
+        }
+
     }
 
 }

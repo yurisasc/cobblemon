@@ -16,8 +16,10 @@ import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.SidedInventory
+import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
@@ -37,6 +39,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
+import net.minecraft.world.WorldEvents
 import net.minecraft.world.WorldView
 
 
@@ -71,10 +74,12 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
         super.onBreak(world, pos, state, player)
-        val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
-        if (otherPart.block is RestorationTankBlock) {
-            world.setBlockState(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultState, 35)
-            world.syncWorldEvent(player, 2001, getPositionOfOtherPart(state, pos), getRawIdFromState(otherPart))
+        if (!world.isClient) {
+            val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
+            if (otherPart.block is RestorationTankBlock) {
+                world.setBlockState(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultState, Block.NOTIFY_ALL)
+                world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, getPositionOfOtherPart(state, pos), getRawIdFromState(otherPart))
+            }
         }
     }
 
@@ -86,9 +91,9 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         itemStack: ItemStack?
     ) {
         //Place the full block before we call to super to validate the multiblock
-        world.setBlockState(pos.up(), state.with(PART, TankPart.TOP) as BlockState, 3)
+        world.setBlockState(pos.up(), state.with(PART, TankPart.TOP) as BlockState, Block.NOTIFY_ALL)
         world.updateNeighbors(pos, Blocks.AIR)
-        state.updateNeighbors(world, pos, 3)
+        state.updateNeighbors(world, pos, Block.NOTIFY_ALL)
         super.onPlaced(world, pos, state, placer, itemStack)
     }
 
@@ -99,7 +104,7 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
             val tankBottomPos = pos.down()
             val tankBottomState = world.getBlockState(tankBottomPos)
             if(tankBottomState.block.equals(CobblemonBlocks.RESTORATION_TANK.asBlock()) && tankBottomState.get(PART) == TankPart.BOTTOM) {
-                return super.onUse(tankBottomState, world, tankBottomPos, player, hand, hit)
+                return onUse(tankBottomState, world, tankBottomPos, player, hand, hit)
             }
         }
         return super.onUse(state, world, pos, player, hand, hit)
@@ -148,8 +153,8 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         if(world == null || pos == null) {
             return 0
         }
-        val tankEntity = world.getBlockEntity(pos) as MultiblockEntity
-        val multiBlockEntity = tankEntity.multiblockStructure
+        val tankEntity = world.getBlockEntity(pos) as? MultiblockEntity
+        val multiBlockEntity = tankEntity?.multiblockStructure
         if(multiBlockEntity != null) {
             return multiBlockEntity.getComparatorOutput(state, world, pos)
         }
@@ -179,7 +184,7 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
             return
         }
         val tankEntity = world.getBlockEntity(pos) as? MultiblockEntity
-        tankEntity?.multiblockStructure!!.onTriggerEvent(state, world, pos, random)
+        tankEntity?.multiblockStructure?.onTriggerEvent(state, world, pos, random)
     }
 
     override fun getOutlineShape(
@@ -205,9 +210,8 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
     ): SidedInventory {
         val tankEntity =
             (if (state.get(PART) == TankPart.TOP) world.getBlockEntity(pos.down())
-            else world.getBlockEntity(pos)) as RestorationTankBlockEntity
-
-        return tankEntity.inv
+            else world.getBlockEntity(pos))
+        return if(tankEntity != null && tankEntity is RestorationTankBlockEntity) tankEntity.inv else DummyInventory()
     }
 
     enum class TankPart(private val label: String) : StringIdentifiable {
@@ -216,9 +220,27 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         override fun asString() = label
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
+        return false
+    }
+
     companion object {
         val PART = EnumProperty.of("part", TankPart::class.java)
         val TRIGGERED = Properties.TRIGGERED
         val ON = BooleanProperty.of("on")
+        class DummyInventory : SimpleInventory(0), SidedInventory {
+            override fun getAvailableSlots(side: Direction): IntArray {
+                return IntArray(0)
+            }
+
+            override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean {
+                return false
+            }
+
+            override fun canExtract(slot: Int, stack: ItemStack, dir: Direction): Boolean {
+                return false
+            }
+        }
     }
 }

@@ -10,10 +10,10 @@ package com.cobblemon.mod.common.battles.interpreter.instructions
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.interpreter.Effect
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.moves.Moves
@@ -29,8 +29,16 @@ import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
+import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.concurrent.CompletableFuture
 
+/**
+ * Format: |move|POKEMON|MOVE|TARGET
+ *
+ * POKEMON has used MOVE at TARGET.
+ * @author Deltric
+ * @since January 22nd, 2022
+ */
 class MoveInstruction(
     val instructionSet: InstructionSet,
     val message: BattleMessage
@@ -46,17 +54,17 @@ class MoveInstruction(
     var targetPokemon: BattlePokemon? = null
 
     override fun invoke(battle: PokemonBattle) {
-        userPokemon = message.getBattlePokemon(0, battle)!!
-        targetPokemon = message.getBattlePokemon(2, battle)
+        userPokemon = message.battlePokemon(0, battle)!!
+        targetPokemon = message.battlePokemon(2, battle)
         val targetPokemon = targetPokemon // So smart non-null casts can happen
 
         val optionalEffect = message.effect()
-        val pokemonName = userPokemon.getName()
-        ShowdownInterpreter.broadcastOptionalAbility(battle, optionalEffect, pokemonName)
+        ShowdownInterpreter.broadcastOptionalAbility(battle, optionalEffect, userPokemon)
 
         battle.dispatch { UntilDispatch { instructionSet.getMostRecentInstruction<MoveInstruction>(this)?.future?.isDone != false } }
 
         battle.dispatch {
+            val pokemonName = userPokemon.getName()
             ShowdownInterpreter.lastCauser[battle.battleId] = message
 
             userPokemon.effectedPokemon.let { pokemon ->
@@ -103,7 +111,7 @@ class MoveInstruction(
                 }
             }
 
-            val hurtTargets = subsequentInstructions.filterIsInstance<DamageInstruction>().mapNotNull { it.battlePokemon }
+            val hurtTargets = subsequentInstructions.filterIsInstance<DamageInstruction>().mapNotNull { it.expectedTarget }
             runtime.environment.getQueryStruct().addFunction("hurt") { params ->
                 if (params.params.size == 0) {
                     return@addFunction DoubleValue(hurtTargets.isNotEmpty())
@@ -114,6 +122,7 @@ class MoveInstruction(
             }
 
             runtime.environment.getQueryStruct().addFunction("move") { move.struct }
+            runtime.environment.getQueryStruct().addFunction("instruction_id") { StringValue(cobblemonResource("move").toString()) }
 
             this.future = actionEffect.run(context)
             holds = context.holds // Reference so future things can check on this action effect's holds
