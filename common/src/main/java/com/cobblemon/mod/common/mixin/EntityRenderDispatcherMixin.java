@@ -25,13 +25,13 @@ import net.minecraft.world.entity.player.Player;
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin {
 
-    @Shadow private Map<PlayerSkin.Model, EntityRenderer<? extends Player>> modelRenderers;
+    @Shadow private Map<PlayerSkin.Model, EntityRenderer<? extends Player>> playerRenderers;
 
     @Inject(
-        method = "reload",
+        method = "onResourceManagerReload",
         at = @At(value = "TAIL")
     )
     public void resourceManagerReloadHook(ResourceManager resourceManager, CallbackInfo ci) {
-        CobblemonClient.INSTANCE.onAddLayer(this.modelRenderers);
+        CobblemonClient.INSTANCE.onAddLayer(this.playerRenderers);
     }
 }

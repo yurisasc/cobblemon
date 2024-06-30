@@ -21,13 +21,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MouseHandler.class)
 public class PartyScrollMixin {
     @Shadow
-    private double eventDeltaVerticalWheel;
+    private double accumulatedScrollY;
 
     @Inject(
-            method = "onMouseScroll",
+            method = "onScroll",
             at = @At(
                     value = "FIELD",
-                    target="Lnet/minecraft/client/Mouse;eventDeltaVerticalWheel:D",
+                    target="Lnet/minecraft/client/MouseHandler;accumulatedScrollY:D",
                     opcode = Opcodes.PUTFIELD,
                     ordinal = 2,
                     shift = At.Shift.BEFORE
@@ -36,16 +36,16 @@ public class PartyScrollMixin {
     )
     public void onMouseScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
         if (PartySendBinding.INSTANCE.getWasDown()) {
-            int i = (int)eventDeltaVerticalWheel;
+            int i = (int)accumulatedScrollY;
             if (i > 0) {
                 while (i-- > 0) CobblemonClient.INSTANCE.getStorage().shiftSelected(false);
                 ci.cancel();
-                eventDeltaVerticalWheel = 0;
+                accumulatedScrollY = 0;
                 PartySendBinding.INSTANCE.actioned();
             } else if (i < 0) {
                 while (i++ < 0) CobblemonClient.INSTANCE.getStorage().shiftSelected(true);
                 ci.cancel();
-                eventDeltaVerticalWheel = 0;
+                accumulatedScrollY = 0;
                 PartySendBinding.INSTANCE.actioned();
             }
         }

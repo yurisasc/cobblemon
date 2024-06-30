@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.api.tags.CobblemonItemTags;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.CompoundTagExtensionsKt;
 import com.cobblemon.mod.common.util.DataKeys;
+import net.minecraft.world.entity.item.ItemEntity;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -45,7 +46,7 @@ public abstract class PlayerMixin extends LivingEntity {
 
     @Shadow public abstract CompoundTag getShoulderEntityRight();
 
-    @Shadow public abstract void dropShoulderEntity(CompoundTag entityNbt);
+    @Shadow public abstract void respawnEntityOnShoulder(CompoundTag entityNbt);
 
     @Shadow public abstract void setShoulderEntityRight(CompoundTag entityNbt);
 
@@ -53,16 +54,16 @@ public abstract class PlayerMixin extends LivingEntity {
 
     @Shadow public abstract boolean isSpectator();
 
-    @Shadow public abstract boolean giveItemStack(ItemStack stack);
+    @Shadow public abstract boolean addItem(ItemStack stack);
 
-    @Shadow public abstract void sendMessage(Component message, boolean overlay);
+    @Shadow public abstract void displayClientMessage(Component message, boolean overlay);
 
 
     protected PlayerMixin(EntityType<? extends LivingEntity> p_20966_, Level p_20967_) {
         super(p_20966_, p_20967_);
     }
 
-    @Inject(method = "dropShoulderEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityType;getEntityFromNbt(Lnet/minecraft/nbt/NbtCompound;Lnet/minecraft/world/World;)Ljava/util/Optional;"), cancellable = true)
+    @Inject(method = "respawnEntityOnShoulder", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityType;create(Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/world/Level;)Ljava/util/Optional;"), cancellable = true)
     private void cobblemon$removePokemon(CompoundTag nbt, CallbackInfo ci) {
         if (CompoundTagExtensionsKt.isPokemonEntity(nbt)) {
             final UUID uuid = this.getPokemonID(nbt);
@@ -85,7 +86,7 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
     @Inject(
-        method = "dropShoulderEntities",
+        method = "removeEntitiesOnShoulder",
         at = @At(
             value = "JUMP",
             opcode = Opcodes.IFGE,
@@ -99,11 +100,11 @@ public abstract class PlayerMixin extends LivingEntity {
         if (this.isSpectator() || this.isDeadOrDying())
             return;
         if (!this.isShoulderPokemon(this.getShoulderEntityLeft())) {
-            this.dropShoulderEntity(this.getShoulderEntityLeft());
+            this.respawnEntityOnShoulder(this.getShoulderEntityLeft());
             this.setShoulderEntityLeft(new CompoundTag());
         }
         if (!this.isShoulderPokemon(this.getShoulderEntityRight())) {
-            this.dropShoulderEntity(this.getShoulderEntityRight());
+            this.respawnEntityOnShoulder(this.getShoulderEntityRight());
             this.setShoulderEntityRight(new CompoundTag());
         }
         ci.cancel();
@@ -111,7 +112,7 @@ public abstract class PlayerMixin extends LivingEntity {
 
     private UUID getPokemonID(CompoundTag nbt) {
         return nbt.getCompound(DataKeys.POKEMON)
-                .getUuid(DataKeys.POKEMON_UUID);
+                .getUUID(DataKeys.POKEMON_UUID);
     }
 
     private void recallPokemon(UUID uuid) {
@@ -131,10 +132,10 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
     @Inject(
-        method = "eatFood",
+        method = "eat",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/entity/player/PlayerEntity;getHungerManager()Lnet/minecraft/entity/player/HungerManager;",
+            target = "Lnet/minecraft/world/entity/player/Player;getFoodData()Lnet/minecraft/world/food/FoodData;",
             shift = At.Shift.AFTER
         )
     )
@@ -148,9 +149,9 @@ public abstract class PlayerMixin extends LivingEntity {
                     new LeftoversCreatedEvent(player, leftovers),
                     leftoversCreatedEvent -> null,
                     leftoversCreatedEvent -> {
-                        if(!player.giveItemStack(leftoversCreatedEvent.getLeftovers())) {
-                            var itemPos = player.getRotationVector().multiply(0.5).add(getPos());
-                            getWorld().spawnEntity(new ItemEntity(getWorld(), itemPos.getX(), itemPos.getY(), itemPos.getZ(), leftoversCreatedEvent.getLeftovers()));
+                        if(!player.addItem(leftoversCreatedEvent.getLeftovers())) {
+                            var itemPos = player.getLookAngle().scale(0.5f).add(position());
+                            level().addFreshEntity(new ItemEntity(level(), itemPos.x(), itemPos.y(), itemPos.z(), leftoversCreatedEvent.getLeftovers()));
                         }
                         return null;
                     }

@@ -31,32 +31,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
 
-    @Shadow @Final private ItemModelShaper models;
+    @Shadow @Final private ItemModelShaper itemModelShaper;
 
-    @Shadow public abstract void renderItem(ItemStack stack, ItemDisplayContext renderMode, boolean leftHanded, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, BakedModel model);
+    @Shadow public abstract void render(ItemStack stack, ItemDisplayContext renderMode, boolean leftHanded, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, BakedModel model);
 
     @Inject(method = "getModel", at = @At("HEAD"), cancellable = true)
     private void cobblemon$bakePokeballModel(ItemStack stack, Level world, LivingEntity entity, int seed, CallbackInfoReturnable<BakedModel> cir) {
         if (stack.getItem() instanceof PokeBallItem pokeBallItem) {
-            BakedModel model = this.models.getModelManager().getModel(new ModelResourceLocation(pokeBallItem.getPokeBall().getModel3d(), "inventory"));
+            BakedModel model = this.itemModelShaper.getModelManager().getModel(new ModelResourceLocation(pokeBallItem.getPokeBall().getModel3d(), "inventory"));
             ClientLevel clientWorld = world instanceof ClientLevel ? (ClientLevel) world : null;
             BakedModel overriddenModel = model.getOverrides().resolve(model, stack, clientWorld, entity, seed);
-            cir.setReturnValue(overriddenModel == null ? this.models.getModelManager().getMissingModel() : overriddenModel);
+            cir.setReturnValue(overriddenModel == null ? this.itemModelShaper.getModelManager().getMissingModel() : overriddenModel);
         }
     }
 
     @Inject(
-            method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V",
+            method = "render(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;ZLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IILnet/minecraft/client/resources/model/BakedModel;)V",
             at = @At("HEAD"),
             cancellable = true
     )
     private void cobblemon$determinePokeballModel(ItemStack stack, ItemDisplayContext renderMode, boolean leftHanded, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo ci) {
         boolean shouldBe2d = renderMode == ItemDisplayContext.GUI || renderMode == ItemDisplayContext.FIXED;
         if (shouldBe2d && stack.getItem() instanceof PokeBallItem pokeBallItem) {
-            BakedModel replacementModel = this.models.getModelManager().getModel(new ModelResourceLocation(pokeBallItem.getPokeBall().getModel2d(), "inventory"));
+            BakedModel replacementModel = this.itemModelShaper.getModelManager().getModel(new ModelResourceLocation(pokeBallItem.getPokeBall().getModel2d(), "inventory"));
             if (!model.equals(replacementModel)) {
                 ci.cancel();
-                renderItem(stack, renderMode, leftHanded, matrices, vertexConsumers, light, overlay, replacementModel);
+                render(stack, renderMode, leftHanded, matrices, vertexConsumers, light, overlay, replacementModel);
             }
         }
     }

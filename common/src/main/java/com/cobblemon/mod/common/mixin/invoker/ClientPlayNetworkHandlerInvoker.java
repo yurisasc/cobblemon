@@ -15,6 +15,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(ClientPacketListener.class)
 public interface ClientPlayNetworkHandlerInvoker {
-    @Invoker
+    @Invoker("postAddEntitySoundInstance")
     void callPlaySpawnSound(Entity entity);
 }

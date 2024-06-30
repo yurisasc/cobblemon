@@ -19,7 +19,7 @@ object CobblemonFabricBreweryRegistry {
 
     fun hasRecipe(input: ItemStack, ingredient: ItemStack): Boolean = BrewingRecipes.recipes.any { it.first.matches(input) && it.second.matches(ingredient) }
 
-    fun recipeResultOf(input: ItemStack, ingredient: ItemStack): ItemStack = BrewingRecipes.recipes.firstOrNull { it.first.matches(input) && it.second.matches(ingredient) }?.third?.defaultStack ?: ItemStack.EMPTY
+    fun recipeResultOf(input: ItemStack, ingredient: ItemStack): ItemStack = BrewingRecipes.recipes.firstOrNull { it.first.matches(input) && it.second.matches(ingredient) }?.third?.defaultInstance ?: ItemStack.EMPTY
 
 
 }

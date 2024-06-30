@@ -24,14 +24,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MusicTrackerMixin {
 
     @Shadow @Final
-    private Minecraft client;
+    private Minecraft minecraft;
 
     @Shadow @Nullable
-    private SoundInstance current;
+    private SoundInstance currentMusic;
 
     /** Freezes the tracker while a BattleMusicInstance is in progress. Current SoundInstance being tracked will be paused by BattleMusicHandler. */
     @Inject(method = "tick()V", at = @At("HEAD"), cancellable = true)
     public void tick(CallbackInfo cb) {
-        if (this.client.getSoundManager().isActive(BattleMusicController.INSTANCE.getMusic())) cb.cancel();
+        if (this.minecraft.getSoundManager().isActive(BattleMusicController.INSTANCE.getMusic())) cb.cancel();
     }
 }

@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PiglinAi.class)
 public class PiglinBarterMixin {
 
-    @Inject(method = "acceptsForBarter", at = @At(value = "RETURN"), cancellable = true)
+    @Inject(method = "isBarterCurrency", at = @At(value = "RETURN"), cancellable = true)
     private static void cobblemon$acceptsForBarter(ItemStack stack, CallbackInfoReturnable<Boolean> ci) {
         if(!ci.getReturnValue()) {
             //TODO: Make a tag?

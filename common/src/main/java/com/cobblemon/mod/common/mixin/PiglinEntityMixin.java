@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Piglin.class)
 public abstract class PiglinEntityMixin  {
-    @Inject(method = "equipToOffHand", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "holdInOffHand", at = @At(value = "HEAD"), cancellable = true)
     public void cobblemon$isValidBarteringItem(ItemStack stack, CallbackInfo ci) {
         Piglin entity = (Piglin)(Object) this;
         if (stack.is(CobblemonItems.RELIC_COIN_POUCH)) {

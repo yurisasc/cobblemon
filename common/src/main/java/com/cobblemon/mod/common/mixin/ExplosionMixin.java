@@ -21,10 +21,10 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class ExplosionMixin {
 
     @Redirect(
-            method = "affectWorld",
+            method = "finalizeExplosion",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;",
+                    target = "Lnet/minecraft/world/level/Level;getBlockState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;",
                     ordinal = 0
             )
     )

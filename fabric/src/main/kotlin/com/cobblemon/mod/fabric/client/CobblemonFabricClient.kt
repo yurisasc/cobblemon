@@ -32,7 +32,7 @@ import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
-import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerLocationRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -40,8 +40,6 @@ import net.minecraft.client.color.block.BlockColor
 import net.minecraft.client.color.item.ItemColor
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.particle.ParticleProvider
-import net.minecraft.client.particle.ParticleProvider
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.model.geom.ModelLayerLocation
@@ -51,7 +49,6 @@ import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.server.packs.PackType
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
-import net.minecraft.util.profiler.Profiler
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Item
@@ -62,8 +59,8 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Supplier
 import net.minecraft.client.particle.SpriteSet
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers
 import net.minecraft.util.profiling.ProfilerFiller
-import org.spongepowered.asm.util.perf.Profiler
 
 class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation {
     override fun onInitializeClient() {
@@ -115,7 +112,7 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
     }
 
     override fun registerLayer(modelLayer: ModelLayerLocation, supplier: Supplier<LayerDefinition>) {
-        ModelLayerLocationRegistry.registerModelLayer(modelLayer) { supplier.get() }
+        EntityModelLayerRegistry.registerModelLayer(modelLayer) { supplier.get() }
     }
 
     override fun <T : ParticleOptions> registerParticleFactory(type: ParticleType<T>, factory: (SpriteSet) -> ParticleProvider<T>) {
@@ -135,7 +132,7 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
     }
 
     override fun <T : BlockEntity> registerBlockEntityRenderer(type: BlockEntityType<out T>, factory: BlockEntityRendererProvider<T>) {
-        BlockEntityRendererFactories.register(type, factory)
+        BlockEntityRenderers.register(type, factory)
     }
 
     override fun <T : Entity> registerEntityRenderer(type: EntityType<out T>, factory: EntityRendererProvider<T>) {

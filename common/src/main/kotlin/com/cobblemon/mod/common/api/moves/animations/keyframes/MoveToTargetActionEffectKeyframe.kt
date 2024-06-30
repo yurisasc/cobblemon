@@ -69,7 +69,7 @@ class MoveToTargetActionEffectKeyframe : ActionEffectKeyframe {
             }
         }
 
-        nav.startMovingTo(target.x, target.y, target.z, speed.toDouble(), navContext)
+        nav.moveTo(target.x, target.y, target.z, speed.toDouble(), navContext)
         return future
     }
 }

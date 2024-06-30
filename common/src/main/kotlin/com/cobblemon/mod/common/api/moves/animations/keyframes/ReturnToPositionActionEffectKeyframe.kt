@@ -64,7 +64,7 @@ class ReturnToPositionActionEffectKeyframe : ActionEffectKeyframe {
             }
         }
 
-        nav.startMovingTo(pos.x, pos.y, pos.z, speed.toDouble(), navContext)
+        nav.moveTo(pos.x, pos.y, pos.z, speed.toDouble(), navContext)
         return future
     }
 }

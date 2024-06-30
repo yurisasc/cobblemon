@@ -66,9 +66,9 @@ public class LambDynamicLightsCompat {
     }
 
     private static int resolvedShoulderLightLevel(Player player, boolean underwater) {
-        final Tuple<PokemonOnShoulderRenderer.ShoulderData, PokemonOnShoulderRenderer.ShoulderData> shoulderDataPair = PokemonOnShoulderRenderer.shoulderDataOf(player);
-        final Optional<Integer> leftLightLevel = extractShoulderLightLevel(shoulderDataPair.getLeft(), underwater);
-        final Optional<Integer> rightLightLevel = extractShoulderLightLevel(shoulderDataPair.getRight(), underwater);
+        final var shoulderDataPair = PokemonOnShoulderRenderer.shoulderDataOf(player);
+        final Optional<Integer> leftLightLevel = extractShoulderLightLevel(shoulderDataPair.getFirst(), underwater);
+        final Optional<Integer> rightLightLevel = extractShoulderLightLevel(shoulderDataPair.getSecond(), underwater);
         return Math.max(leftLightLevel.orElse(0), rightLightLevel.orElse(0));
     }
 

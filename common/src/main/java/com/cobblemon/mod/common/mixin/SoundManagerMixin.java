@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.duck.SoundSystemDuck;
 import net.minecraft.client.resources.sounds.BiomeAmbientSoundsHandler;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.resources.sounds.UnderwaterAmbientSoundInstances;
-import net.minecraft.client.sound.*;
 import net.minecraft.client.sounds.SoundEngine;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.resources.ResourceLocation;
@@ -31,10 +30,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class SoundManagerMixin implements SoundManagerDuck {
 
     @Shadow
-    public abstract boolean isPlaying(SoundInstance sound);
+    public abstract boolean isActive(SoundInstance sound);
 
     @Shadow @Final
-    private SoundEngine soundSystem;
+    private SoundEngine soundEngine;
 
     // Never-ending ambient loops are a special exception (they are only initiated once) and should always be paused if filtered.
     private boolean isAmbientLoop(SoundInstance sound) {
@@ -43,52 +42,52 @@ public abstract class SoundManagerMixin implements SoundManagerDuck {
 
     private boolean filterCondition(SoundInstance sound) {
         return !isAmbientLoop(sound) &&
-            this.isPlaying(BattleMusicController.INSTANCE.getMusic()) &&
+            this.isActive(BattleMusicController.INSTANCE.getMusic()) &&
                 BattleMusicController.INSTANCE.getFilteredCategories().contains(sound.getSource());
     }
 
     private boolean ambientLoopCondition(SoundInstance sound) {
         return isAmbientLoop(sound) &&
-            this.isPlaying(BattleMusicController.INSTANCE.getMusic()) &&
+            this.isActive(BattleMusicController.INSTANCE.getMusic()) &&
                 BattleMusicController.INSTANCE.getFilteredCategories().contains(sound.getSource());
     }
 
     /** Pauses the queried SoundInstance(s). If id is null, will pause all sounds belonging to the SoundCategory. */
     @Override
     public void pauseSounds(@Nullable ResourceLocation id, @Nullable SoundSource category) {
-        ((SoundSystemDuck)soundSystem).pauseSounds(id, category);
+        ((SoundSystemDuck)soundEngine).pauseSounds(id, category);
     }
 
     /** Resumes the queried SoundInstance(s). If id is null, will resume all sounds belonging to the SoundCategory. */
     @Override
     public void resumeSounds(@Nullable ResourceLocation id, @Nullable SoundSource category) {
-        ((SoundSystemDuck)soundSystem).resumeSounds(id, category);
+        ((SoundSystemDuck)soundEngine).resumeSounds(id, category);
     }
 
     /** Stops the queried SoundInstance(s). If id is null, will stop all sounds belonging to the SoundCategory. */
     @Override
     public void stopSounds(@Nullable ResourceLocation id, @Nullable SoundSource category) {
-        ((SoundSystemDuck)soundSystem).stopSounds(id, category);
+        ((SoundSystemDuck)soundEngine).stopSounds(id, category);
     }
 
     /** Blocks filtered sounds from being played while a BattleMusicInstance is in progress. */
-    @Inject(method = "play(Lnet/minecraft/client/sound/SoundInstance;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "play(Lnet/minecraft/client/resources/sounds/SoundInstance;)V", at = @At("HEAD"), cancellable = true)
     public void playStart(SoundInstance sound, CallbackInfo cb) {
         if (filterCondition(sound)) cb.cancel();
     }
 
-    @Inject(method = "play(Lnet/minecraft/client/sound/SoundInstance;I)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "playDelayed(Lnet/minecraft/client/resources/sounds/SoundInstance;I)V", at = @At("HEAD"), cancellable = true)
     public void playStart(SoundInstance sound, int delay, CallbackInfo cb) {
         if (filterCondition(sound)) cb.cancel();
     }
 
     /** Pauses ambient loops while a BattleMusicInstance is in progress. */
-    @Inject(method = "play(Lnet/minecraft/client/sound/SoundInstance;)V", at = @At("TAIL"))
+    @Inject(method = "play(Lnet/minecraft/client/resources/sounds/SoundInstance;)V", at = @At("TAIL"))
     public void playEnd(SoundInstance sound, CallbackInfo cb) {
         if (ambientLoopCondition(sound)) this.pauseSounds(sound.getLocation(), SoundSource.AMBIENT);
     }
 
-    @Inject(method = "play(Lnet/minecraft/client/sound/SoundInstance;I)V", at = @At("TAIL"))
+    @Inject(method = "playDelayed(Lnet/minecraft/client/resources/sounds/SoundInstance;I)V", at = @At("TAIL"))
     public void playEnd(SoundInstance sound, int delay, CallbackInfo cb) {
         if (ambientLoopCondition(sound)) this.pauseSounds(sound.getLocation(), SoundSource.AMBIENT);
     }

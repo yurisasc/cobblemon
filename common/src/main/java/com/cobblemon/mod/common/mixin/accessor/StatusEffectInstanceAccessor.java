@@ -18,7 +18,7 @@ public interface StatusEffectInstanceAccessor {
     @Accessor
     void setAmplifier(int amplifier);
 
-    @Accessor
+    @Accessor("visible")
     void setShowParticles(boolean showParticles);
 
     @Accessor

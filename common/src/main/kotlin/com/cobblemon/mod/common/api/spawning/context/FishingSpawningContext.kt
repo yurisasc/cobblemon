@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.core.BlockPos
 import net.minecraft.world.phys.AABB
-import net.minecraft.world.phys.AABB
 
 /**
  * A spawning context that was generated for a fishing action.
@@ -38,7 +37,7 @@ class FishingSpawningContext(
     influences = influences
 ) {
     val nearbyBlocks = world.getBlockStates(AABB.ofSize(pos.toVec3d(), 10.0, 10.0, 10.0))
-    val nearbyBlockTypes: List<Block> by lazy { nearbyBlocks.mapNotNull { it.block }.distinct() }
+    val nearbyBlockTypes: List<Block> by lazy { nearbyBlocks.map { it.block }.distinct().toList() }
     val rodStack = cause.rodStack
     val rodItem = cause.rodItem
     val rodBait = cause.bait

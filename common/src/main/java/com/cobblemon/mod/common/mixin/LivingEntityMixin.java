@@ -20,8 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
-    @Inject(method = "onStatusEffectRemoved", at = @At(value = "TAIL"))
-    private void cobblemon$onStatusEffectRemoved(MobEffectInstance effect, CallbackInfo ci) {
+    @Inject(method = "onEffectRemoved", at = @At(value = "TAIL"))
+    private void cobblemon$onEffectRemoved(MobEffectInstance effect, CallbackInfo ci) {
         final LivingEntity entity = (LivingEntity) (Object) this;
         if (entity instanceof ServerPlayer) {
             ShoulderEffectRegistry.INSTANCE.onEffectEnd((ServerPlayer) entity);

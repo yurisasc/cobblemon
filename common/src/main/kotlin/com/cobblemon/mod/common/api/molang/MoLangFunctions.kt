@@ -114,8 +114,8 @@ object MoLangFunctions {
             map.put("uuid") { _ -> StringValue(player.gameProfile.id.toString()) }
             map.put("data") { _ -> return@put if (player is ServerPlayer) Cobblemon.molangData.load(player.uuid) else DoubleValue(0) }
             map.put("save_data") { _ -> if (player is ServerPlayer) Cobblemon.molangData.save(player.uuid) else DoubleValue(0) }
-            map.put("main_held_item") { _ -> player.level().itemRegistry.getEntry(player.mainHandItem.item).asMoLangValue(Registries.ITEM) }
-            map.put("off_held_item") { _ -> player.level().itemRegistry.getEntry(player.offhandItem.item).asMoLangValue(Registries.ITEM) }
+            map.put("main_held_item") { _ -> player.level().itemRegistry.wrapAsHolder(player.mainHandItem.item).asMoLangValue(Registries.ITEM) }
+            map.put("off_held_item") { _ -> player.level().itemRegistry.wrapAsHolder(player.offhandItem.item).asMoLangValue(Registries.ITEM) }
             map.put("face") { _ -> ObjectValue(PlayerDialogueFaceProvider(player.uuid)) }
             map.put("swing_hand") { _ -> player.swing(player.usedItemHand) }
             map.put("food_level") { _ -> DoubleValue(player.foodData.foodLevel) }
@@ -176,7 +176,7 @@ object MoLangFunctions {
             map.put("velocity_z") { _ -> DoubleValue(entity.deltaMovement.z) }
             map.put("horizontal_velocity") { _ -> DoubleValue(entity.deltaMovement.horizontalDistance()) }
             map.put("is_on_ground") { _ -> DoubleValue(entity.onGround()) }
-            map.put("world") { _ -> entity.level().worldRegistry.getEntry(entity.level()).asWorldMoLangValue() }
+            map.put("world") { _ -> entity.level().worldRegistry.wrapAsHolder(entity.level()).asWorldMoLangValue() }
             map.put("biome") { _ -> entity.level().getBiome(entity.blockPosition()).asBiomeMoLangValue() }
             map
         }

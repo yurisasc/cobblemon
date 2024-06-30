@@ -15,9 +15,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Boat.class)
 public interface BoatEntityAccessor {
 
-    @Accessor
+    @Accessor("lastYd")
     void setFallVelocity(double fallVelocity);
 
-    @Accessor
+    @Accessor("status")
     Boat.Status getLocation();
 }

@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
+import com.cobblemon.mod.common.util.math.geometry.transformDirection
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
@@ -139,7 +140,7 @@ class DynamicParticleMotion(
     }
 
     override fun getInitialVelocity(runtime: MoLangRuntime, storm: ParticleStorm, particlePos: Vec3, emitterPos: Vec3): Vec3 {
-        return direction.getDirectionVector(runtime, storm, emitterPos, particlePos).normalize().multiply(runtime.resolveDouble(speed))
+        return direction.getDirectionVector(runtime, storm, emitterPos, particlePos).normalize().scale(runtime.resolveDouble(speed))
     }
 
     override fun getVelocity(runtime: MoLangRuntime, particle: SnowstormParticle, velocity: Vec3): Vec3 {

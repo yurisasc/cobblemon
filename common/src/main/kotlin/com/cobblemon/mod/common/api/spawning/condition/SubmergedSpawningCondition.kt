@@ -37,9 +37,9 @@ abstract class SubmergedTypeSpawningCondition<T : SubmergedSpawningContext> : Ar
             false
         } else if (maxDepth != null && ctx.depth > maxDepth!!) {
             false
-        } else if (fluidIsSource != null && ctx.fluid.isStill != fluidIsSource!!) {
+        } else if (fluidIsSource != null && ctx.fluid.isSource != fluidIsSource!!) {
             false
-        } else !(ctx.fluid.isEmpty || (fluid != null && !fluid!!.fits(ctx.fluid.fluid, ctx.fluidRegistry)))
+        } else !(ctx.fluid.isEmpty || (fluid != null && !fluid!!.fits(ctx.fluid.type, ctx.fluidRegistry)))
     }
 
     override fun copyFrom(other: SpawningCondition<*>, merger: Merger) {

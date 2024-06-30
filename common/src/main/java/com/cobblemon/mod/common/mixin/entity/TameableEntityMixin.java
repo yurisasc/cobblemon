@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(TamableAnimal.class)
 public class TameableEntityMixin {
 
-    @Redirect(method = "onDeath", at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;isClient:Z"))
+    @Redirect(method = "die", at = @At(value = "FIELD", target = "Lnet/minecraft/world/level/Level;isClientSide:Z"))
     public boolean cobblemon$checkIfPokemonBeforeSendingMessage(Level world) {
         return world.isClientSide || (this.getClass().isAssignableFrom(PokemonEntity.class));
     }

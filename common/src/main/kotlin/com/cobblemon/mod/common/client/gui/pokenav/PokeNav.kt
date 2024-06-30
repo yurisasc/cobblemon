@@ -93,7 +93,7 @@ class PokeNav : Screen(Component.translatable("cobblemon.ui.pokenav.title")) {
                 button?.onPress()
                 0 to 0
             }
-            PokeNavigatorBinding.boundKey().code, InputConstants.KEY_LSHIFT, InputConstants.KEY_RSHIFT -> {
+            PokeNavigatorBinding.boundKey().value, InputConstants.KEY_LSHIFT, InputConstants.KEY_RSHIFT -> {
                 this.aboutToClose = true
                 0 to 0
             }
@@ -104,7 +104,7 @@ class PokeNav : Screen(Component.translatable("cobblemon.ui.pokenav.title")) {
     }
 
     override fun keyReleased(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
-        if ((pKeyCode == PokeNavigatorBinding.boundKey().code || pKeyCode == InputConstants.KEY_LSHIFT || pKeyCode == InputConstants.KEY_RSHIFT) && aboutToClose) {
+        if ((pKeyCode == PokeNavigatorBinding.boundKey().value || pKeyCode == InputConstants.KEY_LSHIFT || pKeyCode == InputConstants.KEY_RSHIFT) && aboutToClose) {
             Minecraft.getInstance().setScreen(null) // So we only close if the Key was released
         }
         return super.keyReleased(pKeyCode, pScanCode, pModifiers)

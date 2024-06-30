@@ -44,7 +44,7 @@ class SummaryButton(
         const val TEXT_HEIGHT = 9
     }
 
-    var isActive = false
+    var buttonActive = false
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double) = false
 
@@ -60,7 +60,7 @@ class SummaryButton(
         // Render Button
         blitk(
             matrixStack = matrices,
-            texture = if (isActive && activeResource != null) activeResource else resource,
+            texture = if (buttonActive && activeResource != null) activeResource else resource,
             x = buttonX,
             y = buttonY,
             width = buttonWidth,

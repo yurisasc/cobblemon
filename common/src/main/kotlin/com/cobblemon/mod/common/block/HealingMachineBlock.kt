@@ -16,7 +16,6 @@ import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.util.*
 import com.mojang.serialization.MapCodec
-import net.minecraft.block.*
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.particles.ParticleTypes

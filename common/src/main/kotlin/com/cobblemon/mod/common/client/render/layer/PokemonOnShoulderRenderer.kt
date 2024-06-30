@@ -30,7 +30,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent
 import net.minecraft.client.renderer.entity.layers.RenderLayer
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.player.Player
 
@@ -112,13 +112,13 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: RenderLayerParent
             // If they're sneaking, the pokemon needs to rotate a little bit and push forward
             // Shoulders move a bit when sneaking which is why the translation is necessary.
             // Shoulder exact rotation according to testing (miasmus) is 0.4 radians, the -0.15 is eyeballed though.
-            if (livingEntity.isInSneakingPose) {
-                matrixStack.multiply(Axis.XP.rotation(0.4F))
+            if (livingEntity.isCrouching) {
+                matrixStack.mulPose(Axis.XP.rotation(0.4F))
                 matrixStack.translate(0F, 0F, -0.15F)
             }
             matrixStack.translate(
                 if (pLeftShoulder) -widthOffset else widthOffset,
-                (if (livingEntity.isInSneakingPose) heightOffset + 0.2 else heightOffset),
+                (if (livingEntity.isCrouching) heightOffset + 0.2 else heightOffset),
                 0.0
             )
 
@@ -139,7 +139,7 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: RenderLayerParent
             context.put(RenderContext.POSABLE_STATE, state)
             state.currentModel = model
             val vertexConsumer = buffer.getBuffer(RenderType.entityCutout(PokemonModelRepository.getTexture(shoulderData.species.resourceIdentifier, shoulderData.aspects, state.animationSeconds)))
-            val i = LivingEntityRenderer.getOverlay(livingEntity, 0.0f)
+            val i = LivingEntityRenderer.getOverlayCoords(livingEntity, 0.0f)
 
             model.applyAnimations(
                 entity = null,
@@ -148,7 +148,7 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: RenderLayerParent
                 headPitch = headPitch,
                 limbSwing = limbSwing,
                 limbSwingAmount = limbSwingAmount,
-                ageInTicks = livingEntity.age.toFloat()
+                ageInTicks = livingEntity.tickCount.toFloat()
             )
             model.render(context, matrixStack, vertexConsumer, packedLight, i, -0x1)
             model.withLayerContext(buffer, state, PokemonModelRepository.getLayers(shoulderData.species.resourceIdentifier, shoulderData.aspects)) {
@@ -177,7 +177,7 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: RenderLayerParent
 
         val formName = shoulderNbt.getString(DataKeys.SHOULDER_FORM)
         val form = species.forms.firstOrNull { it.name == formName } ?: species.standardForm
-        val aspects = shoulderNbt.getList(DataKeys.SHOULDER_ASPECTS, NbtElement.STRING_TYPE.toInt()).map { it.asString() }.toSet()
+        val aspects = shoulderNbt.getList(DataKeys.SHOULDER_ASPECTS, Tag.TAG_STRING.toInt()).map { it.asString }.toSet()
         val scaleModifier = shoulderNbt.getFloat(DataKeys.SHOULDER_SCALE_MODIFIER)
         return ShoulderData(pokemonUUID, species, form, aspects, scaleModifier)
     }

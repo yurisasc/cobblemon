@@ -23,15 +23,15 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.mojang.datafixers.util.Either
+import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.Block
-import net.minecraft.fluid.Fluid
-import net.minecraft.resources.ResourceKeys
 import net.minecraft.tags.TagKey
 import net.minecraft.server.packs.PackType
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.biome.Biome
-import net.minecraft.world.gen.structure.Structure
+import net.minecraft.world.level.levelgen.structure.Structure
+import net.minecraft.world.level.material.Fluid
 
 /**
  * Data registry for [SpawnDetailPreset]s. These help the maintainability of spawn files by allowing common presets
@@ -60,7 +60,7 @@ object SpawnDetailPresets : JsonDataRegistry<SpawnDetailPreset> {
                     Structure::class.java
                 ).type
             ).type,
-            EitherIdentifierOrTagAdapter(ResourceKeys.STRUCTURE)
+            EitherIdentifierOrTagAdapter(Registries.STRUCTURE)
         )
         .registerTypeAdapter(SpawnDetailPreset::class.java, SpawnDetailPresetAdapter)
         .registerTypeAdapter(ResourceLocation::class.java, IdentifierAdapter)

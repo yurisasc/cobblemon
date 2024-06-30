@@ -147,7 +147,7 @@ class PartyWidget(
     override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
         if (swapButton.isHovered) {
             swapButton.onPress()
-            swapButton.isActive = swapEnabled
+            swapButton.buttonActive = swapEnabled
         }
 
         if (swapEnabled) {
@@ -189,7 +189,7 @@ class PartyWidget(
 
     fun enableSwap(boolean: Boolean = true) {
         swapEnabled = boolean
-        swapButton.isActive = boolean
+        swapButton.buttonActive = boolean
     }
 
     private fun getIndexFromPos(mouseX: Double, mouseY: Double): Int {

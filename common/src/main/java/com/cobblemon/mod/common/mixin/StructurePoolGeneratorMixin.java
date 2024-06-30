@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.mixin;
 import com.cobblemon.mod.common.world.CobblemonStructureIDs;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.structure.pool.*;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
@@ -98,7 +97,7 @@ public abstract class StructurePoolGeneratorMixin {
         generatedStructureGroupCounts = new HashMap<>();
     }
 
-    @ModifyVariable(method = "generatePiece", at = @At("STORE"), ordinal = 1)
+    @ModifyVariable(method = "tryPlacingChildren", at = @At("STORE"), ordinal = 1)
     private Iterator<StructurePoolElement> reduceStructurePoolElementIterator(Iterator<StructurePoolElement> iterator) {
         List<StructurePoolElement> reducedList = new ArrayList<>();
 
@@ -118,7 +117,7 @@ public abstract class StructurePoolGeneratorMixin {
         return reducedList.iterator();
     }
 
-    @ModifyVariable(method = "generatePiece", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+    @ModifyVariable(method = "tryPlacingChildren", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private PoolElementStructurePiece injected(PoolElementStructurePiece poolStructurePiece) {
         ResourceLocation structureLocationKey = getCobblemonOnlyLocation(poolStructurePiece.getElement());
         if (structureLocationKey != null) {

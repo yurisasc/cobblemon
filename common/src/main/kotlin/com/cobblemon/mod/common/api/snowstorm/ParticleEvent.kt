@@ -129,7 +129,7 @@ class ParticleEvent(
             } ?: Vec3(storm.getX(), storm.getY(), storm.getZ())
             val world = storm.world
             val soundEvent = SoundEvent.createVariableRangeEvent(effect.sound)
-            world.playSound(position.x, position.y, position.z, soundEvent, SoundSource.NEUTRAL, 1F, 1F, true)
+            world.playLocalSound(position.x, position.y, position.z, soundEvent, SoundSource.NEUTRAL, 1F, 1F, true)
         }
         expression?.resolve(storm.runtime)
     }

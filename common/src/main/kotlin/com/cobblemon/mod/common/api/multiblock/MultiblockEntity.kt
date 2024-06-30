@@ -51,7 +51,7 @@ abstract class MultiblockEntity(
         super.saveAdditional(nbt, registryLookup)
         //Used for checking build conditions in multiblocks (Dont count a block if it has the FORMED flag)
         nbt.putBoolean(DataKeys.FORMED, masterBlockPos != null)
-        if (multiblockStructure != null && multiblockStructure!!.controllerBlockPos == pos) {
+        if (multiblockStructure != null && multiblockStructure!!.controllerBlockPos == blockPos) {
             nbt.put(DataKeys.MULTIBLOCK_STORAGE, multiblockStructure!!.writeToNbt(registryLookup))
         }
         else if (masterBlockPos != null) {

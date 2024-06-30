@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(DecoratedPotPatterns.class)
 public abstract class DecoratedPotPatternsMixin {
-    @Inject(method = "fromSherd", at=@At("HEAD"), cancellable = true)
+    @Inject(method = "getPatternFromItem", at=@At("HEAD"), cancellable = true)
     private static void cobblemon$getCobblemonSherdTexture(Item sherd,
         CallbackInfoReturnable<ResourceKey<DecoratedPotPattern>> cir) {
         if (CobblemonSherds.INSTANCE.getSherdToPattern().containsKey(sherd)) {

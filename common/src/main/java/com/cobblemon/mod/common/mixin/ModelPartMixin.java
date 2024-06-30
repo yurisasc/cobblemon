@@ -24,7 +24,7 @@ import net.minecraft.client.model.geom.ModelPart;
 public abstract class ModelPartMixin implements Bone {
     @Shadow public abstract void render(PoseStack matrices, VertexConsumer vertices, int light, int overlay, int color);
 
-    @Shadow public abstract void rotate(PoseStack matrixStack);
+    @Shadow public abstract void translateAndRotate(PoseStack matrixStack);
 
     @Shadow @Final
     public Map<String, ModelPart> children;
@@ -42,6 +42,6 @@ public abstract class ModelPartMixin implements Bone {
 
     @Override
     public void transform(PoseStack matrixStack) {
-        this.rotate(matrixStack);
+        this.translateAndRotate(matrixStack);
     }
 }

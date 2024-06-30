@@ -117,7 +117,7 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             val textOpacity = PROMPT_TEXT_OPACITY_CURVE(passedSeconds)
             drawScaledText(
                 context = context,
-                text = battleLang("ui.actions_label", PartySendBinding.boundKey().localizedText),
+                text = battleLang("ui.actions_label", PartySendBinding.boundKey().displayName),
                 x = Minecraft.getInstance().window.guiScaledWidth / 2,
                 y = Minecraft.getInstance().window.guiScaledHeight / 5,
                 opacity = textOpacity,

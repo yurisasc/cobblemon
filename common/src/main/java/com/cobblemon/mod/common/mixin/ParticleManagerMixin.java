@@ -27,11 +27,11 @@ final class ParticleManagerMixin {
     @Mutable
     @Final
     @Shadow
-    private static List<ParticleRenderType> PARTICLE_TEXTURE_SHEETS;
+    private static List<ParticleRenderType> RENDER_ORDER;
 
     @Inject(at = @At("RETURN"), method = "<clinit>")
     private static void lodestone$addTypes(CallbackInfo ci) {
-        PARTICLE_TEXTURE_SHEETS = ImmutableList.<ParticleRenderType>builder().addAll(PARTICLE_TEXTURE_SHEETS)
+        RENDER_ORDER = ImmutableList.<ParticleRenderType>builder().addAll(RENDER_ORDER)
                 .add(ParticleMaterials.INSTANCE.getADD(), ParticleMaterials.INSTANCE.getALPHA(), ParticleMaterials.INSTANCE.getBLEND(), ParticleMaterials.INSTANCE.getOPAQUE()).build();
     }
 }

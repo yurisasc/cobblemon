@@ -10,10 +10,11 @@ package com.cobblemon.mod.common.mixin;
 
 import com.cobblemon.mod.common.client.CobblemonBakingOverrides;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.block.model.BlockModel;
+import net.minecraft.client.resources.model.BlockStateModelLoader;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.client.resources.model.UnbakedModel;
@@ -25,18 +26,16 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.InjectionPoint;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.points.BeforeStringInvoke;
 
 @Mixin(ModelBakery.class)
 public abstract class ModelLoaderMixin {
 
-    @Shadow protected abstract void addModelToBake(ModelResourceLocation modelId, UnbakedModel unbakedModel);
+    @Shadow protected abstract void registerModel(ModelResourceLocation modelId, UnbakedModel unbakedModel);
 
     @Final
     @Shadow
-    private Map<ResourceLocation, UnbakedModel> unbakedModels;
+    private Map<ResourceLocation, UnbakedModel> unbakedCache;
 
     @Final
     @Shadow
@@ -48,14 +47,14 @@ public abstract class ModelLoaderMixin {
     )
     public void init(BlockColors blockColors,
         ProfilerFiller profiler,
-        Map jsonUnbakedModels,
-        Map blockStates,
+        Map<ResourceLocation, BlockModel> jsonUnbakedModels,
+        Map<ResourceLocation, List<BlockStateModelLoader.LoadedJson>> blockStates,
         CallbackInfo ci) {
         CobblemonBakingOverrides.INSTANCE.getModels().forEach(bakingOverride -> {
             try {
-                JsonUnbakedModel unbakedModel = this.loadModelFromJson(bakingOverride.getModelLocation());
-                this.unbakedModels.put(bakingOverride.getModelIdentifier().id(), unbakedModel);
-                this.addModelToBake(bakingOverride.getModelIdentifier(), unbakedModel);
+                BlockModel unbakedModel = this.loadBlockModel(bakingOverride.getModelLocation());
+                this.unbakedCache.put(bakingOverride.getModelIdentifier().id(), unbakedModel);
+                this.registerModel(bakingOverride.getModelIdentifier(), unbakedModel);
             } catch (IOException e) {
                 LOGGER.error("Error loading a Cobblemon BakedModel:", e);
                 throw new RuntimeException(e);
@@ -64,7 +63,7 @@ public abstract class ModelLoaderMixin {
     }
 
     @Shadow
-    private BlockModel loadModelFromJson(ResourceLocation id) throws IOException {
+    private BlockModel loadBlockModel(ResourceLocation id) throws IOException {
         return null;
     }
 }

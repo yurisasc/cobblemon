@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.neoforge.mixin;
 
-import com.cobblemon.mod.common.api.net.NetworkPacket;
 import com.cobblemon.mod.common.api.net.UnsplittablePacket;
 import io.netty.channel.ChannelHandlerContext;
 import java.util.List;

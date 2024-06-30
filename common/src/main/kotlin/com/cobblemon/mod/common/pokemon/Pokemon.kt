@@ -132,7 +132,6 @@ import com.google.gson.JsonPrimitive
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.JsonOps
 import net.minecraft.ResourceLocationException
-import net.minecraft.block.*
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
