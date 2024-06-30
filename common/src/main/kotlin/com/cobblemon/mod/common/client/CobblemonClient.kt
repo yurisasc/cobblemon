@@ -18,7 +18,6 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
 import com.cobblemon.mod.common.api.text.gray
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
@@ -30,7 +29,6 @@ import com.cobblemon.mod.common.client.render.block.FossilAnalyzerRenderer
 import com.cobblemon.mod.common.client.render.block.GildedChestBlockRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.block.RestorationTankRenderer
-import com.cobblemon.mod.common.client.render.block.*
 import com.cobblemon.mod.common.client.render.block.TMBlockRenderer
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
 import com.cobblemon.mod.common.client.render.entity.PokeBobberEntityRenderer
@@ -59,9 +57,6 @@ import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.gui.CobblemonScreenHandlers
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.TechnicalMachineItem
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockEntityModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.MiscModelRepository
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.asTranslated
 import net.minecraft.client.MinecraftClient

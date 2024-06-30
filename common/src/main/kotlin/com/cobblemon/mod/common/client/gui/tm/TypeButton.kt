@@ -23,7 +23,7 @@ class TypeButton(
         val TYPE_BUTTON = cobblemonResource("textures/gui/tm/type_button.png")
     }
 
-    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         blitk(
             matrixStack = context.matrices,
             texture = TYPE_BUTTON,

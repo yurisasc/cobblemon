@@ -21,19 +21,17 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.block.Block
-import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
+import net.minecraft.item.tooltip.TooltipType
 import net.minecraft.nbt.NbtString
 import net.minecraft.sound.SoundCategory
-import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import net.minecraft.world.World
 
 class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
 
@@ -67,12 +65,12 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
 
     override fun appendTooltip(
         stack: ItemStack,
-        world: World?,
+        context: TooltipContext,
         tooltip: MutableList<Text>,
-        context: TooltipContext?
+        tooltipType: TooltipType
     ) {
         val nbt = getMoveNbt(stack)
-        val text: MutableText = if (nbt != null) {
+        val text = if (nbt != null) {
             lang("move." + nbt.moveName)
         } else {
             lang("tms.unknown_move")
@@ -104,7 +102,7 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
             else { pokemon.benchedMoves.add(BenchedMove(move, 0)) }
 
         user.sendMessage(lang("tms.teach_move", pokemon.getDisplayName(), tm.translatedMoveName()).green())
-        user.playSound(CobblemonSounds.TM_USE, SoundCategory.PLAYERS, 1.0f, 1.0f)
+        user.playSoundToPlayer(CobblemonSounds.TM_USE, SoundCategory.PLAYERS, 1.0f, 1.0f)
         entity.cry()
         return ActionResult.CONSUME
     }
@@ -121,7 +119,7 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         if (TMM is TMBlockEntity
                 && (TMM.tmmInventory.filterTM == null
                         || TMM.tmmInventory.filterTM!!.nbt?.get("StoredMove") != context.stack.nbt?.get("StoredMove"))) {
-            context.player?.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
+            context.player?.playSoundToPlayer(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
             context.player?.swingHand(context.hand)
             if (TMM.tmmInventory.filterTM != null) {
                 if (!context.player?.isCreative!!) {

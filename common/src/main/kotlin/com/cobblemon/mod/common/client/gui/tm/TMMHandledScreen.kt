@@ -1,7 +1,7 @@
 package com.cobblemon.mod.common.client.gui.tm
 
 import com.cobblemon.mod.common.CobblemonItems
-import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToServer
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.ColourLibrary
 import com.cobblemon.mod.common.api.gui.MultiLineLabelK
@@ -18,14 +18,12 @@ import com.cobblemon.mod.common.block.entity.TMBlockEntity
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.client.gui.MoveCategoryIcon
-import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
 import com.cobblemon.mod.common.gui.TMMScreenHandler
 import com.cobblemon.mod.common.net.messages.client.ui.CraftBlankTMPacket
 import com.cobblemon.mod.common.net.messages.client.ui.CraftTMPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.gui.DrawContext
@@ -102,9 +100,9 @@ class TMMHandledScreen(
         return super.mouseClicked(mouseX, mouseY, button)
     }
 
-    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, horizontalAmount: Double, verticalAmount: Double): Boolean {
         if (scroll?.isHovered(mouseX, mouseY) == true) {
-            scroll!!.mouseScrolled(mouseX, mouseY, amount)
+            scroll!!.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
             return true
         }
         return false
@@ -512,7 +510,7 @@ class TMMHandledScreen(
     }
 
     override fun drawBackground(context: DrawContext, delta: Float, mouseX: Int, mouseY: Int) {
-        super.renderBackground(context)
+        super.renderBackground(context, mouseX, mouseY, delta)
         val x = (width - TEXTURE_WIDTH) / 2
         val y = (height - TEXTURE_HEIGHT) / 2
 
@@ -541,9 +539,9 @@ class TMMHandledScreen(
                 small = false,
                 onPress = {
                     inventory.player.playSound(CobblemonSounds.GUI_CLICK, 1f, 1f)
-                    val currentTm = selectedTM ?: return@EjectButton sendPacketToServer(CraftBlankTMPacket(handler.input.getStack(2)))
+                    val currentTm = selectedTM ?: return@EjectButton CobblemonNetwork.sendToServer(CraftBlankTMPacket(handler.input.getStack(2)))
 
-                    sendPacketToServer(
+                    CobblemonNetwork.sendToServer(
                         CraftTMPacket(
                             currentTm,
                             handler.input.getStack(0),

@@ -14,12 +14,17 @@ import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.block.entity.TMBlockEntity
-import com.cobblemon.mod.common.gui.TMMScreenHandler
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
-import net.minecraft.block.*
+import com.mojang.serialization.MapCodec
+import net.minecraft.block.Block
+import net.minecraft.block.BlockRenderType
+import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
+import net.minecraft.block.InventoryProvider
+import net.minecraft.block.ShapeContext
+import net.minecraft.block.Waterloggable
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BrewingStandBlockEntity
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
@@ -30,20 +35,14 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.registry.Registries
-import net.minecraft.screen.NamedScreenHandlerFactory
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
-import net.minecraft.stat.Stats
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
-import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
-import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -132,49 +131,48 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         val WATERLOGGED = Properties.WATERLOGGED
 
         private var NORTH_OUTLINE = VoxelShapes.union(
-                VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.3125, 0.9375),
-                VoxelShapes.cuboid(0.0, 0.3125, 0.75, 1.0, 0.9375, 0.9375),
-                VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
+            VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.3125, 0.9375),
+            VoxelShapes.cuboid(0.0, 0.3125, 0.75, 1.0, 0.9375, 0.9375),
+            VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
         )
 
         private var SOUTH_OUTLINE = VoxelShapes.union(
-                VoxelShapes.cuboid(0.0, 0.0, 0.0625, 1.0, 0.3125, 1.0),
-                VoxelShapes.cuboid(0.0, 0.3125, 0.0625, 1.0, 0.9375, 0.25),
-                VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
+            VoxelShapes.cuboid(0.0, 0.0, 0.0625, 1.0, 0.3125, 1.0),
+            VoxelShapes.cuboid(0.0, 0.3125, 0.0625, 1.0, 0.9375, 0.25),
+            VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
         )
 
         private var WEST_OUTLINE = VoxelShapes.union(
-                VoxelShapes.cuboid(0.0, 0.0, 0.0, 0.9375, 0.3125, 1.0),
-                VoxelShapes.cuboid(0.75, 0.3125, 0.0, 0.9375, 0.9375, 1.0),
-                VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
+            VoxelShapes.cuboid(0.0, 0.0, 0.0, 0.9375, 0.3125, 1.0),
+            VoxelShapes.cuboid(0.75, 0.3125, 0.0, 0.9375, 0.9375, 1.0),
+            VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
         )
 
         private var EAST_OUTLINE = VoxelShapes.union(
-                VoxelShapes.cuboid(0.0625, 0.0, 0.0, 1.0, 0.3125, 1.0),
-                VoxelShapes.cuboid(0.0625, 0.3125, 0.0, 0.25, 0.9375, 1.0),
-                VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
+            VoxelShapes.cuboid(0.0625, 0.0, 0.0, 1.0, 0.3125, 1.0),
+            VoxelShapes.cuboid(0.0625, 0.3125, 0.0, 0.25, 0.9375, 1.0),
+            VoxelShapes.cuboid(0.0625, 0.3125, 0.0625, 0.9375, 0.875, 0.9375)
         )
 
     }
 
     init {
         defaultState = this.stateManager.defaultState.with(FACING, Direction.NORTH)
-                .with(WATERLOGGED, false)
-                .with(ON, false)
-                .with(TRIGGERED, false)
+            .with(WATERLOGGED, false)
+            .with(ON, false)
+            .with(TRIGGERED, false)
     }
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
         return defaultState
-                .with(FACING, blockPlaceContext.horizontalPlayerFacing)
-                .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
-                .with(ON, false)
+            .with(FACING, blockPlaceContext.horizontalPlayerFacing)
+            .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
+            .with(ON, false)
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
-        super.onBreak(world, pos, state, player)
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?): BlockState {
+        return super.onBreak(world, pos, state, player)
         // todo dump materials and filterTM on the ground
-
     }
 
     @Deprecated("Deprecated in Java")
@@ -207,24 +205,24 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         //this.onTriggerEvent(state, world, pos, random)
         // todo if the output slot is empty then try to craft a TM to that slot
         if (ItemStack.areItemsEqual(inventory.items!!.get(3), ItemStack.EMPTY)) {
-                if (state?.let { getInventory(it, world, pos) } != null) {
-                    val itemStack: ItemStack
-                    itemStack = if (inventory.filterTM != null)
-                        inventory.filterTM!!.copy()
-                    else
-                        ItemStack(CobblemonItems.BLANK_TM, 1)
-                    val tm = TechnicalMachines.getTechnicalMachineFromStack(itemStack)
-                    // todo use isReadyToCraftTM  to finalize the creation
-                    if (((inventory.filterTM != null && tm != null) && isReadyToCraftTM(state, world, pos, tm)) || isReadyToCraftBlankTM(state, world, pos)) {
+            if (state?.let { getInventory(it, world, pos) } != null) {
+                val itemStack: ItemStack
+                itemStack = if (inventory.filterTM != null)
+                    inventory.filterTM!!.copy()
+                else
+                    ItemStack(CobblemonItems.BLANK_TM, 1)
+                val tm = TechnicalMachines.getTechnicalMachineFromStack(itemStack)
+                // todo use isReadyToCraftTM  to finalize the creation
+                if (((inventory.filterTM != null && tm != null) && isReadyToCraftTM(state, world, pos, tm)) || isReadyToCraftBlankTM(state, world, pos)) {
 
-                        // create TM item to the output slot
-                        inventory.items!!.set(3, itemStack)
-                        tmEntity.markDirty()
+                    // create TM item to the output slot
+                    inventory.items!!.set(3, itemStack)
+                    tmEntity.markDirty()
 
-                        // Play sound for TM creation
-                        world.playSoundServer(tmEntity.blockPos.toVec3d(), CobblemonSounds.TMM_CRAFT, SoundCategory.BLOCKS)
-                    }
+                    // Play sound for TM creation
+                    world.playSoundServer(tmEntity.blockPos.toVec3d(), CobblemonSounds.TMM_CRAFT, SoundCategory.BLOCKS)
                 }
+            }
         }
         // todo if there is an item in the output slot then spit it out
         else {
@@ -291,18 +289,22 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
             }*/
         }
 
-        /*val currentTm = filterTM ?: return sendPacketToServer(CraftBlankTMPacket(handler.input.getStack(2)))
-                        sendPacketToServer(
-                            CraftTMPacket(
-                                currentTm,
-                                handler.input.getStack(0),
-                                handler.input.getStack(1),
-                                handler.input.getStack(2)
-                            )
-                        )*/
+    override fun getCodec(): MapCodec<out BlockWithEntity> {
+        TODO("Not yet implemented")
+    }
+
+    /*val currentTm = filterTM ?: return sendPacketToServer(CraftBlankTMPacket(handler.input.getStack(2)))
+                    sendPacketToServer(
+                        CraftTMPacket(
+                            currentTm,
+                            handler.input.getStack(0),
+                            handler.input.getStack(1),
+                            handler.input.getStack(2)
+                        )
+                    )*/
 
     @Deprecated("Deprecated in Java")
-    override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType) = false
+    override fun canPathfindThrough(blockState: BlockState, pathComputationType: NavigationType) = false
 
     @Deprecated("Deprecated in Java")
     override fun hasComparatorOutput(state: BlockState?): Boolean {
@@ -379,12 +381,11 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
 
     @Deprecated("Deprecated in Java")
     override fun onUse(
-            blockState: BlockState,
-            world: World,
-            pos: BlockPos,
-            player: PlayerEntity,
-            interactionHand: Hand,
-            blockHitResult: BlockHitResult
+        blockState: BlockState,
+        world: World,
+        pos: BlockPos,
+        player: PlayerEntity,
+        blockHitResult: BlockHitResult
     ): ActionResult {
 
         // clear filter TM on client
@@ -461,7 +462,7 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         val blockEntity = world.getBlockEntity(pos)
         if (blockEntity is TMBlockEntity) {
             //player.openHandledScreen(blockEntity as TMBlockEntity?)
-            player.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
+            player.playSoundToPlayer(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
 
             // todo maybe uncomment this
             //val serverPlayer = player as ServerPlayerEntity

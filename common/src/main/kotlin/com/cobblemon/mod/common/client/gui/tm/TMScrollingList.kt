@@ -16,7 +16,6 @@ class TMScrollingList(
     WIDTH, // width
     HEIGHT, // height
     0, // top
-    HEIGHT, // bottom
     SLOT_HEIGHT// + SLOT_SPACING
 ) {
 
@@ -33,11 +32,12 @@ class TMScrollingList(
 
     override fun getRowWidth() = SLOT_WIDTH
 
+    override fun drawMenuListBackground(context: DrawContext) {}
+    override fun drawHeaderAndFooterSeparators(context: DrawContext) {}
+    override fun drawSelectionHighlight(context: DrawContext, y: Int, entryWidth: Int, entryHeight: Int, borderColor: Int, fillColor: Int) {}
+
     init {
         correctSize()
-        setRenderHorizontalShadows(false)
-        setRenderBackground(false)
-        setRenderSelection(false)
 
         parent.tmList.subscribeIncludingCurrent { tmList ->
             val currentEntries = children()
@@ -49,26 +49,33 @@ class TMScrollingList(
         }
     }
 
-    override fun getScrollbarPositionX() = left + width - 3
+    override fun getScrollbarX() = x + width - 3
 
     private fun correctSize() {
-        updateSize(
+        setDimensionsAndPosition(
             WIDTH,
-            HEIGHT, y - 2, (y + 2) + (HEIGHT - 2))
-        setLeftPos(x)
+            HEIGHT,
+            x,
+            y + 2
+        )
+//        updateSize(
+//            WIDTH,
+//            HEIGHT, y - 2, (y + 2) + (HEIGHT - 2)
+//        )
+//        setLeftPos(x)
     }
 
     public override fun addEntry(entry: TMScrollingListEntry) = super.addEntry(entry)
     public override fun removeEntry(entry: TMScrollingListEntry) = super.removeEntry(entry)
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         correctSize()
 
         context.enableScissor(
-            left,
-            top + 5,
-            left + width,
-            top + 1 + height
+            x,
+            y + 5,
+            x + width,
+            y + 1 + height
         )
 
         super.render(context, mouseX, mouseY, delta)
@@ -91,7 +98,7 @@ class TMScrollingList(
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
         if (scrolling) {
-            if (mouseY < top) {
+            if (mouseY < y) {
                 scrollAmount = 0.0
             } else if (mouseY > bottom) {
                 scrollAmount = maxScroll.toDouble()
@@ -103,9 +110,9 @@ class TMScrollingList(
     }
 
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
-        scrolling = mouseX >= this.scrollbarPositionX.toDouble()
-                && mouseX < (this.scrollbarPositionX + 3).toDouble()
-                && mouseY >= top
+        scrolling = mouseX >= this.scrollbarX.toDouble()
+                && mouseX < (this.scrollbarX + 3).toDouble()
+                && mouseY >= y
                 && mouseY < bottom
     }
 

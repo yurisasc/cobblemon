@@ -434,8 +434,9 @@ object CobblemonNetwork {
         list.add(PacketRegisterInfo(PartyMoveSelectCancelledPacket.ID, PartyMoveSelectCancelledPacket::decode, PartyMoveSelectCancelledHandler))
 
         // TM Machine packets
-        this.createServerBound(CraftTMPacket.ID, CraftTMPacket::decode, CraftTMPacketHandler)
-        this.createServerBound(CraftBlankTMPacket.ID, CraftBlankTMPacket::decode, CraftBlankTMPacketHandler)
+        // convert to new format
+        list.add(PacketRegisterInfo(CraftTMPacket.ID, CraftTMPacket::decode, CraftTMPacketHandler))
+        list.add(PacketRegisterInfo(CraftBlankTMPacket.ID, CraftBlankTMPacket::decode, CraftBlankTMPacketHandler))
 
         // Dialogue packets
         list.add(PacketRegisterInfo(EscapeDialoguePacket.ID, EscapeDialoguePacket::decode, EscapeDialogueHandler))

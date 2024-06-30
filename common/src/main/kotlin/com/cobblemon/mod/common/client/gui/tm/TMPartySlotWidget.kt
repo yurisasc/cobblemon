@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
@@ -27,6 +28,8 @@ class TMPartySlotWidget(
     val pokemon: Pokemon?,
     onPress: PressAction
 ) : ButtonWidget(pX.toInt(), pY.toInt(), WIDTH, HEIGHT, Text.literal("PartyMember"), onPress, NarrationSupplier { "".text() }) {
+
+    val state = FloatingState()
 
     companion object {
         const val WIDTH = 46
@@ -47,7 +50,7 @@ class TMPartySlotWidget(
         return 0
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
         val matrices = context.matrices
 
@@ -74,7 +77,7 @@ class TMPartySlotWidget(
                 aspects = pokemon.aspects.toSet(),
                 matrixStack = matrices,
                 rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
-                state = null,
+                state = state,
                 scale = 4.5F,
                 partialTicks = delta
             )

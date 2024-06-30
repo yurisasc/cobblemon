@@ -56,6 +56,7 @@ class TMBlockRenderer(context: BlockEntityRendererFactory.Context) : BlockEntity
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees( entity.partialTicks / 0.5f))
         matrices.translate(7.0/16f, 0.0, -8.0/16f)
 
+        val colour = (255 shl 24) or (color.red shl 16) or (color.green shl 8) or color.blue
 
         val renderLayer = RenderLayer.getEntityCutout(cobblemonResource("textures/block/tm_machine.png"))
         diskModel?.render(
@@ -63,10 +64,7 @@ class TMBlockRenderer(context: BlockEntityRendererFactory.Context) : BlockEntity
             vertexConsumers.getBuffer(renderLayer),
             light,
             overlay,
-            color.red.toFloat() / 255F,
-            color.green.toFloat() / 255F,
-            color.blue.toFloat() / 255F,
-            1.0F
+            colour
         )
         matrices.pop()
     }

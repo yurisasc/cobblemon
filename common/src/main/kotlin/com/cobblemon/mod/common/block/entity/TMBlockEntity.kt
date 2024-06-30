@@ -31,6 +31,7 @@ import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.text.Text
 import net.minecraft.util.collection.DefaultedList
@@ -40,12 +41,14 @@ import net.minecraft.world.World
 
 
 class TMBlockEntity(
-        val blockPos: BlockPos,
-        val blockState: BlockState
-    )  : LockableContainerBlockEntity(CobblemonBlockEntities.TM_BLOCK, blockPos, blockState) {
+    val blockPos: BlockPos,
+    val blockState: BlockState
+): LockableContainerBlockEntity(CobblemonBlockEntities.TM_BLOCK, blockPos, blockState) {
     var tmmInventory = TMBlockInventory(this)
     var automationDelay: Int = AUTOMATION_DELAY
     var partialTicks = 0.0f
+
+
 
     val stateManager: ViewerCountManager = object : ViewerCountManager() {
         override fun onContainerOpen(world: World, pos: BlockPos, state: BlockState) {
@@ -135,9 +138,9 @@ class TMBlockEntity(
         return false
     }
 
-    override fun toInitialChunkDataNbt(): NbtCompound {
+    override fun toInitialChunkDataNbt(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound {
         val res = NbtCompound()
-        writeNbt(res)
+        writeNbt(res, registryLookup)
         return res
     }
 
@@ -173,6 +176,14 @@ class TMBlockEntity(
         return this.tmmInventory.canPlayerUse(player)
     }
 
+    override fun getHeldStacks(): DefaultedList<ItemStack> {
+        return DefaultedList.of() // TODO Implement
+    }
+
+    override fun setHeldStacks(inventory: DefaultedList<ItemStack>) {
+        // TODO Implement
+    }
+
     override fun getContainerName(): Text {
         return Text.translatable("container.brewing")
     }
@@ -186,21 +197,21 @@ class TMBlockEntity(
         return BlockEntityUpdateS2CPacket.create(this)
     }
 
-    override fun writeNbt(nbt: NbtCompound) {
-        super.writeNbt(nbt)
-        Inventories.writeNbt(nbt, tmmInventory.items)
+    override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+        super.writeNbt(nbt, registryLookup)
+        Inventories.writeNbt(nbt, tmmInventory.items, registryLookup)
         val filterTmCompound = tmmInventory.filterTM?.writeNbt(NbtCompound())
         if (filterTmCompound != null)
             nbt.put(FILTER_TM_NBT, filterTmCompound)
     }
 
-    override fun readNbt(nbt: NbtCompound) {
-        super.readNbt(nbt)
-        Inventories.readNbt(nbt, tmmInventory.items)
+    override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
+        super.readNbt(nbt, registryLookup)
+        Inventories.readNbt(nbt, tmmInventory.items, registryLookup)
         if (nbt.contains(FILTER_TM_NBT)) {
             val itemStack = CobblemonItems.TECHNICAL_MACHINE.defaultStack
 
-            tmmInventory.filterTM = ItemStack.fromNbt(nbt.getCompound(FILTER_TM_NBT))
+            tmmInventory.filterTM = ItemStack.fromNbt(registryLookup, nbt.getCompound(FILTER_TM_NBT)).get()
 
             val test = 2
         }

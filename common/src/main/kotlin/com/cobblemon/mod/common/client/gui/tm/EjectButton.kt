@@ -34,7 +34,7 @@ class EjectButton(
     val width = if (small) SMALL_WIDTH else LARGE_WIDTH
     val texture = if (small) SMALL_BUTTON else LARGE_BUTTON
 
-    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         blitk(
             matrixStack = context.matrices,
             texture = texture,
