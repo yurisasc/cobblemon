@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common.net.messages
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.Environment
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.moves.BenchedMoves
 import com.cobblemon.mod.common.api.moves.MoveSet
@@ -29,8 +27,10 @@ import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.*
-import io.netty.buffer.Unpooled
-import net.minecraft.client.Minecraft
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtAccounter
+import net.minecraft.nbt.Tag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.ComponentSerialization
 import net.minecraft.network.chat.MutableComponent
@@ -68,7 +68,7 @@ class PokemonDTO : Encodable, Decodable {
     lateinit var caughtBall: ResourceLocation
     var benchedMoves = BenchedMoves()
     var aspects = setOf<String>()
-    lateinit var evolutionBuffer: RegistryFriendlyByteBuf
+    lateinit var evolutionData: Tag
     lateinit var nature: ResourceLocation
     var mintNature: ResourceLocation? = null
     var heldItem: ItemStack = ItemStack.EMPTY
@@ -78,21 +78,13 @@ class PokemonDTO : Encodable, Decodable {
     var gmaxFactor = false
     var tradeable = true
     //    var features: List<SynchronizedSpeciesFeature> = emptyList()
-    lateinit var featuresBuffer: RegistryFriendlyByteBuf
+    val features = Object2ObjectOpenHashMap<String, CompoundTag>()
     var originalTrainerType: OriginalTrainerType = OriginalTrainerType.NONE
     var originalTrainer: String? = null
     var originalTrainerName: String? = null
 
     constructor()
     constructor(pokemon: Pokemon, toClient: Boolean) {
-        // todo (techdaan): figure out if there is a better way to do this, move this to utils
-        //                  it is problematic because we may be working with a registry that we shouldn't be working with.
-        val registryAccess = if (Cobblemon.implementation.environment() == Environment.CLIENT) {
-            Minecraft.getInstance().connection!!.registryAccess()
-        } else {
-            server()!!.registryAccess()
-        }
-
         this.toClient = toClient
         this.uuid = pokemon.uuid
         this.species = pokemon.species.resourceIdentifier
@@ -114,8 +106,7 @@ class PokemonDTO : Encodable, Decodable {
         this.caughtBall = pokemon.caughtBall.name
         this.benchedMoves = pokemon.benchedMoves
         this.aspects = pokemon.aspects
-        evolutionBuffer = RegistryFriendlyByteBuf(Unpooled.buffer(), registryAccess)
-        pokemon.evolutionProxy.saveToBuffer(evolutionBuffer, toClient)
+        this.evolutionData = pokemon.evolutionProxy.saveToNBT()
         this.nature = pokemon.nature.name
         this.mintNature = pokemon.mintedNature?.name
         this.heldItem = pokemon.heldItemNoCopy()
@@ -124,14 +115,12 @@ class PokemonDTO : Encodable, Decodable {
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
-        this.featuresBuffer = RegistryFriendlyByteBuf(Unpooled.buffer(), registryAccess)
-        val visibleFeatures = pokemon.features
+
+        this.features.clear()
+        pokemon.features
             .filterIsInstance<SynchronizedSpeciesFeature>()
             .filter { (SpeciesFeatures.getFeature(it.name) as? SynchronizedSpeciesFeatureProvider<*>)?.visible == true }
-        featuresBuffer.writeCollection(visibleFeatures) { _, value ->
-            featuresBuffer.writeString(value.name)
-            value.saveToBuffer(featuresBuffer, true)
-        }
+            .forEach { feature -> this.features[feature.name] = feature.saveToNBT(CompoundTag()) }
 
         this.originalTrainerType = pokemon.originalTrainerType
         this.originalTrainer = pokemon.originalTrainer
@@ -161,10 +150,7 @@ class PokemonDTO : Encodable, Decodable {
         benchedMoves.saveToBuffer(buffer)
         buffer.writeSizedInt(IntSize.U_BYTE, aspects.size)
         aspects.forEach { buffer.writeString(it) }
-        val byteCount = evolutionBuffer.readableBytes()
-        buffer.writeSizedInt(IntSize.U_SHORT, byteCount)
-        buffer.writeBytes(evolutionBuffer)
-        evolutionBuffer.release()
+        buffer.writeNbt(evolutionData)
         buffer.writeIdentifier(nature)
         buffer.writeNullable(mintNature) { _, v -> buffer.writeIdentifier(v) }
         ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, heldItem)
@@ -173,10 +159,11 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeInt(dmaxLevel)
         buffer.writeBoolean(gmaxFactor)
         buffer.writeBoolean(tradeable)
-        val featureByteCount = featuresBuffer.readableBytes()
-        buffer.writeSizedInt(IntSize.U_SHORT, featureByteCount)
-        buffer.writeBytes(featuresBuffer)
-        featuresBuffer.release()
+        buffer.writeSizedInt(IntSize.U_SHORT, features.size)
+        features.forEach { (id, feature) ->
+            buffer.writeString(id)
+            buffer.writeNbt(feature)
+        }
         buffer.writeString(originalTrainerType.name)
         buffer.writeNullable(originalTrainer) { _, v -> buffer.writeString(v) }
         buffer.writeNullable(originalTrainerName) { _, v -> buffer.writeString(v) }
@@ -208,9 +195,7 @@ class PokemonDTO : Encodable, Decodable {
             aspects.add(buffer.readString())
         }
         this.aspects = aspects
-        val bytesToRead = buffer.readSizedInt(IntSize.U_SHORT)
-        evolutionBuffer =
-            RegistryFriendlyByteBuf(buffer.readBytes(bytesToRead), buffer.registryAccess())
+        evolutionData = requireNotNull(buffer.readNbt(NbtAccounter.create(4096))) { "Failed to read evolution data NBT" }
         nature = buffer.readIdentifier()
         mintNature = buffer.readNullable { buffer.readIdentifier() }
         heldItem = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer)
@@ -220,19 +205,27 @@ class PokemonDTO : Encodable, Decodable {
         gmaxFactor = buffer.readBoolean()
         tradeable = buffer.readBoolean()
 
-        val featureBytesToRead = buffer.readSizedInt(IntSize.U_SHORT)
-        featuresBuffer =
-            RegistryFriendlyByteBuf(buffer.readBytes(featureBytesToRead), buffer.registryAccess())
+        this.features.clear()
+        val featureCount = buffer.readSizedInt(IntSize.U_SHORT)
+        for (i in 0 until featureCount) {
+            val featureName = buffer.readString()
+            val featureData = requireNotNull(buffer.readNbt()) { "Failed to read feature data NBT for feature $featureName" }
+            this.features[featureName] = featureData
+        }
+
         originalTrainerType = OriginalTrainerType.valueOf(buffer.readString())
         originalTrainer = buffer.readNullable { buffer.readString() }
         originalTrainerName = buffer.readNullable { buffer.readString() }
     }
 
     fun create(): Pokemon {
+        val species = requireNotNull(PokemonSpecies.getByIdentifier(this.species))
+            { "PokemonDTO transmitted unknown Pokemon: ${this.species}" }
+
         return Pokemon().also {
             it.isClient = toClient
             it.uuid = uuid
-            it.species = PokemonSpecies.getByIdentifier(species)!!
+            it.species = species
             it.nickname = nickname
             it.form = it.species.forms.find { it.name == form } ?: it.species.standardForm
             it.experience = experience
@@ -265,8 +258,7 @@ class PokemonDTO : Encodable, Decodable {
             it.caughtBall = PokeBalls.getPokeBall(caughtBall)!!
             it.benchedMoves.addAll(benchedMoves)
             it.forcedAspects = aspects
-            it.evolutionProxy.loadFromBuffer(evolutionBuffer)
-            evolutionBuffer.release()
+            it.evolutionProxy.loadFromNBT(evolutionData)
             it.nature = Natures.getNature(nature)!!
             it.mintedNature = mintNature?.let { id -> Natures.getNature(id)!! }
             it.swapHeldItem(heldItem, false)
@@ -275,17 +267,20 @@ class PokemonDTO : Encodable, Decodable {
             it.dmaxLevel = dmaxLevel
             it.gmaxFactor = gmaxFactor
             it.tradeable = tradeable
-            repeat(times = featuresBuffer.readSizedInt(IntSize.U_BYTE)) { _ ->
-                val species = PokemonSpecies.getByIdentifier(this.species)!!
-                val speciesFeatureName = featuresBuffer.readString()
-                val featureProviders = SpeciesFeatures
+
+            if (features.isNotEmpty()) {
+                val supportedFeatures = SpeciesFeatures
                     .getFeaturesFor(species)
                     .filterIsInstance<SynchronizedSpeciesFeatureProvider<*>>()
-                val feature = featureProviders.firstNotNullOfOrNull { it(featuresBuffer, speciesFeatureName) }
-                    ?: throw IllegalArgumentException("Couldn't find a feature provider to deserialize this feature. Something's wrong.")
-                it.features.removeIf { it.name == feature.name }
-                it.features.add(feature)
+
+                features.forEach { featureName, featureData ->
+                    val feature = supportedFeatures.firstNotNullOfOrNull { it(featureData) }
+                        ?: error("Couldn't find a feature provider to deserialize the feature named $featureName. Something's wrong.")
+                    it.features.removeIf { it.name == feature.name }
+                    it.features.add(feature)
+                }
             }
+
             when (originalTrainerType)
             {
                 OriginalTrainerType.NONE -> {
