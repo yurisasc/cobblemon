@@ -43,8 +43,8 @@ class BiomePredicate(
     companion object {
         val CODEC : MapCodec<BiomePredicate> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
-                TagKey.codec(Registries.BIOME).listOf().optionalFieldOf("includedBiomes").forGetter { it.includedBiomes },
-                TagKey.codec(Registries.BIOME).listOf().optionalFieldOf("excludedBiomes").forGetter { it.excludedBiomes }
+                TagKey.hashedCodec(Registries.BIOME).listOf().optionalFieldOf("includedBiomes").forGetter { it.includedBiomes },
+                TagKey.hashedCodec(Registries.BIOME).listOf().optionalFieldOf("excludedBiomes").forGetter { it.excludedBiomes }
             ).apply(instance, ::BiomePredicate)
         }
     }
