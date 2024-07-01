@@ -19,8 +19,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BrewingStandMenu.PotionSlot.class)
 public class PotionSlotMixin {
 
-    @Inject(method = "matches", at = @At("RETURN"), cancellable = true)
-    private static void cobblemon$matches(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "mayPlaceItem", at = @At("RETURN"), cancellable = true)
+    private static void cobblemon$mayPlaceItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValue()) {
             return;
         }

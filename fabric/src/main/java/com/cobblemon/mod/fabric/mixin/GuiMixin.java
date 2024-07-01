@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class GuiMixin {
     private Long lastTimeMillis = null;
 
-    @Inject(method = "renderMiscOverlays", at = @At("HEAD"))
+    @Inject(method = "renderCameraOverlays", at = @At("HEAD"))
     private void beforeChatHook(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
         if (lastTimeMillis != null) {
             CobblemonClient.INSTANCE.beforeChatRender(context, (System.currentTimeMillis() - lastTimeMillis) / 1000F * 20);

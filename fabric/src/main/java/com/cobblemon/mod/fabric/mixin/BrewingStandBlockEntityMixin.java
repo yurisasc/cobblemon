@@ -20,11 +20,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class BrewingStandBlockEntityMixin
 {
     @Inject(
-            method = "isValid",
+            method = "canPlaceItem",
             at = @At(value = "RETURN"),
             cancellable = true
     )
-    private void cobblemon$isValid(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    private void cobblemon$canPlaceItem(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         final BrewingStandBlockEntity entity = (BrewingStandBlockEntity) (Object) this;
         if (slot < 3 && !cir.getReturnValue())
         {

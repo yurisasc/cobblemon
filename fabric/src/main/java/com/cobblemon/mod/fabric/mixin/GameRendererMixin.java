@@ -30,7 +30,7 @@ import java.util.function.Consumer;
 public class GameRendererMixin {
 
 
-    @Inject(method = "loadPrograms", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "reloadShaders", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
     private void lodestone$registerShaders(ResourceProvider factory, CallbackInfo ci, List<Program> list, List<Pair<ShaderInstance, Consumer<ShaderInstance>>> list2) throws IOException {
         CobblemonShaders.INSTANCE.init();
         CobblemonShaders.INSTANCE.getSHADERS_TO_REGISTER().forEach((pair) -> {

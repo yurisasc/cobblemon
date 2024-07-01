@@ -34,8 +34,8 @@ public abstract class BrewingStandScreenHandlerMixin {
      * @param index Index of the slot that the item is being moved from
      * @param cir CallbackInfoReturnable that allows the return value to be modified
      */
-    @Inject(method = "quickMove", at = @At(value = "HEAD"), cancellable = true)
-    private void cobblemon$quickMove(Player player, int index, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "quickMoveStack", at = @At(value = "HEAD"), cancellable = true)
+    private void cobblemon$quickMoveStack(Player player, int index, CallbackInfoReturnable<ItemStack> cir) {
         final BrewingStandMenu brewingStandScreenHandler = (BrewingStandMenu) (Object) this;
 
         Slot screenSlot = brewingStandScreenHandler.slots.get(index);
