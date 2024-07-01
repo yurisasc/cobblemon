@@ -235,7 +235,7 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         effects: List<CaptureEffect> = emptyList(),
         waterDragValue: Float = 0.8F,
         model2d: ResourceLocation = cobblemonResource(name),
-        model3d: ResourceLocation = cobblemonResource("${name}_model"),
+        model3d: ResourceLocation = cobblemonResource("item/${name}_model"),
         throwPower: Float = 1.25f,
         ancient: Boolean = false
     ): PokeBall {
