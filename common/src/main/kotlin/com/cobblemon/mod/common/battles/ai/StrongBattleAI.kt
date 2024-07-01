@@ -452,6 +452,8 @@ class StrongBattleAI(skill: Int) : BattleAI {
         return randomNumber < chance
     }
 
+    // todo add helper function for sending in move and checking if it will have affect on the pokemon
+
     // old function definition
     //override fun choose(request: ShowdownActionRequest, active: ActivePokemon, moves: List<MoveChoice>, canDynamax: Boolean, possibleMoves: List<Move>): ShowdownActionResponse {
     override fun choose(activeBattlePokemon: ActiveBattlePokemon, moveset: ShowdownMoveset?, forceSwitch: Boolean): ShowdownActionResponse {
@@ -558,7 +560,8 @@ class StrongBattleAI(skill: Int) : BattleAI {
                 return SwitchActionResponse(switchTo.uuid)
             }
             else if ((forceSwitch && battle.turn > 1) || (activeBattlePokemon.isGone() && battle.turn > 1)) {
-                val availableSwitches = activeBattlePokemon.actor.pokemonList.filter { it.health > 0 } //it.uuid != mon.pokemon!!.uuid && it.health > 0 }
+
+                val availableSwitches = activeBattlePokemon.actor.pokemonList.filter { (it.health > 0) && (it.uuid != (activeBattlePokemon.battlePokemon?.uuid ?: true)) } //it.uuid != mon.pokemon!!.uuid && it.health > 0 }
 
                 // this gets null error after NPC faints
                 val bestEstimation = availableSwitches.maxOfOrNull { estimatePartyMatchup(request, battle, it.effectedPokemon) }
@@ -694,17 +697,30 @@ class StrongBattleAI(skill: Int) : BattleAI {
         // todo Try to find a way to store a list of moves each pokemon in the battle has used so that the AI can learn and decide differently over time
         // todo try to caclulate if it is worth it to use status moves somehow
 
-        // switch out
+        // switch out based on current matchup on the field
         if (checkSwitchOutSkill(skill) && shouldSwitchOut(request, battle, activeBattlePokemon )) {
             val availableSwitches = p2Actor.pokemonList.filter { it.uuid != mon.pokemon!!.uuid && it.health > 0 }
-            val bestEstimation = availableSwitches.maxOfOrNull { estimateMatchup(activeBattlePokemon, request, battle, it.effectedPokemon) }
+            val availablePlayerSwitches = p1Actor.pokemonList.filter { it.uuid != opponent.pokemon!!.uuid && it.health > 0 }
+
+            // todo try to detect a player switch-in based on if they do that a lot
+            // todo if player is in bad matchup against current AI pokemon, and they have switched out before, then they have a chance of switching to a favorable matchup
+            // todo make it so that bestEstimation is actually in comparison to that potential pokemon instead and be sure to switch to that instead
+            // todo maybe make it random chance to happen the higher the % chance the player likes to switch out AND/OR when the player has revealed more than 3-4 or their party?
+            //val bestEstimation =
             /*availableSwitches.forEach {
                 estimateMatchup(request, battle, it.effectedPokemon)
             }*/
+            val bestEstimation = if ( 1 == 1 /* todo if player is in bad matchup and switches out a lot and has a better matchup in revealed party */) {
+                // todo make it so that bestEstimation is actually in comparison to that potential pokemon instead and be sure to switch to that instead
+
+                availableSwitches.maxOfOrNull { estimateMatchup(activeBattlePokemon, request, battle, it.effectedPokemon) }
+            } else {
+                availableSwitches.maxOfOrNull { estimateMatchup(activeBattlePokemon, request, battle, it.effectedPokemon) }
+            }
 
             // todo Pivot switches decided here if it wants to switchout anyways
             for (move in moveset!!.moves.filter { !it.disabled }) {
-                if (move.pp > 0 && move.id in pivotMoves) {
+                if (move.pp > 0 && move.id in pivotMoves /* todo ADD Case for if move will be effective so that it doesn't use useless moves */) {
                     return chooseMove(move, activeBattlePokemon)
                 }
             }
@@ -998,9 +1014,8 @@ class StrongBattleAI(skill: Int) : BattleAI {
                 }
             }
 
-            // Damage dealing moves
-            val moveValues = mutableMapOf<InBattleMove, Double>()
-            for (move in moveset.moves.filter { !it.disabled }) {
+            // function for calculating the Damage of the move sent in
+            fun calculateDamage(move: InBattleMove, mon: ActiveTracker.TrackerPokemon, opponent: ActiveTracker.TrackerPokemon, currentWeather: String?): Double {
                 val moveData = Moves.getByName(move.id)
                 /*var value = moveData!!.power
                 value *= if (moveData.elementalType in mon.pokemon!!.types) 1.5 else 1.0 // STAB
@@ -1046,7 +1061,79 @@ class StrongBattleAI(skill: Int) : BattleAI {
                 damage *= burn
                 //damage *= hitsExpected
 
-                var value = damage // set value to be the output of damage
+                return damage
+            }
+
+            // function for finding the most damaging moves in the moveset
+            fun mostDamagingMove(selectedMove: InBattleMove, moveset: ShowdownMoveset?, mon: ActiveTracker.TrackerPokemon, opponent: ActiveTracker.TrackerPokemon, currentWeather: String?): Boolean {
+                //val selectedMoveData = Moves.getByName(selectedMove.id)
+
+                if (moveset != null) {
+                    for (move in moveset.moves.filter { !it.disabled && it.id != selectedMove.id}) {
+
+                        if (calculateDamage(move, mon, opponent, currentWeather) > calculateDamage(selectedMove, mon, opponent, currentWeather)) {
+                            return false
+                        }
+                    }
+
+                    return calculateDamage(selectedMove, mon, opponent, currentWeather) > 0
+                }
+                else
+                    return false
+                return false
+            }
+
+            // Damage dealing moves
+            val moveValues = mutableMapOf<InBattleMove, Double>()
+            for (move in moveset.moves.filter { !it.disabled }) {
+                val moveData = Moves.getByName(move.id)
+                /**//*var value = moveData!!.power
+                value *= if (moveData.elementalType in mon.pokemon!!.types) 1.5 else 1.0 // STAB
+                value *= if (moveData.damageCategory == DamageCategories.PHYSICAL) physicalRatio else specialRatio
+                //value *= moveData.accuracy // todo look into better way to take accuracy into account
+                value *= expectedHits(Moves.getByName(move.id)!!)
+                value *= moveDamageMultiplier(move.id, opponent.pokemon!!)*//*
+
+                // Attempt at better estimation
+                val movePower = moveData!!.power
+                val pokemonLevel = mon.pokemon!!.level
+                val statRatio = if (moveData.damageCategory == DamageCategories.PHYSICAL) physicalRatio else specialRatio
+
+                val STAB = when {
+                    moveData.elementalType in mon.pokemon!!.types && mon.pokemon!!.ability.name == "adaptability" -> 2.0
+                    moveData.elementalType in mon.pokemon!!.types -> 1.5
+                    else -> 1.0
+                }
+                val weather = when {
+                    // Sunny Weather
+                    currentWeather == "sunny" && (moveData.elementalType == ElementalTypes.FIRE || moveData.name == "hydrosteam") -> 1.5
+                    currentWeather == "sunny" && moveData.elementalType == ElementalTypes.WATER && moveData.name != "hydrosteam" -> 0.5
+
+                    // Rainy Weather
+                    currentWeather == "raining" && moveData.elementalType == ElementalTypes.WATER-> 1.5
+                    currentWeather == "raining" && moveData.elementalType == ElementalTypes.FIRE-> 0.5
+
+                    // Add other cases below for weather
+
+                    else -> 1.0
+                }
+                val damageTypeMultiplier = moveDamageMultiplier(move.id, opponent)
+                val burn = when {
+                    opponent.pokemon!!.status?.status?.showdownName == "burn" && moveData.damageCategory == DamageCategories.PHYSICAL -> 0.5
+                    else -> 1.0
+                }
+                //val hitsExpected = expectedHits(Moves.getByName(move.id)!!) // todo fix this as it has null issues
+
+                var damage = (((((2 * pokemonLevel) / 5 ) + 2) * movePower * statRatio) / 50 + 2)
+                damage *= weather
+                damage *= STAB
+                damage *= damageTypeMultiplier
+                damage *= burn
+                //damage *= hitsExpected*/
+
+
+                // calculate initial damage of this move
+                var value = calculateDamage(move, mon, opponent, currentWeather) // set value to be the output of damage to start with
 
 
                 // HOW DAMAGE IS ACTUALLY CALCULATED
@@ -1096,23 +1183,23 @@ class StrongBattleAI(skill: Int) : BattleAI {
                 // todo stealth rock. Make list of all active hazards to get referenced
 
                 val opponentAbility = opponent.pokemon!!.ability
-                if ((opponentAbility.template.name.equals("lightningrod") && moveData.elementalType == ElementalTypes.ELECTRIC) ||
-                        (opponentAbility.template.name.equals("flashfire") && moveData.elementalType == ElementalTypes.FIRE) ||
-                        (opponentAbility.template.name.equals("levitate") && moveData.elementalType == ElementalTypes.GROUND) ||
-                        (opponentAbility.template.name.equals("sapsipper") && moveData.elementalType == ElementalTypes.GRASS) ||
-                        (opponentAbility.template.name.equals("motordrive") && moveData.elementalType == ElementalTypes.ELECTRIC) ||
-                        (opponentAbility.template.name.equals("stormdrain") && moveData.elementalType == ElementalTypes.WATER) ||
-                        (opponentAbility.template.name.equals("voltabsorb") && moveData.elementalType == ElementalTypes.ELECTRIC) ||
-                        (opponentAbility.template.name.equals("waterabsorb") && moveData.elementalType == ElementalTypes.WATER) ||
-                        (opponentAbility.template.name.equals("immunity") && moveData.elementalType == ElementalTypes.POISON) ||
-                        (opponentAbility.template.name.equals("eartheater") && moveData.elementalType == ElementalTypes.GROUND) ||
-                        (opponentAbility.template.name.equals("suctioncup") && moveData.name == "roar" || moveData.name == "whirlwind")
+                if ((opponentAbility.template.name.equals("lightningrod") && moveData!!.elementalType == ElementalTypes.ELECTRIC) ||
+                        (opponentAbility.template.name.equals("flashfire") && moveData!!.elementalType == ElementalTypes.FIRE) ||
+                        (opponentAbility.template.name.equals("levitate") && moveData!!.elementalType == ElementalTypes.GROUND) ||
+                        (opponentAbility.template.name.equals("sapsipper") && moveData!!.elementalType == ElementalTypes.GRASS) ||
+                        (opponentAbility.template.name.equals("motordrive") && moveData!!.elementalType == ElementalTypes.ELECTRIC) ||
+                        (opponentAbility.template.name.equals("stormdrain") && moveData!!.elementalType == ElementalTypes.WATER) ||
+                        (opponentAbility.template.name.equals("voltabsorb") && moveData!!.elementalType == ElementalTypes.ELECTRIC) ||
+                        (opponentAbility.template.name.equals("waterabsorb") && moveData!!.elementalType == ElementalTypes.WATER) ||
+                        (opponentAbility.template.name.equals("immunity") && moveData!!.elementalType == ElementalTypes.POISON) ||
+                        (opponentAbility.template.name.equals("eartheater") && moveData!!.elementalType == ElementalTypes.GROUND) ||
+                        (opponentAbility.template.name.equals("suctioncup") && moveData!!.name == "roar" || moveData!!.name == "whirlwind")
                 ) {
                     value = 0.0
                 }
 
                 // reduce value of Pivot moves if user doesn't want to switchout anyways todo unless maybe it was the only damaging move and needs to
-                if(move.id in pivotMoves && !shouldSwitchOut(request, battle, activeBattlePokemon ))
+                if(move.id in pivotMoves && (!shouldSwitchOut(request, battle, activeBattlePokemon) && !mostDamagingMove(move, moveset, mon, opponent, currentWeather)))
                     value = 0.0
 
                 if (move.pp == 0)
