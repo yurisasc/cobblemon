@@ -43,8 +43,10 @@ import net.minecraft.block.BlockState
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.hud.InGameOverlayRenderer
+import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.sound.SoundEvent
 import net.minecraft.util.math.BlockPos
 
 class PokedexItem(val type: String) : CobblemonItem(Settings()) {
@@ -135,11 +137,13 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 pokedexData.onPokemonSeen(species, form)
                 player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
                 PokedexUIPacket(type, species).sendToPlayer(player)
-                player.playSoundToPlayer(CobblemonSounds.POKEDEX_SCAN, SoundCategory.PLAYERS, 1F, 1F)
+                playSound(CobblemonSounds.POKEDEX_SCAN)
+                //player.playSoundToPlayer(CobblemonSounds.POKEDEX_SCAN, SoundCategory.PLAYERS, 1F, 1F)
             } else {
                 PokedexUIPacket(type).sendToPlayer(player)
             }
-            player.playSoundToPlayer(CobblemonSounds.POKEDEX_SHOW, SoundCategory.PLAYERS, 1F, 1F)
+            playSound(CobblemonSounds.POKEDEX_OPEN)
+            //player.playSoundToPlayer(CobblemonSounds.POKEDEX_OPEN, SoundCategory.PLAYERS, 1F, 1F)
         }
     }
 
@@ -147,6 +151,10 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         if (user is PlayerEntity) {
             // todo if the item has been used for more than 1 second activate scanning mode
             if (getMaxUseTime(stack, user) - remainingUseTicks > 2) {
+                // play the Scanner Open sound only once
+                if (isScanning == false)
+                    playSound(CobblemonSounds.POKEDEX_SCAN_OPEN)
+
                 isScanning = true
 
                 // todo try to make it so that the player is able to walk normal speed while in scanner mode
@@ -166,6 +174,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
             zoomLevel = 1.0
             attackKeyHeldTicks = 0
             changeFOV(70.0)
+            playSound(CobblemonSounds.POKEDEX_SCAN_CLOSE)
 
             // todo if solution is found to boost player speed during scanning mode, you might need to end it here
             //entity.removeStatusEffect(StatusEffects.SPEED) // Remove slowness effect
@@ -193,14 +202,19 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         super.finishUsing(stack, world, entity)
     }*/
 
-    // todo maybe add a feature to scan objects like blocks?
+    // todo maybe add a feature to scan objects like blocks for more info?
     /*override fun useOnBlock() {
 
     }*/
 
     fun changeFOV(fov: Double) {
         val client = MinecraftClient.getInstance()
+        val oldFov = fov.toInt()
         val newFov = (fov / zoomLevel).coerceIn(30.0, 110.0).toInt()
+
+        if (newFov != oldFov) {
+            playSound(CobblemonSounds.POKEDEX_ZOOM_INCREMENT)
+        }
 
         // logging for testing
         //println("Setting FOV to: $newFov with zoomLevel: $zoomLevel")
@@ -245,7 +259,8 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     fun onMouseClick() {
         if (isScanning) {
             MinecraftClient.getInstance().player?.let {
-                println("You have taken a picture")
+                //println("You have taken a picture")
+                playSound(CobblemonSounds.POKEDEX_SNAP_PICTURE)
                 detectPokemon(it.world, it, Hand.MAIN_HAND)
             }
         }
@@ -255,7 +270,8 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     fun onMouseHeld() {
         if (isScanning) {
             MinecraftClient.getInstance().player?.let {
-                println("You are scanning")
+                //println("You are scanning")
+                playSound(CobblemonSounds.POKEDEX_SCAN_LOOP)
                 detectPokemon(it.world, it, Hand.MAIN_HAND)
             }
         }
@@ -295,6 +311,10 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 user.sendMessage(Text.of("You have scanned a: ${closestEntity.pokemon.species.name}"))
             }
         }
+    }
+
+    fun playSound(soundEvent: SoundEvent) {
+        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 
     /*@Environment(EnvType.CLIENT)

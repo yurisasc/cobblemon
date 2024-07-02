@@ -73,7 +73,5 @@ public class PartyScrollMixin {
             }
         }
 
-        // maybe incorporate a new if statement here for is scanning screen is open to allow for zooming while pokedex scanning
-
     }
 }
