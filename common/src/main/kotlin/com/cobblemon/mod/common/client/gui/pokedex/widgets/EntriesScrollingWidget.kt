@@ -38,8 +38,7 @@ import net.minecraft.util.math.MathHelper
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
-class EntriesScrollingWidget<PokemonScrollSlotRow : ScrollingWidget.Slot<EntriesScrollingWidget.PokemonScrollSlotRow>>(val pX: Int, val pY: Int, val setPokedexEntry: (DexPokemonData) -> (Unit)
-): ScrollingWidget<EntriesScrollingWidget.PokemonScrollSlotRow>(
+class EntriesScrollingWidget(val pX: Int, val pY: Int, val setPokedexEntry: (DexPokemonData) -> (Unit)): ScrollingWidget<PokemonScrollSlotRow>(
     width = PokedexGUIConstants.HALF_OVERLAY_WIDTH,
     height = SCROLL_BASE_HEIGHT,
     left = pX,

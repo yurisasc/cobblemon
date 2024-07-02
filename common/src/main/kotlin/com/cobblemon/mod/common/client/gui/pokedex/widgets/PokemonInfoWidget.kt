@@ -135,7 +135,8 @@ class PokemonInfoWidget(val pX: Int, val pY: Int, val updateForm: (FormData) -> 
         12,
         12,
         buttonCryArrow,
-        clickAction = {}
+        silent = true,
+        clickAction = { playCry() }
     ).apply { addWidget(this) }
 
     private val formLeftButton: ScaledButton = ScaledButton(
@@ -446,6 +447,10 @@ class PokemonInfoWidget(val pX: Int, val pY: Int, val updateForm: (FormData) -> 
     private fun setType(species: Species, form: String) {
         val formData = species.getForm(setOf(form))
         type = arrayOf(formData.primaryType, formData.secondaryType)
+    }
+
+    private fun playCry() {
+        state.addFirstAnimation(setOf("cry"))
     }
 
     private fun switchForm(nextIndex: Boolean) {
