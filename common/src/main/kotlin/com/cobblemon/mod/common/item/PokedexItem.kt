@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.net.messages.client.ui.PokedexUIPacket
+import com.cobblemon.mod.common.net.messages.server.pokedex.MapUpdatePacket
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.isLookingAt
 import net.minecraft.entity.player.PlayerEntity
@@ -42,14 +43,31 @@ import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.BlockState
+import net.minecraft.block.MapColor
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.hud.InGameOverlayRenderer
+import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.MapIdComponent
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.item.FilledMapItem
+import net.minecraft.item.Items
+import net.minecraft.item.map.MapState
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtInt
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ColorHelper
+import java.awt.Color
+import java.awt.Image
+import java.awt.image.BufferedImage
+import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
+import javax.imageio.ImageIO
 
 class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
@@ -271,10 +289,14 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     @Environment(EnvType.CLIENT)
     fun onMouseClick() {
         if (isScanning) {
+
             MinecraftClient.getInstance().player?.let {
                 //println("You have taken a picture")
                 playSound(CobblemonSounds.POKEDEX_SNAP_PICTURE)
-                detectPokemon(it.world, it, Hand.MAIN_HAND)
+                //detectPokemon(it.world, it, Hand.MAIN_HAND)
+
+                // todo take picture
+                snapPicture(it)
             }
         }
     }
@@ -387,8 +409,148 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         }
     }
 
+    @Environment(EnvType.CLIENT)
+    fun snapPicture(player: ClientPlayerEntity) {
+        val client = MinecraftClient.getInstance()
+        val window = client.window
+        val width = window.scaledWidth
+        val height = window.scaledHeight
+
+        val buffer = ByteBuffer.allocateDirect(width * height * 4)
+        GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer)
+
+        val image = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                val i = (x + (width * (height - y - 1))) * 4
+                val r = buffer.get(i).toInt() and 0xFF
+                val g = buffer.get(i + 1).toInt() and 0xFF
+                val b = buffer.get(i + 2).toInt() and 0xFF
+                val a = buffer.get(i + 3).toInt() and 0xFF
+                image.setRGB(x, y, (a shl 24) or (r shl 16) or (g shl 8) or b)
+            }
+        }
+
+        val baos = ByteArrayOutputStream()
+        ImageIO.write(image, "png", baos)
+        val imageBytes = baos.toByteArray()
+
+        // Send the packet to the server
+        MapUpdatePacket(imageBytes).sendToPlayers()
+    }
+
+    /*private fun updatePlayerMap(player: PlayerEntity, image: BufferedImage) {
+        val inventory = player.inventory
+        for (i in 0 until inventory.size()) {
+            val stack = inventory.getStack(i)
+            if (stack.item == Items.MAP) {
+                val mapStack = ItemStack(Items.FILLED_MAP)
+                val world = player.world as ServerWorld
+                val mapId = world.increaseAndGetMapId().id
+
+                val nbt = NbtCompound()
+                nbt.putString("dimension", world.registryKey.value.toString())
+                nbt.putInt("xCenter", 0)
+                nbt.putInt("zCenter", 0)
+                nbt.putBoolean("locked", true)
+                nbt.putBoolean("unlimitedTracking", false)
+                nbt.putBoolean("trackingPosition", false)
+                nbt.putByte("scale", 3.toByte())
+                val mapState = MapState.fromNbt(nbt, world.registryManager)
+
+                val resizedImage = convertToBufferedImage(image.getScaledInstance(128, 128, Image.SCALE_DEFAULT))
+                val pixels = convertPixelArray(resizedImage)
+                // todo Use AccessWidener to get access to it
+                val mapColors = MapColor.COLORS.filterNotNull().toTypedArray()
+
+                for (x in 0 until 128) {
+                    for (y in 0 until 128) {
+                        val color = Color(pixels[y][x], true)
+                        mapState.colors[x + y * 128] = nearestColor(mapColors, color).toByte()
+                    }
+                }
+
+                world.putMapState(MapIdComponent(mapId), mapState)
+                val mapIdComponent = MapIdComponent(mapId)
+                mapStack.set(DataComponentTypes.MAP_ID, mapIdComponent)
+
+                inventory.setStack(i, mapStack)
+                player.sendMessage(Text.literal("SnapPicture: Map updated with screenshot"), true)
+                return
+            }
+        }
+        player.sendMessage(Text.literal("No empty map found in inventory"), true)
+    }
+
+
+    private val shadeCoeffs = doubleArrayOf(180.0 / 255.0, 220.0 / 255.0, 255.0 / 255.0, 135.0 / 255.0)
+
+    fun convertToBufferedImage(img: Image): BufferedImage {
+        if (img is BufferedImage) {
+            return img
+        }
+        val bimage = BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB)
+        val bGr = bimage.createGraphics()
+        bGr.drawImage(img, 0, 0, null)
+        bGr.dispose()
+        return bimage
+    }
+
+    fun convertPixelArray(image: BufferedImage): Array<IntArray> {
+        val width = image.width
+        val height = image.height
+        val pixels = Array(height) { IntArray(width) }
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                pixels[y][x] = image.getRGB(x, y)
+            }
+        }
+        return pixels
+    }
+
+    fun nearestColor(mapColors: Array<MapColor>, color: Color): Int {
+        var closestColorIndex = 0
+        var minDistance = Double.MAX_VALUE
+
+        for (i in mapColors.indices) {
+            val mcColor = mapColorToRGBColor(mapColors[i])
+            val distance = colorDistance(color.red, color.green, color.blue, mcColor[0], mcColor[1], mcColor[2])
+            if (distance < minDistance) {
+                minDistance = distance
+                closestColorIndex = i
+            }
+        }
+
+        return closestColorIndex
+    }
+
+    private fun mapColorToRGBColor(color: MapColor): IntArray {
+        val mcColor = color.color
+        val mcColorVec = intArrayOf(
+            ColorHelper.Argb.getRed(mcColor),
+            ColorHelper.Argb.getGreen(mcColor),
+            ColorHelper.Argb.getBlue(mcColor)
+        )
+
+        val coeff = shadeCoeffs[color.id and 3]
+        return intArrayOf(
+            (mcColorVec[0] * coeff).toInt(),
+            (mcColorVec[1] * coeff).toInt(),
+            (mcColorVec[2] * coeff).toInt()
+        )
+    }
+
+    private fun colorDistance(r1: Int, g1: Int, b1: Int, r2: Int, g2: Int, b2: Int): Double {
+        val dr = (r1 - r2).toDouble()
+        val dg = (g1 - g2).toDouble()
+        val db = (b1 - b2).toDouble()
+        return Math.sqrt(dr * dr + dg * dg + db * db)
+    }*/
+
     fun playSound(soundEvent: SoundEvent) {
-        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+        MinecraftClient.getInstance().execute {
+            MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+        }
     }
 
     /*@Environment(EnvType.CLIENT)
