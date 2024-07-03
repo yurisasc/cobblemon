@@ -114,6 +114,14 @@
 	"cobblemon:medicinal_leek",
 	"minecraft:bone",
 	"minecraft:snowball",
-	"#cobblemon:type_gems"
+	"#cobblemon:type_gems",
+
+    "#cobblemon:terrain_seeds",
+    "cobblemon:scope_lens",
+    "cobblemon:terrain_extender",
+    "cobblemon:throat_spray",
+    "cobblemon:utility_umbrella",
+    "cobblemon:wide_lens",
+    "cobblemon:zoom_lens"
   ]
 }
