@@ -309,7 +309,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     fun scanPokemon(pokemonEntity: PokemonEntity, player: ServerPlayerEntity) {
         // increment scan progress
         if (scanningProgress < 100)
-            scanningProgress++
+            scanningProgress += 2
 
         if (scanningProgress % 5 == 0) { // 20 for 1 second
 
