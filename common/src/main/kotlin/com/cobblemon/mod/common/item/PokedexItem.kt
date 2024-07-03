@@ -130,7 +130,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
     fun openPokdexGUI(player: ServerPlayerEntity) {
         // Check if the player is interacting with a Pokémon
-        val entity = player.world
+        /*val entity = player.world
                 .getOtherEntities(player, Box.of(player.pos, 16.0, 16.0, 16.0))
                 .filter { player.isLookingAt(it, stepDistance = 0.1F) }
                 .minByOrNull { it.distanceTo(player) } as? PokemonEntity?
@@ -146,12 +146,12 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 PokedexUIPacket(type, species).sendToPlayer(player)
                 playSound(CobblemonSounds.POKEDEX_SCAN)
                 //player.playSoundToPlayer(CobblemonSounds.POKEDEX_SCAN, SoundCategory.PLAYERS, 1F, 1F)
-            } else {
-                PokedexUIPacket(type).sendToPlayer(player)
-            }
-            playSound(CobblemonSounds.POKEDEX_OPEN)
-            //player.playSoundToPlayer(CobblemonSounds.POKEDEX_OPEN, SoundCategory.PLAYERS, 1F, 1F)
-        }
+            } else {*/
+        PokedexUIPacket(type).sendToPlayer(player)
+            //}
+        playSound(CobblemonSounds.POKEDEX_OPEN)
+        //player.playSoundToPlayer(CobblemonSounds.POKEDEX_OPEN, SoundCategory.PLAYERS, 1F, 1F)
+        //}
     }
 
     override fun usageTick(world: World?, user: LivingEntity?, stack: ItemStack?, remainingUseTicks: Int) {
@@ -311,8 +311,13 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         if (scanningProgress < 100)
             scanningProgress++
 
-        if (scanningProgress % 20 == 0) {
-            playSound(CobblemonSounds.POKEDEX_SCAN_LOOP)
+        if (scanningProgress % 5 == 0) { // 20 for 1 second
+
+            // todo get a better (maybe shorter) looping sound so it ends nicer
+            //playSound(CobblemonSounds.POKEDEX_SCAN_LOOP)
+
+            // play this temp sound for now
+            playSound(CobblemonSounds.POKEDEX_CLICK)
         }
 
         // if scan progress is 100 then send packet to Pokedex
@@ -325,6 +330,8 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
             player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
             PokedexUIPacket(type, species).sendToPlayer(player)
             playSound(CobblemonSounds.POKEDEX_SCAN)
+
+            scanningProgress = 0
         }
     }
 
