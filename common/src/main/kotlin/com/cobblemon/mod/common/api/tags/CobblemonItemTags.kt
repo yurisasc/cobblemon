@@ -135,7 +135,7 @@ object CobblemonItemTags {
     @JvmField
     val CONSUMED_IN_WILD_BATTLE = create("held/consumed_in_wild_battle")
     @JvmField
-    val TERRAIN_SEEDS = create("held/terrain_seeds.json")
+    val TERRAIN_SEEDS = create("held/terrain_seeds")
 
     /**
      * Tag that flags items as being able to "create" [CobblemonItems.LEFTOVERS].
