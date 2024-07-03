@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.loot
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.loot.LootPool
-import net.minecraft.loot.LootTable
 import net.minecraft.loot.LootTables
 import net.minecraft.loot.entry.LootTableEntry
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
@@ -58,8 +57,7 @@ object LootInjector {
         LootTables.SPAWN_BONUS_CHEST,
         LootTables.STRONGHOLD_CORRIDOR_CHEST,
         LootTables.WOODLAND_MANSION_CHEST,
-        LootTables.FISHING_TREASURE_GAMEPLAY,
-        LootTables.FISHING_JUNK_GAMEPLAY
+        LootTables.FISHING_TREASURE_GAMEPLAY
     ).apply { addAll(villageHouseLootTables) }
 
     private val injectionIds = injections.map {it.value}.toSet()
