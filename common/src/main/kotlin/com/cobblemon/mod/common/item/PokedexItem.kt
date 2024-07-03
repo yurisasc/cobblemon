@@ -11,11 +11,13 @@ package com.cobblemon.mod.common.item
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.net.messages.client.ui.PokedexUIPacket
+import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.isLookingAt
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -55,6 +57,11 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     var zoomLevel: Double = 1.0
     var isScanning = false
     var attackKeyHeldTicks = 0 // to help with detecting pressed and held states of the attack button
+    var pokemonInFocus: PokemonEntity? = null
+    var lastPokemonInFocus: PokemonEntity? = null
+    var pokemonBeingScanned: PokemonEntity? = null
+    var scanningProgress: Int = 0
+    var pokedexUser: ServerPlayerEntity? = null
 
     override fun getMaxUseTime(stack: ItemStack?, user: LivingEntity?): Int {
         return 72000  // (vanilla bows use 72000 ticks -> 1 hour of hold time)
@@ -75,7 +82,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     override fun use(world: World, player: PlayerEntity, usedHand: Hand): TypedActionResult<ItemStack> {
         val itemStack = player.getStackInHand(usedHand)
 
-        if (player !is ServerPlayerEntity) return TypedActionResult.success(itemStack, world.isClient)
+        if (player !is ServerPlayerEntity) return TypedActionResult.success(itemStack, world.isClient) else pokedexUser = player
 
         player.setCurrentHand(usedHand) // Start using the item
 
@@ -149,13 +156,19 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
     override fun usageTick(world: World?, user: LivingEntity?, stack: ItemStack?, remainingUseTicks: Int) {
         if (user is PlayerEntity) {
-            // todo if the item has been used for more than 1 second activate scanning mode
+            // if the item has been used for more than 1 second activate scanning mode
             if (getMaxUseTime(stack, user) - remainingUseTicks > 2) {
                 // play the Scanner Open sound only once
                 if (isScanning == false)
                     playSound(CobblemonSounds.POKEDEX_SCAN_OPEN)
 
                 isScanning = true
+
+                // todo get it constantly scanning outwards to detect pokemon in focus
+                MinecraftClient.getInstance().player?.let {
+                    detectPokemon(it.world, it, Hand.MAIN_HAND)
+                }
+
 
                 // todo try to make it so that the player is able to walk normal speed while in scanner mode
                 //user.addStatusEffect(StatusEffectInstance(StatusEffects.SPEED, 3, 1, true, false, false)) // Remove slowness effect
@@ -271,9 +284,47 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         if (isScanning) {
             MinecraftClient.getInstance().player?.let {
                 //println("You are scanning")
-                playSound(CobblemonSounds.POKEDEX_SCAN_LOOP)
+                //playSound(CobblemonSounds.POKEDEX_SCAN_LOOP)
+
+                // if pokemonInFocus is not null start scanning it
+                if (pokemonInFocus != null) {
+                    // todo if the pokemonInFocus is equal to pokemonBeingScanned
+                    if (pokemonInFocus == pokemonBeingScanned) {
+                        scanPokemon(pokemonInFocus!!, pokedexUser!!)
+                    } else {
+                        // reset scanning progress
+                        scanningProgress = 0
+                        pokemonBeingScanned = pokemonInFocus
+
+
+                    }
+                } else {
+                    pokemonBeingScanned = null
+                }
                 detectPokemon(it.world, it, Hand.MAIN_HAND)
             }
+        }
+    }
+
+    fun scanPokemon(pokemonEntity: PokemonEntity, player: ServerPlayerEntity) {
+        // increment scan progress
+        if (scanningProgress < 100)
+            scanningProgress++
+
+        if (scanningProgress % 20 == 0) {
+            playSound(CobblemonSounds.POKEDEX_SCAN_LOOP)
+        }
+
+        // if scan progress is 100 then send packet to Pokedex
+        if (scanningProgress == 100) {
+            val species = pokemonEntity.pokemon.species.resourceIdentifier
+            val form = pokemonEntity.pokemon.form.formOnlyShowdownId()
+
+            val pokedexData = Cobblemon.playerDataManager.getPokedexData(player)
+            pokedexData.onPokemonSeen(species, form)
+            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
+            PokedexUIPacket(type, species).sendToPlayer(player)
+            playSound(CobblemonSounds.POKEDEX_SCAN)
         }
     }
 
@@ -281,14 +332,15 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         if (isScanning) {
             val eyePos = user.getCameraPosVec(1.0F)
             val lookVec = user.getRotationVec(1.0F)
-            val maxDistance = 100.0  // Set this to how far you want the ray to go
+            val maxDistance = 30.0  // Set this to how far we want the raycast to go
+            val boundingBoxSize = 50.0
             var closestEntity: Entity? = null
             var closestDistance = maxDistance
 
             // Define a large bounding box around the player
             val boundingBox = Box(
-                    user.x - 200.0, user.y - 200.0, user.z - 200.0,
-                    user.x + 200.0, user.y + 200.0, user.z + 200.0
+                    user.x - boundingBoxSize, user.y - boundingBoxSize, user.z - boundingBoxSize,
+                    user.x + boundingBoxSize, user.y + boundingBoxSize, user.z + boundingBoxSize
             )
 
             // Get all entities within the bounding box
@@ -308,7 +360,22 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
             }
 
             if (closestEntity != null && closestEntity is PokemonEntity) {
-                user.sendMessage(Text.of("You have scanned a: ${closestEntity.pokemon.species.name}"))
+                pokemonInFocus = closestEntity
+
+                // if detected pokemon is not the same as the last detected pokemon
+                if (pokemonInFocus != lastPokemonInFocus) {
+                    user.sendMessage(Text.of("${closestEntity.pokemon.species.name} is in focus!"))
+
+                    // play sound for showing details of the focused pokemon
+                    playSound(CobblemonSounds.POKEDEX_SCAN_DETAIL)
+                }
+
+                lastPokemonInFocus = pokemonInFocus
+            } else {
+                pokemonInFocus = null
+                lastPokemonInFocus = null
+
+                // todo play POKEDEX_DETAIL_DISSAPEAR sound here
             }
         }
     }
