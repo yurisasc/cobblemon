@@ -1,6 +1,7 @@
 package com.cobblemon.mod.common.client.net.pokedex
 
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
+import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.server.pokedex.MapUpdatePacket
 import net.minecraft.block.MapColor
 import net.minecraft.client.MinecraftClient
@@ -12,6 +13,9 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.map.MapState
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.MinecraftServer
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.math.ColorHelper
 import java.awt.Color
@@ -19,23 +23,22 @@ import java.awt.Image
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
-object MapUpdatePacketHandler : ClientNetworkPacketHandler<MapUpdatePacket> {
-    override fun handle(packet: MapUpdatePacket, client: MinecraftClient) {
-        client.execute {
-            val image = ImageIO.read(packet.imageBytes.inputStream())
-            client.player?.let { player ->
-                updatePlayerMap(player, image)
+object MapUpdatePacketHandler : ServerNetworkPacketHandler<MapUpdatePacket> {
+    override fun handle(packet: MapUpdatePacket, server: MinecraftServer, player: ServerPlayerEntity) {
+        player.server.execute {
+            (player.world as? ServerWorld)?.let { serverWorld ->
+                updatePlayerMap(player, packet.imageBytes, serverWorld)
             }
         }
     }
 
-    private fun updatePlayerMap(player: ClientPlayerEntity, image: BufferedImage) {
+    private fun updatePlayerMap(player: ServerPlayerEntity, imageBytes: ByteArray, world: ServerWorld) {
+        val image = ImageIO.read(imageBytes.inputStream())
         val inventory = player.inventory
         for (i in 0 until inventory.size()) {
             val stack = inventory.getStack(i)
             if (stack.item == Items.MAP) {
                 val mapStack = ItemStack(Items.FILLED_MAP)
-                val world = player.world
                 val mapId = world.increaseAndGetMapId().id
 
                 val nbt = NbtCompound().apply {
@@ -110,15 +113,15 @@ object MapUpdatePacketHandler : ClientNetworkPacketHandler<MapUpdatePacket> {
     private fun mapColorToRGBColor(color: MapColor): IntArray {
         val mcColor = color.color
         val mcColorVec = intArrayOf(
-            ColorHelper.Argb.getRed(mcColor),
-            ColorHelper.Argb.getGreen(mcColor),
-            ColorHelper.Argb.getBlue(mcColor)
+                ColorHelper.Argb.getRed(mcColor),
+                ColorHelper.Argb.getGreen(mcColor),
+                ColorHelper.Argb.getBlue(mcColor)
         )
         val coeff = shadeCoeffs[color.id and 3]
         return intArrayOf(
-            (mcColorVec[0] * coeff).toInt(),
-            (mcColorVec[1] * coeff).toInt(),
-            (mcColorVec[2] * coeff).toInt()
+                (mcColorVec[0] * coeff).toInt(),
+                (mcColorVec[1] * coeff).toInt(),
+                (mcColorVec[2] * coeff).toInt()
         )
     }
 

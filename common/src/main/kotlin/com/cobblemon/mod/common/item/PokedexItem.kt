@@ -42,6 +42,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.server
 import net.minecraft.block.BlockState
 import net.minecraft.block.MapColor
 import net.minecraft.client.gui.DrawContext
@@ -436,7 +437,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         val imageBytes = baos.toByteArray()
 
         // Send the packet to the server
-        MapUpdatePacket(imageBytes).sendToPlayers()
+        MapUpdatePacket(imageBytes).sendToServer()
     }
 
     /*private fun updatePlayerMap(player: PlayerEntity, image: BufferedImage) {

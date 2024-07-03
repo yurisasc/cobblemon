@@ -264,9 +264,6 @@ object CobblemonNetwork {
         list.add(PacketRegisterInfo(PlayerInteractOptionsPacket.ID, PlayerInteractOptionsPacket::decode, PlayerInteractOptionsHandler))
         list.add(PacketRegisterInfo(PokedexUIPacket.ID, PokedexUIPacket::decode, PokedexUIPacketHandler))
 
-        // POKEDEX PACKETS
-        list.add(PacketRegisterInfo(MapUpdatePacket.ID, MapUpdatePacket::decode, MapUpdatePacketHandler))
-
         // Starter packets
         list.add(PacketRegisterInfo(OpenStarterUIPacket.ID, OpenStarterUIPacket::decode, StarterUIPacketHandler))
         list.add(PacketRegisterInfo(SetClientPlayerDataPacket.ID, SetClientPlayerDataPacket::decode, SetClientPlayerDataHandler))
@@ -413,6 +410,9 @@ object CobblemonNetwork {
         list.add(PacketRegisterInfo(ChangeTradeAcceptancePacket.ID, ChangeTradeAcceptancePacket::decode, ChangeTradeAcceptanceHandler))
         list.add(PacketRegisterInfo(OfferTradePacket.ID, OfferTradePacket::decode, OfferTradeHandler))
         list.add(PacketRegisterInfo(UpdateTradeOfferPacket.ID, UpdateTradeOfferPacket::decode, UpdateTradeOfferHandler))
+
+        // POKEDEX PACKETS
+        list.add(PacketRegisterInfo(MapUpdatePacket.ID, MapUpdatePacket::decode, MapUpdatePacketHandler))
 
         // Pasture
         list.add(PacketRegisterInfo(PasturePokemonPacket.ID, PasturePokemonPacket::decode, PasturePokemonHandler))
