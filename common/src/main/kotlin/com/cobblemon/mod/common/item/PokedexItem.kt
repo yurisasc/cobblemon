@@ -34,7 +34,6 @@ import net.minecraft.util.Identifier
 import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import org.lwjgl.opengl.GL11
 import org.lwjgl.glfw.GLFW
 import net.minecraft.client.render.*
 import net.minecraft.entity.Entity
@@ -45,11 +44,14 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.server
 import net.minecraft.block.BlockState
 import net.minecraft.block.MapColor
+import net.minecraft.client.gl.Framebuffer
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.hud.InGameOverlayRenderer
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.texture.NativeImage
+import net.minecraft.client.util.ScreenshotRecorder
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.MapIdComponent
 import net.minecraft.entity.effect.StatusEffectInstance
@@ -69,6 +71,10 @@ import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 import javax.imageio.ImageIO
+import org.lwjgl.BufferUtils
+import org.lwjgl.opengl.GL11
+import java.io.ByteArrayInputStream
+import java.io.File
 
 class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
@@ -81,6 +87,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     var pokemonBeingScanned: PokemonEntity? = null
     var scanningProgress: Int = 0
     var pokedexUser: ServerPlayerEntity? = null
+    var originalHudHidden: Boolean = true
 
     override fun getMaxUseTime(stack: ItemStack?, user: LivingEntity?): Int {
         return 72000  // (vanilla bows use 72000 ticks -> 1 hour of hold time)
@@ -178,8 +185,15 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
             // if the item has been used for more than 1 second activate scanning mode
             if (getMaxUseTime(stack, user) - remainingUseTicks > 2) {
                 // play the Scanner Open sound only once
-                if (isScanning == false)
+                if (isScanning == false) {
                     playSound(CobblemonSounds.POKEDEX_SCAN_OPEN)
+                    val client = MinecraftClient.getInstance()
+
+                    // Hide the HUD during scaner mode
+                    originalHudHidden = client.options.hudHidden
+
+                    client.options.hudHidden = true
+                }
 
                 isScanning = true
 
@@ -202,6 +216,9 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         if (entity is ServerPlayerEntity && (getMaxUseTime(stack, entity) - timeLeft) <= 2) {
             openPokdexGUI(entity)
         } else { // any other amount of time assume scanning mode was active
+            val client = MinecraftClient.getInstance()
+            // Restore the HUD
+            client.options.hudHidden = originalHudHidden
             isScanning = false
             zoomLevel = 1.0
             attackKeyHeldTicks = 0
@@ -413,31 +430,48 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     @Environment(EnvType.CLIENT)
     fun snapPicture(player: ClientPlayerEntity) {
         val client = MinecraftClient.getInstance()
-        val window = client.window
-        val width = window.scaledWidth
-        val height = window.scaledHeight
 
-        val buffer = ByteBuffer.allocateDirect(width * height * 4)
-        GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer)
+        /*// Hide the HUD
+        val originalHudHidden = client.options.hudHidden
+        client.options.hudHidden = true*/
 
-        val image = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
-        for (x in 0 until width) {
-            for (y in 0 until height) {
-                val i = (x + (width * (height - y - 1))) * 4
-                val r = buffer.get(i).toInt() and 0xFF
-                val g = buffer.get(i + 1).toInt() and 0xFF
-                val b = buffer.get(i + 2).toInt() and 0xFF
-                val a = buffer.get(i + 3).toInt() and 0xFF
-                image.setRGB(x, y, (a shl 24) or (r shl 16) or (g shl 8) or b)
-            }
-        }
+        // Take a screenshot
+        val framebuffer: Framebuffer = client.framebuffer
+        val nativeImage: NativeImage = ScreenshotRecorder.takeScreenshot(framebuffer)
 
+       /* // Restore the HUD
+        client.options.hudHidden = originalHudHidden*/
+
+        // Convert NativeImage to BufferedImage
+        val imageBytes = nativeImage.bytes
+        val bufferedImage: BufferedImage = ImageIO.read(ByteArrayInputStream(imageBytes))
+
+        // Crop the image to a square centered on the original image
+        val croppedImage = cropToSquare(bufferedImage)
+
+        // Save the captured image to file for debugging
+        val capturedImageFile = File("captured_image.png")
+        ImageIO.write(croppedImage, "png", capturedImageFile)
+        println("Saved captured image to ${capturedImageFile.absolutePath}")
+
+        // Prepare the image to be sent
         val baos = ByteArrayOutputStream()
-        ImageIO.write(image, "png", baos)
-        val imageBytes = baos.toByteArray()
+        ImageIO.write(croppedImage, "png", baos)
+        val imageBytesToSend = baos.toByteArray()
 
         // Send the packet to the server
-        MapUpdatePacket(imageBytes).sendToServer()
+        MapUpdatePacket(imageBytesToSend).sendToServer()
+    }
+
+    fun cropToSquare(image: BufferedImage): BufferedImage {
+        val width = image.width
+        val height = image.height
+        val size = minOf(width, height)
+
+        val x = (width - size) / 2
+        val y = (height - size) / 2
+
+        return image.getSubimage(x, y, size, size)
     }
 
     /*private fun updatePlayerMap(player: PlayerEntity, image: BufferedImage) {

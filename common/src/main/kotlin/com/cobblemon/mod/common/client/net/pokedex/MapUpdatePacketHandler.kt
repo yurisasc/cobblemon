@@ -1,18 +1,15 @@
-package com.cobblemon.mod.common.client.net.pokedex
+package com.cobblemon.mod.common.server.net.pokedex
 
-import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.server.pokedex.MapUpdatePacket
 import net.minecraft.block.MapColor
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.MapIdComponent
-import net.minecraft.item.FilledMapItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.map.MapState
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtList
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -21,9 +18,11 @@ import net.minecraft.util.math.ColorHelper
 import java.awt.Color
 import java.awt.Image
 import java.awt.image.BufferedImage
+import java.io.File
 import javax.imageio.ImageIO
 
 object MapUpdatePacketHandler : ServerNetworkPacketHandler<MapUpdatePacket> {
+
     override fun handle(packet: MapUpdatePacket, server: MinecraftServer, player: ServerPlayerEntity) {
         player.server.execute {
             (player.world as? ServerWorld)?.let { serverWorld ->
@@ -33,7 +32,29 @@ object MapUpdatePacketHandler : ServerNetworkPacketHandler<MapUpdatePacket> {
     }
 
     private fun updatePlayerMap(player: ServerPlayerEntity, imageBytes: ByteArray, world: ServerWorld) {
+        println("Received image bytes: ${imageBytes.size}")
         val image = ImageIO.read(imageBytes.inputStream())
+        if (image == null) {
+            player.sendMessage(Text.literal("Failed to read image from bytes"), false)
+            return
+        }
+        println("Image dimensions: ${image.width}x${image.height}")
+
+        // Save the received image to file for debugging
+        val receivedImageFile = File("received_image.png")
+        ImageIO.write(convertToBufferedImage(image), "png", receivedImageFile)
+        println("Saved received image to ${receivedImageFile.absolutePath}")
+
+        val resizedImage = convertToBufferedImage(image.getScaledInstance(128, 128, Image.SCALE_SMOOTH))
+
+        // Save the resized image to file for debugging
+        val resizedImageFile = File("resized_image.png")
+        ImageIO.write(resizedImage, "png", resizedImageFile)
+        println("Saved resized image to ${resizedImageFile.absolutePath}")
+
+        val pixels = convertPixelArray(resizedImage)
+        val mapColors = expandMapColors(MapColor.COLORS.filterNotNull().toTypedArray())
+
         val inventory = player.inventory
         for (i in 0 until inventory.size()) {
             val stack = inventory.getStack(i)
@@ -49,17 +70,16 @@ object MapUpdatePacketHandler : ServerNetworkPacketHandler<MapUpdatePacket> {
                     putBoolean("unlimitedTracking", false)
                     putBoolean("trackingPosition", false)
                     putByte("scale", 3.toByte())
+                    put("banners", NbtList())
                 }
                 val mapState = MapState.fromNbt(nbt, world.registryManager)
-
-                val resizedImage = convertToBufferedImage(image.getScaledInstance(128, 128, Image.SCALE_DEFAULT))
-                val pixels = convertPixelArray(resizedImage)
-                val mapColors = MapColor.COLORS.filterNotNull().toTypedArray()
 
                 for (x in 0 until 128) {
                     for (y in 0 until 128) {
                         val color = Color(pixels[y][x], true)
-                        mapState.colors[x + y * 128] = nearestColor(mapColors, color).toByte()
+                        val nearestColor = nearestColor(mapColors, color)
+                        mapState.colors[x + y * 128] = nearestColor.toByte()
+                        println("Processed pixel at ($x, $y): original color = (${color.red}, ${color.green}, ${color.blue}), nearest map color index = $nearestColor")
                     }
                 }
 
@@ -69,10 +89,12 @@ object MapUpdatePacketHandler : ServerNetworkPacketHandler<MapUpdatePacket> {
 
                 inventory.setStack(i, mapStack)
                 player.sendMessage(Text.literal("SnapPicture: Map updated with screenshot"), true)
+                println("Map updated successfully with mapId: $mapId")
                 return
             }
         }
         player.sendMessage(Text.literal("No empty map found in inventory"), true)
+        println("No empty map found in inventory")
     }
 
     private fun convertToBufferedImage(img: Image): BufferedImage {
@@ -95,34 +117,31 @@ object MapUpdatePacketHandler : ServerNetworkPacketHandler<MapUpdatePacket> {
         }
     }
 
-    private fun nearestColor(mapColors: Array<MapColor>, color: Color): Int {
+    private fun expandMapColors(mapColors: Array<MapColor>): List<Color> {
+        val expandedColors = mutableListOf<Color>()
+        for (color in mapColors) {
+            val baseColor = Color(color.color)
+            for (coeff in shadeCoeffs) {
+                expandedColors.add(Color((baseColor.red * coeff).toInt(), (baseColor.green * coeff).toInt(), (baseColor.blue * coeff).toInt()))
+            }
+        }
+        return expandedColors
+    }
+
+    private fun nearestColor(mapColors: List<Color>, color: Color): Int {
         var closestColorIndex = 0
         var minDistance = Double.MAX_VALUE
 
         for (i in mapColors.indices) {
-            val mcColor = mapColorToRGBColor(mapColors[i])
-            val distance = colorDistance(color.red, color.green, color.blue, mcColor[0], mcColor[1], mcColor[2])
+            val mcColor = mapColors[i]
+            val distance = colorDistance(color.red, color.green, color.blue, mcColor.red, mcColor.green, mcColor.blue)
             if (distance < minDistance) {
                 minDistance = distance
                 closestColorIndex = i
             }
         }
+        println("Mapped color (${color.red}, ${color.green}, ${color.blue}) to index $closestColorIndex")
         return closestColorIndex
-    }
-
-    private fun mapColorToRGBColor(color: MapColor): IntArray {
-        val mcColor = color.color
-        val mcColorVec = intArrayOf(
-                ColorHelper.Argb.getRed(mcColor),
-                ColorHelper.Argb.getGreen(mcColor),
-                ColorHelper.Argb.getBlue(mcColor)
-        )
-        val coeff = shadeCoeffs[color.id and 3]
-        return intArrayOf(
-                (mcColorVec[0] * coeff).toInt(),
-                (mcColorVec[1] * coeff).toInt(),
-                (mcColorVec[2] * coeff).toInt()
-        )
     }
 
     private fun colorDistance(r1: Int, g1: Int, b1: Int, r2: Int, g2: Int, b2: Int): Double {
