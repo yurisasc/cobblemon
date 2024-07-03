@@ -41,8 +41,8 @@ class TMScrollingList(
 
         parent.tmList.subscribeIncludingCurrent { tmList ->
             val currentEntries = children()
-            val newTMs = tmList.filter { tm -> currentEntries.none { it.tm.id() == tm.id() } }
-            val removedTMs = currentEntries.filter { entry -> tmList.none { it.id() == entry.tm.id() } }
+            val newTMs = tmList.filter { tm -> currentEntries.none { it.tm.id == tm.id } }
+            val removedTMs = currentEntries.filter { entry -> tmList.none { it.id == entry.tm.id } }
 
             removedTMs.forEach(this::removeEntry)
             newTMs.forEach { tm -> addEntry(TMScrollingListEntry(tm, parent)) }

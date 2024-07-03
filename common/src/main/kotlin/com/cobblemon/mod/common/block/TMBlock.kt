@@ -14,6 +14,8 @@ import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.block.entity.TMBlockEntity
+import com.cobblemon.mod.common.item.components.TMMoveComponent
+import com.cobblemon.mod.common.util.itemRegistry
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
 import com.mojang.serialization.MapCodec
@@ -206,17 +208,16 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         // todo if the output slot is empty then try to craft a TM to that slot
         if (ItemStack.areItemsEqual(inventory.items!!.get(3), ItemStack.EMPTY)) {
             if (state?.let { getInventory(it, world, pos) } != null) {
-                val itemStack: ItemStack
-                itemStack = if (inventory.filterTM != null)
-                    inventory.filterTM!!.copy()
-                else
+                val itemStack: ItemStack = if (inventory.filterTM != null) {
+                    TMMoveComponent.createStack(inventory.filterTM!!)
+                } else {
                     ItemStack(CobblemonItems.BLANK_TM, 1)
-                val tm = TechnicalMachines.getTechnicalMachineFromStack(itemStack)
+                }
+                val tms = inventory.filterTM?.let { TechnicalMachines.moveToTMs[it] ?: return }
                 // todo use isReadyToCraftTM  to finalize the creation
-                if (((inventory.filterTM != null && tm != null) && isReadyToCraftTM(state, world, pos, tm)) || isReadyToCraftBlankTM(state, world, pos)) {
-
+                if ((tms != null && tms.any { isReadyToCraftTM(state, world, pos, it) }) || isReadyToCraftBlankTM(state, world, pos)) {
                     // create TM item to the output slot
-                    inventory.items!!.set(3, itemStack)
+                    inventory.items!![3] = itemStack
                     tmEntity.markDirty()
 
                     // Play sound for TM creation
@@ -313,20 +314,23 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
 
     @Deprecated("Deprecated in Java")
     override fun getComparatorOutput(state: BlockState, world: World?, pos: BlockPos?): Int {
-
-        if(world == null || pos == null) {
+        if (world == null || pos == null) {
             return 0
         }
+
         val tmBlockEntity = world.getBlockEntity(pos) as TMBlockEntity
-        val tm = TechnicalMachines.getTechnicalMachineFromStack(tmBlockEntity.tmmInventory.filterTM)
+        val tmMove = tmBlockEntity.tmmInventory.filterTM
+        val tms = tmMove?.let { TechnicalMachines.moveToTMs[it] ?: return 0 }
 
         // if TMM has already crafted something and something is in the output slot do not send signal out
-        if (!ItemStack.areItemsEqual(tmBlockEntity.tmmInventory.items?.get(3), ItemStack.EMPTY))
+        if (tmBlockEntity.tmmInventory.items?.get(3)?.isEmpty == false) {
             return 0
+        }
 
         // if the TMM is ready to craft send signal of 15 out
-        if ((tm != null && isReadyToCraftTM(state, world, pos, tm)) || isReadyToCraftBlankTM(state, world, pos))
+        if ((tms != null && tms.any { isReadyToCraftTM(state, world, pos, it) }) || isReadyToCraftBlankTM(state, world, pos)) {
             return 15
+        }
 
         /*if (tmBlockEntity.automationDelay > 0)
             tmBlockEntity.automationDelay--
@@ -436,7 +440,7 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         if (inventory.filterTM != null) {
             // spit out the filter TM and set filterTM to null
 
-            val filterTMStack = inventory.filterTM!!
+            val filterTMStack = TMMoveComponent.createStack(inventory.filterTM!!)
 
             // Get the direction the block is facing
             val facingDirection = blockState.get(Properties.FACING).opposite
@@ -483,21 +487,20 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         loadedMaterials.add(itemStack)
     }*/
 
-    fun isReadyToCraftTM(state: BlockState?, world: WorldAccess, pos: BlockPos, tm: TechnicalMachine): Boolean {
-        val typeGem = Registries.ITEM.get(tm.let { ElementalTypes.get(it.type)?.typeGem }).defaultStack
-        val recipeItem = Registries.ITEM.get(tm.recipe?.item)
+    fun isReadyToCraftTM(state: BlockState, world: World, pos: BlockPos, tm: TechnicalMachine): Boolean {
+        val typeGem = world.itemRegistry.get(tm.let { ElementalTypes.get(it.type)?.typeGem })
+        val recipe = tm.recipe ?: return false
+        val recipeItem = world.itemRegistry.get(recipe.item) ?: return false
 
-        val inventory = state?.let { getInventory(it, world, pos) }
+        val inventory = getInventory(state, world, pos)
 
-        return (inventory!!.count(CobblemonItems.BLANK_TM) == 1
-                && inventory.count(typeGem.item) == 1
-                && ((inventory.count(recipeItem) == tm.recipe?.count) || (ItemStack.areItemsEqual(recipeItem.defaultStack, ItemStack.EMPTY))))
+        return (inventory.count(CobblemonItems.BLANK_TM) == 1
+                && inventory.count(typeGem) == 1
+                && ((inventory.count(recipeItem) == recipe.count) || (ItemStack.areItemsEqual(recipeItem.defaultStack, ItemStack.EMPTY))))
     }
 
-    fun isReadyToCraftBlankTM(state: BlockState?, world: WorldAccess, pos: BlockPos): Boolean {
-        val inventory = state?.let { getInventory(it, world, pos) }
-
-        return (inventory!!.count(Items.AMETHYST_SHARD) == 1)
+    fun isReadyToCraftBlankTM(state: BlockState, world: WorldAccess, pos: BlockPos): Boolean {
+        return getInventory(state, world, pos).count(Items.AMETHYST_SHARD) == 1
     }
 
     /*fun materialNeeded(tm: TechnicalMachine, itemStack: ItemStack): Boolean {

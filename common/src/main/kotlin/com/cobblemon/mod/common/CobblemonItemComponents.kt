@@ -11,6 +11,7 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.item.components.HeldItemCapableComponent
 import com.cobblemon.mod.common.item.components.PokemonItemComponent
 import com.cobblemon.mod.common.item.RodBaitComponent
+import com.cobblemon.mod.common.item.components.TMMoveComponent
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.component.ComponentType
 import net.minecraft.registry.Registries
@@ -36,14 +37,17 @@ object CobblemonItemComponents : PlatformRegistry<Registry<ComponentType<*>>, Re
         .packetCodec(RodBaitComponent.PACKET_CODEC)
         .build()
 
-
+    val TM_MOVE: ComponentType<TMMoveComponent> = ComponentType.builder<TMMoveComponent>()
+        .codec(TMMoveComponent.CODEC)
+        .packetCodec(TMMoveComponent.PACKET_CODEC)
+        .build()
 
     fun register() {
         Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of("cobblemon:pokemon_item"), POKEMON_ITEM)
         Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of("cobblemon:bait"), BAIT)
+        Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of("cobblemon:tm_move"), TM_MOVE)
     }
 
     override val registry = Registries.DATA_COMPONENT_TYPE
     override val registryKey = RegistryKeys.DATA_COMPONENT_TYPE
-
 }

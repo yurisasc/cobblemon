@@ -27,7 +27,7 @@ class CraftTMPacket(
     override val id = ID
 
     override fun encode(buffer: RegistryByteBuf) {
-        buffer.writeIdentifier(tm.id())
+        buffer.writeIdentifier(tm.id)
         buffer.writeItemStack(disc)
         buffer.writeItemStack(gem)
         buffer.writeItemStack(ingredient)

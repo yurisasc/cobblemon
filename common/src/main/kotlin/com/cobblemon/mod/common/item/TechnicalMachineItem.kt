@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.item
 
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.moves.BenchedMove
-import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.api.text.green
-import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.block.entity.TMBlockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.item.components.TMMoveComponent
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.block.Block
@@ -26,42 +25,13 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.item.tooltip.TooltipType
-import net.minecraft.nbt.NbtString
 import net.minecraft.sound.SoundCategory
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 
 class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
-
-    companion object {
-        val STORED_MOVE_KEY = "StoredMove"
-
-        fun getMoveNbt(stack: ItemStack): TechnicalMachine? {
-            val nbtCompound = stack.nbt ?: return null
-
-            return TechnicalMachines.tmMap[Identifier.tryParse(nbtCompound.getString(STORED_MOVE_KEY))]
-        }
-
-        fun getItemColor(stack: ItemStack, tint: Int): Int {
-            val nbt = getMoveNbt(stack) ?: return ElementalTypes.NORMAL.primaryColor
-
-            if (nbt.primaryColor != null && tint == 0) return nbt.primaryColor
-            if (nbt.secondaryColor != null && tint != 0) return nbt.secondaryColor
-
-            val type = ElementalTypes.getOrException(nbt.type)
-            if (tint == 0) return type.primaryColor
-            return type.secondaryColor
-        }
-    }
-
     override fun hasGlint(stack: ItemStack?) = false
-
-    fun setNbt(stack: ItemStack, id: String): ItemStack {
-        stack.getOrCreateNbt().put(STORED_MOVE_KEY, NbtString.of(id))
-        return stack
-    }
 
     override fun appendTooltip(
         stack: ItemStack,
@@ -69,12 +39,8 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         tooltip: MutableList<Text>,
         tooltipType: TooltipType
     ) {
-        val nbt = getMoveNbt(stack)
-        val text = if (nbt != null) {
-            lang("move." + nbt.moveName)
-        } else {
-            lang("tms.unknown_move")
-        }
+        val move = TMMoveComponent.getTMMove(stack)
+        val text = move?.displayName ?: lang("tms.unknown_move")
         tooltip.add(text.gray())
     }
 
@@ -82,26 +48,30 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         if (user.world.isClient) return ActionResult.FAIL
         if (entity !is PokemonEntity) return ActionResult.FAIL
 
-        val tm = getMoveNbt(stack) ?: return ActionResult.FAIL
-        val move = Moves.getByName(tm.moveName) ?: return ActionResult.FAIL
+        val tm = TMMoveComponent.getTMMove(stack) ?: return ActionResult.FAIL
         val pokemon = entity.pokemon
 
         val tmLearnableMoves = pokemon.species.moves.tmLearnableMoves()
 
-        if (!tmLearnableMoves.contains(move)) {
-            user.sendMessage(lang("tms.cannot_learn", pokemon.getDisplayName(), tm.translatedMoveName()))
+        if (!tmLearnableMoves.contains(tm)) {
+            user.sendMessage(lang("tms.cannot_learn", pokemon.getDisplayName(), tm.displayName))
             return ActionResult.FAIL
         }
-        if (pokemon.allAccessibleMoves.contains(move)) {
-            user.sendMessage(lang("tms.already_known", pokemon.getDisplayName(), tm.translatedMoveName()))
+        if (pokemon.allAccessibleMoves.contains(tm)) {
+            user.sendMessage(lang("tms.already_known", pokemon.getDisplayName(), tm.displayName))
             return ActionResult.FAIL
         }
 
-        if (!user.isCreative) stack.decrement(1)
-        if (pokemon.moveSet.hasSpace()) { pokemon.moveSet.add(move.create()) }
-            else { pokemon.benchedMoves.add(BenchedMove(move, 0)) }
+        if (!user.isCreative) {
+            stack.decrement(1)
+        }
+        if (pokemon.moveSet.hasSpace()) {
+            pokemon.moveSet.add(tm.create())
+        } else {
+            pokemon.benchedMoves.add(BenchedMove(tm, 0))
+        }
 
-        user.sendMessage(lang("tms.teach_move", pokemon.getDisplayName(), tm.translatedMoveName()).green())
+        user.sendMessage(lang("tms.teach_move", pokemon.getDisplayName(), tm.displayName).green())
         user.playSoundToPlayer(CobblemonSounds.TM_USE, SoundCategory.PLAYERS, 1.0f, 1.0f)
         entity.cry()
         return ActionResult.CONSUME
@@ -113,22 +83,22 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
             return ActionResult.FAIL
         }
 
-        //val TMM = context.world.getBlockState(context.hitPos.toBlockPos()).block
-        val TMM = context.world.getBlockEntity(context.hitPos.toBlockPos())
+        val tmMachineEntity = context.world.getBlockEntity(context.hitPos.toBlockPos())
 
-        if (TMM is TMBlockEntity
-                && (TMM.tmmInventory.filterTM == null
-                        || TMM.tmmInventory.filterTM!!.nbt?.get("StoredMove") != context.stack.nbt?.get("StoredMove"))) {
+        if (tmMachineEntity is TMBlockEntity
+                && (tmMachineEntity.tmmInventory.filterTM == null
+                        || tmMachineEntity.tmmInventory.filterTM != TMMoveComponent.getTMMove(context.stack))) {
             context.player?.playSoundToPlayer(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
             context.player?.swingHand(context.hand)
-            if (TMM.tmmInventory.filterTM != null) {
+            val filterTM = tmMachineEntity.tmmInventory.filterTM
+            if (filterTM != null) {
                 if (!context.player?.isCreative!!) {
-                    context.player!!.giveItemStack(TMM.tmmInventory.filterTM!!)
+                    context.player!!.giveItemStack(TMMoveComponent.createStack(filterTM))
                 }
             }
 
             // set filterTM equal to the item it corresponds to
-            TMM.tmmInventory.filterTM = TechnicalMachines.getTechnicalMachineFromStack(context.stack)?.let { TechnicalMachines.getStackFromTechnicalMachine(it) }
+            tmMachineEntity.tmmInventory.filterTM = TMMoveComponent.getTMMove(context.stack)
 
 
 
@@ -162,8 +132,8 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
                 context.player?.getStackInHand(context.hand)?.decrement(1)
             }
 
-            TMM.markDirty()
-            TMM.world?.updateListeners(TMM.blockPos, TMM.cachedState, TMM.cachedState, Block.NOTIFY_LISTENERS)
+            tmMachineEntity.markDirty()
+            tmMachineEntity.world?.updateListeners(tmMachineEntity.blockPos, tmMachineEntity.cachedState, tmMachineEntity.cachedState, Block.NOTIFY_LISTENERS)
         }
 
         /*val type = ElementalTypes.getOrException(getMoveNbt(context.stack)!!.type)

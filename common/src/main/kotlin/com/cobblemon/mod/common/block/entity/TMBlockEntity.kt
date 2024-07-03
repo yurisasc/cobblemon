@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.block.entity
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.moves.MoveTemplate
+import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
@@ -130,8 +132,7 @@ class TMBlockEntity(
                     return true
                 else
                     return false
-            }
-            else if (tmmInventory.filterTM == null && ItemStack.areItemsEqual(itemStack,Items.AMETHYST_SHARD.defaultStack)) {
+            } else if (ItemStack.areItemsEqual(itemStack,Items.AMETHYST_SHARD.defaultStack)) {
                 return (slot == 2 && inventory.none { it?.count == 1 && ItemStack.areItemsEqual(it, Items.AMETHYST_SHARD.defaultStack) })
             }
         }
@@ -200,20 +201,16 @@ class TMBlockEntity(
     override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
         super.writeNbt(nbt, registryLookup)
         Inventories.writeNbt(nbt, tmmInventory.items, registryLookup)
-        val filterTmCompound = tmmInventory.filterTM?.writeNbt(NbtCompound())
-        if (filterTmCompound != null)
-            nbt.put(FILTER_TM_NBT, filterTmCompound)
+        val filterTM = tmmInventory.filterTM
+        if (filterTM != null)
+            nbt.putString(FILTER_TM_NBT, filterTM.name)
     }
 
     override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
         super.readNbt(nbt, registryLookup)
         Inventories.readNbt(nbt, tmmInventory.items, registryLookup)
         if (nbt.contains(FILTER_TM_NBT)) {
-            val itemStack = CobblemonItems.TECHNICAL_MACHINE.defaultStack
-
-            tmmInventory.filterTM = ItemStack.fromNbt(registryLookup, nbt.getCompound(FILTER_TM_NBT)).get()
-
-            val test = 2
+            tmmInventory.filterTM = Moves.getByName(nbt.getString(FILTER_TM_NBT))
         }
 
     }
@@ -228,17 +225,19 @@ class TMBlockEntity(
     }
 
     class TMBlockInventory(val tmBlockEntity: TMBlockEntity) : SidedInventory {
+        companion object {
+            const val BLANK_DISC_SLOT_INDEX = 0
+            const val GEM_SLOT_INDEX = 1
+            const val MISC_SLOT_INDEX = 2
+            const val OUTPUT_SLOT_INDEX = 3
+            val INPUT_SLOTS = intArrayOf(0, 1, 2, 3)
+        }
 
-        private val BLANK_DISC_SLOT_INDEX = 0
-        private val GEM_SLOT_INDEX = 1
-        private val MISC_SLOT_INDEX = 2
-        private val OUTPUT_SLOT_INDEX = 3
-        private val INPUT_SLOTS = intArrayOf(0, 1, 2, 3)
         val entityPos = this.tmBlockEntity.blockPos
         val entityState = this.tmBlockEntity.blockState
         val entityWorld = this.tmBlockEntity.world
 
-        var filterTM: ItemStack? = null
+        var filterTM: MoveTemplate? = null
         //var inventory: MutableMap<Int, ItemStack?> = mutableMapOf(0 to ItemStack.EMPTY, 1 to ItemStack.EMPTY, 2 to ItemStack.EMPTY)
         var items: DefaultedList<ItemStack?>? = DefaultedList.ofSize(4, ItemStack.EMPTY)
 
@@ -283,9 +282,10 @@ class TMBlockEntity(
 
         override fun getAvailableSlots(side: Direction?): IntArray? {
             return if (side == Direction.DOWN) {
-                return listOf(this.OUTPUT_SLOT_INDEX).toIntArray()
+                listOf(OUTPUT_SLOT_INDEX).toIntArray()
+            } else {
+                INPUT_SLOTS
             }
-            else this.INPUT_SLOTS
 
 
 //            val result = this.items?.size?.let { IntArray(it) }
@@ -327,16 +327,17 @@ class TMBlockEntity(
             return IntArray(3)
         }*/
 
-        override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
+        override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean {
             if (this.entityState.get(TMBlock.ON)) {
 //                print("TMM is in use so canInsert is disabled")
                 return false
             }
 
-            if (stack != null && slot < this.INPUT_SLOTS.size) {
-                val tm = TechnicalMachines.getTechnicalMachineFromStack(tmBlockEntity.tmmInventory.filterTM)
+            if (!stack.isEmpty && slot < INPUT_SLOTS.size) {
+                val filterTM = tmBlockEntity.tmmInventory.filterTM
+                val tms = filterTM?.let { TechnicalMachines.moveToTMs[it] ?: return false }
                 // if material is needed then load it
-                if (tmBlockEntity.materialNeeded(tm, slot, stack) && (ItemStack.areEqual(items?.get(slot) ?: ItemStack.EMPTY, ItemStack.EMPTY) || ItemStack.areItemsEqual(items?.get(slot) ?: ItemStack.EMPTY, stack))) {
+                if (tms != null && tms.any { tmBlockEntity.materialNeeded(it, slot, stack) } && (ItemStack.areEqual(items?.get(slot) ?: ItemStack.EMPTY, ItemStack.EMPTY) || ItemStack.areItemsEqual(items?.get(slot) ?: ItemStack.EMPTY, stack))) {
                     //tmBlockEntity.loadMaterial(stack)
                     return true
                 }
@@ -352,7 +353,7 @@ class TMBlockEntity(
                 return false
             }
 
-            return dir == Direction.DOWN && slot == this.OUTPUT_SLOT_INDEX
+            return dir == Direction.DOWN && slot == OUTPUT_SLOT_INDEX
         }
 
     }

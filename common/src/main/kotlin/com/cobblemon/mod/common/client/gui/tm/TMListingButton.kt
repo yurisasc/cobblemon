@@ -5,10 +5,12 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
+import com.cobblemon.mod.common.item.components.TMMoveComponent
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
+import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 
 class TMListingButton(
@@ -23,6 +25,8 @@ class TMListingButton(
         val TM_LISTING_BUTTON = cobblemonResource("textures/gui/tm/tm_selection_listing.png")
     }
 
+    val stack = TMMoveComponent.createStack(tm.move)
+
     override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         blitk(
             matrixStack = context.matrices,
@@ -35,10 +39,8 @@ class TMListingButton(
             textureHeight = HEIGHT * 2
         )
 
-        val item = CobblemonItems.TECHNICAL_MACHINE
-
         renderScaledGuiItemIcon(
-            itemStack = item.setNbt(item.defaultStack, tm.id().toString()),
+            itemStack = stack,
             x = x.toDouble() + 2,
             y = y.toDouble() + 2
         )

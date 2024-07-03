@@ -82,12 +82,12 @@ object CobblemonItemGroups {
 
     private fun technicalMachineEntries(displayContext: DisplayContext, entries: Entries) {
         entries.add(CobblemonItems.BLANK_TM)
-        for (tm in TechnicalMachines.tmMap) {
-            val item = CobblemonItems.TECHNICAL_MACHINE.setNbt(
-                CobblemonItems.TECHNICAL_MACHINE.defaultStack,
-                tm.key.toString())
-            entries.add(item)
-        }
+//        for (tm in TechnicalMachines.tmMap) { Can't do it bro the registry hasn't loaded yet
+//            val item = CobblemonItems.TECHNICAL_MACHINE.setNbt(
+//                CobblemonItems.TECHNICAL_MACHINE.defaultStack,
+//                tm.key.toString())
+//            entries.add(item)
+//        }
     }
 
     private fun agricultureEntries(displayContext: DisplayContext, entries: Entries) {

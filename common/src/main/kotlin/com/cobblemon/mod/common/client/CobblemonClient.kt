@@ -57,6 +57,7 @@ import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.gui.CobblemonScreenHandlers
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.TechnicalMachineItem
+import com.cobblemon.mod.common.item.components.TMMoveComponent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.asTranslated
 import net.minecraft.client.MinecraftClient
@@ -179,7 +180,7 @@ object CobblemonClient {
             return@ItemColorProvider 0xE0A33A
         }, CobblemonItems.TECHNICAL_MACHINE)
 
-        this.implementation.registerItemColors(TechnicalMachineItem::getItemColor, CobblemonItems.TECHNICAL_MACHINE)
+        this.implementation.registerItemColors(TMMoveComponent::getItemColor, CobblemonItems.TECHNICAL_MACHINE)
     }
 
     private fun registerBlockRenderTypes() {

@@ -135,7 +135,7 @@ object TestCommand {
     private fun filter(context: CommandContext<ServerCommandSource>) {
         val tms = TechnicalMachine.filterTms("fire", null, null)
         println(context.source.playerOrThrow.party().get(1)?.getDisplayName())
-        tms.forEach { context.source.playerOrThrow.sendMessage(it.moveName.text()) }
+        tms.forEach { context.source.playerOrThrow.sendMessage(it.move.displayName) }
     }
 
     private fun testClosestBattle(context: CommandContext<ServerCommandSource>) {

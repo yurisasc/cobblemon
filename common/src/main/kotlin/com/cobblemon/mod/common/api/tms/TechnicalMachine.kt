@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.tms
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
@@ -24,13 +25,12 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 class TechnicalMachine(
-    val moveName: String,
+    val move: MoveTemplate,
     val recipe: TechnicalMachineRecipe?,
     val obtainMethods: List<ObtainMethod> = emptyList(),
-    val type: String,
-    val primaryColor: Int?,
-    val secondaryColor: Int?
+    val type: String
 ) {
+    lateinit var id: Identifier
 
     companion object {
         /**
@@ -59,8 +59,7 @@ class TechnicalMachine(
                 val iterator = tms.iterator()
                 while (iterator.hasNext()) {
                     val tm = iterator.next()
-                    val move = Moves.getByName(tm.moveName)
-                    if (!pokemon.species.moves.tmLearnableMoves().contains(move)) {
+                    if (!pokemon.species.moves.tmLearnableMoves().contains(tm.move)) {
                         iterator.remove()
                     }
                 }
@@ -81,19 +80,6 @@ class TechnicalMachine(
     }
 
     /**
-     * Gets the [Identifier] of this [TechnicalMachine]
-     *
-     * @return The [Identifier] of this [TechnicalMachine] (or null if not found)
-     * @author whatsy
-     */
-    fun id(): Identifier? {
-        TechnicalMachines.tmMap.forEach {
-            if (TechnicalMachines.tmMap[it.key] == this) return it.key
-        }
-        return null
-    }
-
-    /**
      * Unlocks this [TechnicalMachine] for the player.
      *
      * @param player The [ServerPlayerEntity] to give this [TechnicalMachine] to.
@@ -101,9 +87,8 @@ class TechnicalMachine(
      * @author whatsy
      */
     fun unlock(player: ServerPlayerEntity): Boolean {
-        if (id() == null) return false
-        Cobblemon.playerData.get(player).tmSet.add(id()!!)
-        if (!obtainMethods.any { it is NoneObtainMethod }) player.sendMessage(lang("tms.unlock_tm", lang("move.$moveName")))
+        Cobblemon.playerData.get(player).tmSet.add(id)
+        if (!obtainMethods.any { it is NoneObtainMethod }) player.sendMessage(lang("tms.unlock_tm", move.displayName), true)
         return true
     }
 
@@ -113,7 +98,5 @@ class TechnicalMachine(
      * @return This [TechnicalMachine]'s move name, translated
      * @author whatsy
      */
-    fun translatedMoveName(): MutableText {
-        return lang("move." + this.moveName)
-    }
+    fun translatedMoveName() = move.displayName
 }

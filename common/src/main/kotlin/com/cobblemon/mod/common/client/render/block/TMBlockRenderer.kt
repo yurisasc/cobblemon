@@ -1,21 +1,11 @@
 package com.cobblemon.mod.common.client.render.block
 
-import com.cobblemon.mod.common.api.text.blue
-import com.cobblemon.mod.common.api.text.green
-import com.cobblemon.mod.common.api.text.red
-import com.cobblemon.mod.common.api.tms.TechnicalMachines
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.block.TMBlock
 import com.cobblemon.mod.common.block.entity.TMBlockEntity
-import com.cobblemon.mod.common.client.CobblemonBakingOverrides
-import com.cobblemon.mod.common.client.render.layer.CobblemonRenderLayers
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.MiscModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.setRotation
+import com.cobblemon.mod.common.item.components.TMMoveComponent
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.math.geometry.Axis
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.LightmapTextureManager
-import net.minecraft.client.render.OverlayTexture
+import java.awt.Color
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
@@ -23,8 +13,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
-import java.awt.Color
-import kotlin.math.sin
 
 class TMBlockRenderer(context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<TMBlockEntity> {
     //TODO Do the render optimizations that we do for berries and fossils
@@ -36,15 +24,11 @@ class TMBlockRenderer(context: BlockEntityRendererFactory.Context) : BlockEntity
         light: Int,
         overlay: Int
     ) {
-        val diskModel = MiscModelRepository.modelOf(MODEL_ID)
+        val diskModel = MiscModelRepository.modelOf(MODEL_ID) ?: return
         matrices.push()
-        val tm = entity.tmmInventory.filterTM?.let {
-            TechnicalMachines.getTechnicalMachineFromStack(
-                it
-            )
-        }
+        val tm = entity.tmmInventory.filterTM ?: return
         entity.partialTicks += tickDelta
-        val color = tm?.let { Color(ElementalTypes.get(it.type)!!.hue) } ?: Color.WHITE
+        val color = Color(tm.elementalType.hue)
         when (entity.cachedState.get(TMBlock.FACING)) {
             Direction.SOUTH -> matrices.translate(15F / 16F, 5.5F / 16F, 1F / 16F)
             Direction.WEST -> matrices.translate(14F / 16F, 5.5F / 16F, 0F)
@@ -59,7 +43,7 @@ class TMBlockRenderer(context: BlockEntityRendererFactory.Context) : BlockEntity
         val colour = (255 shl 24) or (color.red shl 16) or (color.green shl 8) or color.blue
 
         val renderLayer = RenderLayer.getEntityCutout(cobblemonResource("textures/block/tm_machine.png"))
-        diskModel?.render(
+        diskModel.render(
             matrices,
             vertexConsumers.getBuffer(renderLayer),
             light,

@@ -32,16 +32,16 @@ object ServerTickHandler {
                 player.party().onSecondPassed(player)
                 TechnicalMachines.checkPassives(player)
 
-                // Give player tm unlocks for tms they don't already have
-                repeat(player.inventory.size()) {
-                    val stack = player.inventory.getStack(it)
-                    if (stack.item is TechnicalMachineItem) {
-                        val tm = TechnicalMachineItem.getMoveNbt(stack) ?: return@repeat
-                        if (!Cobblemon.playerData.get(player).tmSet.contains(tm.id())) {
-                            tm.unlock(player)
-                        }
-                    }
-                }
+//                // Give player tm unlocks for tms they don't already have
+//                repeat(player.inventory.size()) {
+//                    val stack = player.inventory.getStack(it)
+//                    if (stack.item is TechnicalMachineItem) {
+//                        val tm = TechnicalMachineItem.getMoveNbt(stack) ?: return@repeat
+//                        if (!Cobblemon.playerData.get(player).tmSet.contains(tm.id)) {
+//                            tm.unlock(player)
+//                        }
+//                    }
+//                }
             }
         }
     }

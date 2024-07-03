@@ -234,7 +234,6 @@ class TMMHandledScreen(
 
         val x = (width - TEXTURE_WIDTH) / 2
         val y = (height - TEXTURE_HEIGHT) / 2
-        val move = Moves.getByNameOrDummy(currentTm.moveName)
         // blank tm
         renderScaledGuiItemIcon(
             itemStack = CobblemonItems.BLANK_TM.defaultStack,
@@ -296,7 +295,7 @@ class TMMHandledScreen(
         MoveCategoryIcon(
             x = (x + 237.5),
             y = (y + 52.5),
-            category = Moves.getByNameOrDummy(currentTm.moveName).damageCategory
+            category = currentTm.move.damageCategory
         ).render(context)
 
         drawScaledText(
@@ -309,7 +308,7 @@ class TMMHandledScreen(
 
         drawScaledText(
             context = context,
-            text = Text.literal(move.power.toInt().toString()),
+            text = Text.literal(currentTm.move.power.toInt().toString()),
             x = (x + 241),
             y = (y + 25),
             scale = 0.5f,
@@ -326,7 +325,7 @@ class TMMHandledScreen(
 
         drawScaledText(
             context = context,
-            text = Text.literal(move.accuracy.toInt().toString() + "%"),
+            text = Text.literal(currentTm.move.accuracy.toInt().toString() + "%"),
             x = (x + 241),
             y = (y + 35),
             scale = 0.5f,
@@ -343,7 +342,7 @@ class TMMHandledScreen(
 
         drawScaledText(
             context = context,
-            text = Text.literal(move.pp.toString()),
+            text = Text.literal(currentTm.move.pp.toString()),
             x = (x + 241),
             y = (y + 45),
             scale = 0.5f,
@@ -363,7 +362,7 @@ class TMMHandledScreen(
         context.matrices.push()
         context.matrices.scale(scale, scale, 1f)
         MultiLineLabelK.create(
-            component = lang("move.${currentTm.moveName}.desc"),
+            component = currentTm.move.description,
             width = 49 / scale,
             maxLines = 7
         ).renderLeftAligned(
@@ -386,7 +385,6 @@ class TMMHandledScreen(
             texture = TYPE_SELECTION_BASE,
             x = x, // horizontal placement of GUI
             y = y, // vertical placement of GUI
-
             width = TEXTURE_WIDTH, // scale of the GUI width
             height = TEXTURE_HEIGHT // scale of the GUI height
         )
