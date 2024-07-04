@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.gui.pokedex
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.pokedex.*
 import com.cobblemon.mod.common.api.pokedex.filters.InvisibleFilter
+import com.cobblemon.mod.common.api.pokedex.filters.RegionFilter
 import com.cobblemon.mod.common.api.pokedex.filters.SearchFilter
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.text.bold
@@ -23,11 +24,13 @@ import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.HEADER_BA
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SCALE
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.TAB_DESCRIPTION
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.TAB_ABILITIES
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.TAB_DROPS
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.TAB_ICON_SIZE
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.TAB_SIZE
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.TAB_STATS
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.*
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.pokedex.DexData
 import com.cobblemon.mod.common.pokedex.DexPokemonData
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -50,7 +53,6 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
 
     companion object {
         private val screenBackground = cobblemonResource("textures/gui/pokedex/pokedex_screen.png")
-
         private val globeIcon = cobblemonResource("textures/gui/pokedex/globe_icon.png")
         private val caughtSeenIcon = cobblemonResource("textures/gui/pokedex/caught_seen_icon.png")
 
@@ -59,7 +61,8 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
             cobblemonResource("textures/gui/pokedex/tab_info.png"),
             cobblemonResource("textures/gui/pokedex/tab_abilities.png"),
             cobblemonResource("textures/gui/pokedex/tab_size.png"),
-            cobblemonResource("textures/gui/pokedex/tab_stats.png")
+            cobblemonResource("textures/gui/pokedex/tab_stats.png"),
+            cobblemonResource("textures/gui/pokedex/tab_drops.png")
         )
 
         /**
@@ -81,10 +84,12 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
 
     private var selectedPokemon: DexPokemonData? = null
     private var selectedForm: FormData? = null
+    private var selectedRegion: DexData = PokedexJSONRegistry.getByName("national")!!
 
     private lateinit var scrollScreen: EntriesScrollingWidget
     private lateinit var pokemonInfoWidget: PokemonInfoWidget
     private lateinit var searchWidget: SearchWidget
+    private lateinit var regionSelectWidget: ScaledButton
 
     private val tabButtons: MutableList<ScaledButton> = mutableListOf()
 
@@ -124,6 +129,20 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
         searchWidget = SearchWidget(x + 26, y + 28, HALF_OVERLAY_WIDTH, HEADER_BAR_HEIGHT, update =::updateFilters)
         addDrawableChild(searchWidget)
 
+        if (::regionSelectWidget.isInitialized) remove(regionSelectWidget)
+        regionSelectWidget = ScaledButton(
+            buttonX = (x + 27).toFloat(),
+            buttonY = (y + 15).toFloat(),
+            buttonWidth = 14,
+            buttonHeight = 14,
+            scale = SCALE,
+            resource = globeIcon,
+            clickAction = {
+                selectedRegion = PokedexJSONRegistry.getByIdentifier(PokedexJSONRegistry.getNextDex(selectedRegion.identifier))!!
+                updateFilters()
+            })
+        addDrawableChild(regionSelectWidget)
+
         updateFilters(true)
     }
 
@@ -151,22 +170,10 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
             height = BASE_HEIGHT
         )
 
-        // Region
-        blitk(
-            matrixStack = matrices,
-            texture = globeIcon,
-            x = (x + 26) / SCALE,
-            y = (y + 15) / SCALE,
-            width = 14,
-            height = 14,
-            scale = SCALE
-        )
-
-        // Region label
         drawScaledText(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
-            text = Text.translatable("cobblemon.ui.pokedex.region.national").bold(),
+            text = Text.translatable("cobblemon.ui.pokedex.region.${selectedRegion.identifier.path}").bold(),
             x = x + 36,
             y = y + 14,
             shadow = true
@@ -296,6 +303,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
 
         filters.add(InvisibleFilter(pokedex))
         filters.add(SearchFilter(pokedex, searchWidget.text))
+        filters.add(RegionFilter(pokedex, selectedRegion))
 
         return filters
     }
@@ -369,6 +377,9 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
             TAB_STATS -> {
                 tabInfoElement = StatsWidget( x + 180, y + 135)
             }
+            TAB_DROPS -> {
+                tabInfoElement = DropsScrollingWidget(x + 182, y + 135)
+            }
         }
         val element = tabInfoElement
         if (element is Drawable && element is Selectable) {
@@ -412,6 +423,10 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
                 }
                 TAB_STATS -> {
                     (tabInfoElement as StatsWidget).baseStats = form.baseStats
+                }
+                TAB_DROPS -> {
+                    (tabInfoElement as DropsScrollingWidget).dropTable = form.drops
+                    (tabInfoElement as DropsScrollingWidget).setEntries()
                 }
 //                TAB_MOVES -> {
 //                    form.moves.getLevelUpMovesUpTo(100)
