@@ -110,9 +110,9 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
             if (player != null) {
                 val itemStack = player.mainHandStack
                 if (itemStack.item is PokedexItem && (itemStack.item as PokedexItem).isScanning) {
-                    if (!(itemStack.item as PokedexItem).bufferImageSnap) {
+                    //if (!(itemStack.item as PokedexItem).bufferImageSnap) {
                         (itemStack.item as PokedexItem).onRenderOverlay(drawContext)
-                    }
+                    //}
 
                 }
             }

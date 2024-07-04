@@ -198,13 +198,13 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
 
 
-                //isScanning = true
+                isScanning = true
 
                 // todo get it constantly scanning outwards to detect pokemon in focus
                 MinecraftClient.getInstance().player?.let {
                     detectPokemon(it.world, it, Hand.MAIN_HAND)
                 }
-
+/*
                 // if there was a mouse click last tick and overlay is now down
                 if (bufferImageSnap) {
 
@@ -221,7 +221,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
                     // bring back overlay next tick
                     bufferImageSnap = false
-                }
+                }*/
 
                 isScanning = true
 
@@ -329,9 +329,9 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     @Environment(EnvType.CLIENT)
     fun onMouseClick() {
         // Todo try to start a buffer to taking a pic to try to wait until overlay is down
-        bufferImageSnap = true
+        //bufferImageSnap = true
 
-        /*if (isScanning) {
+        if (isScanning) {
 
             MinecraftClient.getInstance().player?.let {
                 //println("You have taken a picture")
@@ -341,7 +341,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 // todo take picture
                 snapPicture(it)
             }
-        }*/
+        }
     }
 
     @Environment(EnvType.CLIENT)
