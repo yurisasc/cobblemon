@@ -285,15 +285,7 @@ class FormData(
         this._height = buffer.readNullable { pb -> pb.readFloat() }
         this._weight = buffer.readNullable { pb -> pb.readFloat() }
         this._baseScale = buffer.readNullable { pb -> pb.readFloat() }
-        this._hitbox = buffer.readNullable { pb ->
-            val isFixed = pb.readBoolean()
-            if (isFixed) {
-                EntityDimensions.fixed(pb.readFloat(), pb.readFloat())
-            }
-            else {
-                EntityDimensions.scalable(pb.readFloat(), pb.readFloat())
-            }
-        }
+        this._hitbox = buffer.readNullable { pb -> pb.readEntityDimensions() }
         this._moves = buffer.readNullable { _ -> Learnset().apply { decode(buffer) }}
         this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }?.toMutableList()
         this._lightingData = buffer.readNullable { pb -> LightingData(pb.readInt(), pb.readEnumConstant(LightingData.LiquidGlowMode::class.java)) }
