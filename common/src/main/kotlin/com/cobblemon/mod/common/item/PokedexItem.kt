@@ -198,13 +198,13 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
 
 
-                isScanning = true
+               // isScanning = true
 
                 // todo get it constantly scanning outwards to detect pokemon in focus
                 MinecraftClient.getInstance().player?.let {
                     detectPokemon(it.world, it, Hand.MAIN_HAND)
                 }
-/*
+
                 // if there was a mouse click last tick and overlay is now down
                 if (bufferImageSnap) {
 
@@ -221,7 +221,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
                     // bring back overlay next tick
                     bufferImageSnap = false
-                }*/
+                }
 
                 isScanning = true
 
@@ -329,9 +329,9 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     @Environment(EnvType.CLIENT)
     fun onMouseClick() {
         // Todo try to start a buffer to taking a pic to try to wait until overlay is down
-        //bufferImageSnap = true
+        bufferImageSnap = true
 
-        if (isScanning) {
+        /*if (isScanning) {
 
             MinecraftClient.getInstance().player?.let {
                 //println("You have taken a picture")
@@ -341,7 +341,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 // todo take picture
                 snapPicture(it)
             }
-        }
+        }*/
     }
 
     @Environment(EnvType.CLIENT)
@@ -454,38 +454,42 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
     @Environment(EnvType.CLIENT)
     fun snapPicture(player: ClientPlayerEntity) {
-        val client = MinecraftClient.getInstance()
+        MinecraftClient.getInstance().execute {
 
-        /*// Hide the HUD
-        val originalHudHidden = client.options.hudHidden
-        client.options.hudHidden = true*/
 
-        // Take a screenshot
-        val framebuffer: Framebuffer = client.framebuffer
-        val nativeImage: NativeImage = ScreenshotRecorder.takeScreenshot(framebuffer)
+            val client = MinecraftClient.getInstance()
 
-       /* // Restore the HUD
-        client.options.hudHidden = originalHudHidden*/
+            /*// Hide the HUD
+            val originalHudHidden = client.options.hudHidden
+            client.options.hudHidden = true*/
 
-        // Convert NativeImage to BufferedImage
-        val imageBytes = nativeImage.bytes
-        val bufferedImage: BufferedImage = ImageIO.read(ByteArrayInputStream(imageBytes))
+            // Take a screenshot
+            val framebuffer: Framebuffer = client.framebuffer
+            val nativeImage: NativeImage = ScreenshotRecorder.takeScreenshot(framebuffer)
 
-        // Crop the image to a square centered on the original image
-        val croppedImage = cropToSquare(bufferedImage)
+            /* // Restore the HUD
+            client.options.hudHidden = originalHudHidden*/
 
-        // Save the captured image to file for debugging
-        val capturedImageFile = File("captured_image.png")
-        ImageIO.write(croppedImage, "png", capturedImageFile)
-        println("Saved captured image to ${capturedImageFile.absolutePath}")
+            // Convert NativeImage to BufferedImage
+            val imageBytes = nativeImage.bytes
+            val bufferedImage: BufferedImage = ImageIO.read(ByteArrayInputStream(imageBytes))
 
-        // Prepare the image to be sent
-        val baos = ByteArrayOutputStream()
-        ImageIO.write(croppedImage, "png", baos)
-        val imageBytesToSend = baos.toByteArray()
+            // Crop the image to a square centered on the original image
+            val croppedImage = cropToSquare(bufferedImage)
 
-        // Send the packet to the server
-        MapUpdatePacket(imageBytesToSend).sendToServer()
+            // Save the captured image to file for debugging
+            val capturedImageFile = File("captured_image.png")
+            ImageIO.write(croppedImage, "png", capturedImageFile)
+            println("Saved captured image to ${capturedImageFile.absolutePath}")
+
+            // Prepare the image to be sent
+            val baos = ByteArrayOutputStream()
+            ImageIO.write(croppedImage, "png", baos)
+            val imageBytesToSend = baos.toByteArray()
+
+            // Send the packet to the server
+            MapUpdatePacket(imageBytesToSend).sendToServer()
+        }
     }
 
     fun cropToSquare(image: BufferedImage): BufferedImage {
