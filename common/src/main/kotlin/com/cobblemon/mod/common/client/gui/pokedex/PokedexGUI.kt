@@ -55,6 +55,8 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
         private val screenBackground = cobblemonResource("textures/gui/pokedex/pokedex_screen.png")
         private val globeIcon = cobblemonResource("textures/gui/pokedex/globe_icon.png")
         private val caughtSeenIcon = cobblemonResource("textures/gui/pokedex/caught_seen_icon.png")
+        private val arrowUpIcon = cobblemonResource("textures/gui/pokedex/arrow_up.png")
+        private val arrowDownIcon = cobblemonResource("textures/gui/pokedex/arrow_down.png")
 
         private val tabSelectArrow = cobblemonResource("textures/gui/pokedex/select_arrow.png")
         private val tabIcons = arrayOf(
@@ -89,7 +91,8 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
     private lateinit var scrollScreen: EntriesScrollingWidget
     private lateinit var pokemonInfoWidget: PokemonInfoWidget
     private lateinit var searchWidget: SearchWidget
-    private lateinit var regionSelectWidget: ScaledButton
+    private lateinit var regionSelectWidgetUp: ScaledButton
+    private lateinit var regionSelectWidgetDown: ScaledButton
 
     private val tabButtons: MutableList<ScaledButton> = mutableListOf()
 
@@ -129,19 +132,33 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
         searchWidget = SearchWidget(x + 26, y + 28, HALF_OVERLAY_WIDTH, HEADER_BAR_HEIGHT, update =::updateFilters)
         addDrawableChild(searchWidget)
 
-        if (::regionSelectWidget.isInitialized) remove(regionSelectWidget)
-        regionSelectWidget = ScaledButton(
-            buttonX = (x + 27).toFloat(),
-            buttonY = (y + 15).toFloat(),
-            buttonWidth = 14,
-            buttonHeight = 14,
+        if (::regionSelectWidgetUp.isInitialized) remove(regionSelectWidgetUp)
+        regionSelectWidgetUp = ScaledButton(
+            buttonX = (x + 95).toFloat(),
+            buttonY = (y + 14.5).toFloat(),
+            buttonWidth = 8,
+            buttonHeight = 6,
             scale = SCALE,
-            resource = globeIcon,
+            resource = arrowUpIcon,
             clickAction = {
                 selectedRegion = PokedexJSONRegistry.getByIdentifier(PokedexJSONRegistry.getNextDex(selectedRegion.identifier))!!
                 updateFilters()
             })
-        addDrawableChild(regionSelectWidget)
+        addDrawableChild(regionSelectWidgetUp)
+
+        if (::regionSelectWidgetDown.isInitialized) remove(regionSelectWidgetDown)
+        regionSelectWidgetDown = ScaledButton(
+            buttonX = (x + 95).toFloat(),
+            buttonY = (y + 19.5).toFloat(),
+            buttonWidth = 8,
+            buttonHeight = 6,
+            scale = SCALE,
+            resource = arrowDownIcon,
+            clickAction = {
+                selectedRegion = PokedexJSONRegistry.getByIdentifier(PokedexJSONRegistry.getPreviousDex(selectedRegion.identifier))!!
+                updateFilters()
+            })
+        addDrawableChild(regionSelectWidgetDown)
 
         updateFilters(true)
     }
@@ -170,6 +187,18 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
             height = BASE_HEIGHT
         )
 
+        // Region
+        blitk(
+            matrixStack = matrices,
+            texture = globeIcon,
+            x = (x + 26) / SCALE,
+            y = (y + 15) / SCALE,
+            width = 14,
+            height = 14,
+            scale = SCALE
+        )
+
+        // Region label
         drawScaledText(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
@@ -178,6 +207,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
             y = y + 14,
             shadow = true
         )
+
 
         // Seen icon
         blitk(
@@ -229,7 +259,8 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
         blitk(
             matrixStack = matrices,
             texture = tabSelectArrow,
-            x = (x + 204.5 + (28 * tabInfoIndex)) / SCALE, // (x + 191.5 + (22 * tabInfoIndex)) / SCALE
+            x = (x + 198 + (25 * tabInfoIndex)) / SCALE,
+            // (x + 191.5 + (22 * tabInfoIndex)) / SCALE for 6 tabs
             y = (y + 177) / SCALE,
             width = 12,
             height = 6,
@@ -336,7 +367,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
 
         for (i in tabIcons.indices) {
             tabButtons.add(ScaledButton(
-                x + 203.5F + (i * 28F), // x + 190.5F + (i * 22F) for 6 tabs
+                x + 197F + (i * 25F), // x + 190.5F + (i * 22F) for 6 tabs
                 y + 181.5F,
                 TAB_ICON_SIZE,
                 TAB_ICON_SIZE,
@@ -378,7 +409,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
                 tabInfoElement = StatsWidget( x + 180, y + 135)
             }
             TAB_DROPS -> {
-                tabInfoElement = DropsScrollingWidget(x + 182, y + 135)
+                tabInfoElement = DropsScrollingWidget(x + 189, y + 135)
             }
         }
         val element = tabInfoElement

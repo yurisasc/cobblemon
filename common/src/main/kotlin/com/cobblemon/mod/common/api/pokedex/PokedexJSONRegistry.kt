@@ -115,7 +115,8 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
         cobblemonResource("national_alola"),
         cobblemonResource("national_galar"),
         cobblemonResource("national_hisui"),
-        cobblemonResource("national_paldea")
+        cobblemonResource("national_paldea"),
+        cobblemonResource("national_unknown")
     )
 
     /**
@@ -129,6 +130,20 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
             orderedDexes.first()
         } else {
             orderedDexes[orderedDexes.indexOf(currentDex) + 1]
+        }
+    }
+
+    /**
+     * Gets the [Identifier] of the previous [DexData] in [orderedDexes]
+     *
+     * @param currentDex The [Identifier] to search [orderedDexes] for
+     * @return The next value
+     */
+    fun getPreviousDex(currentDex: Identifier): Identifier {
+        return if (orderedDexes.indexOf(currentDex) == 0) {
+            orderedDexes.last()
+        } else {
+            orderedDexes[orderedDexes.indexOf(currentDex) - 1]
         }
     }
 

@@ -686,9 +686,10 @@
   "cobblemon.ui.pokedex.info.description": "Description",
   "cobblemon.ui.pokedex.info.stats": "Base Stats",
   "cobblemon.ui.pokedex.info.drops": "Drops",
-  "cobblemon.ui.pokedex.info.drops_display": "%1$s (%2$s)",
-  "cobblemon.ui.pokedex.info.drops_range": "%1$s-%2$s",
-  "cobblemon.ui.pokedex.info.drops_percentage": "%1$s%",
+  "cobblemon.ui.pokedex.info.drops_display": "%1$s %2$s",
+  "cobblemon.ui.pokedex.info.drops_amount": "%1$s×",
+  "cobblemon.ui.pokedex.info.drops_range": "%1$s-%2$s×",
+  "cobblemon.ui.pokedex.info.drops_percentage": "%1$s%%",
 
   "cobblemon.ui.pokedex.info.form.normal": "Standard",
   "cobblemon.ui.pokedex.info.form.alolan": "Alolan",

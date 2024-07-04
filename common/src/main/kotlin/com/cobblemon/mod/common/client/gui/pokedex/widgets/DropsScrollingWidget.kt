@@ -15,10 +15,13 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.ScrollingWidget
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.client.render.drawScaledTextJustifiedRight
 import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.registry.Registries
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.ColorHelper
 import net.minecraft.util.math.MathHelper
 
@@ -42,7 +45,7 @@ class DropsScrollingWidget(val pX: Int, val pY: Int): ScrollingWidget<DropsScrol
 
     fun setEntries() {
         dropTable.entries.forEach {
-            if (it is ItemDropEntry) addEntry(DropWidgetEntry(it))
+            if (it is ItemDropEntry && it.item != Identifier.ofVanilla("air")) addEntry(DropWidgetEntry(it))
         }
     }
 
@@ -55,7 +58,7 @@ class DropsScrollingWidget(val pX: Int, val pY: Int): ScrollingWidget<DropsScrol
     }
 
     override fun getScrollbarX(): Int {
-        return left + width - scrollBarWidth
+        return left + width - scrollBarWidth - 7
     }
 
     override fun getMaxScroll(): Int {
@@ -87,7 +90,7 @@ class DropsScrollingWidget(val pX: Int, val pY: Int): ScrollingWidget<DropsScrol
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = Text.translatable("cobblemon.ui.pokedex.info.drops").bold(),
-            x = pX + 7,
+            x = pX,
             y = pY - 10,
             shadow = true
         )
@@ -142,35 +145,43 @@ class DropsScrollingWidget(val pX: Int, val pY: Int): ScrollingWidget<DropsScrol
             )
             context.matrices.push()
 
-            val dropNumList = mutableListOf<String>()
-            if (entry.quantityRange != null) {
-                dropNumList.add(
-                    Text.translatable(
-                        "cobblemon.ui.pokedex.info.drops_range",
-                        entry.quantityRange!!.min(),
-                        entry.quantityRange!!.max()
-                    ).string
-                )
-            } else if (entry.quantity != 1) {
-                dropNumList.add(entry.quantity.toString())
+            val min = entry.quantityRange?.min()
+            val max = entry.quantityRange?.max()
+
+            var itemName: String = Text.translatable(itemStack.translationKey).string
+            itemName = if (itemName.length > 24) {
+                itemName.substring(0, 24 - 3) + "..."
+            } else {
+                itemName
             }
 
-            if (entry.percentage != 100F) dropNumList.add(Text.translatable("cobblemon.ui.pokedex.info.drops_percentage", entry.percentage.toDouble()).string)
-
-            var displayText = if (dropNumList.size != 0) {
+            val displayText: MutableText = if (entry.quantityRange != null) {
                 Text.translatable(
                     "cobblemon.ui.pokedex.info.drops_display",
-                    Text.translatable(itemStack.translationKey),
-                    dropNumList.joinToString(", ")
+                    Text.literal(itemName).bold(),
+                    Text.translatable("cobblemon.ui.pokedex.info.drops_range", min, max)
                 )
             } else {
-                Text.translatable(itemStack.translationKey)
+                Text.translatable(
+                    "cobblemon.ui.pokedex.info.drops_display",
+                    Text.literal(itemName).bold(),
+                    Text.translatable("cobblemon.ui.pokedex.info.drops_amount", entry.quantity)
+                )
             }
 
             drawScaledText(
                 context = context,
                 text = displayText,
                 x = x + 10,
+                y = y + 2,
+                colour = 0x606B6E,
+                scale = PokedexGUIConstants.SCALE
+            )
+
+            drawScaledTextJustifiedRight(
+                context = context,
+                text = Text.translatable("cobblemon.ui.pokedex.info.drops_percentage", entry.percentage.toInt()),
+                x = x + 120,
                 y = y + 2,
                 colour = 0x606B6E,
                 scale = PokedexGUIConstants.SCALE
