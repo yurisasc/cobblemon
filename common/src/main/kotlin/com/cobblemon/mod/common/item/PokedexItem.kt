@@ -88,6 +88,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     var scanningProgress: Int = 0
     var pokedexUser: ServerPlayerEntity? = null
     var originalHudHidden: Boolean = true
+    var bufferImageSnap:  Boolean = false
 
     override fun getMaxUseTime(stack: ItemStack?, user: LivingEntity?): Int {
         return 72000  // (vanilla bows use 72000 ticks -> 1 hour of hold time)
@@ -195,13 +196,34 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                     client.options.hudHidden = true
                 }
 
-                isScanning = true
+
+
+                //isScanning = true
 
                 // todo get it constantly scanning outwards to detect pokemon in focus
                 MinecraftClient.getInstance().player?.let {
                     detectPokemon(it.world, it, Hand.MAIN_HAND)
                 }
 
+                // if there was a mouse click last tick and overlay is now down
+                if (bufferImageSnap) {
+
+                    MinecraftClient.getInstance().player?.let {
+                        //println("You have taken a picture")
+                        playSound(CobblemonSounds.POKEDEX_SNAP_PICTURE)
+                        //detectPokemon(it.world, it, Hand.MAIN_HAND)
+
+                        // Todo create a "shotgun" ray cast to determine all Pokemon in the picture to be used for later
+
+                        // take picture while overlay is down this tick
+                        snapPicture(it)
+                    }
+
+                    // bring back overlay next tick
+                    bufferImageSnap = false
+                }
+
+                isScanning = true
 
                 // todo try to make it so that the player is able to walk normal speed while in scanner mode
                 //user.addStatusEffect(StatusEffectInstance(StatusEffects.SPEED, 3, 1, true, false, false)) // Remove slowness effect
@@ -306,7 +328,10 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
     @Environment(EnvType.CLIENT)
     fun onMouseClick() {
-        if (isScanning) {
+        // Todo try to start a buffer to taking a pic to try to wait until overlay is down
+        bufferImageSnap = true
+
+        /*if (isScanning) {
 
             MinecraftClient.getInstance().player?.let {
                 //println("You have taken a picture")
@@ -316,7 +341,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 // todo take picture
                 snapPicture(it)
             }
-        }
+        }*/
     }
 
     @Environment(EnvType.CLIENT)
