@@ -8,7 +8,10 @@
 
 package com.cobblemon.mod.common.client.entity
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.cobblemon.mod.common.api.entity.NPCSideDelegate
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.client.ClientMoLangFunctions
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import net.minecraft.network.syncher.EntityDataAccessor
@@ -38,5 +41,12 @@ class NPCClientDelegate : PosableState(), NPCSideDelegate {
 
     override fun updatePartialTicks(partialTicks: Float) {
         this.currentPartialTicks = partialTicks
+    }
+
+    override fun addToStruct(struct: QueryStruct) {
+        super.addToStruct(struct)
+        struct.addFunctions(functions.functions)
+        struct.addFunctions(ClientMoLangFunctions.clientFunctions)
+        runtime.environment.query.addFunctions(struct.functions)
     }
 }

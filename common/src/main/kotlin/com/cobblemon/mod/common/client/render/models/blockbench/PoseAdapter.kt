@@ -75,13 +75,12 @@ class PoseAdapter(
 
         conditionsList.addAll(poseConditionReader(json))
 
-        if (json.has("condition")) {
-            val condition = json.get("condition").asString
-            conditionsList.add {
-                val entity = it.getEntity()
+        if (json.has("conditions")) {
+            val conditionSet = json.get("conditions").asJsonArray.map { it.asString.asExpressionLike() }
+            conditionsList.add { state ->
+                val entity = state.getEntity()
                 if (entity is PosableEntity) {
-                    runtime.environment.query = entity.struct
-                    condition.asExpressionLike().resolveBoolean(runtime)
+                    conditionSet.any { it.resolveBoolean(state.runtime) }
                 } else {
                     false
                 }

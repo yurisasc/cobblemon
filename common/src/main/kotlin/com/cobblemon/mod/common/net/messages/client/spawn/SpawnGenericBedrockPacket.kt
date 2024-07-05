@@ -36,16 +36,6 @@ class SpawnGenericBedrockPacket(
 ) : SpawnExtraDataEntityPacket<SpawnGenericBedrockPacket, GenericBedrockEntity>(vanillaSpawnPacket) {
     override val id: ResourceLocation = ID
 
-    override fun encodeEntityData(buffer: RegistryFriendlyByteBuf) {
-        buffer.writeIdentifier(this.category)
-        buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect) }
-        buffer.writeSizedInt(size = IntSize.U_BYTE, poseType.ordinal)
-        buffer.writeFloat(scale)
-        buffer.writeFloat(width)
-        buffer.writeFloat(height)
-        buffer.writeInt(startAge)
-    }
-
     override fun applyData(entity: GenericBedrockEntity) {
         entity.category = this.category
         entity.aspects = this.aspects
@@ -60,16 +50,26 @@ class SpawnGenericBedrockPacket(
 
     override fun checkType(entity: Entity): Boolean = entity is GenericBedrockEntity
 
+    override fun encodeEntityData(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeIdentifier(this.category)
+        buffer.writeSizedInt(size = IntSize.U_BYTE, poseType.ordinal)
+        buffer.writeFloat(scale)
+        buffer.writeFloat(width)
+        buffer.writeFloat(height)
+        buffer.writeInt(startAge)
+        buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect) }
+    }
+
     companion object {
         val ID = cobblemonResource("spawn_generic_bedrock_entity")
         fun decode(buffer: RegistryFriendlyByteBuf): SpawnGenericBedrockPacket {
             val category = buffer.readIdentifier()
-            val aspects = buffer.readList { it.readString() }.toSet()
-            val poseType = buffer.readEnumConstant(PoseType::class.java)
+            val poseType = PoseType.entries[buffer.readSizedInt(IntSize.U_BYTE)]
             val scale = buffer.readFloat()
             val width = buffer.readFloat()
             val height = buffer.readFloat()
             val startAge = buffer.readInt()
+            val aspects = buffer.readList { it.readString() }.toSet()
             val vanillaPacket = decodeVanillaPacket(buffer)
             return SpawnGenericBedrockPacket(category, aspects, poseType, scale, width, height, startAge, vanillaPacket)
         }
