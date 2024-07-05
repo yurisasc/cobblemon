@@ -180,7 +180,7 @@ class DropsScrollingWidget(val pX: Int, val pY: Int): ScrollingWidget<DropsScrol
 
             drawScaledTextJustifiedRight(
                 context = context,
-                text = Text.translatable("cobblemon.ui.pokedex.info.drops_percentage", entry.percentage.toInt()),
+                text = Text.translatable("cobblemon.ui.pokedex.info.drops_percentage", entry.percentage.toInt().toString()),
                 x = x + 120,
                 y = y + 2,
                 colour = 0x606B6E,
