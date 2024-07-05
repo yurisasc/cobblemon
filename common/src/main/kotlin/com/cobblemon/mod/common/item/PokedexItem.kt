@@ -26,7 +26,6 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
-import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
@@ -39,7 +38,6 @@ import net.minecraft.client.render.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.text.Text
-import net.minecraft.util.math.MathHelper
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.server
 import net.minecraft.block.BlockState
@@ -63,8 +61,10 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtInt
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvent
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.ColorHelper
+import net.minecraft.util.hit.EntityHitResult
+import net.minecraft.util.hit.HitResult
+import net.minecraft.util.math.*
+import net.minecraft.world.RaycastContext
 import java.awt.Color
 import java.awt.Image
 import java.awt.image.BufferedImage
@@ -207,16 +207,17 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
                 // if there was a mouse click last tick and overlay is now down
                 if (bufferImageSnap) {
+                    MinecraftClient.getInstance().execute {
+                        MinecraftClient.getInstance().player?.let {
+                            //println("You have taken a picture")
+                            playSound(CobblemonSounds.POKEDEX_SNAP_PICTURE)
+                            //detectPokemon(it.world, it, Hand.MAIN_HAND)
 
-                    MinecraftClient.getInstance().player?.let {
-                        //println("You have taken a picture")
-                        playSound(CobblemonSounds.POKEDEX_SNAP_PICTURE)
-                        //detectPokemon(it.world, it, Hand.MAIN_HAND)
+                            // Todo create a "shotgun" ray cast to determine all Pokemon in the picture to be used for later
 
-                        // Todo create a "shotgun" ray cast to determine all Pokemon in the picture to be used for later
-
-                        // take picture while overlay is down this tick
-                        snapPicture(it)
+                            // take picture while overlay is down this tick
+                            snapPicture(it)
+                        }
                     }
 
                     // bring back overlay next tick
@@ -399,6 +400,68 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
             scanningProgress = 0
         }
     }
+
+    fun detectPokemonInView(player: PlayerEntity, maxDistance: Double): List<Species> {
+        val detectedSpecies = mutableListOf<Species>()
+        val eyePos = player.getCameraPosVec(1.0F)
+        val lookVec = player.getRotationVec(1.0F)
+        val client = MinecraftClient.getInstance()
+        val fov = client.options.fov.value
+        val screenWidth = client.window.scaledWidth
+        val screenHeight = client.window.scaledHeight
+
+        // Number of raycasts in each dimension
+        val raycastResolution = 10
+        val fovRadians = Math.toRadians(fov.toDouble())
+
+        // Calculate the step size for each ray in terms of angle
+        val angleStep = fovRadians / raycastResolution
+
+        // Iterate over the grid within the frustum
+        for (x in -raycastResolution..raycastResolution) {
+            for (y in -raycastResolution..raycastResolution) {
+                // Calculate the direction of the current ray
+                val offsetX = x * angleStep
+                val offsetY = y * angleStep
+
+                val rayDirection = lookVec.rotatePitch(offsetY).rotateYaw(offsetX)
+                val rayEnd = eyePos.add(rayDirection.multiply(maxDistance))
+
+                val hitResult = player.world.raycast(
+                    RaycastContext(
+                        eyePos,
+                        rayEnd,
+                        RaycastContext.ShapeType.OUTLINE,
+                        RaycastContext.FluidHandling.NONE,
+                        player
+                    )
+                )
+
+                if (hitResult.type == HitResult.Type.ENTITY) {
+                    val entity = (hitResult as EntityHitResult).entity
+                    if (entity is PokemonEntity) {
+                        detectedSpecies.add(entity.pokemon.species)
+                    }
+                }
+            }
+        }
+
+        return detectedSpecies.distinct()
+    }
+
+    // Helper extension functions for rotating vectors
+    fun Vec3d.rotateYaw(angle: Double): Vec3d {
+        val cos = Math.cos(angle)
+        val sin = Math.sin(angle)
+        return Vec3d(this.x * cos - this.z * sin, this.y, this.x * sin + this.z * cos)
+    }
+
+    fun Vec3d.rotatePitch(angle: Double): Vec3d {
+        val cos = Math.cos(angle)
+        val sin = Math.sin(angle)
+        return Vec3d(this.x, this.y * cos - this.z * sin, this.y * sin + this.z * cos)
+    }
+
 
     private fun detectPokemon(world: World, user: PlayerEntity, hand: Hand) {
         if (isScanning) {
