@@ -28,11 +28,9 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
-                "blocks": [
-                  "cobblemon:healing_machine"
-                ],
+                "blocks": "cobblemon:healing_machine",
                 "state": {
-                  "charge": 6
+                  "charge": "6"
                 }
               }
             }

@@ -116,7 +116,7 @@
 	"minecraft:snowball",
 	"#cobblemon:type_gems",
 
-    "#cobblemon:terrain_seeds",
+    "#cobblemon:held/terrain_seeds",
     "cobblemon:scope_lens",
     "cobblemon:terrain_extender",
     "cobblemon:throat_spray",
