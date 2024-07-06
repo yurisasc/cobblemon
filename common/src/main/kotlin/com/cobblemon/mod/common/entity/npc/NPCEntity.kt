@@ -137,9 +137,9 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
 
     init {
         delegate.initialize(this)
-        addPosableFunctions(struct)
         runtime.environment.query.addFunctions(struct.functions)
         refreshDimensions()
+        addPosableFunctions(struct)
         navigation.setCanFloat(true)
     }
 

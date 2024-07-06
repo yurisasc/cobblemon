@@ -21,20 +21,20 @@ import net.minecraft.resources.ResourceLocation
 
 object CobblemonItemComponents : PlatformRegistry<Registry<DataComponentType<*>>, ResourceKey<Registry<DataComponentType<*>>>, DataComponentType<*>>() {
 
-    val POKEMON_ITEM: DataComponentType<PokemonItemComponent> = DataComponentType.builder<PokemonItemComponent>()
+     val POKEMON_ITEM: DataComponentType<PokemonItemComponent> = create("pokemon_item", DataComponentType.builder<PokemonItemComponent>()
         .persistent(PokemonItemComponent.CODEC)
         .networkSynchronized(PokemonItemComponent.PACKET_CODEC)
-        .build()
+        .build())
 
     val HELD_ITEM_REP: DataComponentType<HeldItemCapableComponent> = DataComponentType.builder<HeldItemCapableComponent>()
         .persistent(HeldItemCapableComponent.CODEC)
         .networkSynchronized(HeldItemCapableComponent.PACKET_CODEC)
         .build()
 
-    val BAIT: DataComponentType<RodBaitComponent> = DataComponentType.builder<RodBaitComponent>()
+    val BAIT: DataComponentType<RodBaitComponent> = create("bait", DataComponentType.builder<RodBaitComponent>()
         .persistent(RodBaitComponent.CODEC)
         .networkSynchronized(RodBaitComponent.PACKET_CODEC)
-        .build()
+        .build())
 
 
 

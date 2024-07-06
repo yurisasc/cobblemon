@@ -210,7 +210,7 @@ object CobblemonFabric : CobblemonImplementation {
     }
 
     override fun registerDataComponents() {
-        CobblemonItemComponents.register()
+        CobblemonItemComponents.register { identifier, component -> Registry.register(CobblemonItemComponents.registry, identifier, component) }
     }
 
     override fun registerEntityDataSerializers() {

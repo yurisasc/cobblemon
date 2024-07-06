@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.trade.ActiveTrade
@@ -66,19 +67,22 @@ object TestCommand {
             this.testCodecOutput(context)
             /*
             val player = context.source.entity as ServerPlayer
-            val evolutionEntity = GenericBedrockEntity(world = player.level())
-            evolutionEntity.apply {
-                category = cobblemonResource("evolution")
-                colliderHeight = 1.5F
-                colliderWidth = 1.5F
-                scale = 1F
-                syncAge = true // Otherwise particle animation will be starting from zero even if you come along partway through
-                setPos(player.x, player.y, player.z + 4)
-            }
-            player.level().addFreshEntity(evolutionEntity)
-            after(seconds = 0.5F) {
-                player.sendPacket(PlayPoseableAnimationPacket(evolutionEntity.id, setOf("evolution:animation.evolution.evolution"), emptySet()))
-            }
+            val npc = NPCEntity(player.level())
+            npc.setPos(player.x, player.y, player.z)
+            player.level().addFreshEntity(npc)
+//            val evolutionEntity = GenericBedrockEntity(world = player.level())
+//            evolutionEntity.apply {
+//                category = cobblemonResource("evolution")
+//                colliderHeight = 1.5F
+//                colliderWidth = 1.5F
+//                scale = 1F
+//                syncAge = true // Otherwise particle animation will be starting from zero even if you come along partway through
+//                setPos(player.x, player.y, player.z + 4)
+//            }
+//            player.level().addFreshEntity(evolutionEntity)
+//            after(seconds = 0.5F) {
+//                player.sendPacket(PlayPoseableAnimationPacket(evolutionEntity.id, setOf("evolution:animation.evolution.evolution"), emptySet()))
+//            }
              */
 
 
