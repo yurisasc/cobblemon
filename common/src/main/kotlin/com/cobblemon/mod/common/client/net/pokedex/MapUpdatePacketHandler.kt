@@ -149,16 +149,16 @@ object MapUpdatePacketHandler : ServerNetworkPacketHandler<MapUpdatePacket> {
         var closestColorIndex = 0
         var minDistance = Double.MAX_VALUE
 
-        // Check if the color is close to black
+        /*// Check if the color is close to black
         if (color.red < 20 && color.green < 20 && color.blue < 20) {
-            return mapColors.indexOfFirst { it.red < 20 && it.green < 20 && it.blue < 20 }
-        }
+            return mapColors.indexOfFirst { it.red < 20 && it.green < 20 && it.blue < 20 && it.alpha != 0 }
+        }*/
 
         for (i in mapColors.indices) {
             val mcColor = mapColors[i]
 
             // Skip transparent colors
-            if (mcColor.alpha == 0) continue
+            //if (mcColor.alpha == 0) continue
 
             val distance = colorDistance(color.red, color.green, color.blue, mcColor.red, mcColor.green, mcColor.blue)
             if (distance < minDistance) {
@@ -170,6 +170,13 @@ object MapUpdatePacketHandler : ServerNetworkPacketHandler<MapUpdatePacket> {
         // If the chosen color is transparent, set it to black
         if (mapColors[closestColorIndex].alpha == 0) {
             closestColorIndex = mapColors.indexOfFirst { it.red == 0 && it.green == 0 && it.blue == 0 }
+        }
+
+        //println("Mapped color (${color.red}, ${color.green}, ${color.blue}) to index $closestColorIndex")
+
+        // ensure that color index 0 (transparent) does not get used for black
+        if (closestColorIndex == 0){
+            return 207 // either 207 or 119
         }
 
         return closestColorIndex
