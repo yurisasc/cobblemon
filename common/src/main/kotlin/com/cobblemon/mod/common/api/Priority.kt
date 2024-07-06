@@ -9,21 +9,21 @@
 package com.cobblemon.mod.common.api
 
 import com.mojang.serialization.Codec
-import net.minecraft.util.StringIdentifiable
+import net.minecraft.util.StringRepresentable
 
-enum class Priority : StringIdentifiable {
+enum class Priority : StringRepresentable {
     HIGHEST,
     HIGH,
     NORMAL,
     LOW,
     LOWEST;
 
-    override fun asString(): String = this.name
+    override fun getSerializedName() = this.name
 
     companion object {
 
         @JvmStatic
-        val CODEC: Codec<Priority> = StringIdentifiable.createCodec(Priority::values)
+        val CODEC: Codec<Priority> = StringRepresentable.fromEnum(Priority::values)
 
     }
 

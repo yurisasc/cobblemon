@@ -8,18 +8,18 @@
 
 package com.cobblemon.mod.common.api.data
 
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 /**
- * A functional interface that resolves implementation from type to [Identifier].
+ * A functional interface that resolves implementation from type to [ResourceLocation].
  */
 fun interface Identifiable {
 
     /**
-     * Returns the [Identifier] attached to the implementation instance.
+     * Returns the [ResourceLocation] attached to the implementation instance.
      *
-     * @return The [Identifier] attached to the implementation instance.
+     * @return The [ResourceLocation] attached to the implementation instance.
      */
-    fun id(): Identifier
+    fun id(): ResourceLocation
 
 }

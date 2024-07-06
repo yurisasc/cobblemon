@@ -12,19 +12,19 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.UnsplittablePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 class SummaryUIPacket internal constructor(val pokemon: List<Pokemon>, val editable: Boolean): NetworkPacket<SummaryUIPacket>, UnsplittablePacket {
 
     override val id = ID
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeBoolean(editable)
         buffer.writeCollection(this.pokemon, Pokemon.S2C_CODEC::encode)
     }
 
     companion object {
         val ID = cobblemonResource("summary_ui")
-        fun decode(buffer: RegistryByteBuf) = SummaryUIPacket(buffer.readList(Pokemon.S2C_CODEC::decode), buffer.readBoolean())
+        fun decode(buffer: RegistryFriendlyByteBuf) = SummaryUIPacket(buffer.readList(Pokemon.S2C_CODEC::decode), buffer.readBoolean())
     }
 }

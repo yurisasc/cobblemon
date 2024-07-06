@@ -9,9 +9,13 @@
 package com.cobblemon.mod.common.api.pokemon.evolution
 
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
+import com.cobblemon.mod.common.api.serialization.BufferSerializer
+import com.cobblemon.mod.common.api.serialization.DataSerializer
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.controller.ClientEvolutionController
 import com.cobblemon.mod.common.pokemon.evolution.controller.ServerEvolutionController
+import com.google.gson.JsonElement
+import net.minecraft.nbt.Tag
 
 /**
  * Responsible for holding all available [EvolutionLike]s in the [Pokemon].

@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.item
 
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 
 /**
  * Base for custom items in Cobblemon.
  *
  * Containing common shared code.
  */
-open class CobblemonItem(settings : Settings) : Item(settings)
+open class CobblemonItem(settings : Properties) : Item(settings)

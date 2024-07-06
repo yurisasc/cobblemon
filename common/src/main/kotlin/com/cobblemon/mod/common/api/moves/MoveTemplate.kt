@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.util.codec.CodecUtils
 import com.cobblemon.mod.common.util.lang
 import com.google.gson.annotations.SerializedName
 import com.mojang.serialization.Codec
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 
 /**
  * This class represents the base of a Move.
@@ -69,9 +69,9 @@ open class MoveTemplate(
     }
 
 
-    val displayName: MutableText
+    val displayName: MutableComponent
         get() = lang("move.$name")
-    val description: MutableText
+    val description: MutableComponent
         get() = lang("move.$name.desc")
     val maxPp: Int
         get() = 8 * pp / 5

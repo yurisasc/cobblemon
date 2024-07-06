@@ -12,10 +12,10 @@ import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.storage.ClientBox
 import com.cobblemon.mod.common.net.messages.client.storage.pc.SetPCBoxPokemonPacket
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 
 object SetPCBoxPokemonHandler : ClientNetworkPacketHandler<SetPCBoxPokemonPacket> {
-    override fun handle(packet: SetPCBoxPokemonPacket, client: MinecraftClient) {
+    override fun handle(packet: SetPCBoxPokemonPacket, client: Minecraft) {
         CobblemonClient.storage.pcStores[packet.storeID]?.let { pc ->
             val boxNumber = packet.boxNumber
             while (pc.boxes.size <= boxNumber) { pc.boxes.add(ClientBox()) }

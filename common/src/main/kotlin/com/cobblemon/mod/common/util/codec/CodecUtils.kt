@@ -10,13 +10,13 @@ package com.cobblemon.mod.common.util.codec
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
 object CodecUtils {
 
     @JvmStatic
-    fun <T> createByIdentifierCodec(from: (Identifier) -> T?, to: (T) -> Identifier, errorSupplier: (Identifier) -> String): Codec<T> {
-        return Identifier.CODEC.comapFlatMap(
+    fun <T> createByIdentifierCodec(from: (ResourceLocation) -> T?, to: (T) -> ResourceLocation, errorSupplier: (ResourceLocation) -> String): Codec<T> {
+        return ResourceLocation.CODEC.comapFlatMap(
             { identifier -> from(identifier)?.let { value -> DataResult.success(value) } ?: DataResult.error { errorSupplier(identifier) } },
             to
         )

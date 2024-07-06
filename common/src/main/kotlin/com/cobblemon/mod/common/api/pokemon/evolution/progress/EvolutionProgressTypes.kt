@@ -13,16 +13,16 @@ import com.cobblemon.mod.common.pokemon.evolution.progress.*
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.serialization.Codec
 import com.mojang.serialization.Lifecycle
-import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.SimpleRegistry
-import net.minecraft.util.Identifier
+import net.minecraft.core.MappedRegistry
+import net.minecraft.core.Registry
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 import kotlin.jvm.Throws
 
 object EvolutionProgressTypes {
 
-    private val REGISTRY: Registry<EvolutionProgressType<*>> = SimpleRegistry(
-        RegistryKey.ofRegistry(cobblemonResource("evolution_progress")), Lifecycle.stable()
+    private val REGISTRY: Registry<EvolutionProgressType<*>> = MappedRegistry(
+        ResourceKey.createRegistryKey(cobblemonResource("evolution_progress")), Lifecycle.stable()
     )
 
     @JvmStatic
@@ -48,7 +48,7 @@ object EvolutionProgressTypes {
      */
     @Throws(IllegalStateException::class)
     @JvmStatic
-    fun <T : EvolutionProgress<*>> registerType(id: Identifier, type: EvolutionProgressType<T>): EvolutionProgressType<T> {
+    fun <T : EvolutionProgress<*>> registerType(id: ResourceLocation, type: EvolutionProgressType<T>): EvolutionProgressType<T> {
         return Registry.register(REGISTRY, id, type)
     }
 
@@ -57,7 +57,7 @@ object EvolutionProgressTypes {
      *
      * @return The generated [Codec] of [EvolutionProgress].
      */
-    fun codec(): Codec<EvolutionProgress<*>> = REGISTRY.codec.dispatch(
+    fun codec(): Codec<EvolutionProgress<*>> = REGISTRY.byNameCodec().dispatch(
         ServerEvolutionController.ID_KEY,
         { it.type() },
         { it.codec }

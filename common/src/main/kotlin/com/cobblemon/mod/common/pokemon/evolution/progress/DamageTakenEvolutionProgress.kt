@@ -14,10 +14,11 @@ import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.DamageTakenRequirement
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.google.gson.JsonObject
+import net.minecraft.resources.ResourceLocation
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.util.Identifier
 
 /**
  * An [EvolutionProgress] meant to keep track of damage taken in battle without fainting.
@@ -29,7 +30,7 @@ class DamageTakenEvolutionProgress : EvolutionProgress<DamageTakenEvolutionProgr
 
     private var progress = Progress(0)
 
-    override fun id(): Identifier = ID
+    override fun id(): ResourceLocation = ID
 
     override fun currentProgress(): Progress = this.progress
 

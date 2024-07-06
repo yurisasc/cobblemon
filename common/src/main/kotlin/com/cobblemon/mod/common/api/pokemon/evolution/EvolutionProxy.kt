@@ -8,6 +8,11 @@
 
 package com.cobblemon.mod.common.api.pokemon.evolution
 
+import com.cobblemon.mod.common.api.serialization.BufferSerializer
+import com.cobblemon.mod.common.api.serialization.DataSerializer
+import com.google.gson.JsonElement
+import net.minecraft.nbt.Tag
+
 /**
  * Responsible for holding the different [EvolutionController] implementations based on the logical side.
  * If you haven't already checked your side previously you can use [isClient].

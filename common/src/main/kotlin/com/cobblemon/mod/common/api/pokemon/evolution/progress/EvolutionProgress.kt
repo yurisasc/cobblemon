@@ -11,6 +11,9 @@ package com.cobblemon.mod.common.api.pokemon.evolution.progress
 import com.cobblemon.mod.common.api.data.Identifiable
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.google.gson.JsonObject
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Represents a container of progression towards the completion of an evolution requirement.

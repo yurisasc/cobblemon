@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.UnsplittablePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 
 /**
@@ -28,11 +28,11 @@ class BattleSetTeamPokemonPacket(val team: List<Pokemon>) : NetworkPacket<Battle
 
     override val id = ID
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeCollection(this.team, Pokemon.S2C_CODEC::encode)
     }
     companion object {
         val ID = cobblemonResource("battle_set_team")
-        fun decode(buffer: RegistryByteBuf) = BattleSetTeamPokemonPacket(buffer.readList(Pokemon.S2C_CODEC::decode))
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleSetTeamPokemonPacket(buffer.readList(Pokemon.S2C_CODEC::decode))
     }
 }

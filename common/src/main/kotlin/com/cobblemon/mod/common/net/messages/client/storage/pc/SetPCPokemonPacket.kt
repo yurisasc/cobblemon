@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readPCPosition
 import com.cobblemon.mod.common.util.writePCPosition
 import java.util.UUID
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 /**
  * Sets a specific Pokémon in a specific slot of the client-side representation of a PC.
@@ -30,15 +30,15 @@ class SetPCPokemonPacket internal constructor(val storeID: UUID, val storePositi
 
     override val id = ID
 
-    override fun encode(buffer: RegistryByteBuf) {
-        buffer.writeUuid(this.storeID)
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeUUID(this.storeID)
         buffer.writePCPosition(this.storePosition)
         Pokemon.S2C_CODEC.encode(buffer, this.pokemon)
     }
 
     companion object {
         val ID = cobblemonResource("set_pc_pokemon")
-        fun decode(buffer: RegistryByteBuf) = SetPCPokemonPacket(buffer.readUuid(), buffer.readPCPosition(), Pokemon.S2C_CODEC.decode(buffer))
+        fun decode(buffer: RegistryFriendlyByteBuf) = SetPCPokemonPacket(buffer.readUUID(), buffer.readPCPosition(), Pokemon.S2C_CODEC.decode(buffer))
     }
 
 }

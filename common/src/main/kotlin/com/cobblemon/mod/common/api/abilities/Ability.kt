@@ -12,10 +12,10 @@ import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonObject
+import net.minecraft.nbt.CompoundTag
 import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtOps
 
 /**
@@ -61,10 +61,10 @@ open class Ability internal constructor(var template: AbilityTemplate, forced: B
         internal set
 
     @Deprecated("Please use the Codec instead", ReplaceWith("Ability.CODEC"))
-    open fun saveToNBT(nbt: NbtCompound): NbtCompound {
+    open fun saveToNBT(nbt: CompoundTag): CompoundTag {
         CODEC.encodeStart(NbtOps.INSTANCE, this).ifSuccess { nElement ->
-            if (nElement is NbtCompound) {
-                nbt.copyFrom(nElement)
+            if (nElement is CompoundTag) {
+                nbt.merge(nElement)
             }
         }
         return nbt
@@ -81,7 +81,7 @@ open class Ability internal constructor(var template: AbilityTemplate, forced: B
     }
 
     @Deprecated("Please use the Codec instead", ReplaceWith("Ability.CODEC"))
-    open fun loadFromNBT(nbt: NbtCompound): Ability {
+    open fun loadFromNBT(nbt: CompoundTag): Ability {
         CODEC.parse(NbtOps.INSTANCE, nbt).ifSuccess { ability ->
             this.template = ability.template
             this.forced = ability.forced

@@ -10,13 +10,13 @@ package com.cobblemon.mod.common.datafixer
 
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.datafixers.DSL.TypeReference
-import net.minecraft.datafixer.TypeReferences
+import net.minecraft.util.datafix.fixes.References
 
 object CobblemonTypeReferences {
 
     // If we ever want to use vanilla types we can simply add them here too
     private val types = hashSetOf<TypeReference>(
-        TypeReferences.ENTITY
+        References.ENTITY
     )
 
     @JvmStatic
@@ -26,7 +26,7 @@ object CobblemonTypeReferences {
 
     private fun create(name: String): TypeReference {
         val identifier = cobblemonResource(name)
-        val reference = TypeReferences.create(identifier.toString())
+        val reference = References.reference(identifier.toString())
         this.types += reference
         return reference
     }

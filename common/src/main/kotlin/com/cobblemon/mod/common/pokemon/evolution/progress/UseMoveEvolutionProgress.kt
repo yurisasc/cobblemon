@@ -15,10 +15,11 @@ import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.UseMoveRequirement
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.google.gson.JsonObject
+import net.minecraft.resources.ResourceLocation
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.util.Identifier
 
 /**
  * An [EvolutionProgress] meant to keep track of the amount of times a specific move in battle.
@@ -30,7 +31,7 @@ class UseMoveEvolutionProgress : EvolutionProgress<UseMoveEvolutionProgress.Prog
 
     private var progress = Progress(MoveTemplate.dummy(""), 0)
 
-    override fun id(): Identifier = ID
+    override fun id(): ResourceLocation = ID
 
     override fun currentProgress(): Progress = this.progress
 

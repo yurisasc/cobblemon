@@ -15,8 +15,8 @@ import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.codec.CodecUtils
 import com.mojang.serialization.Codec
-import net.minecraft.item.ItemStack
-import net.minecraft.util.Identifier
+import net.minecraft.world.item.ItemStack
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Base poke ball object
@@ -30,12 +30,12 @@ import net.minecraft.util.Identifier
  * @property model3d The identifier for the resource this Pokéball will use for the 3d model.
  */
 open class PokeBall(
-    val name: Identifier,
+    val name: ResourceLocation,
     val catchRateModifier: CatchRateModifier = CatchRateModifier.DUMMY,
     val effects: List<CaptureEffect> = listOf(),
     val waterDragValue: Float,
-    val model2d: Identifier,
-    val model3d: Identifier,
+    val model2d: ResourceLocation,
+    val model3d: ResourceLocation,
     val throwPower: Float,
     val ancient: Boolean
 ) {
@@ -45,7 +45,8 @@ open class PokeBall(
 
     fun item(): PokeBallItem = this.item
 
-    fun stack(count: Int = 1): ItemStack = ItemStack(this.item(), count)
+    fun stack(count: Int = 1): ItemStack =
+        ItemStack(this.item(), count)
 
     @Deprecated("This is a temporary solution for the safari ball dilemma", ReplaceWith("target.currentHealth"))
     internal fun hpForCalculation(target: Pokemon): Int = if (this.name == PokeBalls.SAFARI_BALL.name) target.hp else target.currentHealth

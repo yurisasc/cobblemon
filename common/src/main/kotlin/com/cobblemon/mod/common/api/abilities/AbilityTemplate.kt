@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.api.abilities
 import com.cobblemon.mod.common.util.codec.CodecUtils
 import com.google.gson.JsonObject
 import com.mojang.serialization.Codec
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.CompoundTag
 
 /**
  * This represents the base of an Ability.
@@ -35,7 +35,7 @@ class AbilityTemplate(
      *
      * Ability extensions need to write and read their needed data from here.
      */
-    fun create(nbt: NbtCompound) = create().loadFromNBT(nbt)
+    fun create(nbt: CompoundTag) = create().loadFromNBT(nbt)
 
     /**
      * Returns the Ability and loads the given JSON object into it.

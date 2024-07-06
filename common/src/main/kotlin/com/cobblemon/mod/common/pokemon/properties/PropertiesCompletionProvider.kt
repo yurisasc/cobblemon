@@ -26,10 +26,10 @@ import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.packs.PackType
+import net.minecraft.server.packs.resources.ResourceManager
 import java.util.concurrent.CompletableFuture
-import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceType
-import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * A data registry responsible for providing tab completion for Pokemon properties.
@@ -41,7 +41,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 internal object PropertiesCompletionProvider : DataRegistry {
 
     override val id = cobblemonResource("properties_tab_completion")
-    override val type = ResourceType.SERVER_DATA
+    override val type = PackType.SERVER_DATA
     override val observable = SimpleObservable<PropertiesCompletionProvider>()
     private val providers = hashSetOf<SuggestionHolder>()
 
@@ -50,7 +50,7 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.reload()
     }
 
-    override fun sync(player: ServerPlayerEntity) {
+    override fun sync(player: ServerPlayer) {
         PropertiesCompletionRegistrySyncPacket(this.providers).sendToPlayer(player)
     }
 

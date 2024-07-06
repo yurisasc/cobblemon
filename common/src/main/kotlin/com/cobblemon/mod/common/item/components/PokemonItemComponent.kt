@@ -12,11 +12,11 @@ import com.cobblemon.mod.common.pokemon.Species
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.netty.buffer.ByteBuf
-import java.util.Optional
-import kotlin.jvm.optionals.getOrNull
-import net.minecraft.network.codec.PacketCodec
-import net.minecraft.network.codec.PacketCodecs
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
 import org.joml.Vector4f
+import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 data class PokemonItemComponent(
     val species: Species,
@@ -30,6 +30,6 @@ data class PokemonItemComponent(
             Codec.FLOAT.listOf().optionalFieldOf("tint").forGetter { Optional.ofNullable(it.tint?.let { listOf(it.x, it.y, it.z, it.w) }) }
         ).apply(builder) { species, aspects, tint -> PokemonItemComponent(species, aspects.toSet(), tint.getOrNull()?.let { Vector4f(it[0], it[1], it[2], it[3]) } ) } }
 
-        val PACKET_CODEC: PacketCodec<ByteBuf, PokemonItemComponent> = PacketCodecs.codec(CODEC)
+        val PACKET_CODEC: StreamCodec<ByteBuf, PokemonItemComponent> = ByteBufCodecs.fromCodec(CODEC)
     }
 }

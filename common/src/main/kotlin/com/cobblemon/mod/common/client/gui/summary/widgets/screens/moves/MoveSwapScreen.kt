@@ -24,7 +24,7 @@ import com.cobblemon.mod.common.net.messages.server.BenchMovePacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.toRGB
-import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.GuiGraphics
 
 class MoveSwapScreen(
     x: Int,
@@ -53,7 +53,7 @@ class MoveSwapScreen(
         override fun getNarration() = move.displayName
 
         override fun render(
-            context: DrawContext,
+            context: GuiGraphics,
             index: Int,
             rowTop: Int,
             rowLeft: Int,
@@ -64,7 +64,7 @@ class MoveSwapScreen(
             isHovered: Boolean,
             partialTicks: Float
         ) {
-            val matrices = context.matrices
+            val matrices = context.pose()
             val tweakedRowTop = rowTop - (SLOT_SPACING / 2) + 1
             val rgb = move.elementalType.hue.toRGB()
 

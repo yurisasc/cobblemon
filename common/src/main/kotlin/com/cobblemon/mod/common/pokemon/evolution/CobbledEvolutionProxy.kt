@@ -9,8 +9,15 @@
 package com.cobblemon.mod.common.pokemon.evolution
 
 import com.cobblemon.mod.common.api.pokemon.evolution.*
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.controller.ClientEvolutionController
 import com.cobblemon.mod.common.pokemon.evolution.controller.ServerEvolutionController
+import com.cobblemon.mod.common.util.DataKeys
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.Tag
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 class CobblemonEvolutionProxy(private val clientSide: Boolean) : EvolutionProxy<EvolutionDisplay, Evolution> {
 

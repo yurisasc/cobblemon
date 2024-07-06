@@ -73,14 +73,14 @@ fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = 
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }
 fabric-kotlin = { group = "net.fabricmc", name = "fabric-language-kotlin", version.ref = "fabric-kotlin" }
 fabric-permissions = { group = "me.lucko", name = "fabric-permissions-api", version.ref = "fabric-permissions-api" }
-adorn-fabric = { group = "maven.modrinth", name = "adorn", version = "5.0.0-fabric"}
+adorn-fabric = { group = "maven.modrinth", name = "adorn", version = "5.3.0-neoforge"}
 lambDynamicLights = { group = "maven.modrinth", name = "lambdynamiclights", version.ref = "lambDynamicLights"}
 jei-fabric = { group = "mezz.jei", name = "jei-1.20.1-fabric", version.ref = "jei-api"}
 
 # Forge
 forge = { group = "net.minecraftforge", name = "forge", version.ref = "forge" }
 kotlin-forge = { group = "thedarkcolour", name = "kotlinforforge", version.ref = "kotlin-for-forge" }
-adorn-forge = { group = "maven.modrinth", name = "adorn", version = "5.0.0-forge"}
+adorn-forge = { group = "maven.modrinth", name = "adorn", version = "5.3.0-forge"}
 
 # NeoForge
 neoforge = { group = "net.neoforged", name = "neoforge", version.ref = "neoforge" }

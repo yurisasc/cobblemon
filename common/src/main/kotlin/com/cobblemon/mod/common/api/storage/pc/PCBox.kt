@@ -16,8 +16,8 @@ import com.cobblemon.mod.common.net.messages.client.storage.pc.SetPCBoxPokemonPa
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.server.level.ServerPlayer
 
 /**
  * A single box of a PC. The list of Pokémon is strictly sized at [POKEMON_PER_BOX] - 30.
@@ -98,11 +98,11 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
             .subscribe { boxChangeEmitter.emit(Unit) }
     }
 
-    fun sendTo(player: ServerPlayerEntity) {
+    fun sendTo(player: ServerPlayer) {
         SetPCBoxPokemonPacket(this).sendToPlayer(player)
     }
 
-    open fun saveToNBT(nbt: NbtCompound): NbtCompound {
+    open fun saveToNBT(nbt: CompoundTag): CompoundTag {
         for (slot in 0 until POKEMON_PER_BOX) {
             val pokemon = pokemon[slot] ?: continue
             nbt.put(DataKeys.STORE_SLOT + slot, pokemon.saveToNBT())
@@ -132,7 +132,7 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
         return this
     }
 
-    open fun loadFromNBT(nbt: NbtCompound): PCBox {
+    open fun loadFromNBT(nbt: CompoundTag): PCBox {
         for (slot in 0 until POKEMON_PER_BOX) {
             if (nbt.contains(DataKeys.STORE_SLOT + slot)) {
                 val pokemonNBT = nbt.getCompound(DataKeys.STORE_SLOT + slot)
