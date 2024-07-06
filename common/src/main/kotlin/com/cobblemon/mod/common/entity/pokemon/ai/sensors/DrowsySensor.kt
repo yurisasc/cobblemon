@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.entity.pokemon.ai.sensors
 
 import com.cobblemon.mod.common.CobblemonMemories
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.entity.ai.brain.sensor.Sensor
 import net.minecraft.server.world.ServerWorld
 
@@ -24,7 +25,7 @@ class DrowsySensor : Sensor<PokemonEntity>(100) {
     override fun sense(world: ServerWorld, entity: PokemonEntity) {
         val rest = entity.behaviour.resting
         val isDrowsy = entity.brain.getOptionalRegisteredMemory(CobblemonMemories.POKEMON_DROWSY).orElse(false)
-        val shouldBeDrowsy = rest.canSleep && world.timeOfDay.toInt() in rest.times
+        val shouldBeDrowsy = rest.canSleep && world.timeOfDay.toInt() in rest.times && entity.brain.getOptionalRegisteredMemory(MemoryModuleType.ANGRY_AT).isEmpty
         if (!isDrowsy && shouldBeDrowsy) {
             entity.brain.remember(CobblemonMemories.POKEMON_DROWSY, true)
         } else if (isDrowsy && !shouldBeDrowsy) {

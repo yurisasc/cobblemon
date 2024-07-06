@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.entity.ai
 
+import com.cobblemon.mod.common.CobblemonMemories
 import net.minecraft.entity.ai.FuzzyTargeting
 import net.minecraft.entity.ai.brain.BlockPosLookTarget
 import net.minecraft.entity.ai.brain.MemoryModuleType
@@ -22,8 +23,9 @@ object ChooseLandWanderTargetTask {
         return TaskTriggerer.task {
             it.group(
                 it.queryMemoryAbsent(MemoryModuleType.WALK_TARGET),
-                it.queryMemoryOptional(MemoryModuleType.LOOK_TARGET)
-            ).apply(it) { walkTarget, lookTarget ->
+                it.queryMemoryOptional(MemoryModuleType.LOOK_TARGET),
+                it.queryMemoryAbsent(CobblemonMemories.POKEMON_SLEEPING),
+                    ).apply(it) { walkTarget, lookTarget, isSleeping ->
                 TaskRunnable { world, entity, time ->
                     if (world.random.nextInt(chance) != 0) return@TaskRunnable false
                     val targetVec = FuzzyTargeting.find(entity, horizontalRange, verticalRange) ?: return@TaskRunnable false

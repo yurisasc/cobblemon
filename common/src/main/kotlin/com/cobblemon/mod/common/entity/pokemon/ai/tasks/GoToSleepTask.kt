@@ -36,6 +36,7 @@ object GoToSleepTask {
                             entity.pokemon.status = PersistentStatusContainer(Statuses.SLEEP)
                         }
                         entity.brain.resetPossibleActivities(listOf(CobblemonActivities.POKEMON_SLEEPING_ACTIVITY))
+                        entity.brain.remember(CobblemonMemories.POKEMON_SLEEPING, true)
                         return@TaskRunnable true
                     } else {
                         return@TaskRunnable false

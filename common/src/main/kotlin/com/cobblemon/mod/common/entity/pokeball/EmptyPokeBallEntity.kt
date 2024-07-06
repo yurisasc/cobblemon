@@ -40,6 +40,7 @@ import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimat
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
+import com.cobblemon.mod.common.pokemon.ai.PokemonBrain
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.util.*
 import net.minecraft.entity.EntityDimensions
@@ -357,6 +358,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
 
         if (pokemon.battleId == null) {
             pokemon.pokemon.status?.takeIf { it.status == Statuses.SLEEP }?.let { pokemon.pokemon.status = null }
+            owner?.let { PokemonBrain.onCaptureFailed(pokemon, it) }
         }
 
         captureState = CaptureState.BROKEN_FREE

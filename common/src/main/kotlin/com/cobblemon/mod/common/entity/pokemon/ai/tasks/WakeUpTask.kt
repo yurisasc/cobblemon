@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.CobblemonMemories
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.entity.ai.brain.task.SingleTickTask
 import net.minecraft.entity.ai.brain.task.TaskRunnable
 import net.minecraft.entity.ai.brain.task.TaskTriggerer
@@ -21,11 +22,15 @@ object WakeUpTask {
         return TaskTriggerer.task {
             it.group(
                 it.queryMemoryAbsent(CobblemonMemories.POKEMON_BATTLE),
-                it.queryMemoryAbsent(CobblemonMemories.POKEMON_DROWSY)
-            ).apply(it) { _, _ ->
+                it.queryMemoryAbsent(CobblemonMemories.POKEMON_DROWSY),
+                it.queryMemoryOptional(MemoryModuleType.HURT_BY),
+                it.queryMemoryOptional(MemoryModuleType.HURT_BY_ENTITY),
+                it.queryMemoryOptional(MemoryModuleType.ANGRY_AT),
+                    ).apply(it) { _, _, hurtBy, hurtByEntity, angerTarget ->
                 TaskRunnable { world, entity, _ ->
                     if (entity.pokemon.status?.status == Statuses.SLEEP && entity.pokemon.storeCoordinates.get()?.store !is PartyStore) {
                         entity.pokemon.status = null
+                        entity.brain.forget(CobblemonMemories.POKEMON_SLEEPING)
                         entity.brain.resetPossibleActivities()
                         return@TaskRunnable true
                     } else {

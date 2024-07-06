@@ -29,8 +29,9 @@ object FindRestingPlaceTask {
                 it.queryMemoryAbsent(MemoryModuleType.WALK_TARGET),
                 it.queryMemoryAbsent(CobblemonMemories.POKEMON_BATTLE),
                 it.queryMemoryValue(CobblemonMemories.POKEMON_DROWSY),
-                it.queryMemoryAbsent(CobblemonMemories.REST_PATH_COOLDOWN)
-            ).apply(it) { _, _, walkTarget, _, pokemonDrowsy, restPathCooldown ->
+                it.queryMemoryAbsent(CobblemonMemories.REST_PATH_COOLDOWN),
+                it.queryMemoryAbsent(CobblemonMemories.POKEMON_SLEEPING),
+                    ).apply(it) { _, _, walkTarget, _, pokemonDrowsy, restPathCooldown, _ ->
                 TaskRunnable { world, entity, _ ->
                     return@TaskRunnable if (it.getValue(pokemonDrowsy) && entity.pokemon.status?.status != Statuses.SLEEP && entity.pokemon.storeCoordinates.get()?.store !is PartyStore) {
                         entity.brain.remember(CobblemonMemories.REST_PATH_COOLDOWN, true, 40)
