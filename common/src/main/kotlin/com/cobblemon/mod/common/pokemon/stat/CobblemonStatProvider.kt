@@ -35,9 +35,9 @@ import net.minecraft.util.Identifier
 object CobblemonStatProvider : StatProvider {
 
     override val typeAdapter: StatTypeAdapter = CobblemonStatTypeAdapter
-    private val stats = Stats.values().associateBy { it.identifier }
-    private val ordinalToStat = Stats.values().associateBy { it.ordinal }
-    private val identifierToOrdinal = Stats.values().associate { it.identifier to it.ordinal }
+    private val stats = Stats.entries.associateBy { it.identifier }
+    private val ordinalToStat = Stats.entries.associateBy { it.ordinal }
+    private val identifierToOrdinal = Stats.entries.associate { it.identifier to it.ordinal }
 
     override fun all(): Collection<Stat> = Stats.ALL
 
@@ -86,7 +86,6 @@ object CobblemonStatProvider : StatProvider {
     }
 
     override fun getStatForPokemon(pokemon: Pokemon, stat: Stat): Int {
-        val stats = pokemon.form.baseStats
         val iv = pokemon.ivs.getOrDefault(stat)
         val base = pokemon.form.baseStats[stat]!!
         val ev = pokemon.evs.getOrDefault(stat)

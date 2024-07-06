@@ -8,10 +8,23 @@
 
 package com.cobblemon.mod.common.api
 
-enum class Priority {
+import com.mojang.serialization.Codec
+import net.minecraft.util.StringIdentifiable
+
+enum class Priority : StringIdentifiable {
     HIGHEST,
     HIGH,
     NORMAL,
     LOW,
-    LOWEST
+    LOWEST;
+
+    override fun asString(): String = this.name
+
+    companion object {
+
+        @JvmStatic
+        val CODEC: Codec<Priority> = StringIdentifiable.createCodec(Priority::values)
+
+    }
+
 }

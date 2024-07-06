@@ -15,6 +15,6 @@ import net.minecraft.client.MinecraftClient
 
 object SetPCPokemonHandler : ClientNetworkPacketHandler<SetPCPokemonPacket> {
     override fun handle(packet: SetPCPokemonPacket, client: MinecraftClient) {
-        CobblemonClient.storage.setPCPokemon(packet.storeID, packet.storePosition, packet.pokemonDTO.create())
+        CobblemonClient.storage.setPCPokemon(packet.storeID, packet.storePosition, packet.pokemon)
     }
 }

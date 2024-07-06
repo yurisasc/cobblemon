@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.client.storage.party
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.UnsplittablePacket
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
-import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readPartyPosition
@@ -28,21 +27,19 @@ import net.minecraft.network.RegistryByteBuf
  * @author Hiroku
  * @since November 29th, 2021
 */
-class SetPartyPokemonPacket internal constructor(val storeID: UUID, val storePosition: PartyPosition, val pokemonDTO: PokemonDTO) : NetworkPacket<SetPartyPokemonPacket>, UnsplittablePacket {
+class SetPartyPokemonPacket internal constructor(val storeID: UUID, val storePosition: PartyPosition, val pokemon: Pokemon) : NetworkPacket<SetPartyPokemonPacket>, UnsplittablePacket {
 
     override val id = ID
-
-    constructor(storeID: UUID, storePosition: PartyPosition, pokemon: Pokemon) : this(storeID, storePosition, PokemonDTO(pokemon, true))
 
     override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(this.storeID)
         buffer.writePartyPosition(this.storePosition)
-        this.pokemonDTO.encode(buffer)
+        Pokemon.S2C_CODEC.encode(buffer, this.pokemon)
     }
 
     companion object {
         val ID = cobblemonResource("set_party_pokemon")
-        fun decode(buffer: RegistryByteBuf) = SetPartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), PokemonDTO().apply { decode(buffer) })
+        fun decode(buffer: RegistryByteBuf) = SetPartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), Pokemon.S2C_CODEC.decode(buffer))
     }
 
 }

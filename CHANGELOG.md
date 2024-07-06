@@ -1,4 +1,8 @@
 # Changelog
+## [1.6](#1-6)
+
+### Developer
+- Many types related to ``Pokemon`` including itself now have dedicated ``Codec``, please migrate to them from the NBT/JSON/PacketBuffer write/read methods.
 
 ## [1.6.0 - The Bass Pro Fishing Update (Month Xth, 2024)](#1-6-0)
 #### "Now that there's a fishing mechanic, the mod is actually good!"

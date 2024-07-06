@@ -8,6 +8,10 @@
 
 package com.cobblemon.mod.common.api.pokemon.stats
 
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.util.codec.CodecUtils
+import com.mojang.serialization.Codec
+import com.mojang.serialization.DataResult
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
@@ -58,6 +62,37 @@ interface Stat {
          * For more information see this [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Stat#In-battle_stats) page.
          */
         BATTLE_ONLY
+
+    }
+
+    companion object {
+
+        /**
+         * A [Codec] for [Stat] without filtering the [Stat.Type].
+         */
+        @JvmStatic
+        val ALL_CODEC: Codec<Stat> = CodecUtils.createByIdentifierCodec(
+            Cobblemon.statProvider::fromIdentifier,
+            Stat::identifier
+        ) { identifier -> "No Stat for ID $identifier" }
+
+        /**
+         * A [Codec] for [Stat] with the [Stat.Type.PERMANENT].
+         */
+        @JvmStatic
+        val PERMANENT_ONLY_CODEC: Codec<Stat> = ALL_CODEC.comapFlatMap(
+            { stat -> if (stat.type == Type.PERMANENT) DataResult.success(stat) else DataResult.error { "${stat.identifier} is not of type ${Type.PERMANENT}" } },
+            { stat -> stat }
+        )
+
+        /**
+         * A [Codec] for [Stat] with the [Stat.Type.BATTLE_ONLY].
+         */
+        @JvmStatic
+        val BATTLE_ONLY_CODEC: Codec<Stat> = ALL_CODEC.comapFlatMap(
+            { stat -> if (stat.type == Type.BATTLE_ONLY) DataResult.success(stat) else DataResult.error { "${stat.identifier} is not of type ${Type.BATTLE_ONLY}" } },
+            { stat -> stat }
+        )
 
     }
 

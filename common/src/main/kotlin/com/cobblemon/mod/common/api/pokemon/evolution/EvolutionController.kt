@@ -9,13 +9,9 @@
 package com.cobblemon.mod.common.api.pokemon.evolution
 
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
-import com.cobblemon.mod.common.api.serialization.BufferSerializer
-import com.cobblemon.mod.common.api.serialization.DataSerializer
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.controller.ClientEvolutionController
 import com.cobblemon.mod.common.pokemon.evolution.controller.ServerEvolutionController
-import com.google.gson.JsonElement
-import net.minecraft.nbt.NbtElement
 
 /**
  * Responsible for holding all available [EvolutionLike]s in the [Pokemon].
@@ -25,12 +21,22 @@ import net.minecraft.nbt.NbtElement
  * @author Licious
  * @since April 28th, 2022
  */
-interface EvolutionController<T : EvolutionLike> : MutableSet<T>, DataSerializer<NbtElement, JsonElement>, BufferSerializer {
+interface EvolutionController<T : EvolutionLike> : MutableSet<T> {
 
     /**
-     * The [Pokemon] this controller is attached to.
+     * Resolves the [Pokemon] attached to this controller.
+     *
+     * @return The [Pokemon] this controller is attached to.
      */
-    val pokemon: Pokemon
+    fun pokemon(): Pokemon
+
+    /**
+     * Attaches a new [Pokemon] instance to this controller.
+     * This is generally used after a codec loads a new instance.
+     *
+     * @param pokemon The [Pokemon] being attached.
+     */
+    fun attachPokemon(pokemon: Pokemon)
 
     /**
      * Starts the given evolution on this controller.

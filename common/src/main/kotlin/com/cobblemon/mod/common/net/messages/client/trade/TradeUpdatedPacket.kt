@@ -10,15 +10,10 @@ package com.cobblemon.mod.common.net.messages.client.trade
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.UnsplittablePacket
-import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readNullable
-import com.cobblemon.mod.common.util.readUuid
-import com.cobblemon.mod.common.util.writeNullable
-import com.cobblemon.mod.common.util.writeUuid
 import net.minecraft.network.RegistryByteBuf
-import java.util.UUID
+import java.util.*
 
 /**
  * Packet sent to the client when the other player updates their offered Pokémon.
@@ -31,12 +26,12 @@ import java.util.UUID
 class TradeUpdatedPacket(val playerId: UUID, val pokemon: Pokemon?) : NetworkPacket<TradeUpdatedPacket>, UnsplittablePacket {
     companion object {
         val ID = cobblemonResource("trade_updated")
-        fun decode(buffer: RegistryByteBuf) = TradeUpdatedPacket(buffer.readUuid(), buffer.readNullable { PokemonDTO().also { it.decode(buffer) }.create() })
+        fun decode(buffer: RegistryByteBuf) = TradeUpdatedPacket(buffer.readUuid(), buffer.readNullable(Pokemon.S2C_CODEC::decode))
     }
 
     override val id = ID
     override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(playerId)
-        buffer.writeNullable(pokemon) { _, pokemon -> PokemonDTO(pokemon, true).encode(buffer) }
+        buffer.writeNullable(pokemon, Pokemon.S2C_CODEC::encode)
     }
 }

@@ -14,11 +14,11 @@ import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.JsonObject
+import com.mojang.serialization.Codec
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
-import net.minecraft.network.PacketByteBuf
 import kotlin.math.min
 
 class MoveSet : Iterable<Move> {
@@ -189,5 +189,15 @@ class MoveSet : Iterable<Move> {
 
     companion object {
         const val MOVE_COUNT = 4
+        @JvmStatic
+        val CODEC: Codec<MoveSet> = Codec.list(Move.CODEC, 0, MOVE_COUNT)
+            .xmap(
+                { moveList ->
+                    val moveSet = MoveSet()
+                    moveList.forEach(moveSet::add)
+                    return@xmap moveSet
+                },
+                { moveSet -> moveSet.toList() }
+            )
     }
 }

@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.api.abilities
 
+import com.cobblemon.mod.common.util.codec.CodecUtils
 import com.google.gson.JsonObject
+import com.mojang.serialization.Codec
 import net.minecraft.nbt.NbtCompound
 
 /**
@@ -41,5 +43,15 @@ class AbilityTemplate(
      * Ability extensions need to write and read their needed data from here.
      */
     fun create(json: JsonObject) = create().loadFromJSON(json)
+
+    companion object {
+
+        @JvmStatic
+        val CODEC: Codec<AbilityTemplate> = CodecUtils.createByStringCodec(
+            Abilities::get,
+            AbilityTemplate::name
+        ) { id -> "No ability for ID $id" }
+
+    }
 
 }

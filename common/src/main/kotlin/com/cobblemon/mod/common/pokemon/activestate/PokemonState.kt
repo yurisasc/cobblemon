@@ -18,6 +18,8 @@ import com.cobblemon.mod.common.util.isPokemonEntity
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.playSoundServer
 import com.google.gson.JsonObject
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.util.UUID
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.RegistryByteBuf
@@ -25,14 +27,17 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
+import net.minecraft.util.Uuids
 import net.minecraft.world.World
 
 sealed class PokemonState {
     companion object {
+
+        // If we ever move to need more NBT/JSON save/load types other than ShoulderedState we need a registry Codec.
         val states = mapOf(
             "inactive" to InactivePokemonState::class.java,
             "sent-out" to SentOutState::class.java,
-            "shouldered" to ShoulderedState::class.java
+            ShoulderedState.ID to ShoulderedState::class.java
         )
 
         fun fromBuffer(buffer: RegistryByteBuf): PokemonState {
@@ -53,6 +58,7 @@ sealed class PokemonState {
 
     open fun readFromNBT(nbt: NbtCompound): PokemonState = this
     open fun writeToJSON(json: JsonObject): JsonObject? = json
+
     open fun readFromJSON(json: JsonObject): PokemonState = this
     open fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(name)
@@ -61,6 +67,11 @@ sealed class PokemonState {
 }
 class InactivePokemonState : PokemonState() {
     override fun writeToNBT(nbt: NbtCompound) = null
+
+    companion object {
+        @JvmStatic
+        val CODEC: Codec<InactivePokemonState> = Codec.unit { InactivePokemonState() }
+    }
 }
 
 sealed class ActivePokemonState : PokemonState() {
@@ -204,4 +215,27 @@ class ShoulderedState() : ActivePokemonState() {
             .getUuid(DataKeys.POKEMON_STATE_ID) == this.stateId
 
     fun isStillShouldered(player: ServerPlayerEntity) = isShoulderedPokemon(if (isLeftShoulder) player.shoulderEntityLeft else player.shoulderEntityRight)
+
+    companion object {
+
+        internal const val ID = "shouldered"
+        // If we ever move to need more NBT/JSON save/load we need a registry Codec.
+        @JvmStatic
+        val CODEC: Codec<ShoulderedState> = RecordCodecBuilder.create { instance ->
+            instance.group(
+                Codec.STRING.fieldOf(DataKeys.POKEMON_STATE_TYPE).forGetter { ID }, // Keep me for the sake of if we ever migrate to a registry.
+                Codec.BOOL.fieldOf(DataKeys.POKEMON_STATE_SHOULDER).forGetter(ShoulderedState::isLeftShoulder),
+                Codec.withAlternative(Uuids.STRING_CODEC, Uuids.INT_STREAM_CODEC)
+                    .fieldOf(DataKeys.POKEMON_STATE_PLAYER_UUID).forGetter(ShoulderedState::playerUUID),
+                Codec.withAlternative(Uuids.STRING_CODEC, Uuids.INT_STREAM_CODEC).fieldOf(DataKeys.POKEMON_STATE_ID)
+                    .forGetter(ShoulderedState::stateId),
+                Codec.withAlternative(Uuids.STRING_CODEC, Uuids.INT_STREAM_CODEC)
+                    .fieldOf(DataKeys.POKEMON_STATE_POKEMON_UUID).forGetter(ShoulderedState::pokemonUUID)
+            ).apply(instance) { _, isLeftShoulder, playerUuid, stateId, pokemonUuid ->
+                val state = ShoulderedState(playerUuid, isLeftShoulder, pokemonUuid)
+                state.stateId = stateId
+                return@apply state
+            }
+        }
+    }
 }
