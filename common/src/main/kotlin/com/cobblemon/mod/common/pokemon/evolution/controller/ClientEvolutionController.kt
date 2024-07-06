@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionDisplay
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.readList
@@ -54,30 +55,6 @@ class ClientEvolutionController : EvolutionController<EvolutionDisplay> {
     override fun <P : EvolutionProgress<*>> progressFirstOrCreate(predicate: (progress: EvolutionProgress<*>) -> Boolean, progressFactory: () -> P): P {
         // Nothing is done on the client
         return progressFactory()
-    }
-
-    override fun saveToNBT(): Tag {
-        return CompoundTag()
-    }
-
-    override fun loadFromNBT(nbt: Tag) {
-        // Nothing is done on the client
-    }
-
-    override fun saveToJson(): JsonElement {
-        return JsonArray()
-    }
-
-    override fun loadFromJson(json: JsonElement) {
-        // Nothing is done on the client
-    }
-
-    override fun saveToBuffer(buffer: RegistryFriendlyByteBuf, toClient: Boolean) {
-        // Nothing is done on the client
-    }
-
-    override fun loadFromBuffer(buffer: RegistryFriendlyByteBuf) {
-        buffer.readList { AddEvolutionPacket.decodeDisplay(it as RegistryFriendlyByteBuf) }.forEach { this.add(it) }
     }
 
     override fun add(element: EvolutionDisplay) = this.evolutions.add(element)

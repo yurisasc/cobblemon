@@ -85,6 +85,7 @@ import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import com.mojang.serialization.Codec
+import net.minecraft.nbt.NbtOps
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import net.minecraft.resources.ResourceLocation
@@ -1374,5 +1375,5 @@ open class PokemonEntity(
      *
      * @return The [Codec].
      */
-    private fun sidedCodec(): Codec<Pokemon> = if (this.world.isClient) Pokemon.CLIENT_CODEC else Pokemon.CODEC
+    private fun sidedCodec(): Codec<Pokemon> = if (this.level().isClientSide) Pokemon.CLIENT_CODEC else Pokemon.CODEC
 }

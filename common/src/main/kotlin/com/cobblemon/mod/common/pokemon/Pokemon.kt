@@ -85,6 +85,8 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.JsonOps
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.netty.buffer.ByteBuf
 import net.minecraft.ResourceLocationException
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -97,9 +99,12 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.*
 import net.minecraft.network.chat.contents.PlainTextContents
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.tags.FluidTags
 import net.minecraft.util.Mth.ceil
 import net.minecraft.util.Mth.clamp
+import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.vehicle.Boat
 import net.minecraft.world.phys.Vec3
 import net.minecraft.world.level.Level
@@ -112,12 +117,13 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
-enum class OriginalTrainerType : StringIdentifiable {
+enum class OriginalTrainerType : StringRepresentable {
     NONE, PLAYER, NPC;
-    override fun asString(): String = this.name
+
+    override fun getSerializedName() = this.name
     companion object {
         @JvmStatic
-        val CODEC: Codec<OriginalTrainerType> = StringIdentifiable.createCodec(OriginalTrainerType::values)
+        val CODEC: Codec<OriginalTrainerType> = StringRepresentable.fromEnum(OriginalTrainerType::values)
     }
 }
 
@@ -860,11 +866,11 @@ open class Pokemon : ShowdownIdentifiable {
      */
     fun removeHeldItem(): ItemStack = this.swapHeldItem(ItemStack.EMPTY)
 
-    fun saveToNBT(nbt: NbtCompound = NbtCompound()): NbtCompound {
-        return this.saveTo(NbtOps.INSTANCE, nbt).orThrow as NbtCompound
+    fun saveToNBT(nbt: CompoundTag = CompoundTag()): CompoundTag {
+        return this.saveTo(NbtOps.INSTANCE, nbt).orThrow as CompoundTag
     }
 
-    fun loadFromNBT(nbt: NbtCompound): Pokemon {
+    fun loadFromNBT(nbt: CompoundTag): Pokemon {
         this.loadFrom(NbtOps.INSTANCE, nbt)
         return this
     }
@@ -891,7 +897,7 @@ open class Pokemon : ShowdownIdentifiable {
         val encoded = CODEC.encodeStart(NbtOps.INSTANCE, this).orThrow
         NbtOps.INSTANCE.remove(encoded, DataKeys.POKEMON_EVOLUTIONS)
         if (newUUID) {
-            NbtOps.INSTANCE.set(encoded, DataKeys.POKEMON_UUID, NbtString.of(UUID.randomUUID().toString()))
+            NbtOps.INSTANCE.set(encoded, DataKeys.POKEMON_UUID, StringTag.valueOf(UUID.randomUUID().toString()))
         }
         return CODEC.decode(NbtOps.INSTANCE, encoded).orThrow.first
     }
@@ -1591,7 +1597,7 @@ open class Pokemon : ShowdownIdentifiable {
          * A [Codec] for [Pokemon] intended for S2C use.
          */
         @JvmStatic
-        val S2C_CODEC: PacketCodec<ByteBuf, Pokemon> = PacketCodecs.unlimitedCodec(CLIENT_CODEC)
+        val S2C_CODEC: StreamCodec<ByteBuf, Pokemon> = ByteBufCodecs.fromCodecTrusted(CLIENT_CODEC)
 
     }
 }

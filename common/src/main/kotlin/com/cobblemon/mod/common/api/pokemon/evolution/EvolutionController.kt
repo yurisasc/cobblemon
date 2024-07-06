@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.api.pokemon.evolution
 
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
+import com.cobblemon.mod.common.api.serialization.BufferSerializer
+import com.cobblemon.mod.common.api.serialization.DataSerializer
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.controller.ClientEvolutionController
 import com.cobblemon.mod.common.pokemon.evolution.controller.ServerEvolutionController
@@ -23,7 +25,7 @@ import net.minecraft.nbt.Tag
  * @author Licious
  * @since April 28th, 2022
  */
-interface EvolutionController<T : EvolutionLike> : MutableSet<T>, DataSerializer<Tag, JsonElement>, BufferSerializer {
+interface EvolutionController<T : EvolutionLike> : MutableSet<T> {
 
     /**
      * Resolves the [Pokemon] attached to this controller.

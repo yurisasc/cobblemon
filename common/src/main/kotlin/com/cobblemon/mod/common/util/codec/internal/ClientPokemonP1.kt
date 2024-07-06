@@ -21,19 +21,19 @@ import com.cobblemon.mod.common.util.codec.CodecUtils
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtElement
-import net.minecraft.nbt.NbtString
-import net.minecraft.text.Text
-import net.minecraft.text.TextCodecs
-import net.minecraft.util.Uuids
+import net.minecraft.core.UUIDUtil
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.StringTag
+import net.minecraft.nbt.Tag
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.ComponentSerialization
 import java.util.*
 
 internal class ClientPokemonP1(
     val uuid: UUID,
     val species: Species,
     val form: FormData,
-    val nickname: Optional<Text>,
+    val nickname: Optional<Component>,
     val level: Int,
     val experience: Int,
     val friendship: Int,
@@ -44,7 +44,7 @@ internal class ClientPokemonP1(
     val moveSet: MoveSet,
     val benchedMoves: BenchedMoves,
     val scaleModifier: Float,
-    val features: List<NbtCompound>,
+    val features: List<CompoundTag>,
     val ability: Ability
 ) : Partial<Pokemon> {
 
@@ -75,8 +75,8 @@ internal class ClientPokemonP1(
                 .filterIsInstance<SynchronizedSpeciesFeatureProvider<*>>()
             val feature = speciesFeatureProviders.firstNotNullOfOrNull { provider -> provider(featureNbt) } ?: return@forEach
             if (
-                featureNbt.contains("keys", NbtElement.STRING_TYPE.toInt()) &&
-                !featureNbt.getList("keys", NbtElement.STRING_TYPE.toInt()).contains(NbtString.of(featureId))
+                featureNbt.contains("keys", Tag.TAG_STRING.toInt()) &&
+                !featureNbt.getList("keys", Tag.TAG_STRING.toInt()).contains(StringTag.valueOf(featureId))
             ) {
                 return@forEach
             }
@@ -93,10 +93,10 @@ internal class ClientPokemonP1(
 
         internal val CODEC: MapCodec<ClientPokemonP1> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
-                Codec.withAlternative(Uuids.STRING_CODEC, Uuids.INT_STREAM_CODEC).fieldOf(DataKeys.POKEMON_UUID).forGetter(ClientPokemonP1::uuid),
+                UUIDUtil.LENIENT_CODEC.fieldOf(DataKeys.POKEMON_UUID).forGetter(ClientPokemonP1::uuid),
                 Species.BY_IDENTIFIER_CODEC.fieldOf(DataKeys.POKEMON_SPECIES_IDENTIFIER).forGetter(ClientPokemonP1::species),
                 Codec.STRING.fieldOf(DataKeys.POKEMON_FORM_ID).forGetter { pokemon -> pokemon.form.formOnlyShowdownId() },
-                TextCodecs.CODEC.optionalFieldOf(DataKeys.POKEMON_NICKNAME).forGetter(ClientPokemonP1::nickname),
+                ComponentSerialization.CODEC.optionalFieldOf(DataKeys.POKEMON_NICKNAME).forGetter(ClientPokemonP1::nickname),
                 CodecUtils.dynamicIntRange(1) { Cobblemon.config.maxPokemonLevel }.fieldOf(DataKeys.POKEMON_LEVEL).forGetter(ClientPokemonP1::level),
                 Codec.intRange(0, Int.MAX_VALUE).fieldOf(DataKeys.POKEMON_EXPERIENCE).forGetter(ClientPokemonP1::experience),
                 CodecUtils.dynamicIntRange(0) { Cobblemon.config.maxPokemonFriendship }.fieldOf(DataKeys.POKEMON_FRIENDSHIP).forGetter(ClientPokemonP1::friendship),
@@ -107,7 +107,7 @@ internal class ClientPokemonP1(
                 MoveSet.CODEC.fieldOf(DataKeys.POKEMON_MOVESET).forGetter(ClientPokemonP1::moveSet),
                 BenchedMoves.CODEC.fieldOf(DataKeys.BENCHED_MOVES).forGetter(ClientPokemonP1::benchedMoves),
                 Codec.FLOAT.fieldOf(DataKeys.POKEMON_SCALE_MODIFIER).forGetter(ClientPokemonP1::scaleModifier),
-                Codec.list(NbtCompound.CODEC).fieldOf(FEATURES).forGetter(ClientPokemonP1::features),
+                Codec.list(CompoundTag.CODEC).fieldOf(FEATURES).forGetter(ClientPokemonP1::features),
                 Ability.CODEC.fieldOf(DataKeys.POKEMON_ABILITY).forGetter(ClientPokemonP1::ability)
             ).apply(instance) { uuid, species, formId, nickname, level, experience, friendship, currentHealth, gender, ivs, evs, moveSet, benchedMoves, scaleModifier, shiny, ability ->
                 val form = species.forms.firstOrNull { it.formOnlyShowdownId() == formId } ?: species.standardForm
@@ -138,7 +138,7 @@ internal class ClientPokemonP1(
             .filterIsInstance<SynchronizedSpeciesFeature>()
             .filter { (SpeciesFeatures.getFeature(it.name) as? SynchronizedSpeciesFeatureProvider<*>)?.visible == true }
             .map { feature ->
-                val nbt = NbtCompound()
+                val nbt = CompoundTag()
                 nbt.putString(FEATURE_ID, feature.name)
                 feature.saveToNBT(nbt)
             }

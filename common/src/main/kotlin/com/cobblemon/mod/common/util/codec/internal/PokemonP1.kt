@@ -18,16 +18,16 @@ import com.cobblemon.mod.common.util.codec.CodecUtils
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.text.Text
-import net.minecraft.text.TextCodecs
-import net.minecraft.util.Uuids
+import net.minecraft.core.UUIDUtil
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.ComponentSerialization
 import java.util.*
 
 internal class PokemonP1(
     val uuid: UUID,
     val species: Species,
     val form: FormData,
-    val nickname: Optional<Text>,
+    val nickname: Optional<Component>,
     val level: Int,
     val experience: Int,
     val friendship: Int,
@@ -67,10 +67,10 @@ internal class PokemonP1(
     companion object {
         internal val CODEC: MapCodec<PokemonP1> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
-                Codec.withAlternative(Uuids.STRING_CODEC, Uuids.INT_STREAM_CODEC).fieldOf(DataKeys.POKEMON_UUID).forGetter(PokemonP1::uuid),
+                UUIDUtil.LENIENT_CODEC.fieldOf(DataKeys.POKEMON_UUID).forGetter(PokemonP1::uuid),
                 Species.BY_IDENTIFIER_CODEC.fieldOf(DataKeys.POKEMON_SPECIES_IDENTIFIER).forGetter(PokemonP1::species),
                 Codec.STRING.fieldOf(DataKeys.POKEMON_FORM_ID).forGetter { pokemon -> pokemon.form.formOnlyShowdownId() },
-                TextCodecs.CODEC.optionalFieldOf(DataKeys.POKEMON_NICKNAME).forGetter(PokemonP1::nickname),
+                ComponentSerialization.CODEC.optionalFieldOf(DataKeys.POKEMON_NICKNAME).forGetter(PokemonP1::nickname),
                 CodecUtils.dynamicIntRange(1) { Cobblemon.config.maxPokemonLevel }.fieldOf(DataKeys.POKEMON_LEVEL).forGetter(PokemonP1::level),
                 Codec.intRange(0, Int.MAX_VALUE).fieldOf(DataKeys.POKEMON_EXPERIENCE).forGetter(PokemonP1::experience),
                 CodecUtils.dynamicIntRange(0) { Cobblemon.config.maxPokemonFriendship }.fieldOf(DataKeys.POKEMON_FRIENDSHIP).forGetter(PokemonP1::friendship),

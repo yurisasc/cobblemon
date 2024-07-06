@@ -25,7 +25,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.DynamicOps
-import net.minecraft.datafixer.TypeReferences
+import net.minecraft.util.datafix.fixes.References
 import java.util.concurrent.Executors
 import java.util.function.Supplier
 
@@ -113,7 +113,7 @@ object CobblemonSchemas {
         ) {
             schema.registerType(false, CobblemonTypeReferences.POKEMON, DSL::remainder)
             // Even thought these aren't used yet might as well, we need 1 recursive type present to prevent a crash anyhow.
-            schema.registerType(true, TypeReferences.ENTITY) { DSL.taggedChoiceLazy("id", DSL.string(), entityTypes) }
+            schema.registerType(true, References.ENTITY) { DSL.taggedChoiceLazy("id", DSL.string(), entityTypes) }
         }
 
         // If we ever decide to target something do it here

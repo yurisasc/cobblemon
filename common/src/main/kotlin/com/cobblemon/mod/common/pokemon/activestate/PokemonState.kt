@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.UUIDUtil
 import java.util.UUID
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -29,7 +30,6 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.Uuids
 import net.minecraft.world.level.Level
 
 sealed class PokemonState {
@@ -227,11 +227,11 @@ class ShoulderedState() : ActivePokemonState() {
             instance.group(
                 Codec.STRING.fieldOf(DataKeys.POKEMON_STATE_TYPE).forGetter { ID }, // Keep me for the sake of if we ever migrate to a registry.
                 Codec.BOOL.fieldOf(DataKeys.POKEMON_STATE_SHOULDER).forGetter(ShoulderedState::isLeftShoulder),
-                Codec.withAlternative(Uuids.STRING_CODEC, Uuids.INT_STREAM_CODEC)
+                UUIDUtil.LENIENT_CODEC
                     .fieldOf(DataKeys.POKEMON_STATE_PLAYER_UUID).forGetter(ShoulderedState::playerUUID),
-                Codec.withAlternative(Uuids.STRING_CODEC, Uuids.INT_STREAM_CODEC).fieldOf(DataKeys.POKEMON_STATE_ID)
+                UUIDUtil.LENIENT_CODEC.fieldOf(DataKeys.POKEMON_STATE_ID)
                     .forGetter(ShoulderedState::stateId),
-                Codec.withAlternative(Uuids.STRING_CODEC, Uuids.INT_STREAM_CODEC)
+                UUIDUtil.LENIENT_CODEC
                     .fieldOf(DataKeys.POKEMON_STATE_POKEMON_UUID).forGetter(ShoulderedState::pokemonUUID)
             ).apply(instance) { _, isLeftShoulder, playerUuid, stateId, pokemonUuid ->
                 val state = ShoulderedState(playerUuid, isLeftShoulder, pokemonUuid)

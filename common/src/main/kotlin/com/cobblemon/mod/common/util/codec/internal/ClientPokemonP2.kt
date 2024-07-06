@@ -21,9 +21,9 @@ import com.cobblemon.mod.common.util.codec.CodecUtils
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.util.Uuids
+import net.minecraft.core.UUIDUtil
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.item.ItemStack
 import java.util.*
 
 internal data class ClientPokemonP2(
@@ -37,7 +37,7 @@ internal data class ClientPokemonP2(
     val nature: Nature,
     val mintedNature: Optional<Nature>,
     val heldItem: ItemStack,
-    val persistentData: NbtCompound,
+    val persistentData: CompoundTag,
     val tetheringId: Optional<UUID>,
     val teraType: TeraType,
     val dmaxLevel: Int,
@@ -80,8 +80,8 @@ internal data class ClientPokemonP2(
                 Nature.BY_IDENTIFIER_CODEC.fieldOf(DataKeys.POKEMON_NATURE).forGetter(ClientPokemonP2::nature),
                 Nature.BY_IDENTIFIER_CODEC.optionalFieldOf(DataKeys.POKEMON_MINTED_NATURE).forGetter(ClientPokemonP2::mintedNature),
                 ItemStack.CODEC.optionalFieldOf(DataKeys.HELD_ITEM, ItemStack.EMPTY).forGetter(ClientPokemonP2::heldItem),
-                NbtCompound.CODEC.fieldOf(DataKeys.POKEMON_PERSISTENT_DATA).forGetter(ClientPokemonP2::persistentData),
-                Codec.withAlternative(Uuids.STRING_CODEC, Uuids.INT_STREAM_CODEC).optionalFieldOf(DataKeys.TETHERING_ID).forGetter(ClientPokemonP2::tetheringId),
+                CompoundTag.CODEC.fieldOf(DataKeys.POKEMON_PERSISTENT_DATA).forGetter(ClientPokemonP2::persistentData),
+                UUIDUtil.LENIENT_CODEC.optionalFieldOf(DataKeys.TETHERING_ID).forGetter(ClientPokemonP2::tetheringId),
                 TeraType.BY_IDENTIFIER_CODEC.fieldOf(DataKeys.POKEMON_TERA_TYPE).forGetter(ClientPokemonP2::teraType),
                 CodecUtils.dynamicIntRange(0) { Cobblemon.config.maxDynamaxLevel }.fieldOf(DataKeys.POKEMON_DMAX_LEVEL).forGetter(ClientPokemonP2::dmaxLevel),
                 Codec.BOOL.fieldOf(DataKeys.POKEMON_GMAX_FACTOR).forGetter(ClientPokemonP2::gmaxFactor),

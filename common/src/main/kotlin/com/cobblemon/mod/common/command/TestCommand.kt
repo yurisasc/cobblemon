@@ -394,15 +394,15 @@ object TestCommand {
         return if (failed) result.red() else result.green()
     }
 
-    private fun testCodecOutput(context: CommandContext<ServerCommandSource>) {
-        val pokemon = context.source.playerOrThrow.party().get(0) ?: Pokemon()
+    private fun testCodecOutput(context: CommandContext<CommandSourceStack>) {
+        val pokemon = context.source.playerOrException.party().get(0) ?: Pokemon()
         pokemon.nickname = pokemon.species.translatedName
-            .styled {
+            .withStyle {
                 it.withColor(pokemon.form.primaryType.hue)
                     .withBold(true)
             }
         val jsonElement = Pokemon.CODEC.encodeStart(JsonOps.INSTANCE, pokemon).orThrow
-        context.source.sendMessage(Text.literal(jsonElement.toString()))
+        context.source.sendSystemMessage(Component.literal(jsonElement.toString()))
     }
 
 }
