@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.api.pokemon.status
 
-import com.cobblemon.mod.common.api.moves.animations.ActionEffectTimeline
 import com.cobblemon.mod.common.api.moves.animations.ActionEffects
-import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.codec.CodecUtils
+import com.mojang.serialization.Codec
 import net.minecraft.util.Identifier
 
 /**
@@ -25,4 +25,15 @@ open class Status(
     val removeMessage: String
 ) {
     fun getActionEffect() = ActionEffects.actionEffects[name]
+
+    companion object {
+        /**
+         * A [Codec] for [Status].
+         */
+        @JvmStatic
+        val CODEC: Codec<Status> = CodecUtils.createByIdentifierCodec(
+            Statuses::getStatus,
+            Status::name
+        ) { identifier -> "No Status for ID $identifier" }
+    }
 }

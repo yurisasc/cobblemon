@@ -20,7 +20,7 @@ object BattleUpdateTeamPokemonHandler : ClientNetworkPacketHandler<BattleUpdateT
         if (actor != null) {
             val previous = actor.pokemon.find { it.uuid == packet.pokemon.uuid }
             if (previous !=  null) {
-                actor.pokemon.add(actor.pokemon.indexOf(previous), packet.pokemon.create())
+                actor.pokemon.add(actor.pokemon.indexOf(previous), packet.pokemon)
                 actor.pokemon.remove(previous)
             }
         }

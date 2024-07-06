@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.api.pokeball.catching.CaptureEffect
 import com.cobblemon.mod.common.api.pokeball.catching.CatchRateModifier
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.codec.CodecUtils
+import com.mojang.serialization.Codec
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 
@@ -47,5 +49,15 @@ open class PokeBall(
 
     @Deprecated("This is a temporary solution for the safari ball dilemma", ReplaceWith("target.currentHealth"))
     internal fun hpForCalculation(target: Pokemon): Int = if (this.name == PokeBalls.SAFARI_BALL.name) target.hp else target.currentHealth
+
+    companion object {
+
+        @JvmStatic
+        val BY_IDENTIFIER_CODEC: Codec<PokeBall> = CodecUtils.createByIdentifierCodec(
+            PokeBalls::getPokeBall,
+            PokeBall::name
+        ) { identifier -> "No PokeBall for ID $identifier" }
+
+    }
 
 }

@@ -56,10 +56,19 @@ import java.util.UUID
  */
 open class PokemonProperties {
     companion object {
+
+        @JvmStatic
         val CODEC: Codec<PokemonProperties> = Codec.STRING.xmap(
             { parse(it) },
-            { it.originalString }
+            { it.asString() }
         )
+
+        @JvmStatic
+        val CUSTOM_PROPERTIES_CODEC: Codec<MutableList<CustomPokemonProperty>> = Codec.list(Codec.STRING)
+            .xmap(
+                { string -> parse(string.joinToString(" ")).customProperties },
+                { customProperties -> customProperties.map { it.asString() } }
+            )
 
         @JvmOverloads
         fun parse(string: String, delimiter: String = " ", assigner: String = "="): PokemonProperties {
@@ -94,7 +103,7 @@ open class PokemonProperties {
                     return@flatMap properties
                 }
             }.toMutableList()
-            props.gender = Gender.values().toList().parsePropertyOfCollection(keyPairs, listOf("gender"), labelsOptional = true) { it.name.lowercase() }
+            props.gender = Gender.entries.toList().parsePropertyOfCollection(keyPairs, listOf("gender"), labelsOptional = true) { it.name.lowercase() }
             props.level = parseIntProperty(keyPairs, listOf("level", "lvl", "l"))?.coerceIn(1, Cobblemon.config.maxPokemonLevel)
             props.shiny = parseBooleanProperty(keyPairs, listOf("shiny", "s"))
             props.species = parseSpeciesIdentifier(keyPairs)
@@ -109,7 +118,7 @@ open class PokemonProperties {
             props.dmaxLevel = parseIntProperty(keyPairs, listOf("dmax_level", "dmax"))?.coerceIn(0, Cobblemon.config.maxDynamaxLevel)
             props.gmaxFactor = parseBooleanProperty(keyPairs, listOf("gmax_factor", "gmax"))
             props.tradeable = parseBooleanProperty(keyPairs, listOf("tradeable", "tradable"))
-            props.originalTrainerType = OriginalTrainerType.values().toList().parsePropertyOfCollection(keyPairs, listOf("originaltrainertype", "ottype"), labelsOptional = true) { it.name.lowercase() }
+            props.originalTrainerType = OriginalTrainerType.entries.toList().parsePropertyOfCollection(keyPairs, listOf("originaltrainertype", "ottype"), labelsOptional = true) { it.name.lowercase() }
             props.originalTrainer = parsePlayerProperty(keyPairs, listOf("originaltrainer", "ot"))
 
             val maybeIVs = IVs()

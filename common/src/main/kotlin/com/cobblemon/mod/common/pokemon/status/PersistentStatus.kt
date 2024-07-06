@@ -12,6 +12,8 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.status.Status
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asTranslated
+import com.mojang.serialization.Codec
+import com.mojang.serialization.DataResult
 import kotlin.random.Random
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -56,5 +58,17 @@ open class PersistentStatus(
      */
     fun configEntry(): Pair<String, IntRange> {
         return name.toString() to defaultDuration
+    }
+
+    companion object {
+
+        /**
+         * A [Codec] for [PersistentStatus].
+         */
+        @JvmStatic
+        val CODEC: Codec<PersistentStatus> = Status.CODEC.comapFlatMap(
+            { status -> if (status is PersistentStatus) DataResult.success(status) else DataResult.error { "${status.name} is not a ${PersistentStatus::class.simpleName}" } },
+            { status -> status }
+        )
     }
 }

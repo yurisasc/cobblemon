@@ -37,7 +37,6 @@ import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.SpawnCause
-import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleBuilder
@@ -70,6 +69,7 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import com.mojang.serialization.Codec
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
@@ -96,6 +96,7 @@ import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
+import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtString
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
@@ -103,7 +104,6 @@ import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.EntityTrackerEntry
 import net.minecraft.server.network.ServerPlayerEntity
@@ -118,7 +118,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
-import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
@@ -490,7 +489,7 @@ open class PokemonEntity(
             tetheringNbt.put(DataKeys.TETHER_MAX_ROAM_POS, NbtHelper.fromBlockPos(tethering.maxRoamPos))
             nbt.put(DataKeys.TETHERING, tetheringNbt)
         } else {
-            nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
+            nbt.put(DataKeys.POKEMON, pokemon.saveToNBT())
         }
         val battleIdToSave = battleId
         if (battleIdToSave != null) {
@@ -547,8 +546,8 @@ open class PokemonEntity(
             }
         } else {
             pokemon = try {
-                this.createSidedPokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
-            } catch (_: InvalidSpeciesException) {
+                this.sidedCodec().decode(NbtOps.INSTANCE, nbt.getCompound(DataKeys.POKEMON)).orThrow.first
+            } catch (_: IllegalStateException) {
                 health = 0F
                 this.createSidedPokemon()
             }
@@ -1287,4 +1286,11 @@ open class PokemonEntity(
      * @return The side safe [Pokemon] with the [Pokemon.isClient] set.
      */
     private fun createSidedPokemon(): Pokemon = Pokemon().apply { isClient = this@PokemonEntity.world.isClient }
+
+    /**
+     * A utility method to resolve the [Codec] of [Pokemon] aware if the [world] is client sided or not.
+     *
+     * @return The [Codec].
+     */
+    private fun sidedCodec(): Codec<Pokemon> = if (this.world.isClient) Pokemon.CLIENT_CODEC else Pokemon.CODEC
 }

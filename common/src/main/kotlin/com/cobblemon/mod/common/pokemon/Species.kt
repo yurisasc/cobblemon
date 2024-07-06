@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
+import com.cobblemon.mod.common.util.codec.CodecUtils
 import com.cobblemon.mod.common.util.readEntityDimensions
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
@@ -286,11 +287,15 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     companion object {
         private const val VANILLA_DEFAULT_EYE_HEIGHT = .85F
 
-        val CODEC: Codec<Species> = Codec.STRING.xmap(
-            // TODO: 1.21 uses the one below
-            //{ speciesId -> PokemonSpecies.getByIdentifier(Identifier.of(speciesId)) },
-            { speciesId -> PokemonSpecies.getByIdentifier(Identifier.of(speciesId)) },
-            { it.resourceIdentifier.toString() }
-        )
+        // TODO: Registries have dedicated Codecs, migrate to that once this is a proper registry impl
+        /**
+         * A [Codec] that maps to/from an [Identifier] associated as [Species.resourceIdentifier].
+         * Uses [PokemonSpecies.getByIdentifier] to query.
+         */
+        @JvmStatic
+        val BY_IDENTIFIER_CODEC: Codec<Species> = CodecUtils.createByIdentifierCodec(
+            PokemonSpecies::getByIdentifier,
+            Species::resourceIdentifier
+        ) { identifier -> "No species for ID $identifier" }
     }
 }
