@@ -37,7 +37,6 @@ import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.SpawnCause
-import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleBuilder
@@ -85,6 +84,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
+import com.mojang.serialization.Codec
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import net.minecraft.resources.ResourceLocation
@@ -492,7 +492,7 @@ open class PokemonEntity(
             tetheringNbt.put(DataKeys.TETHER_MAX_ROAM_POS, NbtUtils.writeBlockPos(tethering.maxRoamPos))
             nbt.put(DataKeys.TETHERING, tetheringNbt)
         } else {
-            nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(CompoundTag()))
+            nbt.put(DataKeys.POKEMON, pokemon.saveToNBT())
         }
         val battleIdToSave = battleId
         if (battleIdToSave != null) {
@@ -549,8 +549,8 @@ open class PokemonEntity(
             }
         } else {
             pokemon = try {
-                this.createSidedPokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
-            } catch (_: InvalidSpeciesException) {
+                this.sidedCodec().decode(NbtOps.INSTANCE, nbt.getCompound(DataKeys.POKEMON)).orThrow.first
+            } catch (_: IllegalStateException) {
                 health = 0F
                 this.createSidedPokemon()
             }
@@ -1368,4 +1368,11 @@ open class PokemonEntity(
      * @return The side safe [Pokemon] with the [Pokemon.isClient] set.
      */
     private fun createSidedPokemon(): Pokemon = Pokemon().apply { isClient = this@PokemonEntity.level().isClientSide }
+
+    /**
+     * A utility method to resolve the [Codec] of [Pokemon] aware if the [world] is client sided or not.
+     *
+     * @return The [Codec].
+     */
+    private fun sidedCodec(): Codec<Pokemon> = if (this.world.isClient) Pokemon.CLIENT_CODEC else Pokemon.CODEC
 }

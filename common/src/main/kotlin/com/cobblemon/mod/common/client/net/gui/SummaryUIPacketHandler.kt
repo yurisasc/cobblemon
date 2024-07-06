@@ -18,7 +18,7 @@ object SummaryUIPacketHandler: ClientNetworkPacketHandler<SummaryUIPacket> {
     override fun handle(packet: SummaryUIPacket, client: Minecraft) {
         try {
             Summary.open(
-                party = packet.pokemon.map { it.create() },
+                party = packet.pokemon,
                 editable = packet.editable
             )
         } catch (e: Exception) {

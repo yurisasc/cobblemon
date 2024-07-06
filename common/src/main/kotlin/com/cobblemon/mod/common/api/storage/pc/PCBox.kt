@@ -105,7 +105,7 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
     open fun saveToNBT(nbt: CompoundTag): CompoundTag {
         for (slot in 0 until POKEMON_PER_BOX) {
             val pokemon = pokemon[slot] ?: continue
-            nbt.put(DataKeys.STORE_SLOT + slot, pokemon.saveToNBT(CompoundTag()))
+            nbt.put(DataKeys.STORE_SLOT + slot, pokemon.saveToNBT())
         }
         return nbt
     }
@@ -113,7 +113,7 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
     open fun saveToJSON(json: JsonObject): JsonObject {
         for (slot in 0 until POKEMON_PER_BOX) {
             val pokemon = pokemon[slot] ?: continue
-            json.add(DataKeys.STORE_SLOT + slot, pokemon.saveToJSON(JsonObject()))
+            json.add(DataKeys.STORE_SLOT + slot, pokemon.saveToJSON())
         }
         return json
     }
@@ -123,7 +123,7 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
             if (json.has(DataKeys.STORE_SLOT + slot)) {
                 val pokemonJson = json.getAsJsonObject(DataKeys.STORE_SLOT + slot)
                 try {
-                    pokemon[slot] = Pokemon().loadFromJSON(pokemonJson)
+                    pokemon[slot] = Pokemon.loadFromJSON(pokemonJson)
                 } catch (_: InvalidSpeciesException) {
                     pc.handleInvalidSpeciesJSON(pokemonJson)
                 }
@@ -137,7 +137,7 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
             if (nbt.contains(DataKeys.STORE_SLOT + slot)) {
                 val pokemonNBT = nbt.getCompound(DataKeys.STORE_SLOT + slot)
                 try {
-                    pokemon[slot] = Pokemon().loadFromNBT(pokemonNBT)
+                    pokemon[slot] = Pokemon.loadFromNBT(pokemonNBT)
                 } catch (_: InvalidSpeciesException) {
                     pc.handleInvalidSpeciesNBT(pokemonNBT)
                 }
@@ -146,5 +146,5 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
         return this
     }
 
-    fun getNonEmptySlots() = (0 until POKEMON_PER_BOX).filter { get(it) != null }.associateWith { get(it)!! }
+    open fun getNonEmptySlots() = (0 until POKEMON_PER_BOX).filter { get(it) != null }.associateWith { get(it)!! }
 }

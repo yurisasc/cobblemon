@@ -17,6 +17,6 @@ object BattleSetTeamPokemonHandler : ClientNetworkPacketHandler<BattleSetTeamPok
     override fun handle(packet: BattleSetTeamPokemonPacket, client: Minecraft) {
         CobblemonClient.battle!!.side1.actors
             .find { it.uuid == Minecraft.getInstance().player?.uuid }
-            ?.pokemon = packet.team.map { it.create() }.toMutableList()
+            ?.pokemon = packet.team.toMutableList()
     }
 }

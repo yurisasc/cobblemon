@@ -23,7 +23,7 @@ import net.minecraft.nbt.Tag
  * @author Licious
  * @since June 18th, 2022
  */
-interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> : DataSerializer<Tag, JsonElement>, BufferSerializer {
+interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> {
 
     /**
      * Checks if the current logical side is the client.

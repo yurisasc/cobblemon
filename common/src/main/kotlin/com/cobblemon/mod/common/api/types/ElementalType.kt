@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.api.types
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.util.codec.CodecUtils
+import com.mojang.serialization.Codec
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
@@ -26,4 +28,14 @@ class ElementalType(
     val hue: Int,
     val textureXMultiplier: Int,
     val resourceLocation: ResourceLocation = ResourceLocation.fromNamespaceAndPath(Cobblemon.MODID, "ui/types.png")
-)
+) {
+
+    companion object {
+        @JvmStatic
+        val BY_STRING_CODEC: Codec<ElementalType> = CodecUtils.createByStringCodec(
+            ElementalTypes::get,
+            ElementalType::name
+        ) { id -> "No ElementalType for ID $id" }
+    }
+
+}

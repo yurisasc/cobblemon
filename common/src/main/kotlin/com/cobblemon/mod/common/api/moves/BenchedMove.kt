@@ -17,6 +17,8 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -93,6 +95,19 @@ class BenchedMoves : Iterable<BenchedMove> {
         }
         return this
     }
+
+    companion object {
+        @JvmStatic
+        val CODEC: Codec<BenchedMoves> = Codec.list(BenchedMove.CODEC)
+            .xmap(
+                { moveList ->
+                    val benchedMoves = BenchedMoves()
+                    benchedMoves.addAll(moveList)
+                    return@xmap benchedMoves
+                },
+                BenchedMoves::toList
+            )
+    }
 }
 
 data class BenchedMove(val moveTemplate: MoveTemplate, val ppRaisedStages: Int) {
@@ -137,5 +152,11 @@ data class BenchedMove(val moveTemplate: MoveTemplate, val ppRaisedStages: Int) 
                 buffer.readSizedInt(IntSize.U_BYTE)
             )
         }
+
+        @JvmStatic
+        val CODEC: Codec<BenchedMove> = RecordCodecBuilder.create { it.group(
+            MoveTemplate.BY_STRING_CODEC.fieldOf(DataKeys.POKEMON_MOVESET_MOVENAME).forGetter(BenchedMove::moveTemplate),
+            Codec.intRange(0, 3).fieldOf(DataKeys.POKEMON_MOVESET_RAISED_PP_STAGES).forGetter(BenchedMove::ppRaisedStages)
+        ).apply(it, ::BenchedMove) }
     }
 }

@@ -20,6 +20,8 @@ import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.RegistryFriendlyByteBuf
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import kotlin.math.ceil
 import kotlin.properties.Delegates
 import net.minecraft.network.chat.MutableComponent
@@ -144,5 +146,13 @@ open class Move(
             val template = Moves.getByNameOrDummy(moveName)
             return template.create(currentPp, raisedPpStages)
         }
+
+        @JvmStatic
+        val CODEC: Codec<Move> = RecordCodecBuilder.create { it.group(
+            MoveTemplate.BY_STRING_CODEC.fieldOf(DataKeys.POKEMON_MOVESET_MOVENAME).forGetter(Move::template),
+            Codec.intRange(0, Int.MAX_VALUE).fieldOf(DataKeys.POKEMON_MOVESET_MOVEPP).forGetter(Move::currentPp),
+            Codec.intRange(0, 3).fieldOf(DataKeys.POKEMON_MOVESET_RAISED_PP_STAGES).forGetter(Move::raisedPpStages)
+        ).apply(it) { template, currentPp, raisedPpStages -> template.create(currentPp, raisedPpStages) } }
+
     }
 }

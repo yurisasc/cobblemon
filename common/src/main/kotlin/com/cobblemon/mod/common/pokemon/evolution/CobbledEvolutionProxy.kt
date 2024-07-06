@@ -19,9 +19,9 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.Tag
 import net.minecraft.network.RegistryFriendlyByteBuf
 
-class CobblemonEvolutionProxy(private val pokemon: Pokemon, private val clientSide: Boolean) : EvolutionProxy<EvolutionDisplay, Evolution> {
+class CobblemonEvolutionProxy(private val clientSide: Boolean) : EvolutionProxy<EvolutionDisplay, Evolution> {
 
-    private val controller = if (this.clientSide) ClientEvolutionController(this.pokemon) else ServerEvolutionController(this.pokemon)
+    private var controller = if (this.clientSide) ClientEvolutionController() else ServerEvolutionController()
 
     override fun isClient(): Boolean = this.clientSide
 
@@ -35,33 +35,8 @@ class CobblemonEvolutionProxy(private val pokemon: Pokemon, private val clientSi
         return this.controller as? EvolutionController<Evolution> ?: throw ClassCastException("Cannot use the server implementation from the client side")
     }
 
-    override fun saveToNBT(): Tag {
-        val nbt = CompoundTag()
-        nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.current().saveToNBT())
-        return nbt
+    internal fun overrideController(newInstance: EvolutionController<out EvolutionLike>) {
+        this.controller = newInstance
     }
 
-    override fun loadFromNBT(nbt: Tag) {
-        val compound = nbt as? CompoundTag ?: return
-        this.current().loadFromNBT(compound.get(DataKeys.POKEMON_PENDING_EVOLUTIONS) ?: return)
-    }
-
-    override fun saveToJson(): JsonElement {
-        val json = JsonObject()
-        json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.current().saveToJson())
-        return json
-    }
-
-    override fun loadFromJson(json: JsonElement) {
-        val jObject = json as? JsonObject ?: return
-        this.current().loadFromJson(jObject.get(DataKeys.POKEMON_PENDING_EVOLUTIONS) ?: JsonObject())
-    }
-
-    override fun saveToBuffer(buffer: RegistryFriendlyByteBuf, toClient: Boolean) {
-        this.current().saveToBuffer(buffer, toClient)
-    }
-
-    override fun loadFromBuffer(buffer: RegistryFriendlyByteBuf) {
-        this.current().loadFromBuffer(buffer)
-    }
 }

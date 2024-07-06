@@ -18,6 +18,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.Tag
 import net.minecraft.network.RegistryFriendlyByteBuf
+import com.mojang.serialization.Codec
 import kotlin.math.min
 
 class MoveSet : Iterable<Move> {
@@ -188,5 +189,15 @@ class MoveSet : Iterable<Move> {
 
     companion object {
         const val MOVE_COUNT = 4
+        @JvmStatic
+        val CODEC: Codec<MoveSet> = Codec.list(Move.CODEC, 0, MOVE_COUNT)
+            .xmap(
+                { moveList ->
+                    val moveSet = MoveSet()
+                    moveList.forEach(moveSet::add)
+                    return@xmap moveSet
+                },
+                { moveSet -> moveSet.toList() }
+            )
     }
 }

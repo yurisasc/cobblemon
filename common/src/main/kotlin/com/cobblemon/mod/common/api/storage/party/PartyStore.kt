@@ -157,7 +157,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         for (slot in slots.indices) {
             val pokemon = get(slot)
             if (pokemon != null) {
-                nbt.put(DataKeys.STORE_SLOT + slot, pokemon.saveToNBT(CompoundTag()))
+                nbt.put(DataKeys.STORE_SLOT + slot, pokemon.saveToNBT())
             }
         }
         return nbt
@@ -171,7 +171,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
             val pokemonNBT = nbt.getCompound(DataKeys.STORE_SLOT + slot)
             try {
                 if (!pokemonNBT.isEmpty) {
-                    slots[slot] = Pokemon().loadFromNBT(pokemonNBT)
+                    slots[slot] = Pokemon.loadFromNBT(pokemonNBT)
                 }
             } catch (_: InvalidSpeciesException) {
                 handleInvalidSpeciesNBT(pokemonNBT)
@@ -188,7 +188,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         for (slot in slots.indices) {
             val pokemon = get(slot)
             if (pokemon != null) {
-                json.add(DataKeys.STORE_SLOT + slot, pokemon.saveToJSON(JsonObject()))
+                json.add(DataKeys.STORE_SLOT + slot, pokemon.saveToJSON())
             }
         }
         return json
@@ -203,7 +203,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
             if (json.has(key)) {
                 val pokemonJSON = json.get(key).asJsonObject
                 try {
-                    slots[slot] = Pokemon().loadFromJSON(pokemonJSON)
+                    slots[slot] = Pokemon.loadFromJSON(pokemonJSON)
                 } catch (_: InvalidSpeciesException) {
                     handleInvalidSpeciesJSON(pokemonJSON)
                 }

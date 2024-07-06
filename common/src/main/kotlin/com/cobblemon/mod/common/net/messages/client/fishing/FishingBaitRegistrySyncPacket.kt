@@ -22,7 +22,6 @@ class FishingBaitRegistrySyncPacket(fishingBaits: List<FishingBait>) : DataRegis
         fun decode(buffer: RegistryFriendlyByteBuf) = FishingBaitRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 
-
     override val id = ID
     override fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: FishingBait) {
         buffer.writeIdentifier(entry.item)

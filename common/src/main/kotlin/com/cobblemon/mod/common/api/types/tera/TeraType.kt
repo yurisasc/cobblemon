@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.api.types.tera
 
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
+import com.cobblemon.mod.common.util.codec.CodecUtils
+import com.mojang.serialization.Codec
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
@@ -34,5 +36,13 @@ interface TeraType : ShowdownIdentifiable {
      * The display name of this type.
      */
     val displayName: Component
+
+    companion object {
+        @JvmStatic
+        val BY_IDENTIFIER_CODEC: Codec<TeraType> = CodecUtils.createByIdentifierCodec(
+            TeraTypes::get,
+            TeraType::id
+        ) { identifier -> "No TeraType for ID $identifier" }
+    }
 
 }

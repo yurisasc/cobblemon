@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.pokemon.evolution.progress
 
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
+import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressType
+import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressTypes
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.RecoilRequirement
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -40,20 +42,7 @@ class RecoilEvolutionProgress : EvolutionProgress<RecoilEvolutionProgress.Progre
 
     override fun shouldKeep(pokemon: Pokemon): Boolean = supports(pokemon)
 
-    override fun loadFromNBT(nbt: CompoundTag) {
-        val recoil = nbt.getInt(RECOIL)
-        this.updateProgress(Progress(recoil))
-    }
-
-    override fun saveToNBT(): CompoundTag = CompoundTag()
-        .apply { putInt(RECOIL, currentProgress().recoil) }
-
-    override fun loadFromJson(json: JsonObject) {
-        val recoil = json.get(RECOIL).asInt
-        this.updateProgress(Progress(recoil))
-    }
-
-    override fun saveToJson(): JsonObject = JsonObject().apply { addProperty(RECOIL, currentProgress().recoil) }
+    override fun type(): EvolutionProgressType<*> = EvolutionProgressTypes.RECOIL
 
     data class Progress(val recoil: Int)
 
@@ -61,6 +50,13 @@ class RecoilEvolutionProgress : EvolutionProgress<RecoilEvolutionProgress.Progre
 
         val ID = cobblemonResource(RecoilRequirement.ADAPTER_VARIANT)
         private const val RECOIL = "recoil"
+
+        @JvmStatic
+        val CODEC: MapCodec<RecoilEvolutionProgress> = RecordCodecBuilder.mapCodec { instance ->
+            instance.group(
+                Codec.intRange(1, Int.MAX_VALUE).fieldOf(RECOIL).forGetter { it.progress.recoil }
+            ).apply(instance) { amount -> RecoilEvolutionProgress().apply { updateProgress(Progress(amount)) } }
+        }
 
         fun supports(pokemon: Pokemon): Boolean {
             return pokemon.form.evolutions.any { evolution ->

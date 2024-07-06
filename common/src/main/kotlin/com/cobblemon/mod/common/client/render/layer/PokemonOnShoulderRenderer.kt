@@ -169,12 +169,12 @@ class PokemonOnShoulderRenderer<T : Player>(renderLayerParent: RenderLayerParent
     private fun extractData(shoulderNbt: CompoundTag, pokemonUUID: UUID): ShoulderData? {
         // To not crash with existing ones, this will still have the aspect issue
         if (!shoulderNbt.contains(DataKeys.SHOULDER_SPECIES)) {
-            val pokemon = Pokemon().apply { isClient = true }.loadFromNBT(shoulderNbt.getCompound(DataKeys.POKEMON))
-            return ShoulderData(pokemonUUID, pokemon.species, pokemon.form, pokemon.aspects, pokemon.scaleModifier)
+            return Pokemon.CLIENT_CODEC.decode(NbtOps.INSTANCE, shoulderNbt.getCompound(DataKeys.POKEMON))
+                .map { it.first }
+                .mapOrElse({ ShoulderData(pokemonUUID, it.species, it.form, it.aspects, it.scaleModifier) }, { null })
         }
         val species = PokemonSpecies.getByIdentifier(ResourceLocation.parse(shoulderNbt.getString(DataKeys.SHOULDER_SPECIES)))
             ?: return null
-
         val formName = shoulderNbt.getString(DataKeys.SHOULDER_FORM)
         val form = species.forms.firstOrNull { it.name == formName } ?: species.standardForm
         val aspects = shoulderNbt.getList(DataKeys.SHOULDER_ASPECTS, Tag.TAG_STRING.toInt()).map { it.asString }.toSet()

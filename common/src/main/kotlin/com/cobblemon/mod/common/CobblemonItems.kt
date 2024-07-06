@@ -680,6 +680,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, ResourceKey<Registry<It
     @JvmField
     val EJECT_PACK = heldItem("eject_pack")
     @JvmField
+    val ELECTRIC_SEED = heldItem("electric_seed")
+    @JvmField
     val EVERSTONE = heldItem("everstone")
     @JvmField
     val EVIOLITE = heldItem("eviolite")
@@ -697,6 +699,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, ResourceKey<Registry<It
     val FOCUS_BAND = heldItem("focus_band")
     @JvmField
     val FOCUS_SASH = heldItem("focus_sash")
+    @JvmField
+    val GRASSY_SEED = heldItem("grassy_seed")
    // @JvmField
    // val GRIP_CLAW = heldItem("grip_claw")
     @JvmField
@@ -747,6 +751,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, ResourceKey<Registry<It
     val POWER_LENS = heldItem("power_lens")
     @JvmField
     val POWER_WEIGHT = heldItem("power_weight")
+    @JvmField
+    val PSYCHIC_SEED = heldItem("psychic_seed")
    // @JvmField
    // val PROTECTIVE_PADS = heldItem("protective_pads")
    // @JvmField
@@ -763,8 +769,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, ResourceKey<Registry<It
    // val ROOM_SERVICE = heldItem("room_service")
     @JvmField
     val SAFETY_GOGGLES = heldItem("safety_goggles")
-   // @JvmField
-   // val SCOPE_LENS = heldItem("scope_lens")
+    @JvmField
+    val SCOPE_LENS = heldItem("scope_lens")
     @JvmField
     val SHARP_BEAK = heldItem("sharp_beak")
    // @JvmField
@@ -785,28 +791,30 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, ResourceKey<Registry<It
     val SOOTHE_BELL = heldItem("soothe_bell")
     @JvmField
     val STICKY_BARB = heldItem("sticky_barb")
-   // @JvmField
-   // val TERRAIN_EXTENDER = heldItem("terrain_extender")
-   // @JvmField
-   // val THROAT_SPRAY = heldItem("throat_spray")
+    @JvmField
+    val TERRAIN_EXTENDER = heldItem("terrain_extender")
+    @JvmField
+    val THROAT_SPRAY = heldItem("throat_spray")
     @JvmField
     val TOXIC_ORB = heldItem("toxic_orb")
     @JvmField
     val TWISTED_SPOON = heldItem("twisted_spoon")
-   // @JvmField
-   // val UTILITY_UMBRELLA = heldItem("utility_umbrella")
+    @JvmField
+    val UTILITY_UMBRELLA = heldItem("utility_umbrella")
     @JvmField
     val WEAKNESS_POLICY = heldItem("weakness_policy")
-   // @JvmField
-   // val WIDE_LENS = heldItem("wide_lens")
+    @JvmField
+    val WIDE_LENS = heldItem("wide_lens")
     @JvmField
     val WISE_GLASSES = heldItem("wise_glasses")
-   // @JvmField
-   // val ZOOM_LENS = heldItem("zoom_lens")
+    @JvmField
+    val ZOOM_LENS = heldItem("zoom_lens")
     @JvmField
     val MENTAL_HERB = compostableHeldItem("mental_herb", null, 1F)
     @JvmField
     val MIRROR_HERB = compostableHeldItem("mirror_herb", null, 1F)
+    @JvmField
+    val MISTY_SEED = heldItem("misty_seed")
     @JvmField
     val POWER_HERB = compostableHeldItem("power_herb", null, 1F)
     @JvmField
