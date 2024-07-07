@@ -13,6 +13,7 @@ import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
+import com.cobblemon.mod.common.api.npc.configuration.NPCInteractConfiguration
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.*
 import com.mojang.datafixers.util.Either
@@ -34,7 +35,7 @@ class NPCClass {
     var names = mutableListOf(lang("npc.name.default"))
     var hitbox = EntityDimensions.scalable(0.6F, 1.8F)
     var battleConfiguration = NPCBattleConfiguration()
-    var interaction: Either<ResourceLocation, ExpressionLike>? = null
+    var interaction: NPCInteractConfiguration? = null
     var variables = mutableMapOf<String, MoValue>()
 
     fun encode(buffer: RegistryFriendlyByteBuf) {
@@ -44,8 +45,8 @@ class NPCClass {
         buffer.writeBoolean(this.hitbox.fixed)
         battleConfiguration.encode(buffer)
         buffer.writeNullable(interaction) { _, value ->
-            buffer.writeBoolean(value.map({ true }, { false }))
-            buffer.writeString(value.map({ it.toString() }, { it.toString() }))
+            buffer.writeString(value.type)
+            value.encode(buffer)
         }
         buffer.writeMapK(size = IntSize.U_BYTE, map = variables) { (key, value) ->
             buffer.writeString(key)
@@ -62,11 +63,11 @@ class NPCClass {
         battleConfiguration = NPCBattleConfiguration()
         battleConfiguration.decode(buffer)
         interaction = buffer.readNullable {
-            if (buffer.readBoolean()) {
-                Either.left(ResourceLocation.parse(buffer.readString()))
-            } else {
-                Either.right(buffer.readString().asExpressionLike())
-            }
+            val type = buffer.readString()
+            val configType = NPCInteractConfiguration.types[type] ?: return@readNullable null
+            val instance = configType.clazz.getConstructor().newInstance()
+            instance.decode(buffer)
+            instance
         }
         buffer.readMapK(size = IntSize.U_BYTE, map = variables) {
             val key = buffer.readString()

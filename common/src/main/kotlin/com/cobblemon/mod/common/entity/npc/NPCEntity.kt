@@ -16,12 +16,10 @@ import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.CobblemonSensors
 import com.cobblemon.mod.common.GenericsCheatClass.createNPCBrain
 import com.cobblemon.mod.common.api.entity.PokemonSender
-import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.MoLangFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
-import com.cobblemon.mod.common.api.molang.runScript
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
@@ -29,6 +27,7 @@ import com.cobblemon.mod.common.api.net.serializers.UUIDSetDataSerializer
 import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCBehaviourConfiguration
+import com.cobblemon.mod.common.api.npc.configuration.NPCInteractConfiguration
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.entity.PosableEntity
@@ -46,25 +45,22 @@ import com.cobblemon.mod.common.net.messages.client.animation.PlayPosableAnimati
 import com.cobblemon.mod.common.net.messages.client.npc.CloseNPCEditorPacket
 import com.cobblemon.mod.common.net.messages.client.npc.OpenNPCEditorPacket
 import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.withNPCValue
-import com.cobblemon.mod.common.util.withPlayerValue
 import com.google.common.collect.ImmutableList
-import com.mojang.datafixers.util.Either
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.Dynamic
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.StringTag
 import net.minecraft.nbt.Tag
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.SynchedEntityData
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.AgeableMob
@@ -110,7 +106,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
     var battle: NPCBattleConfiguration? = null
     var behaviour: NPCBehaviourConfiguration? = null
 
-    var interaction: Either<ResourceLocation, ExpressionLike>? = null
+    var interaction: NPCInteractConfiguration? = null
 
     var data = VariableStruct()
 
@@ -137,9 +133,9 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
 
     init {
         delegate.initialize(this)
+        addPosableFunctions(struct)
         runtime.environment.query.addFunctions(struct.functions)
         refreshDimensions()
-        addPosableFunctions(struct)
         navigation.setCanFloat(true)
     }
 
@@ -238,10 +234,6 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         return target.hurt(this.damageSources().mobAttack(this), attributes.getValue(Attributes.ATTACK_DAMAGE).toFloat() * 5F)
     }
 
-    override fun onPathfindingDone() {
-//        brain.forget(MemoryModuleType.WALK_TARGET)
-    }
-
     override fun getBrain() = super.getBrain() as Brain<NPCEntity>
 
     fun updateAspects() {
@@ -268,7 +260,9 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         nbt.putString(DataKeys.NPC_CLASS, npc.resourceIdentifier.toString())
         nbt.put(DataKeys.NPC_ASPECTS, ListTag().also { list -> appliedAspects.forEach { list.add(StringTag.valueOf(it)) } })
         interaction?.let {
-            nbt.putString(DataKeys.NPC_INTERACTION, it.map(ResourceLocation::toString, ExpressionLike::toString))
+            val interactionNBT = CompoundTag()
+            it.writeToNBT(interactionNBT)
+            nbt.put(DataKeys.NPC_INTERACTION, interactionNBT)
         }
         val battle = battle
         if (battle != null) {
@@ -284,12 +278,10 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         npc = NPCClasses.getByIdentifier(ResourceLocation.parse(nbt.getString(DataKeys.NPC_CLASS))) ?: NPCClasses.classes.first()
         data = MoLangFunctions.readMoValueFromNBT(nbt.getCompound(DataKeys.NPC_DATA)) as VariableStruct
         appliedAspects.addAll(nbt.getList(DataKeys.NPC_ASPECTS, Tag.TAG_STRING.toInt()).map { it.asString })
-        nbt.getString(DataKeys.NPC_INTERACTION).takeIf { it.isNotBlank() }?.let {
-            if (ResourceLocation.tryParse(it) != null) {
-                interaction = Either.left(ResourceLocation.parse(it))
-            } else {
-                interaction = Either.right(it.asExpressionLike())
-            }
+        nbt.getCompound(DataKeys.NPC_INTERACTION).takeIf { !it.isEmpty }?.let { nbt ->
+            val type = nbt.getString("type")
+            val configType = NPCInteractConfiguration.types[type] ?: return@let
+            interaction = configType.clazz.getConstructor().newInstance().also { it.readFromNBT(nbt) }
         }
         val battleNBT = nbt.getCompound(DataKeys.NPC_BATTLE_CONFIGURATION)
         if (!battleNBT.isEmpty) {
@@ -302,8 +294,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
 
     override fun mobInteract(player: Player, hand: InteractionHand): InteractionResult {
         if (player is ServerPlayer && hand == InteractionHand.MAIN_HAND) {
-            (interaction ?: npc.interaction)?.runScript(runtime.withPlayerValue(value = player))
-            runtime.environment.query.functions.remove("player")
+            (interaction ?: npc.interaction)?.interact(this, player)
 //            val battle = getBattleConfiguration()
 //            if (battle.canChallenge) {
 //                val provider = battle.party
