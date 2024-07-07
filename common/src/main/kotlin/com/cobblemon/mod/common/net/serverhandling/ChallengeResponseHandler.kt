@@ -22,17 +22,17 @@ import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
-import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.math.Vec3d
-import net.minecraft.world.RaycastContext
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.level.ClipContext
+import net.minecraft.world.phys.Vec3
 
 object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResponsePacket> {
-    override fun handle(packet: BattleChallengeResponsePacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: BattleChallengeResponsePacket, server: MinecraftServer, player: ServerPlayer) {
         if(player.isSpectator) return
 
-        val targetedEntity = player.world.getEntityById(packet.targetedEntityId)?.let {
+        val targetedEntity = player.level().getEntity(packet.targetedEntityId)?.let {
             if (it is PokemonEntity) {
                 val owner = it.owner
                 if (owner != null) {
@@ -47,8 +47,8 @@ object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResp
                         entityClass = LivingEntity::class.java,
                         ignoreEntity = player,
                         maxDistance = RequestInteractionsHandler.MAX_PVP_DISTANCE.toFloat(),
-                        collideBlock = RaycastContext.FluidHandling.NONE) != targetedEntity) {
-            player.sendMessage(lang("ui.interact.failed").yellow())
+                        collideBlock = ClipContext.Fluid.NONE) != targetedEntity) {
+            player.sendSystemMessage(lang("ui.interact.failed").yellow())
             return
         }
 
@@ -66,7 +66,7 @@ object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResp
                  */
                 BattleBuilder.pve(player, targetedEntity, leadingPokemon).ifErrored { it.sendTo(player) { it.red() } }
             }
-            is ServerPlayerEntity -> {
+            is ServerPlayer -> {
                 // Bandaid for odd desync thing with data tracker
                 if (player == targetedEntity) {
                     return
@@ -101,7 +101,7 @@ object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResp
                                 BattleRegistry.removeChallenge(targetTeamUUID, existingChallenge.challengeId, true)
                                 // Send error message that we don't have the correct number of players
                                 players.forEach {
-                                    it.sendMessage(battleLang( "error.incorrect_player_count", players.count(), BattleRegistry.MAX_TEAM_MEMBER_COUNT).red())
+                                    it.sendSystemMessage(battleLang( "error.incorrect_player_count", players.count(), BattleRegistry.MAX_TEAM_MEMBER_COUNT).red())
                                 }
                                 return
                             }
@@ -117,28 +117,28 @@ object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResp
                             }
 
                             // Check if all players are in the same minecraft dimension
-                            val dimension = player.world.dimension
-                            val playerInWrongDimension = players.firstOrNull { it.world.dimension != dimension }
+                            val dimension = player.level().dimension()
+                            val playerInWrongDimension = players.firstOrNull { it.level().dimension() != dimension }
                             if(playerInWrongDimension != null) {
                                 // TODO: Error message, not all players in the same Minecraft dimension
                                 players.forEach {
-                                    it.sendMessage(battleLang("error.player_different_dimension"))
+                                    it.sendSystemMessage(battleLang("error.player_different_dimension"))
                                 }
                                 BattleRegistry.removeChallenge(targetTeamUUID, existingChallenge.challengeId, true)
                                 return
                             }
 
                             // Check if all players all nearby
-                            var averagePos = Vec3d(0.0, 0.0, 0.0)
+                            var averagePos = Vec3(0.0, 0.0, 0.0)
                             players.forEach {
-                                averagePos = averagePos.add(it.pos.multiply(1.0 / players.count(), 0.0, 1.0 / players.count()))
+                                averagePos = averagePos.add(it.position().multiply(1.0 / players.count(), 0.0, 1.0 / players.count()))
                             }
-                            val farAwayPlayer = players.firstOrNull { it.pos.subtract(0.0, it.pos.y, 0.0) .squaredDistanceTo(averagePos) > BattleRegistry.MAX_BATTLE_RADIUS * BattleRegistry.MAX_BATTLE_RADIUS }
+                            val farAwayPlayer = players.firstOrNull { it.position().subtract(0.0, it.position().y, 0.0).distanceToSqr(averagePos) > BattleRegistry.MAX_BATTLE_RADIUS * BattleRegistry.MAX_BATTLE_RADIUS }
                             if(farAwayPlayer != null) {
                                 // Error message, player too far away
                                 players.forEach {
                                     val langKey = if(it.uuid == farAwayPlayer.uuid) "error.player_distance.personal" else "error.player_distance"
-                                    it.sendMessage(battleLang(langKey, farAwayPlayer.name))
+                                    it.sendSystemMessage(battleLang(langKey, farAwayPlayer.name))
                                 }
                                 BattleRegistry.removeChallenge(targetTeamUUID, existingChallenge.challengeId, true)
                                 return
@@ -149,8 +149,8 @@ object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResp
                         } else {
                             if (targetedEntity.party()[existingChallengePokemon!!] == null) {
                                 if (targetedEntity.party().none()) {
-                                    player.sendMessage(battleLang("error.no_pokemon_opponent"))
-                                    targetedEntity.sendMessage(battleLang("error.no_pokemon"))
+                                    player.sendSystemMessage(battleLang("error.no_pokemon_opponent"))
+                                    targetedEntity.sendSystemMessage(battleLang("error.no_pokemon"))
                                     BattleRegistry.removeChallenge(targetedEntity.uuid)
                                     return
                                 }
@@ -173,20 +173,20 @@ object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResp
                                 // Send messages to player team
                                 playerTeam?.teamPlayersUUID?.forEach { uuid ->
                                     if(uuid == player.uuid) {
-                                        uuid.getPlayer()?.sendMessage(lang("challenge.multibattle.decline.sender.personal", targetedEntity.name).yellow())
+                                        uuid.getPlayer()?.sendSystemMessage(lang("challenge.multibattle.decline.sender.personal", targetedEntity.name).yellow())
                                     } else {
-                                        uuid.getPlayer()?.sendMessage(lang("challenge.multibattle.decline.sender", player.name, targetedEntity.name).yellow())
+                                        uuid.getPlayer()?.sendSystemMessage(lang("challenge.multibattle.decline.sender", player.name, targetedEntity.name).yellow())
                                     }
                                 }
 
                                 // Send messages to targeted team
                                 targetedTeam.teamPlayersUUID.forEach { uuid ->
-                                    uuid.getPlayer()?.sendMessage(lang("challenge.multibattle.decline.receiver", player.name).yellow())
+                                    uuid.getPlayer()?.sendSystemMessage(lang("challenge.multibattle.decline.receiver", player.name).yellow())
                                 }
                             }
                         } else {
-                            targetedEntity.sendMessage(lang("challenge.decline.receiver", player.name).yellow())
-                            player.sendMessage(lang("challenge.decline.sender", targetedEntity.name).yellow())
+                            targetedEntity.sendSystemMessage(lang("challenge.decline.receiver", player.name).yellow())
+                            player.sendSystemMessage(lang("challenge.decline.sender", targetedEntity.name).yellow())
                             BattleRegistry.removeChallenge(targetedEntity.uuid, existingChallenge.challengeId)
                         }
 

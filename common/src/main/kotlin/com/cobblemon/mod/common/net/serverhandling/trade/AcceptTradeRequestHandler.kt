@@ -14,10 +14,10 @@ import com.cobblemon.mod.common.net.serverhandling.RequestInteractionsHandler
 import com.cobblemon.mod.common.trade.TradeManager
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
-import net.minecraft.world.RaycastContext
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.level.ClipContext
 
 object AcceptTradeRequestHandler : ServerNetworkPacketHandler<AcceptTradeRequestPacket> {
     override fun handle(packet: AcceptTradeRequestPacket, server: MinecraftServer, player: ServerPlayer) {
@@ -29,7 +29,7 @@ object AcceptTradeRequestHandler : ServerNetworkPacketHandler<AcceptTradeRequest
             entityClass = LivingEntity::class.java,
             ignoreEntity = player,
             maxDistance = RequestInteractionsHandler.MAX_ENTITY_INTERACTION_DISTANCE.toFloat(),
-            collideBlock = RaycastContext.FluidHandling.NONE
+            collideBlock = ClipContext.Fluid.NONE
         ) != otherPlayer) return
         TradeManager.acceptTradeRequest(player, packet.tradeOfferId)
     }

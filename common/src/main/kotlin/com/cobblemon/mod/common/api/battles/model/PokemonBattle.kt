@@ -50,16 +50,12 @@ import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import net.minecraft.network.chat.Component
 import com.cobblemon.mod.common.util.giveOrDropItemStack
-import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentLinkedDeque
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.minecraft.world.item.ItemStack
 
 /**
  * Individual battle instance
@@ -273,7 +269,7 @@ open class PokemonBattle(
                 actor.itemsUsed.forEach {
                     val namespace = it.itemName.substringBeforeLast('.').substringAfterLast('.')
                     val path = it.itemName.substringAfterLast('.')
-                    player?.giveOrDropItemStack(ItemStack(Registries.ITEM.get(Identifier(namespace, path))))
+//                    player?.giveOrDropItemStack(ItemStack(Registries.ITEM.get(Identifier(namespace, path))))
                 }
             }
         }

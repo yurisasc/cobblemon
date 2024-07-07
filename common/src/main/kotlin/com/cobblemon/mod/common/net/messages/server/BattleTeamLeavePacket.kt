@@ -10,14 +10,14 @@ package com.cobblemon.mod.common.net.messages.server
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 class BattleTeamLeavePacket() : NetworkPacket<BattleTeamLeavePacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
     }
     companion object {
         val ID = cobblemonResource("battle_team_leave")
-        fun decode(buffer: PacketByteBuf) = BattleTeamLeavePacket()
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleTeamLeavePacket()
     }
 }

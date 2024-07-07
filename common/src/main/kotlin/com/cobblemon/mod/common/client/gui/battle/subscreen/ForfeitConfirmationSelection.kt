@@ -67,7 +67,7 @@ class ForfeitConfirmationSelection(
             return
         }
         forfeitButton.render(context, mouseX, mouseY, delta)
-        backButton.render(context.pose(), mouseX, mouseY, delta)
+        backButton.render(context, mouseX, mouseY, delta)
     }
 
 }

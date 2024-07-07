@@ -10,8 +10,8 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.RegistryFriendlyByteBuf
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Packet fired to tell the client that a team request expired.
@@ -22,11 +22,11 @@ import net.minecraft.network.PacketByteBuf
 class TeamRequestExpiredPacket(val teamRequestId: UUID) : NetworkPacket<TeamRequestExpiredPacket> {
     companion object {
         val ID = cobblemonResource("team_request_expired")
-        fun decode(buffer: PacketByteBuf) = TeamRequestExpiredPacket(buffer.readUuid())
+        fun decode(buffer: RegistryFriendlyByteBuf) = TeamRequestExpiredPacket(buffer.readUUID())
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
-        buffer.writeUuid(teamRequestId)
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeUUID(teamRequestId)
     }
 }

@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.gui.battle.subscreen
 
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.battles.PassActionResponse
 import com.cobblemon.mod.common.battles.ShowdownPokemon
 import com.cobblemon.mod.common.battles.SwitchActionResponse
 import com.cobblemon.mod.common.client.CobblemonClient
@@ -130,7 +131,7 @@ class BattleSwitchPokemonSelection(
         }
         tiles.forEach { it.render(context, mouseX.toDouble(), mouseY.toDouble(), delta) }
         if(!request.forceSwitch) {
-            backButton.render(context.pose(), mouseX, mouseY, delta)
+            backButton.render(context, mouseX, mouseY, delta)
         }
     }
 

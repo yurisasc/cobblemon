@@ -18,17 +18,17 @@ import com.cobblemon.mod.common.net.messages.client.battle.TeamRequestNotificati
 import com.cobblemon.mod.common.net.messages.server.BattleTeamRequestPacket
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
-import net.minecraft.entity.LivingEntity
 import java.util.UUID
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.world.RaycastContext
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.level.ClipContext
 
 object TeamRequestHandler : ServerNetworkPacketHandler<BattleTeamRequestPacket> {
-    override fun handle(packet: BattleTeamRequestPacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: BattleTeamRequestPacket, server: MinecraftServer, player: ServerPlayer) {
         if(player.isSpectator) return
 
-        val targetedEntity = player.world.getEntityById(packet.targetedEntityId)?.let {
+        val targetedEntity = player.level().getEntity(packet.targetedEntityId)?.let {
             if (it is PokemonEntity) {
                 val owner = it.owner
                 if (owner != null) {
@@ -43,8 +43,8 @@ object TeamRequestHandler : ServerNetworkPacketHandler<BattleTeamRequestPacket> 
             entityClass = LivingEntity::class.java,
             ignoreEntity = player,
             maxDistance = RequestInteractionsHandler.MAX_PVP_DISTANCE.toFloat(),
-            collideBlock = RaycastContext.FluidHandling.NONE) != targetedEntity) {
-            player.sendMessage(lang("ui.interact.failed").yellow())
+            collideBlock = ClipContext.Fluid.NONE) != targetedEntity) {
+            player.sendSystemMessage(lang("ui.interact.failed").yellow())
             return
         }
 
@@ -52,7 +52,7 @@ object TeamRequestHandler : ServerNetworkPacketHandler<BattleTeamRequestPacket> 
             is PokemonEntity -> {
                 return
             }
-            is ServerPlayerEntity -> {
+            is ServerPlayer -> {
                 // Bandaid for odd desync thing with data tracker
                 if (player == targetedEntity) {
                     return
@@ -67,7 +67,7 @@ object TeamRequestHandler : ServerNetworkPacketHandler<BattleTeamRequestPacket> 
                     // Make a request to the target to join a team
                     val requestId = UUID.randomUUID()
                     BattleRegistry.multiBattleTeamRequests[player.uuid] = BattleRegistry.TeamRequest(requestId, targetedEntity.uuid)
-                    player.sendMessage(lang("challenge.multi.team_request.sender", targetedEntity.name))
+                    player.sendSystemMessage(lang("challenge.multi.team_request.sender", targetedEntity.name))
                     targetedEntity.sendPacket(TeamRequestNotificationPacket(requestId, player.uuid, player.name.copy().aqua()))
                 }
             }

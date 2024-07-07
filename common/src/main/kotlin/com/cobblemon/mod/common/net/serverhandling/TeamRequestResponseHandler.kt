@@ -21,16 +21,14 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.server
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.MutableText
-import net.minecraft.text.TextContent
+import net.minecraft.server.level.ServerPlayer
 import java.util.*
 
 object TeamRequestResponseHandler : ServerNetworkPacketHandler<BattleTeamResponsePacket> {
-    override fun handle(packet: BattleTeamResponsePacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: BattleTeamResponsePacket, server: MinecraftServer, player: ServerPlayer) {
         if(player.isSpectator) return
 
-        val targetedEntity = player.world.getEntityById(packet.targetedEntityId)?.let {
+        val targetedEntity = player.level().getEntity(packet.targetedEntityId)?.let {
             if (it is PokemonEntity) {
                 val owner = it.owner
                 if (owner != null) {
@@ -44,7 +42,7 @@ object TeamRequestResponseHandler : ServerNetworkPacketHandler<BattleTeamRespons
             is PokemonEntity -> {
                 return
             }
-            is ServerPlayerEntity -> {
+            is ServerPlayer -> {
                 // Bandaid for odd desync thing with data tracker
                 if (player == targetedEntity) {
                     return
@@ -55,15 +53,15 @@ object TeamRequestResponseHandler : ServerNetworkPacketHandler<BattleTeamRespons
 
                     if(packet.accept) {
                         if (targetedEntity.party().none()) {
-                            player.sendMessage(battleLang("error.no_pokemon_opponent"))
-                            targetedEntity.sendMessage(battleLang("error.no_pokemon"))
+                            player.sendSystemMessage(battleLang("error.no_pokemon_opponent"))
+                            targetedEntity.sendSystemMessage(battleLang("error.no_pokemon"))
                             BattleRegistry.removeTeamUpRequest(targetedEntity.uuid, existingRequest.requestID)
                             return
                         }
 
                         if (BattleRegistry.playerToTeam[player.uuid] != null) {
                             // Player is already a member of team
-                            player.sendMessage(lang("challenge.multi.team_reject.existing_team"))
+                            player.sendSystemMessage(lang("challenge.multi.team_reject.existing_team"))
                             return
                         }
 
@@ -71,7 +69,7 @@ object TeamRequestResponseHandler : ServerNetworkPacketHandler<BattleTeamRespons
                         if (existingTeam != null) {
 
                             if(existingTeam.teamPlayersUUID.count() >= BattleRegistry.MAX_TEAM_MEMBER_COUNT) {
-                                player.sendMessage(lang("challenge.multi.team_reject.max_team_size"))
+                                player.sendSystemMessage(lang("challenge.multi.team_reject.max_team_size"))
                                 return
                             }
 
@@ -82,7 +80,7 @@ object TeamRequestResponseHandler : ServerNetworkPacketHandler<BattleTeamRespons
                             // notify the joiner
                             val joinerPacket = TeamJoinNotificationPacket(
                                     existingTeam.teamPlayersUUID,
-                                    existingTeam.teamPlayersUUID.map { player.world.getPlayerByUuid(it)?.name?.copyContentOnly() ?: MutableText.of(TextContent.EMPTY) },
+                                    existingTeam.teamPlayersUUID.mapNotNull { player.level().getPlayerByUUID(it)?.name?.plainCopy() },
                             )
                             CobblemonNetwork.sendPacketToPlayer(player, joinerPacket)
 
@@ -91,8 +89,8 @@ object TeamRequestResponseHandler : ServerNetworkPacketHandler<BattleTeamRespons
                                     player.uuid,
                                     player.name.copy()
                             )
-                            CobblemonNetwork.sendPacketToPlayers(existingTeam.teamPlayersUUID.filter { it != player.uuid && player.world.getPlayerByUuid(it) != null }.
-                                map { player.world.getPlayerByUuid(it) as ServerPlayerEntity }, teamNotifyPacket)
+                            CobblemonNetwork.sendPacketToPlayers(existingTeam.teamPlayersUUID.filter { it != player.uuid && player.level().getPlayerByUUID(it) != null }.
+                                map { player.level().getPlayerByUUID(it) as ServerPlayer }, teamNotifyPacket)
 
                         } else {
                             // Create a new team
@@ -105,25 +103,25 @@ object TeamRequestResponseHandler : ServerNetworkPacketHandler<BattleTeamRespons
 
                             val joinerPacket = TeamJoinNotificationPacket(
                                     team.teamPlayersUUID,
-                                    team.teamPlayersUUID.map { player.world.getPlayerByUuid(it)?.name?.copyContentOnly() ?: MutableText.of(TextContent.EMPTY) },
+                                    team.teamPlayersUUID.mapNotNull { player.level().getPlayerByUUID(it)?.name?.plainCopy() },
                             )
                             server()?.let {
-                                 it.playerManager.getPlayer(targetedEntity.uuid)?.let {
+                                 it.playerList.getPlayer(targetedEntity.uuid)?.let {
                                      targetedServerPlayer -> CobblemonNetwork.sendPacketToPlayer(targetedServerPlayer, joinerPacket)
                                  }
                             }
                             CobblemonNetwork.sendPacketToPlayer(player, joinerPacket)
 
 
-                            targetedEntity.sendMessage(lang("challenge.multi.team_request.accept.receiver", player.name).yellow())
+                            targetedEntity.sendSystemMessage(lang("challenge.multi.team_request.accept.receiver", player.name).yellow())
 
-                            player.sendMessage(lang("challenge.multi.team_request.accept.sender", targetedEntity.name).yellow())
+                            player.sendSystemMessage(lang("challenge.multi.team_request.accept.sender", targetedEntity.name).yellow())
                         }
 
                     } else {
                         // Play messages to both sides that the team request was declined
-                        targetedEntity.sendMessage(lang("challenge.multi.team_request.decline.receiver", player.name).yellow())
-                        player.sendMessage(lang("challenge.multi.team_request.decline.sender", targetedEntity.name).yellow())
+                        targetedEntity.sendSystemMessage(lang("challenge.multi.team_request.decline.receiver", player.name).yellow())
+                        player.sendSystemMessage(lang("challenge.multi.team_request.decline.sender", targetedEntity.name).yellow())
                     }
                     BattleRegistry.removeTeamUpRequest(targetedEntity.uuid, existingRequest.requestID)
                 }

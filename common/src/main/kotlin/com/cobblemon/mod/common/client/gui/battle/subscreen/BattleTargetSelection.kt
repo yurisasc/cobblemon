@@ -21,10 +21,10 @@ import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
+import net.minecraft.client.sounds.SoundManager
 
 class BattleTargetSelection(
         battleGUI: BattleGUI,
@@ -34,7 +34,7 @@ class BattleTargetSelection(
     battleGUI = battleGUI,
     request = request,
     x = 20,
-    y = MinecraftClient.getInstance().window.scaledHeight - 84,
+    y = Minecraft.getInstance().window.guiScaledHeight - 84,
     width = 100,
     height = 100,
     battleLang("ui.select_move")
@@ -52,7 +52,7 @@ class BattleTargetSelection(
 
     val targets = request.activePokemon.getAllActivePokemon()
 
-    val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F)
+    val backButton = BattleBackButton(x - 3F, Minecraft.getInstance().window.guiScaledHeight - 22F)
     val selectableTargetList = move.target.targetList(request.activePokemon)
     val multiTargetList = if(selectableTargetList == null) request.activePokemon.getMultiTargetList(move.target) else null
 
@@ -84,7 +84,7 @@ class BattleTargetSelection(
             Triple(((hue shr 16) and 0b11111111) / 255F, ((hue shr 8) and 0b11111111) / 255F, (hue and 0b11111111) / 255F)
             else Triple(0.5f, 0.5f, 0.5f)
 
-        fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
 
             val selectConditionOpacity = targetSelection.opacity * if (!selectable) 0.5F else 1F
 
@@ -105,7 +105,7 @@ class BattleTargetSelection(
 
 
             blitk(
-                matrixStack = context.matrices,
+                matrixStack = context.pose(),
                 texture = targetTexture,
                 x = x,
                 y = y,
@@ -120,7 +120,7 @@ class BattleTargetSelection(
             )
 
             blitk(
-                matrixStack = context.matrices,
+                matrixStack = context.pose(),
                 texture = moveOverlayTexture,
                 x = x,
                 y = y,
@@ -154,16 +154,16 @@ class BattleTargetSelection(
 
         fun onClick() {
             if (!selectable) return
-            targetSelection.playDownSound(MinecraftClient.getInstance().soundManager)
+            targetSelection.playDownSound(Minecraft.getInstance().soundManager)
             targetSelection.battleGUI.selectAction(targetSelection.request, response)
         }
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         targetTiles.forEach {
             it.render(context, mouseX, mouseY, delta)
         }
-        backButton.render(context.matrices, mouseX, mouseY, delta)
+        backButton.render(context, mouseX, mouseY, delta)
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
@@ -172,13 +172,13 @@ class BattleTargetSelection(
             target.onClick()
             return true
         } else if (backButton.isHovered(mouseX, mouseY)) {
-            playDownSound(MinecraftClient.getInstance().soundManager)
+            playDownSound(Minecraft.getInstance().soundManager)
             battleGUI.changeActionSelection(null)
         }
         return false
     }
 
     override fun playDownSound(soundManager: SoundManager) {
-        soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
+        soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 }

@@ -25,6 +25,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.player.LocalPlayer
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.ClipContext
 
 object PartySendBinding : CobblemonBlockingKeyBinding(
     "key.cobblemon.throwpartypokemon",
@@ -80,7 +81,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
                         entityClass = LivingEntity::class.java,
                         ignoreEntity = player,
                         maxDistance = RequestInteractionsHandler.MAX_ENTITY_INTERACTION_DISTANCE.toFloat(),
-                        collideBlock = RaycastContext.FluidHandling.NONE)
+                        collideBlock = ClipContext.Fluid.NONE)
                 if (targetEntity == null || (targetEntity is PokemonEntity && targetEntity.ownerUUID == player.uuid)) {
                     sendToServer(SendOutPokemonPacket(CobblemonClient.storage.selectedSlot))
                 }
@@ -99,7 +100,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
                 sendToServer(RequestPlayerInteractionsPacket(entity.uuid, entity.id, pokemon.uuid))
             }
             is PokemonEntity -> {
-                if (!entity.canBattle(player) || entity.pos.squaredDistanceTo(player.pos) > RequestInteractionsHandler.MAX_PVE_WILD_DISTANCE_SQ) return
+                if (!entity.canBattle(player) || entity.position().distanceToSqr(player.position()) > RequestInteractionsHandler.MAX_PVE_WILD_DISTANCE_SQ) return
                     sendToServer(BattleChallengePacket(entity.id,  pokemon.uuid))
                 }
         }

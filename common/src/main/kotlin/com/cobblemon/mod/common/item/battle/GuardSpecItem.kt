@@ -8,13 +8,11 @@
 
 package com.cobblemon.mod.common.item.battle
 
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.item.CobblemonItem
-import net.minecraft.item.Item
-import net.minecraft.item.Items
+import net.minecraft.world.item.Items
 
 class GuardSpecItem : CobblemonItem(Properties()), SimpleBagItemLike {
     override val bagItem = object : BagItem {

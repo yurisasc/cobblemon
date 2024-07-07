@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client
 
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 import java.util.UUID
 
 class ClientPlayerTeamData {
     var multiBattleTeamMembers = mutableListOf<ClientMultiBattleTeamMember>()
 }
 
-class ClientMultiBattleTeamMember(val uuid: UUID, val name: MutableText) {
+class ClientMultiBattleTeamMember(val uuid: UUID, val name: MutableComponent) {
 }

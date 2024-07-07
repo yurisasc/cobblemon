@@ -14,11 +14,10 @@ import com.cobblemon.mod.common.net.serverhandling.RequestInteractionsHandler
 import com.cobblemon.mod.common.trade.TradeManager
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
-import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.world.RaycastContext
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.level.ClipContext
 
 object OfferTradeHandler : ServerNetworkPacketHandler<OfferTradePacket> {
     override fun handle(packet: OfferTradePacket, server: MinecraftServer, player: ServerPlayer) {
@@ -29,7 +28,7 @@ object OfferTradeHandler : ServerNetworkPacketHandler<OfferTradePacket> {
                         entityClass = LivingEntity::class.java,
                         ignoreEntity = player,
                         maxDistance = RequestInteractionsHandler.MAX_TRADE_DISTANCE.toFloat(),
-                        collideBlock = RaycastContext.FluidHandling.NONE
+                        collideBlock = ClipContext.Fluid.NONE
                 ) == targetPlayerEntity) {
             TradeManager.offerTrade(player, packet.offeredPlayerId.getPlayer() ?: return)
         }

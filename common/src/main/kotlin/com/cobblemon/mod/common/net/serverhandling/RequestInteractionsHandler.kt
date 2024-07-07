@@ -14,11 +14,10 @@ import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.net.messages.client.PlayerInteractOptionsPacket
 import com.cobblemon.mod.common.net.messages.server.RequestPlayerInteractionsPacket
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
-import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.world.RaycastContext
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.level.ClipContext
 import java.util.EnumSet
 
 object RequestInteractionsHandler : ServerNetworkPacketHandler<RequestPlayerInteractionsPacket> {
@@ -38,17 +37,17 @@ object RequestInteractionsHandler : ServerNetworkPacketHandler<RequestPlayerInte
         server: MinecraftServer,
         player: ServerPlayer
     ) {
-        val world = player.world
-        val targetPlayerEntity = world.getPlayerByUuid(packet.targetId)
+        val world = player.level()
+        val targetPlayerEntity = world.getPlayerByUUID(packet.targetId)
         val options = EnumSet.noneOf(PlayerInteractOptionsPacket.Options::class.java)
         if (targetPlayerEntity != null && player.traceFirstEntityCollision(
             entityClass = LivingEntity::class.java,
             ignoreEntity = player,
             maxDistance = MAX_ENTITY_INTERACTION_DISTANCE.toFloat(),
-            collideBlock = RaycastContext.FluidHandling.NONE
+            collideBlock = ClipContext.Fluid.NONE
         ) == targetPlayerEntity) {
             //We could potentially check if the targeted player has pokemon here
-            val squaredDistance = targetPlayerEntity.pos.squaredDistanceTo(player.pos)
+            val squaredDistance = targetPlayerEntity.position().distanceToSqr(player.position())
             if(squaredDistance <= MAX_TRADE_DISTANCE_SQ) {
                 options.add(PlayerInteractOptionsPacket.Options.TRADE)
             }

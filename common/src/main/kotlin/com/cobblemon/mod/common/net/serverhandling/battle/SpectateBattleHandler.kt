@@ -22,11 +22,10 @@ import com.cobblemon.mod.common.net.serverhandling.RequestInteractionsHandler
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
-import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.world.RaycastContext
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.level.ClipContext
 import org.apache.logging.log4j.LogManager
 
 object SpectateBattleHandler : ServerNetworkPacketHandler<SpectateBattlePacket> {
@@ -46,8 +45,8 @@ object SpectateBattleHandler : ServerNetworkPacketHandler<SpectateBattlePacket> 
                             entityClass = LivingEntity::class.java,
                             ignoreEntity = player,
                             maxDistance = RequestInteractionsHandler.MAX_SPECTATE_DISTANCE.toFloat(),
-                            collideBlock = RaycastContext.FluidHandling.NONE) != targetedPlayerEntity) {
-                player.sendMessage(lang("ui.interact.failed").yellow())
+                            collideBlock = ClipContext.Fluid.NONE) != targetedPlayerEntity) {
+                player.sendSystemMessage(lang("ui.interact.failed").yellow())
                 return
             }
             battle.spectators.add(player.uuid)

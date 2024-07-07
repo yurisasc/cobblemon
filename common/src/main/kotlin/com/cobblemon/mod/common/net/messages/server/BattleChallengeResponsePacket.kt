@@ -10,18 +10,18 @@ package com.cobblemon.mod.common.net.messages.server
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.RegistryFriendlyByteBuf
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
 
 class BattleChallengeResponsePacket(val targetedEntityId: Int, val selectedPokemonId: UUID, val accept: Boolean) : NetworkPacket<BattleChallengeResponsePacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeInt(this.targetedEntityId)
-        buffer.writeUuid(this.selectedPokemonId)
+        buffer.writeUUID(this.selectedPokemonId)
         buffer.writeBoolean(accept)
     }
     companion object {
         val ID = cobblemonResource("battle_challenge_response")
-        fun decode(buffer: PacketByteBuf) = BattleChallengeResponsePacket(buffer.readInt(), buffer.readUuid(), buffer.readBoolean())
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleChallengeResponsePacket(buffer.readInt(), buffer.readUUID(), buffer.readBoolean())
     }
 }

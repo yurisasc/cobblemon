@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.item.CobblemonItem
-import net.minecraft.item.Items
+import net.minecraft.world.item.Items
 
 class XStatItem(val stat: Stat, stages: Int = 2) : CobblemonItem(Properties()), SimpleBagItemLike {
     override val bagItem = object : BagItem {

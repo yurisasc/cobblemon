@@ -12,10 +12,8 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.Items
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
 

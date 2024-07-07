@@ -114,7 +114,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         }
 
         if (battle.spectating) {
-            specBackButton.render(context.pose(), mouseX, mouseY, delta)
+            specBackButton.render(context, mouseX, mouseY, delta)
         }
 
         val currentSelection = getCurrentActionSelection()

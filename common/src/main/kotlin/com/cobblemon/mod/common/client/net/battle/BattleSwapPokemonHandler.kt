@@ -15,10 +15,10 @@ import com.cobblemon.mod.common.client.battle.ClientBattlePokemon
 import com.cobblemon.mod.common.client.battle.animations.MoveTileOffscreenAnimation
 import com.cobblemon.mod.common.client.battle.animations.SwapAndMoveTileOnscreenAnimation
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwapPokemonPacket
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 
 object BattleSwapPokemonHandler : ClientNetworkPacketHandler<BattleSwapPokemonPacket> {
-    override fun handle(packet: BattleSwapPokemonPacket, client: MinecraftClient) {
+    override fun handle(packet: BattleSwapPokemonPacket, client: Minecraft) {
         val battle = CobblemonClient.battle ?: return
         val (actor, activeBattlePokemon) = battle.getPokemonFromPNX(packet.pnx)
 

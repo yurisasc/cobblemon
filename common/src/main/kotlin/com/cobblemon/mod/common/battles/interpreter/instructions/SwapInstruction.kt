@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleSwapPokemonPack
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.setPositionSafely
 import com.cobblemon.mod.common.util.swap
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.phys.Vec3
 
 
 /**
@@ -34,11 +34,11 @@ class SwapInstruction(val message: BattleMessage, val instructionSet: Instructio
         battle.dispatchWaiting {
             val battlePokemonA = message.battlePokemon(0, battle) ?: return@dispatchWaiting
             val pnxA = message.argumentAt(0)?.substring(0, 3)
-            var posA: Vec3d? = null
+            var posA: Vec3? = null
             if (battlePokemonA.entity == null) {
                 posA = ShowdownInterpreter.getSendoutPosition(battle, pnxA!!, battlePokemonA.actor)
             } else {
-                posA = battlePokemonA.entity?.pos
+                posA = battlePokemonA.entity?.position()
             }
 
             val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnxA!!)
@@ -48,12 +48,12 @@ class SwapInstruction(val message: BattleMessage, val instructionSet: Instructio
                 val (actorB, activePokemonB) = battle.getActorAndActiveSlotFromPNX(pnxB)
 
                 // Swap the position of the 2 on the field
-                var posB: Vec3d? = null
+                var posB: Vec3? = null
                 if(activePokemonB.battlePokemon?.entity == null) {
                     // target slot is likely fainted
                     posB = ShowdownInterpreter.getSendoutPosition(battle, activePokemonB.getPNX(), actorB)
                 } else {
-                    posB = activePokemonB.battlePokemon?.entity?.pos
+                    posB = activePokemonB.battlePokemon?.entity?.position()
                 }
                 if (posB != null && battlePokemonA.entity != null) {
                     battlePokemonA.entity?.setPositionSafely(posB)

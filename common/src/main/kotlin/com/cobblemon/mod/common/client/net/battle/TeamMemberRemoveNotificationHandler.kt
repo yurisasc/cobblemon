@@ -12,21 +12,20 @@ import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.client.battle.TeamMemberRemoveNotificationPacket
 import com.cobblemon.mod.common.util.lang
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 
 object TeamMemberRemoveNotificationHandler : ClientNetworkPacketHandler<TeamMemberRemoveNotificationPacket> {
-    override fun handle(packet: TeamMemberRemoveNotificationPacket, client: MinecraftClient) {
+    override fun handle(packet: TeamMemberRemoveNotificationPacket, client: Minecraft) {
 
         if(packet.teamMemberUUID == client.player?.uuid) {
             // Client removes itself from its team
             val memberCount = CobblemonClient.teamData.multiBattleTeamMembers.count()
             CobblemonClient.teamData.multiBattleTeamMembers.clear()
             val langKey = if(memberCount > 1) "challenge.multi.team_remove.sender" else "challenge.multi.team_disband"
-            client.player?.sendMessage(
+            client.player?.sendSystemMessage(
                 lang(
                     langKey,
-                ),
-                false
+                )
             )
         } else {
             // Client removes a member from the team
@@ -34,12 +33,11 @@ object TeamMemberRemoveNotificationHandler : ClientNetworkPacketHandler<TeamMemb
             CobblemonClient.teamData.multiBattleTeamMembers.remove(memberToRemove)
 
             if(memberToRemove != null) {
-                client.player?.sendMessage(
+                client.player?.sendSystemMessage(
                     lang(
                 "challenge.multi.team_remove.receiver",
                         memberToRemove.name,
-                    ),
-                    false
+                    )
                 )
             }
         }

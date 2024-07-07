@@ -10,8 +10,8 @@ package com.cobblemon.mod.common.client.gui.battle.subscreen
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.GuiGraphics
+
 class BattleShiftButton(val x: Float, val y: Float) {
     companion object {
         const val WIDTH = 58
@@ -19,9 +19,9 @@ class BattleShiftButton(val x: Float, val y: Float) {
         const val SCALE = 0.5F
     }
 
-    fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
-            matrixStack = matrices,
+            matrixStack = context.pose(),
             texture = cobblemonResource("textures/gui/common/back_button.png"),
             x = x * 2,
             y = y * 2,

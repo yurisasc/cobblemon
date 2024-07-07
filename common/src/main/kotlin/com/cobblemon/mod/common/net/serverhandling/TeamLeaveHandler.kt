@@ -12,10 +12,10 @@ import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.net.messages.server.BattleTeamLeavePacket
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 object TeamLeaveHandler : ServerNetworkPacketHandler<BattleTeamLeavePacket> {
-    override fun handle(packet: BattleTeamLeavePacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: BattleTeamLeavePacket, server: MinecraftServer, player: ServerPlayer) {
         BattleRegistry.removeTeamMember(player)
     }
 

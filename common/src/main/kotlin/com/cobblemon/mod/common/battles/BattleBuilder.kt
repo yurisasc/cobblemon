@@ -25,10 +25,6 @@ import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
 import java.util.UUID
 import com.cobblemon.mod.common.util.update
-import net.minecraft.entity.Entity
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.MutableText
-import net.minecraft.text.Text
 import com.cobblemon.mod.common.util.*
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
@@ -105,12 +101,12 @@ object BattleBuilder {
 
     @JvmOverloads
     fun pvp2v2(
-            players: List<ServerPlayerEntity> = emptyList(),
+            players: List<ServerPlayer> = emptyList(),
             leadingPokemon: List<UUID> = emptyList(),
             battleFormat: BattleFormat = BattleFormat.GEN_9_MULTI,
             cloneParties: Boolean = false,
             healFirst: Boolean = false,
-            partyAccessor: (ServerPlayerEntity) -> PartyStore = { it.party() }
+            partyAccessor: (ServerPlayer) -> PartyStore = { it.party() }
     ): BattleStartResult {
         val teams = players.mapIndexed { index, it -> partyAccessor(it).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemon[index]) }
         val playerActors = teams.mapIndexed { index, team -> PlayerBattleActor(players[index].uuid, team)}
@@ -375,7 +371,7 @@ class IncorrectActorCountError(
         val requiredCount: Int,
         val hadCount: Int
 ) : BattleStartError {
-    override fun getMessageFor(entity: Entity): MutableText {
+    override fun getMessageFor(entity: Entity): MutableComponent {
         return battleLang(
             "error.incorrect_actor_count",
             requiredCount,

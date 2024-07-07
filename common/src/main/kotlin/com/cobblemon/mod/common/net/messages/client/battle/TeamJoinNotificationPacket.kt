@@ -12,10 +12,13 @@ import com.cobblemon.mod.common.api.callback.PartySelectPokemonDTO
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyCallbackPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeBox
+import com.cobblemon.mod.common.util.writeText
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.text.MutableText
+import net.minecraft.network.chat.MutableComponent
 
 /**
  * Packet sent when a player has joined a team. The responsibility
@@ -30,23 +33,22 @@ import net.minecraft.text.MutableText
  */
 class TeamJoinNotificationPacket(
         val teamMemberUUIDs: List<UUID>,
-        val teamMemberNames: List<MutableText>,
+        val teamMemberNames: List<MutableComponent>,
 ): NetworkPacket<TeamJoinNotificationPacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeCollection(teamMemberUUIDs) { writer, value ->
-            writer.writeUuid(value)
+            writer.writeUUID(value)
         }
-        buffer.writeCollection(teamMemberNames) { writer, value ->
-            writer.writeText(value)
-        }
+        buffer.writeCollection(teamMemberNames) { _, v -> buffer.writeText(v) }
     }
 
     companion object {
         val ID = cobblemonResource("team_join_notification")
-        fun decode(buffer: PacketByteBuf) = TeamJoinNotificationPacket(
-            buffer.readList { pb -> pb.readUuid() },
-            buffer.readList { pb -> pb.readText().copy() }
+        fun decode(buffer: RegistryFriendlyByteBuf) = TeamJoinNotificationPacket(
+            buffer.readList { pb -> pb.readUUID() },
+            buffer.readList { buffer.readText().copy() }.toMutableList()
+
         )
     }
 }

@@ -26,6 +26,7 @@ import com.cobblemon.mod.common.battles.interpreter.instructions.*
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.runOnServer
+import net.minecraft.world.phys.Vec3
 import java.util.UUID
 import kotlin.collections.Iterator
 import kotlin.collections.filter
@@ -37,7 +38,6 @@ import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 import kotlin.collections.toMutableList
 import kotlin.collections.toTypedArray
-import net.minecraft.util.math.Vec3d
 
 @Suppress("KotlinPlaceholderCountMatchesArgumentCount", "UNUSED_PARAMETER")
 object ShowdownInterpreter {
@@ -144,7 +144,7 @@ object ShowdownInterpreter {
      * 
      *
      */
-     fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor): Vec3d? {
+     fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor): Vec3? {
         val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         var entityPos = if (actor is EntityBackedBattleActor<*>) actor.initialPos else null
         var baseOffset = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.initialPos.let { pos ->
@@ -154,26 +154,26 @@ object ShowdownInterpreter {
             val minDistance = if(battle.isPvW) 8.0 else 5.0
             val length = baseOffset.length()
             if (length < minDistance) {
-                val temp = baseOffset.multiply(minDistance / length) ?: baseOffset
+                val temp = baseOffset.scale(minDistance / length) ?: baseOffset
                 entityPos = entityPos?.subtract(temp.subtract(baseOffset))
                 baseOffset = temp
             }
-            var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
-            vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
+            var vector = Vec3(baseOffset.x, 0.0, baseOffset.z).normalize()
+            vector = vector.cross(Vec3(0.0, 1.0, 0.0))
 
             if (battle.format.battleType.pokemonPerSide == 1) { // Singles
-                entityPos = entityPos?.add(baseOffset.multiply(if (battle.isPvW) 0.4 else 0.3))?.add(vector.multiply(-2.0))
+                entityPos = entityPos?.add(baseOffset.scale(if (battle.isPvW) 0.4 else 0.3))?.add(vector.scale(-2.0))
             } else if (battle.format.battleType.pokemonPerSide == 2) { // Doubles
                 if (battle.actors.first() !== battle.actors.last()) {
-                    val offsetB = if (pnx[2] == 'a') vector.multiply(-1.0) else vector
-                    entityPos = entityPos?.add(baseOffset.multiply(0.33))?.add(offsetB.multiply(2.5))
+                    val offsetB = if (pnx[2] == 'a') vector.scale(-1.0) else vector
+                    entityPos = entityPos?.add(baseOffset.scale(0.33))?.add(offsetB.scale(2.5))
                 }
             } else if (battle.format.battleType.pokemonPerSide == 3) { // Triples
                 if (battle.actors.first() !== battle.actors.last()) {
                     entityPos = when (pnx[2]) {
-                        'a' -> entityPos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(-3.5))
-                        'b' -> entityPos?.add(baseOffset.multiply(0.3))
-                        'c' -> entityPos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(3.5))
+                        'a' -> entityPos?.add(baseOffset.scale(0.15))?.add(vector.scale(-3.5))
+                        'b' -> entityPos?.add(baseOffset.scale(0.3))
+                        'c' -> entityPos?.add(baseOffset.scale(0.15))?.add(vector.scale(3.5))
                         else -> entityPos
                     }
                 }

@@ -37,20 +37,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.Vec3
-import net.minecraft.block.BlockState
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
-import net.minecraft.util.Identifier
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.hit.HitResult
-import net.minecraft.util.math.*
-import net.minecraft.world.RaycastContext
+import net.minecraft.world.phys.HitResult
 import java.util.*
 import kotlin.math.min
 
@@ -136,7 +123,7 @@ fun <T : Entity> Player.traceFirstEntityCollision(
         stepDistance: Float = 0.05F,
         entityClass: Class<T>,
         ignoreEntity: T? = null,
-        collideBlock: RaycastContext.FluidHandling? = null
+        collideBlock: ClipContext.Fluid? = null
 ): T? {
     return traceEntityCollision(
         maxDistance,
@@ -152,7 +139,7 @@ fun <T : Entity> Player.traceEntityCollision(
     stepDistance: Float = 0.05F,
     entityClass: Class<T>,
     ignoreEntity: T? = null,
-    collideBlock: RaycastContext.FluidHandling?
+    collideBlock: ClipContext.Fluid?
 ): EntityTraceResult<T>? {
     var step = stepDistance
     val startPos = eyePosition
@@ -171,7 +158,7 @@ fun <T : Entity> Player.traceEntityCollision(
         val collided = entities.filter { ignoreEntity != it && location in it.boundingBox }.filter { entityClass.isInstance(it) }
 
         if (collided.isNotEmpty()) {
-            if(collideBlock != null && world.raycast(RaycastContext(startPos, location, RaycastContext.ShapeType.COLLIDER, collideBlock, this)).type == HitResult.Type.BLOCK) {
+            if(collideBlock != null && level().clip(ClipContext(startPos, location, ClipContext.Block.COLLIDER, collideBlock, this)).type == HitResult.Type.BLOCK) {
                 // Collided with block on the way to the entity
                 return null
             }

@@ -131,8 +131,6 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             )
         }
 
-        val currentScreen = Minecraft.getInstance().screen
-
         if (currentScreen == null || currentScreen is ChatScreen) {
             if (lastKnownBattle != battle.battleId) {
                 lastKnownBattle = battle.battleId

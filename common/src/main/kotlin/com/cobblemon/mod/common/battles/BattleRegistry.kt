@@ -104,14 +104,14 @@ object BattleRegistry {
         existing.requestedPlayerUUID.getPlayer()?.sendPacket(TeamRequestExpiredPacket(existing.requestID))
     }
 
-    fun onPlayerDisconnect(player: ServerPlayerEntity) {
+    fun onPlayerDisconnect(player: ServerPlayer) {
         // Stop battles
         getBattleByParticipatingPlayer(player)?.stop()
         // Remove player from any teams they may be a part of
         removeTeamMember(player)
     }
 
-    fun removeTeamMember(player: ServerPlayerEntity) {
+    fun removeTeamMember(player: ServerPlayer) {
         val teamEntry = playerToTeam[player.uuid]
         if (teamEntry != null) {
             teamEntry.teamPlayersUUID.remove(player.uuid)
@@ -121,7 +121,7 @@ object BattleRegistry {
 
             // Notify remaining members that the player has left the group
             server()?.let {
-                val teamServerPlayers = teamEntry.teamPlayersUUID.mapNotNull { uuid -> it.playerManager.getPlayer(uuid) }
+                val teamServerPlayers = teamEntry.teamPlayersUUID.mapNotNull { uuid -> it.playerList.getPlayer(uuid) }
                 CobblemonNetwork.sendPacketToPlayers(teamServerPlayers, notificationPacket)
             }
 
@@ -139,7 +139,7 @@ object BattleRegistry {
                     // Notify opposing team that the challenge was cancelled
                     val opposingTeam = multiBattleTeams[battleChallengeEntry.key]
                     opposingTeam?.teamPlayersUUID?.map { it.getPlayer() }?.forEach { serverPlayerEntity ->
-                        serverPlayerEntity?.sendMessage(lang("challenge.multi.decline.disband"))
+                        serverPlayerEntity?.sendSystemMessage(lang("challenge.multi.decline.disband"))
                     }
                 }
 
@@ -149,7 +149,7 @@ object BattleRegistry {
 
                 // Notify remaining player that the team has been disbanded
                 server()?.let {
-                    it.playerManager.getPlayer(remainingPlayerUUID)?.let { serverPlayerEntity ->
+                    it.playerList.getPlayer(remainingPlayerUUID)?.let { serverPlayerEntity ->
                         CobblemonNetwork.sendPacketToPlayer(serverPlayerEntity, TeamMemberRemoveNotificationPacket(remainingPlayerUUID))
                     }
                 }

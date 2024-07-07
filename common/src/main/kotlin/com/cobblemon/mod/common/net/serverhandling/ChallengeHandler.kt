@@ -24,12 +24,11 @@ import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.world.RaycastContext
 import java.util.UUID
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.level.ClipContext
 
 object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
     override fun handle(packet: BattleChallengePacket, server: MinecraftServer, player: ServerPlayer) {
@@ -51,9 +50,9 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                 entityClass = LivingEntity::class.java,
                 ignoreEntity = player,
                 maxDistance = maxDistance,
-                collideBlock = RaycastContext.FluidHandling.NONE) != targetedEntity) {
+                collideBlock = ClipContext.Fluid.NONE) != targetedEntity) {
             if(targetedEntity !is PokemonEntity) {
-                player.sendMessage(lang("cobblemon.ui.interact.failed").yellow())
+                player.sendSystemMessage(lang("cobblemon.ui.interact.failed").yellow())
             }
             return
         }

@@ -9,9 +9,10 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeString
+import net.minecraft.network.RegistryFriendlyByteBuf
 
 
 /**
@@ -26,12 +27,12 @@ class BattleSwapPokemonPacket(val pnx: String) : NetworkPacket<BattleSwapPokemon
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeString(pnx)
     }
 
     companion object {
         val ID = cobblemonResource("battle_swap_pokemon")
-        fun decode(buffer: PacketByteBuf) = BattleSwapPokemonPacket(buffer.readString())
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleSwapPokemonPacket(buffer.readString())
     }
 }

@@ -10,9 +10,10 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.text.MutableText
+
 
 /**
  * Packet sent when a player joins or leaves a team that the client is currently a member of.
@@ -26,12 +27,12 @@ class TeamMemberRemoveNotificationPacket(
         val teamMemberUUID: UUID,
 ): NetworkPacket<TeamMemberRemoveNotificationPacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
-        buffer.writeUuid(teamMemberUUID)
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeUUID(teamMemberUUID)
     }
 
     companion object {
         val ID = cobblemonResource("team_member_remove_notification")
-        fun decode(buffer: PacketByteBuf) = TeamMemberRemoveNotificationPacket(buffer.readUuid())
+        fun decode(buffer: RegistryFriendlyByteBuf) = TeamMemberRemoveNotificationPacket(buffer.readUUID())
     }
 }

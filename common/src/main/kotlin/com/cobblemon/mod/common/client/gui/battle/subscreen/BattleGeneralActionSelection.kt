@@ -36,7 +36,7 @@ class BattleGeneralActionSelection(
     (BattleOptionTile.OPTION_HEIGHT + 3 * BattleGUI.OPTION_VERTICAL_SPACING).toInt(),
     battleLang("choose_action")
 ) {
-    val backButton = BattleBackButton(BattleGUI.OPTION_ROOT_X - 3F, Minecraft.getInstance().window.scaledHeight - 22F)
+    val backButton = BattleBackButton(BattleGUI.OPTION_ROOT_X - 3F, Minecraft.getInstance().window.guiScaledHeight - 22F)
     val lastAnwseredRequest = CobblemonClient.battle?.getLastAnsweredRequest()
 
     val tiles = mutableListOf<BattleOptionTile>()
@@ -95,7 +95,7 @@ class BattleGeneralActionSelection(
 
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         if(lastAnwseredRequest != null) {
-            backButton.render(context.matrices, mouseX, mouseY, delta)
+            backButton.render(context, mouseX, mouseY, delta)
         }
         for (tile in tiles) {
             tile.render(context, mouseX, mouseY, delta)

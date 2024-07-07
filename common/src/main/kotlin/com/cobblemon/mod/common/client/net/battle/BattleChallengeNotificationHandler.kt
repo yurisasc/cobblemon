@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.net.battle
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ClientBattleChallenge
+import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
 import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeNotificationPacket
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.Minecraft
@@ -22,7 +23,7 @@ object BattleChallengeNotificationHandler : ClientNetworkPacketHandler<BattleCha
             lang(
                 "challenge.receiver",
                 packet.challengerName,
-                PartySendBinding.boundKey().displayName
+//                PartySendBinding.boundKey().displayName
                 lang(packet.battleFormatString),
             ),
             true

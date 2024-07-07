@@ -10,9 +10,11 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.writeText
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.chat.MutableComponent
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.text.MutableText
 
 /**
  * Packet send when a player has requested to join a team. The responsibility
@@ -26,17 +28,17 @@ import net.minecraft.text.MutableText
 class TeamRequestNotificationPacket(
         val teamRequestId: UUID,
         val requesterId: UUID,
-        val requesterName: MutableText,
+        val requesterName: MutableComponent,
 ): NetworkPacket<TeamRequestNotificationPacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
-        buffer.writeUuid(teamRequestId)
-        buffer.writeUuid(requesterId)
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
+        buffer.writeUUID(teamRequestId)
+        buffer.writeUUID(requesterId)
         buffer.writeText(requesterName)
     }
 
     companion object {
         val ID = cobblemonResource("team_request_notification")
-        fun decode(buffer: PacketByteBuf) = TeamRequestNotificationPacket(buffer.readUuid(), buffer.readUuid(), buffer.readText().copy())
+        fun decode(buffer: RegistryFriendlyByteBuf) = TeamRequestNotificationPacket(buffer.readUUID(), buffer.readUUID(), buffer.readText().copy())
     }
 }
