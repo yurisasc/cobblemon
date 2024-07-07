@@ -9,9 +9,9 @@
 package com.cobblemon.mod.common.item.berry
 
 import com.cobblemon.mod.common.block.BerryBlock
-import net.minecraft.item.AliasedBlockItem
+import net.minecraft.world.item.ItemNameBlockItem
 
-open class BerryItem(private val berryBlock: BerryBlock) : AliasedBlockItem(berryBlock, Settings()) {
+open class BerryItem(private val berryBlock: BerryBlock) : ItemNameBlockItem(berryBlock, Properties()) {
 
     fun berry() = this.berryBlock.berry()
 }

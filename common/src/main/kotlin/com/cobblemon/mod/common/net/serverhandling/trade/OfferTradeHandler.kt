@@ -16,11 +16,12 @@ import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.world.RaycastContext
 
 object OfferTradeHandler : ServerNetworkPacketHandler<OfferTradePacket> {
-    override fun handle(packet: OfferTradePacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: OfferTradePacket, server: MinecraftServer, player: ServerPlayer) {
         if (player.isSpectator) return
         // Check if player has los and in range
         val targetPlayerEntity = packet.offeredPlayerId.getPlayer() ?: return

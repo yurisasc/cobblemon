@@ -29,12 +29,13 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.world.RaycastContext
 import java.util.UUID
+import net.minecraft.server.level.ServerPlayer
 
 object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
-    override fun handle(packet: BattleChallengePacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: BattleChallengePacket, server: MinecraftServer, player: ServerPlayer) {
         if(player.isSpectator) return
 
-        val targetedEntity = player.world.getEntityById(packet.targetedEntityId)?.let {
+        val targetedEntity = player.level().getEntity(packet.targetedEntityId)?.let {
             if (it is PokemonEntity) {
                 val owner = it.owner
                 if (owner != null) {
@@ -71,7 +72,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                  */
                 BattleBuilder.pve(player, targetedEntity, leadingPokemon).ifErrored { it.sendTo(player) { it.red() } }
             }
-            is ServerPlayerEntity -> {
+            is ServerPlayer -> {
                 // Bandaid for odd desync thing with data tracker
                 if (player == targetedEntity) {
                     return
@@ -80,7 +81,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                 if (existingChallenge != null && !existingChallenge.isExpired() && existingChallenge.challengedPlayerUUID == targetedEntity.uuid) {
                     // Overwrite the challenge or do nothing.
                     // send a message about there being an existing challenge
-                    player.sendMessage(lang("challenge.pending", targetedEntity.name).yellow())
+                    player.sendSystemMessage(lang("challenge.pending", targetedEntity.name).yellow())
                 } else {
                     if (packet.battleType == "multi") {
                         // check for team
@@ -98,7 +99,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                             // Notify challenging team
                             existingPlayerTeam.teamPlayersUUID.forEach { UUID ->
                                 val serverPlayerEntity = UUID.getPlayer()
-                                serverPlayerEntity?.sendMessage(lang("challenge.multi.sender", targetedEntity.name, existingTargetTeam.teamPlayersUUID.size))
+                                serverPlayerEntity?.sendSystemMessage(lang("challenge.multi.sender", targetedEntity.name, existingTargetTeam.teamPlayersUUID.size))
                             }
                             // Notify challenged tam
                             CobblemonNetwork.sendPacketToPlayers(
@@ -121,7 +122,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                         }
 
                         targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua(), battleFormatLang))
-                        player.sendMessage(lang("challenge.sender", targetedEntity.name, lang(battleFormatLang)).yellow())
+                        player.sendSystemMessage(lang("challenge.sender", targetedEntity.name, lang(battleFormatLang)).yellow())
                     }
                 }
             }

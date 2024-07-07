@@ -26,6 +26,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.world.RaycastContext
+import net.minecraft.server.level.ServerPlayer
 import org.apache.logging.log4j.LogManager
 
 object SpectateBattleHandler : ServerNetworkPacketHandler<SpectateBattlePacket> {
@@ -33,7 +34,7 @@ object SpectateBattleHandler : ServerNetworkPacketHandler<SpectateBattlePacket> 
     override fun handle(
         packet: SpectateBattlePacket,
         server: MinecraftServer,
-        player: ServerPlayerEntity
+        player: ServerPlayer
     ) {
         val battle = BattleRegistry.getBattleByParticipatingPlayerId(packet.targetedEntityId)
         if (battle != null && Cobblemon.config.allowSpectating) {

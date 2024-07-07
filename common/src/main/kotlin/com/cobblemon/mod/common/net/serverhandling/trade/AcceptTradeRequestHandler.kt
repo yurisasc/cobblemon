@@ -16,11 +16,11 @@ import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.world.RaycastContext
+import net.minecraft.server.level.ServerPlayer
 
 object AcceptTradeRequestHandler : ServerNetworkPacketHandler<AcceptTradeRequestPacket> {
-    override fun handle(packet: AcceptTradeRequestPacket, server: MinecraftServer, player: ServerPlayerEntity) {
+    override fun handle(packet: AcceptTradeRequestPacket, server: MinecraftServer, player: ServerPlayer) {
         if(player.isSpectator) return
         // Check range and line of sight
         val request = TradeManager.requests.find { it.tradeOfferId == packet.tradeOfferId }

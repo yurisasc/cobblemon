@@ -1,7 +1,13 @@
 # Changelog
+## [1.6](#1-6)
+
+### Developer
+- Many types related to ``Pokemon`` including itself now have dedicated ``Codec``, please migrate to them from the NBT/JSON/PacketBuffer write/read methods.
 
 ## [1.6.0 - The Bass Pro Fishing Update (Month Xth, 2024)](#1-6-0)
 #### "Now that there's a fishing mechanic, the mod is actually good!"
+### Fixes
+- Fixed trading Pokémon setting their friendsip to 0 instead of the base value.
 
 ### Additions
 - Added Pokémon (and item) fishing using modified fishing rods - Poké Rods! You'll need a Poké Rod smithing template, a fishing rod, and some type of Poké Ball. Each Poké Ball makes a differently themed rod. Why not?

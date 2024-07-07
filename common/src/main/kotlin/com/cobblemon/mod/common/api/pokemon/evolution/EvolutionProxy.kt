@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.api.pokemon.evolution
 import com.cobblemon.mod.common.api.serialization.BufferSerializer
 import com.cobblemon.mod.common.api.serialization.DataSerializer
 import com.google.gson.JsonElement
-import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.Tag
 
 /**
  * Responsible for holding the different [EvolutionController] implementations based on the logical side.
@@ -23,7 +23,7 @@ import net.minecraft.nbt.NbtElement
  * @author Licious
  * @since June 18th, 2022
  */
-interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> : DataSerializer<NbtElement, JsonElement>, BufferSerializer {
+interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> {
 
     /**
      * Checks if the current logical side is the client.

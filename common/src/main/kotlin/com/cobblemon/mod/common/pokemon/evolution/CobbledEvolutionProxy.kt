@@ -8,24 +8,20 @@
 
 package com.cobblemon.mod.common.pokemon.evolution
 
-import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
-import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
-import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionDisplay
-import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionLike
-import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionProxy
+import com.cobblemon.mod.common.api.pokemon.evolution.*
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.controller.ClientEvolutionController
 import com.cobblemon.mod.common.pokemon.evolution.controller.ServerEvolutionController
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtElement
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.Tag
+import net.minecraft.network.RegistryFriendlyByteBuf
 
-class CobblemonEvolutionProxy(private val pokemon: Pokemon, private val clientSide: Boolean) : EvolutionProxy<EvolutionDisplay, Evolution> {
+class CobblemonEvolutionProxy(private val clientSide: Boolean) : EvolutionProxy<EvolutionDisplay, Evolution> {
 
-    private val controller = if (this.clientSide) ClientEvolutionController(this.pokemon) else ServerEvolutionController(this.pokemon)
+    private var controller = if (this.clientSide) ClientEvolutionController() else ServerEvolutionController()
 
     override fun isClient(): Boolean = this.clientSide
 
@@ -39,33 +35,8 @@ class CobblemonEvolutionProxy(private val pokemon: Pokemon, private val clientSi
         return this.controller as? EvolutionController<Evolution> ?: throw ClassCastException("Cannot use the server implementation from the client side")
     }
 
-    override fun saveToNBT(): NbtElement {
-        val nbt = NbtCompound()
-        nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.current().saveToNBT())
-        return nbt
+    internal fun overrideController(newInstance: EvolutionController<out EvolutionLike>) {
+        this.controller = newInstance
     }
 
-    override fun loadFromNBT(nbt: NbtElement) {
-        val compound = nbt as? NbtCompound ?: return
-        this.current().loadFromNBT(compound.get(DataKeys.POKEMON_PENDING_EVOLUTIONS) ?: return)
-    }
-
-    override fun saveToJson(): JsonElement {
-        val json = JsonObject()
-        json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.current().saveToJson())
-        return json
-    }
-
-    override fun loadFromJson(json: JsonElement) {
-        val jObject = json as? JsonObject ?: return
-        this.current().loadFromJson(jObject.get(DataKeys.POKEMON_PENDING_EVOLUTIONS) ?: JsonObject())
-    }
-
-    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
-        this.current().saveToBuffer(buffer, toClient)
-    }
-
-    override fun loadFromBuffer(buffer: PacketByteBuf) {
-        this.current().loadFromBuffer(buffer)
-    }
 }

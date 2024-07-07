@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueClosedPacke
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueOpenedPacket
 import com.cobblemon.mod.common.util.activeDialogue
 import java.util.UUID
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.level.ServerPlayer
 
 /**
  * Manages the active dialogues for players. Map is indexed by player UUID.
@@ -26,7 +26,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 object DialogueManager {
     val activeDialogues = mutableMapOf<UUID, ActiveDialogue>()
 
-    fun startDialogue(playerEntity: ServerPlayerEntity, dialogue: Dialogue) {
+    fun startDialogue(playerEntity: ServerPlayer, dialogue: Dialogue) {
         startDialogue(ActiveDialogue(playerEntity, dialogue))
     }
 
@@ -36,7 +36,7 @@ object DialogueManager {
         activeDialogue.playerEntity.sendPacket(packet)
     }
 
-    fun stopDialogue(playerEntity: ServerPlayerEntity) {
+    fun stopDialogue(playerEntity: ServerPlayer) {
         val activeDialogue = playerEntity.activeDialogue ?: return
         DialogueClosedPacket(activeDialogue.dialogueId).sendToPlayer(playerEntity)
         activeDialogues.remove(activeDialogue.dialogueId)

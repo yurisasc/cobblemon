@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.item.CobblemonItem
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 
-class GuardSpecItem : CobblemonItem(Settings()), SimpleBagItemConvertible {
+class GuardSpecItem : CobblemonItem(Properties()), SimpleBagItemLike {
     override val bagItem = object : BagItem {
         override val itemName = "item.cobblemon.guard_spec"
         override val returnItem = Items.AIR

@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.item.CobblemonItem
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 
-class DireHitItem : CobblemonItem(Settings()), SimpleBagItemConvertible {
+class DireHitItem : CobblemonItem(Properties()), SimpleBagItemLike {
     override val bagItem = object : BagItem {
         override val itemName = "item.cobblemon.dire_hit"
         override val returnItem = Items.AIR

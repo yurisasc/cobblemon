@@ -16,21 +16,18 @@ import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.entity.npc.NPCEntity
-import com.cobblemon.mod.common.util.asExpressionLike
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readText
-import com.cobblemon.mod.common.util.writeText
+import com.cobblemon.mod.common.util.*
 import com.mojang.datafixers.util.Either
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.text.MutableText
-import net.minecraft.util.Identifier
+import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.chat.MutableComponent
+import net.minecraft.resources.ResourceLocation
 
 class NPCConfigurationDTO : Encodable, Decodable {
-    var npcName: MutableText = "".text()
-    var npcClass: Identifier = cobblemonResource("default")
+    var npcName: MutableComponent = "".text()
+    var npcClass: ResourceLocation = cobblemonResource("default")
     var battle: NPCBattleConfiguration? = null
-    var interaction: Either<Identifier, ExpressionLike>? = null
+    var interaction: Either<ResourceLocation, ExpressionLike>? = null
     var aspects: MutableSet<String> = mutableSetOf()
 
     constructor()
@@ -43,7 +40,7 @@ class NPCConfigurationDTO : Encodable, Decodable {
         aspects = npcEntity.appliedAspects
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeText(npcName)
         buffer.writeIdentifier(npcClass)
         buffer.writeNullable(battle) { _, value -> value.encode(buffer) }
@@ -51,16 +48,16 @@ class NPCConfigurationDTO : Encodable, Decodable {
             buffer.writeBoolean(value.map({ true }, { false }))
             buffer.writeString(value.map({ it.toString() }, { it.toString() }))
         }
-        buffer.writeCollection(aspects, PacketByteBuf::writeString)
+        buffer.writeCollection(aspects, ByteBuf::writeString)
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: RegistryFriendlyByteBuf) {
         npcName = buffer.readText().copy()
         npcClass = buffer.readIdentifier()
         battle = buffer.readNullable { NPCBattleConfiguration().apply { decode(buffer) } }
         interaction = buffer.readNullable {
             if (buffer.readBoolean()) {
-                Either.left(Identifier.of(buffer.readString()))
+                Either.left(ResourceLocation.parse(buffer.readString()))
             } else {
                 Either.right(buffer.readString().asExpressionLike())
             }

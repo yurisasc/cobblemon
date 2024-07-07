@@ -25,14 +25,17 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.Vec3d
+import net.minecraft.network.chat.MutableComponent
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundEvent
 
 class PlayerBattleActor(
     uuid: UUID,
     pokemonList: List<BattlePokemon>
-) : BattleActor(uuid, pokemonList.toMutableList()), EntityBackedBattleActor<ServerPlayerEntity> {
+) : BattleActor(uuid, pokemonList.toMutableList()), EntityBackedBattleActor<ServerPlayer> {
 
     override val initialPos: Vec3d?
-    override val entity: ServerPlayerEntity?
+    override val entity: ServerPlayer?
         get() = this.uuid.getPlayer()
     init {
         initialPos = entity?.pos;
@@ -46,8 +49,8 @@ class PlayerBattleActor(
             field = value
         }
 
-    override fun getName(): MutableText = this.entity?.name?.copy() ?: "Offline Player".red()
-    override fun nameOwned(name: String): MutableText = battleLang("owned_pokemon", this.getName(), name)
+    override fun getName(): MutableComponent = this.entity?.name?.copy() ?: "Offline Player".red()
+    override fun nameOwned(name: String): MutableComponent = battleLang("owned_pokemon", this.getName(), name)
     override val type = ActorType.PLAYER
     override fun getPlayerUUIDs() = setOf(uuid)
     override fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {

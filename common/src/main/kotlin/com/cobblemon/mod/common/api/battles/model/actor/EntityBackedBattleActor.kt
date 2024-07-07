@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.api.battles.model.actor
 
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.util.math.Vec3d
 
 /**

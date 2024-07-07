@@ -18,6 +18,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.world.RaycastContext
+import net.minecraft.server.level.ServerPlayer
 import java.util.EnumSet
 
 object RequestInteractionsHandler : ServerNetworkPacketHandler<RequestPlayerInteractionsPacket> {
@@ -35,7 +36,7 @@ object RequestInteractionsHandler : ServerNetworkPacketHandler<RequestPlayerInte
     override fun handle(
         packet: RequestPlayerInteractionsPacket,
         server: MinecraftServer,
-        player: ServerPlayerEntity
+        player: ServerPlayer
     ) {
         val world = player.world
         val targetPlayerEntity = world.getPlayerByUuid(packet.targetId)

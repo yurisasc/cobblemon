@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.util
 
-import net.minecraft.util.Identifier
+import net.minecraft.resources.ResourceLocation
 
-fun Identifier.endsWith(suffix: String): Boolean {
+fun ResourceLocation.endsWith(suffix: String): Boolean {
     return this.toString().endsWith(suffix)
 }

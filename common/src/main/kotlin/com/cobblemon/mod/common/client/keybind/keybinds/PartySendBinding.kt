@@ -20,17 +20,16 @@ import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.net.serverhandling.RequestInteractionsHandler
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.network.ClientPlayerEntity
-import net.minecraft.client.util.InputUtil
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.world.RaycastContext
+import com.mojang.blaze3d.platform.InputConstants
+import net.minecraft.client.Minecraft
+import net.minecraft.client.player.LocalPlayer
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 
 object PartySendBinding : CobblemonBlockingKeyBinding(
     "key.cobblemon.throwpartypokemon",
-    InputUtil.Type.KEYSYM,
-    InputUtil.GLFW_KEY_R,
+    InputConstants.Type.KEYSYM,
+    InputConstants.KEY_R,
     KeybindCategories.COBBLEMON_CATEGORY
 ) {
     var canApplyChange = true
@@ -46,7 +45,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
 
     override fun onTick() {
         if (secondsSinceActioned < 100) {
-            secondsSinceActioned += MinecraftClient.getInstance().renderTickCounter.getTickDelta(false)
+            secondsSinceActioned += Minecraft.getInstance().timer.getGameTimeDeltaPartialTick(false)
         }
 
         super.onTick()
@@ -61,7 +60,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
         }
 
         canApplyChange = true
-        val player = MinecraftClient.getInstance().player ?: return
+        val player = Minecraft.getInstance().player ?: return
 
         if (player.isSpectator) return
 
@@ -69,12 +68,12 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
         if (battle != null) {
             battle.minimised = !battle.minimised
             if (!battle.minimised) {
-                MinecraftClient.getInstance().setScreen(BattleGUI())
+                Minecraft.getInstance().setScreen(BattleGUI())
             }
             return
         }
 
-        if (CobblemonClient.storage.selectedSlot != -1 && MinecraftClient.getInstance().currentScreen == null) {
+        if (CobblemonClient.storage.selectedSlot != -1 && Minecraft.getInstance().screen == null) {
             val pokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot)
             if (pokemon != null && pokemon.currentHealth > 0) {
                 val targetEntity = player.traceFirstEntityCollision(
@@ -82,7 +81,7 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
                         ignoreEntity = player,
                         maxDistance = RequestInteractionsHandler.MAX_ENTITY_INTERACTION_DISTANCE.toFloat(),
                         collideBlock = RaycastContext.FluidHandling.NONE)
-                if (targetEntity == null || (targetEntity is PokemonEntity && targetEntity.ownerUuid == player.uuid)) {
+                if (targetEntity == null || (targetEntity is PokemonEntity && targetEntity.ownerUUID == player.uuid)) {
                     sendToServer(SendOutPokemonPacket(CobblemonClient.storage.selectedSlot))
                 }
                 else {
@@ -92,9 +91,9 @@ object PartySendBinding : CobblemonBlockingKeyBinding(
         }
     }
 
-    private fun processEntityTarget(player: ClientPlayerEntity, pokemon: Pokemon, entity: LivingEntity) {
+    private fun processEntityTarget(player: LocalPlayer, pokemon: Pokemon, entity: LivingEntity) {
         when (entity) {
-            is PlayerEntity -> {
+            is Player -> {
                 //This sends a packet to the server with the id of the player
                 //The server sends a packet back that opens the player interaction menu with the proper options
                 sendToServer(RequestPlayerInteractionsPacket(entity.uuid, entity.id, pokemon.uuid))

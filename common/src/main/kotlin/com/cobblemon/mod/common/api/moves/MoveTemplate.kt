@@ -18,9 +18,11 @@ import com.cobblemon.mod.common.api.moves.categories.DamageCategory
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.MoveTarget
+import com.cobblemon.mod.common.util.codec.CodecUtils
 import com.cobblemon.mod.common.util.lang
 import com.google.gson.annotations.SerializedName
-import net.minecraft.text.MutableText
+import com.mojang.serialization.Codec
+import net.minecraft.network.chat.MutableComponent
 
 /**
  * This class represents the base of a Move.
@@ -67,9 +69,9 @@ open class MoveTemplate(
     }
 
 
-    val displayName: MutableText
+    val displayName: MutableComponent
         get() = lang("move.$name")
-    val description: MutableText
+    val description: MutableComponent
         get() = lang("move.$name.desc")
     val maxPp: Int
         get() = 8 * pp / 5
@@ -90,6 +92,12 @@ open class MoveTemplate(
 
     companion object {
         fun dummy(name: String) = Dummy(name)
+
+        @JvmStatic
+        val BY_STRING_CODEC: Codec<MoveTemplate> = CodecUtils.createByStringCodec(
+            Moves::getByName,
+            MoveTemplate::name
+        ) { id -> "No MoveTemplate for ID $id" }
     }
 
     /**
