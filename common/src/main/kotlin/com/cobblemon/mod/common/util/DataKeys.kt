@@ -195,4 +195,8 @@ object DataKeys {
     const val NPC_ASPECTS = "AppliedAspects"
     const val NPC_DATA = "Data"
     const val NPC_INTERACTION = "Interaction"
+    const val NPC_INTERACT_TYPE = "Type"
+    const val NPC_INTERACT_SCRIPT = "Script"
+    const val NPC_INTERACT_CUSTOM_SCRIPT = "CustomScript"
+    const val NPC_INTERACT_DIALOGUE = "Dialogue"
 }
