@@ -1,12 +1,12 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_chorus": {
+    "has_shard": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:popped_chorus_fruit"
+              "minecraft:amethyst_shard"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_chorus",
+      "has_shard",
       "has_the_recipe"
     ]
   ],
