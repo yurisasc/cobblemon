@@ -23,7 +23,6 @@
 ## [1.5.3](#1-5-3)
 ### Fixes
 - Scaled down Amaura's fetus model to avoid clipping through the tank while animating
-- Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
 - Fixed Cubone's cry not having a sound.
 - Fixed the Seafloor spawning context not being a usable context.
 - Fixed Pokemon spawning in non-full blocks like slabs.
@@ -39,6 +38,7 @@
 
 ### Additions
 - Added extra visuals to early berry growth stages
+- Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
 
 ### Added cries to the following Pokémon
 - Timburr, Gurdurr, Conkeldurr
@@ -49,6 +49,7 @@
 - Adjusted some berry balance values like yield and growth times
 - Changes to mulch buffs/durations
 - Dreepy is now shoulder mountable
+- Link Cable recipe now uses Amethyst Shards instead of Popped Chorus Fruit
 
 ### Developer
 
