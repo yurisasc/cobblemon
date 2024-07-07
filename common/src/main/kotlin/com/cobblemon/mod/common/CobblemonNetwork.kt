@@ -186,7 +186,6 @@ import com.cobblemon.mod.common.net.serverhandling.trade.ChangeTradeAcceptanceHa
 import com.cobblemon.mod.common.net.serverhandling.trade.OfferTradeHandler
 import com.cobblemon.mod.common.net.serverhandling.trade.UpdateTradeOfferHandler
 import com.cobblemon.mod.common.util.server
-import com.mojang.logging.LogUtils
 import net.minecraft.server.level.ServerPlayer
 
 /**
@@ -198,13 +197,13 @@ import net.minecraft.server.level.ServerPlayer
  * @since November 27th, 2021
  */
 object CobblemonNetwork {
-    private val logger = LogUtils.getLogger()
+    //private val logger = LogUtils.getLogger()
 
     fun ServerPlayer.sendPacket(packet: NetworkPacket<*>) {
         sendPacketToPlayer(this, packet)
     }
     fun sendToServer(packet: NetworkPacket<*>) {
-        logger.info("[C->S] ${packet.type()}")
+        //logger.info("[C->S] ${packet.type()}")
         Cobblemon.implementation.networkManager.sendToServer(packet)
     }
     fun sendToAllPlayers(packet: NetworkPacket<*>) = sendPacketToPlayers(server()!!.playerList.players, packet)
@@ -450,7 +449,7 @@ object CobblemonNetwork {
     }
 
     fun sendPacketToPlayer(player: ServerPlayer, packet: NetworkPacket<*>) {
-        logger.info("[S->C] ${packet.type()}")
+        //logger.info("[S->C] ${packet.type()}")
         Cobblemon.implementation.networkManager.sendPacketToPlayer(player, packet)
     }
 }

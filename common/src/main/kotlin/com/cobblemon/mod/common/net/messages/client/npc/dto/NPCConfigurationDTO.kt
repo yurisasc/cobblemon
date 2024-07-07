@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
+import com.cobblemon.mod.common.api.npc.configuration.NPCInteractConfiguration
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.util.*
@@ -27,7 +28,8 @@ class NPCConfigurationDTO : Encodable, Decodable {
     var npcName: MutableComponent = "".text()
     var npcClass: ResourceLocation = cobblemonResource("default")
     var battle: NPCBattleConfiguration? = null
-    var interaction: Either<ResourceLocation, ExpressionLike>? = null
+    var interactionInherited: Boolean = false
+    var interaction: NPCInteractConfiguration? = null
     var aspects: MutableSet<String> = mutableSetOf()
 
     constructor()
@@ -36,7 +38,8 @@ class NPCConfigurationDTO : Encodable, Decodable {
         npcName = npcEntity.name.copy()
         npcClass = npcEntity.npc.resourceIdentifier
         battle = npcEntity.battle
-        interaction = npcEntity.interaction
+        interactionInherited = npcEntity.interaction == null
+        interaction = npcEntity.interaction ?: npcEntity.npc.interaction
         aspects = npcEntity.appliedAspects
     }
 
@@ -44,9 +47,10 @@ class NPCConfigurationDTO : Encodable, Decodable {
         buffer.writeText(npcName)
         buffer.writeIdentifier(npcClass)
         buffer.writeNullable(battle) { _, value -> value.encode(buffer) }
+        buffer.writeBoolean(interactionInherited)
         buffer.writeNullable(interaction) { _, value ->
-            buffer.writeBoolean(value.map({ true }, { false }))
-            buffer.writeString(value.map({ it.toString() }, { it.toString() }))
+            buffer.writeString(value.type)
+            value.encode(buffer)
         }
         buffer.writeCollection(aspects, ByteBuf::writeString)
     }
@@ -55,12 +59,11 @@ class NPCConfigurationDTO : Encodable, Decodable {
         npcName = buffer.readText().copy()
         npcClass = buffer.readIdentifier()
         battle = buffer.readNullable { NPCBattleConfiguration().apply { decode(buffer) } }
+        interactionInherited = buffer.readBoolean()
         interaction = buffer.readNullable {
-            if (buffer.readBoolean()) {
-                Either.left(ResourceLocation.parse(buffer.readString()))
-            } else {
-                Either.right(buffer.readString().asExpressionLike())
-            }
+            val type = buffer.readString()
+            val configType = NPCInteractConfiguration.types[type] ?: return@readNullable null
+            configType.clazz.getConstructor().newInstance().also { it.decode(buffer) }
         }
         aspects = buffer.readList { buffer.readString() }.toMutableSet()
     }
@@ -70,7 +73,11 @@ class NPCConfigurationDTO : Encodable, Decodable {
         entity.customName = npcName.copy()
         entity.npc = npcClass
         entity.battle = battle
-        entity.interaction = interaction
+        if (!interactionInherited) {
+            entity.interaction = interaction
+        } else {
+            entity.interaction = null
+        }
         entity.appliedAspects.clear()
         entity.appliedAspects.addAll(aspects)
     }
