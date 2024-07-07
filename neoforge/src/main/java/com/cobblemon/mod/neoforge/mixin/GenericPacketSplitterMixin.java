@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GenericPacketSplitter.class)
 public class GenericPacketSplitterMixin {
 
-    @Inject(method = "encode(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/packet/Packet;Ljava/util/List;)V", at=@At("HEAD"), cancellable = true)
+    @Inject(method = "encode(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/protocol/Packet;Ljava/util/List;)V", at=@At("HEAD"), cancellable = true)
     public void encode(ChannelHandlerContext channelHandlerContext, Packet packet, List<Object> list, CallbackInfo ci) {
         if (packet instanceof ClientboundCustomPayloadPacket) {
             ClientboundCustomPayloadPacket pac = (ClientboundCustomPayloadPacket) packet;
