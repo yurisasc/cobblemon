@@ -377,13 +377,13 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         if (scanningProgress < 100)
             scanningProgress += 2
 
-        if (scanningProgress % 5 == 0) { // 20 for 1 second
+        if (scanningProgress % 2 == 0) { // 20 for 1 second
 
             // todo get a better (maybe shorter) looping sound so it ends nicer
             //playSound(CobblemonSounds.POKEDEX_SCAN_LOOP)
 
             // play this temp sound for now
-            playSound(CobblemonSounds.POKEDEX_CLICK)
+            playSound(CobblemonSounds.POKEDEX_SCAN_LOOP)
         }
 
         // if scan progress is 100 then send packet to Pokedex

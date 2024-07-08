@@ -248,7 +248,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
             canDragRender = true
             isDragging = true
             initialDragPosX = mouseX
-            playSound(CobblemonSounds.POKEDEX_CLICK)
+            playSound(CobblemonSounds.POKEDEX_CLICK_SHORT)
         }
         return try {
             super.mouseClicked(mouseX, mouseY, button)
