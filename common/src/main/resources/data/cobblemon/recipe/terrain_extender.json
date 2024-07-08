@@ -23,6 +23,6 @@
 		}
     },
     "result": {
-        "item": "cobblemon:terrain_extender"
+        "id": "cobblemon:terrain_extender"
     }
 }

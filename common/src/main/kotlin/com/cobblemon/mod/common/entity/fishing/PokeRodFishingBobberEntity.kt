@@ -37,9 +37,11 @@ import net.minecraft.client.resources.sounds.SoundInstance
 import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -95,7 +97,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     var state = State.FLYING
     private var luckOfTheSeaLevel = 0
     private var lureLevel = 0
-    private var typeCaught= "ITEM"
+    private var typeCaught = TypeCaught.ITEM
     private var chosenBucket = Cobblemon.bestSpawner.config.buckets[0] // default to first rarity bucket
     private val pokemonSpawnChance = 85 // chance a Pokemon will be fished up % out of 100
     var pokeRodId: ResourceLocation? = null
@@ -355,7 +357,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
                 // check for chance to catch pokemon based on the bait
                 if (Mth.nextInt(random, 0, 100) < getPokemonSpawnChance(bobberBait)) {
-                    this.typeCaught = "POKEMON"
+                    this.typeCaught = TypeCaught.POKEMON
 
                     val buckets = Cobblemon.bestSpawner.config.buckets
 
@@ -368,7 +370,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 }
                 else {
                     // todo caught item
-                    this.typeCaught = "ITEM"
+                    this.typeCaught = TypeCaught.ITEM
                     this.hookCountdown = Mth.nextInt(random, 20, 40)
 
                 }
@@ -598,16 +600,16 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 i = if (this.hookedEntity is ItemEntity) 3 else 5
             } else if (this.hookCountdown > 0) {
                 // check if thing caught was an item
-                if (this.typeCaught == "ITEM") {
+                if (this.typeCaught == TypeCaught.ITEM) {
                     val lootContextParameterSet = LootParams.Builder(level() as ServerLevel)
                         .withParameter(LootContextParams.ORIGIN, position())
                         .withParameter(LootContextParams.TOOL, usedItem)
                         .withParameter(LootContextParams.THIS_ENTITY, this)
                         .withLuck(this.luckOfTheSeaLevel.toFloat() + playerEntity.luck)
                         .create(LootContextParamSets.FISHING)
-                    val lootTable = level().server!!.reloadableRegistries().getLootTable(BuiltInLootTables.FISHING)
+                    val lootTable = level().server!!.reloadableRegistries().getLootTable(LOOT_TABLE_ID)
                     val list: List<ItemStack> = lootTable.getRandomItems(lootContextParameterSet)
-                    CriteriaTriggers.FISHING_ROD_HOOKED.trigger(playerEntity as ServerPlayer?, usedItem, this, list)
+                    CriteriaTriggers.FISHING_ROD_HOOKED.trigger(playerEntity as ServerPlayer, usedItem, this, list)
                     val var7: Iterator<*> = list.iterator()
                     while (var7.hasNext()) {
                         val itemStack = var7.next() as ItemStack
@@ -1088,10 +1090,16 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         spawnSnowstormParticlePacket.sendToPlayersAround(entity.x, entity.y, entity.z, 64.0, entity.level().dimension())
     }
 
+    enum class TypeCaught {
+        ITEM,
+        POKEMON
+    }
+
     companion object {
         val POKEROD_ID = SynchedEntityData.defineId(PokeRodFishingBobberEntity::class.java, EntityDataSerializers.STRING)
         val POKEBOBBER_BAIT = SynchedEntityData.defineId(PokeRodFishingBobberEntity::class.java, EntityDataSerializers.ITEM_STACK)
         val HOOK_ENTITY_ID = SynchedEntityData.defineId(PokeRodFishingBobberEntity::class.java, EntityDataSerializers.INT)
         private val CAUGHT_FISH = SynchedEntityData.defineId(PokeRodFishingBobberEntity::class.java, EntityDataSerializers.BOOLEAN)
+        private val LOOT_TABLE_ID = ResourceKey.create(Registries.LOOT_TABLE, cobblemonResource("fishing/pokerod"))
     }
 }
