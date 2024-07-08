@@ -278,14 +278,14 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val BIG_ROOT_SOUNDS = BlockSoundGroup(1f, 1f,
         BIG_ROOT_BREAK,
         SoundEvents.BLOCK_ROOTS_STEP,
-        SoundEvents.BLOCK_ROOTS_PLACE,
+        ENERGY_ROOT_PLACE,
         SoundEvents.BLOCK_ROOTS_HIT,
         SoundEvents.BLOCK_ROOTS_FALL
     )
 
     @JvmField
     val ENERGY_ROOT_SOUNDS = BlockSoundGroup(1f, 1f,
-        SoundEvents.BLOCK_ROOTS_BREAK,
+        BIG_ROOT_BREAK,
         SoundEvents.BLOCK_ROOTS_STEP,
         ENERGY_ROOT_PLACE,
         SoundEvents.BLOCK_ROOTS_HIT,

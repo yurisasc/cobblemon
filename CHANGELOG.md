@@ -3,6 +3,7 @@
 ## [1.5.3](#1-5-3)
 ### Fixes
 - Scaled down Amaura's fetus model to avoid clipping through the tank while animating
+- Big Roots and Energy Roots now share the same sounds as intented.
 - Fixed Cubone's cry not having a sound.
 - Fixed the Seafloor spawning context not being a usable context.
 - Fixed Pokemon spawning in non-full blocks like slabs.
@@ -29,10 +30,12 @@
 ### Changes
 - Altered the item model for Medicinal Leeks and Roasted Leeks to be held like sticks and other rod items. 
 - Adjusted some berry balance values like yield and growth times
+- Adjusted volumes of most block sounds
 - Changes to mulch buffs/durations
 - Dreepy is now shoulder mountable
 - Link Cable recipe has been redesigned
 - Updated potion sprites
+- Updated sounds for Medicinal Leeks, Big Roots, Energy Roots and Revival Herbs
 
 ### Developer
 
