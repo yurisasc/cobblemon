@@ -57,8 +57,7 @@ object LootInjector {
         BuiltInLootTables.SPAWN_BONUS_CHEST,
         BuiltInLootTables.STRONGHOLD_CORRIDOR,
         BuiltInLootTables.WOODLAND_MANSION,
-        BuiltInLootTables.FISHING_TREASURE,
-        BuiltInLootTables.FISHING_JUNK
+        BuiltInLootTables.FISHING_TREASURE
     ).apply { addAll(villageHouseBuiltInLootTables) }
 
     private val injectionIds = injections.map {it.location()}.toSet()
