@@ -96,7 +96,7 @@
   },
   "item.pokedex.scan_loop": {
     "sounds": [
-      { "name": "cobblemon:item/pokedex/pokedex_scan_loop", "volume": 0.5 }]
+      { "name": "cobblemon:item/pokedex/pokedex_scan_loop", "volume": 0.3 }]
   },
   "item.pokedex.scan_detail": {
     "sounds": [
