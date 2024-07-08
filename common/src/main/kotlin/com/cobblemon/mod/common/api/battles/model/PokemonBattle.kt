@@ -275,7 +275,6 @@ open class PokemonBattle(
         }
         sendUpdate(BattleEndPacket())
         BattleRegistry.closeBattle(this)
-        onEndHandlers.forEach { it(this) }
     }
 
     fun finishCaptureAction(captureAction: BattleCaptureAction) {
