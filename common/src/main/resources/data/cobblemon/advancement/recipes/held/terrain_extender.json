@@ -1,12 +1,12 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_pearl": {
+    "has_bucket": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:ender_pearl"
+              "minecraft:bucket"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cobblemon:link_cable"
+        "recipe": "cobblemon:terrain_extender"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_pearl",
+      "has_bucket",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "cobblemon:link_cable"
+      "cobblemon:terrain_extender"
     ]
   }
 }

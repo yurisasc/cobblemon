@@ -39,6 +39,7 @@
 ### Additions
 - Added extra visuals to early berry growth stages
 - Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
+- Added Metronome, Protective Pads, Punching Glove, Room Service, Scope Lens, Shed Shell, Terrain Extender, Throat Spray, Utility Umbrella, Wide Lens, and Zoom Lens held items
 
 ### Added cries to the following Pokémon
 - Timburr, Gurdurr, Conkeldurr
@@ -49,7 +50,8 @@
 - Adjusted some berry balance values like yield and growth times
 - Changes to mulch buffs/durations
 - Dreepy is now shoulder mountable
-- Link Cable recipe now uses Amethyst Shards instead of Popped Chorus Fruit
+- Link Cable recipe has been redesigned
+- Updated potion sprites
 
 ### Developer
 

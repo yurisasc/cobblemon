@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.item.group
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.ibm.icu.text.DisplayContext
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.item.ItemStack
@@ -535,6 +534,7 @@ object CobblemonItemGroups {
         entries.accept(CobblemonItems.MENTAL_HERB)
         entries.accept(CobblemonItems.METAL_COAT)
         entries.accept(CobblemonItems.METAL_POWDER)
+        entries.accept(CobblemonItems.METRONOME)
         entries.accept(CobblemonItems.MIRACLE_SEED)
         entries.accept(CobblemonItems.MIRROR_HERB)
         entries.accept(CobblemonItems.MUSCLE_BAND)
@@ -548,6 +548,8 @@ object CobblemonItemGroups {
         entries.accept(CobblemonItems.POWER_LENS)
         entries.accept(CobblemonItems.POWER_WEIGHT)
         entries.accept(CobblemonItems.POWER_HERB)
+        entries.accept(CobblemonItems.PROTECTIVE_PADS)
+        entries.accept(CobblemonItems.PUNCHING_GLOVE)
         entries.accept(CobblemonItems.QUICK_CLAW)
         entries.accept(CobblemonItems.QUICK_POWDER)
         entries.accept(CobblemonItems.RAZOR_CLAW)
@@ -555,9 +557,11 @@ object CobblemonItemGroups {
         entries.accept(CobblemonItems.RED_CARD)
         entries.accept(CobblemonItems.RING_TARGET)
         entries.accept(CobblemonItems.ROCKY_HELMET)
+        entries.accept(CobblemonItems.ROOM_SERVICE)
         entries.accept(CobblemonItems.SAFETY_GOGGLES)
         entries.accept(CobblemonItems.SCOPE_LENS)
         entries.accept(CobblemonItems.SHARP_BEAK)
+        entries.accept(CobblemonItems.SHED_SHELL)
         entries.accept(CobblemonItems.SHELL_BELL)
         entries.accept(CobblemonItems.SILK_SCARF)
         entries.accept(CobblemonItems.SILVER_POWDER)
@@ -637,7 +641,7 @@ object CobblemonItemGroups {
     }
 
     /**
-     * The abstract behaviour of injecting into existing [ItemGroup]s in specific positions.
+     * The abstract behaviour of injecting into existing [CreativeModeTab]s in specific positions.
      * Each platform has to implement the behaviour.
      */
     interface Injector {

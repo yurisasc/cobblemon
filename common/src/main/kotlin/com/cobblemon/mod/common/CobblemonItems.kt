@@ -48,7 +48,7 @@ import net.minecraft.world.item.*
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 
-@Suppress("unused")
+@Suppress("unused", "SameParameterValue")
 object CobblemonItems : PlatformRegistry<Registry<Item>, ResourceKey<Registry<Item>>, Item>() {
     override val registry: Registry<Item> = BuiltInRegistries.ITEM
     override val ResourceKey: ResourceKey<Registry<Item>> = Registries.ITEM
@@ -727,8 +727,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, ResourceKey<Registry<It
    // val LUMINOUS_MOSS = heldItem("luminous_moss")
     @JvmField
     val MAGNET = heldItem("magnet")
-   // @JvmField
-   // val METRONOME = heldItem("metronome")
+    @JvmField
+    val METRONOME = heldItem("metronome")
     @JvmField
     val MIRACLE_SEED = heldItem("miracle_seed")
     @JvmField
@@ -753,10 +753,10 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, ResourceKey<Registry<It
     val POWER_WEIGHT = heldItem("power_weight")
     @JvmField
     val PSYCHIC_SEED = heldItem("psychic_seed")
-   // @JvmField
-   // val PROTECTIVE_PADS = heldItem("protective_pads")
-   // @JvmField
-   // val PUNCHING_GLOVE = heldItem("punching_glove")
+    @JvmField
+    val PROTECTIVE_PADS = heldItem("protective_pads")
+    @JvmField
+    val PUNCHING_GLOVE = heldItem("punching_glove")
     @JvmField
     val QUICK_CLAW = heldItem("quick_claw")
     @JvmField
@@ -765,16 +765,16 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, ResourceKey<Registry<It
     val RING_TARGET = heldItem("ring_target")
     @JvmField
     val ROCKY_HELMET = heldItem("rocky_helmet")
-   // @JvmField
-   // val ROOM_SERVICE = heldItem("room_service")
+    @JvmField
+    val ROOM_SERVICE = heldItem("room_service")
     @JvmField
     val SAFETY_GOGGLES = heldItem("safety_goggles")
     @JvmField
     val SCOPE_LENS = heldItem("scope_lens")
     @JvmField
     val SHARP_BEAK = heldItem("sharp_beak")
-   // @JvmField
-   // val SHED_SHELL = heldItem("shed_shell")
+    @JvmField
+    val SHED_SHELL = heldItem("shed_shell")
     @JvmField
     val SHELL_BELL = heldItem("shell_bell")
     @JvmField
