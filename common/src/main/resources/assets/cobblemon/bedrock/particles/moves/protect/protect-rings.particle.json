@@ -8,6 +8,13 @@
 				"texture": "textures/particles/large-ring"
 			}
 		},
+		"events": {
+			"event_sound": {
+				"sound_effect": {
+					"event_name": "cobblemon:move.protect.actor"
+				}
+			}
+		},
 		"components": {
 			"minecraft:emitter_rate_steady": {
 				"spawn_rate": 5,
@@ -15,6 +22,9 @@
 			},
 			"minecraft:emitter_lifetime_once": {
 				"active_time": 0.45
+			},
+			"minecraft:emitter_lifetime_events": {
+				"creation_event": "event_sound"
 			},
 			"minecraft:emitter_shape_point": {
 				"offset": [0, "1-(math.clamp(q.entity_height*0.33,0,1))", -0.62]
@@ -26,11 +36,7 @@
 			"minecraft:particle_motion_dynamic": {},
 			"minecraft:particle_appearance_billboard": {
 				"size": [1.25, 1.25],
-				"facing_camera_mode": "lookat_direction",
-				"direction": {
-					"mode": "custom",
-					"custom_direction": [-1, 0, 0]
-				},
+				"facing_camera_mode": "rotate_xyz",
 				"uv": {
 					"texture_width": 160,
 					"texture_height": 20,

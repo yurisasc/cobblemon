@@ -131,7 +131,6 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
             if (isFake() && (player is ServerPlayerEntity)) {
                 spawnPokemon(world, pos, state, player)
             }
-            world.setBlockState(pos, if (state.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState)
             val bEntity = world.getBlockEntity(pos) as? GildedChestBlockEntity
             bEntity?.markRemoved()
         } else super.onBreak(world, pos, state, player)

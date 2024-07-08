@@ -8,6 +8,13 @@
 				"texture": "textures/particles/mushroomize"
 			}
 		},
+		"events": {
+			"event_sound": {
+				"sound_effect": {
+					"event_name": "cobblemon:powder.spore.mushroom"
+				}
+			}
+		},
 		"components": {
 			"minecraft:emitter_rate_steady": {
 				"spawn_rate": "math.random_integer(2,4)",
@@ -15,6 +22,14 @@
 			},
 			"minecraft:emitter_lifetime_once": {
 				"active_time": 1
+			},
+			"minecraft:emitter_lifetime_events": {
+				"timeline": {
+					"0.05": "event_sound",
+					"0.15": "event_sound",
+					"0.35": "event_sound",
+					"0.55": "event_sound"
+				}
 			},
 			"minecraft:emitter_shape_disc": {
 				"offset": ["math.sin(v.emitter_age/v.emitter_lifetime*90*9+v.emitter_random_1*360)", "0.5-(v.particle_random_2/8)-0.1", "math.cos(v.emitter_age/v.emitter_lifetime*90*9+v.emitter_random_1*360)"],
@@ -28,7 +43,7 @@
 			"minecraft:particle_motion_dynamic": {},
 			"minecraft:particle_appearance_billboard": {
 				"size": ["0.5-(v.particle_random_2/8)", "0.5-(v.particle_random_2/8)"],
-				"facing_camera_mode": "lookat_y",
+				"facing_camera_mode": "rotate_y",
 				"uv": {
 					"texture_width": 192,
 					"texture_height": 16,

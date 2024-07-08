@@ -8,6 +8,13 @@
 				"texture": "textures/particles/powder"
 			}
 		},
+		"events": {
+			"event_sound": {
+				"sound_effect": {
+					"event_name": "cobblemon:move.sandattack.target"
+				}
+			}
+		},
 		"components": {
 			"minecraft:emitter_rate_steady": {
 				"spawn_rate": 500,
@@ -15,6 +22,9 @@
 			},
 			"minecraft:emitter_lifetime_looping": {
 				"active_time": 1
+			},
+			"minecraft:emitter_lifetime_events": {
+				"creation_event": "event_sound"
 			},
 			"minecraft:emitter_shape_point": {
 				"direction": ["math.random(-1.61,1.61)", "math.random(-0.35,2.15)", "math.random(-0.81,2.21)"]
