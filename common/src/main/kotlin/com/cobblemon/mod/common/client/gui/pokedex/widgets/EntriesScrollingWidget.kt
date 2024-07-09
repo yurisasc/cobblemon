@@ -265,7 +265,7 @@ class EntriesScrollingWidget(val pX: Int, val pY: Int, val setPokedexEntry: (Dex
             val hoverIndex = getHoveredSlotIndex(mouseX.toInt(), mouseY.toInt())
             if (hoverIndex > -1 && hoverIndex < dexDataList.size) {
                 setPokedexEntry.invoke(dexDataList[hoverIndex])
-                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.PC_CLICK, 1.0F))
+                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.POKEDEX_CLICK, 1.0F))
             }
 
             return true

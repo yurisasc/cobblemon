@@ -128,6 +128,7 @@ import com.cobblemon.mod.common.net.messages.server.npc.SaveNPCPacket
 import com.cobblemon.mod.common.net.messages.server.pasture.PasturePokemonPacket
 import com.cobblemon.mod.common.net.messages.server.pasture.UnpastureAllPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.pasture.UnpasturePokemonPacket
+import com.cobblemon.mod.common.net.messages.server.pokedex.MapUpdatePacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.SetNicknamePacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
@@ -187,6 +188,7 @@ import com.cobblemon.mod.common.net.serverhandling.trade.CancelTradeHandler
 import com.cobblemon.mod.common.net.serverhandling.trade.ChangeTradeAcceptanceHandler
 import com.cobblemon.mod.common.net.serverhandling.trade.OfferTradeHandler
 import com.cobblemon.mod.common.net.serverhandling.trade.UpdateTradeOfferHandler
+import com.cobblemon.mod.common.server.net.pokedex.MapUpdatePacketHandler
 import com.cobblemon.mod.common.util.server
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -408,6 +410,9 @@ object CobblemonNetwork {
         list.add(PacketRegisterInfo(ChangeTradeAcceptancePacket.ID, ChangeTradeAcceptancePacket::decode, ChangeTradeAcceptanceHandler))
         list.add(PacketRegisterInfo(OfferTradePacket.ID, OfferTradePacket::decode, OfferTradeHandler))
         list.add(PacketRegisterInfo(UpdateTradeOfferPacket.ID, UpdateTradeOfferPacket::decode, UpdateTradeOfferHandler))
+
+        // POKEDEX PACKETS
+        list.add(PacketRegisterInfo(MapUpdatePacket.ID, MapUpdatePacket::decode, MapUpdatePacketHandler))
 
         // Pasture
         list.add(PacketRegisterInfo(PasturePokemonPacket.ID, PasturePokemonPacket::decode, PasturePokemonHandler))

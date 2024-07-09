@@ -10,8 +10,14 @@ package com.cobblemon.mod.common.mixin;
 
 import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding;
+import com.cobblemon.mod.common.item.PokedexItem;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
+import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.MathHelper;
 import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,6 +28,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PartyScrollMixin {
     @Shadow
     private double eventDeltaVerticalWheel;
+
+    @Shadow @Final private MinecraftClient client;
 
     @Inject(
             method = "onMouseScroll",
@@ -48,6 +56,22 @@ public class PartyScrollMixin {
                 eventDeltaVerticalWheel = 0;
                 PartySendBinding.INSTANCE.actioned();
             }
+        } else if (client.player != null && client.player.getMainHandStack().getItem() instanceof PokedexItem) {
+            PokedexItem pokedexItem = (PokedexItem) client.player.getMainHandStack().getItem();
+
+            // Check if isScanning is true
+            if (pokedexItem.isScanning()) {
+                // Adjust zoom level based on scroll direction
+                if (vertical != 0) {
+                    pokedexItem.zoomLevel += vertical * 0.1;
+                    pokedexItem.zoomLevel = MathHelper.clamp(pokedexItem.zoomLevel, 1.0, 2.3);
+                    pokedexItem.changeFOV(70.0); // Update the FOV
+
+                    ci.cancel();
+                    eventDeltaVerticalWheel = 0;
+                }
+            }
         }
+
     }
 }

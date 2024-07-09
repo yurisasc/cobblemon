@@ -14,6 +14,9 @@ import com.cobblemon.mod.common.api.pokedex.filters.InvisibleFilter
 import com.cobblemon.mod.common.api.pokedex.filters.RegionFilter
 import com.cobblemon.mod.common.api.pokedex.filters.SearchFilter
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.CobblemonSounds
+import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.sound.SoundEvent
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
@@ -270,6 +273,11 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
         super.render(context, mouseX, mouseY, delta)
     }
 
+    override fun close() {
+        playSound(CobblemonSounds.POKEDEX_CLOSE)
+        super.close()
+    }
+
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         if (::pokemonInfoWidget.isInitialized
             && pokemonInfoWidget.isWithinPortraitSpace(mouseX, mouseY)
@@ -278,6 +286,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
             canDragRender = true
             isDragging = true
             initialDragPosX = mouseX
+            playSound(CobblemonSounds.POKEDEX_CLICK_SHORT)
         }
         return try {
             super.mouseClicked(mouseX, mouseY, button)
@@ -484,4 +493,8 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex, val type: Strin
     fun canSelectTab(tabIndex: Int): Boolean = (tabIndex != tabInfoIndex) && (pokedex.speciesEntries[selectedPokemon!!.identifier]?.highestDiscoveryLevel() == PokedexEntryProgress.CAUGHT)
 
     override fun shouldPause(): Boolean = false
+
+    fun playSound(soundEvent: SoundEvent) {
+        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
+    }
 }

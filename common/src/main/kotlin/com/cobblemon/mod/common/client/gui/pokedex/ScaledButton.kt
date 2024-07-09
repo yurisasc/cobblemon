@@ -62,7 +62,7 @@ class ScaledButton(
 
     override fun playDownSound(soundManager: SoundManager) {
         if (active && !this.silent) {
-            soundManager.play(PositionedSoundInstance.master(CobblemonSounds.PC_CLICK, 1.0F))
+            soundManager.play(PositionedSoundInstance.master(CobblemonSounds.POKEDEX_CLICK_SHORT, 1.0F))
         }
     }
 
