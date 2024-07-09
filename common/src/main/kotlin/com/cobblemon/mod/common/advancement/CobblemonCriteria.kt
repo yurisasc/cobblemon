@@ -57,5 +57,5 @@ object CobblemonCriteria : PlatformRegistry<Registry<CriterionTrigger<*>>, Resou
     val PLANT_TUMBLESTONE = this.create("plant_tumblestone", SimpleCriterionTrigger(PlantTumblestoneCriterion.CODEC))
 
     override val registry = BuiltInRegistries.TRIGGER_TYPES
-    override val ResourceKey = Registries.TRIGGER_TYPE
+    override val resourceKey = Registries.TRIGGER_TYPE
 }

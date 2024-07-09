@@ -105,6 +105,8 @@ interface CobblemonImplementation {
 
     fun registerParticles()
 
+    fun registerEntitySubPredicates()
+
 
     /**
      * Add a feature to the current platform implementation.

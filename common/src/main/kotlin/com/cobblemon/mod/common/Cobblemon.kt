@@ -179,6 +179,7 @@ object Cobblemon {
         implementation.registerParticles()
         implementation.registerEntityDataSerializers()
         implementation.registerCriteria()
+        implementation.registerEntitySubPredicates()
 
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
