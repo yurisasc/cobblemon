@@ -21,7 +21,6 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.registry.Registries
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.ColorHelper
 import net.minecraft.util.math.MathHelper
 
@@ -35,37 +34,21 @@ class DropsScrollingWidget(val pX: Int, val pY: Int): ScrollingWidget<DropsScrol
 
     var dropTable: DropTable = DropTable()
 
-    fun dropsAvailable(): Boolean {
-        return dropTable.entries.size != 0
-    }
-
     init {
         setEntries()
     }
 
+    override fun getX() = pX
+    override fun getY() = pY
+
     fun setEntries() {
         dropTable.entries.forEach {
-            if (it is ItemDropEntry && it.item != Identifier.ofVanilla("air")) addEntry(DropWidgetEntry(it))
+            if (it is ItemDropEntry) addEntry(DropWidgetEntry(it))
         }
-    }
-
-    override fun getX(): Int {
-        return pX
-    }
-
-    override fun getY(): Int {
-        return pY
     }
 
     override fun getScrollbarX(): Int {
         return left + width - scrollBarWidth - 7
-    }
-
-    override fun getMaxScroll(): Int {
-//        val contentHeight = children().size * 10
-//        println("Content Height: $contentHeight") // Debug statement
-//        return Math.max(0, contentHeight - height)
-        return super.getMaxScroll()
     }
 
     override fun renderScrollbar(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
@@ -95,7 +78,20 @@ class DropsScrollingWidget(val pX: Int, val pY: Int): ScrollingWidget<DropsScrol
             shadow = true
         )
 
-        super.renderWidget(context, mouseX, mouseY, delta)
+        if (dropTable.entries.size == 0) {
+            drawScaledText(
+                context = context,
+                text = Text.translatable("cobblemon.ui.pokedex.info.drops_empty"),
+                x = pX + (width / 2) - 7,
+                y = pY + (height / 2) - 3,
+                shadow = false,
+                colour = 0x606B6E,
+                scale = PokedexGUIConstants.SCALE,
+                centered = true
+            )
+        } else {
+            super.renderWidget(context, mouseX, mouseY, delta)
+        }
     }
 
     override fun renderEntry(
