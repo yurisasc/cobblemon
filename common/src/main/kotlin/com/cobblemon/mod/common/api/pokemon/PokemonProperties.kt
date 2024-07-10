@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.tera.TeraTypes
+import com.cobblemon.mod.common.api.types.tera.elemental.ElementalTypeTeraType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
@@ -114,7 +115,8 @@ open class PokemonProperties {
             props.ability = parseStringOfRegistry(keyPairs, listOf("ability")) { Abilities.get(it)?.name }
             props.status = parseStringOfRegistry(keyPairs, listOf("status")) { (Statuses.getStatus(it) ?: Statuses.getStatus(it.asIdentifierDefaultingNamespace()))?.showdownName }
             props.nickname = parseText(keyPairs, listOf("nickname", "nick"))
-            props.teraType = parseStringOfRegistry(keyPairs, listOf("tera_type", "tera")) { ElementalTypes.get(it)?.name }
+            props.type = parseStringOfRegistry(keyPairs, listOf("type", "elemental_type")) { ElementalTypes.get(it)?.name }
+            props.teraType = parseIdentifierOfRegistry(keyPairs, listOf("tera_type", "tera")) { TeraTypes.get(it)?.id?.simplify() }
             props.dmaxLevel = parseIntProperty(keyPairs, listOf("dmax_level", "dmax"))?.coerceIn(0, Cobblemon.config.maxDynamaxLevel)
             props.gmaxFactor = parseBooleanProperty(keyPairs, listOf("gmax_factor", "gmax"))
             props.tradeable = parseBooleanProperty(keyPairs, listOf("tradeable", "tradable"))
@@ -296,6 +298,7 @@ open class PokemonProperties {
     var ability: String? = null
     var aspects: Set<String> = emptySet()
     var status: String? = null
+    var type: String? = null
     var teraType: String? = null
     var dmaxLevel: Int? = null
     var gmaxFactor: Boolean? = null
@@ -433,6 +436,7 @@ open class PokemonProperties {
         evs?.forEach{ stat ->
             if (stat.value != pokemon.evs[stat.key]) { return false }
         }
+        type?.takeIf { pokemon.types.none { type -> type.name.equals(it, true) } }?.let { return false }
         teraType?.takeIf { it.asIdentifierDefaultingNamespace() != pokemon.teraType.id }?.let { return false }
         dmaxLevel?.takeIf { it != pokemon.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != pokemon.gmaxFactor }?.let { return false }
@@ -481,6 +485,7 @@ open class PokemonProperties {
                 if (stat.value != propertiesEVs[stat.key]) { return false }
             }
         }
+        type?.takeIf { !it.equals(properties.type, true) }?.let { return false }
         teraType?.takeIf { it != properties.teraType }?.let { return false }
         dmaxLevel?.takeIf { it != properties.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != properties.gmaxFactor }?.let { return false }
@@ -503,7 +508,13 @@ open class PokemonProperties {
         val baseTypes = pokemon.form.types.toList()
         if (this.shiny == null) pokemon.shiny = Cobblemon.config.shinyRate.checkRate()
         if (this.teraType == null) pokemon.teraType =
-            if (Cobblemon.config.teraTypeRate.checkRate()) TeraTypes.random(true)
+            if (Cobblemon.config.teraTypeRate.checkRate()) {
+                var picked = TeraTypes.random(true)
+                while (picked is ElementalTypeTeraType && picked.type in pokemon.types) {
+                    picked = TeraTypes.random(true)
+                }
+                picked
+            }
             else TeraTypes.forElementalType(baseTypes.random())
     }
 
@@ -528,6 +539,7 @@ open class PokemonProperties {
         status?.let { nbt.putString(DataKeys.POKEMON_STATUS_NAME, it) }
         ivs?.let { nbt.put(DataKeys.POKEMON_IVS, it.saveToNBT(CompoundTag())) }
         evs?.let { nbt.put(DataKeys.POKEMON_EVS, it.saveToNBT(CompoundTag())) }
+        type?.let { nbt.putString(DataKeys.ELEMENTAL_TYPE, it) }
         teraType?.let { nbt.putString(DataKeys.POKEMON_TERA_TYPE, it) }
         dmaxLevel?.let { nbt.putInt(DataKeys.POKEMON_DMAX_LEVEL, it) }
         gmaxFactor?.let { nbt.putBoolean(DataKeys.POKEMON_GMAX_FACTOR, it) }
@@ -556,6 +568,7 @@ open class PokemonProperties {
         status = if (tag.contains(DataKeys.POKEMON_STATUS_NAME)) tag.getString(DataKeys.POKEMON_STATUS_NAME) else null
         ivs = if (tag.contains(DataKeys.POKEMON_IVS)) ivs?.loadFromNBT(tag.getCompound(DataKeys.POKEMON_IVS)) as IVs? else null
         evs = if (tag.contains(DataKeys.POKEMON_EVS)) evs?.loadFromNBT(tag.getCompound(DataKeys.POKEMON_EVS)) as EVs? else null
+        type = if (tag.contains(DataKeys.ELEMENTAL_TYPE)) tag.getString(DataKeys.ELEMENTAL_TYPE) else null
         teraType = if (tag.contains(DataKeys.POKEMON_TERA_TYPE)) tag.getString(DataKeys.POKEMON_TERA_TYPE) else null
         dmaxLevel = if (tag.contains(DataKeys.POKEMON_DMAX_LEVEL)) tag.getInt(DataKeys.POKEMON_DMAX_LEVEL) else null
         gmaxFactor = if (tag.contains(DataKeys.POKEMON_GMAX_FACTOR)) tag.getBoolean(DataKeys.POKEMON_GMAX_FACTOR) else null
@@ -586,6 +599,7 @@ open class PokemonProperties {
         status?.let { json.addProperty(DataKeys.POKEMON_STATUS_NAME, it) }
         ivs?.let { json.add(DataKeys.POKEMON_IVS, it.saveToJSON(JsonObject())) }
         evs?.let { json.add(DataKeys.POKEMON_EVS, it.saveToJSON(JsonObject())) }
+        type?.let { json.addProperty(DataKeys.ELEMENTAL_TYPE, it) }
         teraType?.let { json.addProperty(DataKeys.POKEMON_TERA_TYPE, it) }
         dmaxLevel?.let { json.addProperty(DataKeys.POKEMON_DMAX_LEVEL, it) }
         gmaxFactor?.let { json.addProperty(DataKeys.POKEMON_GMAX_FACTOR, it) }
@@ -615,6 +629,7 @@ open class PokemonProperties {
         status = json.get(DataKeys.POKEMON_STATUS_NAME)?.asString
         ivs?.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
         evs?.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_EVS))
+        type = json.get(DataKeys.ELEMENTAL_TYPE)?.asString
         teraType = json.get(DataKeys.POKEMON_TERA_TYPE)?.asString
         dmaxLevel = json.get(DataKeys.POKEMON_DMAX_LEVEL)?.asInt
         gmaxFactor = json.get(DataKeys.POKEMON_GMAX_FACTOR)?.asBoolean
@@ -647,6 +662,7 @@ open class PokemonProperties {
         evs?.forEach{ stat ->
             pieces.add("${stat.key}_ev=${stat.value}")
         }
+        type?.let { pieces.add("type=$it") }
         teraType?.let { pieces.add("tera_type=$it") }
         dmaxLevel?.let { pieces.add("dmax_level=$it") }
         gmaxFactor?.let { pieces.add("gmax_factor=$it") }

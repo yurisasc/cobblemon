@@ -196,4 +196,7 @@ object DataKeys {
     const val NPC_INTERACT_SCRIPT = "Script"
     const val NPC_INTERACT_CUSTOM_SCRIPT = "CustomScript"
     const val NPC_INTERACT_DIALOGUE = "Dialogue"
+
+    // PokemonProperties
+    const val ELEMENTAL_TYPE = "ElementalType"
 }
