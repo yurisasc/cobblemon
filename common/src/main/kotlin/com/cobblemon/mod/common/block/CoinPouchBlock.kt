@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.block
 
+import com.cobblemon.mod.common.CobblemonBlocks
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -16,6 +17,7 @@ import net.minecraft.core.Direction
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.LevelAccessor
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.HorizontalDirectionalBlock
@@ -36,9 +38,7 @@ class CoinPouchBlock(settings: Properties, val small: Boolean) : HorizontalDirec
     }
 
     override fun getShape(state: BlockState, world: BlockGetter, pos: BlockPos, context: CollisionContext): VoxelShape =
-        if (!small) super.getShape(state, world, pos, context) else
-        Shapes.box(0.3125, 0.0, 0.3125, 0.6875, 0.3125, 0.6875)
-
+        if (!small) super.getShape(state, world, pos, context) else SMALL_SHAPE
 
     override fun getStateForPlacement(ctx: BlockPlaceContext): BlockState? {
         var blockState = defaultBlockState()
@@ -76,6 +76,13 @@ class CoinPouchBlock(settings: Properties, val small: Boolean) : HorizontalDirec
         builder.add(FACING, NATURAL)
     }
 
+    override fun canSurvive(blockState: BlockState, levelReader: LevelReader, blockPos: BlockPos): Boolean {
+        if (this.small) {
+            return !levelReader.getBlockState(blockPos.below()).`is`(CobblemonBlocks.RELIC_COIN_POUCH)
+        }
+        return true
+    }
+
     companion object {
         val NATURAL: BooleanProperty = BooleanProperty.create("natural")
 
@@ -83,5 +90,7 @@ class CoinPouchBlock(settings: Properties, val small: Boolean) : HorizontalDirec
             propertiesCodec(),
             PrimitiveCodec.BOOL.fieldOf("small").forGetter(CoinPouchBlock::small),
             ).apply(it, ::CoinPouchBlock) }
+
+        private val SMALL_SHAPE = Shapes.box(0.3125, 0.0, 0.3125, 0.6875, 0.3125, 0.6875)
     }
 }

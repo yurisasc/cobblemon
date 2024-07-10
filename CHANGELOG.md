@@ -1,13 +1,9 @@
 # Changelog
-## [1.6](#1-6)
-
-### Developer
-- Many types related to ``Pokemon`` including itself now have dedicated ``Codec``, please migrate to them from the NBT/JSON/PacketBuffer write/read methods.
-
 ## [1.6.0 - The Bass Pro Fishing Update (Month Xth, 2024)](#1-6-0)
 #### "Now that there's a fishing mechanic, the mod is actually good!"
 ### Fixes
 - Fixed trading Pokémon setting their friendsip to 0 instead of the base value.
+- Fixed being able to stack Relic Coin Pouches on top of each other.
 
 ### Additions
 - Added Pokémon (and item) fishing using modified fishing rods - Poké Rods! You'll need a Poké Rod smithing template, a fishing rod, and some type of Poké Ball. Each Poké Ball makes a differently themed rod. Why not?
@@ -19,6 +15,7 @@
 - SpawnCause is now an implementation of SpawningInfluence.
 - Added "forcedAspects" to Pokemon to make it easier to easily add basic aspects to a Pokémon in a way that persists. We already know that everyone is going to overuse this.
 - Made the Pokemon.aspects setter private. This could technically break sidemods but if you are affected by this then you were using it wrong! Use Pokemon.forcedAspects to fix it.
+- Many types related to ``Pokemon`` including itself now have dedicated ``Codec``, please migrate to them from the NBT/JSON/PacketBuffer write/read methods.
 
 ## [1.5.3](#1-5-3)
 ### Fixes
