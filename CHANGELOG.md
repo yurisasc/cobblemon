@@ -1,24 +1,23 @@
-# Changelog
-## [1.6](#1-6)
-
-### Developer
-- Many types related to ``Pokemon`` including itself now have dedicated ``Codec``, please migrate to them from the NBT/JSON/PacketBuffer write/read methods.
-
 ## [1.6.0 - The Bass Pro Fishing Update (Month Xth, 2024)](#1-6-0)
 #### "Now that there's a fishing mechanic, the mod is actually good!"
 ### Fixes
 - Fixed trading Pokémon setting their friendsip to 0 instead of the base value.
+- Fixed a scenario where a Pokémon that rolled to spawn with a special Tera type sometimes has a Tera type that is already a part of their natural typing.
+- Fixed PokemonProperty argument suggestions for ``tera`` and ``tera_type`` not suggesting ``stellar``.
 
 ### Additions
 - Added Pokémon (and item) fishing using modified fishing rods - Poké Rods! You'll need a Poké Rod smithing template, a fishing rod, and some type of Poké Ball. Each Poké Ball makes a differently themed rod. Why not?
 - Added Lure Ball functionality, increasing the catch rate of Pokémon that were caught on a fishing rod.
 - Added property chaining support for duplicate CustomPokemonPropertyType elements.
-- Added aspect and unaspect PokemonProperty arguments (which also includes commands such as /pokemonedit, /spawnpokemon, and /givepokemon) to allow forcing or un-forcing an aspect on a Pokémon.
+- Added ``aspect`` and ``unaspect`` PokemonProperty arguments (which also includes commands such as /pokemonedit, /spawnpokemon, and /givepokemon) to allow forcing or un-forcing an aspect on a Pokémon.
+- Added ``type`` alternatively ``elemental_type`` PokemonProperty argument, this is only used for filtering and is not applied to Pokémon. Example ``type=fire`` would be true for Charmander but false for Squirtle.
 
 ### Developer
 - SpawnCause is now an implementation of SpawningInfluence.
 - Added "forcedAspects" to Pokemon to make it easier to easily add basic aspects to a Pokémon in a way that persists. We already know that everyone is going to overuse this.
 - Made the Pokemon.aspects setter private. This could technically break sidemods but if you are affected by this then you were using it wrong! Use Pokemon.forcedAspects to fix it.
+- Many types related to ``Pokemon`` including itself now have dedicated ``Codec``, please migrate to them from the NBT/JSON/PacketBuffer write/read methods.
+- ``TeraTypes`` now implements ``Iterable``.
 
 ## [1.5.3](#1-5-3)
 ### Fixes
