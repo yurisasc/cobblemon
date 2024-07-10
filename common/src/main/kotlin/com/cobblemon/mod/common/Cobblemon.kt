@@ -61,6 +61,7 @@ import com.cobblemon.mod.common.api.storage.player.factory.JsonPlayerDataStoreFa
 import com.cobblemon.mod.common.api.storage.player.factory.MongoPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
+import com.cobblemon.mod.common.api.types.HiddenPowerCalculator
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -97,6 +98,8 @@ import com.cobblemon.mod.common.pokemon.properties.UnaspectPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
+import com.cobblemon.mod.common.pokemon.types.OfficialHiddenPowerCalculator
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.trade.TradeManager
 import com.cobblemon.mod.common.util.*
@@ -157,6 +160,7 @@ object Cobblemon {
     var permissionValidator: PermissionValidator by Delegates.observable(LaxPermissionValidator().also { it.initialize() }) { _, _, newValue -> newValue.initialize() }
     var statProvider: StatProvider = CobblemonStatProvider
     var seasonResolver: SeasonResolver = TagSeasonResolver
+    var hiddenPowerCalculator: HiddenPowerCalculator = OfficialHiddenPowerCalculator
 
     fun preInitialize(implementation: CobblemonImplementation) {
         this.implementation = implementation
@@ -167,6 +171,7 @@ object Cobblemon {
             this.LOGGER.info("  - Branch: ${CobblemonBuildDetails.BRANCH}")
         }
 
+        CobblemonRegistries.register()
         implementation.registerPermissionValidator()
         implementation.registerSoundEvents()
         implementation.registerDataComponents()

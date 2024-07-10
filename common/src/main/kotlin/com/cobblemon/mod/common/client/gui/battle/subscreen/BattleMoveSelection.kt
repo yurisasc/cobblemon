@@ -83,7 +83,7 @@ class BattleMoveSelection(
         val y: Float,
     ) {
         var moveTemplate = Moves.getByNameOrDummy(move.id)
-        var rgb = moveTemplate.elementalType.hue.toRGB()
+        var rgb = moveTemplate.elementalType.color.rgba.toRGB()
 
         open val targetList: List<Targetable>? get() = move.target.targetList(moveSelection.request.activePokemon)
         open val response: MoveActionResponse get() = MoveActionResponse(move.id, targetPnx)

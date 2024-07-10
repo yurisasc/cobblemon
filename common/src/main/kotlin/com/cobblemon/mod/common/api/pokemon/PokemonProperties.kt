@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.api.types.tera.elemental.ElementalTypeTeraType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -115,7 +116,7 @@ open class PokemonProperties {
             props.ability = parseStringOfRegistry(keyPairs, listOf("ability")) { Abilities.get(it)?.name }
             props.status = parseStringOfRegistry(keyPairs, listOf("status")) { (Statuses.getStatus(it) ?: Statuses.getStatus(it.asIdentifierDefaultingNamespace()))?.showdownName }
             props.nickname = parseText(keyPairs, listOf("nickname", "nick"))
-            props.type = parseStringOfRegistry(keyPairs, listOf("type", "elemental_type")) { ElementalTypes.get(it)?.name }
+            props.type = parseIdentifierOfRegistry(keyPairs, listOf("type", "elemental_type")) { if (CobblemonRegistries.ELEMENTAL_TYPE.containsKey(it)) it.simplify() else null }
             props.teraType = parseIdentifierOfRegistry(keyPairs, listOf("tera_type", "tera")) { TeraTypes.get(it)?.id?.simplify() }
             props.dmaxLevel = parseIntProperty(keyPairs, listOf("dmax_level", "dmax"))?.coerceIn(0, Cobblemon.config.maxDynamaxLevel)
             props.gmaxFactor = parseBooleanProperty(keyPairs, listOf("gmax_factor", "gmax"))
@@ -436,7 +437,7 @@ open class PokemonProperties {
         evs?.forEach{ stat ->
             if (stat.value != pokemon.evs[stat.key]) { return false }
         }
-        type?.takeIf { pokemon.types.none { type -> type.name.equals(it, true) } }?.let { return false }
+        type?.takeIf { pokemon.types.none { type -> type.resourceLocation() == it.asIdentifierDefaultingNamespace()} }?.let { return false }
         teraType?.takeIf { it.asIdentifierDefaultingNamespace() != pokemon.teraType.id }?.let { return false }
         dmaxLevel?.takeIf { it != pokemon.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != pokemon.gmaxFactor }?.let { return false }

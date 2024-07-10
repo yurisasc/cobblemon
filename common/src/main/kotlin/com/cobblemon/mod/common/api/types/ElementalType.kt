@@ -8,34 +8,67 @@
 
 package com.cobblemon.mod.common.api.types
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.util.codec.CodecUtils
+import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
+import com.cobblemon.mod.common.api.registry.RegistryElement
+import com.cobblemon.mod.common.api.resistance.Resistance
+import com.cobblemon.mod.common.api.resistance.Resistible
+import com.cobblemon.mod.common.api.resistance.registry.ResistibleType
+import com.cobblemon.mod.common.api.resistance.registry.ResistibleTypes
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.mojang.serialization.Codec
-import net.minecraft.network.chat.MutableComponent
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.Registry
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.ComponentSerialization
+import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.TagKey
+import net.minecraft.util.ColorRGBA
 
-/**
- * Class representing a type of a Pokemon or Move
- *
- * @param name: The English name used to load / find it (spaces -> _)
- * @param displayName: A Component used to display the name, normally a TranslatableText
- * @param textureXMultiplier: The multiplier by which the TypeWidget shall move the display
- * @param resourceLocation: The location of the resource used in the TypeWidget
- */
 class ElementalType(
-    val name: String,
-    val displayName: MutableComponent,
-    val hue: Int,
+    val displayName: Component,
+    val color: ColorRGBA,
     val textureXMultiplier: Int,
-    val resourceLocation: ResourceLocation = ResourceLocation.fromNamespaceAndPath(Cobblemon.MODID, "ui/types.png")
-) {
+    val texture: ResourceLocation,
+    val damageTaken: Map<out Resistible, Resistance>
+) : RegistryElement<ElementalType>, ShowdownIdentifiable, Resistible {
+
+    // TODO: Remove me later
+    val name: String get() = this.resourceLocation().path
+
+    override fun registry(): Registry<ElementalType> = CobblemonRegistries.ELEMENTAL_TYPE
+
+    override fun resourceKey(): ResourceKey<ElementalType> = this.registry().getResourceKey(this)
+        .orElseThrow { IllegalStateException("Unregistered ElementalType") }
+
+    override fun isTaggedBy(tag: TagKey<ElementalType>): Boolean = this.registry()
+        .getHolder(this.resourceKey())
+        .orElseThrow { IllegalStateException("Unregistered ElementalType") }
+        .`is`(tag)
+
+    override fun showdownId(): String {
+        return ShowdownIdentifiable.REGEX.replace(this.resourceLocation().toString().lowercase(), "")
+    }
+
+    override fun resistanceTo(other: Resistible): Resistance {
+        return this.damageTaken[other] ?: Resistance.NEUTRAL
+    }
+
+    override fun resistibleType(): ResistibleType<*> = ResistibleTypes.ELEMENTAL_TYPE
 
     companion object {
         @JvmStatic
-        val BY_STRING_CODEC: Codec<ElementalType> = CodecUtils.createByStringCodec(
-            ElementalTypes::get,
-            ElementalType::name
-        ) { id -> "No ElementalType for ID $id" }
+        val CODEC: Codec<ElementalType> = RecordCodecBuilder.create { instance ->
+            instance.group(
+                ComponentSerialization.CODEC.fieldOf("displayName").forGetter(ElementalType::displayName),
+                ColorRGBA.CODEC.fieldOf("color").forGetter(ElementalType::color),
+                Codec.INT.fieldOf("textureXMultiplier").forGetter(ElementalType::textureXMultiplier),
+                ResourceLocation.CODEC.fieldOf("texture").forGetter(ElementalType::texture),
+                Codec.unboundedMap(ResistibleType.codec(), Resistance.CODEC)
+                    .fieldOf("damageTaken")
+                    .forGetter { it.damageTaken.toMutableMap() }
+            ).apply(instance, ::ElementalType)
+        }
     }
 
 }

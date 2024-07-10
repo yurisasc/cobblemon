@@ -87,7 +87,6 @@ import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.netty.buffer.ByteBuf
-import net.minecraft.ResourceLocationException
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -95,7 +94,6 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.world.InteractionHand
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.*
 import net.minecraft.network.chat.contents.PlainTextContents
@@ -1465,6 +1463,15 @@ open class Pokemon : ShowdownIdentifiable {
             struct.setDirectly("stat_${stat.showdownId}", DoubleValue(getStat(stat).toDouble()))
         }
     }
+
+    /**
+     * Resolves the [ElementalType] of the move 'Hidden Power'.
+     *
+     * This doesn't guarantee the move itself is loaded.
+     *
+     * @return The [ElementalType] for 'Hidden Power'.
+     */
+    open fun hiddenPowerType(): ElementalType = Cobblemon.hiddenPowerCalculator.calculate(this)
 
     private fun findAndLearnFormChangeMoves() {
         this.form.moves.formChangeMoves.forEach { move ->

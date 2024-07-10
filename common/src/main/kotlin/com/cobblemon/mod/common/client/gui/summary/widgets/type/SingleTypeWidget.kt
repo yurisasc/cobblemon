@@ -18,7 +18,7 @@ class SingleTypeWidget(
     pWidth: Int, pHeight: Int,
     private val type: ElementalType,
     private val renderText: Boolean = true
-) : TypeWidget(pX, pY, pWidth, pHeight, Component.literal("SingleTypeWidget - ${type.name}")) {
+) : TypeWidget(pX, pY, pWidth, pHeight, Component.literal("SingleTypeWidget - ").append(type.displayName)) {
 
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val matrices = context.pose()
@@ -31,7 +31,7 @@ class SingleTypeWidget(
             matrices.pushPose()
             drawScaledText(
                 context = context,
-                text = type.displayName,
+                text = type.displayName.copy(),
                 x = x + 35.5F, y = y + 3F,
                 colour = ColourLibrary.WHITE, shadow = false,
                 centered = true,

@@ -1,0 +1,9 @@
+{
+  "displayName": {
+    "translate": "cobblemon.type.electric"
+  },
+  "color": "#ffefd128",
+  "textureXMultiplier": 4,
+  "texture": "cobblemon:ui/types.png",
+  "damageTaken": {}
+}

@@ -1,0 +1,9 @@
+{
+  "displayName": {
+    "translate": "cobblemon.type.bug"
+  },
+  "color": "#ffa2c831",
+  "textureXMultiplier": 11,
+  "texture": "cobblemon:ui/types.png",
+  "damageTaken": {}
+}

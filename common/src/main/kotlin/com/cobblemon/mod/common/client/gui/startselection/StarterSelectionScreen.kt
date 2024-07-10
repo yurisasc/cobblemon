@@ -213,7 +213,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
             width = BASE_WIDTH, height = BASE_HEIGHT
         )
         // Render Frame
-        val (r, g, b) = currentPokemon.form.primaryType.hue.toRGB()
+        val (r, g, b) = currentPokemon.form.primaryType.color.rgba.toRGB()
         blitk(
             matrixStack = matrices,
             texture = baseFrame,

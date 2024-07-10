@@ -25,9 +25,9 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.trade.ActiveTrade
 import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
@@ -64,7 +64,8 @@ object TestCommand {
         }
 
         try {
-            this.testCodecOutput(context)
+            this.testCustomRegistry(context)
+            //this.testCodecOutput(context)
             /*
             val player = context.source.entity as ServerPlayer
             val npc = NPCEntity(player.level())
@@ -402,11 +403,31 @@ object TestCommand {
         val pokemon = context.source.playerOrException.party().get(0) ?: Pokemon()
         pokemon.nickname = pokemon.species.translatedName
             .withStyle {
-                it.withColor(pokemon.form.primaryType.hue)
+                it.withColor(pokemon.form.primaryType.color.rgba)
                     .withBold(true)
             }
         val jsonElement = Pokemon.CODEC.encodeStart(JsonOps.INSTANCE, pokemon).orThrow
         context.source.sendSystemMessage(Component.literal(jsonElement.toString()))
+    }
+
+    private fun testCustomRegistry(context: CommandContext<CommandSourceStack>) {
+        CobblemonRegistries.ELEMENTAL_TYPE.entrySet().forEach { (key, type) ->
+            context.source.sendSystemMessage(Component.literal("${key.location()} » $type"))
+        }
+        /*
+        val root = File("elemental_type")
+        root.mkdirs()
+        val gson = GsonBuilder()
+            .setPrettyPrinting()
+            .disableHtmlEscaping()
+            .create()
+        ElementalTypes.all().forEach { type ->
+            val file = File(root, "${type.name.lowercase()}.json")
+            ElementalType.CODEC.encodeStart(JsonOps.INSTANCE, type).ifSuccess { result ->
+                file.bufferedWriter().use { it.write(gson.toJson(result)) }
+            }
+        }
+         */
     }
 
 }

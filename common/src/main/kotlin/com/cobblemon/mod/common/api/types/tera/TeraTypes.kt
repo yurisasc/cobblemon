@@ -119,7 +119,7 @@ object TeraTypes : Iterable<TeraType> {
      * @return The associated [TeraType].
      */
     @JvmStatic
-    fun forElementalType(type: ElementalType): TeraType = this.get(cobblemonResource(type.name))!! // it's safe to do
+    fun forElementalType(type: ElementalType): TeraType = this.get(type.resourceLocation())!! // it's safe to do
 
     private fun create(id: ResourceLocation, type: TeraType): TeraType {
         this.types[id] = type

@@ -1,0 +1,9 @@
+{
+  "displayName": {
+    "translate": "cobblemon.type.psychic"
+  },
+  "color": "#ffd86ad6",
+  "textureXMultiplier": 10,
+  "texture": "cobblemon:ui/types.png",
+  "damageTaken": {}
+}

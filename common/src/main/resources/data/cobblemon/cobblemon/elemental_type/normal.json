@@ -1,0 +1,9 @@
+{
+  "displayName": {
+    "translate": "cobblemon.type.normal"
+  },
+  "color": "#ffddddcf",
+  "textureXMultiplier": 0,
+  "texture": "cobblemon:ui/types.png",
+  "damageTaken": {}
+}

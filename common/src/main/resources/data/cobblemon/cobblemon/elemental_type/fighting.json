@@ -1,0 +1,9 @@
+{
+  "displayName": {
+    "translate": "cobblemon.type.fighting"
+  },
+  "color": "#ffc44c5c",
+  "textureXMultiplier": 6,
+  "texture": "cobblemon:ui/types.png",
+  "damageTaken": {}
+}

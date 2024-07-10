@@ -11,7 +11,9 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.mojang.brigadier.arguments.ArgumentType
+import com.mojang.serialization.Codec
 import net.minecraft.commands.synchronization.ArgumentTypeInfo
+import net.minecraft.core.Registry
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
@@ -189,6 +191,25 @@ interface CobblemonImplementation {
      * @param activationBehaviour The [ResourcePackActivationBehaviour] for this pack.
      */
     fun registerBuiltinResourcePack(id: ResourceLocation, title: Component, activationBehaviour: ResourcePackActivationBehaviour)
+
+    /**
+     * Creates a built-in registry.
+     *
+     * @param T The type of the registry elements.
+     * @param key The [ResourceKey] of this registry.
+     * @param sync If this registry should be synced.
+     */
+    fun <T> registerBuiltInRegistry(key: ResourceKey<Registry<T>>, sync: Boolean)
+
+    /**
+     * Creates a dynamic registry.
+     *
+     * @param T The type of the registry elements.
+     * @param key The [ResourceKey] of this registry.
+     * @param elementCodec The [Codec] used to decode elements of the registry.
+     * @param networkCodec The [Codec] used to send elements of the registry to the client, if null this registry is not synced.
+     */
+    fun <T> registerDynamicRegistry(key: ResourceKey<Registry<T>>, elementCodec: Codec<T>, networkCodec: Codec<T>? = elementCodec)
 
 }
 

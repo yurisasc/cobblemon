@@ -10,20 +10,28 @@ package com.cobblemon.mod.common.api.types.adapters
 
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.registry.CobblemonRegistries
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
+import net.minecraft.resources.ResourceKey
 import java.lang.reflect.Type
 
 object ElementalTypeAdapter: JsonSerializer<ElementalType>, JsonDeserializer<ElementalType> {
     override fun serialize(src: ElementalType, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
-        return JsonPrimitive(src.name)
+        return JsonPrimitive(src.resourceLocation().toString())
     }
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): ElementalType {
-        return ElementalTypes.getOrException(json.asString)
+        return CobblemonRegistries.ELEMENTAL_TYPE.getOrThrow(
+            ResourceKey.create(
+                CobblemonRegistries.ELEMENTAL_TYPE_KEY,
+                json.asString.asIdentifierDefaultingNamespace()
+            )
+        )
     }
 }

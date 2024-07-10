@@ -70,7 +70,7 @@ class MoveSlotWidget(
         isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
 
         val moveTemplate = Moves.getByNameOrDummy(move.name)
-        val rgb = moveTemplate.elementalType.hue.toRGB()
+        val rgb = moveTemplate.elementalType.color.rgba.toRGB()
 
         if (movesWidget.selectedMove == move) {
             blitk(

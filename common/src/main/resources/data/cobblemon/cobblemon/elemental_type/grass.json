@@ -1,0 +1,9 @@
+{
+  "displayName": {
+    "translate": "cobblemon.type.grass"
+  },
+  "color": "#ff4dbc3c",
+  "textureXMultiplier": 3,
+  "texture": "cobblemon:ui/types.png",
+  "damageTaken": {}
+}

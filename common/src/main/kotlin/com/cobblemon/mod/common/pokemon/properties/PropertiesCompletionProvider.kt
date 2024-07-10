@@ -23,6 +23,7 @@ import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionReg
 import com.cobblemon.mod.common.pokemon.EVs
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.IVs
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.simplify
@@ -141,7 +142,7 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("ability"), Abilities.all().map { if (it.name.asIdentifierDefaultingNamespace().namespace == Cobblemon.MODID) it.name.asIdentifierDefaultingNamespace().path else it.name })
         this.inject(setOf("dmax"), setOf("0", Cobblemon.config.maxDynamaxLevel.toString()))
         this.inject(setOf("gmax"), setOf("yes", "no"))
-        this.inject(setOf("type", "elemental_type"), ElementalTypes.all().map { it.name })
+        this.inject(setOf("type", "elemental_type"), CobblemonRegistries.ELEMENTAL_TYPE.entrySet().map { it.key.location().simplify() })
         this.inject(setOf("tera_type", "tera"), TeraTypes.map { it.id.simplify() })
         this.inject(setOf("tradeable"), setOf("yes", "no"))
         this.inject(setOf("originaltrainer", "ot"), setOf(""))

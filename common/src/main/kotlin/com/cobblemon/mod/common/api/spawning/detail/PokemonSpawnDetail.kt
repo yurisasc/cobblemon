@@ -74,8 +74,8 @@ class PokemonSpawnDetail : SpawnDetail() {
             val species = PokemonSpecies.getByIdentifier(pokemon.species!!.asIdentifierDefaultingNamespace())
             if (species != null) {
                 labels.addAll(
-                    species.secondaryType?.let { listOf(species.primaryType.name.lowercase(), it.name.lowercase()) }
-                    ?: listOf(species.primaryType.name.lowercase())
+                    species.secondaryType?.let { listOf(species.primaryType.resourceLocation().toString(), it.resourceLocation().toString()) }
+                    ?: listOf(species.primaryType.resourceLocation().toString())
                 )
 
                 if (height == -1) {

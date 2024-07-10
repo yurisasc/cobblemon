@@ -1,0 +1,9 @@
+{
+  "displayName": {
+    "translate": "cobblemon.type.water"
+  },
+  "color": "#ff4a9be8",
+  "textureXMultiplier": 2,
+  "texture": "cobblemon:ui/types.png",
+  "damageTaken": {}
+}

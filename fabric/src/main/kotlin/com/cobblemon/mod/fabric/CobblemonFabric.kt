@@ -38,6 +38,7 @@ import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProc
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import com.mojang.brigadier.arguments.ArgumentType
+import com.mojang.serialization.Codec
 import java.io.File
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutionException
@@ -55,6 +56,9 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder
+import net.fabricmc.fabric.api.event.registry.RegistryAttribute
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries
@@ -293,6 +297,26 @@ object CobblemonFabric : CobblemonImplementation {
 
     override fun registerResourceReloader(identifier: ResourceLocation, reloader: PreparableReloadListener, type: PackType, dependencies: Collection<ResourceLocation>) {
         ResourceManagerHelper.get(type).registerReloadListener(CobblemonReloadListener(identifier, reloader, dependencies))
+    }
+
+    override fun <T> registerBuiltInRegistry(key: ResourceKey<Registry<T>>, sync: Boolean) {
+        val builder = FabricRegistryBuilder.createSimple(key)
+        if (sync) {
+            builder.attribute(RegistryAttribute.SYNCED)
+        }
+        builder.buildAndRegister()
+    }
+
+    override fun <T> registerDynamicRegistry(
+        key: ResourceKey<Registry<T>>,
+        elementCodec: Codec<T>,
+        networkCodec: Codec<T>?
+    ) {
+        if (networkCodec != null) {
+            DynamicRegistries.registerSynced(key, elementCodec, networkCodec)
+        } else {
+            DynamicRegistries.register(key, elementCodec)
+        }
     }
 
     override fun server(): MinecraftServer? = if (this.environment() == Environment.CLIENT) Minecraft.getInstance().singleplayerServer else this.server

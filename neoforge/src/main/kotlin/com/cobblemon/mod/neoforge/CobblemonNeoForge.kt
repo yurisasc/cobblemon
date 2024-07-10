@@ -37,8 +37,10 @@ import com.cobblemon.mod.neoforge.net.CobblemonNeoForgeNetworkManager
 import com.cobblemon.mod.neoforge.permission.ForgePermissionValidator
 import com.cobblemon.mod.neoforge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
+import com.mojang.serialization.Codec
 import net.minecraft.commands.synchronization.ArgumentTypeInfo
 import net.minecraft.commands.synchronization.ArgumentTypeInfos
+import net.minecraft.core.Registry
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.ExecutionException
@@ -89,9 +91,11 @@ import net.neoforged.neoforge.event.level.BlockEvent
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent
 import net.neoforged.neoforge.event.village.VillagerTradesEvent
 import net.neoforged.neoforge.event.village.WandererTradesEvent
+import net.neoforged.neoforge.registries.DataPackRegistryEvent
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
 import net.neoforged.neoforge.registries.RegisterEvent
+import net.neoforged.neoforge.registries.RegistryBuilder
 import net.neoforged.neoforge.server.ServerLifecycleHooks
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
@@ -409,6 +413,22 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerBuiltinResourcePack(id: ResourceLocation, title: Component, activationBehaviour: ResourcePackActivationBehaviour) {
         this.queuedBuiltinResourcePacks += Triple(id, title, activationBehaviour)
+    }
+
+    override fun <T> registerBuiltInRegistry(key: ResourceKey<Registry<T>>, sync: Boolean) {
+        RegistryBuilder(key)
+            .sync(sync)
+            .create()
+    }
+
+    override fun <T> registerDynamicRegistry(
+        key: ResourceKey<Registry<T>>,
+        elementCodec: Codec<T>,
+        networkCodec: Codec<T>?
+    ) {
+        MOD_BUS.addListener<DataPackRegistryEvent.NewRegistry> { event ->
+            event.dataPackRegistry(key, elementCodec, networkCodec)
+        }
     }
 
     //TODO: I dont really know wtf is happening here, someone needs to check

@@ -1,0 +1,9 @@
+{
+  "displayName": {
+    "translate": "cobblemon.type.ghost"
+  },
+  "color": "#ff9572e5",
+  "textureXMultiplier": 13,
+  "texture": "cobblemon:ui/types.png",
+  "damageTaken": {}
+}

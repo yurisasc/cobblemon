@@ -1,0 +1,9 @@
+{
+  "displayName": {
+    "translate": "cobblemon.type.fairy"
+  },
+  "color": "#ffea727e",
+  "textureXMultiplier": 17,
+  "texture": "cobblemon:ui/types.png",
+  "damageTaken": {}
+}

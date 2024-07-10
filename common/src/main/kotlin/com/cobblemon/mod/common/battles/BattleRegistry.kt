@@ -130,8 +130,8 @@ object BattleRegistry {
             // This is safe to do as all our pokeballs that have showdown item equivalents are the same IDs they use for the pokeball attribute
             val pokeball = pokemon.effectedPokemon.caughtBall.name.path.replace("_", "")
             packedTeamBuilder.append("$pokeball,")
-            // Hidden Power Type
-            packedTeamBuilder.append(",")
+            // Hidden Power Type Always sent over from our side, our showdown has edits to not validate
+            packedTeamBuilder.append("${pk.hiddenPowerType().showdownId()},")
             // Gigantamax
             packedTeamBuilder.append("${if (pk.gmaxFactor) "G" else ""},")
             // DynamaxLevel

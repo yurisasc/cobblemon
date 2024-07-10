@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "cobblemon:bug",
+    "cobblemon:dark",
+    "cobblemon:dragon",
+    "cobblemon:electric",
+    "cobblemon:fighting",
+    "cobblemon:fire",
+    "cobblemon:flying",
+    "cobblemon:ghost",
+    "cobblemon:grass",
+    "cobblemon:ground",
+    "cobblemon:ice",
+    "cobblemon:normal",
+    "cobblemon:poison",
+    "cobblemon:psychic",
+    "cobblemon:rock",
+    "cobblemon:steel",
+    "cobblemon:water"
+  ]
+}
