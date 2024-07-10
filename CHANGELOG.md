@@ -1,9 +1,11 @@
+# Changelog
 ## [1.6.0 - The Bass Pro Fishing Update (Month Xth, 2024)](#1-6-0)
 #### "Now that there's a fishing mechanic, the mod is actually good!"
 ### Fixes
 - Fixed trading Pokémon setting their friendsip to 0 instead of the base value.
 - Fixed a scenario where a Pokémon that rolled to spawn with a special Tera type sometimes has a Tera type that is already a part of their natural typing.
 - Fixed PokemonProperty argument suggestions for ``tera`` and ``tera_type`` not suggesting ``stellar``.
+- Fixed being able to stack Relic Coin Pouches on top of each other.
 
 ### Additions
 - Added Pokémon (and item) fishing using modified fishing rods - Poké Rods! You'll need a Poké Rod smithing template, a fishing rod, and some type of Poké Ball. Each Poké Ball makes a differently themed rod. Why not?
