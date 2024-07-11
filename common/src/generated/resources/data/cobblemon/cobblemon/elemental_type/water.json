@@ -1,0 +1,52 @@
+{
+  "color": "#004A9BE8",
+  "damageTaken": [
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:eletric"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:fire"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:grass"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:ice"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:steel"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:water"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    }
+  ],
+  "displayName": {
+    "translate": "cobblemon.type.water"
+  },
+  "texture": "cobblemon:ui/types.png",
+  "textureXMultiplier": 2
+}

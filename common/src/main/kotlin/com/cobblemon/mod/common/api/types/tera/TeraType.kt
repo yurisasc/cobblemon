@@ -9,10 +9,13 @@
 package com.cobblemon.mod.common.api.types.tera
 
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
-import com.cobblemon.mod.common.util.codec.CodecUtils
+import com.cobblemon.mod.common.api.registry.RegistryElement
+import com.cobblemon.mod.common.api.resistance.Resistible
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
+import java.util.function.Function
 
 /**
  * The representation of the Pokémons Tera type.
@@ -20,29 +23,23 @@ import net.minecraft.resources.ResourceLocation
  * @see [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Terastal_phenomenon)
  *
  */
-interface TeraType : ShowdownIdentifiable {
-
-    /**
-     * The [ResourceLocation] associated to this type.
-     */
-    val id: ResourceLocation
-
-    /**
-     * If this tera type can be selected naturally.
-     */
-    val legalAsStatic: Boolean
+interface TeraType : RegistryElement<TeraType>, ShowdownIdentifiable, Resistible {
 
     /**
      * The display name of this type.
      */
-    val displayName: Component
+    fun displayName(): Component
+
+    fun codec(): Codec<out TeraType>
+
+    fun mapCodec(): MapCodec<out TeraType>
 
     companion object {
+
         @JvmStatic
-        val BY_IDENTIFIER_CODEC: Codec<TeraType> = CodecUtils.createByIdentifierCodec(
-            TeraTypes::get,
-            TeraType::id
-        ) { identifier -> "No TeraType for ID $identifier" }
+        val CODEC: Codec<TeraType> get() = CobblemonRegistries.TERA_TYPE
+            .byNameCodec()
+            .dispatch(Function.identity(), TeraType::mapCodec)
     }
 
 }

@@ -59,12 +59,6 @@ object CobblemonElementalTypeTags {
     val FIRE_IMMUNE = this.create("immunity/fire")
 
     /**
-     * Types present here do not take lava damage.
-     */
-    @JvmStatic
-    val LAVA_IMMUNE = this.create("immunity/lava")
-
-    /**
      * Types present here do not take thunder damage.
      */
     @JvmStatic

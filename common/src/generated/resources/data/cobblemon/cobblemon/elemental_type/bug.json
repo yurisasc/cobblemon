@@ -1,0 +1,52 @@
+{
+  "color": "#00A2C831",
+  "damageTaken": [
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:fighting"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:fire"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:flying"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:grass"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:ground"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:rock"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    }
+  ],
+  "displayName": {
+    "translate": "cobblemon.type.bug"
+  },
+  "texture": "cobblemon:ui/types.png",
+  "textureXMultiplier": 11
+}

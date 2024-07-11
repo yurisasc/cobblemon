@@ -1,0 +1,59 @@
+{
+  "color": "#00535DE8",
+  "damageTaken": [
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:dragon"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:eletric"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:fairy"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:fire"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:grass"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:ice"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:water"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    }
+  ],
+  "displayName": {
+    "translate": "cobblemon.type.dragon"
+  },
+  "texture": "cobblemon:ui/types.png",
+  "textureXMultiplier": 14
+}

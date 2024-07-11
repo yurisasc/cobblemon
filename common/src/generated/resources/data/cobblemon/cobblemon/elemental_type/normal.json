@@ -1,0 +1,24 @@
+{
+  "color": "#00DDDDCF",
+  "damageTaken": [
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:fighting"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:ghost"
+      },
+      "resistance": "IMMUNE"
+    }
+  ],
+  "displayName": {
+    "translate": "cobblemon.type.normal"
+  },
+  "texture": "cobblemon:ui/types.png",
+  "textureXMultiplier": 0
+}

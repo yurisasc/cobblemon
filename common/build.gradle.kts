@@ -93,5 +93,16 @@ sourceSets {
                 property("timestamp", OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss")) + " UTC")
             }
         }
+
+        resources {
+            srcDir("src/generated/resources")
+        }
+    }
+}
+
+tasks {
+    processResources {
+        // Exclude datagenerator .cache directory
+        exclude(".cache")
     }
 }

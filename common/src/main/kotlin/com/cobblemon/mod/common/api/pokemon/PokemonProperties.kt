@@ -19,9 +19,9 @@ import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
-import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.api.tags.CobblemonTeraTypeTags
 import com.cobblemon.mod.common.api.types.tera.TeraTypes
-import com.cobblemon.mod.common.api.types.tera.elemental.ElementalTypeTeraType
+import com.cobblemon.mod.common.api.types.tera.ElementalTypeTeraType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
@@ -39,6 +39,7 @@ import net.minecraft.nbt.Tag
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.RandomSource
 import net.minecraft.world.level.Level
 import java.util.*
 import kotlin.random.Random
@@ -117,7 +118,7 @@ open class PokemonProperties {
             props.status = parseStringOfRegistry(keyPairs, listOf("status")) { (Statuses.getStatus(it) ?: Statuses.getStatus(it.asIdentifierDefaultingNamespace()))?.showdownName }
             props.nickname = parseText(keyPairs, listOf("nickname", "nick"))
             props.type = parseIdentifierOfRegistry(keyPairs, listOf("type", "elemental_type")) { if (CobblemonRegistries.ELEMENTAL_TYPE.containsKey(it)) it.simplify() else null }
-            props.teraType = parseIdentifierOfRegistry(keyPairs, listOf("tera_type", "tera")) { TeraTypes.get(it)?.id?.simplify() }
+            props.teraType = parseIdentifierOfRegistry(keyPairs, listOf("tera_type", "tera")) { if (CobblemonRegistries.TERA_TYPE.containsKey(it)) it.simplify() else null }
             props.dmaxLevel = parseIntProperty(keyPairs, listOf("dmax_level", "dmax"))?.coerceIn(0, Cobblemon.config.maxDynamaxLevel)
             props.gmaxFactor = parseBooleanProperty(keyPairs, listOf("gmax_factor", "gmax"))
             props.tradeable = parseBooleanProperty(keyPairs, listOf("tradeable", "tradable"))
@@ -437,8 +438,8 @@ open class PokemonProperties {
         evs?.forEach{ stat ->
             if (stat.value != pokemon.evs[stat.key]) { return false }
         }
-        type?.takeIf { pokemon.types.none { type -> type.resourceLocation() == it.asIdentifierDefaultingNamespace()} }?.let { return false }
-        teraType?.takeIf { it.asIdentifierDefaultingNamespace() != pokemon.teraType.id }?.let { return false }
+        type?.takeIf { pokemon.types.none { type -> type.resourceLocation() == it.asIdentifierDefaultingNamespace() } }?.let { return false }
+        teraType?.takeIf { pokemon.teraType.resourceLocation() != it.asIdentifierDefaultingNamespace() }?.let { return false }
         dmaxLevel?.takeIf { it != pokemon.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != pokemon.gmaxFactor }?.let { return false }
         tradeable?.takeIf { it != pokemon.tradeable }?.let { return false }
@@ -509,14 +510,10 @@ open class PokemonProperties {
         val baseTypes = pokemon.form.types.toList()
         if (this.shiny == null) pokemon.shiny = Cobblemon.config.shinyRate.checkRate()
         if (this.teraType == null) pokemon.teraType =
-            if (Cobblemon.config.teraTypeRate.checkRate()) {
-                var picked = TeraTypes.random(true)
-                while (picked is ElementalTypeTeraType && picked.type in pokemon.types) {
-                    picked = TeraTypes.random(true)
-                }
-                picked
-            }
-            else TeraTypes.forElementalType(baseTypes.random())
+            if (Cobblemon.config.teraTypeRate.checkRate())
+                CobblemonRegistries.TERA_TYPE.getRandomElementOf(CobblemonTeraTypeTags.LEGAL_AS_STATIC, RandomSource.create()).get().value()
+            else
+                TeraTypes.forElementalType(baseTypes.random())
     }
 
     fun createEntity(world: Level): PokemonEntity {

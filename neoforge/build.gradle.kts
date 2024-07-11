@@ -82,6 +82,9 @@ tasks {
                 "minecraft_version" to rootProject.property("mc_version").toString()
             )
         }
+
+        // Exclude datagenerator .cache directory
+        exclude(".cache")
     }
 }
 

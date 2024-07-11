@@ -27,6 +27,9 @@
     ],
     "dynamiclights": [
       "com.cobblemon.mod.fabric.compat.lambdynamiclights.LambDynamicLightsCompatEntrypoint"
+    ],
+    "fabric-datagen": [
+      "com.cobblemon.mod.fabric.data.CobblemonFabricDataGeneratorEntrypoint"
     ]
   },
   "mixins": [

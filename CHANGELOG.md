@@ -19,7 +19,6 @@
 - Added "forcedAspects" to Pokemon to make it easier to easily add basic aspects to a Pokémon in a way that persists. We already know that everyone is going to overuse this.
 - Made the Pokemon.aspects setter private. This could technically break sidemods but if you are affected by this then you were using it wrong! Use Pokemon.forcedAspects to fix it.
 - Many types related to ``Pokemon`` including itself now have dedicated ``Codec``, please migrate to them from the NBT/JSON/PacketBuffer write/read methods.
-- ``TeraTypes`` now implements ``Iterable``.
 - Added ``CobblemonRegistries`` for all the new proper registry implementations, these will be done in waves and introduced gradually.
 - Added ``CobblemonElementalTypeTags``, contains all our default tags for the ``cobblemon:elemental_type`` registry.
 - Added ``CobblemonStatusTags``, contains all our default tags for the ``cobblemon:status`` registry.

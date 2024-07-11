@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.datafixer.fix
 
-import com.cobblemon.mod.common.api.types.tera.gimmick.StellarTeraType
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.datafixers.schemas.Schema
@@ -36,7 +35,7 @@ class TeraTypeFix(outputSchema: Schema) : PokemonFix(outputSchema) {
         "dark" to cobblemonResource("dark"),
         "steel" to cobblemonResource("steel"),
         "fairy" to cobblemonResource("fairy"),
-        StellarTeraType.ID.path to StellarTeraType.ID
+        "stellar" to cobblemonResource("stellar")
     )
 
     override fun fixPokemonData(dynamic: Dynamic<*>): Dynamic<*> {

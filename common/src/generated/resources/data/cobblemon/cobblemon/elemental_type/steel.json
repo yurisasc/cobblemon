@@ -1,0 +1,115 @@
+{
+  "color": "#00C3CCE0",
+  "damageTaken": [
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:bug"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:dragon"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:fairy"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:fighting"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:fire"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:flying"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:grass"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:ground"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:ice"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:name"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:poison"
+      },
+      "resistance": "IMMUNE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:psychic"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:rock"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:steel"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:showdown_condition",
+        "conditionId": "sandstorm"
+      },
+      "resistance": "IMMUNE"
+    }
+  ],
+  "displayName": {
+    "translate": "cobblemon.type.steel"
+  },
+  "texture": "cobblemon:ui/types.png",
+  "textureXMultiplier": 16
+}

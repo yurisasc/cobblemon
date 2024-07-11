@@ -9,14 +9,17 @@
 package com.cobblemon.mod.common.api.types
 
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
+import com.cobblemon.mod.common.api.effect.Effect
+import com.cobblemon.mod.common.api.effect.types.ElementalTypeEffect
 import com.cobblemon.mod.common.api.registry.RegistryElement
 import com.cobblemon.mod.common.api.resistance.Resistance
+import com.cobblemon.mod.common.api.resistance.ResistanceMap
 import com.cobblemon.mod.common.api.resistance.Resistible
-import com.cobblemon.mod.common.api.resistance.registry.ResistibleType
-import com.cobblemon.mod.common.api.resistance.registry.ResistibleTypes
 import com.cobblemon.mod.common.registry.CobblemonRegistries
+import com.cobblemon.mod.common.util.simplify
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.ComponentSerialization
@@ -30,7 +33,7 @@ class ElementalType(
     val color: ColorRGBA,
     val textureXMultiplier: Int,
     val texture: ResourceLocation,
-    val damageTaken: Map<out Resistible, Resistance>
+    val damageTaken: ResistanceMap
 ) : RegistryElement<ElementalType>, ShowdownIdentifiable, Resistible {
 
     // TODO: Remove me later
@@ -47,14 +50,14 @@ class ElementalType(
         .`is`(tag)
 
     override fun showdownId(): String {
-        return ShowdownIdentifiable.REGEX.replace(this.resourceLocation().toString().lowercase(), "")
+        return ShowdownIdentifiable.REGEX.replace(this.resourceLocation().simplify().lowercase(), "")
     }
 
-    override fun resistanceTo(other: Resistible): Resistance {
-        return this.damageTaken[other] ?: Resistance.NEUTRAL
+    override fun resistanceTo(effect: Effect): Resistance {
+        return this.damageTaken[effect] ?: Resistance.NEUTRAL
     }
 
-    override fun resistibleType(): ResistibleType<*> = ResistibleTypes.ELEMENTAL_TYPE
+    override fun asEffect(): Effect = ElementalTypeEffect(this.resourceKey())
 
     companion object {
         @JvmStatic
@@ -64,9 +67,7 @@ class ElementalType(
                 ColorRGBA.CODEC.fieldOf("color").forGetter(ElementalType::color),
                 Codec.INT.fieldOf("textureXMultiplier").forGetter(ElementalType::textureXMultiplier),
                 ResourceLocation.CODEC.fieldOf("texture").forGetter(ElementalType::texture),
-                Codec.unboundedMap(ResistibleType.codec(), Resistance.CODEC)
-                    .fieldOf("damageTaken")
-                    .forGetter { it.damageTaken.toMutableMap() }
+                ResistanceMap.CODEC.fieldOf("damageTaken").forGetter(ElementalType::damageTaken)
             ).apply(instance, ::ElementalType)
         }
     }

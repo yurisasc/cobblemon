@@ -1,0 +1,38 @@
+{
+  "color": "#00EFD128",
+  "damageTaken": [
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:eletric"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:flying"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:ground"
+      },
+      "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:elemental_type",
+        "typeId": "cobblemon:steel"
+      },
+      "resistance": "NOT_VERY_EFFECTIVE"
+    }
+  ],
+  "displayName": {
+    "translate": "cobblemon.type.electric"
+  },
+  "texture": "cobblemon:ui/types.png",
+  "textureXMultiplier": 4
+}

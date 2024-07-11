@@ -50,6 +50,7 @@ import com.cobblemon.mod.common.api.storage.StoreCoordinates
 import com.cobblemon.mod.common.api.storage.party.NPCPartyStore
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
+import com.cobblemon.mod.common.api.tags.CobblemonElementalTypeTags
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.tera.TeraType
@@ -555,7 +556,7 @@ open class Pokemon : ShowdownIdentifiable {
                         position.y.toInt() - 1,
                         position.z.toInt()
                     )
-                ) && this.species.types.all { it != ElementalTypes.WATER && it != ElementalTypes.FLYING }) {
+                ) && this.species.types.none { it.resourceKey() == ElementalTypes.WATER || it.resourceKey() == ElementalTypes.FLYING }) {
                 val boatType = Boat.Type.byName("bamboo")
                 // Create a new boat entity with the generic EntityType.BOAT
                 val raftEntity = Boat(level, position.x, position.y, position.z)
@@ -725,7 +726,7 @@ open class Pokemon : ShowdownIdentifiable {
     }
 
     fun isFireImmune(): Boolean {
-        return ElementalTypes.FIRE in types || !form.behaviour.moving.swim.hurtByLava
+        return this.types.any { it.isTaggedBy(CobblemonElementalTypeTags.FIRE_IMMUNE) } || !form.behaviour.moving.swim.hurtByLava
     }
 
     fun isPositionSafe(world: Level, pos: Vec3): Boolean {

@@ -8,91 +8,39 @@
 
 package com.cobblemon.mod.common.api.types.tera
 
+import com.cobblemon.mod.common.api.registry.CobblemonRegistry
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
-import com.cobblemon.mod.common.api.types.tera.elemental.ElementalTypeTeraType
-import com.cobblemon.mod.common.api.types.tera.gimmick.StellarTeraType
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.core.Registry
+import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 
 /**
  * The registry of all [TeraType]s.
  */
 @Suppress("unused")
-object TeraTypes : Iterable<TeraType> {
-    private val types = hashMapOf<ResourceLocation, TeraType>()
+object TeraTypes : CobblemonRegistry<TeraType>() {
 
-    @JvmStatic
-    val NORMAL = this.create(cobblemonResource("normal"), ElementalTypeTeraType(ElementalTypes.NORMAL))
-
-    @JvmStatic
-    val FIRE = this.create(cobblemonResource("fire"), ElementalTypeTeraType(ElementalTypes.FIRE))
-
-    @JvmStatic
-    val WATER = this.create(cobblemonResource("water"), ElementalTypeTeraType(ElementalTypes.WATER))
-
-    @JvmStatic
-    val GRASS = this.create(cobblemonResource("grass"), ElementalTypeTeraType(ElementalTypes.GRASS))
-
-    @JvmStatic
-    val ELECTRIC = this.create(cobblemonResource("electric"), ElementalTypeTeraType(ElementalTypes.ELECTRIC))
-
-    @JvmStatic
-    val ICE = this.create(cobblemonResource("ice"), ElementalTypeTeraType(ElementalTypes.ICE))
-
-    @JvmStatic
-    val FIGHTING = this.create(cobblemonResource("fighting"), ElementalTypeTeraType(ElementalTypes.FIGHTING))
-
-    @JvmStatic
-    val POISON = this.create(cobblemonResource("poison"), ElementalTypeTeraType(ElementalTypes.POISON))
-
-    @JvmStatic
-    val GROUND = this.create(cobblemonResource("ground"), ElementalTypeTeraType(ElementalTypes.GROUND))
-
-    @JvmStatic
-    val FLYING = this.create(cobblemonResource("flying"), ElementalTypeTeraType(ElementalTypes.FLYING))
-
-    @JvmStatic
-    val PSYCHIC = this.create(cobblemonResource("psychic"), ElementalTypeTeraType(ElementalTypes.PSYCHIC))
-
-    @JvmStatic
-    val BUG = this.create(cobblemonResource("bug"), ElementalTypeTeraType(ElementalTypes.BUG))
-
-    @JvmStatic
-    val ROCK = this.create(cobblemonResource("rock"), ElementalTypeTeraType(ElementalTypes.ROCK))
-
-    @JvmStatic
-    val GHOST = this.create(cobblemonResource("ghost"), ElementalTypeTeraType(ElementalTypes.GHOST))
-
-    @JvmStatic
-    val DRAGON = this.create(cobblemonResource("dragon"), ElementalTypeTeraType(ElementalTypes.DRAGON))
-
-    @JvmStatic
-    val DARK = this.create(cobblemonResource("dark"), ElementalTypeTeraType(ElementalTypes.DARK))
-
-    @JvmStatic
-    val STEEL = this.create(cobblemonResource("steel"), ElementalTypeTeraType(ElementalTypes.STEEL))
-
-    @JvmStatic
-    val FAIRY = this.create(cobblemonResource("fairy"), ElementalTypeTeraType(ElementalTypes.FAIRY))
-
-    @JvmStatic
-    val STELLAR = this.create(StellarTeraType.ID, StellarTeraType())
-
-    /**
-     * Pick a random [TeraType].
-     *
-     * @param legalOnly If [TeraType.legalAsStatic] should be respected.
-     * @return The selected [TeraType].
-     */
-    @JvmStatic
-    fun random(legalOnly: Boolean): TeraType {
-        val possible = this.types.values
-        if (legalOnly) {
-            return possible.filter(TeraType::legalAsStatic).random()
-        }
-        return possible.random()
-    }
+    @JvmStatic val NORMAL = this.key("normal")
+    @JvmStatic val FIRE = this.key("fire")
+    @JvmStatic val WATER = this.key("water")
+    @JvmStatic val GRASS = this.key("grass")
+    @JvmStatic val ELECTRIC = this.key("electric")
+    @JvmStatic val ICE = this.key("ice")
+    @JvmStatic val FIGHTING = this.key("fighting")
+    @JvmStatic val POISON = this.key("poison")
+    @JvmStatic val GROUND = this.key("ground")
+    @JvmStatic val FLYING = this.key("flying")
+    @JvmStatic val PSYCHIC = this.key("psychic")
+    @JvmStatic val BUG = this.key("bug")
+    @JvmStatic val ROCK = this.key("rock")
+    @JvmStatic val GHOST = this.key("ghost")
+    @JvmStatic val DRAGON = this.key("dragon")
+    @JvmStatic val DARK = this.key("dark")
+    @JvmStatic val STEEL = this.key("steel")
+    @JvmStatic val FAIRY = this.key("fairy")
+    @JvmStatic val STELLAR = this.key("stellar")
 
     /**
      * Gets a [TeraType] by its [id].
@@ -101,7 +49,8 @@ object TeraTypes : Iterable<TeraType> {
      * @return The found [TeraType] or null.
      */
     @JvmStatic
-    fun get(id: ResourceLocation): TeraType? = this.types[id]
+    fun get(id: ResourceLocation): TeraType? = CobblemonRegistries.TERA_TYPE
+        .get(id)
 
     /**
      * Gets a [TeraType] by its [id].
@@ -121,10 +70,7 @@ object TeraTypes : Iterable<TeraType> {
     @JvmStatic
     fun forElementalType(type: ElementalType): TeraType = this.get(type.resourceLocation())!! // it's safe to do
 
-    private fun create(id: ResourceLocation, type: TeraType): TeraType {
-        this.types[id] = type
-        return type
-    }
+    override fun registry(): Registry<TeraType> = CobblemonRegistries.TERA_TYPE
 
-    override fun iterator(): Iterator<TeraType> = this.types.values.iterator()
+    override fun registryKey(): ResourceKey<Registry<TeraType>> = CobblemonRegistries.TERA_TYPE_KEY
 }

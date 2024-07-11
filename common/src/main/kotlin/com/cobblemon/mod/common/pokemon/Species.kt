@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.codec.CodecUtils
 import com.cobblemon.mod.common.util.*
 import com.mojang.serialization.Codec
@@ -39,6 +40,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.RandomSource
 
 class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var name: String = "Bulbasaur"
@@ -61,7 +63,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         private set
     var experienceGroup = ExperienceGroups.first()
     var hitbox = EntityDimensions.fixed(1F, 1F)
-    var primaryType = ElementalTypes.GRASS
+    var primaryType: ElementalType = CobblemonRegistries.ELEMENTAL_TYPE.getRandom(RandomSource.create()).get().value()
         internal set
     var secondaryType: ElementalType? = null
         internal set

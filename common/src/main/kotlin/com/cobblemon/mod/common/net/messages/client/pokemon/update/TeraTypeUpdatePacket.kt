@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.api.types.tera.TeraType
 import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readIdentifier
 import com.cobblemon.mod.common.util.writeIdentifier
@@ -26,7 +27,7 @@ class TeraTypeUpdatePacket(pokemon: () -> Pokemon, value: TeraType) : SingleUpda
     override val id = ID
 
     override fun encodeValue(buffer: RegistryFriendlyByteBuf) {
-        buffer.writeIdentifier(value.id)
+        buffer.writeResourceKey(this.value.resourceKey())
     }
 
     override fun set(pokemon: Pokemon, value: TeraType) {
@@ -35,6 +36,10 @@ class TeraTypeUpdatePacket(pokemon: () -> Pokemon, value: TeraType) : SingleUpda
 
     companion object {
         val ID = cobblemonResource("tera_type_update")
-        fun decode(buffer: RegistryFriendlyByteBuf) = TeraTypeUpdatePacket(decodePokemon(buffer), TeraTypes.get(buffer.readIdentifier())!!)
+        fun decode(buffer: RegistryFriendlyByteBuf) = TeraTypeUpdatePacket(
+            decodePokemon(buffer),
+            buffer.registryAccess().registryOrThrow(CobblemonRegistries.TERA_TYPE_KEY)
+                .get(buffer.readResourceKey(CobblemonRegistries.TERA_TYPE_KEY))!!
+        )
     }
 }

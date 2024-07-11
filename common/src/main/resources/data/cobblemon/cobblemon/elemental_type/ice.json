@@ -1,9 +1,0 @@
-{
-  "displayName": {
-    "translate": "cobblemon.type.ice"
-  },
-  "color": "#ff6bc3ef",
-  "textureXMultiplier": 5,
-  "texture": "cobblemon:ui/types.png",
-  "damageTaken": {}
-}

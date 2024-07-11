@@ -8,51 +8,36 @@
 
 package com.cobblemon.mod.common.api.types
 
+import com.cobblemon.mod.common.api.registry.CobblemonRegistry
 import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import kotlin.jvm.optionals.getOrNull
 
 /**
  * Registry for all known ElementalTypes
  */
-object ElementalTypes {
+object ElementalTypes : CobblemonRegistry<ElementalType>() {
 
-    val NORMAL get() = this.getOrException("normal")
-
-    val FIRE get() = this.getOrException("fire")
-
-    val WATER get() = this.getOrException("water")
-
-    val GRASS get() = this.getOrException("grass")
-
-    val ELECTRIC get() = this.getOrException("eletric")
-
-    val ICE get() = this.getOrException("ice")
-
-    val FIGHTING get() = this.getOrException("fighting")
-
-    val POISON get() = this.getOrException("poison")
-
-    val GROUND get() = this.getOrException("ground")
-
-    val FLYING get() = this.getOrException("flying")
-
-    val PSYCHIC get() = this.getOrException("psychic")
-
-    val BUG get() = this.getOrException("bug")
-
-    val ROCK get() = this.getOrException("rock")
-
-    val GHOST get() = this.getOrException("ghost")
-
-    val DRAGON get() = this.getOrException("dragon")
-
-    val DARK get() = this.getOrException("dark")
-
-    val STEEL get() = this.getOrException("steel")
-
-    val FAIRY get() = this.getOrException("fairy")
+    @JvmStatic val NORMAL = this.key("name")
+    @JvmStatic val FIRE = this.key("fire")
+    @JvmStatic val WATER = this.key("water")
+    @JvmStatic val GRASS = this.key("grass")
+    @JvmStatic val ELECTRIC = this.key("eletric")
+    @JvmStatic val ICE = this.key("ice")
+    @JvmStatic val FIGHTING = this.key("fighting")
+    @JvmStatic val POISON = this.key("poison")
+    @JvmStatic val GROUND = this.key("ground")
+    @JvmStatic val FLYING = this.key("flying")
+    @JvmStatic val PSYCHIC = this.key("psychic")
+    @JvmStatic val BUG = this.key("bug")
+    @JvmStatic val ROCK = this.key("rock")
+    @JvmStatic val GHOST = this.key("ghost")
+    @JvmStatic val DRAGON = this.key("dragon")
+    @JvmStatic val DARK = this.key("dark")
+    @JvmStatic val STEEL = this.key("steel")
+    @JvmStatic val FAIRY = this.key("fairy")
 
     fun get(name: String): ElementalType? {
         return CobblemonRegistries.ELEMENTAL_TYPE.getHolder(
@@ -72,4 +57,8 @@ object ElementalTypes {
     fun count() = CobblemonRegistries.ELEMENTAL_TYPE.size()
 
     fun all() = CobblemonRegistries.ELEMENTAL_TYPE.entrySet().map { it.value }
+    
+    override fun registry(): Registry<ElementalType> = CobblemonRegistries.ELEMENTAL_TYPE
+
+    override fun registryKey(): ResourceKey<Registry<ElementalType>> = CobblemonRegistries.ELEMENTAL_TYPE_KEY
 }

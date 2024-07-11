@@ -10,13 +10,15 @@ package com.cobblemon.mod.common.pokemon.types
 
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.types.ElementalType
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.HiddenPowerCalculator
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.registry.CobblemonRegistries
+import net.minecraft.resources.ResourceKey
 
 object OfficialHiddenPowerCalculator : HiddenPowerCalculator {
-    // TODO: Types here
-    private val hiddenPowerTable: Array<ElementalType> = arrayOf(
-        /*
+
+    private val hiddenPowerTable: Array<ResourceKey<ElementalType>> = arrayOf(
         ElementalTypes.FIGHTING,
         ElementalTypes.FLYING,
         ElementalTypes.POISON,
@@ -33,7 +35,6 @@ object OfficialHiddenPowerCalculator : HiddenPowerCalculator {
         ElementalTypes.ICE,
         ElementalTypes.DRAGON,
         ElementalTypes.DARK
-         */
     )
     override fun calculate(pokemon: Pokemon): ElementalType {
         val ivs = Stats.PERMANENT.map { pokemon.ivs[it]
@@ -43,6 +44,7 @@ object OfficialHiddenPowerCalculator : HiddenPowerCalculator {
             tableIndex += (it % 2) shl index
         }
         tableIndex = tableIndex * 15 / 63
-        return this.hiddenPowerTable[tableIndex.coerceAtMost(this.hiddenPowerTable.size - 1)]
+        val key = this.hiddenPowerTable[tableIndex.coerceAtMost(this.hiddenPowerTable.size - 1)]
+        return CobblemonRegistries.ELEMENTAL_TYPE.get(key)!!
     }
 }

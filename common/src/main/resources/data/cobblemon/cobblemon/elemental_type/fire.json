@@ -1,9 +1,0 @@
-{
-  "displayName": {
-    "translate": "cobblemon.type.fire"
-  },
-  "color": "#ffe55c32",
-  "textureXMultiplier": 1,
-  "texture": "cobblemon:ui/types.png",
-  "damageTaken": {}
-}

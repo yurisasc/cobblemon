@@ -34,7 +34,7 @@ import com.cobblemon.mod.neoforge.brewing.CobblemonNeoForgeBrewingRegistry
 import com.cobblemon.mod.neoforge.client.CobblemonNeoForgeClient
 import com.cobblemon.mod.neoforge.event.NeoForgePlatformEventHandler
 import com.cobblemon.mod.neoforge.net.CobblemonNeoForgeNetworkManager
-import com.cobblemon.mod.neoforge.permission.ForgePermissionValidator
+import com.cobblemon.mod.neoforge.permission.NeoForgePermissionValidator
 import com.cobblemon.mod.neoforge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.serialization.Codec
@@ -219,7 +219,7 @@ class CobblemonNeoForge : CobblemonImplementation {
     }
 
     override fun registerPermissionValidator() {
-        Cobblemon.permissionValidator = ForgePermissionValidator
+        Cobblemon.permissionValidator = NeoForgePermissionValidator
     }
 
     override fun registerSoundEvents() {

@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy
 import com.cobblemon.mod.common.pokemon.evolution.controller.ServerEvolutionController
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.codec.CodecUtils
 import com.mojang.serialization.Codec
@@ -86,7 +87,7 @@ internal data class PokemonP2(
                 ItemStack.CODEC.optionalFieldOf(DataKeys.HELD_ITEM, ItemStack.EMPTY).forGetter(PokemonP2::heldItem),
                 CompoundTag.CODEC.fieldOf(DataKeys.POKEMON_PERSISTENT_DATA).forGetter(PokemonP2::persistentData),
                 UUIDUtil.LENIENT_CODEC.optionalFieldOf(DataKeys.TETHERING_ID).forGetter(PokemonP2::tetheringId),
-                TeraType.BY_IDENTIFIER_CODEC.fieldOf(DataKeys.POKEMON_TERA_TYPE).forGetter(PokemonP2::teraType),
+                CobblemonRegistries.TERA_TYPE.byNameCodec().fieldOf(DataKeys.POKEMON_TERA_TYPE).forGetter(PokemonP2::teraType),
                 CodecUtils.dynamicIntRange(0) { Cobblemon.config.maxDynamaxLevel }.fieldOf(DataKeys.POKEMON_DMAX_LEVEL).forGetter(PokemonP2::dmaxLevel),
                 Codec.BOOL.fieldOf(DataKeys.POKEMON_GMAX_FACTOR).forGetter(PokemonP2::gmaxFactor),
                 Codec.BOOL.fieldOf(DataKeys.POKEMON_TRADEABLE).forGetter(PokemonP2::tradeable)

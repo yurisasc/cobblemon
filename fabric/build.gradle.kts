@@ -24,6 +24,12 @@ architectury {
     fabric()
 }
 
+fabricApi {
+    configureDataGeneration {
+        outputDirectory.set(file("../common/src/generated/resources"))
+    }
+}
+
 val generatedResources = file("src/generated/resources")
 
 sourceSets {
@@ -98,6 +104,9 @@ tasks {
                 "minecraft_version" to rootProject.property("mc_version").toString()
             )
         }
+
+        // Exclude datagenerator .cache directory
+        exclude(".cache")
     }
 
     sourcesJar {

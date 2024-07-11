@@ -1,9 +1,0 @@
-{
-  "displayName": {
-    "translate": "cobblemon.type.flying"
-  },
-  "color": "#ffbcc1ff",
-  "textureXMultiplier": 9,
-  "texture": "cobblemon:ui/types.png",
-  "damageTaken": {}
-}

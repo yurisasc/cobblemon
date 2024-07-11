@@ -8,14 +8,14 @@
 
 package com.cobblemon.mod.common.api.resistance
 
-import com.cobblemon.mod.common.api.resistance.registry.ResistibleType
+import com.cobblemon.mod.common.api.effect.Effect
 
 interface Resistible {
 
-    fun effectivenessAgainst(other: Resistible): Resistance = other.resistanceTo(this)
+    fun effectivenessAgainst(other: Resistible): Resistance = other.resistanceTo(this.asEffect())
 
-    fun resistanceTo(other: Resistible): Resistance
+    fun resistanceTo(effect: Effect): Resistance
 
-    fun resistibleType(): ResistibleType<*>
+    fun asEffect(): Effect
 
 }

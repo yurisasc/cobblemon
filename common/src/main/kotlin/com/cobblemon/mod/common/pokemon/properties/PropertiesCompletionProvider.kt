@@ -143,7 +143,7 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("dmax"), setOf("0", Cobblemon.config.maxDynamaxLevel.toString()))
         this.inject(setOf("gmax"), setOf("yes", "no"))
         this.inject(setOf("type", "elemental_type"), CobblemonRegistries.ELEMENTAL_TYPE.entrySet().map { it.key.location().simplify() })
-        this.inject(setOf("tera_type", "tera"), TeraTypes.map { it.id.simplify() })
+        this.inject(setOf("tera_type", "tera"), CobblemonRegistries.TERA_TYPE.entrySet().map { it.key.location().simplify() })
         this.inject(setOf("tradeable"), setOf("yes", "no"))
         this.inject(setOf("originaltrainer", "ot"), setOf(""))
         this.inject(setOf("originaltrainertype", "ottype"), setOf("None", "Player", "NPC"))
