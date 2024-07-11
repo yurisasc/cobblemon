@@ -87,7 +87,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     var pokemonBeingScanned: PokemonEntity? = null
     var scanningProgress: Int = 0
     var pokedexUser: ServerPlayerEntity? = null
-    var originalHudHidden: Boolean = true
+    var originalHudHidden: Boolean = false
     var bufferImageSnap:  Boolean = false
 
     override fun getMaxUseTime(stack: ItemStack?, user: LivingEntity?): Int {
@@ -184,7 +184,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     override fun usageTick(world: World?, user: LivingEntity?, stack: ItemStack?, remainingUseTicks: Int) {
         if (user is PlayerEntity) {
             // if the item has been used for more than 1 second activate scanning mode
-            if (getMaxUseTime(stack, user) - remainingUseTicks > 2) {
+            if (getMaxUseTime(stack, user) - remainingUseTicks > 3) {
                 // play the Scanner Open sound only once
                 if (isScanning == false) {
                     playSound(CobblemonSounds.POKEDEX_SCAN_OPEN)
@@ -236,9 +236,9 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
     override fun onStoppedUsing(stack: ItemStack?, world: World, entity: LivingEntity, timeLeft: Int) {
         // todo if less than a second then open GUI
-        if (entity is ServerPlayerEntity && (getMaxUseTime(stack, entity) - timeLeft) <= 2) {
+        if (entity is ServerPlayerEntity && (getMaxUseTime(stack, entity) - timeLeft) <= 3) {
             openPokdexGUI(entity)
-        } else { // any other amount of time assume scanning mode was active
+        } else if (entity !is ServerPlayerEntity && (getMaxUseTime(stack, entity) - timeLeft) > 3){ // any other amount of time assume scanning mode was active
             val client = MinecraftClient.getInstance()
             // Restore the HUD
             client.options.hudHidden = originalHudHidden
