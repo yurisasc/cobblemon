@@ -61,8 +61,10 @@ class ElementalTypeTagProvider(
             .addOptional(ElementalTypes.ROCK.location())
             .addOptional(ElementalTypes.GHOST.location())
             .addOptional(ElementalTypes.DRAGON.location())
-            .addOptional(ElementalTypes.DARK.location())
             .addOptional(ElementalTypes.STEEL.location())
+
+        this.tag(CobblemonElementalTypeTags.INTRODUCED_IN_GENERATION_2)
+            .addOptional(ElementalTypes.DARK.location())
 
         this.tag(CobblemonElementalTypeTags.INTRODUCED_IN_GENERATION_6)
             .addOptional(ElementalTypes.FAIRY.location())

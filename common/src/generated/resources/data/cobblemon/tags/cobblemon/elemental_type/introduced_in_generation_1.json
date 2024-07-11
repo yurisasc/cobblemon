@@ -61,10 +61,6 @@
       "required": false
     },
     {
-      "id": "cobblemon:dark",
-      "required": false
-    },
-    {
       "id": "cobblemon:steel",
       "required": false
     }

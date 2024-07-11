@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.registry.RegistryElement
 import com.cobblemon.mod.common.api.resistance.Resistance
 import com.cobblemon.mod.common.api.resistance.ResistanceMap
 import com.cobblemon.mod.common.api.resistance.Resistible
+import com.cobblemon.mod.common.pokemon.types.ShowdownElementalTypeDTO
 import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.simplify
 import com.mojang.serialization.Codec
@@ -58,6 +59,11 @@ class ElementalType(
     }
 
     override fun asEffect(): Effect = ElementalTypeEffect(this.resourceKey())
+
+    internal fun asShowdownDTO(): ShowdownElementalTypeDTO = ShowdownElementalTypeDTO(
+        this.showdownId(),
+        this.damageTaken.map { it.key.showdownId() to it.value.showdownValue }.toMap()
+    )
 
     companion object {
         @JvmStatic

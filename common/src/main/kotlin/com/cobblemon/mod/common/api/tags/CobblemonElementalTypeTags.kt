@@ -35,6 +35,12 @@ object CobblemonElementalTypeTags {
     val INTRODUCED_IN_GENERATION_1 = this.create("introduced_in_generation_1")
 
     /**
+     * Types introduced in generation 2.
+     */
+    @JvmStatic
+    val INTRODUCED_IN_GENERATION_2 = this.create("introduced_in_generation_2")
+
+    /**
      * Types introduced in generation 6.
      */
     @JvmStatic
