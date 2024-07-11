@@ -425,7 +425,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 val offsetY = y * angleStep
 
                 val rayDirection = lookVec.rotatePitch(offsetY).rotateYaw(offsetX)
-                val rayEnd = eyePos.add(rayDirection.multiply(maxDistance))
+                val rayEnd = eyePos.add(rayDirection.multiply(maxDistance * zoomLevel))  // Adjusted raycast distance based on zoomLevel
 
                 val hitResult = player.world.raycast(
                     RaycastContext(
@@ -467,18 +467,18 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         if (isScanning) {
             val eyePos = user.getCameraPosVec(1.0F)
             val lookVec = user.getRotationVec(1.0F)
-            val maxDistance = 30.0  // Set this to how far we want the raycast to go
+            val maxDistance = 30.0 * zoomLevel  // Adjusted raycast distance based on zoomLevel
             val boundingBoxSize = 50.0
             var closestEntity: Entity? = null
             var closestDistance = maxDistance
 
             // Define a large bounding box around the player
             val boundingBox = Box(
-                    user.x - boundingBoxSize, user.y - boundingBoxSize, user.z - boundingBoxSize,
-                    user.x + boundingBoxSize, user.y + boundingBoxSize, user.z + boundingBoxSize
+                user.x - boundingBoxSize, user.y - boundingBoxSize, user.z - boundingBoxSize,
+                user.x + boundingBoxSize, user.y + boundingBoxSize, user.z + boundingBoxSize
             )
 
-            // Get all entities within the bounding box
+            // Get all entities within the boundingBox
             val entities = user.world.getEntitiesByClass(Entity::class.java, boundingBox) { it != user }
 
             for (entity in entities) {
@@ -497,11 +497,11 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
             if (closestEntity != null && closestEntity is PokemonEntity) {
                 pokemonInFocus = closestEntity
 
-                // if detected pokemon is not the same as the last detected pokemon
+                // If detected pokemon is not the same as the last detected pokemon
                 if (pokemonInFocus != lastPokemonInFocus || currentTick == 1) {
                     user.sendMessage(Text.of("${closestEntity.pokemon.species.name} is in focus!"))
 
-                    // play sound for showing details of the focused pokemon
+                    // Play sound for showing details of the focused pokemon
                     playSound(CobblemonSounds.POKEDEX_SCAN_DETAIL)
                 }
 
@@ -510,7 +510,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 pokemonInFocus = null
                 lastPokemonInFocus = null
 
-                // todo play POKEDEX_DETAIL_DISSAPEAR sound here
+                // Play POKEDEX_DETAIL_DISAPPEAR sound here (if necessary)
             }
         }
     }
