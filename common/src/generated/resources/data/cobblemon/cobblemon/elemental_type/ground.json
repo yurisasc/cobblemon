@@ -42,6 +42,13 @@
         "typeId": "cobblemon:water"
       },
       "resistance": "SUPER_EFFECTIVE"
+    },
+    {
+      "effect": {
+        "type": "cobblemon:showdown_condition",
+        "conditionId": "sandstorm"
+      },
+      "resistance": "IMMUNE"
     }
   ],
   "displayName": {

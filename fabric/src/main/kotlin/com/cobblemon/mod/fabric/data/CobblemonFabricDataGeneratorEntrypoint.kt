@@ -21,7 +21,7 @@ class CobblemonFabricDataGeneratorEntrypoint : DataGeneratorEntrypoint {
 
     private fun commonDataGen(pack: FabricDataGenerator.Pack) {
         pack.addProvider { output, registries -> ElementalTypeProvider(output, registries) }
-        //pack.addProvider { output, registries -> TeraTypeProvider(output, registries) }
+        pack.addProvider { output, registries -> TeraTypeProvider(output, registries) }
     }
 
 }

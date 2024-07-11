@@ -43,6 +43,12 @@ class ResistanceMap(private val map: Map<Effect, Resistance>) : Map<Effect, Resi
         val CODEC: Codec<ResistanceMap> = Codec.list(ENTRY_CODEC)
             .comapFlatMap(
                 { list ->
+                    val presentEffects = hashSetOf<Effect>()
+                    list.forEach {
+                        if (!presentEffects.add(it.first)) {
+                            return@comapFlatMap DataResult.error { "Duplicate effect in ResistanceMap, this is impossible" }
+                        }
+                    }
                     DataResult.success(ResistanceMap(list.associate { it.first to it.second }))
                 },
                 { it.entries.map { entry -> Pair(entry.key, entry.value) } }
