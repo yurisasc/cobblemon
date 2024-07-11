@@ -202,7 +202,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
                 // todo get it constantly scanning outwards to detect pokemon in focus
                 MinecraftClient.getInstance().player?.let {
-                    detectPokemon(it.world, it, Hand.MAIN_HAND)
+                    detectPokemon(it.world, it, Hand.MAIN_HAND, getMaxUseTime(stack, user) - remainingUseTicks)
                 }
 
                 // if there was a mouse click last tick and overlay is now down
@@ -463,7 +463,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     }
 
 
-    private fun detectPokemon(world: World, user: PlayerEntity, hand: Hand) {
+    private fun detectPokemon(world: World, user: PlayerEntity, hand: Hand, currentTick: Int = -1) {
         if (isScanning) {
             val eyePos = user.getCameraPosVec(1.0F)
             val lookVec = user.getRotationVec(1.0F)
@@ -498,7 +498,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 pokemonInFocus = closestEntity
 
                 // if detected pokemon is not the same as the last detected pokemon
-                if (pokemonInFocus != lastPokemonInFocus) {
+                if (pokemonInFocus != lastPokemonInFocus || currentTick == 1) {
                     user.sendMessage(Text.of("${closestEntity.pokemon.species.name} is in focus!"))
 
                     // play sound for showing details of the focused pokemon
