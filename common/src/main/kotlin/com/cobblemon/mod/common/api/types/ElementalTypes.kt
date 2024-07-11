@@ -20,7 +20,7 @@ import kotlin.jvm.optionals.getOrNull
  */
 object ElementalTypes : CobblemonRegistry<ElementalType>() {
 
-    @JvmStatic val NORMAL = this.key("name")
+    @JvmStatic val NORMAL = this.key("normal")
     @JvmStatic val FIRE = this.key("fire")
     @JvmStatic val WATER = this.key("water")
     @JvmStatic val GRASS = this.key("grass")

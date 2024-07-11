@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "cobblemon:eletric",
+      "required": false
+    },
+    {
+      "id": "cobblemon:ground",
+      "required": false
+    }
+  ]
+}

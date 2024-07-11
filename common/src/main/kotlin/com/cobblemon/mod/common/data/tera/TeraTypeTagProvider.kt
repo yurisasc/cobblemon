@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.registry.CobblemonRegistries
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.PackOutput
 import net.minecraft.data.tags.TagsProvider
-import net.minecraft.resources.ResourceKey
 import java.util.concurrent.CompletableFuture
 
 class TeraTypeTagProvider(
@@ -24,42 +23,51 @@ class TeraTypeTagProvider(
 ) : TagsProvider<TeraType>(packOutput, CobblemonRegistries.TERA_TYPE_KEY, lookupProvider) {
     override fun addTags(provider: HolderLookup.Provider) {
         this.tag(CobblemonTeraTypeTags.OFFICIAL)
-            .add(*this.elementalTypes())
-            .add(*this.gimmick())
+            .addOptional(TeraTypes.NORMAL.location())
+            .addOptional(TeraTypes.FIRE.location())
+            .addOptional(TeraTypes.WATER.location())
+            .addOptional(TeraTypes.GRASS.location())
+            .addOptional(TeraTypes.ELECTRIC.location())
+            .addOptional(TeraTypes.ICE.location())
+            .addOptional(TeraTypes.FIGHTING.location())
+            .addOptional(TeraTypes.POISON.location())
+            .addOptional(TeraTypes.GROUND.location())
+            .addOptional(TeraTypes.FLYING.location())
+            .addOptional(TeraTypes.PSYCHIC.location())
+            .addOptional(TeraTypes.BUG.location())
+            .addOptional(TeraTypes.ROCK.location())
+            .addOptional(TeraTypes.GHOST.location())
+            .addOptional(TeraTypes.DRAGON.location())
+            .addOptional(TeraTypes.DARK.location())
+            .addOptional(TeraTypes.STEEL.location())
+            .addOptional(TeraTypes.FAIRY.location())
+            .addOptional(TeraTypes.STELLAR.location())
 
         this.tag(CobblemonTeraTypeTags.ELEMENTAL_TYPE_BASED)
-            .add(*this.elementalTypes())
+            .addOptional(TeraTypes.NORMAL.location())
+            .addOptional(TeraTypes.FIRE.location())
+            .addOptional(TeraTypes.WATER.location())
+            .addOptional(TeraTypes.GRASS.location())
+            .addOptional(TeraTypes.ELECTRIC.location())
+            .addOptional(TeraTypes.ICE.location())
+            .addOptional(TeraTypes.FIGHTING.location())
+            .addOptional(TeraTypes.POISON.location())
+            .addOptional(TeraTypes.GROUND.location())
+            .addOptional(TeraTypes.FLYING.location())
+            .addOptional(TeraTypes.PSYCHIC.location())
+            .addOptional(TeraTypes.BUG.location())
+            .addOptional(TeraTypes.ROCK.location())
+            .addOptional(TeraTypes.GHOST.location())
+            .addOptional(TeraTypes.DRAGON.location())
+            .addOptional(TeraTypes.DARK.location())
+            .addOptional(TeraTypes.STEEL.location())
+            .addOptional(TeraTypes.FAIRY.location())
 
         this.tag(CobblemonTeraTypeTags.GIMMICK_ONLY)
-            .add(*this.gimmick())
+            .addOptional(TeraTypes.STELLAR.location())
 
         this.tag(CobblemonTeraTypeTags.LEGAL_AS_STATIC)
-            .addTag(CobblemonTeraTypeTags.ELEMENTAL_TYPE_BASED)
+            .addOptionalTag(CobblemonTeraTypeTags.ELEMENTAL_TYPE_BASED.location)
     }
-
-    private fun elementalTypes(): Array<ResourceKey<TeraType>> = arrayOf(
-        TeraTypes.NORMAL,
-        TeraTypes.FIRE,
-        TeraTypes.WATER,
-        TeraTypes.GRASS,
-        TeraTypes.ELECTRIC,
-        TeraTypes.ICE,
-        TeraTypes.FIGHTING,
-        TeraTypes.POISON,
-        TeraTypes.GROUND,
-        TeraTypes.FLYING,
-        TeraTypes.PSYCHIC,
-        TeraTypes.BUG,
-        TeraTypes.ROCK,
-        TeraTypes.GHOST,
-        TeraTypes.DRAGON,
-        TeraTypes.DARK,
-        TeraTypes.STEEL,
-        TeraTypes.FAIRY,
-    )
-
-    private fun gimmick(): Array<ResourceKey<TeraType>> = arrayOf(
-        TeraTypes.STELLAR,
-    )
 
 }

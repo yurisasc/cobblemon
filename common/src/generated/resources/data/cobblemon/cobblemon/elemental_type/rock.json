@@ -39,7 +39,7 @@
     {
       "effect": {
         "type": "cobblemon:elemental_type",
-        "typeId": "cobblemon:name"
+        "typeId": "cobblemon:normal"
       },
       "resistance": "NOT_VERY_EFFECTIVE"
     },

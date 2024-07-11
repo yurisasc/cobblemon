@@ -32,7 +32,7 @@
     {
       "effect": {
         "type": "cobblemon:elemental_type",
-        "typeId": "cobblemon:name"
+        "typeId": "cobblemon:normal"
       },
       "resistance": "IMMUNE"
     },
