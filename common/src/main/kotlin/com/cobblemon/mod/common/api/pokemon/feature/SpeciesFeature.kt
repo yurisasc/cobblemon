@@ -24,10 +24,11 @@ import net.minecraft.nbt.NbtCompound
  * @author Hiroku
  * @since May 13th, 2022
  */
-interface SpeciesFeature {
+interface SpeciesFeature<T> {
     val name: String
+    var value: T
     fun saveToNBT(pokemonNBT: NbtCompound): NbtCompound
-    fun loadFromNBT(pokemonNBT: NbtCompound): SpeciesFeature
+    fun loadFromNBT(pokemonNBT: NbtCompound): SpeciesFeature<T>
     fun saveToJSON(pokemonJSON: JsonObject): JsonObject
-    fun loadFromJSON(pokemonJSON: JsonObject): SpeciesFeature
+    fun loadFromJSON(pokemonJSON: JsonObject): SpeciesFeature<T>
 }

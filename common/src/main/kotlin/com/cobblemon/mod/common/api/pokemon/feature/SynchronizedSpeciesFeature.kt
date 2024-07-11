@@ -17,4 +17,4 @@ import com.cobblemon.mod.common.api.net.Encodable
  * @author Hiroku
  * @since November 13th, 2023
  */
-interface SynchronizedSpeciesFeature : SpeciesFeature, Encodable, Decodable
+interface SynchronizedSpeciesFeature<T> : SpeciesFeature<T>, Encodable, Decodable

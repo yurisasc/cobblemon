@@ -23,7 +23,7 @@ import net.minecraft.util.Identifier
  * @author Hiroku
  * @since November 13th, 2023
  */
-class SpeciesFeatureUpdatePacket(pokemon: () -> Pokemon, val species: Identifier, speciesFeature: SynchronizedSpeciesFeature) : SingleUpdatePacket<SynchronizedSpeciesFeature, SpeciesFeatureUpdatePacket>(pokemon, speciesFeature) {
+class SpeciesFeatureUpdatePacket(pokemon: () -> Pokemon, val species: Identifier, speciesFeature: SynchronizedSpeciesFeature<*>) : SingleUpdatePacket<SynchronizedSpeciesFeature<*>, SpeciesFeatureUpdatePacket>(pokemon, speciesFeature) {
     companion object {
         val ID = cobblemonResource("species_feature_update")
         fun decode(buffer: PacketByteBuf): SpeciesFeatureUpdatePacket {
@@ -46,7 +46,7 @@ class SpeciesFeatureUpdatePacket(pokemon: () -> Pokemon, val species: Identifier
         value.encode(buffer)
     }
 
-    override fun set(pokemon: Pokemon, value: SynchronizedSpeciesFeature) {
+    override fun set(pokemon: Pokemon, value: SynchronizedSpeciesFeature<*>) {
         pokemon.features.removeIf { it.name == value.name }
         pokemon.features.add(value)
     }

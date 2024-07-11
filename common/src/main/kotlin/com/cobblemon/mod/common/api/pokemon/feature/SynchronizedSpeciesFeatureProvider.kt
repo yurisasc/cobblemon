@@ -23,7 +23,7 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 13th, 2023
  */
-interface SynchronizedSpeciesFeatureProvider<T : SynchronizedSpeciesFeature> : SpeciesFeatureProvider<T>, Encodable, Decodable {
+interface SynchronizedSpeciesFeatureProvider<T : SynchronizedSpeciesFeature<*>> : SpeciesFeatureProvider<T>, Encodable, Decodable {
     var visible: Boolean
     operator fun invoke(buffer: PacketByteBuf, name: String): T?
     /** Gets the feature from this Pokémon, if it has been created yet. */

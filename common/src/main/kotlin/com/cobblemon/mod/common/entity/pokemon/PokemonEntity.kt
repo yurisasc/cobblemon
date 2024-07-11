@@ -979,7 +979,7 @@ open class PokemonEntity(
 
         val feature = pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED)
         if (feature != null) {
-            feature.enabled = false
+            feature.value = false
             pokemon.markFeatureDirty(feature)
             pokemon.updateAspects()
         }
@@ -1112,7 +1112,7 @@ open class PokemonEntity(
     override fun sheared(shearedSoundCategory: SoundCategory) {
         this.world.playSoundFromEntity(null, this,SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0F, 1.0F)
         val feature = this.pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) ?: return
-        feature.enabled = true
+        feature.value = true
         this.pokemon.markFeatureDirty(feature)
         this.pokemon.updateAspects()
         val i = this.random.nextInt(3) + 1
@@ -1128,7 +1128,7 @@ open class PokemonEntity(
 
     override fun isShearable(): Boolean {
         val feature = this.pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) ?: return false
-        return !this.isBusy && !this.pokemon.isFainted() && !feature.enabled
+        return !this.isBusy && !this.pokemon.isFainted() && !feature.value
     }
 
     override fun canUsePortals() = false
