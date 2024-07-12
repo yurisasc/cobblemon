@@ -23,7 +23,6 @@ object BattleChallengeNotificationHandler : ClientNetworkPacketHandler<BattleCha
             lang(
                 "challenge.receiver",
                 packet.challengerName,
-//                PartySendBinding.boundKey().displayName
                 lang(packet.battleFormatString),
             ),
             true

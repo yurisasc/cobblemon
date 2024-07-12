@@ -136,7 +136,7 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
                     val lastPosition = activePokemon.position
                     // Send out at previous Pokémon's location if it is known, otherwise actor location
                     val world = lastPosition?.first ?: entity.level() as ServerLevel
-                    val pos = lastPosition?.second ?: entity.position()
+                    val pos = ShowdownInterpreter.getSendoutPosition(battle, activePokemon.getPNX(), actor) ?: lastPosition?.second ?: entity.position()
                     newPokemon.effectedPokemon.sendOutWithAnimation(
                         source = entity,
                         battleId = battle.battleId,

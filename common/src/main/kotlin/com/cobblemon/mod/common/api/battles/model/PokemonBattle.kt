@@ -46,10 +46,13 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHitsEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.requirements.DefeatRequirement
+import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import net.minecraft.network.chat.Component
 import com.cobblemon.mod.common.util.giveOrDropItemStack
+import com.cobblemon.mod.common.util.itemRegistry
+import net.minecraft.resources.ResourceLocation
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
@@ -266,10 +269,9 @@ open class PokemonBattle(
             }
             if(actor.itemsUsed.isNotEmpty() && actor.getPlayerUUIDs().count() > 0) {
                 val player = actor.getPlayerUUIDs().first().getPlayer()
-                actor.itemsUsed.forEach {
-                    val namespace = it.itemName.substringBeforeLast('.').substringAfterLast('.')
-                    val path = it.itemName.substringAfterLast('.')
-//                    player?.giveOrDropItemStack(ItemStack(Registries.ITEM.get(Identifier(namespace, path))))
+                player?.level()?.itemRegistry.let { registry ->
+                    actor.itemsUsed.mapNotNull { registry?.get(ResourceLocation.tryBySeparator(it.itemName.substringAfter('.'), '.')) }
+                            .forEach { player?.giveOrDropItemStack(ItemStack(it))}
                 }
             }
         }

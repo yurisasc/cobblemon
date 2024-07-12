@@ -49,7 +49,7 @@ class SwapInstruction(val message: BattleMessage, val instructionSet: Instructio
 
                 // Swap the position of the 2 on the field
                 var posB: Vec3? = null
-                if(activePokemonB.battlePokemon?.entity == null) {
+                if (activePokemonB.battlePokemon?.entity == null) {
                     // target slot is likely fainted
                     posB = ShowdownInterpreter.getSendoutPosition(battle, activePokemonB.getPNX(), actorB)
                 } else {
