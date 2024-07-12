@@ -20,7 +20,7 @@ import net.minecraft.resources.ResourceLocation
  * A registry meant to hold values that will be later resolved on each platform implementation.
  *
  * @param R The type of the vanilla [Registry].
- * @param K The type of the vanilla [ResourceKey].
+ * @param K The type of the vanilla [resourceKey].
  * @param T The type of the entries in the registry.
  *
  * @author Licious
@@ -36,7 +36,7 @@ abstract class PlatformRegistry<R : Registry<T>, K : ResourceKey<R>, T> {
     /**
      * The vanilla [ResourceKey].
      */
-    abstract val ResourceKey: K
+    abstract val resourceKey: K
 
     protected val queue = hashMapOf<ResourceLocation, T>()
 

@@ -40,7 +40,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, ResourceKey<Registry<
 
 
     override val registry: Registry<Block> = BuiltInRegistries.BLOCK
-    override val ResourceKey: ResourceKey<Registry<Block>> = Registries.BLOCK
+    override val resourceKey: ResourceKey<Registry<Block>> = Registries.BLOCK
 
     val APRICORN_BLOCK_SET_TYPE = BlockSetType("apricorn")
     val APRICORN_WOOD_TYPE = WoodType.register(WoodType("apricorn", APRICORN_BLOCK_SET_TYPE))

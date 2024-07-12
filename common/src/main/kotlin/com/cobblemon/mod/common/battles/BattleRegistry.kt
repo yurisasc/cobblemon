@@ -316,6 +316,7 @@ object BattleRegistry {
     }
 
     fun closeBattle(battle: PokemonBattle) {
+        battle.onEndHandlers.forEach { it(battle) }
         battleMap.remove(battle.battleId)
     }
 

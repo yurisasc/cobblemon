@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.SoundType
 object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, ResourceKey<Registry<SoundEvent>>, SoundEvent>() {
 
     override val registry: Registry<SoundEvent> = BuiltInRegistries.SOUND_EVENT
-    override val ResourceKey: ResourceKey<Registry<SoundEvent>> = Registries.SOUND_EVENT
+    override val resourceKey: ResourceKey<Registry<SoundEvent>> = Registries.SOUND_EVENT
 
     @JvmField
     val GUI_CLICK = this.create("gui.click")

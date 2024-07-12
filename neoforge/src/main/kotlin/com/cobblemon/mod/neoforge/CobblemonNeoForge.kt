@@ -10,6 +10,7 @@ package com.cobblemon.mod.neoforge
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
+import com.cobblemon.mod.common.advancement.predicate.CobblemonEntitySubPredicates
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
@@ -219,7 +220,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerSoundEvents() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonSounds.ResourceKey) { helper ->
+            event.register(CobblemonSounds.resourceKey) { helper ->
                 CobblemonSounds.register { identifier, sounds -> helper.register(identifier, sounds) }
             }
         }
@@ -227,7 +228,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerDataComponents() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonItemComponents.ResourceKey) { helper ->
+            event.register(CobblemonItemComponents.resourceKey) { helper ->
                 CobblemonItemComponents.register { identifier, ComponentType ->  helper.register(identifier, ComponentType)}
             }
         }
@@ -247,7 +248,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerBlocks() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonBlocks.ResourceKey) { helper ->
+            event.register(CobblemonBlocks.resourceKey) { helper ->
                 CobblemonBlocks.register { identifier, block -> helper.register(identifier, block) }
             }
         }
@@ -255,7 +256,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerParticles() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonParticles.ResourceKey) { helper ->
+            event.register(CobblemonParticles.resourceKey) { helper ->
                 CobblemonParticles.register { identifier, particleType -> helper.register(identifier, particleType) }
             }
         }
@@ -272,7 +273,7 @@ class CobblemonNeoForge : CobblemonImplementation {
     override fun registerItems() {
         with(MOD_BUS) {
             addListener<RegisterEvent> { event ->
-                event.register(CobblemonItems.ResourceKey) { helper ->
+                event.register(CobblemonItems.resourceKey) { helper ->
                     CobblemonItems.register { identifier, item -> helper.register(identifier, item) }
                 }
             }
@@ -294,7 +295,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerEntityTypes() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonEntities.ResourceKey) { helper ->
+            event.register(CobblemonEntities.resourceKey) { helper ->
                 CobblemonEntities.register { identifier, type -> helper.register(identifier, type) }
             }
         }
@@ -313,7 +314,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerBlockEntityTypes() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonBlockEntities.ResourceKey) { helper ->
+            event.register(CobblemonBlockEntities.resourceKey) { helper ->
                 CobblemonBlockEntities.register { identifier, type -> helper.register(identifier, type) }
             }
         }
@@ -321,7 +322,7 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerWorldGenFeatures() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            event.register(CobblemonFeatures.ResourceKey) { helper ->
+            event.register(CobblemonFeatures.resourceKey) { helper ->
                 CobblemonFeatures.register { identifier, feature -> helper.register(identifier, feature) }
             }
         }
@@ -349,10 +350,16 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun registerCriteria() {
         MOD_BUS.addListener<RegisterEvent> { event ->
-            CobblemonCriteria.register { id, obj ->
-                event.register(CobblemonCriteria.ResourceKey) { helper ->
-                    CobblemonCriteria.register { identifier, criteria -> helper.register(identifier, criteria) }
-                }
+            event.register(CobblemonCriteria.resourceKey) { helper ->
+                CobblemonCriteria.register { identifier, criteria -> helper.register(identifier, criteria) }
+            }
+        }
+    }
+
+    override fun registerEntitySubPredicates() {
+        MOD_BUS.addListener<RegisterEvent> { event ->
+            event.register(CobblemonEntitySubPredicates.resourceKey) { helper ->
+                CobblemonEntitySubPredicates.register { identifier, criteria -> helper.register(identifier, criteria) }
             }
         }
     }

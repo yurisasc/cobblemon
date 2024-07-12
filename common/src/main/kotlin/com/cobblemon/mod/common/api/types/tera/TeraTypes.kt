@@ -19,7 +19,7 @@ import net.minecraft.resources.ResourceLocation
  * The registry of all [TeraType]s.
  */
 @Suppress("unused")
-object TeraTypes {
+object TeraTypes : Iterable<TeraType> {
     private val types = hashMapOf<ResourceLocation, TeraType>()
 
     @JvmStatic
@@ -125,4 +125,6 @@ object TeraTypes {
         this.types[id] = type
         return type
     }
+
+    override fun iterator(): Iterator<TeraType> = this.types.values.iterator()
 }

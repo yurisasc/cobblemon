@@ -31,7 +31,7 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, ResourceKey
 
 
     override val registry: Registry<EntityType<*>> = BuiltInRegistries.ENTITY_TYPE
-    override val ResourceKey: ResourceKey<Registry<EntityType<*>>> = Registries.ENTITY_TYPE
+    override val resourceKey: ResourceKey<Registry<EntityType<*>>> = Registries.ENTITY_TYPE
     
     @JvmField
     val POKEMON_KEY = cobblemonResource("pokemon")

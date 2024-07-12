@@ -10,6 +10,7 @@ package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
+import com.cobblemon.mod.common.advancement.predicate.CobblemonEntitySubPredicates
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
@@ -281,6 +282,12 @@ object CobblemonFabric : CobblemonImplementation {
     override fun registerCriteria() {
         CobblemonCriteria.register { id, obj ->
             Registry.register(BuiltInRegistries.TRIGGER_TYPES, id, obj)
+        }
+    }
+
+    override fun registerEntitySubPredicates() {
+        CobblemonEntitySubPredicates.register { resourceLocation, mapCodec ->
+            Registry.register(BuiltInRegistries.ENTITY_SUB_PREDICATE_TYPE, resourceLocation, mapCodec)
         }
     }
 
