@@ -25,12 +25,12 @@ import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.*
 import com.google.gson.annotations.SerializedName
 import net.minecraft.network.RegistryFriendlyByteBuf
@@ -251,8 +251,8 @@ class FormData(
                 { _, value -> buffer.writeSizedInt(IntSize.U_SHORT, value) }
             )
         }
-        buffer.writeNullable(this._primaryType) { pb, type -> pb.writeString(type.name) }
-        buffer.writeNullable(this._secondaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeNullable(this._primaryType) { pb, type -> pb.writeResourceKey(type.resourceKey()) }
+        buffer.writeNullable(this._secondaryType) { pb, type -> pb.writeResourceKey(type.resourceKey()) }
         buffer.writeNullable(this._experienceGroup) { pb, value -> pb.writeString(value.name) }
         buffer.writeNullable(this._height) { pb, height -> pb.writeFloat(height) }
         buffer.writeNullable(this._weight) { pb, weight -> pb.writeFloat(weight) }
@@ -279,8 +279,8 @@ class FormData(
                 { _ -> buffer.readSizedInt(IntSize.U_SHORT) }
             ).toMutableMap()
         }
-        this._primaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
-        this._secondaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
+        this._primaryType = buffer.readNullable { pb -> buffer.registryAccess().registryOrThrow(CobblemonRegistries.ELEMENTAL_TYPE_KEY).getOrThrow(pb.readResourceKey(CobblemonRegistries.ELEMENTAL_TYPE_KEY)) }
+        this._secondaryType = buffer.readNullable { pb -> buffer.registryAccess().registryOrThrow(CobblemonRegistries.ELEMENTAL_TYPE_KEY).getOrThrow(pb.readResourceKey(CobblemonRegistries.ELEMENTAL_TYPE_KEY)) }
         this._experienceGroup = buffer.readNullable { pb -> ExperienceGroups.findByName(pb.readString()) }
         this._height = buffer.readNullable { pb -> pb.readFloat() }
         this._weight = buffer.readNullable { pb -> pb.readFloat() }
@@ -306,6 +306,6 @@ class FormData(
      *
      * @return The literal Showdown ID of this form only.
      */
-    fun formOnlyShowdownId(): String = ShowdownIdentifiable.REGEX.replace(this.name.lowercase(), "")
+    fun formOnlyShowdownId(): String = ShowdownIdentifiable.EXCLUSIVE_REGEX.replace(this.name.lowercase(), "")
 
 }

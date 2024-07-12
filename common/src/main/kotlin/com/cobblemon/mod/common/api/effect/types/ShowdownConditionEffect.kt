@@ -20,8 +20,8 @@ import java.util.function.Function
 class ShowdownConditionEffect(private val conditionId: String) : Effect() {
 
     init {
-        if (ShowdownIdentifiable.REGEX.matches(this.conditionId)) {
-            throw IllegalArgumentException("${this.conditionId} does not match regex ${ShowdownIdentifiable.REGEX}")
+        if (!ShowdownIdentifiable.INCLUSIVE_REGEX.matches(this.conditionId)) {
+            throw IllegalArgumentException("${this.conditionId} does not match regex ${ShowdownIdentifiable.INCLUSIVE_REGEX}")
         }
     }
 
@@ -35,10 +35,10 @@ class ShowdownConditionEffect(private val conditionId: String) : Effect() {
             instance.group(
                 Codec.STRING.comapFlatMap(
                     { string ->
-                        if (ShowdownIdentifiable.REGEX.matches(string)) {
+                        if (ShowdownIdentifiable.INCLUSIVE_REGEX.matches(string)) {
                             DataResult.success(string)
                         } else {
-                            DataResult.error { "$string does not match regex ${ShowdownIdentifiable.REGEX}" }
+                            DataResult.error { "$string does not match regex ${ShowdownIdentifiable.INCLUSIVE_REGEX}" }
                         }
                     },
                     Function.identity()

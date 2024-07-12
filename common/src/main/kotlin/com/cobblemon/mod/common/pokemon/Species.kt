@@ -24,7 +24,6 @@ import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.PoseType.Companion.FLYING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -187,8 +186,8 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
             { _, value -> buffer.writeSizedInt(IntSize.U_SHORT, value) }
         )
         // ToDo remake once we have custom typing support
-        buffer.writeString(this.primaryType.name)
-        buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeResourceKey(this.primaryType.resourceKey())
+        buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeResourceKey(type.resourceKey()) }
         buffer.writeString(this.experienceGroup.name)
         buffer.writeFloat(this.height)
         buffer.writeFloat(this.weight)
@@ -217,8 +216,9 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
             { _ -> Cobblemon.statProvider.decode(buffer) },
             { _ -> buffer.readSizedInt(IntSize.U_SHORT) })
         )
-        this.primaryType = ElementalTypes.getOrException(buffer.readString())
-        this.secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }
+        val typeRegistry = buffer.registryAccess().registryOrThrow(CobblemonRegistries.ELEMENTAL_TYPE_KEY)
+        this.primaryType = typeRegistry.getOrThrow(buffer.readResourceKey(CobblemonRegistries.ELEMENTAL_TYPE_KEY))
+        this.secondaryType = buffer.readNullable { pb -> typeRegistry.getOrThrow(pb.readResourceKey(CobblemonRegistries.ELEMENTAL_TYPE_KEY)) }
         this.experienceGroup = ExperienceGroups.findByName(buffer.readString())!!
         this.height = buffer.readFloat()
         this.weight = buffer.readFloat()
@@ -280,7 +280,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
      *
      * @return The unformatted literal Showdown ID of this species.
      */
-    private fun unformattedShowdownId(): String = ShowdownIdentifiable.REGEX.replace(this.name.lowercase(), "")
+    private fun unformattedShowdownId(): String = ShowdownIdentifiable.EXCLUSIVE_REGEX.replace(this.name.lowercase(), "")
 
     override fun toString() = this.showdownId()
 

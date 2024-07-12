@@ -71,6 +71,10 @@
     {
       "id": "cobblemon:fairy",
       "required": false
+    },
+    {
+      "id": "cobblemon:stellar",
+      "required": false
     }
   ]
 }

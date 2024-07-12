@@ -33,7 +33,7 @@ interface ShowdownService {
     fun registerSpecies()
     fun registerBagItems()
     fun indicateSpeciesInitialized() {}
-
+    fun registerElementalTypes()
 
     companion object {
         val service: ShowdownService by lazy { GraalShowdownService() }

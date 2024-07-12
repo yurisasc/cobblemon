@@ -135,12 +135,12 @@ interface Effect {
             return try {
                 when {
                     rawData.startsWith(Type.ABILITY.prefix) -> ability(rawData.lowercase().substringAfter(Type.ABILITY.prefix).replace(
-                        ShowdownIdentifiable.REGEX, ""), rawData)
+                        ShowdownIdentifiable.EXCLUSIVE_REGEX, ""), rawData)
                     rawData.startsWith(Type.ITEM.prefix) -> item(rawData.lowercase().substringAfter(Type.ITEM.prefix).replace(
-                        ShowdownIdentifiable.REGEX, ""), rawData)
+                        ShowdownIdentifiable.EXCLUSIVE_REGEX, ""), rawData)
                     rawData.startsWith(Type.MOVE.prefix) -> move(rawData.lowercase().substringAfter(Type.MOVE.prefix).replace(
-                        ShowdownIdentifiable.REGEX, ""), rawData)
-                    else -> pure(rawData.lowercase().replace(ShowdownIdentifiable.REGEX, ""), rawData)
+                        ShowdownIdentifiable.EXCLUSIVE_REGEX, ""), rawData)
+                    else -> pure(rawData.lowercase().replace(ShowdownIdentifiable.EXCLUSIVE_REGEX, ""), rawData)
                 }
             } catch (_: Exception) {
                 null

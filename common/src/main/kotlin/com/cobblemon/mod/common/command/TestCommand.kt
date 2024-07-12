@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.red
+import com.cobblemon.mod.common.api.types.ElementalTypeDisplays
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
@@ -403,7 +404,7 @@ object TestCommand {
         val pokemon = context.source.playerOrException.party().get(0) ?: Pokemon()
         pokemon.nickname = pokemon.species.translatedName
             .withStyle {
-                it.withColor(pokemon.form.primaryType.color.rgba)
+                it.withColor(ElementalTypeDisplays.displayOf(pokemon.form.primaryType).tint.rgba)
                     .withBold(true)
             }
         val jsonElement = Pokemon.CODEC.encodeStart(JsonOps.INSTANCE, pokemon).orThrow

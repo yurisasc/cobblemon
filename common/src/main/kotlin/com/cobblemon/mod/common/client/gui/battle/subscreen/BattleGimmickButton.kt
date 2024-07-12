@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
+import com.cobblemon.mod.common.api.types.ElementalTypeDisplays
 import com.cobblemon.mod.common.battles.*
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleGimmickButton.GimmickTile
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -106,7 +107,7 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
         init {
             gimmickMoveTemplate?.let {
                 moveTemplate = it
-                rgb = it.elementalType.color.rgba.toRGB()
+                rgb = ElementalTypeDisplays.displayOf(it.elementalType).tint.rgba.toRGB()
             }
         }
 
@@ -126,7 +127,7 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
          * 2. Damaging moves are registered as physical and it's confusing since the actual damageCategory is inherited from the base move
          */
         private val gimmickMoveTemplate: MoveTemplate? get() {
-            val gimmickMoveID = move.gimmickMove?.move?.lowercase()?.replace(ShowdownIdentifiable.REGEX, "") ?: return null
+            val gimmickMoveID = move.gimmickMove?.move?.lowercase()?.replace(ShowdownIdentifiable.EXCLUSIVE_REGEX, "") ?: return null
             val gimmickTemplate = Moves.getByName(gimmickMoveID)
             return MoveTemplate(
                 name = gimmickMoveID,

@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.api.types.ElementalTypeDisplays
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.MoveCategoryIcon
 import com.cobblemon.mod.common.client.gui.TypeIcon
@@ -66,7 +67,7 @@ class MoveSwapScreen(
         ) {
             val matrices = context.pose()
             val tweakedRowTop = rowTop - (SLOT_SPACING / 2) + 1
-            val rgb = move.elementalType.color.rgba.toRGB()
+            val rgb = ElementalTypeDisplays.displayOf(move.elementalType).tint.rgba.toRGB()
 
             blitk(
                 matrixStack = matrices,

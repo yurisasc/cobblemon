@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.api.effect
 
 import com.cobblemon.mod.common.api.effect.types.ElementalTypeEffect
 import com.cobblemon.mod.common.api.effect.types.ShowdownConditionEffect
-import com.cobblemon.mod.common.api.effect.types.TeraTypeEffect
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.serialization.Lifecycle
 import com.mojang.serialization.MapCodec
@@ -35,9 +34,6 @@ fun interface EffectType<T : Effect> {
 
         @JvmStatic
         val ELEMENTAL_TYPE = this.register(cobblemonResource("elemental_type"), ElementalTypeEffect.CODEC)
-
-        @JvmStatic
-        val TERA_TYPE = this.register(cobblemonResource("tera_type"), TeraTypeEffect.CODEC)
 
         fun <T : Effect> register(id: ResourceLocation, codec: MapCodec<T>): EffectType<T> {
             return Registry.register(REGISTRY, id, EffectType { codec })

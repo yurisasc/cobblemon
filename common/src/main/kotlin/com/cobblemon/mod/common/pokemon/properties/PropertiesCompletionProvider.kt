@@ -17,8 +17,6 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.types.ElementalTypes
-import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
 import com.cobblemon.mod.common.pokemon.EVs
 import com.cobblemon.mod.common.pokemon.Gender
@@ -143,7 +141,7 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("dmax"), setOf("0", Cobblemon.config.maxDynamaxLevel.toString()))
         this.inject(setOf("gmax"), setOf("yes", "no"))
         this.inject(setOf("type", "elemental_type"), CobblemonRegistries.ELEMENTAL_TYPE.entrySet().map { it.key.location().simplify() })
-        this.inject(setOf("tera_type", "tera"), CobblemonRegistries.TERA_TYPE.entrySet().map { it.key.location().simplify() })
+        this.inject(setOf("tera_type", "tera"), CobblemonRegistries.ELEMENTAL_TYPE.entrySet().map { it.key.location().simplify() })
         this.inject(setOf("tradeable"), setOf("yes", "no"))
         this.inject(setOf("originaltrainer", "ot"), setOf(""))
         this.inject(setOf("originaltrainertype", "ottype"), setOf("None", "Player", "NPC"))

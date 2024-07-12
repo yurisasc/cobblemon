@@ -16,15 +16,12 @@ import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.text.gray
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.item.RodBaitComponent
 import com.cobblemon.mod.common.item.berry.BerryItem
 import com.cobblemon.mod.common.pokemon.Gender
-import com.cobblemon.mod.common.util.enchantmentRegistry
-import com.cobblemon.mod.common.util.itemRegistry
-import com.cobblemon.mod.common.util.lang
-import com.cobblemon.mod.common.util.toEquipmentSlot
+import com.cobblemon.mod.common.registry.CobblemonRegistries
+import com.cobblemon.mod.common.util.*
 import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -207,7 +204,7 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
         tooltipList.add(ball.item.description.copy().gray())
         // for every effect of the bait add a tooltip to the rod
         getBaitEffects(stack).forEach {
-            val effectType = it.type.path.toString()
+            val effectType = it.type.path
             val effectSubcategory: String? = it.subcategory?.path.toString()
             val effectChance = it.chance * 100 // chance of effect out of 100
             val effectValue = it.value.toInt()
@@ -222,7 +219,7 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
                     subcategoryString = Gender.valueOf(effectSubcategory).name
                 }
                 else if (effectType == "tera") {
-                    subcategoryString = ElementalTypes.get(effectSubcategory)?.name
+                    subcategoryString = CobblemonRegistries.ELEMENTAL_TYPE.get(effectSubcategory.asIdentifierDefaultingNamespace())?.resourceLocation().toString()
                 }
             }
 

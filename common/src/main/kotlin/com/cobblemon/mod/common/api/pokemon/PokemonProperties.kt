@@ -19,9 +19,7 @@ import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
-import com.cobblemon.mod.common.api.tags.CobblemonTeraTypeTags
-import com.cobblemon.mod.common.api.types.tera.TeraTypes
-import com.cobblemon.mod.common.api.types.tera.ElementalTypeTeraType
+import com.cobblemon.mod.common.api.tags.CobblemonElementalTypeTags
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
@@ -118,7 +116,7 @@ open class PokemonProperties {
             props.status = parseStringOfRegistry(keyPairs, listOf("status")) { (Statuses.getStatus(it) ?: Statuses.getStatus(it.asIdentifierDefaultingNamespace()))?.showdownName }
             props.nickname = parseText(keyPairs, listOf("nickname", "nick"))
             props.type = parseIdentifierOfRegistry(keyPairs, listOf("type", "elemental_type")) { if (CobblemonRegistries.ELEMENTAL_TYPE.containsKey(it)) it.simplify() else null }
-            props.teraType = parseIdentifierOfRegistry(keyPairs, listOf("tera_type", "tera")) { if (CobblemonRegistries.TERA_TYPE.containsKey(it)) it.simplify() else null }
+            props.teraType = parseIdentifierOfRegistry(keyPairs, listOf("tera_type", "tera")) { if (CobblemonRegistries.ELEMENTAL_TYPE.containsKey(it)) it.simplify() else null }
             props.dmaxLevel = parseIntProperty(keyPairs, listOf("dmax_level", "dmax"))?.coerceIn(0, Cobblemon.config.maxDynamaxLevel)
             props.gmaxFactor = parseBooleanProperty(keyPairs, listOf("gmax_factor", "gmax"))
             props.tradeable = parseBooleanProperty(keyPairs, listOf("tradeable", "tradable"))
@@ -368,7 +366,7 @@ open class PokemonProperties {
                 pokemon.setEV(stat.key, stat.value)
             }
         }
-        teraType?.let { TeraTypes.get(it.asIdentifierDefaultingNamespace())?.let { type -> pokemon.teraType = type } }
+        teraType?.let { CobblemonRegistries.ELEMENTAL_TYPE.get(it.asIdentifierDefaultingNamespace())?.let { type -> pokemon.teraType = type } }
         dmaxLevel?.let { pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemon.gmaxFactor = it }
         tradeable?.let { pokemon.tradeable = it }
@@ -507,13 +505,12 @@ open class PokemonProperties {
 
     // TEST YOUR LUCK!
     fun roll(pokemon: Pokemon) {
-        val baseTypes = pokemon.form.types.toList()
         if (this.shiny == null) pokemon.shiny = Cobblemon.config.shinyRate.checkRate()
         if (this.teraType == null) pokemon.teraType =
             if (Cobblemon.config.teraTypeRate.checkRate())
-                CobblemonRegistries.TERA_TYPE.getRandomElementOf(CobblemonTeraTypeTags.LEGAL_AS_STATIC, RandomSource.create()).get().value()
+                CobblemonRegistries.ELEMENTAL_TYPE.getRandomElementOf(CobblemonElementalTypeTags.CAN_SPAWN_TERA, RandomSource.create()).get().value()
             else
-                TeraTypes.forElementalType(baseTypes.random())
+                pokemon.types.shuffled().first()
     }
 
     fun createEntity(world: Level): PokemonEntity {

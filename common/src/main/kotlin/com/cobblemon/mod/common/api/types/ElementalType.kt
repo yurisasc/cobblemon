@@ -20,7 +20,6 @@ import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.simplify
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.ComponentSerialization
@@ -31,14 +30,31 @@ import net.minecraft.util.ColorRGBA
 
 class ElementalType(
     val displayName: Component,
-    val color: ColorRGBA,
-    val textureXMultiplier: Int,
-    val texture: ResourceLocation,
     val damageTaken: ResistanceMap
 ) : RegistryElement<ElementalType>, ShowdownIdentifiable, Resistible {
 
     // TODO: Remove me later
     val name: String get() = this.resourceLocation().path
+
+    /**
+     * The [ResourceLocation] of the texture for this type.
+     */
+    val texture by lazy {
+        ResourceLocation.fromNamespaceAndPath(
+            this.resourceLocation().namespace,
+            "textures/gui/type${this.resourceLocation().path}.png"
+        )
+    }
+
+    /**
+     * The [ResourceLocation] of the texture for this type when in tera mode.
+     */
+    val teraTexture by lazy {
+        ResourceLocation.fromNamespaceAndPath(
+            this.resourceLocation().namespace,
+            "textures/gui/type${this.resourceLocation().path}_tera.png"
+        )
+    }
 
     override fun registry(): Registry<ElementalType> = CobblemonRegistries.ELEMENTAL_TYPE
 
@@ -51,7 +67,7 @@ class ElementalType(
         .`is`(tag)
 
     override fun showdownId(): String {
-        return ShowdownIdentifiable.REGEX.replace(this.resourceLocation().simplify().lowercase(), "")
+        return ShowdownIdentifiable.EXCLUSIVE_REGEX.replace(this.resourceLocation().simplify().lowercase(), "")
     }
 
     override fun resistanceTo(effect: Effect): Resistance {
@@ -70,9 +86,6 @@ class ElementalType(
         val CODEC: Codec<ElementalType> = RecordCodecBuilder.create { instance ->
             instance.group(
                 ComponentSerialization.CODEC.fieldOf("displayName").forGetter(ElementalType::displayName),
-                ColorRGBA.CODEC.fieldOf("color").forGetter(ElementalType::color),
-                Codec.INT.fieldOf("textureXMultiplier").forGetter(ElementalType::textureXMultiplier),
-                ResourceLocation.CODEC.fieldOf("texture").forGetter(ElementalType::texture),
                 ResistanceMap.CODEC.fieldOf("damageTaken").forGetter(ElementalType::damageTaken)
             ).apply(instance, ::ElementalType)
         }

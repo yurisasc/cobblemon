@@ -8,10 +8,9 @@
 
 package com.cobblemon.mod.fabric.data
 
+import com.cobblemon.mod.common.data.elemental.ElementalTypeAssetProvider
 import com.cobblemon.mod.common.data.elemental.ElementalTypeProvider
 import com.cobblemon.mod.common.data.elemental.ElementalTypeTagProvider
-import com.cobblemon.mod.common.data.tera.TeraTypeProvider
-import com.cobblemon.mod.common.data.tera.TeraTypeTagProvider
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 
@@ -24,8 +23,7 @@ class CobblemonFabricDataGeneratorEntrypoint : DataGeneratorEntrypoint {
     private fun commonDataGen(pack: FabricDataGenerator.Pack) {
         pack.addProvider(::ElementalTypeProvider)
         pack.addProvider(::ElementalTypeTagProvider)
-        pack.addProvider(::TeraTypeProvider)
-        pack.addProvider(::TeraTypeTagProvider)
+        pack.addProvider(::ElementalTypeAssetProvider)
     }
 
 }

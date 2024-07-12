@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 abstract class TypeWidget(
     pX: Int, pY: Int,
@@ -22,17 +23,16 @@ abstract class TypeWidget(
 ): SoundlessWidget(pX, pY, pWidth, pHeight, pMessage) {
 
     companion object {
-        val typeResource = cobblemonResource("textures/gui/types.png")
         private const val OFFSET = 0.5
     }
 
     fun renderType(type: ElementalType, pPoseStack: PoseStack, pX: Int = x, pY: Int = y) {
         blitk(
             matrixStack = pPoseStack,
-            texture = typeResource,
+            texture = type.texture,
             x = pX + OFFSET, y = pY,
             width = width, height = height,
-            uOffset = width * type.textureXMultiplier.toFloat() + 0.1,
+            uOffset = width + 0.1,
             textureWidth = width * 18
         )
     }

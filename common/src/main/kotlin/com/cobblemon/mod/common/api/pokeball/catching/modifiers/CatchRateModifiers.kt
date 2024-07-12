@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.pokemon.Gender
+import net.minecraft.resources.ResourceKey
 
 /**
  * A collection of some default usages of [CatchRateModifier]s.
@@ -156,7 +157,7 @@ object CatchRateModifiers {
      * @param types The [ElementalType]s that will trigger the multiplier.
      * @return The multiplier modifier.
      */
-    fun typeBoosting(multiplier: Float, vararg types: ElementalType): CatchRateModifier = MultiplierModifier(multiplier) { _, pokemon -> pokemon.types.any { type -> types.contains(type) } }
+    fun typeBoosting(multiplier: Float, vararg types: ResourceKey<ElementalType>): CatchRateModifier = MultiplierModifier(multiplier) { _, pokemon -> pokemon.types.any { type -> types.any { it == type.resourceKey() } } }
 
     /**
      * Used by [PokeBalls.DREAM_BALL].

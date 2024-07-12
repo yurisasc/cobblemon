@@ -20,15 +20,14 @@ import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
 import com.cobblemon.mod.common.api.text.red
-import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
-import com.cobblemon.mod.common.loot.CobblemonLootTables
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.advancements.CriteriaTriggers
@@ -1004,7 +1003,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         val effect = bait.effects.filter { it.type == FishingBait.Effects.TERA }.random()
         if (!checkBaitSuccessRate(effect.chance)) return
 
-        pokemon.teraType = effect.subcategory?.let { TeraTypes.get(it.path) } ?: return
+        pokemon.teraType = effect.subcategory?.let { CobblemonRegistries.ELEMENTAL_TYPE.get(it) } ?: return
     }
 
     // try to reroll for a shiny based on the bait effect

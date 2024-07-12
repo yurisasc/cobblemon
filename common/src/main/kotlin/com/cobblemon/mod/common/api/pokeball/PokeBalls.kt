@@ -171,7 +171,7 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         createDefault("moon_ball", CatchRateModifiers.MOON_PHASES)
         createDefault("sport_ball", MultiplierModifier(1.5F))
         // FIXME: I need access to the elemental types
-        createDefault("net_ball"/*, CatchRateModifiers.typeBoosting(3F, ElementalTypes.BUG, ElementalTypes.WATER)*/)
+        createDefault("net_ball", CatchRateModifiers.typeBoosting(3F, ElementalTypes.BUG, ElementalTypes.WATER))
         createDefault("dive_ball", CatchRateModifiers.SUBMERGED_IN_WATER, waterDragValue = 0.99F)
         createDefault("nest_ball", CatchRateModifiers.NEST)
         // ToDo implement effect once pokedex is implemented, we have a custom multiplier of 2.5 instead of the official pokeball

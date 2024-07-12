@@ -10,6 +10,7 @@ package com.cobblemon.mod.fabric.client
 
 import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.api.types.ElementalTypeDisplays
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
@@ -21,7 +22,9 @@ import com.cobblemon.mod.common.platform.events.ClientPlayerEvent
 import com.cobblemon.mod.common.platform.events.ClientTickEvent
 import com.cobblemon.mod.common.platform.events.ItemTooltipEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.fabric.CobblemonFabric
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
@@ -36,6 +39,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
 import net.minecraft.client.color.block.BlockColor
 import net.minecraft.client.color.item.ItemColor
 import net.minecraft.client.model.geom.builders.LayerDefinition
@@ -60,6 +64,7 @@ import java.util.concurrent.Executor
 import java.util.function.Supplier
 import net.minecraft.client.particle.SpriteSet
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.profiling.ProfilerFiller
 
 class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation {
@@ -96,6 +101,16 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
             }
 
             override fun getFabricId() = cobblemonResource("atlases")
+
+        })
+
+        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(object : SimpleSynchronousResourceReloadListener {
+
+            override fun getFabricId(): ResourceLocation = cobblemonResource("elemental_type_display")
+
+            override fun onResourceManagerReload(resourceManager: ResourceManager) {
+                ElementalTypeDisplays.reload(resourceManager)
+            }
 
         })
 

@@ -29,6 +29,7 @@ object ReloadShowdownCommand {
         try {
             ShowdownService.service.closeConnection()
             ShowdownService.service.openConnection()
+            ShowdownService.service.registerElementalTypes()
             ShowdownService.service.registerSpecies()
             ShowdownService.service.registerBagItems()
             context.source.sendSystemMessage(Component.literal("Reloaded showdown"))

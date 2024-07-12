@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.gui.ColourLibrary
 import com.cobblemon.mod.common.api.gui.MultiLineLabelK
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.bold
+import com.cobblemon.mod.common.api.types.ElementalTypeDisplays
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.startselection.widgets.CategoryList
@@ -213,7 +214,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
             width = BASE_WIDTH, height = BASE_HEIGHT
         )
         // Render Frame
-        val (r, g, b) = currentPokemon.form.primaryType.color.rgba.toRGB()
+        val (r, g, b) = ElementalTypeDisplays.displayOf(currentPokemon.form.primaryType).tint.rgba.toRGB()
         blitk(
             matrixStack = matrices,
             texture = baseFrame,

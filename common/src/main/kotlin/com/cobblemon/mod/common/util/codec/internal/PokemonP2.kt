@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.util.codec.internal
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
-import com.cobblemon.mod.common.api.types.tera.TeraType
+import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
@@ -42,7 +42,7 @@ internal data class PokemonP2(
     val heldItem: ItemStack,
     val persistentData: CompoundTag,
     val tetheringId: Optional<UUID>,
-    val teraType: TeraType,
+    val teraType: ElementalType,
     val dmaxLevel: Int,
     val gmaxFactor: Boolean,
     val tradeable: Boolean
@@ -87,7 +87,7 @@ internal data class PokemonP2(
                 ItemStack.CODEC.optionalFieldOf(DataKeys.HELD_ITEM, ItemStack.EMPTY).forGetter(PokemonP2::heldItem),
                 CompoundTag.CODEC.fieldOf(DataKeys.POKEMON_PERSISTENT_DATA).forGetter(PokemonP2::persistentData),
                 UUIDUtil.LENIENT_CODEC.optionalFieldOf(DataKeys.TETHERING_ID).forGetter(PokemonP2::tetheringId),
-                CobblemonRegistries.TERA_TYPE.byNameCodec().fieldOf(DataKeys.POKEMON_TERA_TYPE).forGetter(PokemonP2::teraType),
+                CobblemonRegistries.ELEMENTAL_TYPE.byNameCodec().fieldOf(DataKeys.POKEMON_TERA_TYPE).forGetter(PokemonP2::teraType),
                 CodecUtils.dynamicIntRange(0) { Cobblemon.config.maxDynamaxLevel }.fieldOf(DataKeys.POKEMON_DMAX_LEVEL).forGetter(PokemonP2::dmaxLevel),
                 Codec.BOOL.fieldOf(DataKeys.POKEMON_GMAX_FACTOR).forGetter(PokemonP2::gmaxFactor),
                 Codec.BOOL.fieldOf(DataKeys.POKEMON_TRADEABLE).forGetter(PokemonP2::tradeable)

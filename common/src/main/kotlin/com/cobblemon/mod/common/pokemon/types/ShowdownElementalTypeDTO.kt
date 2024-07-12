@@ -6,10 +6,10 @@ import com.cobblemon.mod.common.api.types.ElementalType
 /**
  * Showdown type = TypeInfo
  *
- * @property name Doubles up as the ID, represented by us as [ElementalType.showdownId]
+ * @property id The showdown ID, represented by us as [ElementalType.showdownId]
  * @property damageTaken The damage taken from various effects, represented by us as [ResistanceMap].
  */
 internal data class ShowdownElementalTypeDTO(
-    val name: String,
+    val id: String,
     val damageTaken: Map<String, Int>
 )

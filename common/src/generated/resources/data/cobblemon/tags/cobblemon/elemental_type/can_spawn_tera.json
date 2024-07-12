@@ -1,0 +1,76 @@
+{
+  "values": [
+    {
+      "id": "cobblemon:normal",
+      "required": false
+    },
+    {
+      "id": "cobblemon:fire",
+      "required": false
+    },
+    {
+      "id": "cobblemon:water",
+      "required": false
+    },
+    {
+      "id": "cobblemon:grass",
+      "required": false
+    },
+    {
+      "id": "cobblemon:eletric",
+      "required": false
+    },
+    {
+      "id": "cobblemon:ice",
+      "required": false
+    },
+    {
+      "id": "cobblemon:fighting",
+      "required": false
+    },
+    {
+      "id": "cobblemon:poison",
+      "required": false
+    },
+    {
+      "id": "cobblemon:ground",
+      "required": false
+    },
+    {
+      "id": "cobblemon:flying",
+      "required": false
+    },
+    {
+      "id": "cobblemon:psychic",
+      "required": false
+    },
+    {
+      "id": "cobblemon:bug",
+      "required": false
+    },
+    {
+      "id": "cobblemon:rock",
+      "required": false
+    },
+    {
+      "id": "cobblemon:ghost",
+      "required": false
+    },
+    {
+      "id": "cobblemon:dragon",
+      "required": false
+    },
+    {
+      "id": "cobblemon:dark",
+      "required": false
+    },
+    {
+      "id": "cobblemon:steel",
+      "required": false
+    },
+    {
+      "id": "cobblemon:fairy",
+      "required": false
+    }
+  ]
+}

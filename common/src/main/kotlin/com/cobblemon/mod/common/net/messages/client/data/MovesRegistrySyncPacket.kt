@@ -11,8 +11,8 @@ package com.cobblemon.mod.common.net.messages.client.data
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.moves.categories.DamageCategories
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.MoveTarget
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.*
 import net.minecraft.network.RegistryFriendlyByteBuf
 
@@ -23,7 +23,7 @@ class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacke
     override fun encodeEntry(buffer: RegistryFriendlyByteBuf, entry: MoveTemplate) {
         buffer.writeString(entry.name)
         buffer.writeInt(entry.num)
-        buffer.writeString(entry.elementalType.name)
+        buffer.writeResourceKey(entry.elementalType.resourceKey())
         buffer.writeString(entry.damageCategory.name)
         buffer.writeDouble(entry.power)
         buffer.writeEnumConstant(entry.target)
@@ -38,7 +38,8 @@ class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacke
     override fun decodeEntry(buffer: RegistryFriendlyByteBuf): MoveTemplate? {
         val name = buffer.readString()
         val num = buffer.readInt()
-        val type = ElementalTypes.getOrException(buffer.readString())
+        val type = buffer.registryAccess().registryOrThrow(CobblemonRegistries.ELEMENTAL_TYPE_KEY)
+            .get(buffer.readResourceKey(CobblemonRegistries.ELEMENTAL_TYPE_KEY))!!
         val damageCategory = DamageCategories.getOrException(buffer.readString())
         val power = buffer.readDouble()
         val target = buffer.readEnumConstant(MoveTarget::class.java)

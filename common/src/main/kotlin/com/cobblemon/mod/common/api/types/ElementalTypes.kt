@@ -15,9 +15,6 @@ import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import kotlin.jvm.optionals.getOrNull
 
-/**
- * Registry for all known ElementalTypes
- */
 object ElementalTypes : CobblemonRegistry<ElementalType>() {
 
     @JvmStatic val NORMAL = this.key("normal")
@@ -38,6 +35,7 @@ object ElementalTypes : CobblemonRegistry<ElementalType>() {
     @JvmStatic val DARK = this.key("dark")
     @JvmStatic val STEEL = this.key("steel")
     @JvmStatic val FAIRY = this.key("fairy")
+    @JvmStatic val STELLAR = this.key("stellar")
 
     fun get(name: String): ElementalType? {
         return CobblemonRegistries.ELEMENTAL_TYPE.getHolder(

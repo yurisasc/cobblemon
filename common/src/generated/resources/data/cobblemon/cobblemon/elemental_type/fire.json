@@ -1,5 +1,4 @@
 {
-  "color": "#00E55C32",
   "damageTaken": [
     {
       "effect": {
@@ -67,7 +66,5 @@
   ],
   "displayName": {
     "translate": "cobblemon.type.fire"
-  },
-  "texture": "cobblemon:ui/types.png",
-  "textureXMultiplier": 1
+  }
 }

@@ -8,13 +8,10 @@
 
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
-import com.cobblemon.mod.common.api.types.tera.TeraType
-import com.cobblemon.mod.common.api.types.tera.TeraTypes
+import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readIdentifier
-import com.cobblemon.mod.common.util.writeIdentifier
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 /**
@@ -23,14 +20,14 @@ import net.minecraft.network.RegistryFriendlyByteBuf
  * @author Segfault Guy
  * @since July 19, 2023
  */
-class TeraTypeUpdatePacket(pokemon: () -> Pokemon, value: TeraType) : SingleUpdatePacket<TeraType, TeraTypeUpdatePacket>(pokemon, value) {
+class TeraTypeUpdatePacket(pokemon: () -> Pokemon, value: ElementalType) : SingleUpdatePacket<ElementalType, TeraTypeUpdatePacket>(pokemon, value) {
     override val id = ID
 
     override fun encodeValue(buffer: RegistryFriendlyByteBuf) {
         buffer.writeResourceKey(this.value.resourceKey())
     }
 
-    override fun set(pokemon: Pokemon, value: TeraType) {
+    override fun set(pokemon: Pokemon, value: ElementalType) {
         pokemon.teraType = value
     }
 
@@ -38,8 +35,8 @@ class TeraTypeUpdatePacket(pokemon: () -> Pokemon, value: TeraType) : SingleUpda
         val ID = cobblemonResource("tera_type_update")
         fun decode(buffer: RegistryFriendlyByteBuf) = TeraTypeUpdatePacket(
             decodePokemon(buffer),
-            buffer.registryAccess().registryOrThrow(CobblemonRegistries.TERA_TYPE_KEY)
-                .get(buffer.readResourceKey(CobblemonRegistries.TERA_TYPE_KEY))!!
+            buffer.registryAccess().registryOrThrow(CobblemonRegistries.ELEMENTAL_TYPE_KEY)
+                .get(buffer.readResourceKey(CobblemonRegistries.ELEMENTAL_TYPE_KEY))!!
         )
     }
 }

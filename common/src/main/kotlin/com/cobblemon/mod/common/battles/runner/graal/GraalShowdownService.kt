@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.runner.ShowdownService
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import java.io.File
@@ -33,6 +34,7 @@ import org.graalvm.polyglot.HostAccess.Export
 import org.graalvm.polyglot.PolyglotAccess
 import org.graalvm.polyglot.Value
 import org.graalvm.polyglot.io.FileSystem
+import java.lang.StringBuilder
 
 /**
  * Mediator service for communicating between the Cobblemon Minecraft mod and Cobblemon showdown service via
@@ -177,6 +179,17 @@ class GraalShowdownService : ShowdownService {
         for ((itemId, js) in BagItems.bagItemsScripts) {
             receiveBagItemDataFn.execute(itemId, js.replace("\n", " "))
         }
+    }
+
+    override fun registerElementalTypes() {
+        val receiveTypeFn = this.context.getBindings("js").getMember("receiveTypeData")
+        val jsArray = this.context.eval("js", "new Array();")
+        var index = 0L
+        CobblemonRegistries.ELEMENTAL_TYPE.forEach { type ->
+            val dto = type.asShowdownDTO()
+            jsArray.setArrayElement(index++, this.gson.toJson(dto))
+        }
+        receiveTypeFn.execute(jsArray)
     }
 
     private fun sendToShowdown(battleId: UUID, messages: Array<String>) {

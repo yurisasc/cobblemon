@@ -52,7 +52,7 @@ class HealInstruction(val actor: BattleActor, val publicMessage: BattleMessage, 
                     privateMessage.hasOptionalArgument("zeffect") -> battleLang("heal.zeffect", battlePokemon.getName())
                     privateMessage.hasOptionalArgument("wisher") -> {
                         val name = privateMessage.optionalArgument("wisher")!!
-                        val showdownId = name.lowercase().replace(ShowdownIdentifiable.REGEX, "")
+                        val showdownId = name.lowercase().replace(ShowdownIdentifiable.EXCLUSIVE_REGEX, "")
                         val wisher = actor.pokemonList.firstOrNull { it.effectedPokemon.showdownId() == showdownId }
                         // If no Pokémon is found this is a nickname
                         battleLang("heal.wish", wisher?.getName() ?: actor.nameOwned(name))

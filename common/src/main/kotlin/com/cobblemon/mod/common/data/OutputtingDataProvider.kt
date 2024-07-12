@@ -9,8 +9,6 @@
 package com.cobblemon.mod.common.data
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.registry.CobblemonRegistries
-import net.minecraft.core.HolderLookup
 import net.minecraft.core.HolderLookup.Provider
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
@@ -57,8 +55,13 @@ abstract class OutputtingDataProvider<T : Any, E : DataExport<T>>(
 
     protected abstract fun pathProvider(): PackOutput.PathProvider
 
-    protected fun <T> createPathForCobblemonData(key: ResourceKey<Registry<T>>): PackOutput.PathProvider = this.packOutput.createPathProvider(
+    protected fun <T> createPathForCobblemonRegistryData(key: ResourceKey<Registry<T>>): PackOutput.PathProvider = this.packOutput.createPathProvider(
         PackOutput.Target.DATA_PACK,
+        "${Cobblemon.MODID}/${Registries.elementsDirPath(key)}"
+    )
+
+    protected fun <T> createPathForCobblemonRegistryAsset(key: ResourceKey<Registry<T>>): PackOutput.PathProvider = this.packOutput.createPathProvider(
+        PackOutput.Target.RESOURCE_PACK,
         "${Cobblemon.MODID}/${Registries.elementsDirPath(key)}"
     )
 }

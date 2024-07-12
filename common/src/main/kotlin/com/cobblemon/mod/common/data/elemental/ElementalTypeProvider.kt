@@ -20,13 +20,11 @@ import com.cobblemon.mod.common.data.OutputtingDataProvider
 import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.serialization.Codec
-import net.minecraft.core.Holder
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.PackOutput
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.ColorRGBA
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -36,41 +34,37 @@ class ElementalTypeProvider(
 ) : OutputtingDataProvider<ElementalType, ElementalTypeProvider.ElementalTypeDataExport>(packOutput, lookupProvider) {
 
     override fun buildEntries(lookupProvider: HolderLookup.Provider, consumer: Consumer<ElementalTypeDataExport>) {
-        consumer.accept(dataExport("bug", 0xA2C831, 11, bugResistances()))
-        consumer.accept(dataExport("dark", 0x5C6CB2, 15, darkResistances()))
-        consumer.accept(dataExport("dragon", 0x535DE8, 14, dragonResistances()))
-        consumer.accept(dataExport("electric", 0xEFD128, 4, electricResistances()))
-        consumer.accept(dataExport("fairy", 0xEA727E, 17, fairyResistances()))
-        consumer.accept(dataExport("fighting", 0xC44C5C, 6, fightingResistances()))
-        consumer.accept(dataExport("fire", 0xE55C32, 1, fireResistances()))
-        consumer.accept(dataExport("flying", 0xBCC1FF, 9, flyingResistances()))
-        consumer.accept(dataExport("ghost", 0x9572E5, 13, ghostResistances()))
-        consumer.accept(dataExport("grass", 0x4DBC3C, 3, grassResistances()))
-        consumer.accept(dataExport("ground", 0xD89950, 8, groundResistances()))
-        consumer.accept(dataExport("ice", 0x6BC3EF, 5, iceResistances()))
-        consumer.accept(dataExport("normal", 0xDDDDCF, 0, normalResistances()))
-        consumer.accept(dataExport("poison", 0xA24BD8, 7, poisonResistances()))
-        consumer.accept(dataExport("psychic", 0xD86AD6, 10, psychicResistances()))
-        consumer.accept(dataExport("rock", 0xAA9666, 12, rockResistances()))
-        consumer.accept(dataExport("steel", 0xC3CCE0, 16, steelResistances()))
-        consumer.accept(dataExport("water", 0x4A9BE8, 2, waterResistances()))
+        consumer.accept(dataExport("bug", bugResistances()))
+        consumer.accept(dataExport("dark", darkResistances()))
+        consumer.accept(dataExport("dragon", dragonResistances()))
+        consumer.accept(dataExport("electric", electricResistances()))
+        consumer.accept(dataExport("fairy", fairyResistances()))
+        consumer.accept(dataExport("fighting", fightingResistances()))
+        consumer.accept(dataExport("fire", fireResistances()))
+        consumer.accept(dataExport("flying", flyingResistances()))
+        consumer.accept(dataExport("ghost", ghostResistances()))
+        consumer.accept(dataExport("grass", grassResistances()))
+        consumer.accept(dataExport("ground", groundResistances()))
+        consumer.accept(dataExport("ice", iceResistances()))
+        consumer.accept(dataExport("normal", normalResistances()))
+        consumer.accept(dataExport("poison", poisonResistances()))
+        consumer.accept(dataExport("psychic", psychicResistances()))
+        consumer.accept(dataExport("rock", rockResistances()))
+        consumer.accept(dataExport("steel", steelResistances()))
+        consumer.accept(dataExport("water", waterResistances()))
+        consumer.accept(dataExport("stellar", emptyMap()))
     }
 
     override fun getName(): String = "elemental types"
 
-    override fun pathProvider(): PackOutput.PathProvider = this.createPathForCobblemonData(CobblemonRegistries.ELEMENTAL_TYPE_KEY)
+    override fun pathProvider(): PackOutput.PathProvider = this.createPathForCobblemonRegistryData(CobblemonRegistries.ELEMENTAL_TYPE_KEY)
 
     private fun dataExport(
         name: String,
-        color: Int,
-        textureOffset: Int,
         resistances: Map<Effect, Resistance>
     ): ElementalTypeDataExport {
         val type = ElementalType(
             Component.translatable("cobblemon.type.$name"),
-            ColorRGBA(color),
-            textureOffset,
-            cobblemonResource("ui/types.png"),
             ResistanceMap(resistances)
         )
         return ElementalTypeDataExport(cobblemonResource(name), type)

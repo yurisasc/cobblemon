@@ -47,6 +47,18 @@ object CobblemonElementalTypeTags {
     val INTRODUCED_IN_GENERATION_6 = this.create("introduced_in_generation_6")
 
     /**
+     * Types introduced in generation 9.
+     */
+    @JvmStatic
+    val INTRODUCED_IN_GENERATION_9 = this.create("introduced_in_generation_9")
+
+    /**
+     * Elemental types that can naturally spawn as a Pokémons tera type.
+     */
+    @JvmStatic
+    val CAN_SPAWN_TERA = this.create("can_spawn_tera")
+
+    /**
      * Types present here do not drown.
      */
     @JvmStatic

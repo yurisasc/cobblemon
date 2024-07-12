@@ -419,6 +419,7 @@ class CobblemonNeoForge : CobblemonImplementation {
         RegistryBuilder(key)
             .sync(sync)
             .create()
+        Cobblemon.LOGGER.info("Registered built-in registry {}", key.toString())
     }
 
     override fun <T> registerDynamicRegistry(
@@ -428,6 +429,7 @@ class CobblemonNeoForge : CobblemonImplementation {
     ) {
         MOD_BUS.addListener<DataPackRegistryEvent.NewRegistry> { event ->
             event.dataPackRegistry(key, elementCodec, networkCodec)
+            Cobblemon.LOGGER.info("Registered dynamic registry {}", key.toString())
         }
     }
 

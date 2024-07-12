@@ -27,9 +27,6 @@ class TypeIcon(
     companion object {
         private const val TYPE_ICON_DIAMETER = 36
         private const val SCALE = 0.5F
-
-        private val typesResource = cobblemonResource("textures/gui/types.png")
-        private val smallTypesResource = cobblemonResource("textures/gui/types_small.png")
     }
 
     fun render(context: GuiGraphics) {
@@ -39,12 +36,12 @@ class TypeIcon(
         if (secondaryType != null) {
             blitk(
                 matrixStack = context.pose(),
-                texture = if (small) smallTypesResource else typesResource,
+                texture = if (small) this.type.texture else this.type.texture,
                 x = (x.toFloat() + secondaryOffset - offsetX) / SCALE,
                 y = y.toFloat() / SCALE,
                 height = diameter,
                 width = diameter,
-                uOffset = diameter * secondaryType!!.textureXMultiplier.toFloat() + 0.1,
+                uOffset = diameter + 0.1,
                 textureWidth = diameter * 18,
                 alpha = opacity,
                 scale = SCALE
@@ -53,12 +50,12 @@ class TypeIcon(
 
         blitk(
             matrixStack = context.pose(),
-            texture = if (small) smallTypesResource else typesResource,
+            texture = if (small) this.type.texture else this.type.texture,
             x = (x.toFloat() - offsetX) / SCALE,
             y = y.toFloat() / SCALE,
             height = diameter,
             width = diameter,
-            uOffset = diameter * type.textureXMultiplier.toFloat() + 0.1,
+            uOffset = diameter + 0.1,
             textureWidth = diameter * 18,
             alpha = opacity,
             scale = SCALE

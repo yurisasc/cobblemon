@@ -305,6 +305,7 @@ object CobblemonFabric : CobblemonImplementation {
             builder.attribute(RegistryAttribute.SYNCED)
         }
         builder.buildAndRegister()
+        Cobblemon.LOGGER.info("Registered built-in registry {}", key.toString())
     }
 
     override fun <T> registerDynamicRegistry(
@@ -317,6 +318,7 @@ object CobblemonFabric : CobblemonImplementation {
         } else {
             DynamicRegistries.register(key, elementCodec)
         }
+        Cobblemon.LOGGER.info("Registered dynamic registry {}", key.toString())
     }
 
     override fun server(): MinecraftServer? = if (this.environment() == Environment.CLIENT) Minecraft.getInstance().singleplayerServer else this.server

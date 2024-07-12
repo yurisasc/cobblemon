@@ -1,5 +1,4 @@
 {
-  "color": "#00A24BD8",
   "damageTaken": [
     {
       "effect": {
@@ -53,7 +52,5 @@
   ],
   "displayName": {
     "translate": "cobblemon.type.poison"
-  },
-  "texture": "cobblemon:ui/types.png",
-  "textureXMultiplier": 7
+  }
 }

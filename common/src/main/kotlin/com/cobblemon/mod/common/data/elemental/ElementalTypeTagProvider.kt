@@ -44,6 +44,7 @@ class ElementalTypeTagProvider(
             .addOptional(ElementalTypes.DARK.location())
             .addOptional(ElementalTypes.STEEL.location())
             .addOptional(ElementalTypes.FAIRY.location())
+            .addOptional(ElementalTypes.STELLAR.location())
         
         this.tag(CobblemonElementalTypeTags.INTRODUCED_IN_GENERATION_1)
             .addOptional(ElementalTypes.NORMAL.location())
@@ -67,6 +68,29 @@ class ElementalTypeTagProvider(
             .addOptional(ElementalTypes.DARK.location())
 
         this.tag(CobblemonElementalTypeTags.INTRODUCED_IN_GENERATION_6)
+            .addOptional(ElementalTypes.FAIRY.location())
+
+        this.tag(CobblemonElementalTypeTags.INTRODUCED_IN_GENERATION_9)
+            .addOptional(ElementalTypes.STELLAR.location())
+
+        this.tag(CobblemonElementalTypeTags.CAN_SPAWN_TERA)
+            .addOptional(ElementalTypes.NORMAL.location())
+            .addOptional(ElementalTypes.FIRE.location())
+            .addOptional(ElementalTypes.WATER.location())
+            .addOptional(ElementalTypes.GRASS.location())
+            .addOptional(ElementalTypes.ELECTRIC.location())
+            .addOptional(ElementalTypes.ICE.location())
+            .addOptional(ElementalTypes.FIGHTING.location())
+            .addOptional(ElementalTypes.POISON.location())
+            .addOptional(ElementalTypes.GROUND.location())
+            .addOptional(ElementalTypes.FLYING.location())
+            .addOptional(ElementalTypes.PSYCHIC.location())
+            .addOptional(ElementalTypes.BUG.location())
+            .addOptional(ElementalTypes.ROCK.location())
+            .addOptional(ElementalTypes.GHOST.location())
+            .addOptional(ElementalTypes.DRAGON.location())
+            .addOptional(ElementalTypes.DARK.location())
+            .addOptional(ElementalTypes.STEEL.location())
             .addOptional(ElementalTypes.FAIRY.location())
 
         this.tag(CobblemonElementalTypeTags.DROWN_IMMUNE)

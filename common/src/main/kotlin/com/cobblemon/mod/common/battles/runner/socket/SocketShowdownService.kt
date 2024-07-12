@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import java.io.BufferedReader
@@ -166,4 +167,11 @@ class SocketShowdownService(val host: String = "localhost", val port: Int = 1846
         acknowledge()
     }
 
+    override fun registerElementalTypes() {
+        this.writer.write(">resetTypeData")
+        this.acknowledge()
+        CobblemonRegistries.ELEMENTAL_TYPE.forEach { type ->
+            this.writer.write(">receiveTypeData ${this.gson.toJson(type)}")
+        }
+    }
 }

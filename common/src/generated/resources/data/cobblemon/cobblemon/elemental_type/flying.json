@@ -1,5 +1,4 @@
 {
-  "color": "#00BCC1FF",
   "damageTaken": [
     {
       "effect": {
@@ -53,7 +52,5 @@
   ],
   "displayName": {
     "translate": "cobblemon.type.flying"
-  },
-  "texture": "cobblemon:ui/types.png",
-  "textureXMultiplier": 9
+  }
 }
