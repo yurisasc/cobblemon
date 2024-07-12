@@ -239,21 +239,30 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         if (entity is ServerPlayerEntity && (getMaxUseTime(stack, entity) - timeLeft) <= 3) {
             openPokdexGUI(entity)
         } else if (entity !is ServerPlayerEntity && (getMaxUseTime(stack, entity) - timeLeft) > 3){ // any other amount of time assume scanning mode was active
-            val client = MinecraftClient.getInstance()
-            // Restore the HUD
-            client.options.hudHidden = originalHudHidden
-            isScanning = false
-            zoomLevel = 1.0
-            attackKeyHeldTicks = 0
-            changeFOV(70.0)
             playSound(CobblemonSounds.POKEDEX_SCAN_CLOSE)
 
-            // todo if solution is found to boost player speed during scanning mode, you might need to end it here
+            // todo if solution is found to boost player speed during scanning mode, we might need to end it here
             //entity.removeStatusEffect(StatusEffects.SPEED) // Remove slowness effect
         }
 
+        // reset all overlay values to make sure nothing gets stuck
+        resetOverlay()
+
         super.onStoppedUsing(stack, world, entity, timeLeft)
     }
+
+    // for resetting certain values of overlay related things
+    fun resetOverlay() {
+        val client = MinecraftClient.getInstance()
+        // Restore the HUD
+        client.options.hudHidden = originalHudHidden
+        isScanning = false
+        bufferImageSnap = false
+        zoomLevel = 1.0
+        attackKeyHeldTicks = 0
+        changeFOV(70.0)
+    }
+
 
     // todo idk if we ever will need this since it is only fired when maxUseTime is reached whcich for this item is currently at 3 hours
     /*override fun finishUsing(stack: ItemStack?, world: World?, entity: LivingEntity?): ItemStack? {
@@ -518,20 +527,15 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     @Environment(EnvType.CLIENT)
     fun snapPicture(player: ClientPlayerEntity) {
         MinecraftClient.getInstance().execute {
-
-
             val client = MinecraftClient.getInstance()
 
-            /*// Hide the HUD
+            // Hide the HUD
             val originalHudHidden = client.options.hudHidden
-            client.options.hudHidden = true*/
+            client.options.hudHidden = true
 
             // Take a screenshot
             val framebuffer: Framebuffer = client.framebuffer
             val nativeImage: NativeImage = ScreenshotRecorder.takeScreenshot(framebuffer)
-
-            /* // Restore the HUD
-            client.options.hudHidden = originalHudHidden*/
 
             // Convert NativeImage to BufferedImage
             val imageBytes = nativeImage.bytes
@@ -552,6 +556,9 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
             // Send the packet to the server
             MapUpdatePacket(imageBytesToSend).sendToServer()
+
+            // Restore the HUD
+            client.options.hudHidden = originalHudHidden
         }
     }
 

@@ -113,7 +113,6 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
                     if (!(itemStack.item as PokedexItem).bufferImageSnap) {
                         (itemStack.item as PokedexItem).onRenderOverlay(drawContext)
                     }
-
                 }
             }
         }
