@@ -476,8 +476,8 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         if (isScanning) {
             val eyePos = user.getCameraPosVec(1.0F)
             val lookVec = user.getRotationVec(1.0F)
-            val maxDistance = 30.0 * zoomLevel  // Adjusted raycast distance based on zoomLevel
-            val boundingBoxSize = 50.0
+            val maxDistance = 8.0 * zoomLevel  // Adjusted raycast distance based on zoomLevel
+            val boundingBoxSize = 12.0 * zoomLevel
             var closestEntity: Entity? = null
             var closestDistance = maxDistance
 
