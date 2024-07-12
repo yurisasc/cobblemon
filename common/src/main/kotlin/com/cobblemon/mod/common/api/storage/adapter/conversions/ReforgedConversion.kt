@@ -93,14 +93,14 @@ class ReforgedConversion(val base: Path) : CobblemonConverter<CompoundTag> {
             ?: throw IllegalStateException("Failed to read a species with pokedex identifier ${nbt.getInt("ndex")}")
         PokemonProperties.parse((result.species.forms.find { it.name == nbt.getString("Variant") } ?: result.species.standardForm).name).apply(result)
 
-        result.gender = Gender.values()[nbt.getInt("Gender")]
+        result.gender = Gender.entries.toTypedArray()[nbt.getInt("Gender")]
         result.shiny = this.find(nbt, "IsShiny", CompoundTag::getBoolean) ?:
                         this.find(nbt, "palette", CompoundTag::getString)?.equals("shiny") ?: false
         result.level = nbt.getInt("Level")
         result.addExperience(SidemodExperienceSource("Reforged"), nbt.getInt("EXP"))
         result.setFriendship(nbt.getInt("Friendship"))
         Abilities.get(nbt.getString("Ability"))?.let { template ->
-            result.updateAbility(template.create(forced = result.form.abilities.none { it.template == template }))
+            result.updateAbility(template.asAbility(forced = result.form.abilities.none { it.template == template }))
         }
         result.nature = Natures.getNature(ResourceLocation.parse(ReforgedNatures.entries[nbt.getInt("Nature")].name.lowercase())) ?: Natures.getRandomNature()
         result.mintedNature = Natures.getNature(ResourceLocation.parse(ReforgedNatures.entries[nbt.getInt("MintNature")].name.lowercase()))

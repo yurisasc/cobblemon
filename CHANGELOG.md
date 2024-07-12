@@ -21,16 +21,16 @@
 - Many types related to ``Pokemon`` including itself now have dedicated ``Codec``, please migrate to them from the NBT/JSON/PacketBuffer write/read methods.
 - Added ``CobblemonRegistries`` for all the new proper registry implementations, these will be done in waves and introduced gradually.
 - Added ``CobblemonElementalTypeTags``, contains all our default tags for the ``cobblemon:elemental_type`` registry.
-- Added ``CobblemonStatusTags``, contains all our default tags for the ``cobblemon:status`` registry.
-- The following built-in registries have been added: ``cobblemon:status``.
+- The following built-in registries have been added: ``cobblemon:ability``.
 - The following dynamic registries have been added and you can use datagenerators on them: ``cobblemon:elemental_type``.
 - Added ``HiddenPowerCalculator``, this can be used or swapped by ``Cobblemon.hiddenPowerCalculator``, the default implementation is ``OfficialHiddenPowerCalculator``.
 
 ### Data Pack & Resource Pack Creators
 - You can now add custom Pokemon elemental types. The registry key is ``cobblemon:elemental_type``. Example datapack path: ``my_pack/cobblemon/elemental_type/my_type.json``. For the file structure see the wiki or the default Cobblemon assets.
 - You can now add tags for Pokemon elemental types. The registry key is ``cobblemon:elemental_type``. Example datapack path: ``my_pack/tags/cobblemon/elemental_type/my_tag.json``.
-- You can now add tags for Pokemon statuses. The registry key is ``cobblemon:status``. Example datapack path: ``my_pack/tags/cobblemon/status/my_tag.json``.
+- You can now add tags for Pokemon abilities. The registry key is ``cobblemon:ability``. Example datapack path: ``my_pack/tags/cobblemon/ability/my_tag.json``.
 - Any usage of elemental types in data files such as species need to be updated to use the Cobblemon namespace instead, for example ``fire`` became ``cobblemon:fire``.
+- Any usage of abilities in data files such as species need to be updated to use the Cobblemon namespace instead, for example ``blaze`` became ``cobblemon:blaze``.
 
 ## [1.5.3](#1-5-3)
 ### Fixes

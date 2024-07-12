@@ -28,6 +28,7 @@ import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.levelgen.GenerationStep
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import java.util.function.Consumer
 import kotlin.reflect.KClass
 
 interface CobblemonImplementation {
@@ -198,8 +199,9 @@ interface CobblemonImplementation {
      * @param T The type of the registry elements.
      * @param key The [ResourceKey] of this registry.
      * @param sync If this registry should be synced.
+     * @param callback [Consumer] for the process to register the entries.
      */
-    fun <T> registerBuiltInRegistry(key: ResourceKey<Registry<T>>, sync: Boolean)
+    fun <T : Any> registerBuiltInRegistry(key: ResourceKey<Registry<T>>, sync: Boolean, callback: Consumer<(ResourceKey<T>, T) -> Unit>)
 
     /**
      * Creates a dynamic registry.

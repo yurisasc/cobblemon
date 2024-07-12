@@ -112,7 +112,7 @@ open class PokemonProperties {
             props.friendship = parseIntProperty(keyPairs, listOf("friendship"))?.coerceIn(0, Cobblemon.config.maxPokemonFriendship)
             props.pokeball = parseIdentifierOfRegistry(keyPairs, listOf("pokeball")) { identifier -> PokeBalls.getPokeBall(identifier)?.name?.toString() }
             props.nature = parseIdentifierOfRegistry(keyPairs, listOf("nature")) { identifier -> Natures.getNature(identifier)?.name?.toString() }
-            props.ability = parseStringOfRegistry(keyPairs, listOf("ability")) { Abilities.get(it)?.name }
+            props.ability = parseIdentifierOfRegistry(keyPairs, listOf("ability")) { if (CobblemonRegistries.ABILITY.containsKey(it)) it.simplify() else null }
             props.status = parseStringOfRegistry(keyPairs, listOf("status")) { (Statuses.getStatus(it) ?: Statuses.getStatus(it.asIdentifierDefaultingNamespace()))?.showdownName }
             props.nickname = parseText(keyPairs, listOf("nickname", "nick"))
             props.type = parseIdentifierOfRegistry(keyPairs, listOf("type", "elemental_type")) { if (CobblemonRegistries.ELEMENTAL_TYPE.containsKey(it)) it.simplify() else null }
@@ -428,7 +428,7 @@ open class PokemonProperties {
         friendship?.takeIf { it != pokemon.friendship }?.let { return false }
         pokeball?.takeIf { it != pokemon.caughtBall.name.toString() }?.let { return false }
         nature?.takeIf { it != pokemon.nature.name.toString() }?.let { return false }
-        ability?.takeIf { it != pokemon.ability.name }?.let { return false }
+        ability?.takeIf { pokemon.ability.template.resourceLocation() != it.asIdentifierDefaultingNamespace() }?.let { return false }
         status?.takeIf { it != pokemon.status?.status?.showdownName }?.let { return false }
         ivs?.forEach{ stat ->
             if (stat.value != pokemon.ivs[stat.key]) { return false }
@@ -701,8 +701,8 @@ open class PokemonProperties {
      */
     private fun createAbility(id: String, form: FormData): Ability? {
         val ability = Abilities.get(id) ?: return null
-        val potentialAbility = form.abilities.firstOrNull { potential -> potential.template == ability } ?: return ability.create(true)
-        return potentialAbility.template.create(false)
+        val potentialAbility = form.abilities.firstOrNull { potential -> potential.template == ability } ?: return ability.asAbility(true)
+        return potentialAbility.template.asAbility(false)
     }
 
 }

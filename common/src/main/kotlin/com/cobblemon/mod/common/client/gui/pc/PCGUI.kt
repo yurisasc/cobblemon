@@ -24,7 +24,6 @@ import com.cobblemon.mod.common.client.storage.ClientParty
 import com.cobblemon.mod.common.net.messages.server.storage.pc.UnlinkPlayerFromPCPacket
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.mojang.blaze3d.platform.InputConstants
@@ -329,7 +328,7 @@ class PCGUI(
             // Ability
             drawScaledText(
                 context = context,
-                text = pokemon.ability.displayName.asTranslated(),
+                text = pokemon.ability.displayName.copy(),
                 x = x + 39,
                 y = y + 154,
                 centered = true,

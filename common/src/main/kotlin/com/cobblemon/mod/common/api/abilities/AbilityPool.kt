@@ -12,6 +12,8 @@ import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.PrioritizedList
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.pokemon.Species
+import com.cobblemon.mod.common.registry.CobblemonRegistries
+import net.minecraft.util.RandomSource
 
 /**
  * A pool of potential abilities, as a [PrioritizedList]. The added logic of this subclass
@@ -23,16 +25,16 @@ import com.cobblemon.mod.common.pokemon.Species
  */
 open class AbilityPool : PrioritizedList<PotentialAbility>() {
     fun select(species: Species, aspects: Set<String>): Pair<Ability, Priority> {
-        for (priority in Priority.values()) {
+        for (priority in Priority.entries) {
             val potentialAbilities = priorityMap[priority]?.filter { it.isSatisfiedBy(aspects) } ?: continue
             if (potentialAbilities.isNotEmpty()) {
-                return potentialAbilities.random().template.create() to priority
+                return potentialAbilities.random().template.asAbility() to priority
             }
         }
 
         LOGGER.error("Unable to select an ability from the pool for $species and aspects: ${aspects.joinToString()}")
         LOGGER.error("Usually this happens when a client is doing logic it shouldn't. Please show this to the Cobblemon developers!")
         Exception().printStackTrace()
-        return Abilities.first().create() to Priority.LOWEST
+        return CobblemonRegistries.ABILITY.getRandom(RandomSource.create()).get().value().asAbility() to Priority.LOWEST
     }
 }

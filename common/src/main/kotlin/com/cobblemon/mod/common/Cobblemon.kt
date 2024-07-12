@@ -136,12 +136,6 @@ object Cobblemon {
     val LOGGER: Logger = LogManager.getLogger()
 
     lateinit var implementation: CobblemonImplementation
-    @Deprecated("This field is now a config value", ReplaceWith("Cobblemon.config.captureCalculator"))
-    var captureCalculator: CaptureCalculator
-        get() = this.config.captureCalculator
-        set(value) {
-            this.config.captureCalculator = value
-        }
     var experienceCalculator: ExperienceCalculator = StandardExperienceCalculator
     var evYieldCalculator: EvCalculator = Generation8EvCalculator
     var starterHandler: StarterHandler = CobblemonStarterHandler()
@@ -170,8 +164,6 @@ object Cobblemon {
             this.LOGGER.info("  - Git Commit: ${smallCommitHash()} (https://gitlab.com/cable-mc/cobblemon/-/commit/${CobblemonBuildDetails.GIT_COMMIT})")
             this.LOGGER.info("  - Branch: ${CobblemonBuildDetails.BRANCH}")
         }
-
-        CobblemonRegistries.register()
         implementation.registerPermissionValidator()
         implementation.registerSoundEvents()
         implementation.registerDataComponents()
@@ -201,6 +193,9 @@ object Cobblemon {
         CobblemonGameRules // Init fields and register
 
         ShoulderEffectRegistry.register()
+
+        this.showdownThread.launch()
+        CobblemonRegistries.register()
 
         DATA_SYNCHRONIZED.subscribe {
             storage.onPlayerDataSync(it)
@@ -258,7 +253,6 @@ object Cobblemon {
     }
 
     fun initialize() {
-        showdownThread.launch()
 
         // Start up the data provider.
         CobblemonDataProvider.registerDefaults()

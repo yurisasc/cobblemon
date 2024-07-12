@@ -34,7 +34,7 @@ open class AbilityTypeChanger<T : PotentialAbility>(
         val possible = this.queryPossible(pokemon)
         val picked = possible.randomOrNull() ?: return false
         val old = pokemon.ability.template
-        pokemon.updateAbility(picked.create(forced = false))
+        pokemon.updateAbility(picked.asAbility(forced = false))
         return pokemon.ability.template != old
     }
 

@@ -94,6 +94,7 @@ import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.levelgen.GenerationStep
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import java.util.function.Consumer
 
 object CobblemonFabric : CobblemonImplementation {
 
@@ -299,13 +300,14 @@ object CobblemonFabric : CobblemonImplementation {
         ResourceManagerHelper.get(type).registerReloadListener(CobblemonReloadListener(identifier, reloader, dependencies))
     }
 
-    override fun <T> registerBuiltInRegistry(key: ResourceKey<Registry<T>>, sync: Boolean) {
+    override fun <T : Any> registerBuiltInRegistry(key: ResourceKey<Registry<T>>, sync: Boolean, callback: Consumer<(ResourceKey<T>, T) -> Unit>) {
         val builder = FabricRegistryBuilder.createSimple(key)
         if (sync) {
             builder.attribute(RegistryAttribute.SYNCED)
         }
-        builder.buildAndRegister()
+        val registry = builder.buildAndRegister()
         Cobblemon.LOGGER.info("Registered built-in registry {}", key.toString())
+        callback.accept { elementKey, element -> Registry.register(registry, elementKey, element) }
     }
 
     override fun <T> registerDynamicRegistry(
@@ -412,7 +414,6 @@ object CobblemonFabric : CobblemonImplementation {
         override fun getFabricDependencies(): MutableCollection<ResourceLocation> = this.dependencies.toMutableList()
     }
 
-    @Suppress("UnstableApiUsage")
     private class FabricItemGroupInjector(private val fabricItemGroupEntries: FabricItemGroupEntries) : CobblemonItemGroups.Injector {
         override fun putFirst(item: ItemLike) {
             this.fabricItemGroupEntries.prepend(item)

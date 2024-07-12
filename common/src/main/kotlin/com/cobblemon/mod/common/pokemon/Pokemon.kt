@@ -402,7 +402,7 @@ open class Pokemon : ShowdownIdentifiable {
     var benchedMoves = BenchedMoves()
         internal set
 
-    var ability: Ability = Abilities.DUMMY.create(false)
+    var ability: Ability = Abilities.DUMMY.asAbility(false)
         // Keep internal for DTO & sync packet
         internal set(value) {
             if (field != value) {
@@ -1168,7 +1168,7 @@ open class Pokemon : ShowdownIdentifiable {
             return this.ability
         }
         val (ability, _) = this.form.abilities.select(this.species, this.aspects)
-        return this.updateAbility(ability.template.create(false))
+        return this.updateAbility(ability.template.asAbility(false))
     }
 
     /**
@@ -1221,7 +1221,7 @@ open class Pokemon : ShowdownIdentifiable {
         }
         if (potential != null) {
             // Keep our known index and priority, this was the original valid state after all
-            this.ability = potential.template.create(false).apply {
+            this.ability = potential.template.asAbility(false).apply {
                 this.index = this@Pokemon.ability.index
                 this.priority = this@Pokemon.ability.priority
             }

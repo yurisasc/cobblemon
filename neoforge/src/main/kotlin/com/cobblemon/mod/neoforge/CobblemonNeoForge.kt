@@ -42,7 +42,6 @@ import net.minecraft.commands.synchronization.ArgumentTypeInfo
 import net.minecraft.commands.synchronization.ArgumentTypeInfos
 import net.minecraft.core.Registry
 import java.io.File
-import java.util.UUID
 import java.util.concurrent.ExecutionException
 import kotlin.reflect.KClass
 import net.minecraft.core.registries.Registries
@@ -91,13 +90,13 @@ import net.neoforged.neoforge.event.level.BlockEvent
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent
 import net.neoforged.neoforge.event.village.VillagerTradesEvent
 import net.neoforged.neoforge.event.village.WandererTradesEvent
+import net.neoforged.neoforge.registries.*
 import net.neoforged.neoforge.registries.DataPackRegistryEvent
-import net.neoforged.neoforge.registries.DeferredRegister
-import net.neoforged.neoforge.registries.NeoForgeRegistries
-import net.neoforged.neoforge.registries.RegisterEvent
-import net.neoforged.neoforge.registries.RegistryBuilder
 import net.neoforged.neoforge.server.ServerLifecycleHooks
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
+import java.util.*
+import java.util.function.Consumer
+import kotlin.collections.HashMap
 
 @Mod(Cobblemon.MODID)
 class CobblemonNeoForge : CobblemonImplementation {
@@ -415,11 +414,22 @@ class CobblemonNeoForge : CobblemonImplementation {
         this.queuedBuiltinResourcePacks += Triple(id, title, activationBehaviour)
     }
 
-    override fun <T> registerBuiltInRegistry(key: ResourceKey<Registry<T>>, sync: Boolean) {
-        RegistryBuilder(key)
-            .sync(sync)
-            .create()
-        Cobblemon.LOGGER.info("Registered built-in registry {}", key.toString())
+    override fun <T : Any> registerBuiltInRegistry(key: ResourceKey<Registry<T>>, sync: Boolean, callback: Consumer<(ResourceKey<T>, T) -> Unit>) {
+        MOD_BUS.addListener<NewRegistryEvent> { event ->
+            val registry = RegistryBuilder(key)
+                .sync(sync)
+                .create()
+            event.register(registry)
+            MOD_BUS.addListener<RegisterEvent> { registerEvent ->
+                callback.accept { elementKey, element ->
+                    registerEvent.register(
+                        key,
+                        elementKey.location()
+                    ) { element }
+                }
+            }
+            Cobblemon.LOGGER.info("Registered built-in registry {}", key.toString())
+        }
     }
 
     override fun <T> registerDynamicRegistry(
@@ -468,7 +478,7 @@ class CobblemonNeoForge : CobblemonImplementation {
                     id.toString(),
                     title,
                     PackSource.BUILT_IN,
-                    null
+                    Optional.empty()
                 ),
                 factory,
                 PackType.CLIENT_RESOURCES,

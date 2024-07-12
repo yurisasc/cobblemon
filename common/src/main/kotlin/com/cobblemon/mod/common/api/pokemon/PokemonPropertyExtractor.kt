@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.pokemon
 
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.simplify
 
 /**
  * A simple functional interface for extracting a property from a [Pokemon] and putting it into a [PokemonProperties].
@@ -42,7 +43,7 @@ fun interface PokemonPropertyExtractor {
         @JvmField
         val NATURE = add { pokemon, properties ->  properties.nature = pokemon.nature.name.toString() }
         @JvmField
-        val ABILITY = add { pokemon, properties ->  properties.ability = pokemon.ability.name }
+        val ABILITY = add { pokemon, properties ->  properties.ability = pokemon.ability.template.resourceLocation().simplify() }
         @JvmField
         val NICKNAME = add { pokemon, properties -> properties.nickname = pokemon.nickname }
         @JvmField

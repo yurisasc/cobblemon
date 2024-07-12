@@ -8,12 +8,10 @@
 
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
-import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readString
-import com.cobblemon.mod.common.util.writeString
 import net.minecraft.network.RegistryFriendlyByteBuf
 
 /**
@@ -27,18 +25,20 @@ class AbilityUpdatePacket(pokemon: () -> Pokemon, ability: AbilityTemplate) : Si
     override val id = ID
 
     override fun encodeValue(buffer: RegistryFriendlyByteBuf) {
-        buffer.writeString(this.value.name)
+        buffer.writeResourceKey(this.value.resourceKey())
     }
 
     override fun set(pokemon: Pokemon, value: AbilityTemplate) {
-        pokemon.ability = value.create()
+        pokemon.ability = value.asAbility()
     }
 
     companion object {
         val ID = cobblemonResource("ability_update")
         fun decode(buffer: RegistryFriendlyByteBuf): AbilityUpdatePacket {
             val pokemon = decodePokemon(buffer)
-            val ability = Abilities.get(buffer.readString())!!
+            val ability = buffer.registryAccess()
+                .registryOrThrow(CobblemonRegistries.ABILITY_KEY)
+                .getOrThrow(buffer.readResourceKey(CobblemonRegistries.ABILITY_KEY))
             return AbilityUpdatePacket(pokemon, ability)
         }
     }

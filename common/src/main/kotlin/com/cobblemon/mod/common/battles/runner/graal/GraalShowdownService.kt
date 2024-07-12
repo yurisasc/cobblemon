@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.google.gson.Gson
 import com.google.gson.JsonArray
+import com.google.gson.JsonParser
 import java.io.File
 import java.io.IOException
 import java.net.URI
@@ -34,7 +35,6 @@ import org.graalvm.polyglot.HostAccess.Export
 import org.graalvm.polyglot.PolyglotAccess
 import org.graalvm.polyglot.Value
 import org.graalvm.polyglot.io.FileSystem
-import java.lang.StringBuilder
 
 /**
  * Mediator service for communicating between the Cobblemon Minecraft mod and Cobblemon showdown service via
@@ -140,6 +140,12 @@ class GraalShowdownService : ShowdownService {
         val getCobbledAbilityIdsFn = context.getBindings("js").getMember("getCobbledAbilityIds")
         val arrayResult = getCobbledAbilityIdsFn.execute().asString()
         return gson.fromJson(arrayResult, JsonArray::class.java)
+    }
+
+    override fun getAbilities(): JsonArray {
+        val fn = context.getBindings("js").getMember("getAbilities")
+        val arrayResult = fn.execute().asString()
+        return JsonParser.parseString(arrayResult).asJsonArray
     }
 
     override fun getMoves(): JsonArray {

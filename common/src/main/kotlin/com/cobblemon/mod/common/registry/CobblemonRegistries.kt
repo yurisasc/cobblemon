@@ -10,7 +10,8 @@ package com.cobblemon.mod.common.registry
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Environment
-import com.cobblemon.mod.common.api.pokemon.status.Status
+import com.cobblemon.mod.common.api.abilities.Abilities
+import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.Minecraft
@@ -26,12 +27,16 @@ import net.minecraft.resources.ResourceKey
  */
 @Suppress("unused")
 object CobblemonRegistries {
+
+    @JvmStatic val ABILITY_KEY = this.create<AbilityTemplate>("ability")
+    @JvmStatic val ABILITY get() = this.getRegistry(ABILITY_KEY)
     @JvmStatic val ELEMENTAL_TYPE_KEY = this.create<ElementalType>("elemental_type")
     @JvmStatic val ELEMENTAL_TYPE get() = this.getRegistry(ELEMENTAL_TYPE_KEY)
 
     private fun <T> create(name: String): ResourceKey<Registry<T>> = ResourceKey.createRegistryKey(cobblemonResource(name))
 
     internal fun register() {
+        Cobblemon.implementation.registerBuiltInRegistry(ABILITY_KEY, false, Abilities::register)
         Cobblemon.implementation.registerDynamicRegistry(ELEMENTAL_TYPE_KEY, ElementalType.CODEC, ElementalType.CODEC)
     }
 

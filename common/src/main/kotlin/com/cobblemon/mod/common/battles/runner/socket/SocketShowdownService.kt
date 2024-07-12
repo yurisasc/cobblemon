@@ -110,6 +110,10 @@ class SocketShowdownService(val host: String = "localhost", val port: Int = 1846
         return gson.fromJson(response, JsonArray::class.java)
     }
 
+    override fun getAbilities(): JsonArray {
+        TODO("Not yet implemented")
+    }
+
     override fun getMoves(): JsonArray {
         writer.write(">getCobbledMoves\n")
         writer.flush()

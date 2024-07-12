@@ -13,6 +13,7 @@ import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
 import com.cobblemon.mod.common.api.entity.PokemonSender
@@ -412,7 +413,7 @@ open class PokemonEntity(
      * Prevents flying type Pokémon from taking fall damage.
      */
     override fun causeFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource): Boolean {
-        return if (pokemon.types.any { it.isTaggedBy(CobblemonElementalTypeTags.FALL_IMMUNE) } || pokemon.ability.name == "levitate" || pokemon.species.behaviour.moving.fly.canFly) {
+        return if (pokemon.types.any { it.isTaggedBy(CobblemonElementalTypeTags.FALL_IMMUNE) } || pokemon.ability.template.resourceKey() == Abilities.LEVITATE || pokemon.species.behaviour.moving.fly.canFly) {
             false
         } else {
             super.causeFallDamage(fallDistance, damageMultiplier, damageSource)

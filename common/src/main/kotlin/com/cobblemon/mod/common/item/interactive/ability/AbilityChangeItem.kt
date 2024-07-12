@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.item.ability.AbilityChanger
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.world.item.ItemStack
 import net.minecraft.server.level.ServerPlayer
@@ -28,7 +27,7 @@ open class AbilityChangeItem<T : PotentialAbility>(val changer: AbilityChanger<T
             val feedback = lang(
                 "ability_changer.changed",
                 entity.pokemon.getDisplayName(),
-                entity.pokemon.ability.displayName.asTranslated()
+                entity.pokemon.ability.displayName.copy()
             )
             player.sendSystemMessage(feedback)
             return true

@@ -28,7 +28,6 @@ import com.cobblemon.mod.common.net.messages.server.trade.ChangeTradeAcceptanceP
 import com.cobblemon.mod.common.net.messages.server.trade.UpdateTradeOfferPacket
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.mojang.blaze3d.platform.InputConstants
@@ -546,7 +545,7 @@ class TradeGUI(
             // Ability
             drawScaledText(
                 context = context,
-                text = pokemon.ability.displayName.asTranslated(),
+                text = pokemon.ability.displayName.copy(),
                 x = x + 108 + labelXOffset,
                 y = y + 163.5,
                 centered = true,

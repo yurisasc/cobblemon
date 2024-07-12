@@ -62,7 +62,6 @@ import net.minecraft.world.entity.projectile.ProjectileUtil
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.storage.loot.BuiltInLootTables
 import net.minecraft.world.level.storage.loot.LootParams
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams
@@ -1064,7 +1063,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     .randomOrNull ()
                     ?.let { ability ->
                         // No need to force, this is legal
-                        pokemon.ability = ability.template.create(false)
+                        pokemon.ability = ability.template.asAbility(false)
                         return true
                     }
         }

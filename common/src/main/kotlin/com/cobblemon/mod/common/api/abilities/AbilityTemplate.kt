@@ -8,49 +8,84 @@
 
 package com.cobblemon.mod.common.api.abilities
 
-import com.cobblemon.mod.common.util.codec.CodecUtils
-import com.google.gson.JsonObject
+import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
+import com.cobblemon.mod.common.api.registry.RegistryElement
+import com.cobblemon.mod.common.registry.CobblemonRegistries
+import com.cobblemon.mod.common.util.simplify
 import com.mojang.serialization.Codec
-import net.minecraft.nbt.CompoundTag
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.Registry
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.ComponentSerialization
+import net.minecraft.resources.ResourceKey
+import net.minecraft.tags.TagKey
 
 /**
- * This represents the base of an Ability.
- * To build an Ability you MUST use its template.
+ * The representation of the fixed data of an ability.
  *
- * @param name: The English name used to load / find it (spaces -> _)
+ * This is used to create [Ability].
+ *
+ * @property rating Rating from -1(Detrimental) to +5(Essential).
+ * @property suppressWeather If this ability suppresses weather.
+ * @property flags The [AbilityFlag]s of this ability.
+ * @property displayName The display name of this ability.
+ * @property description The description of this ability.
  */
+@Suppress("MemberVisibilityCanBePrivate")
 class AbilityTemplate(
-    val name: String = "",
-    var builder: (AbilityTemplate, forced: Boolean) -> Ability = { template, forced -> Ability(template, forced) },
-    val displayName: String = "cobblemon.ability.$name",
-    val description: String = "cobblemon.ability.$name.desc"
-) {
-    /**
-     * Returns the Ability or if applicable the extension connected to this template
-     */
-    fun create(forced: Boolean = false) = builder(this, forced)
+    val rating: Float,
+    val suppressWeather: Boolean,
+    val flags: Set<AbilityFlag>,
+    val displayName: Component,
+    val description: Component,
+) : RegistryElement<AbilityTemplate>, ShowdownIdentifiable {
+
+    init {
+        assert(this.rating in MIN_RATING..MAX_RATING) { "AbilityTemplate rating must be between -1 and 5" }
+    }
 
     /**
-     * Returns the Ability and loads the given NBT Tag into it.
+     * Uses this data to create a new [Ability].
      *
-     * Ability extensions need to write and read their needed data from here.
+     * @param forced The [Ability.forced] state.
+     * @return The created [Ability].
      */
-    fun create(nbt: CompoundTag) = create().loadFromNBT(nbt)
+    fun asAbility(forced: Boolean = false): Ability = Ability(this, forced)
 
-    /**
-     * Returns the Ability and loads the given JSON object into it.
-     *
-     * Ability extensions need to write and read their needed data from here.
-     */
-    fun create(json: JsonObject) = create().loadFromJSON(json)
+    override fun showdownId(): String {
+        return ShowdownIdentifiable.EXCLUSIVE_REGEX.replace(this.resourceLocation().simplify().lowercase(), "")
+    }
+
+    override fun registry(): Registry<AbilityTemplate> = CobblemonRegistries.ABILITY
+
+    override fun resourceKey(): ResourceKey<AbilityTemplate> = this.registry().getResourceKey(this)
+        .orElseThrow { IllegalStateException("Unregistered AbilityTemplate") }
+
+    override fun isTaggedBy(tag: TagKey<AbilityTemplate>): Boolean = this.registry()
+        .getHolder(this.resourceKey())
+        .orElseThrow { IllegalStateException("Unregistered AbilityTemplate") }
+        .`is`(tag)
 
     companion object {
 
+        private const val MIN_RATING = -1F
+        private const val MAX_RATING = 5F
+
         @JvmStatic
-        val CODEC: Codec<AbilityTemplate> = CodecUtils.createByStringCodec(
-            Abilities::get,
-            AbilityTemplate::name
-        ) { id -> "No ability for ID $id" }
+        val CODEC: Codec<AbilityTemplate> = RecordCodecBuilder.create { instance ->
+            instance.group(
+                Codec.floatRange(MIN_RATING, MAX_RATING).fieldOf("rating").forGetter(AbilityTemplate::rating),
+                Codec.BOOL.optionalFieldOf("suppressWeather", false).forGetter(AbilityTemplate::suppressWeather),
+                AbilityFlag.CODEC.listOf().optionalFieldOf("flags", emptyList())
+                    .xmap(
+                        { it.toSet() },
+                        { it.toMutableList() }
+                    )
+                    .forGetter(AbilityTemplate::flags),
+                ComponentSerialization.CODEC.fieldOf("displayName").forGetter(AbilityTemplate::displayName),
+                ComponentSerialization.CODEC.fieldOf("description").forGetter(AbilityTemplate::description),
+            ).apply(instance, ::AbilityTemplate)
+        }
 
     }
 

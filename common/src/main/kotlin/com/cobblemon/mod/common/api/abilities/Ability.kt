@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.abilities
 
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
@@ -17,6 +18,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.nbt.NbtOps
+import net.minecraft.network.chat.Component
 
 /**
  * Representing an Ability with all its attributes
@@ -28,13 +30,10 @@ import net.minecraft.nbt.NbtOps
  */
 open class Ability internal constructor(var template: AbilityTemplate, forced: Boolean) {
 
-    val name: String
-        get() = template.name
-
-    val displayName: String
+    val displayName: Component
         get() = template.displayName
 
-    val description: String
+    val description: Component
         get() = template.description
 
     /**
@@ -107,7 +106,7 @@ open class Ability internal constructor(var template: AbilityTemplate, forced: B
         @JvmStatic
         val CODEC: Codec<Ability> = RecordCodecBuilder.create {
             it.group(
-                AbilityTemplate.CODEC.fieldOf(DataKeys.POKEMON_ABILITY_NAME).forGetter(Ability::template),
+                CobblemonRegistries.ABILITY.byNameCodec().fieldOf(DataKeys.POKEMON_ABILITY_NAME).forGetter(Ability::template),
                 Codec.BOOL.optionalFieldOf(DataKeys.POKEMON_ABILITY_FORCED, false).forGetter(Ability::forced),
                 Codec.INT.optionalFieldOf(DataKeys.POKEMON_ABILITY_INDEX, -1).forGetter(Ability::index),
                 Priority.CODEC.optionalFieldOf(DataKeys.POKEMON_ABILITY_PRIORITY, Priority.LOWEST).forGetter(Ability::priority)

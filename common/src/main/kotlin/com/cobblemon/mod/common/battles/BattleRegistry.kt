@@ -94,7 +94,7 @@ object BattleRegistry {
             val heldItemID = HeldItemProvider.provideShowdownId(pokemon) ?: ""
             packedTeamBuilder.append("$heldItemID|")
             // Ability, our showdown has edits here to trust whatever we tell it, this was needed to support more than 4 abilities.
-            packedTeamBuilder.append("${pk.ability.name.replace("_", "")}|")
+            packedTeamBuilder.append("${pk.ability.template.showdownId()}|")
             // Moves
             packedTeamBuilder.append(
                 "${

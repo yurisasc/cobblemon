@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.data
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonMechanics
-import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.data.DataRegistry
@@ -65,7 +64,6 @@ object CobblemonDataProvider : DataProvider {
         this.register(SpeciesFeatureAssignments)
         this.register(ActionEffects)
         this.register(Moves)
-        this.register(Abilities)
         this.register(PokemonSpecies)
         this.register(SpeciesAdditions)
         this.register(PokeBalls)

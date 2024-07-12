@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.common.reformatNatureTextIfMinted
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.Minecraft
@@ -121,7 +120,7 @@ class InfoWidget(
             pY = y + 5 * ROW_HEIGHT,
             width = width,
             label = lang("ui.info.ability").bold(),
-            value = pokemon.ability.displayName.asTranslated().bold()
+            value = pokemon.ability.displayName.copy().bold()
         )
         abilityWidget.render(context, pMouseX, pMouseY, pPartialTicks)
 
@@ -130,7 +129,7 @@ class InfoWidget(
         matrices.pushPose()
         matrices.scale(smallTextScale, smallTextScale, 1F)
         MultiLineLabelK.create(
-            component = pokemon.ability.description.asTranslated(),
+            component = pokemon.ability.description,
             width = 117 / smallTextScale,
             maxLines = 3
         ).renderLeftAligned(
