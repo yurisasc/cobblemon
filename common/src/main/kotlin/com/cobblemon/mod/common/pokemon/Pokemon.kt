@@ -330,6 +330,8 @@ open class Pokemon : ShowdownIdentifiable {
     val effectiveNature: Nature
         get() = mintedNature ?: nature
 
+    var characteristic = Characteristic.calculateCharacteristic(this.ivs, this.uuid)
+
     val moveSet = MoveSet()
 
     val experienceGroup: ExperienceGroup
