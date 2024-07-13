@@ -28,6 +28,7 @@ import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCBehaviourConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCInteractConfiguration
+import com.cobblemon.mod.common.api.npc.partyproviders.NPCParty
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.entity.PosableEntity
@@ -95,6 +96,8 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
             entityData.set(NPC_CLASS, value.resourceIdentifier)
             field = value
         }
+
+    var party: NPCParty? = null
 
     val appliedAspects = mutableSetOf<String>()
     override val delegate = if (world.isClientSide) {

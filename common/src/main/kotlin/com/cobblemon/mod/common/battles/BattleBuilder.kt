@@ -188,7 +188,7 @@ object BattleBuilder {
         val playerTeam = party.toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemon = leadingPokemon)
         val playerActor = PlayerBattleActor(player.uuid, playerTeam)
 
-        val party = npcEntity.getBattleConfiguration().party?.provide(npcEntity, listOf(player)) ?: TODO("Deal with this issue!")
+        val party = npcEntity.party?.getParty(player, npcEntity) ?: TODO("Deal with this issue!")
         val npcActor = NPCBattleActor(npcEntity, party)
         val errors = ErroredBattleStart()
 
