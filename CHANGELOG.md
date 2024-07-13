@@ -3,15 +3,24 @@
 ## [1.5.3](#1-5-3)
 ### Fixes
 - Scaled down Amaura's fetus model to avoid clipping through the tank while animating
-- Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
 - Fixed Cubone's cry not having a sound.
 - Fixed the Seafloor spawning context not being a usable context.
 - Fixed Pokemon spawning in non-full blocks like slabs.
 - Fixed Gilded Chests not dropping the chest itself when broken, only the contents.
 - Fixed Pokémon losing their Hidden Ability through evolution if the middle stage did not have a Hidden Ability.
+- Fixed Chimchar and Monferno T posing whenever they sleep.
+- Fixed the Magby line not having any placeholder walk animations.
+- Fixed Duskull and Dusclops using skylight levels for their nether spawn data. There is no sun in the Nether!
+- Fixed Crumbling Arch not blending in with the world.
+- Fixed Energy Root applying being usable on a fainted Pokemon.
+- Fixed Pokémon entity not spawning when starting a battle while recalling said Pokémon
+- Fixed species comparison not using namespace for both sides in PokemonProperties.isSubsetOf.
+- Fixed PokemonProperties#asString prefixing nicknames with a '$'
 
 ### Additions
 - Added extra visuals to early berry growth stages
+- Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
+- Added Metronome, Protective Pads, Punching Glove, Room Service, Scope Lens, Shed Shell, Terrain Extender, Throat Spray, Utility Umbrella, Wide Lens, and Zoom Lens held items
 
 ### Added cries to the following Pokémon
 - Timburr, Gurdurr, Conkeldurr
@@ -21,6 +30,9 @@
 - Altered the item model for Medicinal Leeks and Roasted Leeks to be held like sticks and other rod items. 
 - Adjusted some berry balance values like yield and growth times
 - Changes to mulch buffs/durations
+- Dreepy is now shoulder mountable
+- Link Cable recipe has been redesigned
+- Updated potion sprites
 
 ### Developer
 
