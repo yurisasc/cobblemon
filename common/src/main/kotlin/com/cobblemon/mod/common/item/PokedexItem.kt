@@ -75,6 +75,13 @@ import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 import java.io.ByteArrayInputStream
 import java.io.File
+import net.minecraft.client.render.*
+import net.minecraft.client.texture.TextureManager
+import net.minecraft.client.util.BufferAllocator
+import org.joml.Quaternionf
+import org.joml.Vector3f
+import kotlin.math.cos
+import kotlin.math.sin
 
 class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
@@ -303,6 +310,93 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         client.options.fov.setValue(newFov)
     }
 
+    // todo render detected pokemon details
+    @Environment(EnvType.CLIENT)
+    fun renderPokemonDetails() {
+
+    }
+
+    // todo render pokemon scan progress
+    /*@Environment(EnvType.CLIENT)
+    fun renderScanProgress(drawContext: DrawContext, progress: Int) {
+        val client = MinecraftClient.getInstance()
+        val screenWidth = client.window.scaledWidth
+        val screenHeight = client.window.scaledHeight
+
+        val centerX = screenWidth / 2.0
+        val centerY = screenHeight / 2.0
+        val radius = 50.0  // Radius of the circle
+        val segments = 100  // Number of segments in the circle
+
+        val progressAngle = 360.0 * (progress / 100.0)  // Calculate the angle for the current progress
+
+        // Prepare rendering
+        RenderSystem.enableBlend()
+        RenderSystem.defaultBlendFunc()
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram)
+
+        // Start drawing
+        val tessellator = Tessellator.getInstance()
+        val bufferBuilder = tessellator.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR)
+
+        // Center vertex
+        bufferBuilder.vertex(centerX.toFloat(), centerY.toFloat(), 0.0f).color(0.0f, 1.0f, 1.0f, 1.0f)
+
+        // Circle vertices
+        for (i in 0..segments) {
+            val angle = progressAngle * (i / segments.toDouble()) * (Math.PI / 180.0)
+            val x = centerX + radius * cos(angle)
+            val y = centerY + radius * sin(angle)
+            bufferBuilder.vertex(x.toFloat(), y.toFloat(), 0.0f).color(0.0f, 1.0f, 1.0f, 1.0f)
+        }
+
+        // Finish drawing
+        val builtBuffer = bufferBuilder.end()
+        BufferRenderer.draw(builtBuffer)
+
+        // Restore rendering state
+        RenderSystem.disableBlend()
+    }*/
+
+    /*// todo suffer greatly and try (and probably fail) to make a crappy rotating scan progress meter
+    @Environment(EnvType.CLIENT)
+    fun renderScanProgress(drawContext: DrawContext, progress: Int) {
+        val client = MinecraftClient.getInstance()
+        val textureManager = client.textureManager
+        val screenWidth = client.window.scaledWidth
+        val screenHeight = client.window.scaledHeight
+
+        val progressTexture = cobblemonResource("textures/gui/pokedex/pokedex_scanner_scan_progress.png")
+        val maskTexture = cobblemonResource("textures/gui/pokedex/pokedex_scanner_scan_progress_mask.png")
+
+        val textureWidth = 345  // Adjust to your texture's width
+        val textureHeight = 207  // Adjust to your texture's height
+        val centerX = (screenWidth - textureWidth) / 2
+        val centerY = (screenHeight - textureHeight) / 2
+
+        // Bind and draw the progress texture
+        textureManager.bindTexture(progressTexture)
+        drawContext.drawTexture(progressTexture, centerX, centerY, centerX + textureWidth, centerY + textureHeight, textureWidth, textureHeight)
+
+        // Calculate mask rotation based on progress
+        val rotationDegrees = (360.0 * (progress / 100.0)).toFloat()
+
+        // Setup matrix stack for rotation
+        val matrices = drawContext.getMatrices()
+        matrices.push()
+        matrices.translate((centerX + textureWidth / 2).toFloat(), (centerY + textureHeight / 2).toFloat(), 0.0f)
+        val rotationQuaternion = Quaternionf().rotateZ(Math.toRadians(-rotationDegrees.toDouble()).toFloat())
+        matrices.multiply(rotationQuaternion)
+        matrices.translate(-(centerX + textureWidth / 2).toFloat(), -(centerY + textureHeight / 2).toFloat(), 0.0f)
+
+        // Bind and draw the mask texture with applied rotation
+        textureManager.bindTexture(maskTexture)
+        drawContext.drawTexture(maskTexture, centerX, centerY, centerX + textureWidth, centerY + textureHeight, textureWidth, textureHeight)
+
+        // Pop matrix to revert rotation
+        matrices.pop()
+    }*/
+
     @Environment(EnvType.CLIENT)
     fun renderPhotodexOverlay(drawContext: DrawContext, scale: Float) {
         val client = MinecraftClient.getInstance()
@@ -323,6 +417,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         drawContext.drawTexture(pokedexScannerOverlayTexture, x, y, -90, 0.0f, 0.0f, textureWidth, textureHeight, textureWidth, textureHeight)
         RenderSystem.disableBlend()
 
+        // draw the black area outside of the texture area
         drawContext.fill(RenderLayer.getGuiOverlay(), 0, y + textureHeight, screenWidth, screenHeight, -90, -16777216)
         drawContext.fill(RenderLayer.getGuiOverlay(), 0, 0, screenWidth, y, -90, -16777216)
         drawContext.fill(RenderLayer.getGuiOverlay(), 0, y, x, y + textureHeight, -90, -16777216)
@@ -332,7 +427,11 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     @Environment(EnvType.CLIENT)
     fun onRenderOverlay(drawContext: DrawContext) {
         if (isScanning) {
+            // render the scanner overlay
             renderPhotodexOverlay(drawContext, 1.0f)
+
+            // render the scan progress
+            //renderScanProgress(drawContext, scanningProgress)
         }
     }
 
