@@ -33,8 +33,14 @@ class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTem
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(isParty)
         buffer.writeUuid(uuid)
-        buffer.writeString(oldMove?.name ?: "")
-        buffer.writeString(newMove?.name ?: "")
+        buffer.writeBoolean(oldMove != null)
+        if (oldMove != null) {
+            buffer.writeString(oldMove.name)
+        }
+        buffer.writeBoolean( newMove != null)
+        if (newMove != null) {
+            buffer.writeString(newMove.name)
+        }
     }
 
     companion object {
@@ -42,10 +48,10 @@ class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTem
         fun decode(buffer: PacketByteBuf): BenchMovePacket {
             val isParty = buffer.readBoolean()
             val uuid = buffer.readUuid()
-            val oldMoveName = buffer.readString()
-            val oldMove = if (oldMoveName.isNotEmpty()) Moves.getByName(oldMoveName)!! else null
-            val newMoveName = buffer.readString()
-            val newMove = if (newMoveName.isNotEmpty()) Moves.getByName(newMoveName)!! else null
+            val oldMoveName = if(buffer.readBoolean()) buffer.readString() else null
+            val oldMove = if (oldMoveName?.isNotEmpty() == true) Moves.getByName(oldMoveName) else null
+            val newMoveName = if(buffer.readBoolean()) buffer.readString() else null
+            val newMove = if (newMoveName?.isNotEmpty() == true) Moves.getByName(newMoveName) else null
             return BenchMovePacket(isParty, uuid, oldMove, newMove)
         }
     }
