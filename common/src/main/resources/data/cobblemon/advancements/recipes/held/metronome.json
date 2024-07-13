@@ -1,12 +1,12 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_pearl": {
+    "has_note": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:ender_pearl"
+              "minecraft:note_block"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cobblemon:link_cable"
+        "recipe": "cobblemon:metronome"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_pearl",
+      "has_note",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "cobblemon:link_cable"
+      "cobblemon:metronome"
     ]
   }
 }

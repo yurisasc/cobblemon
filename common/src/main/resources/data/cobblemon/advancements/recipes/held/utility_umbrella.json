@@ -1,12 +1,12 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_pearl": {
+    "has_wool": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:ender_pearl"
+              "minecraft:black_wool"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cobblemon:link_cable"
+        "recipe": "cobblemon:utility_umbrella"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_pearl",
+      "has_wool",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "cobblemon:link_cable"
+      "cobblemon:utility_umbrella"
     ]
   }
 }

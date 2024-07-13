@@ -3,7 +3,6 @@
 ## [1.5.3](#1-5-3)
 ### Fixes
 - Scaled down Amaura's fetus model to avoid clipping through the tank while animating
-- Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
 - Fixed Cubone's cry not having a sound.
 - Fixed the Seafloor spawning context not being a usable context.
 - Fixed Pokemon spawning in non-full blocks like slabs.
@@ -23,6 +22,8 @@
 - Added extra visuals to early berry growth stages
 - Hidden Power now displays its effective typing.
 - Moves impacted by the abilities Pixelate, Refrigerate, Aerilate, Galvanize, and Normalize now display as their altered typing.
+- Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
+- Added Metronome, Protective Pads, Punching Glove, Room Service, Scope Lens, Shed Shell, Terrain Extender, Throat Spray, Utility Umbrella, Wide Lens, and Zoom Lens held items
 
 ### Added cries to the following Pokémon
 - Timburr, Gurdurr, Conkeldurr
@@ -33,6 +34,8 @@
 - Adjusted some berry balance values like yield and growth times
 - Changes to mulch buffs/durations
 - Dreepy is now shoulder mountable
+- Link Cable recipe has been redesigned
+- Updated potion sprites
 
 ### Developer
 

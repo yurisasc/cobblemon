@@ -1,12 +1,12 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_pearl": {
+    "has_cart": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:ender_pearl"
+              "minecraft:minecart"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "cobblemon:link_cable"
+        "recipe": "cobblemon:room_service"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_pearl",
+      "has_cart",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "cobblemon:link_cable"
+      "cobblemon:room_service"
     ]
   }
 }
