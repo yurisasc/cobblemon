@@ -128,7 +128,7 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
          */
         private val gimmickMoveTemplate: MoveTemplate? get() {
             val gimmickMoveID = move.gimmickMove?.move?.lowercase()?.replace(ShowdownIdentifiable.EXCLUSIVE_REGEX, "") ?: return null
-            val gimmickTemplate = Moves.getByName(gimmickMoveID)
+            val gimmickTemplate = Moves.get(gimmickMoveID)
             return MoveTemplate(
                 name = gimmickMoveID,
                 num = gimmickTemplate?.num ?: -1,

@@ -377,7 +377,7 @@ object TestCommand {
 
     private fun testIllegalAbilityNonForced(): Component {
         val pokemon = PokemonProperties.parse("rattata").create()
-        pokemon.updateAbility(Abilities.getOrException("adaptability").asAbility(false))
+        pokemon.updateAbility(Abilities.getOrThrow(Abilities.ADAPTABILITY).asAbility(false))
         val failed = !pokemon.ability.forced
         val symbol = if (failed) "✖" else "✔"
         val result = Component.literal(" $symbol Rattata illegal non-forced (name=${pokemon.ability.template.resourceLocation().simplify()}, priority=${pokemon.ability.priority}, index=${pokemon.ability.index}, forced=${pokemon.ability.forced})")

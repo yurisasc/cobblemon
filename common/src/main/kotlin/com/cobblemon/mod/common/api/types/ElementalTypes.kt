@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
-import kotlin.jvm.optionals.getOrNull
 
 object ElementalTypes : CobblemonRegistry<ElementalType>() {
 
@@ -37,12 +36,6 @@ object ElementalTypes : CobblemonRegistry<ElementalType>() {
     @JvmStatic val FAIRY = this.key("fairy")
     @JvmStatic val STELLAR = this.key("stellar")
 
-    fun get(name: String): ElementalType? {
-        return CobblemonRegistries.ELEMENTAL_TYPE.getHolder(
-            cobblemonResource(name)
-        ).map { it.value() }.getOrNull()
-    }
-
     fun getOrException(name: String): ElementalType {
         return CobblemonRegistries.ELEMENTAL_TYPE.getHolderOrThrow(
             ResourceKey.create(
@@ -51,10 +44,6 @@ object ElementalTypes : CobblemonRegistry<ElementalType>() {
             )
         ).value()
     }
-
-    fun count() = CobblemonRegistries.ELEMENTAL_TYPE.size()
-
-    fun all() = CobblemonRegistries.ELEMENTAL_TYPE.entrySet().map { it.value }
     
     override fun registry(): Registry<ElementalType> = CobblemonRegistries.ELEMENTAL_TYPE
 

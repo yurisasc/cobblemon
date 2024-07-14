@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.pokemon.EVs
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import java.nio.file.Path
 import java.util.UUID
 import net.minecraft.nbt.CompoundTag
@@ -99,7 +100,7 @@ class ReforgedConversion(val base: Path) : CobblemonConverter<CompoundTag> {
         result.level = nbt.getInt("Level")
         result.addExperience(SidemodExperienceSource("Reforged"), nbt.getInt("EXP"))
         result.setFriendship(nbt.getInt("Friendship"))
-        Abilities.get(nbt.getString("Ability"))?.let { template ->
+        Abilities.get(nbt.getString("Ability").asIdentifierDefaultingNamespace())?.let { template ->
             result.updateAbility(template.asAbility(forced = result.form.abilities.none { it.template == template }))
         }
         result.nature = Natures.getNature(ResourceLocation.parse(ReforgedNatures.entries[nbt.getInt("Nature")].name.lowercase())) ?: Natures.getRandomNature()
@@ -136,7 +137,7 @@ class ReforgedConversion(val base: Path) : CobblemonConverter<CompoundTag> {
             val pp = compound.getInt("MovePP")
             val level = compound.getInt("MovePPLevel")
 
-            val template = Moves.getByNameOrDummy(id.lowercase())
+            val template = Moves.getOrThrow(id.lowercase())
             result.moveSet.add(template.create(pp, level))
         }
 

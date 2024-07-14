@@ -350,7 +350,7 @@ object Abilities : CobblemonRegistry<AbilityTemplate>() {
         PotentialAbility.types.add(CommonAbilityType)
         PotentialAbility.types.add(HiddenAbilityType)
         val baseKeys = this.keys()
-        val abilityFlagsByShowdownId = AbilityFlag.entries.associateBy { it.showdownId }
+        val abilityFlagsByShowdownId = AbilityFlag.entries.associateBy { it.showdownId() }
         ShowdownService.service.getAbilities().forEach { jElement ->
             val jObject = jElement.asJsonObject
             val id = jObject.get("id").asString
@@ -376,14 +376,6 @@ object Abilities : CobblemonRegistry<AbilityTemplate>() {
         }
         Cobblemon.LOGGER.info("Registered {} abilities", count)
     }
-
-    fun get(name: String): AbilityTemplate? = this.registry().get(cobblemonResource(name))
-    fun getOrException(name: String): AbilityTemplate = this.registry().getOrThrow(
-        ResourceKey.create(
-            this.registryKey(),
-            cobblemonResource(name)
-        )
-    )
 
     override fun registry(): Registry<AbilityTemplate> = CobblemonRegistries.ABILITY
 

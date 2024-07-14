@@ -72,6 +72,7 @@ import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.util.codec.internal.*
 import com.cobblemon.mod.common.util.codec.internal.ClientPokemonP1
@@ -101,6 +102,7 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.tags.FluidTags
 import net.minecraft.util.Mth.ceil
 import net.minecraft.util.Mth.clamp
+import net.minecraft.util.RandomSource
 import net.minecraft.util.StringRepresentable
 import net.minecraft.world.entity.vehicle.Boat
 import net.minecraft.world.phys.Vec3
@@ -1260,7 +1262,7 @@ open class Pokemon : ShowdownIdentifiable {
         moveSet.doWithoutEmitting {
             moveSet.clear()
             if (possibleMoves.isEmpty()) {
-                moveSet.add(Moves.getExceptional().create())
+                moveSet.add(CobblemonRegistries.MOVE.getRandom(RandomSource.create()).get().value().create())
                 return@doWithoutEmitting
             }
 

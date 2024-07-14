@@ -201,7 +201,7 @@ class BattleMessage(rawMessage: String) {
 
     fun moveAt(index: Int): MoveTemplate? {
         val argument = argumentAt(index)?.lowercase()?.replace("[^a-z0-9]".toRegex(), "") ?: return null
-        return Moves.getByName(argument)
+        return Moves.get(argument)
     }
 
     /**

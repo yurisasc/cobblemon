@@ -103,15 +103,11 @@ class SocketShowdownService(val host: String = "localhost", val port: Int = 1846
         ShowdownInterpreter.interpretMessage(battleId, message)
     }
 
-    override fun getAbilityIds(): JsonArray {
-        writer.write(">getCobbledAbilityIds")
+    override fun getAbilities(): JsonArray {
+        writer.write(">getAbilities")
         writer.flush()
         val response = readMessage()
-        return gson.fromJson(response, JsonArray::class.java)
-    }
-
-    override fun getAbilities(): JsonArray {
-        TODO("Not yet implemented")
+        return this.gson.fromJson(response, JsonArray::class.java)
     }
 
     override fun getMoves(): JsonArray {

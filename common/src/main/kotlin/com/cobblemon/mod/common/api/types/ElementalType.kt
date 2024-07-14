@@ -67,7 +67,7 @@ class ElementalType(
         .`is`(tag)
 
     override fun showdownId(): String {
-        return ShowdownIdentifiable.EXCLUSIVE_REGEX.replace(this.resourceLocation().simplify().lowercase(), "")
+        return ShowdownIdentifiable.EXCLUSIVE_REGEX.replace(this.resourceLocation().simplify(), "")
     }
 
     override fun resistanceTo(effect: Effect): Resistance {

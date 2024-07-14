@@ -13,8 +13,8 @@ import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.api.pokemon.moves.LearnsetQuery
 import com.cobblemon.mod.common.api.text.red
-import com.cobblemon.mod.common.command.argument.MoveArgumentType
 import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.permission
 import com.cobblemon.mod.common.util.player
@@ -22,9 +22,11 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType
+import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.arguments.EntityArgument
+import net.minecraft.commands.arguments.ResourceArgument
 import net.minecraft.server.level.ServerPlayer
 
 object TeachCommand {
@@ -36,12 +38,12 @@ object TeachCommand {
     private val ALREADY_KNOWS_EXCEPTION = Dynamic2CommandExceptionType { a, b -> commandLang("$NAME.already_knows", a, b).red() }
     private val CANT_LEARN_EXCEPTION = Dynamic2CommandExceptionType { a, b -> commandLang("$NAME.cant_learn", a, b).red() }
 
-    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
+    fun register(dispatcher : CommandDispatcher<CommandSourceStack>, commandBuildContext: CommandBuildContext) {
         val command = Commands.literal(NAME)
             .permission(CobblemonPermissions.TEACH)
             .then(Commands.argument(PLAYER, EntityArgument.player())
                 .then(Commands.argument(SLOT, PartySlotArgumentType.partySlot())
-                    .then(Commands.argument(MOVE, MoveArgumentType.move())
+                    .then(Commands.argument(MOVE, ResourceArgument.resource(commandBuildContext, CobblemonRegistries.MOVE_KEY))
                         .executes { execute(it, it.player()) }
                     ))
             )
@@ -50,7 +52,7 @@ object TeachCommand {
 
     private fun execute(context: CommandContext<CommandSourceStack>, player: ServerPlayer) : Int {
         val pokemon = PartySlotArgumentType.getPokemonOf(context, SLOT, player)
-        val move = MoveArgumentType.getMove(context, MOVE)
+        val move = ResourceArgument.getResource(context, MOVE, CobblemonRegistries.MOVE_KEY).value()
 
         if (!Cobblemon.permissionValidator.hasPermission(context.source, CobblemonPermissions.TEACH_BYPASS_LEARNSET) && !LearnsetQuery.ANY.canLearn(move, pokemon.form.moves)) {
             throw CANT_LEARN_EXCEPTION.create(pokemon.getDisplayName(), move.displayName)

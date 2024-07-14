@@ -49,7 +49,7 @@ class MoveSlotButton(
     override fun renderWidget(context: GuiGraphics, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height && enabled
 
-        val moveTemplate = Moves.getByNameOrDummy(move.name)
+        val moveTemplate = Moves.getOrThrow(move.resourceKey())
         val rgb = ElementalTypeDisplays.displayOf(moveTemplate.elementalType).tint.rgba.toRGB()
 
         val alpha = if (enabled) 1.0 else 0.5

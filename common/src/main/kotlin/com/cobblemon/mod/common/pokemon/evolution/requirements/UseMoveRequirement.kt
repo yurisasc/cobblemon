@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.pokemon.evolution.requirements
 
 import com.cobblemon.mod.common.api.moves.MoveTemplate
-import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
@@ -24,8 +23,6 @@ import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgr
  * @since January 25th, 2023
  */
 class UseMoveRequirement(move: MoveTemplate, amount: Int) : EvolutionRequirement {
-
-    constructor() : this(Moves.getByNameOrDummy(""), 1)
 
     val move: MoveTemplate = move
     val amount: Int = amount

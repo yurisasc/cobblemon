@@ -27,7 +27,6 @@ interface ShowdownService {
     fun closeConnection()
     fun startBattle(battle: PokemonBattle, messages: Array<String>)
     fun send(battleId: UUID, messages: Array<String>)
-    fun getAbilityIds(): JsonArray
     fun getAbilities(): JsonArray
     fun getMoves(): JsonArray
     fun getItemIds(): JsonArray

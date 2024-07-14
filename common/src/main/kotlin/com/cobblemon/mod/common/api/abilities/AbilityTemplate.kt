@@ -53,7 +53,7 @@ class AbilityTemplate(
     fun asAbility(forced: Boolean = false): Ability = Ability(this, forced)
 
     override fun showdownId(): String {
-        return ShowdownIdentifiable.EXCLUSIVE_REGEX.replace(this.resourceLocation().simplify().lowercase(), "")
+        return ShowdownIdentifiable.EXCLUSIVE_REGEX.replace(this.resourceLocation().simplify(), "")
     }
 
     override fun registry(): Registry<AbilityTemplate> = CobblemonRegistries.ABILITY

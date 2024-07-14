@@ -10,15 +10,11 @@ package com.cobblemon.mod.common.api.moves
 
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
-import com.google.gson.JsonObject
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.Tag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import com.mojang.serialization.Codec
+import net.minecraft.network.codec.ByteBufCodecs
 import kotlin.math.min
 
 class MoveSet : Iterable<Move> {
@@ -91,33 +87,6 @@ class MoveSet : Iterable<Move> {
         update()
     }
 
-    /**
-     * Returns a NbtList containing all the Moves
-     */
-    fun getNBT(): ListTag {
-        val listTag = ListTag()
-        listTag.addAll(getMoves().map { it.saveToNBT(CompoundTag()) })
-        return listTag
-    }
-
-    /**
-     * Writes the MoveSet to Buffer
-     */
-    fun saveToBuffer(buffer: RegistryFriendlyByteBuf) {
-        buffer.writeSizedInt(IntSize.U_BYTE, getMoves().size)
-        getMoves().forEach {
-            it.saveToBuffer(buffer)
-        }
-    }
-
-    fun saveToJSON(json: JsonObject): JsonObject {
-        for ((i, move) in moves.filterNotNull().withIndex()) {
-            val moveJSON = move.saveToJSON(JsonObject())
-            json.add(DataKeys.POKEMON_MOVESET + i, moveJSON)
-        }
-        return json
-    }
-
     fun add(move: Move) {
         if (any { it.template == move.template }) {
             return
@@ -144,49 +113,6 @@ class MoveSet : Iterable<Move> {
         emit = previousEmit
     }
 
-
-    /**
-     * Returns a MoveSet built from given NBT
-     */
-    fun loadFromNBT(nbt: CompoundTag): MoveSet {
-        doWithoutEmitting {
-            clear()
-            nbt.getList(DataKeys.POKEMON_MOVESET, Tag.TAG_COMPOUND.toInt()).forEachIndexed { index, tag ->
-                setMove(index, Move.loadFromNBT(tag as CompoundTag))
-            }
-        }
-        update()
-        return this
-    }
-
-    /**
-     * Returns a MoveSet build from given Buffer
-     */
-    fun loadFromBuffer(buffer: RegistryFriendlyByteBuf): MoveSet {
-        doWithoutEmitting {
-            clear()
-            val amountMoves = buffer.readSizedInt(IntSize.U_BYTE)
-            for (i in 0 until amountMoves) {
-                setMove(i, Move.loadFromBuffer(buffer))
-            }
-        }
-        update()
-        return this
-    }
-
-    fun loadFromJSON(json: JsonObject): MoveSet {
-        doWithoutEmitting {
-            clear()
-            for (i in 0 until MOVE_COUNT) {
-                val moveJSON = json.get(DataKeys.POKEMON_MOVESET + i) ?: continue
-                val move = Move.loadFromJSON(moveJSON.asJsonObject)
-                add(move)
-            }
-        }
-        update()
-        return this
-    }
-
     companion object {
         const val MOVE_COUNT = 4
         @JvmStatic
@@ -199,5 +125,8 @@ class MoveSet : Iterable<Move> {
                 },
                 { moveSet -> moveSet.toList() }
             )
+
+        @JvmStatic
+        val PACKET_CODEC = ByteBufCodecs.fromCodecTrusted(CODEC)
     }
 }

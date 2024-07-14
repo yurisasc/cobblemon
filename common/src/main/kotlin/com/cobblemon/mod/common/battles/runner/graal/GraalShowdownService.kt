@@ -136,12 +136,6 @@ class GraalShowdownService : ShowdownService {
         sendToShowdown(battleId, messages)
     }
 
-    override fun getAbilityIds(): JsonArray {
-        val getCobbledAbilityIdsFn = context.getBindings("js").getMember("getCobbledAbilityIds")
-        val arrayResult = getCobbledAbilityIdsFn.execute().asString()
-        return gson.fromJson(arrayResult, JsonArray::class.java)
-    }
-
     override fun getAbilities(): JsonArray {
         val fn = context.getBindings("js").getMember("getAbilities")
         val arrayResult = fn.execute().asString()

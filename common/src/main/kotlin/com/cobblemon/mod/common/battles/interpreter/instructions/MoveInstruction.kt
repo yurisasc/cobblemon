@@ -43,7 +43,7 @@ class MoveInstruction(
     val message: BattleMessage
 ) : InterpreterInstruction, CauserInstruction {
     val effect = message.effectAt(1) ?: Effect.pure("", "")
-    val move = Moves.getByNameOrDummy(effect.id)
+    val move = Moves.getOrThrow(effect.id)
     val actionEffect = move.actionEffect
 
     var future = CompletableFuture.completedFuture(Unit)

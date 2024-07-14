@@ -700,7 +700,7 @@ open class PokemonProperties {
      * @return The [Ability] with the [Ability.forced] state necessary for the given [form].
      */
     private fun createAbility(id: String, form: FormData): Ability? {
-        val ability = Abilities.get(id) ?: return null
+        val ability = Abilities.get(id.asIdentifierDefaultingNamespace()) ?: return null
         val potentialAbility = form.abilities.firstOrNull { potential -> potential.template == ability } ?: return ability.asAbility(true)
         return potentialAbility.template.asAbility(false)
     }

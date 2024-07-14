@@ -70,7 +70,7 @@ class MoveSlotWidget(
         val matrices = context.pose()
         isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
 
-        val moveTemplate = Moves.getByNameOrDummy(move.name)
+        val moveTemplate = Moves.getOrThrow(move.template.resourceKey())
         val rgb = ElementalTypeDisplays.displayOf(moveTemplate.elementalType).tint.rgba.toRGB()
 
         if (movesWidget.selectedMove == move) {
@@ -140,7 +140,7 @@ class MoveSlotWidget(
         drawScaledText(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
-            text = move.displayName.bold(),
+            text = move.displayName.copy().bold(),
             x = x + 28,
             y = y + 2,
             shadow = true

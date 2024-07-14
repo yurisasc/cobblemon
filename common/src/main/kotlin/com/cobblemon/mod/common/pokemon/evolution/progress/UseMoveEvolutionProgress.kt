@@ -9,17 +9,20 @@
 package com.cobblemon.mod.common.pokemon.evolution.progress
 
 import com.cobblemon.mod.common.api.moves.MoveTemplate
+import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressType
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressTypes
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.UseMoveRequirement
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.JsonObject
 import net.minecraft.resources.ResourceLocation
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.util.RandomSource
 
 /**
  * An [EvolutionProgress] meant to keep track of the amount of times a specific move in battle.
@@ -29,7 +32,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
  */
 class UseMoveEvolutionProgress : EvolutionProgress<UseMoveEvolutionProgress.Progress> {
 
-    private var progress = Progress(MoveTemplate.dummy(""), 0)
+    private var progress = this.empty()
 
     override fun id(): ResourceLocation = ID
 
@@ -40,12 +43,14 @@ class UseMoveEvolutionProgress : EvolutionProgress<UseMoveEvolutionProgress.Prog
     }
 
     override fun reset() {
-        this.progress = Progress(MoveTemplate.dummy(""), 0)
+        this.progress = this.empty()
     }
 
     override fun shouldKeep(pokemon: Pokemon): Boolean = supports(pokemon, this.progress.move)
 
     override fun type(): EvolutionProgressType<*> = EvolutionProgressTypes.USE_MOVE
+
+    private fun empty(): Progress = Progress(Moves.registry().getRandom(RandomSource.create()).get().value(), 0)
 
     data class Progress(
         val move: MoveTemplate,
@@ -61,7 +66,7 @@ class UseMoveEvolutionProgress : EvolutionProgress<UseMoveEvolutionProgress.Prog
         @JvmStatic
         val CODEC: MapCodec<UseMoveEvolutionProgress> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
-                MoveTemplate.BY_STRING_CODEC.fieldOf(MOVE).forGetter { it.progress.move },
+                CobblemonRegistries.MOVE.byNameCodec().fieldOf(MOVE).forGetter { it.progress.move },
                 Codec.intRange(1, Int.MAX_VALUE).fieldOf(AMOUNT).forGetter { it.progress.amount }
             ).apply(instance) { move, amount -> UseMoveEvolutionProgress().apply { updateProgress(Progress(move, amount)) } }
         }

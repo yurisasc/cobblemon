@@ -341,7 +341,7 @@ class PCGUI(
             for (i in moves.indices) {
                 drawScaledText(
                     context = context,
-                    text = moves[i].displayName,
+                    text = moves[i].displayName.copy(),
                     x = x + 39,
                     y = y + 170.5 + (7 * i),
                     centered = true,

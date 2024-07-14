@@ -6,7 +6,7 @@
     },
     {
       "type": "animation",
-      "animation": ["q.move.name", "q.move.damage_category"],
+      "animation": ["q.move.id", "q.move.damage_category"],
       "delay": 1.2
     },
     {

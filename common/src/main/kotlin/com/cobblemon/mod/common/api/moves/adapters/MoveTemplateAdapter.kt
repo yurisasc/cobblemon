@@ -26,5 +26,5 @@ import java.lang.reflect.Type
  */
 object MoveTemplateAdapter : JsonSerializer<MoveTemplate>, JsonDeserializer<MoveTemplate> {
     override fun serialize(template: MoveTemplate, type: Type?, ctx: JsonSerializationContext) = JsonPrimitive(template.name)
-    override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext) = Moves.getByName(json.asString) ?: Moves.getExceptional()
+    override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext) = Moves.getOrThrow(json.asString)
 }

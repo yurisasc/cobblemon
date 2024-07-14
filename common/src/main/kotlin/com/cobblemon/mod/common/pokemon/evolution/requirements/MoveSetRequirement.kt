@@ -12,6 +12,8 @@ import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.registry.CobblemonRegistries
+import net.minecraft.util.RandomSource
 
 /**
  * An [EvolutionRequirement] for when a certain [MoveTemplate] is expected in the [Pokemon.moveSet].
@@ -21,7 +23,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
  * @since March 21st, 2022
  */
 class MoveSetRequirement : EvolutionRequirement {
-    val move: MoveTemplate = Moves.getByNameOrDummy("tackle")
+    val move: MoveTemplate = CobblemonRegistries.MOVE.getRandom(RandomSource.create()).get().value()
     override fun check(pokemon: Pokemon) = pokemon.moveSet.getMoves().any { move -> move.name.equals(this.move.name, true) }
     companion object {
         const val ADAPTER_VARIANT = "has_move"

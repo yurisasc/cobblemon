@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.api.abilities.PotentialAbility
 import com.cobblemon.mod.common.api.abilities.PotentialAbilityType
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.google.gson.JsonElement
 
 object HiddenAbilityType : PotentialAbilityType<HiddenAbility> {
@@ -21,7 +22,7 @@ object HiddenAbilityType : PotentialAbilityType<HiddenAbility> {
         val str = if (element.isJsonPrimitive) element.asString else null
         return if (str?.startsWith("h:") == true) {
             val abilityString = str.substringAfter("h:")
-            val ability = Abilities.get(abilityString)
+            val ability = Abilities.get(abilityString.asIdentifierDefaultingNamespace())
             if (ability != null) {
                 HiddenAbility(ability)
             } else {

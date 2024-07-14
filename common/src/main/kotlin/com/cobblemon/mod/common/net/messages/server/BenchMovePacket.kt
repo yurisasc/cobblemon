@@ -46,8 +46,8 @@ class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTem
         fun decode(buffer: RegistryFriendlyByteBuf): BenchMovePacket {
             val isParty = buffer.readBoolean()
             val uuid = buffer.readUUID()
-            val oldMove = Moves.getByName(buffer.readString())!!
-            val newMove = Moves.getByName(buffer.readString())!!
+            val oldMove = Moves.get(buffer.readString())!!
+            val newMove = Moves.get(buffer.readString())!!
             return BenchMovePacket(isParty, uuid, oldMove, newMove)
         }
     }

@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.battles.interpreter.CobblemonEffect
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 
 /**
  * A representation of an effect received from Showdown inside a [BattleMessage].
@@ -79,7 +80,7 @@ interface Effect {
          * @throws IllegalArgumentException If the [id] cannot be found in the [Abilities] registry.
          */
         fun ability(id: String, rawData: String): Effect {
-            if (Abilities.get(id) == null) {
+            if (Abilities.get(id.asIdentifierDefaultingNamespace()) == null) {
                 throw IllegalArgumentException("Cannot instance ability effect with ID $id")
             }
             return of(id, Type.ABILITY, rawData)
@@ -104,7 +105,7 @@ interface Effect {
          * @throws IllegalArgumentException If the [id] cannot be found in the [Moves] registry.
          */
         fun move(id: String, rawData: String): Effect {
-            if (Moves.getByName(id) == null) {
+            if (Moves.get(id) == null) {
                 throw IllegalArgumentException("Cannot instance move effect with ID $id")
             }
             return of(id, Type.MOVE, rawData)

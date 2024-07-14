@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.abilities
 
 import com.cobblemon.mod.common.api.Priority
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.google.gson.JsonElement
 
 interface PotentialAbilityType<T : PotentialAbility> {
@@ -37,7 +38,7 @@ object CommonAbilityType : PotentialAbilityType<CommonAbility> {
     override fun parseFromJSON(element: JsonElement): CommonAbility? {
         val str = if (element.isJsonPrimitive) element.asString else null
         return str?.let {
-            val ability = Abilities.get(it)
+            val ability = Abilities.get(it.asIdentifierDefaultingNamespace())
             if (ability != null) {
                 return@let CommonAbility(ability)
             } else {

@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.net.IntSize
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.isInt
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
@@ -27,7 +28,7 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
                 return Interpreter { element, learnset ->
                     val str = element.takeIf { it.isJsonPrimitive }?.asString ?: return@Interpreter false
                     if (str.startsWith(prefix)) {
-                        Moves.getByName(str.substringAfter(":"))
+                        Moves.get(str.substringAfter(":"))
                             ?.let {
                                 list(learnset).add(it)
                                 return@Interpreter true
@@ -55,7 +56,7 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
 
             val level = splits[0].toInt()
             val moveName = splits[1]
-            val move = Moves.getByName(moveName) ?: return@Interpreter false
+            val move = Moves.get(moveName) ?: return@Interpreter false
 
             val levelLearnset = learnset.levelUpMoves.getOrPut(level) { mutableListOf() }
             if (move !in levelLearnset) {
@@ -97,24 +98,26 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
     override fun shouldSynchronize(other: Learnset) = other.levelUpMoves != this.levelUpMoves
 
     override fun decode(buffer: RegistryFriendlyByteBuf) {
+        val moveRegistry = buffer.registryAccess().registryOrThrow(CobblemonRegistries.MOVE_KEY)
         this.levelUpMoves.clear()
         repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
             val level = buffer.readSizedInt(IntSize.U_SHORT)
             val moves = mutableListOf<MoveTemplate>()
             repeat(times = buffer.readSizedInt(IntSize.U_SHORT)) {
-                Moves.getByNumericalId(buffer.readInt())?.let(moves::add)
+                moveRegistry.byId(buffer.readInt())?.let(moves::add)
             }
             levelUpMoves[level] = moves
         }
     }
 
     override fun encode(buffer: RegistryFriendlyByteBuf) {
+        val moveRegistry = buffer.registryAccess().registryOrThrow(CobblemonRegistries.MOVE_KEY)
         buffer.writeSizedInt(IntSize.U_BYTE, levelUpMoves.size)
         for ((level, moves) in levelUpMoves) {
             buffer.writeSizedInt(IntSize.U_SHORT, level)
             buffer.writeSizedInt(IntSize.U_SHORT, moves.size)
             for (move in moves) {
-                buffer.writeInt(move.num)
+                buffer.writeInt(moveRegistry.getId(move))
             }
         }
     }

@@ -15,7 +15,7 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 
 object CobblemonCommands {
-    fun register(dispatcher: CommandDispatcher<CommandSourceStack>, registry: CommandBuildContext, selection: Commands.CommandSelection) {
+    fun register(dispatcher: CommandDispatcher<CommandSourceStack>, commandBuildContext: CommandBuildContext, selection: Commands.CommandSelection) {
         SpawnPokemon.register(dispatcher)
         GivePokemon.register(dispatcher)
         TakePokemon.register(dispatcher)
@@ -25,7 +25,7 @@ object CobblemonCommands {
         ReloadShowdownCommand.register(dispatcher)
         ClickTextCommand.register(dispatcher)
         PokemonEditCommand.register(dispatcher)
-        TeachCommand.register(dispatcher)
+        TeachCommand.register(dispatcher, commandBuildContext)
         LevelUp.register(dispatcher)
         HealPokemonCommand.register(dispatcher)
         StopBattleCommand.register(dispatcher)
@@ -35,12 +35,12 @@ object CobblemonCommands {
         SpawnAllPokemon.register(dispatcher)
         FriendshipCommand.register(dispatcher)
         GiveAllPokemon.register(dispatcher)
-        HeldItemCommand.register(dispatcher, registry)
+        HeldItemCommand.register(dispatcher, commandBuildContext)
         PcCommand.register(dispatcher)
         SpawnPokemonFromPool.register(dispatcher)
         PokeboxCommand.register(dispatcher)
         TestStoreCommand.register(dispatcher)
-        QueryLearnsetCommand.register(dispatcher)
+        QueryLearnsetCommand.register(dispatcher, commandBuildContext)
         TestPcSlotCommand.register(dispatcher)
         TestPartySlotCommand.register(dispatcher)
         ClearPartyCommand.register(dispatcher)

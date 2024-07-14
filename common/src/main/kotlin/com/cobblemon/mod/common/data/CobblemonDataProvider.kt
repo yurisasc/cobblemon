@@ -20,7 +20,6 @@ import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.fossil.Fossils
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
-import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.moves.animations.ActionEffects
 import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
@@ -63,7 +62,6 @@ object CobblemonDataProvider : DataProvider {
         this.register(GlobalSpeciesFeatures)
         this.register(SpeciesFeatureAssignments)
         this.register(ActionEffects)
-        this.register(Moves)
         this.register(PokemonSpecies)
         this.register(SpeciesAdditions)
         this.register(PokeBalls)

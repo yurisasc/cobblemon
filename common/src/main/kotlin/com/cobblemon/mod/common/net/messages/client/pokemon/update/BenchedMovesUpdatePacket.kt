@@ -16,7 +16,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 class BenchedMovesUpdatePacket(pokemon: () -> Pokemon, value: BenchedMoves): SingleUpdatePacket<BenchedMoves, BenchedMovesUpdatePacket>(pokemon, value) {
     override val id = ID
     override fun encodeValue(buffer: RegistryFriendlyByteBuf) {
-        this.value.saveToBuffer(buffer)
+        BenchedMoves.PACKET_CODEC.encode(buffer, this.value)
     }
 
     override fun set(pokemon: Pokemon, value: BenchedMoves) {
@@ -30,7 +30,7 @@ class BenchedMovesUpdatePacket(pokemon: () -> Pokemon, value: BenchedMoves): Sin
         val ID = cobblemonResource("benched_moves_update")
         fun decode(buffer: RegistryFriendlyByteBuf): BenchedMovesUpdatePacket {
             val pokemon = decodePokemon(buffer)
-            val benchedMoves = BenchedMoves().apply { loadFromBuffer(buffer) }
+            val benchedMoves = BenchedMoves.PACKET_CODEC.decode(buffer)
             return BenchedMovesUpdatePacket(pokemon, benchedMoves)
         }
     }

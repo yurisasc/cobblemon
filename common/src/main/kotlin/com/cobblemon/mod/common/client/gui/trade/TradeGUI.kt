@@ -558,7 +558,7 @@ class TradeGUI(
             for (i in moves.indices) {
                 drawScaledText(
                     context = context,
-                    text = moves[i].displayName,
+                    text = moves[i].displayName.copy(),
                     x = x + 108 + labelXOffset,
                     y = y + 180.5 + (7 * i),
                     centered = true,

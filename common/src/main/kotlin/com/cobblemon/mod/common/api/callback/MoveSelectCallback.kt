@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.battles.InBattleMove
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.net.messages.client.callback.OpenMoveCallbackPacket
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeSizedInt
@@ -118,16 +119,16 @@ class MoveSelectDTO(val moveTemplate: MoveTemplate, var enabled: Boolean, val pp
     @JvmOverloads
     constructor(move: Move, enabled: Boolean = true): this(moveTemplate = move.template, enabled = enabled, pp = move.currentPp, ppMax = move.maxPp)
     @JvmOverloads
-    constructor(move: InBattleMove, enabled: Boolean = true): this(moveTemplate = Moves.getByNameOrDummy(move.move), enabled = enabled, pp = move.pp, ppMax = move.maxpp)
+    constructor(move: InBattleMove, enabled: Boolean = true): this(moveTemplate = Moves.getOrThrow(move.move), enabled = enabled, pp = move.pp, ppMax = move.maxpp)
     constructor(buffer: RegistryFriendlyByteBuf): this(
-        moveTemplate = Moves.getByNameOrDummy(buffer.readString()),
+        moveTemplate = buffer.registryAccess().registryOrThrow(CobblemonRegistries.MOVE_KEY).getOrThrow(buffer.readResourceKey(CobblemonRegistries.MOVE_KEY)),
         enabled = buffer.readBoolean(),
         pp = buffer.readSizedInt(IntSize.BYTE),
         ppMax = buffer.readSizedInt(IntSize.BYTE)
     )
 
     fun writeToBuffer(buffer: RegistryFriendlyByteBuf) {
-        buffer.writeString(moveTemplate.name)
+        buffer.writeResourceKey(moveTemplate.resourceKey())
         buffer.writeBoolean(enabled)
         buffer.writeSizedInt(IntSize.BYTE, pp)
         buffer.writeSizedInt(IntSize.BYTE, ppMax)

@@ -9,9 +9,11 @@
 package com.cobblemon.mod.common.api.registry
 
 import com.cobblemon.mod.common.registry.CobblemonRegistries
-import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
+import java.util.Optional
 
 /**
  * Class containing utility methods for Cobblemon registries.
@@ -21,7 +23,7 @@ import net.minecraft.resources.ResourceKey
  * @see [CobblemonRegistries].
  */
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class CobblemonRegistry<T> {
+abstract class CobblemonRegistry<T> : Iterable<T> {
 
     protected val registeredKeys = hashSetOf<ResourceKey<T>>()
 
@@ -47,11 +49,75 @@ abstract class CobblemonRegistry<T> {
      * @return The generated [ResourceKey].
      */
     protected fun key(name: String): ResourceKey<T> {
-        val key = ResourceKey.create(this.registryKey(), cobblemonResource(name))
+        val key = this.createKey(name.asIdentifierDefaultingNamespace())
         if (!this.registeredKeys.add(key)) {
             throw IllegalStateException("Attempted to create key $key twice")
         }
         return key
     }
+
+    override fun iterator(): Iterator<T> = this.registry().iterator()
+
+    /**
+     * @see [Registry.get]
+     */
+    fun get(resourceLocation: ResourceLocation?): T? = this.registry().get(resourceLocation)
+
+    /**
+     * @see [Registry.get]
+     */
+    fun get(resourceKey: ResourceKey<T>): T? = this.registry().get(resourceKey)
+
+    /**
+     * TODO
+     *
+     * @param name
+     * @return
+     */
+    fun get(name: String): T? = this.get(name.asIdentifierDefaultingNamespace())
+
+    /**
+     * @see [Registry.getOptional]
+     */
+    fun getOptional(resourceLocation: ResourceLocation): Optional<T> = this.registry().getOptional(resourceLocation)
+
+    /**
+     * @see [Registry.getOptional]
+     */
+    fun getOptional(resourceKey: ResourceKey<T>): Optional<T> = this.registry().getOptional(resourceKey)
+
+    /**
+     * TODO
+     *
+     * @param name
+     * @return
+     */
+    fun getOptional(name: String): Optional<T> = this.getOptional(name.asIdentifierDefaultingNamespace())
+
+    /**
+     * @see [Registry.getOrThrow]
+     */
+    fun getOrThrow(resourceLocation: ResourceLocation): T = this.getOrThrow(this.createKey(resourceLocation))
+
+    /**
+     * @see [Registry.getOrThrow]
+     */
+    fun getOrThrow(resourceKey: ResourceKey<T>): T = this.registry().getOrThrow(resourceKey)
+
+    /**
+     * TODO
+     *
+     * @param name
+     * @return
+     */
+    fun getOrThrow(name: String): T = this.getOrThrow(name.asIdentifierDefaultingNamespace())
+
+    /**
+     * TODO
+     *
+     * @param resourceLocation
+     * @return
+     */
+    fun createKey(resourceLocation: ResourceLocation): ResourceKey<T> = ResourceKey.create(this.registryKey(), resourceLocation)
 
 }
