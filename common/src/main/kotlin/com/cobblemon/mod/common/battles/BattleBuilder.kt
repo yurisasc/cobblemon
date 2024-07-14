@@ -188,8 +188,7 @@ object BattleBuilder {
         val playerTeam = party.toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemon = leadingPokemon)
         val playerActor = PlayerBattleActor(player.uuid, playerTeam)
 
-        val party = npcEntity.party?.getParty(player, npcEntity) ?: TODO("Deal with this issue!")
-        val npcActor = NPCBattleActor(npcEntity, party)
+        val npcParty = npcEntity.party?.getParty(player, npcEntity)
         val errors = ErroredBattleStart()
 
         if (playerActor.pokemonList.size < battleFormat.battleType.slotsPerActor) {
@@ -204,6 +203,12 @@ object BattleBuilder {
             errors.participantErrors[playerActor] += BattleStartError.alreadyInBattle(playerActor)
         }
 
+        if (npcParty == null) {
+            errors.generalErrors += BattleStartError.noParty(npcEntity)
+            return errors
+        }
+
+        val npcActor = NPCBattleActor(npcEntity, npcParty)
 //        if (npcEntity.battleIds.get().isPresent) {
 //            errors.participantErrors[npcActor] += BattleStartError.alreadyInBattle(npcActor)
 //        }
@@ -253,7 +258,7 @@ interface BattleStartError {
         fun alreadyInBattle(player: ServerPlayer) = AlreadyInBattleError(player.uuid, player.effectiveName())
         fun alreadyInBattle(pokemonEntity: PokemonEntity) = AlreadyInBattleError(pokemonEntity.uuid, pokemonEntity.effectiveName())
         fun alreadyInBattle(actor: BattleActor) = AlreadyInBattleError(actor.uuid, actor.getName())
-
+        fun noParty(npcEntity: NPCEntity) = NoPartyError(npcEntity)
         fun targetIsBusy(targetName: MutableComponent) = BusyError(targetName)
         fun insufficientPokemon(
             player: ServerPlayer,
@@ -298,6 +303,13 @@ class InsufficientPokemonError(
         }
     }
 }
+
+class NoPartyError(
+    val npc: NPCEntity
+) : BattleStartError {
+    override fun getMessageFor(entity: Entity) = battleLang("error.no_party", npc.effectiveName())
+}
+
 class AlreadyInBattleError(
     val actorUUID: UUID,
     val name: Component

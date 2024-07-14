@@ -1413,6 +1413,7 @@
   "cobblemon.battle.error.insufficient_pokemon.personal": "You have %1 usable Pokémon but you need %2.",
   "cobblemon.battle.error.pokemon_is_trapped": "[Unavailable choice] Can't switch: The active Pokémon is trapped",
   "cobblemon.battle.error.canceled": "There's a time and place for everything, but not now!",
+  "cobblemon.battle.error.no_party": "%1$s does not have a Pokémon party to battle with.",
   "cobblemon.battle.immune": "But %1$s is immune!",
   "cobblemon.battle.invertboost": "%1$s's stat changes were inverted!",
   "cobblemon.battle.missed": "But it missed.",
