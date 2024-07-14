@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueClosedPacket
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueOpenedPacket
 import com.cobblemon.mod.common.util.activeDialogue
-import com.cobblemon.mod.common.util.withQueryValue
+import com.cobblemon.mod.common.util.withNPCValue
 import java.util.UUID
 import net.minecraft.server.level.ServerPlayer
 
@@ -34,7 +34,7 @@ object DialogueManager {
 
     fun startDialogue(playerEntity: ServerPlayer, npcEntity: NPCEntity, dialogue: Dialogue) {
         val activeDialogue = ActiveDialogue(playerEntity, dialogue)
-        activeDialogue.runtime.withQueryValue("npc") { npcEntity.struct }
+        activeDialogue.runtime.withNPCValue("npc", npcEntity)
         startDialogue(activeDialogue)
     }
 

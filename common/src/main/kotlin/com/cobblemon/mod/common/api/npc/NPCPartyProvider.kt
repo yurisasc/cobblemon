@@ -34,6 +34,6 @@ interface NPCPartyProvider {
     }
 
     val type: String
-    fun provide(npc: NPCEntity): NPCParty
+    fun provide(npc: NPCEntity, level: Int): NPCParty
     fun loadFromJSON(json: JsonElement)
 }

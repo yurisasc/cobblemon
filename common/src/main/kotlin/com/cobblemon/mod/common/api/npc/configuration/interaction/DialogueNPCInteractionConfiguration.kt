@@ -31,7 +31,7 @@ class DialogueNPCInteractionConfiguration : NPCInteractConfiguration {
 
     override fun interact(npc: NPCEntity, player: ServerPlayer): Boolean {
         val dialogue = Dialogues.dialogues[this.dialogue] ?: return false
-        DialogueManager.startDialogue(ActiveDialogue(player, dialogue))
+        DialogueManager.startDialogue(player, npc, dialogue)
         return true
     }
 

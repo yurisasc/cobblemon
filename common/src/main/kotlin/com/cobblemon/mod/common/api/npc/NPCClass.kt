@@ -37,6 +37,7 @@ class NPCClass {
     var battleConfiguration = NPCBattleConfiguration()
     var interaction: NPCInteractConfiguration? = null
     var variables = mutableMapOf<String, MoValue>()
+    var party: NPCPartyProvider? = null
 
     fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeCollection(names) { _, v -> buffer.writeText(v) }

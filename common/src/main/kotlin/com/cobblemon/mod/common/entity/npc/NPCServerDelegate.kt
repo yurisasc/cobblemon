@@ -49,8 +49,8 @@ class NPCServerDelegate : NPCSideDelegate {
                     npcEntity = entity
                 )
 
-                var returnValue: MoValue = DoubleValue(false)
-                battleStartResult.ifSuccessful { returnValue = DoubleValue(true) }
+                var returnValue: MoValue = DoubleValue.ZERO
+                battleStartResult.ifSuccessful { returnValue = DoubleValue.ONE }
                 return@addFunction returnValue
             }
             .addFunction("run_dialogue") { params ->

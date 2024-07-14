@@ -12,8 +12,15 @@ import com.cobblemon.mod.common.api.npc.NPCPartyProvider
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.entity.npc.NPCEntity
+import com.cobblemon.mod.common.util.toProperties
 import com.google.gson.JsonElement
 
+/**
+ * A basic party provider that just produces a [StaticNPCParty] based on a list of [PokemonProperties].
+ *
+ * @author Hiroku
+ * @since August 19th, 2023
+ */
 class SimplePartyProvider : NPCPartyProvider {
     companion object {
         const val TYPE = "simple"
@@ -27,15 +34,21 @@ class SimplePartyProvider : NPCPartyProvider {
     override fun loadFromJSON(json: JsonElement) {
         val pokemonList = json.asJsonObject.getAsJsonArray("pokemon")
         pokemonList.forEach {
-            val obj = it.asJsonObject
-            val pokemon = PokemonProperties()
-            pokemon.loadFromJSON(obj)
+            val pokemon = if (it.isJsonPrimitive) {
+                it.asString.toProperties()
+            } else {
+                val obj = it.asJsonObject
+                val props = PokemonProperties()
+                props.loadFromJSON(obj)
+                props
+            }
+
             this.pokemon.add(pokemon)
         }
     }
 
-    override fun provide(npc: NPCEntity): NPCParty {
-        val pokemon = pokemon.map { it.create() }
+    override fun provide(npc: NPCEntity, level: Int): NPCParty {
+        val pokemon = pokemon.map { it.copy().also { it.level = it.level ?: level }.create() }
         val party = PartyStore(npc.uuid)
         pokemon.forEach(party::add)
         return StaticNPCParty(party)

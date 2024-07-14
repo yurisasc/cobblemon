@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.entity.npc
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonMemories
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
@@ -28,9 +29,12 @@ import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCBehaviourConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCInteractConfiguration
+import com.cobblemon.mod.common.api.npc.partyproviders.DynamicNPCParty
 import com.cobblemon.mod.common.api.npc.partyproviders.NPCParty
+import com.cobblemon.mod.common.api.npc.partyproviders.StaticNPCParty
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
+import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.ai.AttackAngryAtTask
@@ -264,6 +268,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         nbt.put(DataKeys.NPC_ASPECTS, ListTag().also { list -> appliedAspects.forEach { list.add(StringTag.valueOf(it)) } })
         interaction?.let {
             val interactionNBT = CompoundTag()
+            interactionNBT.putString(DataKeys.NPC_INTERACT_TYPE, it.type)
             it.writeToNBT(interactionNBT)
             nbt.put(DataKeys.NPC_INTERACTION, interactionNBT)
         }
@@ -272,6 +277,13 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
             val battleNBT = CompoundTag()
             battle.saveToNBT(battleNBT)
             nbt.put(DataKeys.NPC_BATTLE_CONFIGURATION, battleNBT)
+        }
+        val party = party
+        if (party != null) {
+            val partyNBT = CompoundTag()
+            partyNBT.putBoolean(DataKeys.NPC_PARTY_IS_STATIC, party is StaticNPCParty)
+            party.saveToNBT(nbt)
+            nbt.put(DataKeys.NPC_PARTY, partyNBT)
         }
         return nbt
     }
@@ -290,10 +302,32 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         if (!battleNBT.isEmpty) {
             battle = NPCBattleConfiguration().also { it.loadFromNBT(battleNBT) }
         }
+        val partyNBT = nbt.getCompound(DataKeys.NPC_PARTY)
+        if (!partyNBT.isEmpty) {
+            val isStatic = partyNBT.getBoolean(DataKeys.NPC_PARTY_IS_STATIC)
+            this.party = if (isStatic) {
+                StaticNPCParty(PartyStore(uuid))
+            } else {
+                val type = partyNBT.getString(DataKeys.NPC_PARTY_TYPE)
+                val clazz = DynamicNPCParty.types[type]
+                if (clazz == null) {
+                    Cobblemon.LOGGER.error("Tried deserializing NPC entity with unknown party type: $type. I am at $x $y $z. Setting party to null.")
+                    null
+                } else {
+                    val party = clazz.getConstructor().newInstance()
+                    party.loadFromNBT(partyNBT)
+                    party
+                }
+            }
+        }
         updateAspects()
     }
 
     override fun getDefaultDimensions(pose: Pose) = npc.hitbox
+
+    fun initializeParty(level: Int) {
+        party = npc.party?.provide(this, level)
+    }
 
     override fun mobInteract(player: Player, hand: InteractionHand): InteractionResult {
         if (player is ServerPlayer && hand == InteractionHand.MAIN_HAND) {
