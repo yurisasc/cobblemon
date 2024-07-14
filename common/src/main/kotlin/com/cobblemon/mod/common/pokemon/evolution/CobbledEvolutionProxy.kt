@@ -19,8 +19,8 @@ class CobblemonEvolutionProxy(
     private val pokemon: Pokemon,
 ) : EvolutionProxy<EvolutionDisplay, Evolution, ClientEvolutionController.Intermediate, ServerEvolutionController.Intermediate> {
 
-    private val clientController = ClientEvolutionController(this.pokemon, emptySet())
-    private val serverController = ServerEvolutionController(this.pokemon, emptySet(), emptySet())
+    private var clientController = ClientEvolutionController(this.pokemon, emptySet())
+    private var serverController = ServerEvolutionController(this.pokemon, emptySet(), emptySet())
 
     override fun isClient(): Boolean = Cobblemon.implementation.environment() == Environment.CLIENT
 
@@ -41,7 +41,17 @@ class CobblemonEvolutionProxy(
     }
 
     internal fun overrideController(newInstance: EvolutionController<out EvolutionLike, PreProcessor>) {
-        //this.controller = newInstance
+        when (newInstance) {
+            is ClientEvolutionController -> {
+                this.clientController = newInstance
+            }
+            is ServerEvolutionController -> {
+                this.serverController = newInstance
+            }
+            else -> {
+                throw IllegalArgumentException("Cannot resolve override of type ${newInstance::class.simpleName}")
+            }
+        }
     }
 
 }
