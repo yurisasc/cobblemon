@@ -167,12 +167,11 @@ object BattleBuilder {
      * Attempts to create a PvE battle against the given Pokémon.
      *
      * @param player The player battling the wild Pokémon.
-     * @param pokemonEntity The Pokémon to battle.
+     * @param npcEntity The NPC to battle.
      * @param leadingPokemon The Pokémon in the player's party to send out first. If null, it uses the first in the party.
      * @param battleFormat The format to use for the battle. By default it is [BattleFormat.GEN_9_SINGLES].
      * @param cloneParties Whether the player's party should be cloned so that damage will not affect their party afterwards. Defaults to false.
      * @param healFirst Whether the player's Pokémon should be healed before the battle starts. Defaults to false.
-     * @param fleeDistance How far away the player must get to flee the Pokémon. If the value is -1, it cannot be fled.
      * @param party The party of the player to use for the battle. This does not need to be their actual party. Defaults to it though.
      */
     @JvmOverloads
