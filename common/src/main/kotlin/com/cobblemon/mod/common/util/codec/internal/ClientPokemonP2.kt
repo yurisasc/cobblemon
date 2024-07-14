@@ -33,7 +33,7 @@ internal data class ClientPokemonP2(
     val caughtBall: PokeBall,
     val faintedTimer: Int,
     val healTimer: Int,
-    val evolutionController: Optional<ClientEvolutionController>,
+    val evolutionController: Optional<ClientEvolutionController.Intermediate>,
     val shiny: Boolean,
     val nature: Nature,
     val mintedNature: Optional<Nature>,
@@ -53,8 +53,7 @@ internal data class ClientPokemonP2(
         other.faintedTimer = this.faintedTimer
         other.healTimer = this.healTimer
         this.evolutionController.ifPresent {
-            it.attachPokemon(other)
-            (other.evolutionProxy as? CobblemonEvolutionProxy)?.overrideController(it)
+            (other.evolutionProxy as? CobblemonEvolutionProxy)?.overrideController(it.create(other))
         }
         other.nature = this.nature
         this.mintedNature.ifPresent { other.mintedNature = it }
@@ -96,7 +95,7 @@ internal data class ClientPokemonP2(
             pokemon.caughtBall,
             pokemon.faintedTimer,
             pokemon.healTimer,
-            Optional.ofNullable(pokemon.evolutionProxy.current() as? ClientEvolutionController),
+            Optional.ofNullable((pokemon.evolutionProxy.current() as? ClientEvolutionController)?.asIntermediate()),
             pokemon.shiny,
             pokemon.nature,
             Optional.ofNullable(pokemon.mintedNature),

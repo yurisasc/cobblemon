@@ -66,9 +66,8 @@ object TestCommand {
         }
 
         try {
-            this.testCustomRegistry(context)
             //this.testCodecOutput(context)
-            /*
+            //this.testCodecOutput(context)
             val player = context.source.entity as ServerPlayer
             val npc = NPCEntity(player.level())
             npc.setPos(player.x, player.y, player.z)
@@ -86,8 +85,6 @@ object TestCommand {
 //            after(seconds = 0.5F) {
 //                player.sendPacket(PlayPoseableAnimationPacket(evolutionEntity.id, setOf("evolution:animation.evolution.evolution"), emptySet()))
 //            }
-             */
-
 
 //            readBerryDataFromCSV()
 
@@ -410,26 +407,6 @@ object TestCommand {
             }
         val jsonElement = Pokemon.CODEC.encodeStart(JsonOps.INSTANCE, pokemon).orThrow
         context.source.sendSystemMessage(Component.literal(jsonElement.toString()))
-    }
-
-    private fun testCustomRegistry(context: CommandContext<CommandSourceStack>) {
-        CobblemonRegistries.ELEMENTAL_TYPE.entrySet().forEach { (key, type) ->
-            context.source.sendSystemMessage(Component.literal("${key.location()} » $type"))
-        }
-        /*
-        val root = File("elemental_type")
-        root.mkdirs()
-        val gson = GsonBuilder()
-            .setPrettyPrinting()
-            .disableHtmlEscaping()
-            .create()
-        ElementalTypes.all().forEach { type ->
-            val file = File(root, "${type.name.lowercase()}.json")
-            ElementalType.CODEC.encodeStart(JsonOps.INSTANCE, type).ifSuccess { result ->
-                file.bufferedWriter().use { it.write(gson.toJson(result)) }
-            }
-        }
-         */
     }
 
 }

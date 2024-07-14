@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.pokemon.evolution.controller
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionDisplay
+import com.cobblemon.mod.common.api.pokemon.evolution.PreProcessor
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
@@ -23,20 +24,17 @@ import net.minecraft.nbt.Tag
 import net.minecraft.network.RegistryFriendlyByteBuf
 import com.mojang.serialization.Codec
 
-class ClientEvolutionController : EvolutionController<EvolutionDisplay> {
+class ClientEvolutionController(
+    private val pokemon: Pokemon,
+    evolutions: Set<EvolutionDisplay>,
+) : EvolutionController<EvolutionDisplay, ClientEvolutionController.Intermediate> {
 
-    private val evolutions = hashSetOf<EvolutionDisplay>()
-
-    private lateinit var pokemon: Pokemon
+    private val evolutions = evolutions.toMutableSet()
 
     override val size: Int
         get() = this.evolutions.size
 
     override fun pokemon(): Pokemon = this.pokemon
-
-    override fun attachPokemon(pokemon: Pokemon) {
-        this.pokemon = pokemon
-    }
 
     override fun start(evolution: EvolutionDisplay) {
         CobblemonNetwork.sendToServer(AcceptEvolutionPacket(this.pokemon, evolution))
@@ -79,12 +77,18 @@ class ClientEvolutionController : EvolutionController<EvolutionDisplay> {
 
     override fun isEmpty() = this.evolutions.isEmpty()
 
+    override fun asIntermediate(): Intermediate = Intermediate(this.evolutions)
+
+    data class Intermediate(val evolutions: Set<EvolutionDisplay>): PreProcessor {
+        override fun create(pokemon: Pokemon): ClientEvolutionController = ClientEvolutionController(pokemon, this.evolutions)
+    }
+
     companion object {
 
         @JvmStatic
-        val CODEC: Codec<ClientEvolutionController> = EvolutionDisplay.CODEC.listOf()
+        val CODEC: Codec<Intermediate> = EvolutionDisplay.CODEC.listOf()
             .xmap(
-                { displays -> ClientEvolutionController().apply { addAll(displays) } },
+                { displays -> Intermediate(displays.toSet()) },
                 { controller -> controller.evolutions.toMutableList() }
             )
 

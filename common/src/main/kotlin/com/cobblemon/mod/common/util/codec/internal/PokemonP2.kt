@@ -35,7 +35,7 @@ internal data class PokemonP2(
     val caughtBall: PokeBall,
     val faintedTimer: Int,
     val healTimer: Int,
-    val evolutionController: Optional<ServerEvolutionController>,
+    val evolutionController: Optional<ServerEvolutionController.Intermediate>,
     val customProperties: MutableList<CustomPokemonProperty>,
     val nature: Nature,
     val mintedNature: Optional<Nature>,
@@ -55,11 +55,10 @@ internal data class PokemonP2(
         other.faintedTimer = this.faintedTimer
         other.healTimer = this.healTimer
         this.evolutionController.ifPresent {
-            it.attachPokemon(other)
-            (other.evolutionProxy as? CobblemonEvolutionProxy)?.overrideController(it)
+            (other.evolutionProxy as? CobblemonEvolutionProxy)?.overrideController(it.create(other))
         }
-        //other.customProperties.clear()
-        //other.customProperties += customProperties
+        other.customProperties.clear()
+        other.customProperties += customProperties
         other.nature = this.nature
         this.mintedNature.ifPresent { other.mintedNature = it }
         other.heldItem = this.heldItem.copy()
@@ -100,7 +99,7 @@ internal data class PokemonP2(
             pokemon.caughtBall,
             pokemon.faintedTimer,
             pokemon.healTimer,
-            Optional.ofNullable(pokemon.evolutionProxy.current() as? ServerEvolutionController),
+            Optional.ofNullable((pokemon.evolutionProxy.current() as? ServerEvolutionController)?.asIntermediate()),
             pokemon.customProperties,
             pokemon.nature,
             Optional.ofNullable(pokemon.mintedNature),

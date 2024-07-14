@@ -65,6 +65,8 @@ import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.activestate.*
 import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy
+import com.cobblemon.mod.common.pokemon.evolution.controller.ClientEvolutionController
+import com.cobblemon.mod.common.pokemon.evolution.controller.ServerEvolutionController
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.feature.SeasonFeatureHandler
@@ -477,12 +479,11 @@ open class Pokemon : ShowdownIdentifiable {
 
     val preEvolution: PreEvolution? get() = this.form.preEvolution
 
-    // Lazy due to leaking 'this'
     /**
      * Provides the sided [EvolutionController]s, these operations can be done safely with a simple side check.
      * This can be done beforehand or using [EvolutionProxy.isClient].
      */
-    var evolutionProxy: EvolutionProxy<EvolutionDisplay, Evolution> = CobblemonEvolutionProxy(this.isClient).apply { current().attachPokemon(this@Pokemon) }
+    var evolutionProxy: EvolutionProxy<EvolutionDisplay, Evolution, ClientEvolutionController.Intermediate, ServerEvolutionController.Intermediate> = CobblemonEvolutionProxy(this.self())
         private set
 
     val customProperties = mutableListOf<CustomPokemonProperty>()
@@ -894,11 +895,12 @@ open class Pokemon : ShowdownIdentifiable {
     fun clone(newUUID: Boolean = true): Pokemon {
         // NBT is faster, ops type doesn't really matter
         val encoded = CODEC.encodeStart(NbtOps.INSTANCE, this).orThrow
-        NbtOps.INSTANCE.remove(encoded, DataKeys.POKEMON_EVOLUTIONS)
         if (newUUID) {
             NbtOps.INSTANCE.set(encoded, DataKeys.POKEMON_UUID, StringTag.valueOf(UUID.randomUUID().toString()))
         }
-        return CODEC.decode(NbtOps.INSTANCE, encoded).orThrow.first
+        val result = CODEC.decode(NbtOps.INSTANCE, encoded).orThrow.first
+        result.isClient = this.isClient
+        return result
     }
 
     open fun copyFrom(other: Pokemon): Pokemon {
@@ -926,8 +928,7 @@ open class Pokemon : ShowdownIdentifiable {
         this.caughtBall = other.caughtBall
         this.faintedTimer = other.faintedTimer
         this.healTimer = other.healTimer
-        other.evolutionProxy.current().attachPokemon(this)
-        this.evolutionProxy = other.evolutionProxy
+        (this.evolutionProxy as? CobblemonEvolutionProxy)?.overrideController(other.evolutionProxy.current().asIntermediate().create(this))
         this.customProperties.clear()
         this.customProperties += other.customProperties
         this.nature = other.nature
@@ -1127,7 +1128,6 @@ open class Pokemon : ShowdownIdentifiable {
         }
          */
         initializeMoveset()
-        this.evolutionProxy.current().attachPokemon(this)
         return this
     }
 
@@ -1473,6 +1473,13 @@ open class Pokemon : ShowdownIdentifiable {
      * @return The [ElementalType] for 'Hidden Power'.
      */
     open fun hiddenPowerType(): ElementalType = Cobblemon.hiddenPowerCalculator.calculate(this)
+
+    /**
+     * Used for when 'this' would be called in leaking context.
+     *
+     * @return The current [Pokemon] instance.
+     */
+    open fun self(): Pokemon = this
 
     private fun findAndLearnFormChangeMoves() {
         this.form.moves.formChangeMoves.forEach { move ->
