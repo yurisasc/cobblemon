@@ -12,30 +12,30 @@ import com.cobblemon.mod.common.api.pokemon.evolution.*
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.controller.ClientEvolutionController
 import com.cobblemon.mod.common.pokemon.evolution.controller.ServerEvolutionController
-import com.cobblemon.mod.common.util.DataKeys
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.Tag
-import net.minecraft.network.RegistryFriendlyByteBuf
 
-class CobblemonEvolutionProxy(private val clientSide: Boolean) : EvolutionProxy<EvolutionDisplay, Evolution> {
+class CobblemonEvolutionProxy(
+    private val pokemon: Pokemon,
+) : EvolutionProxy<EvolutionDisplay, Evolution, ClientEvolutionController.Intermediate, ServerEvolutionController.Intermediate> {
 
-    private var controller = if (this.clientSide) ClientEvolutionController() else ServerEvolutionController()
+    private var controller =
+        if (this.pokemon.isClient)
+            ClientEvolutionController(this.pokemon, emptySet())
+        else
+            ServerEvolutionController(this.pokemon, emptySet(), emptySet())
 
-    override fun isClient(): Boolean = this.clientSide
+    override fun isClient(): Boolean = this.pokemon.isClient
 
-    override fun current(): EvolutionController<out EvolutionLike> = this.controller
+    override fun current(): EvolutionController<out EvolutionLike, *> = this.controller
 
-    override fun client(): EvolutionController<EvolutionDisplay> {
-        return this.controller as? EvolutionController<EvolutionDisplay> ?: throw ClassCastException("Cannot use the client implementation from the server side")
+    override fun client(): EvolutionController<EvolutionDisplay, ClientEvolutionController.Intermediate> {
+        return this.controller as? EvolutionController<EvolutionDisplay, ClientEvolutionController.Intermediate> ?: throw ClassCastException("Cannot use the client implementation from the server side")
     }
 
-    override fun server(): EvolutionController<Evolution> {
-        return this.controller as? EvolutionController<Evolution> ?: throw ClassCastException("Cannot use the server implementation from the client side")
+    override fun server(): EvolutionController<Evolution, ServerEvolutionController.Intermediate> {
+        return this.controller as? EvolutionController<Evolution, ServerEvolutionController.Intermediate> ?: throw ClassCastException("Cannot use the server implementation from the client side")
     }
 
-    internal fun overrideController(newInstance: EvolutionController<out EvolutionLike>) {
+    internal fun overrideController(newInstance: EvolutionController<out EvolutionLike, PreProcessor>) {
         this.controller = newInstance
     }
 

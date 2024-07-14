@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
+import com.cobblemon.mod.common.api.pokemon.evolution.PreProcessor
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgressTypes
 import com.cobblemon.mod.common.api.text.green
@@ -21,34 +22,31 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.Cle
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asTranslated
-import com.cobblemon.mod.common.util.toJsonArray
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.JsonPrimitive
 import net.minecraft.nbt.*
-import net.minecraft.network.RegistryFriendlyByteBuf
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 
-class ServerEvolutionController : EvolutionController<Evolution> {
+class ServerEvolutionController(
+    private val pokemon: Pokemon,
+    evolutionIds: Set<String>,
+    progress: Set<EvolutionProgress<*>>,
+) : EvolutionController<Evolution, ServerEvolutionController.Intermediate> {
 
     private val evolutions = hashSetOf<Evolution>()
-    private val progress = arrayListOf<EvolutionProgress<*>>()
-    private lateinit var pokemon: Pokemon
-    private var evolutionIds = hashSetOf<String>()
+    private val progress = progress.toMutableSet()
+    private val evolutionIds = evolutionIds.toMutableSet()
+
+    init {
+        this.progress.removeIf { !it.shouldKeep(this.pokemon) }
+        val pokemonEvolutions = this.pokemon.evolutions.map { it.id }.toSet()
+        this.evolutionIds.removeIf { !pokemonEvolutions.contains(it.lowercase()) }
+        this.evolutionIds.forEach { this.findEvolutionFromId(it)?.let(this::add) }
+    }
 
     override val size: Int
         get() = this.evolutions.size
 
     override fun pokemon(): Pokemon = this.pokemon
-
-    override fun attachPokemon(pokemon: Pokemon) {
-        this.pokemon = pokemon
-        this.evolutions.clear()
-        this.progress.removeIf { !it.shouldKeep(pokemon) }
-        this.evolutionIds.forEach { this.findEvolutionFromId(it)?.let(this::add) }
-    }
 
     override fun start(evolution: Evolution) {
         CobblemonEvents.EVOLUTION_ACCEPTED.postThen(
@@ -147,7 +145,20 @@ class ServerEvolutionController : EvolutionController<Evolution> {
         return result
     }
 
+    override fun asIntermediate(): Intermediate = Intermediate(this.evolutions.map { it.id }.toSet(), this.progress)
+
     private fun findEvolutionFromId(id: String) = this.pokemon.evolutions.firstOrNull { evolution -> evolution.id.equals(id, true) }
+
+    data class Intermediate(
+        val evolutionIds: Set<String>,
+        val progress: Set<EvolutionProgress<*>>,
+    ): PreProcessor {
+        override fun create(pokemon: Pokemon): ServerEvolutionController = ServerEvolutionController(
+            pokemon,
+            this.evolutionIds,
+            this.progress
+        )
+    }
 
     companion object {
         private const val PENDING = "pending"
@@ -155,14 +166,11 @@ class ServerEvolutionController : EvolutionController<Evolution> {
         internal const val ID_KEY = "id"
 
         @JvmStatic
-        val CODEC: Codec<ServerEvolutionController> = RecordCodecBuilder.create { instance ->
+        val CODEC: Codec<Intermediate> = RecordCodecBuilder.create { instance ->
             instance.group(
-                Codec.list(Codec.STRING).fieldOf(PENDING).forGetter { controller -> controller.evolutions.map { it.id } },
-                Codec.list(EvolutionProgressTypes.codec()).fieldOf(PROGRESS).forGetter { controller -> controller.progress.filter { it.shouldKeep(controller.pokemon) } }
-            ).apply(instance) { evolutions, progress -> ServerEvolutionController().apply {
-                this.evolutionIds += evolutions
-                this.progress += progress
-            } }
+                Codec.list(Codec.STRING).fieldOf(PENDING).forGetter { controller -> controller.evolutionIds.toMutableList() },
+                Codec.list(EvolutionProgressTypes.codec()).fieldOf(PROGRESS).forGetter { controller -> controller.progress.toMutableList() }
+            ).apply(instance) { evolutions, progress -> Intermediate(evolutions.toSet(), progress.toSet()) }
         }
     }
 }
