@@ -899,7 +899,9 @@ open class Pokemon : ShowdownIdentifiable {
         if (newUUID) {
             NbtOps.INSTANCE.set(encoded, DataKeys.POKEMON_UUID, StringTag.valueOf(UUID.randomUUID().toString()))
         }
-        return CODEC.decode(NbtOps.INSTANCE, encoded).orThrow.first
+        val result = CODEC.decode(NbtOps.INSTANCE, encoded).orThrow.first
+        result.isClient = this.isClient
+        return result
     }
 
     open fun copyFrom(other: Pokemon): Pokemon {
