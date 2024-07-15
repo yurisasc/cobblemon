@@ -157,7 +157,7 @@ object CobblemonClient {
                 val effectType = effect.type.path.toString()
                 val effectSubcategory = effect.subcategory?.path.toString()
                 var effectChance = effect.chance * 100
-                val effectValue = when (effectType) {
+                var effectValue = when (effectType) {
                     "bite_time" -> (effect.value * 100).toInt()
                     else -> effect.value.toInt()
                 }
@@ -180,10 +180,9 @@ object CobblemonClient {
                     else -> ""
                 }
 
-                // handle reformatting of shiny chance effectChance
+                // handle reformatting of shiny chance effectValue
                 if (effectType == "shiny_reroll") {
-                    effectChance =
-                        BigDecimal((effectChance / 100.0) + 1).setScale(2, BigDecimal.ROUND_HALF_EVEN).toDouble()
+                    effectValue += 1
                 }
 
                 lines.addLast(

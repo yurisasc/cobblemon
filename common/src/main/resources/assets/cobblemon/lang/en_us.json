@@ -574,7 +574,7 @@
   "cobblemon.fishing_bait_effects.gender_chance.tooltip": "%1$s%% chance to attract %2$s Gender",
   "cobblemon.fishing_bait_effects.level_raise.tooltip": "%1$s%% chance to increase level by %3$s",
   "cobblemon.fishing_bait_effects.tera.tooltip": "%1$s%% chance to attract %2$s Tera type",
-  "cobblemon.fishing_bait_effects.shiny_reroll.tooltip": "%1$sx Shiny Chance",
+  "cobblemon.fishing_bait_effects.shiny_reroll.tooltip": "%3$sx Shiny Chance",
   "cobblemon.fishing_bait_effects.ha_chance.tooltip": "%1$s%% chance to attract Hidden Abilities",
   "cobblemon.fishing_bait_effects.pokemon_chance.tooltip": "%1$s%% chance to reel-in a pokemon",
   "cobblemon.fishing_bait_effects.friendship.tooltip": "%1$s%% chance to increase friendship by %3$s",

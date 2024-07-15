@@ -1079,7 +1079,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         val effectList = bait.effects.filter { it.type == FishingBait.Effects.POKEMON_CHANCE }
         if (effectList.isEmpty()) return this.pokemonSpawnChance
         val effect = effectList.random()
-        return if (checkBaitSuccessRate(effect.chance)) {
+        return if (effect.chance >= 0 && effect.chance <= 100) {
             ((effect.chance) * 100).toInt()
         } else this.pokemonSpawnChance
     }
