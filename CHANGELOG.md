@@ -33,9 +33,8 @@
 - Altered the item model for Medicinal Leeks and Roasted Leeks to be held like sticks and other rod items. 
 - Adjusted some berry balance values like yield and growth times
 - Changes to mulch buffs/durations
-- Weedle, Caterpie, Spearow, Smoochum, Mew, Murkrow, Larvitar, Taillow, Plusle, Minun, Beldum, Starly, Buneary, Combee, Pachirisu, Pidove, Petilil, Hisui Bias Petilil, Zorua, Hisuian Zorua, Elgyem, Fletchling, Skrelp, Klefki, Fomantis, Morelull, Dreepy, Shroodle, Tatsugiri, Glimmet, Roaming Gimmighoul are now shoulder mountable
+- Weedle, Caterpie, Spearow, Smoochum, Mew, Murkrow, Larvitar, Taillow, Plusle, Minun, Beldum, Starly, Buneary, Combee, Pachirisu, Pidove, Petilil, Hisui Bias Petilil, Zorua, Hisuian Zorua, Elgyem, Fletchling, Skrelp, Klefki, Fomantis, Morelull, Dreepy, Shroodle, Tatsugiri, Glimmet, and Roaming Gimmighoul are now shoulder mountable
 - Chikorita's ability to look around removed due to the awkwardness of it.
-- Dreepy is now shoulder mountable
 - Link Cable recipe has been redesigned
 - Updated potion sprites
 
@@ -61,6 +60,7 @@
 
 ### Data Pack & Resource Pack Creators
 - Added support for "shedders" similar to Shedinja's evolution logic.
+- Fixed the placeholder WingFlapIdle animation so the wings are not rotating opposite to each other.
 
 ## [1.5.2 (May 27th, 2024)](#1-5-2)
 ### Fixes
