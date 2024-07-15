@@ -39,6 +39,24 @@
 - Link Cable recipe has been redesigned
 - Updated potion sprites
 
+### Pokémon Added
+#### Gen 2
+- Ledyba
+- Ledian
+- Sunkern
+- Sunflora
+- Wobbuffet
+- Girafarig
+
+#### Gen 3
+- Wynaut
+
+#### Gen 9
+- Farigiraf
+
+### Changes
+- Kakuna, Beedrill, Snorlax, Munchlax, and Lurantis received model updates
+
 ### Developer
 
 ### Data Pack & Resource Pack Creators
