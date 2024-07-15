@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common.pokemon.evolution
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.Environment
 import com.cobblemon.mod.common.api.pokemon.evolution.*
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.controller.ClientEvolutionController
@@ -22,7 +20,7 @@ class CobblemonEvolutionProxy(
     private var clientController = ClientEvolutionController(this.pokemon, emptySet())
     private var serverController = ServerEvolutionController(this.pokemon, emptySet(), emptySet())
 
-    override fun isClient(): Boolean = Cobblemon.implementation.environment() == Environment.CLIENT
+    override fun isClient(): Boolean = this.pokemon.isClient
 
     override fun current(): EvolutionController<out EvolutionLike, *> = if (this.isClient()) this.clientController else this.serverController
 
@@ -34,7 +32,7 @@ class CobblemonEvolutionProxy(
     }
 
     override fun server(): EvolutionController<Evolution, ServerEvolutionController.Intermediate> {
-        if (this.pokemon.isClient) {
+        if (this.isClient()) {
             throw ClassCastException("Cannot use the server implementation from the client side")
         }
         return this.serverController
