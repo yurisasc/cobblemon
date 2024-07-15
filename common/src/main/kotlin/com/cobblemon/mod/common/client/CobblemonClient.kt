@@ -149,53 +149,53 @@ object CobblemonClient {
             // copied from berryitem
             lines.addLast(Component.empty()) // blank line
             lines.addLast(this.fishingBaitHeader)
+
+            val formatter = DecimalFormat("0.##")
+
             bait.effects.forEach { effect ->
-                val formatter = DecimalFormat("0.##")
-
-                bait.effects.forEach { effect ->
-                    // TODO("Parse lang from effect, remove hardcoded references through codebase")
-                    val effectType = effect.type.path.toString()
-                    val effectSubcategory = effect.subcategory?.path.toString()
-                    var effectChance = effect.chance * 100
-                    val effectValue = when (effectType) {
-                        "bite_time" -> (effect.value * 100).toInt()
-                        else -> effect.value.toInt()
-                    }
-                    val subcategoryString = when (effectType) {
-                        "nature", "ev", "iv" -> com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(
-                            effectSubcategory
-                        ).name
-                            .split('_')
-                            .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
-
-                        "gender" -> Gender.valueOf(effectSubcategory).name
-                            .split('_')
-                            .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
-
-                        "tera" -> ElementalTypes.get(effectSubcategory)?.name
-                            ?.split('_')
-                            ?.joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
-                            ?: ""
-
-                        else -> ""
-                    }
-
-                    // handle reformatting of shiny chance effectChance
-                    if (effectType == "shiny_reroll") {
-                        effectChance =
-                            BigDecimal((effectChance / 100.0) + 1).setScale(2, BigDecimal.ROUND_HALF_EVEN).toDouble()
-                    }
-
-                    lines.addLast(
-                        lang(
-                            "fishing_bait_effects.$effectType.tooltip",
-                            formatter.format(effectChance),
-                            subcategoryString,
-                            formatter.format(effectValue)
-                        )
-                    )
+                // TODO("Parse lang from effect, remove hardcoded references through codebase")
+                val effectType = effect.type.path.toString()
+                val effectSubcategory = effect.subcategory?.path.toString()
+                var effectChance = effect.chance * 100
+                val effectValue = when (effectType) {
+                    "bite_time" -> (effect.value * 100).toInt()
+                    else -> effect.value.toInt()
                 }
+                val subcategoryString = when (effectType) {
+                    "nature", "ev", "iv" -> com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(
+                        effectSubcategory
+                    ).name
+                        .split('_')
+                        .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
+
+                    "gender" -> Gender.valueOf(effectSubcategory).name
+                        .split('_')
+                        .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
+
+                    "tera" -> ElementalTypes.get(effectSubcategory)?.name
+                        ?.split('_')
+                        ?.joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
+                        ?: ""
+
+                    else -> ""
+                }
+
+                // handle reformatting of shiny chance effectChance
+                if (effectType == "shiny_reroll") {
+                    effectChance =
+                        BigDecimal((effectChance / 100.0) + 1).setScale(2, BigDecimal.ROUND_HALF_EVEN).toDouble()
+                }
+
+                lines.addLast(
+                    lang(
+                        "fishing_bait_effects.$effectType.tooltip",
+                        formatter.format(effectChance),
+                        subcategoryString,
+                        formatter.format(effectValue)
+                    )
+                )
             }
+
 
         }
     }
