@@ -34,7 +34,7 @@ class CobblemonEvolutionProxy(
     }
 
     override fun server(): EvolutionController<Evolution, ServerEvolutionController.Intermediate> {
-        if (this.isClient()) {
+        if (this.pokemon.isClient) {
             throw ClassCastException("Cannot use the server implementation from the client side")
         }
         return this.serverController
