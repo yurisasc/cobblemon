@@ -8,15 +8,21 @@
 
 package com.cobblemon.mod.common.api.moves
 
+import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.moves.categories.DamageCategory
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.api.registry.RegistryElement
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.DataKeys
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.Registry
 import net.minecraft.network.chat.Component
 import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.TagKey
 import kotlin.math.ceil
 import kotlin.properties.Delegates
 
@@ -27,7 +33,7 @@ open class Move(
     val template: MoveTemplate,
     currentPp: Int,
     raisedPpStages: Int = 0
-) {
+): RegistryElement<MoveTemplate>, ShowdownIdentifiable {
     private var emit = true
     val observable = SimpleObservable<Move>()
 
@@ -94,6 +100,16 @@ open class Move(
         }
         return oldPp != maxPp
     }
+
+    override fun showdownId(): String = this.template.showdownId()
+
+    override fun registry(): Registry<MoveTemplate> = this.template.registry()
+
+    override fun resourceKey(): ResourceKey<MoveTemplate> = this.template.resourceKey()
+
+    override fun resourceLocation(): ResourceLocation = this.template.resourceLocation()
+
+    override fun isTaggedBy(tag: TagKey<MoveTemplate>): Boolean = this.template.isTaggedBy(tag)
 
     companion object {
         @JvmStatic

@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.api.abilities
 
 import com.cobblemon.mod.common.api.Priority
+import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
+import com.cobblemon.mod.common.api.registry.RegistryElement
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.DataKeys
@@ -17,8 +19,12 @@ import net.minecraft.nbt.CompoundTag
 import com.mojang.serialization.Codec
 import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.Registry
 import net.minecraft.nbt.NbtOps
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.TagKey
 
 /**
  * Representing an Ability with all its attributes
@@ -28,7 +34,7 @@ import net.minecraft.network.chat.Component
  * @author Qu
  * @since January 9th, 2022
  */
-open class Ability internal constructor(var template: AbilityTemplate, forced: Boolean) {
+open class Ability internal constructor(var template: AbilityTemplate, forced: Boolean) : RegistryElement<AbilityTemplate>, ShowdownIdentifiable {
 
     val displayName: Component
         get() = template.displayName
@@ -100,6 +106,16 @@ open class Ability internal constructor(var template: AbilityTemplate, forced: B
         }
         return this
     }
+
+    override fun showdownId(): String = this.template.showdownId()
+
+    override fun registry(): Registry<AbilityTemplate> = this.template.registry()
+
+    override fun resourceKey(): ResourceKey<AbilityTemplate> = this.template.resourceKey()
+
+    override fun resourceLocation(): ResourceLocation = this.template.resourceLocation()
+
+    override fun isTaggedBy(tag: TagKey<AbilityTemplate>): Boolean = this.template.isTaggedBy(tag)
 
     companion object {
 
