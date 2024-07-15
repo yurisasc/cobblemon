@@ -184,7 +184,7 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
                 )*/
 
 
-                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, offHandBait?.toItemStack(world.itemRegistry) ?: ItemStack.EMPTY, world, luckLevel, lureLevel, castingSoundInstance)
+                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, getBaitOnRod(itemStack)?.toItemStack(world.itemRegistry) ?: ItemStack.EMPTY, world, luckLevel, lureLevel, castingSoundInstance)
 
                 // Set the casting sound to the bobber entity
                 //bobberEntity.castingSound = castingSoundInstance
