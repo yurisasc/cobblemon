@@ -825,67 +825,67 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // function to return true of false if the given bait affects the attraction of certain Natures
     fun checkNatureAttact(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.NATURE }
     }
 
     // function to return true of false if the given bait affects the raising of IVs of a pokemon via fishing
     fun checkIVRaise(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.IV }
     }
 
     // function to return true of false if the given bait affects the pokemon with certain EV yields
     fun checkEVAttract(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.EV }
     }
 
     // function to return true of false if the given bait affects the pokemon gender
     fun checkBetterGenderOdds(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.GENDER_CHANCE }
     }
 
     // function to return true of false if the given bait affects time to expect a bite
     fun checkReduceBiteTime(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.BITE_TIME }
     }
 
     // function to return true of false if the given bait affects pokemon's level boost
     fun checkLevelBoost(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.LEVEL_RAISE }
     }
 
     // function to return true of false if the given bait affects pokemon's tera type
     fun checkTeraType(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.TERA }
     }
 
     // function to return true of false if the given bait affects pokemon's shiny chance
     fun checkShinyOdds(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.SHINY_REROLL }
     }
 
     // function to return true of false if the given bait affects pokemon's Hidden Ability
     fun checkHiddenAbilityOdds(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.HIDDEN_ABILITY_CHANCE }
     }
 
     // function to return true of false if the given bait to make it so a Pokemon is always reeled in
     fun checkPokemonFishRate(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.POKEMON_CHANCE }
     }
 
     // function to return true or false if the given bait will raise friendship of a caught mon
     fun checkFriendshipIncrease(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return false
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.FRIENDSHIP }
     }
 
@@ -900,7 +900,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         val speNaturesIds = listOf(Natures.TIMID, Natures.HASTY, Natures.JOLLY, Natures.NAIVE)
         val neutralNaturesIds = listOf(Natures.HARDY, Natures.DOCILE, Natures.BASHFUL, Natures.QUIRKY, Natures.SERIOUS)
 
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return
         val natures = bait.effects.filter { it.type == FishingBait.Effects.NATURE }
         val randomNatureEffect = natures.random()
 
@@ -919,7 +919,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     // alter the IVs based on the bait effect
     fun alterIVAttempt(pokemon: Pokemon, stack: ItemStack) {
 
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return
 
         // various IV effects
         val hpIVEffect = bait.effects.firstOrNull { it.type == FishingBait.Effects.IV && it.subcategory == cobblemonResource("hp")}
@@ -970,7 +970,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     // try to alter the gender based on the bait effect
     fun alterGenderAttempt(pokemon: Pokemon, stack: ItemStack) {
 
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return
         val effect = bait.effects.first { it.type == FishingBait.Effects.GENDER_CHANCE }
         val gender = effect.subcategory ?: return
         if (!checkBaitSuccessRate(effect.chance))
@@ -985,7 +985,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // alter the level of the pokemon
     fun alterLevelAttempt(pokemon: Pokemon, stack: ItemStack) {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return
         val effect = bait.effects.filter { it.type == FishingBait.Effects.LEVEL_RAISE }.random()
         if (!checkBaitSuccessRate(effect.chance)) return
 
@@ -1000,7 +1000,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 //        if (checkBaitSuccessRate(FishingBaits.getBaitSuccessChance(bait) ?: 0.0)) {
 //            pokemon.teraType = FishingBaits.getBaitSubcategory(bait)?.let { ElementalTypes.get(it.lowercase()) }!!
 //        }
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return
         val effect = bait.effects.filter { it.type == FishingBait.Effects.TERA }.random()
         if (!checkBaitSuccessRate(effect.chance)) return
 
@@ -1009,7 +1009,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // try to reroll for a shiny based on the bait effect
     fun alterShinyAttempt(pokemon: Pokemon, stack: ItemStack) {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return
         val effect = bait.effects.filter { it.type == FishingBait.Effects.SHINY_REROLL }.random()
         if (!checkBaitSuccessRate(effect.chance)) return
         if (!pokemon.shiny) {
@@ -1026,7 +1026,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // check if the bite time is reduced based on the bait bonus
     fun alterBiteTimeAttempt(waitCountdown: Int, stack: ItemStack): Int {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return waitCountdown
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return waitCountdown
         val effect = bait.effects.filter { it.type == FishingBait.Effects.BITE_TIME }.random()
         if (!checkBaitSuccessRate(effect.chance)) return waitCountdown
         return if (waitCountdown - waitCountdown * (effect.value) <= 0)
@@ -1037,7 +1037,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // chance to alter HA based on the berry effect
     fun alterHAAttempt(pokemon: Pokemon, stack: ItemStack) {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return
         val effect = bait.effects.filter { it.type == FishingBait.Effects.HIDDEN_ABILITY_CHANCE }.random()
         if (checkBaitSuccessRate(effect.chance)) {
             giveHiddenAbility(pokemon)
@@ -1046,7 +1046,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // chance to alter Friendship upon reeling in
     fun alterFriendshipAttempt(pokemon: Pokemon, stack: ItemStack) {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return
         val effect = bait.effects.filter { it.type == FishingBait.Effects.FRIENDSHIP }.random()
 
         if (checkBaitSuccessRate(effect.chance)) {
@@ -1075,7 +1075,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // check the chance of a pokemon to spawn and if it is affected by bait
     fun getPokemonSpawnChance(stack: ItemStack): Int {
-        val bait = FishingBaits.getFromRodItemStack(stack) ?: return this.pokemonSpawnChance
+        val bait = FishingBaits.getFromBaitItemStack(stack) ?: return this.pokemonSpawnChance
         val effectList = bait.effects.filter { it.type == FishingBait.Effects.POKEMON_CHANCE }
         if (effectList.isEmpty()) return this.pokemonSpawnChance
         val effect = effectList.random()
