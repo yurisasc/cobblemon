@@ -22,6 +22,8 @@
     "CrashReportMixin",
     "DecoratedPotPatternsMixin",
     "EntityVillagerMixin",
+    "EntityCreeperMixin",
+    "EntitySkeletonMixin",
     "ExplosionMixin",
     "LivingEntityMixin",
     "MinecraftDedicatedServerMixin",

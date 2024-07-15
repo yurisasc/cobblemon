@@ -8,6 +8,10 @@
 
 package com.cobblemon.mod.common.pokemon.ai
 
+import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
+import com.cobblemon.mod.common.util.party
+import net.minecraft.server.network.ServerPlayerEntity
+
 /**
  * Collection of all AI properties defineable at the species level of a Pokémon.
  *
@@ -18,4 +22,5 @@ open class PokemonBehaviour {
     val resting = RestBehaviour()
     var moving = MoveBehaviour()
     val idle = IdleBehaviour()
+    val entityInteract = EntityBehaviour()
 }

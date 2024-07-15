@@ -30,6 +30,9 @@ class FormPokemonBehaviour {
     @SerializedName("idle")
     private val _idle: IdleBehaviour? = null
 
+    @SerializedName("entityInteract")
+    private val _entityInteract: EntityBehaviour? = null
+
     val resting: RestBehaviour
         get() = _resting ?: parent.resting
 
@@ -38,4 +41,7 @@ class FormPokemonBehaviour {
 
     val idle: IdleBehaviour
         get() = _idle ?: parent.idle
+
+    val entityInteract: EntityBehaviour
+        get() = _entityInteract ?: parent.entityInteract
 }
