@@ -11,7 +11,9 @@ package com.cobblemon.mod.common.client
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.berry.Berries
+import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
+import com.cobblemon.mod.common.api.text.blue
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
@@ -38,6 +40,7 @@ import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.asTranslated
+import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.model.BoatModel
@@ -51,6 +54,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer
 import net.minecraft.client.resources.PlayerSkin
 import net.minecraft.core.component.DataComponents
 import net.minecraft.locale.Language
+import net.minecraft.network.chat.Component
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -77,6 +81,8 @@ object CobblemonClient {
 
     val overlay: PartyOverlay by lazy { PartyOverlay() }
     val battleOverlay: BattleOverlay by lazy { BattleOverlay() }
+
+    private val fishingBaitHeader by lazy { lang("fishing_bait_effect_header").blue() }
 
     fun onLogin() {
         clientPlayerData = ClientPlayerData()
@@ -132,6 +138,14 @@ object CobblemonClient {
                 while(language.has(listKey)) {
                     lines.add(lines.size - offset, listKey.asTranslated().gray())
                     listKey = "${key}_${++i}"
+                }
+
+                val bait = FishingBaits.getFromBaitItemStack(stack) ?: return@subscribe
+                // copied from berryitem
+                lines.addLast(Component.empty()) // blank line
+                lines.addLast(this.fishingBaitHeader)
+                bait.effects.forEach { effect ->
+                    TODO("Parse lang from effect, remove hardcoded references through codebase")
                 }
             }
         }
