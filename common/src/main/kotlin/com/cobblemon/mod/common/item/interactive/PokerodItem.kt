@@ -49,6 +49,8 @@ import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
 import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : FishingRodItem(settings) {
 
@@ -265,67 +267,63 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
         tooltip: MutableList<Component>,
         tooltipFlag: TooltipFlag
     ) {
-        super.appendHoverText(stack, tooltipContext, tooltip, tooltipFlag)
-
-        val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId)
-        val ball = PokeBalls.getPokeBall(rod?.pokeBallId ?: return)
-        //val bait = getBaitOnRod(stack)
+        val rod = (stack.item as? PokerodItem)?.pokeRodId?.let { PokeRods.getPokeRod(it) } ?: return
+        val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
 
         // Add the description of the Poke Ball used in the rod
-        if (ball != null) {
-            val bobberDescription = Component.literal("Bobber: ").append(ball.item.description).copy().gray()
+        ball.item.description?.let {
+            val bobberDescription = Component.literal("Bobber: ").append(it.copy().gray())
             tooltip.add(bobberDescription)
         }
 
-        // todo Add the description of the bait item used on the bobber
-        //val itemRegistry = tooltipContext.registries()?.lookupOrThrow<Item>(Registries.ITEM)!!
-        // Registries.ITEM.registryKey()
         val client = Minecraft.getInstance()
         val itemRegistry = client.level?.registryAccess()?.registryOrThrow(Registries.ITEM)
-        var bait: ItemStack? = null
-        if (itemRegistry != null) {
-            bait = FishingBaits.getFromRodItemStack(stack)?.toItemStack(itemRegistry)!!
-        }
-
-        if (bait != null) {
-            val baitDescription = Component.literal("Bait: ").append(bait.item.description).copy().gray()
-            tooltip.add(baitDescription)
-        }
-
-        if (getBaitEffects(stack).isNotEmpty()) {
-            // add tooltip for header
-            tooltip.add(lang("fishing_bait_effect_header").blue())
-
-            // Retrieve and add bait effect tooltips
-            getBaitEffects(stack).forEach { effect ->
-                val effectType = effect.type.path.toString()
-                val effectSubcategory = effect.subcategory?.path.toString()
-                var effectChance = effect.chance * 100
-                val effectValue = effect.value.toInt()
-                val subcategoryString = when (effectType) {
-                    "nature", "ev", "iv" -> com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(effectSubcategory)?.name?.replace(
-                        "_",
-                        " ")
-                        ?.lowercase()?.replaceFirstChar { it.uppercase() } ?: ""
-                    "gender" -> Gender.valueOf(effectSubcategory).name.lowercase().replaceFirstChar { it.uppercase() }
-                    "tera" -> ElementalTypes.get(effectSubcategory)?.name?.lowercase()?.replaceFirstChar { it.uppercase() } ?: ""
-                    else -> ""
-                }
-
-                // handle reformatting of shiny chance effectChance
-                if (effectType == "shiny_reroll") {
-                    effectChance = BigDecimal((effectChance / 100.0) + 1).setScale(2, BigDecimal.ROUND_HALF_EVEN).toDouble()
-                }
-
-                tooltip.add(
-                    lang(
-                        "fishing_bait_effects.$effectType.tooltip",
-                        effectChance,
-                        subcategoryString,
-                        effectValue
-                    )
-                )
+        itemRegistry?.let { registry ->
+            FishingBaits.getFromRodItemStack(stack)?.toItemStack(registry)?.item?.description?.copy()?.gray()?.let {
+                tooltip.add(Component.literal("Bait: ").append(it))
             }
+        }
+
+        val formatter = DecimalFormat("0.##")
+        getBaitEffects(stack).takeIf { it.isNotEmpty() }?.also {
+            tooltip.add(Component.literal("")) // blank line
+            tooltip.add(lang("fishing_bait_effect_header").blue())
+        }?.forEach { effect ->
+            val effectType = effect.type.path.toString()
+            val effectSubcategory = effect.subcategory?.path.toString()
+            var effectChance = effect.chance * 100
+            val effectValue = when (effectType) {
+                "bite_time" -> (effect.value * 100).toInt()
+                else -> effect.value.toInt()
+            }
+
+            val subcategoryString = when (effectType) {
+                "nature", "ev", "iv" -> effectSubcategory?.let { sub ->
+                    com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(sub)?.name?.replace("_"," ")
+                        ?.split(" ")?.joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } } ?: ""
+                }
+                "gender" -> Gender.valueOf(effectSubcategory ?: "").name
+                    .split('_')
+                    .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
+                "tera" -> ElementalTypes.get(effectSubcategory)?.name
+                    ?.split('_')
+                    ?.joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } } ?: ""
+                else -> ""
+            }
+
+            // handle reformatting of shiny chance effectChance
+            if (effectType == "shiny_reroll") {
+                effectChance = BigDecimal((effectChance / 100.0) + 1).setScale(2, RoundingMode.HALF_EVEN).toDouble()
+            }
+
+            tooltip.add(
+                lang(
+                    "fishing_bait_effects.$effectType.tooltip",
+                    formatter.format(effectChance),
+                    subcategoryString,
+                    effectValue.toString()
+                )
+            )
         }
     }
 

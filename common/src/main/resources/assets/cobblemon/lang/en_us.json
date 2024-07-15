@@ -569,7 +569,7 @@
   "cobblemon.fishing_bait_effect_header": "Fishing Bait Effects:",
   "cobblemon.fishing_bait_effects.nature.tooltip": "%1$s%% chance to attract %2$s natures",
   "cobblemon.fishing_bait_effects.iv.tooltip": "%1$s%% chance to increase %2$s IVs by %3$s",
-  "cobblemon.fishing_bait_effects.ev.tooltip": "%1$s%% chance to attract %2$s EV yield",
+  "cobblemon.fishing_bait_effects.ev.tooltip": "%1$s%% chance to attract %2$s EV yields",
   "cobblemon.fishing_bait_effects.bite_time.tooltip": "%1$s%% chance to decrease bite-time by %3$s%%",
   "cobblemon.fishing_bait_effects.gender_chance.tooltip": "%1$s%% chance to attract %2$s Gender",
   "cobblemon.fishing_bait_effects.level_raise.tooltip": "%1$s%% chance to increase level by %3$s",
