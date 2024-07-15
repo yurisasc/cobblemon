@@ -109,28 +109,28 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
             offHandItem.shrink(1)
 
             // remove old bait tooltip from rod
-            removeBaitTooltip(itemStack, world)
+//            removeBaitTooltip(itemStack, world)
 
             // set new bait tooltip to rod
-            setBaitTooltips(itemStack, world)
+//            setBaitTooltips(itemStack, world)
         }
 
         // if the user is sneaking when casting then remove the bait from the bobber
-        if (!world.isClientSide && user.fishing == null && user.isShiftKeyDown) {
-            // If there is a bait on the bobber
-            if (baitOnRod != null) {
-                // drop the stack of bait
-                val item = world.itemRegistry.get(baitOnRod.item)
-                if (item != null) {
-                    user.spawnAtLocation(ItemStack(item))
-                }
-                //set the bait and bait effects on the rod to be empty
-                setBait(itemStack, ItemStack.EMPTY)
-
-                // remove old bait tooltip from rod
-                removeBaitTooltip(itemStack, world)
-            }
-        }
+//        if (!world.isClientSide && user.fishing == null && user.isShiftKeyDown) {
+//            // If there is a bait on the bobber
+//            if (baitOnRod != null) {
+//                // drop the stack of bait
+//                val item = world.itemRegistry.get(baitOnRod.item)
+//                if (item != null) {
+//                    user.spawnAtLocation(ItemStack(item))
+//                }
+//                //set the bait and bait effects on the rod to be empty
+//                setBait(itemStack, ItemStack.EMPTY)
+//
+//                // remove old bait tooltip from rod
+//                removeBaitTooltip(itemStack, world)
+//            }
+//        }
 
         val i: Int
         if (user.fishing != null) { // if the bobber is out yet

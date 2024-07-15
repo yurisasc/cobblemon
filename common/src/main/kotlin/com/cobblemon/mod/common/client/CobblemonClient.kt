@@ -11,8 +11,11 @@ package com.cobblemon.mod.common.client
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.berry.Berries
+import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
+import com.cobblemon.mod.common.api.text.blue
 import com.cobblemon.mod.common.api.text.gray
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
@@ -37,7 +40,9 @@ import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.platform.events.PlatformEvents
+import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.util.asTranslated
+import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.model.BoatModel
@@ -51,9 +56,12 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer
 import net.minecraft.client.resources.PlayerSkin
 import net.minecraft.core.component.DataComponents
 import net.minecraft.locale.Language
+import net.minecraft.network.chat.Component
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import java.math.BigDecimal
+import java.text.DecimalFormat
 
 object CobblemonClient {
 
@@ -77,6 +85,8 @@ object CobblemonClient {
 
     val overlay: PartyOverlay by lazy { PartyOverlay() }
     val battleOverlay: BattleOverlay by lazy { BattleOverlay() }
+
+    private val fishingBaitHeader by lazy { lang("fishing_bait_effect_header").blue() }
 
     fun onLogin() {
         clientPlayerData = ClientPlayerData()
@@ -134,6 +144,59 @@ object CobblemonClient {
                     listKey = "${key}_${++i}"
                 }
             }
+
+            val bait = FishingBaits.getFromBaitItemStack(stack) ?: return@subscribe
+            // copied from berryitem
+            lines.addLast(Component.empty()) // blank line
+            lines.addLast(this.fishingBaitHeader)
+            bait.effects.forEach { effect ->
+                val formatter = DecimalFormat("0.##")
+
+                bait.effects.forEach { effect ->
+                    // TODO("Parse lang from effect, remove hardcoded references through codebase")
+                    val effectType = effect.type.path.toString()
+                    val effectSubcategory = effect.subcategory?.path.toString()
+                    var effectChance = effect.chance * 100
+                    val effectValue = when (effectType) {
+                        "bite_time" -> (effect.value * 100).toInt()
+                        else -> effect.value.toInt()
+                    }
+                    val subcategoryString = when (effectType) {
+                        "nature", "ev", "iv" -> com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(
+                            effectSubcategory
+                        ).name
+                            .split('_')
+                            .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
+
+                        "gender" -> Gender.valueOf(effectSubcategory).name
+                            .split('_')
+                            .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
+
+                        "tera" -> ElementalTypes.get(effectSubcategory)?.name
+                            ?.split('_')
+                            ?.joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
+                            ?: ""
+
+                        else -> ""
+                    }
+
+                    // handle reformatting of shiny chance effectChance
+                    if (effectType == "shiny_reroll") {
+                        effectChance =
+                            BigDecimal((effectChance / 100.0) + 1).setScale(2, BigDecimal.ROUND_HALF_EVEN).toDouble()
+                    }
+
+                    lines.addLast(
+                        lang(
+                            "fishing_bait_effects.$effectType.tooltip",
+                            formatter.format(effectChance),
+                            subcategoryString,
+                            formatter.format(effectValue)
+                        )
+                    )
+                }
+            }
+
         }
     }
 
