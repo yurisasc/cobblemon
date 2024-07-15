@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.fishing.FishingBait
 import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.api.text.blue
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.item.RodBaitComponent
@@ -22,8 +23,16 @@ import com.cobblemon.mod.common.item.berry.BerryItem
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.enchantmentRegistry
+import com.cobblemon.mod.common.util.itemRegistry
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.toEquipmentSlot
+import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.sounds.SimpleSoundInstance
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundSource
@@ -33,12 +42,16 @@ import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.FishingRodItem
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.item.enchantment.EnchantmentHelper
 import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : FishingRodItem(settings) {
 
@@ -52,8 +65,9 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
                 stack.set<RodBaitComponent>(CobblemonItemComponents.BAIT, null)
                 return
             }
-            val fishingBait = FishingBaits.getFromRodItemStack(bait) ?: return
+            val fishingBait = FishingBaits.getFromBaitItemStack(bait) ?: return
             stack.set(CobblemonItemComponents.BAIT, RodBaitComponent(fishingBait))
+            // add a new component that stores the itemStack as a component?
         }
 
         fun getBaitEffects(stack: ItemStack): List<FishingBait.Effect> {
@@ -125,6 +139,7 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
                 i = user.fishing!!.retrieve(itemStack)
                 itemStack.hurtAndBreak(i, user, hand.toEquipmentSlot())
             }
+
             // stop sound of casting when reeling in
             //(MinecraftClient.getInstance().getSoundManager() as SoundManagerDuck).stopSounds(CobblemonSounds.FISHING_ROD_CAST.id, SoundCategory.PLAYERS)
 
@@ -170,7 +185,7 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
                 )*/
 
 
-                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, offHandBait?.toItemStack(world.itemRegistry) ?: ItemStack.EMPTY, world, luckLevel, lureLevel, castingSoundInstance)
+                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, getBaitOnRod(itemStack)?.toItemStack(world.itemRegistry) ?: ItemStack.EMPTY, world, luckLevel, lureLevel, castingSoundInstance)
 
                 // Set the casting sound to the bobber entity
                 //bobberEntity.castingSound = castingSoundInstance
@@ -249,15 +264,68 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
 
     override fun appendHoverText(
         stack: ItemStack,
-        context: TooltipContext,
+        tooltipContext: TooltipContext,
         tooltip: MutableList<Component>,
-        tooltipType: TooltipFlag
+        tooltipFlag: TooltipFlag
     ) {
-        val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
+        val rod = (stack.item as? PokerodItem)?.pokeRodId?.let { PokeRods.getPokeRod(it) } ?: return
         val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
-        tooltip.add(ball.item.description.copy().gray())
 
-        super.appendHoverText(stack, context, tooltip, tooltipType)
+        // Add the description of the Poke Ball used in the rod
+        ball.item.description?.let {
+            val bobberDescription = Component.literal("Bobber: ").append(it.copy().gray())
+            tooltip.add(bobberDescription)
+        }
+
+        val client = Minecraft.getInstance()
+        val itemRegistry = client.level?.registryAccess()?.registryOrThrow(Registries.ITEM)
+        itemRegistry?.let { registry ->
+            FishingBaits.getFromRodItemStack(stack)?.toItemStack(registry)?.item?.description?.copy()?.gray()?.let {
+                tooltip.add(Component.literal("Bait: ").append(it))
+            }
+        }
+
+        val formatter = DecimalFormat("0.##")
+        getBaitEffects(stack).takeIf { it.isNotEmpty() }?.also {
+            tooltip.add(Component.literal("")) // blank line
+            tooltip.add(lang("fishing_bait_effect_header").blue())
+        }?.forEach { effect ->
+            val effectType = effect.type.path.toString()
+            val effectSubcategory = effect.subcategory?.path.toString()
+            var effectChance = effect.chance * 100
+            val effectValue = when (effectType) {
+                "bite_time" -> (effect.value * 100).toInt()
+                else -> effect.value.toInt()
+            }
+
+            val subcategoryString = when (effectType) {
+                "nature", "ev", "iv" -> effectSubcategory?.let { sub ->
+                    com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(sub)?.name?.replace("_"," ")
+                        ?.split(" ")?.joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } } ?: ""
+                }
+                "gender" -> Gender.valueOf(effectSubcategory ?: "").name
+                    .split('_')
+                    .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
+                "tera" -> ElementalTypes.get(effectSubcategory)?.name
+                    ?.split('_')
+                    ?.joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } } ?: ""
+                else -> ""
+            }
+
+            // handle reformatting of shiny chance effectChance
+            if (effectType == "shiny_reroll") {
+                effectChance = BigDecimal((effectChance / 100.0) + 1).setScale(2, RoundingMode.HALF_EVEN).toDouble()
+            }
+
+            tooltip.add(
+                lang(
+                    "fishing_bait_effects.$effectType.tooltip",
+                    formatter.format(effectChance),
+                    subcategoryString,
+                    effectValue.toString()
+                )
+            )
+        }
     }
 
     override fun getDescriptionId(): String {
