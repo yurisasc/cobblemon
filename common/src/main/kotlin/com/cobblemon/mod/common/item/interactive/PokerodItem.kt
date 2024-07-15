@@ -203,64 +203,6 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
         return 1
     }
 
-    // todo lang stuff for dynamic tooltips
-    //lang("overflow_no_space", pc.name)
-
-    fun setBaitTooltips(
-            stack: ItemStack,
-            world: Level?
-    ) {
-        val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
-        val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
-        var tooltipList: MutableList<Component> = mutableListOf()
-        //var rodTooltipData = stack.tooltipData.get()
-
-        tooltipList.add(ball.item.description.copy().gray())
-        // for every effect of the bait add a tooltip to the rod
-        getBaitEffects(stack).forEach {
-            val effectType = it.type.path.toString()
-            val effectSubcategory: String? = it.subcategory?.path.toString()
-            val effectChance = it.chance * 100 // chance of effect out of 100
-            val effectValue = it.value.toInt()
-            var subcategoryString: String? = null
-
-            // convert subcategory depending on Effect Type to be used as a String variable in the lang file
-            if (effectSubcategory != null) {
-                if (effectType == "nature" || effectType == "ev" || effectType == "iv") {
-                    subcategoryString = com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(effectSubcategory).name.replace("_"," ")
-                }
-                else if (effectType == "gender") {
-                    subcategoryString = Gender.valueOf(effectSubcategory).name
-                }
-                else if (effectType == "tera") {
-                    subcategoryString = ElementalTypes.get(effectSubcategory)?.name
-                }
-            }
-
-            tooltipList.add(lang("fishing_bait_effects." + effectType + ".tooltip", effectChance, subcategoryString ?: "", effectValue))
-
-
-        }
-        val test = tooltipList
-
-        //rodTooltipData = tooltipList // todo find some way to set the itemStack's tooltip to be this new tooltipList
-    }
-
-    fun removeBaitTooltip(
-            stack: ItemStack,
-            world: Level?
-    ) {
-        val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
-        val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
-        var tooltipList: MutableList<Component> = mutableListOf()
-        //var rodTooltipData = stack.tooltipData.get()
-
-        tooltipList.add(ball.item.description.copy().gray())
-        val test = tooltipList
-
-        //rodTooltipData = tooltipList // todo find some way to set the itemStack's tooltip to be this new tooltipList
-    }
-
     override fun appendHoverText(
         stack: ItemStack,
         tooltipContext: TooltipContext,
