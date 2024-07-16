@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.net.serverhandling.trade
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.server.trade.OfferTradePacket
-import com.cobblemon.mod.common.net.serverhandling.RequestInteractionsHandler
 import com.cobblemon.mod.common.trade.TradeManager
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
@@ -27,7 +27,7 @@ object OfferTradeHandler : ServerNetworkPacketHandler<OfferTradePacket> {
         if (player.traceFirstEntityCollision(
                         entityClass = LivingEntity::class.java,
                         ignoreEntity = player,
-                        maxDistance = RequestInteractionsHandler.MAX_TRADE_DISTANCE.toFloat(),
+                        maxDistance = Cobblemon.config.tradeMaxDistance,
                         collideBlock = ClipContext.Fluid.NONE
                 ) == targetPlayerEntity) {
             TradeManager.offerTrade(player, packet.offeredPlayerId.getPlayer() ?: return)
