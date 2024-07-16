@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.tooltips
 
 import com.cobblemon.mod.common.api.fishing.FishingBaits
-import com.cobblemon.mod.common.api.text.blue
+import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.pokemon.Gender
@@ -21,6 +21,12 @@ import java.text.DecimalFormat
 
 object FishingBaitTooltipGenerator : TooltipGenerator() {
     private val fishingBaitHeader by lazy { lang("fishing_bait_effect_header").blue() }
+
+    private val Genders = mapOf<Gender, Component>(
+        Gender.MALE to lang("gender.male"),
+        Gender.FEMALE to lang("gender.female"),
+        Gender.GENDERLESS to lang("gender.genderless"),
+    )
 
     override fun generateAdditionalTooltip(stack: ItemStack, lines: MutableList<Component>): MutableList<Component>? {
         val resultLines = mutableListOf<Component>()
@@ -34,32 +40,27 @@ object FishingBaitTooltipGenerator : TooltipGenerator() {
         val formatter = DecimalFormat("0.##")
 
         bait.effects.forEach { effect ->
-            // TODO("Parse lang from effect, remove hardcoded references through codebase")
             val effectType = effect.type.path.toString()
-            val effectSubcategory = effect.subcategory?.path.toString()
-            var effectChance = effect.chance * 100
+            val effectSubcategory = effect.subcategory?.path
+            val effectChance = effect.chance * 100
             var effectValue = when (effectType) {
                 "bite_time" -> (effect.value * 100).toInt()
                 else -> effect.value.toInt()
             }
-            val subcategoryString = when (effectType) {
-                "nature", "ev", "iv" -> com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(
-                    effectSubcategory
-                ).name
-                    .split('_')
-                    .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
+            val subcategoryString: Component = if (effectSubcategory != null) {
+                when (effectType) {
+                    "nature", "ev", "iv" -> com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(
+                        effectSubcategory
+                    ).displayName
 
-                "gender" -> Gender.valueOf(effectSubcategory).name
-                    .split('_')
-                    .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
+//                "gender" -> Gender.valueOf(effectSubcategory).name
+                    "gender_chance" -> Genders[Gender.valueOf(effectSubcategory.toUpperCase())]
 
-                "tera" -> ElementalTypes.get(effectSubcategory)?.name
-                    ?.split('_')
-                    ?.joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
-                    ?: ""
+                    "tera" -> ElementalTypes.get(effectSubcategory)?.displayName
 
-                else -> ""
-            }
+                    else -> Component.empty()
+                } ?: Component.literal("cursed").obfuscate()
+            } else Component.literal("cursed").obfuscate()
 
             // handle reformatting of shiny chance effectChance
             if (effectType == "shiny_reroll") {
@@ -69,9 +70,9 @@ object FishingBaitTooltipGenerator : TooltipGenerator() {
             resultLines.addLast(
                 lang(
                     "fishing_bait_effects.$effectType.tooltip",
-                    formatter.format(effectChance),
-                    subcategoryString,
-                    formatter.format(effectValue)
+                    Component.literal(formatter.format(effectChance)).yellow(),
+                    subcategoryString.copy().gold(),
+                    Component.literal(formatter.format(effectValue)).green()
                 )
             )
         }
