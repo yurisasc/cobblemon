@@ -35,17 +35,17 @@ data class BattleFormat(
 
         val GEN_9_DOUBLES = BattleFormat(
             battleType = BattleTypes.DOUBLES,
-            ruleSet = setOf(BattleRules.OBTAINABLE)
+            ruleSet = setOf(BattleRules.OBTAINABLE, BattleRules.PAST, BattleRules.UNOBTAINABLE)
         )
 
         val GEN_9_TRIPLES = BattleFormat(
                 battleType = BattleTypes.TRIPLES,
-                ruleSet = setOf(BattleRules.OBTAINABLE)
+                ruleSet = setOf(BattleRules.OBTAINABLE, BattleRules.PAST, BattleRules.UNOBTAINABLE)
         )
 
         val GEN_9_MULTI = BattleFormat(
             battleType = BattleTypes.MULTI,
-            ruleSet = setOf(BattleRules.OBTAINABLE)
+            ruleSet = setOf(BattleRules.OBTAINABLE, BattleRules.PAST, BattleRules.UNOBTAINABLE)
         )
 
         fun loadFromBuffer(buffer: RegistryFriendlyByteBuf): BattleFormat {

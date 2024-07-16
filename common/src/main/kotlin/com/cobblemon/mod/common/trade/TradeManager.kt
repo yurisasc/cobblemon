@@ -16,7 +16,6 @@ import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferExpiredPacke
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotificationPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket.TradeablePokemon
-import com.cobblemon.mod.common.net.serverhandling.RequestInteractionsHandler
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
 import com.cobblemon.mod.common.util.getPlayer
