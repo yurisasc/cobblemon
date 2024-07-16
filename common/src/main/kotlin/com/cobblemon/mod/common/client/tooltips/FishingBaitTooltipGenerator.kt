@@ -16,11 +16,11 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.ItemStack
-import java.math.BigDecimal
 import java.text.DecimalFormat
 
 object FishingBaitTooltipGenerator : TooltipGenerator() {
     private val fishingBaitHeader by lazy { lang("fishing_bait_effect_header").blue() }
+    private val fishingBaitItemClass by lazy { lang("item_class.fishing_bait").blue() }
 
     private val Genders = mapOf<Gender, Component>(
         Gender.MALE to lang("gender.male"),
@@ -28,13 +28,16 @@ object FishingBaitTooltipGenerator : TooltipGenerator() {
         Gender.GENDERLESS to lang("gender.genderless"),
     )
 
+    override fun generateCategoryTooltip(stack: ItemStack, lines: MutableList<Component>): MutableList<Component>? {
+        if (!FishingBaits.isFishingBait(stack)) return null
+        return mutableListOf(fishingBaitItemClass)
+    }
+
     override fun generateAdditionalTooltip(stack: ItemStack, lines: MutableList<Component>): MutableList<Component>? {
         val resultLines = mutableListOf<Component>()
         val bait =
             (if (stack.item is PokerodItem) PokerodItem.getBaitOnRod(stack) else FishingBaits.getFromBaitItemStack(stack))
                 ?: return null
-        // copied from berryitem
-        resultLines.addLast(Component.empty()) // blank line
         resultLines.addLast(this.fishingBaitHeader)
 
         val formatter = DecimalFormat("0.##")
@@ -53,7 +56,6 @@ object FishingBaitTooltipGenerator : TooltipGenerator() {
                         effectSubcategory
                     ).displayName
 
-//                "gender" -> Gender.valueOf(effectSubcategory).name
                     "gender_chance" -> Genders[Gender.valueOf(effectSubcategory.toUpperCase())]
 
                     "tera" -> ElementalTypes.get(effectSubcategory)?.displayName

@@ -51,8 +51,10 @@ object TooltipManager {
             lines.addAll(standardLines)
         }
 
-        if (categoryLines.isNotEmpty() && !hasShiftDown) {
-            lines.addAll(categoryLines)
+        if (categoryLines.isNotEmpty()) {
+            if (!(hasShiftDown && additionalLines.isNotEmpty())) {
+                lines.addAll(categoryLines)
+            }
         }
 
         if (additionalLines.isNotEmpty()) {
