@@ -434,7 +434,8 @@
 
   "trim_pattern.cobblemon.automaton": "Automaton Armour Trim",
 
-  "cobblemon.see_more_info": "Hold shift to see info",
+  "cobblemon.tooltip.see_more_info": "Hold shift to see info",
+  "cobblemon.item_class.fishing_bait": "Fishing Bait",
 
   "cobblemon.fossil.armor": "Armor",
   "cobblemon.fossil.bird": "Bird",
