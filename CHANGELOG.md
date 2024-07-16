@@ -16,6 +16,9 @@
 - Fixed Pokémon entity not spawning when starting a battle while recalling said Pokémon
 - Fixed species comparison not using namespace for both sides in PokemonProperties.isSubsetOf.
 - Fixed PokemonProperties#asString prefixing nicknames with a '$'
+- Fixed PC not saving when Pokemon was changed outside.
+- Fixed shearble Pokemon not dropping correct wool colors.
+- Fixed pasture spawning Pokemon inside solid blocks when closest spawning position is blocked off.
 
 ### Additions
 - Added extra visuals to early berry growth stages
