@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.serverhandling
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.text.aqua
 import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -64,13 +65,17 @@ object TeamRequestHandler : ServerNetworkPacketHandler<BattleTeamRequestPacket> 
                 val existingPlayerTeamRequest = BattleRegistry.multiBattleTeamRequests[player.uuid]
                 val existingTargetTeamRequest = BattleRegistry.multiBattleTeamRequests[targetedEntity.uuid]
                 // TODO: Allow for teams of size > 2
-                if(existingPlayerTeam == null && existingTargetTeam == null && existingPlayerTeamRequest == null && existingTargetTeamRequest == null) {
+                if (existingPlayerTeam == null && existingTargetTeam == null && existingPlayerTeamRequest == null && existingTargetTeamRequest == null) {
                     // Make a request to the target to join a team
                     val requestId = UUID.randomUUID()
-                    BattleRegistry.multiBattleTeamRequests[player.uuid] = BattleRegistry.TeamRequest(requestId, targetedEntity.uuid)
+                    val teamRequest = BattleRegistry.TeamRequest(requestId, targetedEntity.uuid)
+                    BattleRegistry.multiBattleTeamRequests[player.uuid] = teamRequest
                     player.sendSystemMessage(lang("challenge.multi.team_request.sender", targetedEntity.name))
                     targetedEntity.sendPacket(TeamRequestNotificationPacket(requestId, player.uuid, player.name.copy().aqua()))
-                }
+                    // Add timeout callback to cancel the request
+                    afterOnServer(seconds = teamRequest.expiryTimeSeconds.toFloat()) {
+                        BattleRegistry.removeTeamUpRequest(player.uuid, requestId = teamRequest.requestID)
+                    }                }
             }
             else -> {
                 // Unrecognized challenge target. NPCs will probably go here.
