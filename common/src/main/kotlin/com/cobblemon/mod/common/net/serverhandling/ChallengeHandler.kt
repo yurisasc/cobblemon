@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.net.serverhandling
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
@@ -45,7 +46,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
         } ?: return
 
         // Check los and range
-        val maxDistance = if(targetedEntity is PokemonEntity) RequestInteractionsHandler.MAX_PVE_WILD_DISTANCE.toFloat() else RequestInteractionsHandler.MAX_PVP_DISTANCE.toFloat()
+        val maxDistance = if(targetedEntity is PokemonEntity) Cobblemon.config.battleWildMaxDistance else Cobblemon.config.BattlePvPMaxDistance
         if (player.traceFirstEntityCollision(
                 entityClass = LivingEntity::class.java,
                 ignoreEntity = player,

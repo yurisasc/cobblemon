@@ -37,7 +37,7 @@ class CritInstruction(val message: BattleMessage, val instructionSet: Instructio
                     val pokemonName = battlePokemon.getName()
                     battle.broadcastChatMessage(battleLang("crit_spread", pokemonName).yellow())
                 } else {
-                    battle.broadcastChatMessage(battleLang("crit"))
+                    battle.broadcastChatMessage(battleLang("crit").yellow())
                 }
                 if (LastBattleCriticalHitsEvolutionProgress.supports(battlePokemon.effectedPokemon)) {
                     val progress = battlePokemon.effectedPokemon.evolutionProxy.current().progressFirstOrCreate({ it is LastBattleCriticalHitsEvolutionProgress }) { LastBattleCriticalHitsEvolutionProgress() }

@@ -10,7 +10,6 @@
     use(battle, pokemon, itemId, data) {
         var healthRatio = parseFloat(data[0]);
         if (pokemon.fainted) {
-            pokemon.side.pokemonLeft++;
 			if (pokemon.position < pokemon.side.active.length) {
 				battle.queue.addChoice({
 					choice: 'instaswitch',

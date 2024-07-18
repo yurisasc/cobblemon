@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.net.serverhandling
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.api.text.red
@@ -46,7 +47,7 @@ object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResp
         if (player.traceFirstEntityCollision(
                         entityClass = LivingEntity::class.java,
                         ignoreEntity = player,
-                        maxDistance = RequestInteractionsHandler.MAX_PVP_DISTANCE.toFloat(),
+                        maxDistance = Cobblemon.config.BattlePvPMaxDistance,
                         collideBlock = ClipContext.Fluid.NONE) != targetedEntity) {
             player.sendSystemMessage(lang("ui.interact.failed").yellow())
             return

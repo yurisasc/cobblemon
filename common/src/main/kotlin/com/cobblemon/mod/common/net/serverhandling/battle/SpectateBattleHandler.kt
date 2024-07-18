@@ -18,7 +18,6 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacke
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.net.messages.server.battle.SpectateBattlePacket
-import com.cobblemon.mod.common.net.serverhandling.RequestInteractionsHandler
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
@@ -44,7 +43,7 @@ object SpectateBattleHandler : ServerNetworkPacketHandler<SpectateBattlePacket> 
             if (player.traceFirstEntityCollision(
                             entityClass = LivingEntity::class.java,
                             ignoreEntity = player,
-                            maxDistance = RequestInteractionsHandler.MAX_SPECTATE_DISTANCE.toFloat(),
+                            maxDistance = Cobblemon.config.battleSpectateMaxDistance,
                             collideBlock = ClipContext.Fluid.NONE) != targetedPlayerEntity) {
                 player.sendSystemMessage(lang("ui.interact.failed").yellow())
                 return

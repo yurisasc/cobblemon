@@ -53,7 +53,6 @@ class StatusCureItem(val itemName: String, vararg val status: Status) : Cobblemo
             if (!player.isCreative)  {
                 stack.shrink(1)
                 player.giveOrDropItemStack(ItemStack(bagItem.returnItem))
-                player.giveOrDropItemStack(ItemStack(Items.GLASS_BOTTLE))
             }
             InteractionResultHolder.success(stack)
         } else {

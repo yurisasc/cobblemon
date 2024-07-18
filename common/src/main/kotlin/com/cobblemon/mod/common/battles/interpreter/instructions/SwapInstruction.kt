@@ -18,7 +18,9 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleSwapPokemonPack
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.setPositionSafely
 import com.cobblemon.mod.common.util.swap
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.phys.Vec3
+import java.util.logging.Level
 
 
 /**
@@ -41,8 +43,8 @@ class SwapInstruction(val message: BattleMessage, val instructionSet: Instructio
                 posA = battlePokemonA.entity?.position()
             }
 
-            val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnxA!!)
-            val activeBattlePokemonB = activePokemon.getAdjacentAllies().firstOrNull()
+            val (actor, activePokemonA) = battle.getActorAndActiveSlotFromPNX(pnxA!!)
+            val activeBattlePokemonB = activePokemonA.getAdjacentAllies().firstOrNull()
             if(activeBattlePokemonB != null) {
                 val pnxB = activeBattlePokemonB.getPNX()
                 val (actorB, activePokemonB) = battle.getActorAndActiveSlotFromPNX(pnxB)
@@ -57,9 +59,27 @@ class SwapInstruction(val message: BattleMessage, val instructionSet: Instructio
                 }
                 if (posB != null && battlePokemonA.entity != null) {
                     battlePokemonA.entity?.setPositionSafely(posB)
+                } else if(posB != null) {
+                    if (activePokemonA.battlePokemon?.entity != null) {
+                        activePokemonA.battlePokemon?.entity?.setPositionSafely(posB)
+                    } else {
+                        activePokemonB.position.let {
+                            if (it != null) {
+                                activePokemonB.position = Pair<ServerLevel, Vec3>(it.first, posB)
+                            }
+                        }
+                    }
                 }
-                if(posA != null && activePokemonB.battlePokemon?.entity != null) {
-                    activePokemonB.battlePokemon?.entity?.setPositionSafely(posA)
+                if(posA != null) {
+                    if (activePokemonB.battlePokemon?.entity != null) {
+                        activePokemonB.battlePokemon?.entity?.setPositionSafely(posA)
+                    } else {
+                        activePokemonA.position.let {
+                            if (it != null) {
+                                activePokemonB.position = Pair<ServerLevel, Vec3>(it.first, posA)
+                            }
+                        }
+                    }
                 }
                 // Swap references of the 2 pokemon
                 actor.activePokemon.swap((pnxA[2] - 'a'), (pnxB[2] - 'a'))
