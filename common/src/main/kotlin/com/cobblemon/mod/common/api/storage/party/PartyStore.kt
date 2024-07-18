@@ -255,13 +255,14 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return totalPercent
     }
 
-    fun toBattleTeam(clone: Boolean = false, checkHealth: Boolean = true, leadingPokemon: UUID? = null) = mapNotNull {
+    @JvmOverloads
+    fun toBattleTeam(clone: Boolean = false, healPokemon: Boolean = false, leadingPokemon: UUID? = null) = filterNot(Pokemon::isFainted).map {
         // TODO Other 'able to battle' checks
-        return@mapNotNull if (clone) {
+        return@map if (clone) {
             BattlePokemon.safeCopyOf(it)
         } else {
             BattlePokemon.playerOwned(it)
-        }
+        }.also { if (healPokemon) it.effectedPokemon.heal() }
     }.sortedBy { if (it.uuid == leadingPokemon) 0 else (indexOf(it.originalPokemon) + 1) }
 
     fun clearParty() {

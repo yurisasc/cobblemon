@@ -282,7 +282,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         if (party != null) {
             val partyNBT = CompoundTag()
             partyNBT.putBoolean(DataKeys.NPC_PARTY_IS_STATIC, party is StaticNPCParty)
-            party.saveToNBT(nbt)
+            party.saveToNBT(partyNBT)
             nbt.put(DataKeys.NPC_PARTY, partyNBT)
         }
         return nbt
@@ -306,7 +306,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         if (!partyNBT.isEmpty) {
             val isStatic = partyNBT.getBoolean(DataKeys.NPC_PARTY_IS_STATIC)
             this.party = if (isStatic) {
-                StaticNPCParty(PartyStore(uuid))
+                StaticNPCParty(PartyStore(uuid)).also { it.loadFromNBT(partyNBT) }
             } else {
                 val type = partyNBT.getString(DataKeys.NPC_PARTY_TYPE)
                 val clazz = DynamicNPCParty.types[type]

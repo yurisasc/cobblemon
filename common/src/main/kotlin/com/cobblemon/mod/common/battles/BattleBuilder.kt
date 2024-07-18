@@ -33,7 +33,6 @@ import kotlin.collections.first
 import kotlin.collections.flatMap
 import kotlin.collections.forEach
 import kotlin.collections.isNotEmpty
-import kotlin.collections.listOf
 import kotlin.collections.mapNotNull
 import kotlin.collections.mutableSetOf
 import kotlin.collections.plus
@@ -53,8 +52,8 @@ object BattleBuilder {
         healFirst: Boolean = false,
         partyAccessor: (ServerPlayer) -> PartyStore = { it.party() }
     ): BattleStartResult {
-        val team1 = partyAccessor(player1).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemonPlayer1)
-        val team2 = partyAccessor(player2).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemonPlayer2)
+        val team1 = partyAccessor(player1).toBattleTeam(clone = cloneParties, healPokemon = healFirst, leadingPokemonPlayer1)
+        val team2 = partyAccessor(player2).toBattleTeam(clone = cloneParties, healPokemon = healFirst, leadingPokemonPlayer2)
 
         val player1Actor = PlayerBattleActor(player1.uuid, team1)
         val player2Actor = PlayerBattleActor(player2.uuid, team2)
@@ -64,7 +63,7 @@ object BattleBuilder {
         for ((player, actor) in arrayOf(player1 to player1Actor, player2 to player2Actor)) {
             if (actor.pokemonList.size < battleFormat.battleType.slotsPerActor) {
                 errors.participantErrors[actor] += BattleStartError.insufficientPokemon(
-                    player = player,
+                    actorEntity = player,
                     requiredCount = battleFormat.battleType.slotsPerActor,
                     hadCount = actor.pokemonList.size
                 )
@@ -115,22 +114,22 @@ object BattleBuilder {
         fleeDistance: Float = Cobblemon.config.defaultFleeDistance,
         party: PartyStore = player.party()
     ): BattleStartResult {
-        val playerTeam = party.toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemon = leadingPokemon).sortedBy { it.health <= 0 }
+        val playerTeam = party.toBattleTeam(clone = cloneParties, healPokemon = healFirst, leadingPokemon = leadingPokemon).sortedBy { it.health <= 0 }
         val playerActor = PlayerBattleActor(player.uuid, playerTeam)
         val wildActor = PokemonBattleActor(pokemonEntity.pokemon.uuid, BattlePokemon(pokemonEntity.pokemon), fleeDistance)
         val errors = ErroredBattleStart()
 
         if(playerTeam.isNotEmpty() && playerTeam[0].health <= 0){
             errors.participantErrors[playerActor] += BattleStartError.insufficientPokemon(
-                    player = player,
-                    requiredCount = battleFormat.battleType.slotsPerActor,
-                    hadCount = playerActor.pokemonList.size
+               actorEntity = player,
+                requiredCount = battleFormat.battleType.slotsPerActor,
+                hadCount = playerActor.pokemonList.size
             )
         }
 
         if (playerActor.pokemonList.size < battleFormat.battleType.slotsPerActor) {
             errors.participantErrors[playerActor] += BattleStartError.insufficientPokemon(
-                player = player,
+                actorEntity = player,
                 requiredCount = battleFormat.battleType.slotsPerActor,
                 hadCount = playerActor.pokemonList.size
             )
@@ -184,7 +183,7 @@ object BattleBuilder {
         healFirst: Boolean = false,
         party: PartyStore = player.party()
     ): BattleStartResult {
-        val playerTeam = party.toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemon = leadingPokemon)
+        val playerTeam = party.toBattleTeam(clone = cloneParties, healPokemon = healFirst, leadingPokemon = leadingPokemon)
         val playerActor = PlayerBattleActor(player.uuid, playerTeam)
 
         val npcParty = npcEntity.party?.getParty(player, npcEntity)
@@ -192,7 +191,7 @@ object BattleBuilder {
 
         if (playerActor.pokemonList.size < battleFormat.battleType.slotsPerActor) {
             errors.participantErrors[playerActor] += BattleStartError.insufficientPokemon(
-                player = player,
+                actorEntity = player,
                 requiredCount = battleFormat.battleType.slotsPerActor,
                 hadCount = playerActor.pokemonList.size
             )
@@ -211,6 +210,14 @@ object BattleBuilder {
 //        if (npcEntity.battleIds.get().isPresent) {
 //            errors.participantErrors[npcActor] += BattleStartError.alreadyInBattle(npcActor)
 //        }
+
+        if (npcActor.pokemonList.size < battleFormat.battleType.slotsPerActor) {
+            errors.participantErrors[npcActor] += BattleStartError.insufficientPokemon(
+                actorEntity = npcEntity,
+                requiredCount = battleFormat.battleType.slotsPerActor,
+                hadCount = npcActor.pokemonList.size
+            )
+        }
 
         return if (errors.isEmpty) {
             var result: BattleStartResult = errors
@@ -260,10 +267,10 @@ interface BattleStartError {
         fun noParty(npcEntity: NPCEntity) = NoPartyError(npcEntity)
         fun targetIsBusy(targetName: MutableComponent) = BusyError(targetName)
         fun insufficientPokemon(
-            player: ServerPlayer,
+            actorEntity: Entity,
             requiredCount: Int,
             hadCount: Int
-        ) = InsufficientPokemonError(player, requiredCount, hadCount)
+        ) = InsufficientPokemonError(actorEntity, requiredCount, hadCount)
 
         fun canceledByEvent(reason: MutableComponent?) = CanceledError(reason)
     }
@@ -280,12 +287,12 @@ class CanceledError(
 }
 
 class InsufficientPokemonError(
-    val player: ServerPlayer,
+    val actorEntity: Entity,
     val requiredCount: Int,
     val hadCount: Int
 ) : BattleStartError {
     override fun getMessageFor(entity: Entity): MutableComponent {
-        return if (player == entity) {
+        return if (actorEntity == entity) {
             val key = if (hadCount == 0) "no_pokemon" else "insufficient_pokemon.personal"
             battleLang(
                 "error.$key",
@@ -295,7 +302,7 @@ class InsufficientPokemonError(
         } else {
             battleLang(
                 "error.insufficient_pokemon",
-                player.effectiveName(),
+                actorEntity.effectiveName(),
                 requiredCount,
                 hadCount
             )
