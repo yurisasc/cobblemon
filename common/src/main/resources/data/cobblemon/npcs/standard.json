@@ -7,12 +7,16 @@
   "battleConfiguration": {
     "canChallenge": true
   },
+  "skill": 5,
   "party": {
     "type": "simple",
     "pokemon": [
-      "squirtle level=30",
-      "charmander level=20",
-      "bulbasaur level=10"
+      "squirtle level=50",
+      "charmander level=50",
+      "bulbasaur level=50",
+      "pikachu level=50",
+      "larvitar level=50",
+      "mimikyu level=50"
     ]
   }
 }

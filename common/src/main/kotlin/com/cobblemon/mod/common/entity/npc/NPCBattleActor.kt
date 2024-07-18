@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.battles.ai.RandomBattleAI
+import com.cobblemon.mod.common.battles.ai.StrongBattleAI
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.chainFutures
@@ -24,11 +25,12 @@ import java.util.concurrent.CompletableFuture
 
 class NPCBattleActor(
     val npc: NPCEntity,
-    val party: PartyStore
+    val party: PartyStore,
+    val skill: Int
 ) : AIBattleActor(
     gameId = npc.uuid,
     pokemonList = party.toBattleTeam(),
-    battleAI = RandomBattleAI()
+    battleAI = StrongBattleAI(skill)
 ), EntityBackedBattleActor<NPCEntity> {
     override val entity = npc
     override val type = ActorType.NPC

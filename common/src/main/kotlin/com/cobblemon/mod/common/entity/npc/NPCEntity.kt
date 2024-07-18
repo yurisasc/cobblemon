@@ -101,6 +101,8 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
             field = value
         }
 
+    var skill: Int? = npc.skill ?: 0 // range from 0 - 5
+
     var party: NPCParty? = null
 
     val appliedAspects = mutableSetOf<String>()
@@ -278,6 +280,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
             battle.saveToNBT(battleNBT)
             nbt.put(DataKeys.NPC_BATTLE_CONFIGURATION, battleNBT)
         }
+        nbt.putInt("skill", skill)
         val party = party
         if (party != null) {
             val partyNBT = CompoundTag()
@@ -302,6 +305,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         if (!battleNBT.isEmpty) {
             battle = NPCBattleConfiguration().also { it.loadFromNBT(battleNBT) }
         }
+        this.skill = npc.skill
         val partyNBT = nbt.getCompound(DataKeys.NPC_PARTY)
         if (!partyNBT.isEmpty) {
             val isStatic = partyNBT.getBoolean(DataKeys.NPC_PARTY_IS_STATIC)

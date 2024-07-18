@@ -38,6 +38,7 @@ class NPCClass {
     var interaction: NPCInteractConfiguration? = null
     var variables = mutableMapOf<String, MoValue>()
     var party: NPCPartyProvider? = null
+    var skill: Int = 0
 
     fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeCollection(names) { _, v -> buffer.writeText(v) }
@@ -49,6 +50,7 @@ class NPCClass {
             buffer.writeString(value.type)
             value.encode(buffer)
         }
+        buffer.writeInt(skill)
         buffer.writeMapK(size = IntSize.U_BYTE, map = variables) { (key, value) ->
             buffer.writeString(key)
             buffer.writeString(value.asString())
@@ -70,6 +72,7 @@ class NPCClass {
             instance.decode(buffer)
             instance
         }
+        skill = buffer.readInt()
         buffer.readMapK(size = IntSize.U_BYTE, map = variables) {
             val key = buffer.readString()
             val value = buffer.readString()
