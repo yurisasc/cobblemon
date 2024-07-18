@@ -434,6 +434,9 @@
 
   "trim_pattern.cobblemon.automaton": "Automaton Armour Trim",
 
+  "cobblemon.tooltip.see_more_info": "Hold shift to see info",
+  "cobblemon.item_class.fishing_bait": "Fishing Bait",
+
   "cobblemon.fossil.armor": "Armor",
   "cobblemon.fossil.bird": "Bird",
   "cobblemon.fossil.claw": "Claw",
@@ -450,6 +453,9 @@
   "cobblemon.fossil.sail": "Sail",
   "cobblemon.fossil.skull": "Skull",
 
+  "cobblemon.gender.female": "Female",
+  "cobblemon.gender.male": "Male",
+  "cobblemon.gender.genderless": "Genderless",
 
   "cobblemon.fossilmachine.protected": "This fossil belongs to %s!",
 
@@ -567,18 +573,18 @@
   "block.cobblemon.chiseled_black_tumblestone_bricks": "Chiseled Black Tumblestone Bricks",
 
   "cobblemon.fishing_bait_effect_header": "Fishing Bait Effects:",
-  "cobblemon.fishing_bait_effects.nature.tooltip": "%1$s%% chance to attract %2$s natures",
-  "cobblemon.fishing_bait_effects.iv.tooltip": "%1$s%% chance to increase %2$s IVs by %3$s",
-  "cobblemon.fishing_bait_effects.ev.tooltip": "%1$s%% chance to attract %2$s EV yields",
-  "cobblemon.fishing_bait_effects.bite_time.tooltip": "%1$s%% chance to decrease bite-time by %3$s%%",
-  "cobblemon.fishing_bait_effects.gender_chance.tooltip": "%1$s%% chance to attract %2$s Gender",
-  "cobblemon.fishing_bait_effects.level_raise.tooltip": "%1$s%% chance to increase level by %3$s",
-  "cobblemon.fishing_bait_effects.tera.tooltip": "%1$s%% chance to attract %2$s Tera type",
-  "cobblemon.fishing_bait_effects.shiny_reroll.tooltip": "%1$sx Shiny Chance",
-  "cobblemon.fishing_bait_effects.ha_chance.tooltip": "%1$s%% chance to attract Hidden Abilities",
-  "cobblemon.fishing_bait_effects.pokemon_chance.tooltip": "%1$s%% chance to reel-in a pokemon",
-  "cobblemon.fishing_bait_effects.friendship.tooltip": "%1$s%% chance to increase friendship by %3$s",
-  "cobblemon.fishing_bait_effects.inert.tooltip": "None",
+  "cobblemon.fishing_bait_effects.nature.tooltip": "%1$s%% - Attract %2$s Nature",
+  "cobblemon.fishing_bait_effects.iv.tooltip": "%1$s%% - %2$s IV +%3$s",
+  "cobblemon.fishing_bait_effects.ev.tooltip": "%1$s%% - Attract %2$s EV Yields",
+  "cobblemon.fishing_bait_effects.bite_time.tooltip": "%1$s%% - Reduce Bite Time %3$s%%",
+  "cobblemon.fishing_bait_effects.gender_chance.tooltip": "%1$s%% - Attract %2$s Gender",
+  "cobblemon.fishing_bait_effects.level_raise.tooltip": "%1$s%% - Boost Level +%3$s",
+  "cobblemon.fishing_bait_effects.tera.tooltip": "%1$s%% - Attract %2$s Tera type",
+  "cobblemon.fishing_bait_effects.shiny_reroll.tooltip": "%1$sx - %3$sx Shiny Chance",
+  "cobblemon.fishing_bait_effects.ha_chance.tooltip": "%1$s%% - Attract Hidden Ability",
+  "cobblemon.fishing_bait_effects.pokemon_chance.tooltip": "%1$s%% - Reel in a pokemon",
+  "cobblemon.fishing_bait_effects.friendship.tooltip": "%1$s%% - Boost Friendship +%3$s",
+  "cobblemon.fishing_bait_effects.inert.tooltip": "No known effect",
 
   "cobblemon.overflow_no_pc": "Your party was full and you don't have a PC!",
   "cobblemon.overflow_no_space": "Your party was full and so was %1$s!",

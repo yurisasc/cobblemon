@@ -11,10 +11,7 @@ package com.cobblemon.mod.common.client
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.berry.Berries
-import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
-import com.cobblemon.mod.common.api.text.blue
-import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
@@ -34,15 +31,17 @@ import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.sound.battle.BattleMusicController
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
+import com.cobblemon.mod.common.client.tooltips.CobblemonTooltipGenerator
+import com.cobblemon.mod.common.client.tooltips.FishingBaitTooltipGenerator
+import com.cobblemon.mod.common.client.tooltips.FishingRodTooltipGenerator
+import com.cobblemon.mod.common.client.tooltips.TooltipManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
-import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.platform.events.PlatformEvents
-import com.cobblemon.mod.common.util.asTranslated
-import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.model.BoatModel
 import net.minecraft.client.model.ChestBoatModel
 import net.minecraft.client.model.PlayerModel
@@ -52,12 +51,8 @@ import net.minecraft.client.renderer.blockentity.SignRenderer
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.LivingEntityRenderer
 import net.minecraft.client.resources.PlayerSkin
-import net.minecraft.core.component.DataComponents
-import net.minecraft.locale.Language
-import net.minecraft.network.chat.Component
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.ItemStack
 
 object CobblemonClient {
 
@@ -81,8 +76,6 @@ object CobblemonClient {
 
     val overlay: PartyOverlay by lazy { PartyOverlay() }
     val battleOverlay: BattleOverlay by lazy { BattleOverlay() }
-
-    private val fishingBaitHeader by lazy { lang("fishing_bait_effect_header").blue() }
 
     fun onLogin() {
         clientPlayerData = ClientPlayerData()
@@ -115,6 +108,7 @@ object CobblemonClient {
         Berries.observable.subscribe {
             BerryModelRepository.patchModels()
         }
+        this.registerTooltipManagers()
 
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
@@ -122,33 +116,14 @@ object CobblemonClient {
         PlatformEvents.CLIENT_ITEM_TOOLTIP.subscribe { event ->
             val stack = event.stack
             val lines = event.lines
-            @Suppress("DEPRECATION")
-            if (stack.item.builtInRegistryHolder().unwrapKey().isPresent && stack.item.builtInRegistryHolder().unwrapKey().get().location().namespace == Cobblemon.MODID) {
-                if (stack.get(DataComponents.HIDE_TOOLTIP) != null) {
-                    return@subscribe
-                }
-                val language = Language.getInstance()
-                val key = this.baseLangKeyForItem(stack)
-                val offset = if (lines.size > 1) 1 else 0
-                if (language.has(key)) {
-                    lines.add(lines.size - offset, key.asTranslated().gray())
-                }
-                var i = 1
-                var listKey = "${key}_$i"
-                while(language.has(listKey)) {
-                    lines.add(lines.size - offset, listKey.asTranslated().gray())
-                    listKey = "${key}_${++i}"
-                }
-
-                val bait = FishingBaits.getFromBaitItemStack(stack) ?: return@subscribe
-                // copied from berryitem
-                lines.addLast(Component.empty()) // blank line
-                lines.addLast(this.fishingBaitHeader)
-                bait.effects.forEach { effect ->
-                    TODO("Parse lang from effect, remove hardcoded references through codebase")
-                }
-            }
+            TooltipManager.generateTooltips(stack, lines, Screen.hasShiftDown())
         }
+    }
+
+    private fun registerTooltipManagers() {
+        TooltipManager.registerTooltipGenerator(CobblemonTooltipGenerator)
+        TooltipManager.registerTooltipGenerator(FishingBaitTooltipGenerator)
+        TooltipManager.registerTooltipGenerator(FishingRodTooltipGenerator)
     }
 
     fun registerFlywheelRenderers() {
@@ -305,14 +280,6 @@ object CobblemonClient {
         battle = null
         battleOverlay.lastKnownBattle = null
         BattleMusicController.endMusic()
-    }
-
-    private fun baseLangKeyForItem(stack: ItemStack): String {
-        if (stack.item is PokeBallItem) {
-            val asPokeball = stack.item as PokeBallItem
-            return "item.${asPokeball.pokeBall.name.namespace}.${asPokeball.pokeBall.name.path}.tooltip"
-        }
-        return "${stack.descriptionId}.tooltip"
     }
 
     private fun createBoatModelLayers() {

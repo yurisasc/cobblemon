@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.text.blue
 import com.cobblemon.mod.common.api.text.gray
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.item.RodBaitComponent
 import com.cobblemon.mod.common.item.berry.BerryItem
@@ -110,28 +111,28 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
             offHandItem.shrink(1)
 
             // remove old bait tooltip from rod
-            removeBaitTooltip(itemStack, world)
+//            removeBaitTooltip(itemStack, world)
 
             // set new bait tooltip to rod
-            setBaitTooltips(itemStack, world)
+//            setBaitTooltips(itemStack, world)
         }
 
         // if the user is sneaking when casting then remove the bait from the bobber
-        if (!world.isClientSide && user.fishing == null && user.isShiftKeyDown) {
-            // If there is a bait on the bobber
-            if (baitOnRod != null) {
-                // drop the stack of bait
-                val item = world.itemRegistry.get(baitOnRod.item)
-                if (item != null) {
-                    user.spawnAtLocation(ItemStack(item))
-                }
-                //set the bait and bait effects on the rod to be empty
-                setBait(itemStack, ItemStack.EMPTY)
-
-                // remove old bait tooltip from rod
-                removeBaitTooltip(itemStack, world)
-            }
-        }
+//        if (!world.isClientSide && user.fishing == null && user.isShiftKeyDown) {
+//            // If there is a bait on the bobber
+//            if (baitOnRod != null) {
+//                // drop the stack of bait
+//                val item = world.itemRegistry.get(baitOnRod.item)
+//                if (item != null) {
+//                    user.spawnAtLocation(ItemStack(item))
+//                }
+//                //set the bait and bait effects on the rod to be empty
+//                setBait(itemStack, ItemStack.EMPTY)
+//
+//                // remove old bait tooltip from rod
+//                removeBaitTooltip(itemStack, world)
+//            }
+//        }
 
         val i: Int
         if (user.fishing != null) { // if the bobber is out yet
@@ -202,130 +203,6 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
 
     override fun getEnchantmentValue(): Int {
         return 1
-    }
-
-    // todo lang stuff for dynamic tooltips
-    //lang("overflow_no_space", pc.name)
-
-    fun setBaitTooltips(
-            stack: ItemStack,
-            world: Level?
-    ) {
-        val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
-        val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
-        var tooltipList: MutableList<Component> = mutableListOf()
-        //var rodTooltipData = stack.tooltipData.get()
-
-        tooltipList.add(ball.item.description.copy().gray())
-        // for every effect of the bait add a tooltip to the rod
-        getBaitEffects(stack).forEach {
-            val effectType = it.type.path
-            val effectSubcategory: String? = it.subcategory?.path.toString()
-            val effectChance = it.chance * 100 // chance of effect out of 100
-            val effectValue = it.value.toInt()
-            var subcategoryString: String? = null
-
-            // convert subcategory depending on Effect Type to be used as a String variable in the lang file
-            if (effectSubcategory != null) {
-                if (effectType == "nature" || effectType == "ev" || effectType == "iv") {
-                    subcategoryString = com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(effectSubcategory).name.replace("_"," ")
-                }
-                else if (effectType == "gender") {
-                    subcategoryString = Gender.valueOf(effectSubcategory).name
-                }
-                else if (effectType == "tera") {
-                    subcategoryString = CobblemonRegistries.ELEMENTAL_TYPE.get(effectSubcategory.asIdentifierDefaultingNamespace())?.resourceLocation().toString()
-                }
-            }
-
-            tooltipList.add(lang("fishing_bait_effects." + effectType + ".tooltip", effectChance, subcategoryString ?: "", effectValue))
-
-
-        }
-        val test = tooltipList
-
-        //rodTooltipData = tooltipList // todo find some way to set the itemStack's tooltip to be this new tooltipList
-    }
-
-    fun removeBaitTooltip(
-            stack: ItemStack,
-            world: Level?
-    ) {
-        val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
-        val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
-        var tooltipList: MutableList<Component> = mutableListOf()
-        //var rodTooltipData = stack.tooltipData.get()
-
-        tooltipList.add(ball.item.description.copy().gray())
-        val test = tooltipList
-
-        //rodTooltipData = tooltipList // todo find some way to set the itemStack's tooltip to be this new tooltipList
-    }
-
-    override fun appendHoverText(
-        stack: ItemStack,
-        tooltipContext: TooltipContext,
-        tooltip: MutableList<Component>,
-        tooltipFlag: TooltipFlag
-    ) {
-        val rod = (stack.item as? PokerodItem)?.pokeRodId?.let { PokeRods.getPokeRod(it) } ?: return
-        val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
-
-        // Add the description of the Poke Ball used in the rod
-        ball.item.description?.let {
-            val bobberDescription = Component.literal("Bobber: ").append(it.copy().gray())
-            tooltip.add(bobberDescription)
-        }
-
-        val client = Minecraft.getInstance()
-        val itemRegistry = client.level?.registryAccess()?.registryOrThrow(Registries.ITEM)
-        itemRegistry?.let { registry ->
-            FishingBaits.getFromRodItemStack(stack)?.toItemStack(registry)?.item?.description?.copy()?.gray()?.let {
-                tooltip.add(Component.literal("Bait: ").append(it))
-            }
-        }
-
-        val formatter = DecimalFormat("0.##")
-        getBaitEffects(stack).takeIf { it.isNotEmpty() }?.also {
-            tooltip.add(Component.literal("")) // blank line
-            tooltip.add(lang("fishing_bait_effect_header").blue())
-        }?.forEach { effect ->
-            val effectType = effect.type.path.toString()
-            val effectSubcategory = effect.subcategory?.path.toString()
-            var effectChance = effect.chance * 100
-            val effectValue = when (effectType) {
-                "bite_time" -> (effect.value * 100).toInt()
-                else -> effect.value.toInt()
-            }
-
-            val subcategoryString = when (effectType) {
-                "nature", "ev", "iv" -> effectSubcategory?.let { sub ->
-                    com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(sub)?.name?.replace("_"," ")
-                        ?.split(" ")?.joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } } ?: ""
-                }
-                "gender" -> Gender.valueOf(effectSubcategory ?: "").name
-                    .split('_')
-                    .joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } }
-                "tera" -> ElementalTypes.get(effectSubcategory)?.name
-                    ?.split('_')
-                    ?.joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.uppercase() } } ?: ""
-                else -> ""
-            }
-
-            // handle reformatting of shiny chance effectChance
-            if (effectType == "shiny_reroll") {
-                effectChance = BigDecimal((effectChance / 100.0) + 1).setScale(2, RoundingMode.HALF_EVEN).toDouble()
-            }
-
-            tooltip.add(
-                lang(
-                    "fishing_bait_effects.$effectType.tooltip",
-                    formatter.format(effectChance),
-                    subcategoryString,
-                    effectValue.toString()
-                )
-            )
-        }
     }
 
     override fun getDescriptionId(): String {
