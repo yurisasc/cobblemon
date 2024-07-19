@@ -35,7 +35,7 @@ object FishingRodTooltipGenerator : TooltipGenerator() {
         val itemRegistry = client.level?.registryAccess()?.registryOrThrow(Registries.ITEM)
         itemRegistry?.let { registry ->
             FishingBaits.getFromRodItemStack(stack)?.toItemStack(registry)?.item?.description?.copy()?.gray()?.let {
-                resultLines.add(Component.literal("Bait: ").append(it))
+                resultLines.add(Component.literal("Bait: ").append(it).append(" x${PokerodItem.getBaitStackOnRod(stack).count}"))
             }
         }
 

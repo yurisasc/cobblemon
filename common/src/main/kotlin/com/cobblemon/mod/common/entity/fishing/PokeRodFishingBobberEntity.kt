@@ -722,7 +722,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     // remove the bait from the bobber
                     val playerPokerodItemStack = if (this.playerOwner?.getItemInHand(InteractionHand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getItemInHand(InteractionHand.MAIN_HAND) else this.playerOwner!!.getItemInHand(InteractionHand.OFF_HAND)
                     val playerPokerod = playerPokerodItemStack.item
-                    PokerodItem.setBait(playerPokerodItemStack, ItemStack.EMPTY)
+                    val baitStack = PokerodItem.getBaitStackOnRod(playerPokerodItemStack)
+                    baitStack.shrink(1)
+                    PokerodItem.setBait(playerPokerodItemStack, baitStack)
                 }
 
                 // create accessory splash particle when you fish something up
