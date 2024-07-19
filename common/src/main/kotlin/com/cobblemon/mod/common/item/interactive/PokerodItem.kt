@@ -13,25 +13,13 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.fishing.FishingBait
 import com.cobblemon.mod.common.api.fishing.FishingBaits
-import com.cobblemon.mod.common.api.fishing.PokeRods
-import com.cobblemon.mod.common.api.pokeball.PokeBalls
-import com.cobblemon.mod.common.api.text.blue
-import com.cobblemon.mod.common.api.text.gray
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.item.RodBaitComponent
 import com.cobblemon.mod.common.item.berry.BerryItem
-import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.util.enchantmentRegistry
 import com.cobblemon.mod.common.util.itemRegistry
-import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toEquipmentSlot
-import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.sounds.SimpleSoundInstance
-import net.minecraft.core.Registry
-import net.minecraft.core.registries.Registries
-import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundSource
@@ -39,18 +27,16 @@ import net.minecraft.stats.Stats
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.entity.SlotAccess
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.inventory.ClickAction
+import net.minecraft.world.inventory.Slot
 import net.minecraft.world.item.FishingRodItem
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.item.enchantment.EnchantmentHelper
 import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
-import java.math.BigDecimal
-import java.math.RoundingMode
-import java.text.DecimalFormat
 
 class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : FishingRodItem(settings) {
 
@@ -76,6 +62,35 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
 
     //var bait: ItemStack = ItemStack.EMPTY
     //var baitEffects: List<FishingBait.Effect>? = mutableListOf()
+
+    override fun overrideOtherStackedOnMe(
+        itemStack: ItemStack,
+        itemStack2: ItemStack,
+        slot: Slot,
+        clickAction: ClickAction,
+        player: Player,
+        slotAccess: SlotAccess
+    ): Boolean {
+        if(!slot.allowModification(player)) return false
+        if(itemStack2.isEmpty) {
+            if(clickAction == ClickAction.SECONDARY) {
+                val baitOnRod = getBaitOnRod(itemStack)
+                if(baitOnRod != null) {
+                    setBait(itemStack, ItemStack.EMPTY)
+                    slotAccess.set(baitOnRod.toItemStack(player.level().itemRegistry))
+                    return true
+                }
+            }
+        } else if(clickAction == ClickAction.PRIMARY) {
+            val baitOnCursor = FishingBaits.getFromBaitItemStack(itemStack2)
+            if(baitOnCursor != null) {
+                setBait(itemStack, itemStack2)
+                itemStack2.consume(1, player)
+                return true
+            }
+        }
+        return false
+    }
 
     override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         // if item in mainhand is berry item then don't do anything
