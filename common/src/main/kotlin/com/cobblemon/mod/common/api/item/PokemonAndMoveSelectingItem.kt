@@ -85,7 +85,7 @@ interface PokemonAndMoveSelectingItem {
         } else if (!bagItem!!.canUse(battle, battlePokemon)) {
             player.sendSystemMessage(battleLang("bagitem.invalid").red())
         } else {
-            battlePokemon.actor.forceChoose(BagItemActionResponse(bagItem, battlePokemon, move.template.name))
+            battlePokemon.actor.forceChoose(BagItemActionResponse(bagItem, battlePokemon, move.template.showdownId()))
             if (!player.isCreative) {
                 stack.shrink(1)
             }

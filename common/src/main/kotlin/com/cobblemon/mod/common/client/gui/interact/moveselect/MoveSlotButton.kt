@@ -50,7 +50,7 @@ class MoveSlotButton(
         isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height && enabled
 
         val moveTemplate = Moves.getOrThrow(move.resourceKey())
-        val rgb = ElementalTypeDisplays.displayOf(moveTemplate.elementalType).tint.rgba.toRGB()
+        val rgb = ElementalTypeDisplays.displayOf(moveTemplate.type).tint.rgba.toRGB()
 
         val alpha = if (enabled) 1.0 else 0.5
 
@@ -101,7 +101,7 @@ class MoveSlotButton(
         TypeIcon(
             x = x + 2,
             y = y + 2,
-            type = moveTemplate.elementalType
+            type = moveTemplate.type
         ).render(context)
 
         // Move Category
@@ -115,7 +115,7 @@ class MoveSlotButton(
         drawScaledText(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
-            text = move.displayName.bold(),
+            text = move.displayName.copy().bold(),
             x = x + 28,
             y = y + 2,
             shadow = true

@@ -156,7 +156,7 @@ class MovesWidget(
             shadow = true
         )
 
-        val moveEffect = if (selectedMove != null) format(selectedMove!!.effectChances.firstOrNull() ?: 0.0).text() else "—".text()
+        val moveEffect = if (selectedMove != null) format(selectedMove!!.effectChances.firstOrNull() ?: 0F).text() else "—".text()
         drawScaledText(
             context = context,
             text = moveEffect,
@@ -210,12 +210,12 @@ class MovesWidget(
         )
     }
 
-    public fun format(input: Double): String {
+    fun format(input: Float): String {
         if (input <= 0) return "—"
         return "${decimalFormat.format(input)}%"
     }
 
-    public fun selectMove(move: Move?) {
+    fun selectMove(move: Move?) {
         selectedMove = if (selectedMove == move || move == null) null else move
     }
 }

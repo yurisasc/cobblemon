@@ -26,9 +26,9 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.trade.ActiveTrade
 import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
@@ -374,7 +374,7 @@ object TestCommand {
 
     private fun testIllegalAbilityNonForced(): Component {
         val pokemon = PokemonProperties.parse("rattata").create()
-        pokemon.updateAbility(Abilities.getOrThrow(Abilities.ADAPTABILITY).asAbility(false))
+        pokemon.updateAbility(Abilities.getOrThrow(Abilities.ADAPTABILITY).create(false))
         val failed = !pokemon.ability.forced
         val symbol = if (failed) "✖" else "✔"
         val result = Component.literal(" $symbol Rattata illegal non-forced (name=${pokemon.ability.template.resourceLocation().simplify()}, priority=${pokemon.ability.priority}, index=${pokemon.ability.index}, forced=${pokemon.ability.forced})")

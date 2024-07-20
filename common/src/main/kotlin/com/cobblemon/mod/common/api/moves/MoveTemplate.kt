@@ -23,36 +23,41 @@ import com.cobblemon.mod.common.util.simplify
 import net.minecraft.core.Registry
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.TagKey
 
 /**
  * This class represents the base of a Move.
- * To build a Move you need to use its template
  *
- * @param elementalType The [ElementalType] of this move.
- * @param damageCategory The [DamageCategory] of this move.
- * @param power The base power of this move.
- * @param target The [MoveTarget] of this move.
- * @param accuracy The accuracy of this move.
- * @param pp The power points of this move, these mean how many times the move can be used before some manner of restoration is required.
- * @param priority The priority of this move.
- * @param critRatio The ratio at which this move will land a critical hit.
- * @param effectChances The effect chances if any ordered by effect.
+ * @property power The base power of this move.
+ * @property accuracy The accuracy of this move.
+ * @property pp The power points of this move, these mean how many times the move can be used before some manner of restoration is required.
+ * @property damageCategory The [DamageCategory] of this move.
+ * //@property type The [ElementalType] of this move.
+ * @property priority The priority of this move.
+ * @property target The [MoveTarget] of this move.
+ * @property flags The [MoveFlag]s of this move.
+ * @property noPpBoosts
+ * @property critRatio The ratio at which this move will land a critical hit.
+ * @property effectChances The effect chances if any ordered by effect.
+ * @property actionEffect The [ActionEffectTimeline] of this move if any.
+ * @property displayName The display name of this move.
+ * @property description The description of this move.
  */
 class MoveTemplate(
     val power: Int,
     val accuracy: Float,
     val pp: Int,
     val damageCategory: DamageCategory,
-    val elementalType: ElementalType,
+    private val typeKey: ResourceLocation,
     val priority: Int,
     val target: MoveTarget,
     val flags: Set<MoveFlag>,
     // TODO: val damage: Optional<FixedDamage> type: number | 'level',
     val noPpBoosts: Boolean,
     // TODO: val gimmickType: Optional<GimmickMove>
-    val critRatio: Double,
-    val effectChances: Array<Double>,
+    val critRatio: Float,
+    val effectChances: Array<Float>,
     val actionEffect: ActionEffectTimeline?,
     val displayName: Component,
     val description: Component,
@@ -61,7 +66,7 @@ class MoveTemplate(
     val struct: MoStruct by lazy {
         QueryStruct(hashMapOf())
             .addFunction("id") { StringValue(resourceLocation().simplify()) }
-            .addFunction("type") { StringValue(elementalType.resourceLocation().simplify()) }
+            .addFunction("type") { StringValue(type.resourceLocation().simplify()) }
             .addFunction("damage_category") { StringValue(damageCategory.name) }
             .addFunction("power") { DoubleValue(power) }
             .addFunction("target") { StringValue(target.name) }
@@ -71,7 +76,19 @@ class MoveTemplate(
             .addFunction("crit_ratio") { DoubleValue(critRatio) }
     }
     val maxPp: Int
-        get() = 8 * pp / 5
+        get() = if (this.noPpBoosts) this.pp else 8 * pp / 5
+
+    // TODO: Remove me later when this is a dynamic registry since elemental type will load earlier.
+    /**
+     * The [ElementalType] of this move.
+     */
+    val type: ElementalType
+        get() = CobblemonRegistries.ELEMENTAL_TYPE.getOrThrow(
+            ResourceKey.create(
+                CobblemonRegistries.ELEMENTAL_TYPE_KEY,
+                this.typeKey
+            )
+        )
 
     /**
      * Creates the Move with full PP

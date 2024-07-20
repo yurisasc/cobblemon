@@ -23,7 +23,7 @@ import net.minecraft.world.level.Level
 class PPUpItem(val amount: Int) : CobblemonItem(Properties()), PokemonAndMoveSelectingItem {
     override val bagItem = null
     override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.moveSet.any(::canUseOnMove)
-    override fun canUseOnMove(move: Move) = move.raisedPpStages < 3
+    override fun canUseOnMove(move: Move) = move.raisedPpStages < 3 && !move.noPpBoosts
     override fun applyToPokemon(
         player: ServerPlayer,
         stack: ItemStack,

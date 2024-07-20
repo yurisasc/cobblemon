@@ -9,10 +9,18 @@
 package com.cobblemon.mod.common.api.moves
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.moves.animations.ActionEffects
+import com.cobblemon.mod.common.api.moves.categories.DamageCategories
 import com.cobblemon.mod.common.api.registry.CobblemonRegistry
+import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.battles.MoveTarget
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.registry.CobblemonRegistries
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import net.minecraft.core.Registry
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import org.jetbrains.annotations.ApiStatus
 
@@ -21,6 +29,8 @@ import org.jetbrains.annotations.ApiStatus
  */
 @Suppress("unused")
 object Moves : CobblemonRegistry<MoveTemplate>() {
+
+    private const val HIDDEN_POWER_PREFIX = "hiddenpower"
 
     @JvmStatic val TEN_MILLION_VOLT_THUNDERBOLT = this.key("10000000voltthunderbolt")
     @JvmStatic val ABSORB = this.key("absorb")
@@ -38,6 +48,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val AIR_CUTTER = this.key("aircutter")
     @JvmStatic val AIR_SLASH = this.key("airslash")
     @JvmStatic val ALL_OUT_PUMMELING = this.key("alloutpummeling")
+    @JvmStatic val ALLURING_VOICE = this.key("alluringvoice")
     @JvmStatic val ALLY_SWITCH = this.key("allyswitch")
     @JvmStatic val AMNESIA = this.key("amnesia")
     @JvmStatic val ANCHOR_SHOT = this.key("anchorshot")
@@ -119,6 +130,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val BULLDOZE = this.key("bulldoze")
     @JvmStatic val BULLET_PUNCH = this.key("bulletpunch")
     @JvmStatic val BULLET_SEED = this.key("bulletseed")
+    @JvmStatic val BURNING_BULWARK = this.key("burningbulwark")
     @JvmStatic val BURNING_JEALOUSY = this.key("burningjealousy")
     @JvmStatic val BURN_UP = this.key("burnup")
     @JvmStatic val BUZZY_BUZZ = this.key("buzzybuzz")
@@ -206,6 +218,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val DRACO_METEOR = this.key("dracometeor")
     @JvmStatic val DRAGON_ASCENT = this.key("dragonascent")
     @JvmStatic val DRAGON_BREATH = this.key("dragonbreath")
+    @JvmStatic val DRAGON_CHEER = this.key("dragoncheer")
     @JvmStatic val DRAGON_CLAW = this.key("dragonclaw")
     @JvmStatic val DRAGON_DANCE = this.key("dragondance")
     @JvmStatic val DRAGON_DARTS = this.key("dragondarts")
@@ -235,6 +248,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val ELECTRIFY = this.key("electrify")
     @JvmStatic val ELECTRO_BALL = this.key("electroball")
     @JvmStatic val ELECTRO_DRIFT = this.key("electrodrift")
+    @JvmStatic val ELECTRO_SHOT = this.key("electroshot")
     @JvmStatic val ELECTROWEB = this.key("electroweb")
     @JvmStatic val EMBARGO = this.key("embargo")
     @JvmStatic val EMBER = this.key("ember")
@@ -262,6 +276,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val FEINT = this.key("feint")
     @JvmStatic val FEINT_ATTACK = this.key("feintattack")
     @JvmStatic val FELL_STINGER = this.key("fellstinger")
+    @JvmStatic val FICKLE_BEAM = this.key("ficklebeam")
     @JvmStatic val FIERY_DANCE = this.key("fierydance")
     @JvmStatic val FIERY_WRATH = this.key("fierywrath")
     @JvmStatic val FILLET_AWAY = this.key("filletaway")
@@ -382,6 +397,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val HAMMER_ARM = this.key("hammerarm")
     @JvmStatic val HAPPY_HOUR = this.key("happyhour")
     @JvmStatic val HARDEN = this.key("harden")
+    @JvmStatic val HARD_PRESS = this.key("hardpress")
     @JvmStatic val HAZE = this.key("haze")
     @JvmStatic val HEADBUTT = this.key("headbutt")
     @JvmStatic val HEAD_CHARGE = this.key("headcharge")
@@ -498,6 +514,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val MAGNITUDE = this.key("magnitude")
     @JvmStatic val MAKE_IT_RAIN = this.key("makeitrain")
     @JvmStatic val MALICIOUS_MOONSAULT = this.key("maliciousmoonsault")
+    @JvmStatic val MALIGNANT_CHAIN = this.key("malignantchain")
     @JvmStatic val MAT_BLOCK = this.key("matblock")
     @JvmStatic val MATCHA_GOTCHA = this.key("matchagotcha")
     @JvmStatic val MAX_AIRSTREAM = this.key("maxairstream")
@@ -535,6 +552,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val METEOR_BEAM = this.key("meteorbeam")
     @JvmStatic val METEOR_MASH = this.key("meteormash")
     @JvmStatic val METRONOME = this.key("metronome")
+    @JvmStatic val MIGHTY_CLEAVE = this.key("mightycleave")
     @JvmStatic val MILK_DRINK = this.key("milkdrink")
     @JvmStatic val MIMIC = this.key("mimic")
     @JvmStatic val MIND_BLOWN = this.key("mindblown")
@@ -636,6 +654,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val PSYCH_UP = this.key("psychup")
     @JvmStatic val PSYCHIC = this.key("psychic")
     @JvmStatic val PSYCHIC_FANGS = this.key("psychicfangs")
+    @JvmStatic val PSYCHIC_NOISE = this.key("psychicnoise")
     @JvmStatic val PSYCHIC_TERRAIN = this.key("psychicterrain")
     @JvmStatic val PSYCHO_BOOST = this.key("psychoboost")
     @JvmStatic val PSYCHO_CUT = this.key("psychocut")
@@ -826,6 +845,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val SUCKER_PUNCH = this.key("suckerpunch")
     @JvmStatic val SUNNY_DAY = this.key("sunnyday")
     @JvmStatic val SUNSTEEL_STRIKE = this.key("sunsteelstrike")
+    @JvmStatic val SUPERCELL_SLAM = this.key("supercellslam")
     @JvmStatic val SUPER_FANG = this.key("superfang")
     @JvmStatic val SUPERPOWER = this.key("superpower")
     @JvmStatic val SUPERSONIC = this.key("supersonic")
@@ -842,6 +862,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val SYNCHRONOISE = this.key("synchronoise")
     @JvmStatic val SYNTHESIS = this.key("synthesis")
     @JvmStatic val SYRUP_BOMB = this.key("syrupbomb")
+    @JvmStatic val TACHYON_CUTTER = this.key("tachyoncutter")
     @JvmStatic val TACKLE = this.key("tackle")
     @JvmStatic val TAIL_GLOW = this.key("tailglow")
     @JvmStatic val TAIL_SLAP = this.key("tailslap")
@@ -858,7 +879,9 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val TEETER_DANCE = this.key("teeterdance")
     @JvmStatic val TELEKINESIS = this.key("telekinesis")
     @JvmStatic val TELEPORT = this.key("teleport")
+    @JvmStatic val TEMPER_FLARE = this.key("temperflare")
     @JvmStatic val TERA_BLAST = this.key("terablast")
+    @JvmStatic val TERA_STARSTORM = this.key("terastarstorm")
     @JvmStatic val TERRAIN_PULSE = this.key("terrainpulse")
     @JvmStatic val THIEF = this.key("thief")
     @JvmStatic val THOUSAND_ARROWS = this.key("thousandarrows")
@@ -868,6 +891,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val THUNDER = this.key("thunder")
     @JvmStatic val THUNDERBOLT = this.key("thunderbolt")
     @JvmStatic val THUNDER_CAGE = this.key("thundercage")
+    @JvmStatic val THUNDERCLAP = this.key("thunderclap")
     @JvmStatic val THUNDER_FANG = this.key("thunderfang")
     @JvmStatic val THUNDEROUS_KICK = this.key("thunderouskick")
     @JvmStatic val THUNDER_PUNCH = this.key("thunderpunch")
@@ -898,6 +922,7 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     @JvmStatic val TWINKLE_TACKLE = this.key("twinkletackle")
     @JvmStatic val TWISTER = this.key("twister")
     @JvmStatic val U_TURN = this.key("uturn")
+    @JvmStatic val UPPER_HAND = this.key("upperhand")
     @JvmStatic val UPROAR = this.key("uproar")
     @JvmStatic val VACUUM_WAVE = this.key("vacuumwave")
     @JvmStatic val V_CREATE = this.key("vcreate")
@@ -951,6 +976,48 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
         val moveFlagsByShowdownId = MoveFlag.entries.associateBy { it.showdownId() }
         ShowdownService.service.getMoves().forEach { jElement ->
             val jObject = jElement.asJsonObject
+            val id = jObject.get("id").asString.asIdentifierDefaultingNamespace()
+            // Don't register all unique type hidden powers
+            if (id.namespace == Cobblemon.MODID && id.path.startsWith(HIDDEN_POWER_PREFIX) && id.path.replace(HIDDEN_POWER_PREFIX, "").isNotEmpty()) {
+                return@forEach
+            }
+            val elementalType = jObject.get("type").asString.asIdentifierDefaultingNamespace()
+            val damageCategory = DamageCategories.getOrException(jObject.get("category").asString)
+            val power = jObject.get("basePower").asInt
+            val target = MoveTarget.fromShowdownId(jObject.get("target").asString)
+            // If not a double it's always true
+            val accuracyJson = jObject.get("accuracy").asJsonPrimitive
+            val accuracy = if (accuracyJson.isNumber) accuracyJson.asFloat else -1F
+            val pp = jObject.get("pp").asInt
+            val noPPBoosts = jObject.get("noPPBoosts").asBoolean
+            val priority = jObject.get("priority").asInt
+            val critRatio = jObject.get("critRatio")?.asFloat ?: 1F
+            val actionEffect = ActionEffects.actionEffects[id] ?: ActionEffects.actionEffects["generic_move".asIdentifierDefaultingNamespace()]
+            val flags = this.extractMoveFlags(jObject, moveFlagsByShowdownId)
+            val effectChances = this.extractEffectChances(jObject)
+            val move = MoveTemplate(
+                power,
+                accuracy,
+                pp,
+                damageCategory,
+                elementalType,
+                priority,
+                target,
+                flags,
+                noPPBoosts,
+                critRatio,
+                effectChances,
+                actionEffect,
+                Component.translatable("${id.namespace}.move.${id.path}"),
+                Component.translatable("${id.namespace}.move.${id.path}.desc")
+            )
+            val resourceKey = ResourceKey.create(
+                this.registryKey(),
+                id
+            )
+            require(baseKeys.contains(resourceKey)) { "No key $resourceKey for move $id, please report to Cobblemon devs" }
+            consumer(resourceKey, move)
+            count++
         }
         Cobblemon.LOGGER.info("Registered {} moves", count)
     }
@@ -958,4 +1025,38 @@ object Moves : CobblemonRegistry<MoveTemplate>() {
     override fun registry(): Registry<MoveTemplate> = CobblemonRegistries.MOVE
 
     override fun registryKey(): ResourceKey<Registry<MoveTemplate>> = CobblemonRegistries.MOVE_KEY
+
+    private fun extractMoveFlags(jObject: JsonObject, moveFlagsByShowdownId: Map<String, MoveFlag>): Set<MoveFlag> {
+        val flags = hashSetOf<MoveFlag>()
+        if (jObject.has("flags")) {
+            val jFlags = jObject.getAsJsonObject("flags")
+            moveFlagsByShowdownId.forEach { (id, flag) ->
+                if (jFlags.has(id) && jFlags.get(id).asInt == 1) {
+                    flags.add(flag)
+                }
+            }
+        }
+        return flags
+    }
+
+    private fun extractEffectChances(jObject: JsonObject): Array<Float> {
+        val effectChances = arrayListOf<Float>()
+        val secondariesMember = jObject.get("secondaries")
+        val secondaryMember = jObject.get("secondary")
+        if (secondariesMember != null && secondariesMember is JsonArray) {
+            for (j in 0 until secondariesMember.size()) {
+                val element = secondariesMember[j].asJsonObject
+                // They declare moves without data on secondary effects for sheer force compatibility
+                if (element.has("chance")) {
+                    effectChances += element.get("chance").asFloat
+                }
+            }
+        }
+        // They declare moves without data on secondary effects for sheer force compatibility
+        else if (secondaryMember != null && secondaryMember is JsonObject && secondaryMember.has("chance")) {
+            effectChances += secondaryMember.get("chance").asFloat
+        }
+        return effectChances.toTypedArray()
+    }
+
 }

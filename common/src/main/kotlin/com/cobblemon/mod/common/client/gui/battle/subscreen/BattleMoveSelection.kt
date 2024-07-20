@@ -84,7 +84,7 @@ class BattleMoveSelection(
         val y: Float,
     ) {
         var moveTemplate = Moves.getOrThrow(move.move)
-        var rgb = ElementalTypeDisplays.displayOf(moveTemplate.elementalType).tint.rgba.toRGB()
+        var rgb = ElementalTypeDisplays.displayOf(moveTemplate.type).tint.rgba.toRGB()
 
         open val targetList: List<Targetable>? get() = move.target.targetList(moveSelection.request.activePokemon)
         open val response: MoveActionResponse get() = MoveActionResponse(move.id, targetPnx)
@@ -131,7 +131,7 @@ class BattleMoveSelection(
             TypeIcon(
                 x = x - 9,
                 y = y + 2,
-                type = moveTemplate.elementalType,
+                type = moveTemplate.type,
                 opacity = moveSelection.opacity
             ).render(context)
 
@@ -146,7 +146,7 @@ class BattleMoveSelection(
             drawScaledText(
                 context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
-                text = moveTemplate.displayName.bold(),
+                text = moveTemplate.displayName.copy().bold(),
                 x = x + 17,
                 y = y + 2,
                 opacity = selectConditionOpacity,
@@ -196,15 +196,19 @@ class BattleMoveSelection(
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         val move = moveTiles.find { it.isHovered(mouseX, mouseY) }
         val gimmick = gimmickButtons.find { it.isHovered(mouseX, mouseY) }
-        if (move != null) {
-            move.onClick()
-            return true
-        } else if (backButton.isHovered(mouseX, mouseY)) {
-            playDownSound(Minecraft.getInstance().soundManager)
-            battleGUI.changeActionSelection(null)
-        } else if (gimmick != null) {
-            gimmickButtons.filter { it != gimmick }.forEach { it.toggled = false }
-            moveTiles = if (gimmick.toggle()) gimmick.tiles else baseTiles
+        when {
+            move != null -> {
+                move.onClick()
+                return true
+            }
+            backButton.isHovered(mouseX, mouseY) -> {
+                playDownSound(Minecraft.getInstance().soundManager)
+                battleGUI.changeActionSelection(null)
+            }
+            gimmick != null -> {
+                gimmickButtons.filter { it != gimmick }.forEach { it.toggled = false }
+                moveTiles = if (gimmick.toggle()) gimmick.tiles else baseTiles
+            }
         }
         return false
     }

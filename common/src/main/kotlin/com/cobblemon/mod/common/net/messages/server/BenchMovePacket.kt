@@ -9,14 +9,10 @@
 package com.cobblemon.mod.common.net.messages.server
 
 import com.cobblemon.mod.common.api.moves.MoveTemplate
-import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.serverhandling.storage.BenchMoveHandler
+import com.cobblemon.mod.common.registry.CobblemonRegistries
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readString
-import com.cobblemon.mod.common.util.readUUID
-import com.cobblemon.mod.common.util.writeString
-import com.cobblemon.mod.common.util.writeUUID
 import net.minecraft.network.RegistryFriendlyByteBuf
 import java.util.UUID
 
@@ -37,8 +33,8 @@ class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTem
     override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeBoolean(isParty)
         buffer.writeUUID(uuid)
-        buffer.writeString(oldMove.name)
-        buffer.writeString(newMove.name)
+        buffer.writeResourceKey(oldMove.resourceKey())
+        buffer.writeResourceKey(newMove.resourceKey())
     }
 
     companion object {
@@ -46,8 +42,9 @@ class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTem
         fun decode(buffer: RegistryFriendlyByteBuf): BenchMovePacket {
             val isParty = buffer.readBoolean()
             val uuid = buffer.readUUID()
-            val oldMove = Moves.get(buffer.readString())!!
-            val newMove = Moves.get(buffer.readString())!!
+            val moveRegistry = buffer.registryAccess().registryOrThrow(CobblemonRegistries.MOVE_KEY)
+            val oldMove = moveRegistry.getOrThrow(buffer.readResourceKey(CobblemonRegistries.MOVE_KEY))
+            val newMove = moveRegistry.getOrThrow(buffer.readResourceKey(CobblemonRegistries.MOVE_KEY))
             return BenchMovePacket(isParty, uuid, oldMove, newMove)
         }
     }

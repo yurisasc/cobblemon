@@ -36,7 +36,13 @@ object BenchMoveHandler : ServerNetworkPacketHandler<BenchMovePacket> {
         }
 
         if (packet.newMove !in pokemon.allAccessibleMoves) {
-            LOGGER.warn("${player.name} tried to bench ${packet.oldMove.name} for ${packet.newMove.name} but it doesn't have ${packet.newMove.name} learned. Could be a hacker!")
+            LOGGER.warn(
+                "{} tried to bench {} for {} but it doesn't have {} learned. Could be a hacker!",
+                player.gameProfile.name,
+                packet.oldMove.resourceLocation(),
+                packet.newMove.resourceLocation(),
+                packet.newMove.resourceLocation(),
+            )
             return
         }
 

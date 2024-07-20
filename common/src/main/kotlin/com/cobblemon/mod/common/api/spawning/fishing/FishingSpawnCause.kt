@@ -19,12 +19,10 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
-import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnDetail
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import com.cobblemon.mod.common.api.types.ElementalTypes
-import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.pokemon.Gender
@@ -113,10 +111,10 @@ class FishingSpawnCause(
     private fun alterIVAttempt(pokemonEntity: PokemonEntity, effect: FishingBait.Effect) {
         val iv = effect.subcategory ?: return
 
-        if ((pokemonEntity.pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.namespace)] ?: 0) + effect.value > 31) // if HP IV is already less than 3 away from 31
-            pokemonEntity.pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.namespace), 31)
+        if ((pokemonEntity.pokemon.ivs[Stats.getStat(iv.namespace)] ?: 0) + effect.value > 31) // if HP IV is already less than 3 away from 31
+            pokemonEntity.pokemon.ivs[Stats.getStat(iv.namespace)] = 31
         else
-            pokemonEntity.pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.namespace), (pokemonEntity.pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.namespace)] ?: 0) + (effect.value).toInt())
+            pokemonEntity.pokemon.ivs[Stats.getStat(iv.namespace)] = (pokemonEntity.pokemon.ivs[Stats.getStat(iv.namespace)] ?: 0) + (effect.value).toInt()
     }
 
     private fun alterGenderAttempt(pokemonEntity: PokemonEntity, effect: FishingBait.Effect) {
@@ -136,18 +134,17 @@ class FishingSpawnCause(
     }
 
     private fun alterTeraAttempt(pokemonEntity: PokemonEntity, effect: FishingBait.Effect) {
-        if (pokemonEntity.pokemon.teraType == effect.subcategory?.let { TeraTypes.get(it.namespace) } ||
-                TeraTypes.get(effect.subcategory!!.namespace) == null) return
+        if (pokemonEntity.pokemon.teraType == effect.subcategory?.let { ElementalTypes.get(it.namespace) } ||
+            ElementalTypes.get(effect.subcategory!!.namespace) == null) return
 
 
-        pokemonEntity.pokemon.teraType = TeraTypes.get(effect.subcategory.namespace)!!
+        pokemonEntity.pokemon.teraType = ElementalTypes.get(effect.subcategory.namespace)!!
     }
 
     private fun alterHAAttempt(pokemonEntity: PokemonEntity) {
         val species = pokemonEntity.pokemon.species.let { PokemonSpecies.getByName(it.name) } ?: return
-        val ability = species.abilities.mapping[Priority.LOW]?.first()?.template?.name ?: return
-
-        pokemonEntity.pokemon.ability = Abilities.get(ability)?.create(false) ?: return
+        val ability = species.abilities.mapping[Priority.LOW]?.first()?.template ?: return
+        pokemonEntity.pokemon.ability = ability.create()
 
         // Old code from Licious that might be helpful if the above proves to not work
 

@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.moves.adapters
 
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
+import com.cobblemon.mod.common.util.simplify
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -25,6 +26,6 @@ import java.lang.reflect.Type
  * @since April 1st, 2022
  */
 object MoveTemplateAdapter : JsonSerializer<MoveTemplate>, JsonDeserializer<MoveTemplate> {
-    override fun serialize(template: MoveTemplate, type: Type?, ctx: JsonSerializationContext) = JsonPrimitive(template.name)
+    override fun serialize(template: MoveTemplate, type: Type?, ctx: JsonSerializationContext) = JsonPrimitive(template.resourceLocation().simplify())
     override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext) = Moves.getOrThrow(json.asString)
 }

@@ -101,7 +101,7 @@ class ReforgedConversion(val base: Path) : CobblemonConverter<CompoundTag> {
         result.addExperience(SidemodExperienceSource("Reforged"), nbt.getInt("EXP"))
         result.setFriendship(nbt.getInt("Friendship"))
         Abilities.get(nbt.getString("Ability").asIdentifierDefaultingNamespace())?.let { template ->
-            result.updateAbility(template.asAbility(forced = result.form.abilities.none { it.template == template }))
+            result.updateAbility(template.create(forced = result.form.abilities.none { it.template == template }))
         }
         result.nature = Natures.getNature(ResourceLocation.parse(ReforgedNatures.entries[nbt.getInt("Nature")].name.lowercase())) ?: Natures.getRandomNature()
         result.mintedNature = Natures.getNature(ResourceLocation.parse(ReforgedNatures.entries[nbt.getInt("MintNature")].name.lowercase()))

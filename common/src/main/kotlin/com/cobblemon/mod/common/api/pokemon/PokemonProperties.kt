@@ -701,8 +701,8 @@ open class PokemonProperties {
      */
     private fun createAbility(id: String, form: FormData): Ability? {
         val ability = Abilities.get(id.asIdentifierDefaultingNamespace()) ?: return null
-        val potentialAbility = form.abilities.firstOrNull { potential -> potential.template == ability } ?: return ability.asAbility(true)
-        return potentialAbility.template.asAbility(false)
+        val potentialAbility = form.abilities.firstOrNull { potential -> potential.template == ability } ?: return ability.create(true)
+        return potentialAbility.template.create(false)
     }
 
 }

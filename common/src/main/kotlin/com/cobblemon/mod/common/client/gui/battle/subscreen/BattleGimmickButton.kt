@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.util.math.toRGB
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.sounds.SimpleSoundInstance
+import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
 
 /**
@@ -107,7 +108,7 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
         init {
             gimmickMoveTemplate?.let {
                 moveTemplate = it
-                rgb = ElementalTypeDisplays.displayOf(it.elementalType).tint.rgba.toRGB()
+                rgb = ElementalTypeDisplays.displayOf(it.type).tint.rgba.toRGB()
             }
         }
 
@@ -130,18 +131,20 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
             val gimmickMoveID = move.gimmickMove?.move?.lowercase()?.replace(ShowdownIdentifiable.EXCLUSIVE_REGEX, "") ?: return null
             val gimmickTemplate = Moves.get(gimmickMoveID)
             return MoveTemplate(
-                name = gimmickMoveID,
-                num = gimmickTemplate?.num ?: -1,
-                elementalType = gimmickTemplate?.elementalType ?: moveTemplate.elementalType,
+                typeKey = gimmickTemplate?.type?.resourceLocation() ?: moveTemplate.type.resourceLocation(),
                 damageCategory = moveTemplate.damageCategory,
                 power = gimmickTemplate?.power ?: moveTemplate.power,
                 target = gimmickTemplate?.target ?: moveTemplate.target,
+                flags = gimmickTemplate?.flags ?: moveTemplate.flags,
                 accuracy = gimmickTemplate?.accuracy ?: moveTemplate.accuracy,
                 pp = gimmickTemplate?.pp ?: moveTemplate.pp,
                 priority = gimmickTemplate?.priority ?: moveTemplate.priority,
+                noPpBoosts = gimmickTemplate?.noPpBoosts ?: moveTemplate.noPpBoosts,
                 critRatio = gimmickTemplate?.critRatio ?: moveTemplate.critRatio,
                 effectChances = gimmickTemplate?.effectChances ?: moveTemplate.effectChances,
-                actionEffect = null
+                actionEffect = null,
+                displayName = Component.empty(),
+                description = Component.empty()
             )
         }
     }

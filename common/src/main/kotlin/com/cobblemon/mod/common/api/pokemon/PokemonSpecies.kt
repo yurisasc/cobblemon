@@ -244,7 +244,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         val weightkg = (form?.weight ?: species.weight) / 10
         // This is ugly, but we already have it hardcoded in the mod anyway
         val maxHP = if (species.showdownId() == "shedinja") 1 else null
-        val canGigantamax: String? = if (form?.gigantamaxMove != null) form.gigantamaxMove.name else null
+        val canGigantamax: String? = if (form?.gigantamaxMove != null) form.gigantamaxMove.showdownId() else null
         val cannotDynamax = form?.dynamaxBlocked ?: species.dynamaxBlocked
         // ToDo battleOnly
         // ToDo changesFrom

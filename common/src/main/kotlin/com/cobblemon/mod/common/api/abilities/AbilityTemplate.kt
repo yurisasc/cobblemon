@@ -50,7 +50,7 @@ class AbilityTemplate(
      * @param forced The [Ability.forced] state.
      * @return The created [Ability].
      */
-    fun asAbility(forced: Boolean = false): Ability = Ability(this, forced)
+    fun create(forced: Boolean = false): Ability = Ability(this, forced)
 
     override fun showdownId(): String {
         return ShowdownIdentifiable.EXCLUSIVE_REGEX.replace(this.resourceLocation().simplify(), "")

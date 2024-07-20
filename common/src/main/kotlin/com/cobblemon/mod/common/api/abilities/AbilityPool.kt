@@ -28,13 +28,13 @@ open class AbilityPool : PrioritizedList<PotentialAbility>() {
         for (priority in Priority.entries) {
             val potentialAbilities = priorityMap[priority]?.filter { it.isSatisfiedBy(aspects) } ?: continue
             if (potentialAbilities.isNotEmpty()) {
-                return potentialAbilities.random().template.asAbility() to priority
+                return potentialAbilities.random().template.create() to priority
             }
         }
 
         LOGGER.error("Unable to select an ability from the pool for $species and aspects: ${aspects.joinToString()}")
         LOGGER.error("Usually this happens when a client is doing logic it shouldn't. Please show this to the Cobblemon developers!")
         Exception().printStackTrace()
-        return CobblemonRegistries.ABILITY.getRandom(RandomSource.create()).get().value().asAbility() to Priority.LOWEST
+        return CobblemonRegistries.ABILITY.getRandom(RandomSource.create()).get().value().create() to Priority.LOWEST
     }
 }

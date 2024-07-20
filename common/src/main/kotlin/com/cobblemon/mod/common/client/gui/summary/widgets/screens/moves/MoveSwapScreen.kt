@@ -67,7 +67,7 @@ class MoveSwapScreen(
         ) {
             val matrices = context.pose()
             val tweakedRowTop = rowTop - (SLOT_SPACING / 2) + 1
-            val rgb = ElementalTypeDisplays.displayOf(move.elementalType).tint.rgba.toRGB()
+            val rgb = ElementalTypeDisplays.displayOf(move.type).tint.rgba.toRGB()
 
             blitk(
                 matrixStack = matrices,
@@ -96,7 +96,7 @@ class MoveSwapScreen(
             TypeIcon(
                 x = rowLeft - 9,
                 y = tweakedRowTop,
-                type = move.elementalType
+                type = move.type
             ).render(context)
 
             // Move Category
@@ -108,7 +108,7 @@ class MoveSwapScreen(
 
             drawScaledText(
             context = context,
-                text = move.displayName,
+                text = move.displayName.copy(),
                 x = rowLeft + 14,
                 y = tweakedRowTop + 3.5,
                 scale = MovesWidget.SCALE,
@@ -167,7 +167,7 @@ class MoveSwapScreen(
 
             drawScaledText(
             context = context,
-                text = pane.movesWidget.format(move.effectChances.firstOrNull() ?: 0.0).text(),
+                text = pane.movesWidget.format(move.effectChances.firstOrNull() ?: 0F).text(),
                 x = rowLeft + 60.5,
                 y = tweakedRowTop + 12,
                 scale = MovesWidget.SCALE,

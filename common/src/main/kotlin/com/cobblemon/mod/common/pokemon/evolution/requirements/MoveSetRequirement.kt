@@ -24,7 +24,7 @@ import net.minecraft.util.RandomSource
  */
 class MoveSetRequirement : EvolutionRequirement {
     val move: MoveTemplate = CobblemonRegistries.MOVE.getRandom(RandomSource.create()).get().value()
-    override fun check(pokemon: Pokemon) = pokemon.moveSet.getMoves().any { move -> move.name.equals(this.move.name, true) }
+    override fun check(pokemon: Pokemon) = pokemon.moveSet.getMoves().any { move -> move.template == this.move }
     companion object {
         const val ADAPTER_VARIANT = "has_move"
     }

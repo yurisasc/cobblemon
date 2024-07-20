@@ -29,7 +29,7 @@ class AbilityUpdatePacket(pokemon: () -> Pokemon, ability: AbilityTemplate) : Si
     }
 
     override fun set(pokemon: Pokemon, value: AbilityTemplate) {
-        pokemon.ability = value.asAbility()
+        pokemon.ability = value.create()
     }
 
     companion object {

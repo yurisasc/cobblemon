@@ -61,7 +61,7 @@ interface InteractOrBagItem {
             }
         ) { _, _, move ->
             if (stack in player.handSlots && !stack.isEmpty && battlePokemon.actor.canFitForcedAction() && battle.turn == turn) {
-                battlePokemon.actor.forceChoose(BagItemActionResponse(bagItem, battlePokemon, move.moveTemplate.name))
+                battlePokemon.actor.forceChoose(BagItemActionResponse(bagItem, battlePokemon, move.moveTemplate.showdownId()))
                 if (!player.isCreative) {
                     stack.shrink(1)
                 }

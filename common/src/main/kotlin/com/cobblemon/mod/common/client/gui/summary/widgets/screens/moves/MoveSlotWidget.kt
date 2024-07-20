@@ -31,7 +31,7 @@ class MoveSlotWidget(
     pX: Int, pY: Int,
     val move: Move,
     private val movesWidget: MovesWidget
-): SoundlessWidget(pX, pY, MOVE_WIDTH, MOVE_HEIGHT, Component.literal(move.name)) {
+): SoundlessWidget(pX, pY, MOVE_WIDTH, MOVE_HEIGHT, move.displayName) {
 
     companion object {
         private val moveResource = cobblemonResource("textures/gui/summary/summary_move.png")
@@ -71,7 +71,7 @@ class MoveSlotWidget(
         isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
 
         val moveTemplate = Moves.getOrThrow(move.template.resourceKey())
-        val rgb = ElementalTypeDisplays.displayOf(moveTemplate.elementalType).tint.rgba.toRGB()
+        val rgb = ElementalTypeDisplays.displayOf(moveTemplate.type).tint.rgba.toRGB()
 
         if (movesWidget.selectedMove == move) {
             blitk(
@@ -126,7 +126,7 @@ class MoveSlotWidget(
         TypeIcon(
             x = x + 2,
             y = y + 2,
-            type = moveTemplate.elementalType
+            type = moveTemplate.type
         ).render(context)
 
         // Move Category

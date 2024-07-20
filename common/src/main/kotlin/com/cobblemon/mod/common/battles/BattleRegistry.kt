@@ -98,7 +98,7 @@ object BattleRegistry {
             // Moves
             packedTeamBuilder.append(
                 "${
-                    pk.moveSet.getMoves().joinToString(",") { move -> move.name.replace("_", "") }
+                    pk.moveSet.getMoves().joinToString(",") { move -> move.showdownId() }
                 }|"
             )
             // Additional move info
