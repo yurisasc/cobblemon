@@ -21,6 +21,8 @@
 - Added extra visuals to early berry growth stages
 - Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
 - Added Metronome, Protective Pads, Punching Glove, Room Service, Scope Lens, Shed Shell, Terrain Extender, Throat Spray, Utility Umbrella, Wide Lens, and Zoom Lens held items
+- Added a `battleInvulnerability` gamerule to make players invulnerable to any damage during a battle
+- Added a `mobTargetInBattle` gamerule to exclude players from being targeted by mobs during a battle
 
 ### Added cries to the following Pokémon
 - Timburr, Gurdurr, Conkeldurr

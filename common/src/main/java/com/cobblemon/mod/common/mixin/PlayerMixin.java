@@ -18,9 +18,11 @@ import com.cobblemon.mod.common.api.tags.CobblemonItemTags;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.CompoundTagExtensionsKt;
 import com.cobblemon.mod.common.util.DataKeys;
+import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -157,5 +159,10 @@ public abstract class PlayerMixin extends LivingEntity {
                 );
             }
         }
+    }
+
+    @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
+    public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> ci) {
+        if (this.getWorld().getGameRules().getBoolean(CobblemonGameRules.BATTLE_INVULNERABILITY)) ci.setReturnValue(false);
     }
 }
