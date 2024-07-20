@@ -19,6 +19,7 @@
 - Fixed PC not saving when Pokemon was changed outside.
 - Fixed shearble Pokemon not dropping correct wool colors.
 - Fixed pasture spawning Pokemon inside solid blocks when closest spawning position is blocked off.
+- Fixed Tumbling Down advancement not being granted by tumblestone variants.
 
 ### Additions
 - Added extra visuals to early berry growth stages
