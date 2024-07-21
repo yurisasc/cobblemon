@@ -8,12 +8,13 @@
 
 package com.cobblemon.mod.common.api.storage.player.factory
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.storage.player.PlayerData
 import com.cobblemon.mod.common.api.storage.player.adapter.JsonPlayerData
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.removeIf
+import com.cobblemon.mod.common.util.server
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 
 class JsonPlayerDataStoreFactory : PlayerDataStoreFactory {
@@ -26,6 +27,11 @@ class JsonPlayerDataStoreFactory : PlayerDataStoreFactory {
     }
 
     override fun load(uuid: UUID): PlayerData {
+        if (!server()!!.isOnThread) {
+            Cobblemon.LOGGER.error("Illegal access to player data store from non-server thread!")
+            Exception().printStackTrace()
+        }
+
         return if (cache.contains(uuid))
             cache[uuid]!!
         else {
