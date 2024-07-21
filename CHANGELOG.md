@@ -16,6 +16,7 @@
 - Fixed Pokémon entity not spawning when starting a battle while recalling said Pokémon
 - Fixed species comparison not using namespace for both sides in PokemonProperties.isSubsetOf.
 - Fixed PokemonProperties#asString prefixing nicknames with a '$'
+- Fixed reviving items throwing an exception when used in battle
 
 ### Additions
 - Added extra visuals to early berry growth stages
