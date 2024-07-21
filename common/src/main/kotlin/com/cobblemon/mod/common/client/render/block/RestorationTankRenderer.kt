@@ -81,8 +81,8 @@ class RestorationTankRenderer(ctx: BlockEntityRendererProvider.Context) : BlockE
         val fluidModel = if (struct.isRunning()) FLUID_MODELS[8]
         else if (struct.hasCreatedPokemon) FLUID_MODELS[7]
         else FLUID_MODELS[fillLevel.coerceAtMost(FLUID_MODELS.size - 1) - 1]
-        fluidModel.getQuads(entity.blockState, null, entity.level?.random).forEach { quad ->
-            transparentBuffer?.putBulkData(matrices.last(), quad, 0.75f, 0.75f, 0.75f, 1f, light, OverlayTexture.NO_OVERLAY)
+        fluidModel.getQuads(entity.blockState, null, entity.level!!.random).forEach { quad ->
+            transparentBuffer.putBulkData(matrices.last(), quad, 0.75f, 0.75f, 0.75f, 1f, light, OverlayTexture.NO_OVERLAY)
         }
 
         matrices.popPose()
