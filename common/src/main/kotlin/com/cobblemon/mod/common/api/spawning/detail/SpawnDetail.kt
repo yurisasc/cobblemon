@@ -93,11 +93,11 @@ abstract class SpawnDetail : ModDependant {
         var containsNullValues = false
         if (conditions.isNotEmpty() && conditions.any { !it.isValid() }) {
             containsNullValues = true
-            LOGGER.error("Detail with id $id is invalid as it contains invalid values in it's conditions (commonly caused by trailing comma in biome or other arrays)")
+            LOGGER.error("Spawn Detail with id $id is invalid as it contains invalid values in its conditions (commonly caused by trailing comma in biomes or other arrays)")
         }
-        if(anticonditions.isNotEmpty() && anticonditions.any { !it.isValid() }) {
+        if (anticonditions.isNotEmpty() && anticonditions.any { !it.isValid() }) {
             containsNullValues = true
-            LOGGER.error("Detail with id $id is invalid as it contains invalid values in it's anticonditions (commonly caused by trailing comma in biome or other arrays)")
+            LOGGER.error("Spawn Detail with id $id is invalid as it contains invalid values in its anticonditions (commonly caused by trailing comma in biomes or other arrays)")
         }
         return super.isModDependencySatisfied() && !containsNullValues
     }
