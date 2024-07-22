@@ -224,7 +224,7 @@ class PartySlotWidget(
 
     override fun mouseReleased(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
         if (partyWidget.swapEnabled) toggleDrag(false)
-        return super.mouseReleased(pMouseX, pMouseY, pButton)
+        return partyWidget.mouseReleased(pMouseX, pMouseY, pButton)
     }
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, f: Double, g: Double): Boolean {
