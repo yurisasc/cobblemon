@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
 import com.cobblemon.mod.common.util.cobblemonResource
 import kotlin.random.Random.Default.nextInt
 import net.minecraft.world.entity.Entity
@@ -77,15 +78,23 @@ class FishingSpawnCause(
         }
     }
 
+    // EV related bait effects
     override fun affectWeight(detail: SpawnDetail, ctx: SpawningContext, weight: Float): Float {
-        if (bait != null){
+        // if bait exists and any effects are related to EV yields
+        if (bait != null && bait.effects.any{ it.type == FishingBait.Effects.EV }){
             if (detail is PokemonSpawnDetail) {
                val detailSpecies = detail.pokemon.species?.let { PokemonSpecies.getByName(it) }
+               val speciesEVStat = detailSpecies?.evYield?.filter { it.value > 0 }
+               val baitEVStat = bait.effects.firstOrNull { it.type == FishingBait.Effects.EV }?.subcategory?.path?.let { Stats.getStat(it) }
 
-                val baitEVEffect = bait.effects.firstOrNull { it.type == FishingBait.Effects.EV && detailSpecies?.evYield?.get(Stats.getStat(it.subcategory?.path.toString()))!! > 0 }
+               //val baitEVEffect = bait.effects.firstOrNull { detailSpecies?.evYield?.get(Stats.getStat(it.subcategory?.path.toString()))!! > 0 }
 
-               if (detailSpecies != null && baitEVEffect != null) {
-                   return super.affectWeight(detail, ctx, weight * baitEVEffect.value.toFloat())
+               if (detailSpecies != null && baitEVStat != null) {
+                   val evYieldValue = detailSpecies.evYield[baitEVStat]?.toFloat() ?: 0f
+                   return when {
+                       evYieldValue > 0 -> super.affectWeight(detail, ctx, weight) // use original weight if EV yield is greater than 0
+                       else -> super.affectWeight(detail, ctx, 0f) // use spawn weight of 0 if EV yield is 0
+                   }
                }
             }
         }
@@ -109,20 +118,20 @@ class FishingSpawnCause(
     private fun alterNatureAttempt(pokemonEntity: PokemonEntity, effect: FishingBait.Effect) {
         // TIMNOTE: This replaces the static lists. It's less performant because it's being reviewed every time,
         // but also it's not something that goes off too often.
-        val possibleNatures = Natures.all().filter { it.increasedStat?.identifier == effect.subcategory }
+        val possibleNatures = Natures.all().filter { it.increasedStat?.identifier == effect.subcategory?.let { it1 -> Stats.getStat(it1.path).identifier } }
         if (possibleNatures.isEmpty() || possibleNatures.any { it == pokemonEntity.pokemon.nature }) return
         val takenNature = possibleNatures.random()
 
-        pokemonEntity.pokemon.nature = Natures.getNature(takenNature.name.namespace) ?: return
+        pokemonEntity.pokemon.nature = Natures.getNature(takenNature.name.path) ?: return
     }
 
     private fun alterIVAttempt(pokemonEntity: PokemonEntity, effect: FishingBait.Effect) {
         val iv = effect.subcategory ?: return
 
-        if ((pokemonEntity.pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.namespace)] ?: 0) + effect.value > 31) // if HP IV is already less than 3 away from 31
-            pokemonEntity.pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.namespace), 31)
+        if ((pokemonEntity.pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.path)] ?: 0) + effect.value > 31) // if HP IV is already less than 3 away from 31
+            pokemonEntity.pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.path), 31)
         else
-            pokemonEntity.pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.namespace), (pokemonEntity.pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.namespace)] ?: 0) + (effect.value).toInt())
+            pokemonEntity.pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.path), (pokemonEntity.pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(iv.path)] ?: 0) + (effect.value).toInt())
     }
 
     private fun alterGenderAttempt(pokemonEntity: PokemonEntity, effect: FishingBait.Effect) {
@@ -141,35 +150,34 @@ class FishingSpawnCause(
     }
 
     private fun alterTeraAttempt(pokemonEntity: PokemonEntity, effect: FishingBait.Effect) {
-        if (pokemonEntity.pokemon.teraType == effect.subcategory?.let { TeraTypes.get(it.namespace) } ||
-                TeraTypes.get(effect.subcategory!!.namespace) == null) return
+        if (pokemonEntity.pokemon.teraType == effect.subcategory?.let { TeraTypes.get(it.path) } ||
+                TeraTypes.get(effect.subcategory!!.path) == null) return
 
-        pokemonEntity.pokemon.teraType = TeraTypes.get(effect.subcategory.namespace)!!
+        pokemonEntity.pokemon.teraType = TeraTypes.get(effect.subcategory.path)!!
     }
 
     private fun alterHAAttempt(pokemonEntity: PokemonEntity) {
-        val species = pokemonEntity.pokemon.species.let { PokemonSpecies.getByName(it.name) } ?: return
-        val ability = species.abilities.mapping[Priority.LOW]?.first()?.template?.name ?: return
+        //val species = pokemonEntity.pokemon.species.let { PokemonSpecies.getByName(it.name) } ?: return
+        //val ability = species.abilities.mapping[Priority.LOW]?.first()?.template?.name ?: return
 
-        pokemonEntity.pokemon.ability = Abilities.get(ability)?.create(false) ?: return
+        //pokemonEntity.pokemon.ability = Abilities.get(ability)?.create(false) ?: return
 
         // Old code from Licious that might be helpful if the above proves to not work
 
-        /*
         // This will iterate from highest to lowest priority
-        pokemon.form.abilities.mapping.values.forEach { abilities ->
+        pokemonEntity.pokemon.form.abilities.mapping.values.forEach { abilities ->
             abilities.filterIsInstance<HiddenAbility>()
                     .randomOrNull ()
                     ?.let { ability ->
                         // No need to force, this is legal
-                        pokemon.ability = ability.template.create(false)
-                        return true
+                        pokemonEntity.pokemon.ability = ability.template.create(false)
+                        return
                     }
         }
         // There was never a hidden ability :( possible but not by default
         return
 
-         */
+
     }
 
     private fun alterFriendshipAttempt(pokemonEntity: PokemonEntity, effect: FishingBait.Effect) {
