@@ -17,7 +17,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "cobblemon:mint_leaf"
+            "items": "#cobblemon:mint_leaf"
           }
         ]
       }
