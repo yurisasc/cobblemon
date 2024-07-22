@@ -29,7 +29,7 @@ class FossilAnalyzerRenderer(ctx: BlockEntityRendererProvider.Context) : BlockEn
         entity: FossilAnalyzerBlockEntity,
         tickDelta: Float,
         matrices: PoseStack,
-        vertexConsumers: MultiBufferSource?,
+        vertexConsumers: MultiBufferSource,
         light: Int,
         overlay: Int
     ) {

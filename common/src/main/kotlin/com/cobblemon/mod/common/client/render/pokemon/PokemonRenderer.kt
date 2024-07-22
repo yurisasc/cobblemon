@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.pokemon
 
-import com.cobblemon.mod.common.api.text.add
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ClientBallDisplay
 import com.cobblemon.mod.common.client.entity.NPCClientDelegate
@@ -38,23 +37,22 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Axis
 import kotlin.math.*
+import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.Font
 import net.minecraft.client.renderer.*
 import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.client.renderer.RenderType
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.world.entity.Entity
-import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.Mth
-import com.mojang.math.Axis
-import net.minecraft.ChatFormatting
-import net.minecraft.client.gui.Font
 import net.minecraft.client.renderer.entity.ItemRenderer
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Mth
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.phys.Vec3
 import org.joml.Math
 import org.joml.Quaternionf

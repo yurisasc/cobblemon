@@ -80,10 +80,7 @@ class FossilAnalyzerBlockEntity(
             }
         }
 
-        override fun stillValid(player: Player): Boolean {
-            return false
-        }
-
+        override fun stillValid(player: Player) = false
         override fun getSlotsForFace(side: Direction): IntArray {
             if(analyzerEntity.multiblockStructure != null && analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
                 return intArrayOf(0,1,2)
@@ -102,8 +99,6 @@ class FossilAnalyzerBlockEntity(
             return false
         }
 
-        override fun canTakeItemThroughFace(slot: Int, stack: ItemStack, direction: Direction): Boolean {
-            return false
-        }
+        override fun canTakeItemThroughFace(slot: Int, stack: ItemStack, direction: Direction) = false
     }
 }

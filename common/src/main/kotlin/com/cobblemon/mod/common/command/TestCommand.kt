@@ -64,8 +64,7 @@ object TestCommand {
         }
 
         try {
-            this.testCodecOutput(context)
-            /*
+            //this.testCodecOutput(context)
             val player = context.source.entity as ServerPlayer
             val npc = NPCEntity(player.level())
             npc.setPos(player.x, player.y, player.z)
@@ -83,8 +82,6 @@ object TestCommand {
 //            after(seconds = 0.5F) {
 //                player.sendPacket(PlayPoseableAnimationPacket(evolutionEntity.id, setOf("evolution:animation.evolution.evolution"), emptySet()))
 //            }
-             */
-
 
 //            readBerryDataFromCSV()
 

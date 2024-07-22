@@ -184,7 +184,7 @@ class PartyWidget(
                 playSound(CobblemonSounds.PC_DROP)
             }
         }
-        return super.mouseReleased(pMouseX, pMouseY, pButton)
+        return true
     }
 
     fun enableSwap(boolean: Boolean = true) {

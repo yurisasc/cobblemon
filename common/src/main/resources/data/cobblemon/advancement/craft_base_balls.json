@@ -17,7 +17,7 @@
       "conditions": {
         "items": [
           {
-            "items": ["cobblemon:poke_ball"]
+            "items": "cobblemon:poke_ball"
           }
         ]
       }
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": ["cobblemon:citrine_ball"]
+            "items": "cobblemon:citrine_ball"
           }
         ]
       }
@@ -37,7 +37,7 @@
       "conditions": {
         "items": [
           {
-            "items": ["cobblemon:verdant_ball"]
+            "items": "cobblemon:verdant_ball"
           }
         ]
       }
@@ -47,7 +47,7 @@
       "conditions": {
         "items": [
           {
-            "items": [ "cobblemon:azure_ball" ]
+            "items": "cobblemon:azure_ball"
           }
         ]
       }
@@ -57,7 +57,7 @@
       "conditions": {
         "items": [
           {
-            "items": [ "cobblemon:roseate_ball" ]
+            "items": "cobblemon:roseate_ball"
           }
         ]
       }
@@ -67,7 +67,7 @@
       "conditions": {
         "items": [
           {
-            "items": [ "cobblemon:slate_ball" ]
+            "items": "cobblemon:slate_ball"
           }
         ]
       }
@@ -77,7 +77,7 @@
       "conditions": {
         "items": [
           {
-            "items": [ "cobblemon:premier_ball" ]
+            "items": "cobblemon:premier_ball"
           }
         ]
       }
