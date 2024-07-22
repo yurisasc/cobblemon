@@ -9,28 +9,22 @@
 package com.cobblemon.mod.common.entity.fishing
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.Cobblemon.config
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.fishing.FishingBait
 import com.cobblemon.mod.common.api.fishing.FishingBaits
-import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
 import com.cobblemon.mod.common.api.text.red
-import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
-import com.cobblemon.mod.common.loot.CobblemonLootTables
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
-import com.cobblemon.mod.common.pokemon.Gender
-import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.toBlockPos
+import kotlin.math.sqrt
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.sounds.SoundInstance
@@ -63,14 +57,12 @@ import net.minecraft.world.entity.projectile.ProjectileUtil
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.storage.loot.BuiltInLootTables
 import net.minecraft.world.level.storage.loot.LootParams
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult
 import net.minecraft.world.phys.Vec3
-import kotlin.math.sqrt
 
 
 class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity>, world: Level) : FishingHook(type, world) {
@@ -605,6 +597,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                         .withParameter(LootContextParams.ORIGIN, position())
                         .withParameter(LootContextParams.TOOL, usedItem)
                         .withParameter(LootContextParams.THIS_ENTITY, this)
+                        .withOptionalParameter(LootContextParams.ATTACKING_ENTITY, null)
                         .withLuck(this.luckOfTheSeaLevel.toFloat() + playerEntity.luck)
                         .create(LootContextParamSets.FISHING)
                     val lootTable = level().server!!.reloadableRegistries().getLootTable(LOOT_TABLE_ID)

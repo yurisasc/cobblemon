@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.api.spawning.fishing
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.abilities.Abilities
-import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.fishing.FishingBait
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
@@ -19,19 +18,17 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
-import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnDetail
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.spawner.Spawner
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.util.cobblemonResource
+import kotlin.random.Random.Default.nextInt
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.item.ItemStack
-import kotlin.random.Random.Default.nextInt
 
 /**
  * A spawning cause that is embellished with fishing information. Could probably also
@@ -71,6 +68,12 @@ class FishingSpawnCause(
                     FishingBait.Effects.FRIENDSHIP -> alterFriendshipAttempt(entity, it)
                 }
             }
+
+            // Some of the bait actions might have changed the aspects and we need it to be
+            // in the entityData IMMEDIATELY otherwise it will flash as what it would be
+            // with the old aspects.
+            // New aspects copy into the entity data only on the next tick.
+            entity.entityData.set(PokemonEntity.ASPECTS, entity.pokemon.aspects)
         }
     }
 
@@ -81,7 +84,7 @@ class FishingSpawnCause(
 
                 val baitEVEffect = bait.effects.firstOrNull { it.type == FishingBait.Effects.EV && detailSpecies?.evYield?.get(Stats.getStat(it.subcategory?.path.toString()))!! > 0 }
 
-               if(detailSpecies != null && baitEVEffect != null) {
+               if (detailSpecies != null && baitEVEffect != null) {
                    return super.affectWeight(detail, ctx, weight * baitEVEffect.value.toFloat())
                }
             }
@@ -93,9 +96,12 @@ class FishingSpawnCause(
         if (pokemonEntity.pokemon.shiny) return
 
         val shinyOdds = Cobblemon.config.shinyRate.toInt()
+        if (shinyOdds <= 0) {
+            return
+        }
         val randomNumber = nextInt(0, shinyOdds + 1)
 
-        if (randomNumber <= (effect.value).toInt()) {
+        if (randomNumber <= effect.value.toInt()) {
             pokemonEntity.pokemon.shiny = true
         }
     }
@@ -131,14 +137,12 @@ class FishingSpawnCause(
         var level = pokemonEntity.pokemon.level + effect.value.toInt()
         if (level > Cobblemon.config.maxPokemonLevel)
             level = Cobblemon.config.maxPokemonLevel
-        else
-            pokemonEntity.pokemon.level = level
+        pokemonEntity.pokemon.level = level
     }
 
     private fun alterTeraAttempt(pokemonEntity: PokemonEntity, effect: FishingBait.Effect) {
         if (pokemonEntity.pokemon.teraType == effect.subcategory?.let { TeraTypes.get(it.namespace) } ||
                 TeraTypes.get(effect.subcategory!!.namespace) == null) return
-
 
         pokemonEntity.pokemon.teraType = TeraTypes.get(effect.subcategory.namespace)!!
     }
