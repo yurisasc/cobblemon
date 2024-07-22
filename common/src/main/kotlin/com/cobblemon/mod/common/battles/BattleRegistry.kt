@@ -36,11 +36,11 @@ object BattleRegistry {
     const val MAX_TEAM_MEMBER_COUNT = 2
     const val MAX_BATTLE_RADIUS = 15.0
     class BattleChallenge(
-        val challengeId: UUID,
-        val challengedPlayerUUID: UUID,
-        val selectedPokemonId: UUID,
-        val battleType: String,
-        var expiryTimeSeconds: Int = 60
+            val challengeId: UUID,
+            val challengedPlayerUUID: UUID,
+            val selectedPokemonId: UUID,
+            val battleFormat: BattleFormat,
+            var expiryTimeSeconds: Int = 60
     ) {
         val challengedTime = Instant.now()
         fun isExpired() = Instant.now().isAfter(challengedTime.plusSeconds(expiryTimeSeconds.toLong()))

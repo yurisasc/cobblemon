@@ -20,6 +20,7 @@ import org.joml.Vector3f
 
 class InteractWheelButton(
         private val iconResource: ResourceLocation?,
+        private val secondaryIconResource: ResourceLocation? = null,
         private val buttonResource: ResourceLocation,
         private val tooltipText: String?,
         x: Int,
@@ -38,8 +39,12 @@ class InteractWheelButton(
         const val ICON_OFFSET = 26.5
     }
 
+    private var passedTicks = 0F
+    private val blinkInterval = 35
+
     override fun renderWidget(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.pose()
+        passedTicks += delta
         blitk(
             matrixStack = matrices,
             texture = buttonResource,
@@ -74,6 +79,26 @@ class InteractWheelButton(
                 blue = colour.z,
                 scale = ICON_SCALE
             )
+        }
+
+        if (passedTicks % blinkInterval < blinkInterval / 2) {
+            if (secondaryIconResource != null) {
+                val (iconX, iconY) = getIconPosition()
+                val colour = this.colour() ?: Vector3f(1F, 1F, 1F)
+                blitk(
+                        matrixStack = matrices,
+                        texture = secondaryIconResource,
+                        x = iconX,
+                        y = (iconY.toFloat() - ICON_SIZE),
+                        width = ICON_SIZE,
+                        height = ICON_SIZE,
+                        alpha = if (isEnabled) 1f else 0.4f,
+                        red = colour.x,
+                        green = colour.y,
+                        blue = colour.z,
+                        scale = ICON_SCALE
+                )
+            }
         }
     }
 

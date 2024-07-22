@@ -18,12 +18,12 @@ import net.minecraft.client.Minecraft
 
 object BattleChallengeNotificationHandler : ClientNetworkPacketHandler<BattleChallengeNotificationPacket> {
     override fun handle(packet: BattleChallengeNotificationPacket, client: Minecraft) {
-        CobblemonClient.requests.battleChallenges.add(ClientBattleChallenge(packet.battleChallengeId, packet.challengerId))
+        CobblemonClient.requests.battleChallenges.add(ClientBattleChallenge(packet.battleChallengeId, packet.challengerId, packet.battleFormat))
         client.player?.displayClientMessage(
             lang(
                 "challenge.receiver",
                 packet.challengerName,
-                lang(packet.battleFormatString),
+                lang("challenge.Singles"),
             ),
             true
         )

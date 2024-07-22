@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeString
@@ -32,18 +33,18 @@ class BattleChallengeNotificationPacket(
     val battleChallengeId: UUID,
     val challengerId: UUID,
     val challengerName: MutableComponent,
-    val battleFormatString: String
+    val battleFormat: BattleFormat
 ): NetworkPacket<BattleChallengeNotificationPacket> {
     override val id = ID
     override fun encode(buffer: RegistryFriendlyByteBuf) {
         buffer.writeUUID(battleChallengeId)
         buffer.writeUUID(challengerId)
         ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.encode(buffer, challengerName)
-        buffer.writeString(battleFormatString)
+        battleFormat.saveToBuffer(buffer)
     }
 
     companion object {
         val ID = cobblemonResource("battle_challenge_notification")
-        fun decode(buffer: RegistryFriendlyByteBuf) = BattleChallengeNotificationPacket(buffer.readUUID(), buffer.readUUID(), ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.decode(buffer).copy(), buffer.readString())
+        fun decode(buffer: RegistryFriendlyByteBuf) = BattleChallengeNotificationPacket(buffer.readUUID(), buffer.readUUID(), ComponentSerialization.TRUSTED_CONTEXT_FREE_STREAM_CODEC.decode(buffer).copy(), BattleFormat.loadFromBuffer(buffer))
     }
 }

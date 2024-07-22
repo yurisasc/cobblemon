@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.net.messages.client.PlayerInteractOptionsPacket
 import com.cobblemon.mod.common.net.messages.server.RequestPlayerInteractionsPacket
+import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.traceFirstEntityCollision
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
@@ -48,16 +49,29 @@ object RequestInteractionsHandler : ServerNetworkPacketHandler<RequestPlayerInte
                 options.add(PlayerInteractOptionsPacket.Options.SPECTATE_BATTLE)
             }
             else if (squaredDistance <= Cobblemon.config.BattlePvPMaxDistance.pow(2)) {
-                options.add(PlayerInteractOptionsPacket.Options.BATTLE)
-                if(BattleRegistry.playerToTeam[player.uuid] != null && BattleRegistry.playerToTeam[packet.targetId] !== null) {
-                    if(BattleRegistry.playerToTeam[player.uuid]?.teamID != BattleRegistry.playerToTeam[packet.targetId]?.teamID) {
-                        options.add(PlayerInteractOptionsPacket.Options.MULTI_BATTLE)
-                    } else {
-                        options.add(PlayerInteractOptionsPacket.Options.TEAM_LEAVE)
+                // LOS and distance checks passed, now check parties and add appropriate options
+                val playerPartyCount = player.party().count { pokemon -> !pokemon.isFainted() }
+                val targetPartyCount = (targetPlayerEntity as ServerPlayer).party().count { pokemon -> !pokemon.isFainted() }
+                if (playerPartyCount >= 1 && targetPartyCount >= 1) {
+                    options.add(PlayerInteractOptionsPacket.Options.SINGLE_BATTLE)
+                    options.add(PlayerInteractOptionsPacket.Options.ROYAL_BATTLE)
+                    if (BattleRegistry.playerToTeam[player.uuid] != null && BattleRegistry.playerToTeam[packet.targetId] !== null) {
+                        if(BattleRegistry.playerToTeam[player.uuid]?.teamID != BattleRegistry.playerToTeam[packet.targetId]?.teamID) {
+                            options.add(PlayerInteractOptionsPacket.Options.MULTI_BATTLE)
+                        } else {
+                            options.add(PlayerInteractOptionsPacket.Options.TEAM_LEAVE)
+                        }
+                    } else if(BattleRegistry.playerToTeam[player.uuid] === null && BattleRegistry.playerToTeam[packet.targetId] === null) {
+                        // TODO: Max team size checking, allow for team of size > 2
+                        options.add(PlayerInteractOptionsPacket.Options.TEAM_REQUEST)
                     }
-                } else if(BattleRegistry.playerToTeam[player.uuid] === null && BattleRegistry.playerToTeam[packet.targetId] === null) {
-                    // TODO: Max team size checking, allow for team of size > 2
-                    options.add(PlayerInteractOptionsPacket.Options.TEAM_REQUEST)
+                    if (playerPartyCount >= 2 && targetPartyCount >= 2) {
+                        options.add(PlayerInteractOptionsPacket.Options.DOUBLE_BATTLE)
+                        if (playerPartyCount >= 3 && targetPartyCount >= 3) {
+                            options.add(PlayerInteractOptionsPacket.Options.TRIPLE_BATTLE)
+                        }
+                    }
+
                 }
             }
         }

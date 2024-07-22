@@ -17,7 +17,9 @@ import com.cobblemon.mod.common.api.text.aqua
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleBuilder
+import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.battles.BattleTypes
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeNotificationPacket
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
@@ -83,13 +85,13 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                     // send a message about there being an existing challenge
                     player.sendSystemMessage(lang("challenge.pending", targetedEntity.name).yellow())
                 } else {
-                    if (packet.battleType == "multi") {
+                    if (packet.battleFormat.battleType == BattleTypes.MULTI) {
                         // check for team
                         val existingPlayerTeam = BattleRegistry.playerToTeam[player.uuid]
                         val existingTargetTeam = BattleRegistry.playerToTeam[targetedEntity.uuid]
                         if(existingPlayerTeam != null && existingTargetTeam != null && existingTargetTeam.teamID != existingPlayerTeam.teamID) {
                             // Send a request to start a battle
-                            val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), existingTargetTeam.teamID, leadingPokemon, packet.battleType)
+                            val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), existingTargetTeam.teamID, leadingPokemon, packet.battleFormat)
                             BattleRegistry.pvpChallenges[existingPlayerTeam.teamID] = challenge
                             afterOnServer(seconds = challenge.expiryTimeSeconds.toFloat()) {
                                 BattleRegistry.removeChallenge(existingPlayerTeam.teamID, challengeId = challenge.challengeId)
@@ -104,24 +106,25 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                             // Notify challenged tam
                             CobblemonNetwork.sendPacketToPlayers(
                                 existingTargetTeam.teamPlayersUUID.map { it.getPlayer() }.mapNotNull { it },
-                                BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua(), "challenge.multibattle")
+                                BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua(), BattleFormat.GEN_9_MULTI)
                             )
                         }
                     } else {
-                        val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), targetedEntity.uuid, leadingPokemon, packet.battleType)
+                        val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), targetedEntity.uuid, leadingPokemon, packet.battleFormat)
                         BattleRegistry.pvpChallenges[player.uuid] = challenge
                         afterOnServer(seconds = challenge.expiryTimeSeconds.toFloat()) {
                             BattleRegistry.removeChallenge(player.uuid, challengeId = challenge.challengeId)
                         }
 
-                        val battleFormatLang = when (packet.battleType) {
-                            "doubles" -> "challenge.doublebattle"
-                            "triples" -> "challenge.triplebattle"
-                            "multi" -> "challenge.multibattle"
+                        val battleFormatLang = when (packet.battleFormat.battleType.name) {
+                            BattleTypes.DOUBLES.name -> "challenge.doublebattle"
+                            BattleTypes.TRIPLES.name -> "challenge.triplebattle"
+                            BattleTypes.MULTI.name -> "challenge.multibattle"
+                            BattleTypes.ROYAL.name -> "challenge.royalBattle"
                             else -> "challenge.singlebattle"
                         }
 
-                        targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua(), battleFormatLang))
+                        targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua(), packet.battleFormat))
                         player.sendSystemMessage(lang("challenge.sender", targetedEntity.name, lang(battleFormatLang)).yellow())
                     }
                 }

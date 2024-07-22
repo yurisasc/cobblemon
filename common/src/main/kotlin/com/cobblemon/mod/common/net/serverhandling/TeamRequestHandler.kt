@@ -75,7 +75,8 @@ object TeamRequestHandler : ServerNetworkPacketHandler<BattleTeamRequestPacket> 
                     // Add timeout callback to cancel the request
                     afterOnServer(seconds = teamRequest.expiryTimeSeconds.toFloat()) {
                         BattleRegistry.removeTeamUpRequest(player.uuid, requestId = teamRequest.requestID)
-                    }                }
+                    }
+                }
             }
             else -> {
                 // Unrecognized challenge target. NPCs will probably go here.

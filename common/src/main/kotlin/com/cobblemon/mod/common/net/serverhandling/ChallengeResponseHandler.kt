@@ -9,13 +9,10 @@
 package com.cobblemon.mod.common.net.serverhandling
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.yellow
-import com.cobblemon.mod.common.battles.BattleBuilder
-import com.cobblemon.mod.common.battles.BattleFormat
-import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.battles.*
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.server.BattleChallengeResponsePacket
 import com.cobblemon.mod.common.util.battleLang
@@ -77,15 +74,10 @@ object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResp
                 var existingChallengePokemon = existingChallenge?.selectedPokemonId
                 if (existingChallenge != null && !existingChallenge.isExpired() && (existingChallenge.challengedPlayerUUID == player.uuid || existingChallenge.challengedPlayerUUID == BattleRegistry.playerToTeam[player.uuid]?.teamID)) {
 
-                    val battleFormat = when (existingChallenge.battleType) {
-                        "doubles" -> BattleFormat.GEN_9_DOUBLES
-                        "triples" -> BattleFormat.GEN_9_TRIPLES
-                        "multi" -> BattleFormat.GEN_9_MULTI
-                        else -> BattleFormat.GEN_9_SINGLES
-                    }
+                    val battleFormat = existingChallenge.battleFormat
 
                     if(packet.accept) {
-                        if(existingChallenge.battleType == "multi") {
+                        if(existingChallenge.battleFormat.battleType.name == BattleTypes.MULTI.name) {
                             // Start a multibattle
                             val team1 = BattleRegistry.playerToTeam[targetedEntity.uuid]?.teamPlayersUUID
                             val team2 = BattleRegistry.playerToTeam[player.uuid]?.teamPlayersUUID
