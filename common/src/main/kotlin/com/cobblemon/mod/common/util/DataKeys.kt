@@ -160,8 +160,7 @@ object DataKeys {
     const val ANALYZER_POS = "AnalyzerPos"
     const val ORGANIC_MATERIAL = "OrganicContent"
     const val INSERTED_FOSSIL = "InsertedFossil"
-    /** The old fossil inventory used a different storage format for held items and migrating is easier by just ignoring what was in there before. */
-    const val FOSSIL_INVENTORY = "InsertedFossilStacks2"
+    const val FOSSIL_INVENTORY = "InsertedFossilStacks"
     const val TANK_FILL_LEVEL = "TankFillLevel"
     const val CONNECTOR_DIRECTION = "ConnectorDirection"
     const val TIME_LEFT = "TimeLeft"
