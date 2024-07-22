@@ -21,6 +21,10 @@ import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.world.level.block.state.properties.BlockStateProperties
 
 class GildedChestBlockRenderer(context: BlockEntityRendererProvider.Context) : BlockEntityRenderer<GildedChestBlockEntity> {
+    val context = RenderContext().also {
+        it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.BLOCK)
+        it.put(RenderContext.DO_QUIRKS, true)
+    }
     override fun render(
         entity: GildedChestBlockEntity,
         tickDelta: Float,
@@ -36,18 +40,17 @@ class GildedChestBlockRenderer(context: BlockEntityRendererProvider.Context) : B
         val poserId = entity.type.poserId
 
         val model = BlockEntityModelRepository.getPoser(poserId, aspects)
+        model.context = context
         val texture = BlockEntityModelRepository.getTexture(poserId, aspects, state.animationSeconds)
         val vertexConsumer = vertexConsumers.getBuffer(RenderType.entityCutout(texture))
         model.bufferProvider = vertexConsumers
         state.currentModel = model
         state.currentAspects = aspects
-
-        val context = RenderContext()
-        context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.BLOCK)
         context.put(RenderContext.ASPECTS, aspects)
         context.put(RenderContext.TEXTURE, texture)
         context.put(RenderContext.SPECIES, poserId)
         context.put(RenderContext.POSABLE_STATE, state)
+
         matrices.pushPose()
         matrices.mulPose(Axis.ZP.rotationDegrees(180f))
         matrices.translate(-0.5, 0.0, 0.5)
