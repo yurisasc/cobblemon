@@ -59,6 +59,17 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
             // add a new component that stores the itemStack as a component? Yes!
         }
 
+        fun consumeBait(stack: ItemStack) {
+            if (this.getBaitStackOnRod(stack).count == 1) {
+                stack.set<RodBaitComponent>(CobblemonItemComponents.BAIT, null)
+                return
+            }
+            if (this.getBaitStackOnRod(stack).count < 1) {
+                val fishingBait = FishingBaits.getFromBaitItemStack(getBaitStackOnRod(stack)) ?: return
+                stack.set<RodBaitComponent>(CobblemonItemComponents.BAIT, RodBaitComponent(fishingBait, ItemStack(getBaitStackOnRod(stack).item, getBaitStackOnRod(stack).count - 1)))
+            }
+        }
+
         fun getBaitEffects(stack: ItemStack): List<FishingBait.Effect> {
             return getBaitOnRod(stack)?.effects ?: return emptyList()
         }
@@ -235,7 +246,7 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
                 )*/
 
 
-                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, getBaitOnRod(itemStack)?.toItemStack(world.itemRegistry) ?: ItemStack.EMPTY, world, luckLevel, lureLevel, castingSoundInstance)
+                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, getBaitOnRod(itemStack)?.toItemStack(world.itemRegistry) ?: ItemStack.EMPTY, world, luckLevel, lureLevel, castingSoundInstance, itemStack)
 
                 // Set the casting sound to the bobber entity
                 //bobberEntity.castingSound = castingSoundInstance

@@ -102,9 +102,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     var randomYaw: Float = 0f
     var lastBobberPos: Vec3? = null
     var castingSound: SoundInstance? = null
+    var rodItem: ItemStack? = null
 
-    constructor(thrower: Player, pokeRodId: ResourceLocation, bait: ItemStack, world: Level, luckOfTheSea: Int, lure: Int, castSound: SoundInstance) : this(CobblemonEntities.POKE_BOBBER, world) {
+    constructor(thrower: Player, pokeRodId: ResourceLocation, bait: ItemStack, world: Level, luckOfTheSea: Int, lure: Int, castSound: SoundInstance, rodItemStack: ItemStack) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
+        rodItem = rodItemStack
         castingSound = castSound
         luckOfTheSeaLevel = luckOfTheSea
         lureLevel = lure
@@ -621,6 +623,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 }
                 else { // logic for spawning Pokemon using rarity
                     val bobberOwner = playerOwner as ServerPlayer
+
+                    // decrememnt the bait count on the rod itself when reeling in a pokemon
+                    PokerodItem.consumeBait(rodItem!!)
 
                     // spawn the pokemon from the chosen bucket at the bobber's location
                     spawnPokemonFromFishing(bobberOwner, chosenBucket, bobberBait)
