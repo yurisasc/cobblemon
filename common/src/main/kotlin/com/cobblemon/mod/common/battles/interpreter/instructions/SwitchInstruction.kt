@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.battles.dispatch.*
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.swap
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
@@ -74,6 +75,7 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
                     illusion = illusion?.let { IllusionEffect(it.effectedPokemon) }
                 ).thenApply {
                     actor.stillSendingOutCount--
+                    broadcastSwitch(battle, actor, pokemon, illusion)
                 }
             }
             else if (pokemonEntity != null) {
@@ -91,6 +93,10 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
                     if (publicMessage.effect()?.id == "batonpass") oldPokemon.contextManager.swap(pokemon.contextManager, BattleContext.Type.BOOST, BattleContext.Type.UNBOOST)
                     oldPokemon.contextManager.clear(BattleContext.Type.VOLATILE, BattleContext.Type.BOOST, BattleContext.Type.UNBOOST)
                     battle.majorBattleActions[oldPokemon.uuid] = publicMessage
+
+                    val publicName = (activePokemon.illusion ?: oldPokemon).effectedPokemon.getDisplayName()
+                    actor.sendMessage(battleLang("withdraw.self", publicName))
+                    battle.actors.filter { it != actor }.forEach { it.sendMessage(battleLang("withdraw.other", actor.getName(), publicName)) }
                 }
                 battle.majorBattleActions[pokemon.uuid] = publicMessage
 
@@ -147,6 +153,8 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
                         illusion = illusion?.let { IllusionEffect(it.effectedPokemon) }
                     ).thenAccept { sendOutFuture.complete(Unit) }
                 }
+
+                broadcastSwitch(battle, actor, newPokemon, illusion)
             }
 
             return UntilDispatch { sendOutFuture.isDone }
@@ -157,9 +165,18 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
             activePokemon.battlePokemon = newPokemon
             activePokemon.illusion = illusion
             battle.sendSidedUpdate(actor, BattleSwitchPokemonPacket(pnx, newPokemon, true, illusion), BattleSwitchPokemonPacket(pnx, newPokemon, false, illusion))
+            broadcastSwitch(battle, actor, newPokemon, illusion)
             return WaitDispatch(1.5F)
         }
 
+        private fun broadcastSwitch(battle: PokemonBattle, actor: BattleActor, newPokemon: BattlePokemon, illusion: BattlePokemon?) {
+            val publicPokemon = (illusion ?: newPokemon).effectedPokemon
+            val publicLang = publicPokemon.nickname?.let { nickname ->
+                battleLang("switch.other.nickname", actor.getName(), nickname, publicPokemon.species.translatedName)
+            } ?: battleLang("switch.other", actor.getName(), publicPokemon.getDisplayName())
+            actor.sendMessage(battleLang("switch.self", publicPokemon.getDisplayName()))
+            battle.actors.filter { it != actor }.forEach { it.sendMessage(publicLang) }
+        }
     }
 
 }

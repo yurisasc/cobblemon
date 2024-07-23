@@ -17,6 +17,7 @@
 - Fixed species comparison not using namespace for both sides in PokemonProperties.isSubsetOf.
 - Fixed PokemonProperties#asString prefixing nicknames with a '$'
 - Fixed reviving items throwing an exception when used in battle
+- Fixed messages for Focus Sash, Confusion, Mummy, Ice Face, Own Tempo, and Revive
 
 ### Additions
 - Added extra visuals to early berry growth stages
@@ -24,6 +25,7 @@
 - Added Metronome, Protective Pads, Punching Glove, Room Service, Scope Lens, Shed Shell, Terrain Extender, Throat Spray, Utility Umbrella, Wide Lens, and Zoom Lens held items
 - Added a `battleInvulnerability` gamerule to make players invulnerable to any damage during a battle
 - Added a `mobTargetInBattle` gamerule to exclude players from being targeted by mobs during a battle
+- Added battle log messages for switching out Pokémon
 
 ### Added cries to the following Pokémon
 - Timburr, Gurdurr, Conkeldurr
