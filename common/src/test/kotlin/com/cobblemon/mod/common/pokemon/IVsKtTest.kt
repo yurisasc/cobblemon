@@ -29,6 +29,18 @@ internal class IVsKtTest {
     }
 
     @Test
+    fun `should create a randomized set of IVs with 3 perfect values`() {
+        val ivs = IVs.createRandomIVs(3)
+        var foundPerfects = 0
+        for ((_, value) in ivs) {
+            if (value == IVs.MAX_VALUE) {
+                foundPerfects++
+            }
+        }
+        assertTrue(foundPerfects >= 3)
+    }
+
+    @Test
     fun `should create a randomized set of IVs with 6 perfect values`() {
         val ivs = IVs.createRandomIVs(6)
         var foundPerfects = 0
