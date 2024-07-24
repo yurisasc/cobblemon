@@ -110,7 +110,7 @@ class BattleSwitchPokemonSelection(
             }
             .filter { it.second.uuid !in switchingInPokemon }
 
-        if(showdownPokemonToPokemon.isEmpty()) {
+        if(showdownPokemonToPokemon.isEmpty() && request.forceSwitch) {
             // Occurs after a multi-knock out and the player doesn't have enough pokemon to fill every vacant slot
             battleGUI.selectAction(request, PassActionResponse)
         }
