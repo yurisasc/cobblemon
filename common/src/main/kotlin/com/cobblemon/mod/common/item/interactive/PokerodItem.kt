@@ -98,6 +98,9 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
             if(baitStack != ItemStack.EMPTY) {
                 setBait(itemStack, ItemStack.EMPTY)
                 slotAccess.set(baitStack.copy())
+                // play bait detach sound
+                player.level().playSound(null, player.blockPosition(), CobblemonSounds.FISHING_BAIT_DETACH, SoundSource.PLAYERS, 1.0f, 1.0F)
+
                 return true
             }
         }
@@ -115,18 +118,25 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
                         itemStack2.shrink(diff)
                         baitStack.grow(diff)
                         setBait(itemStack, baitStack)
+                        // play bait attach sound
+                        player.level().playSound(null, player.blockPosition(), CobblemonSounds.FISHING_BAIT_ATTACH, SoundSource.PLAYERS, 1.0f, 1.0F)
                         return true
                     }
 
                     // If Item on rod is different from cursor item, swap them
                     setBait(itemStack, itemStack2.copy())
                     slotAccess.set(baitStack.copy())
+                    // play bait attach sound
+                    player.level().playSound(null, player.blockPosition(), CobblemonSounds.FISHING_BAIT_ATTACH, SoundSource.PLAYERS, 1.0f, 1.0F)
                     return true
                 }
 
                 // If no bait currently on rod, add all
                 setBait(itemStack, itemStack2.copy())
                 itemStack2.shrink(itemStack2.count)
+
+                // play bait attach sound
+                player.level().playSound(null, player.blockPosition(), CobblemonSounds.FISHING_BAIT_ATTACH, SoundSource.PLAYERS, 1.0f, 1.0F)
                 return true
             }
         }
