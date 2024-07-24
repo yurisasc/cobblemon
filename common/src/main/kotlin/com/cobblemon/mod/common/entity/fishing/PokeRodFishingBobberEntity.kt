@@ -413,10 +413,13 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             this.waitCountdown = Mth.nextInt(random, 100, 600)
             this.waitCountdown -= this.lureLevel * 20 * 5
 
-            // check for the bait on the hook and see if the waitCountdown is reduced
-            if (checkReduceBiteTime(bobberBait))
-                this.waitCountdown = alterBiteTimeAttempt(this.waitCountdown, this.bobberBait)
-
+            if (this.waitCountdown < 0)
+                this.waitCountdown = 0
+            else {
+                // check for the bait on the hook and see if the waitCountdown is reduced
+                if (checkReduceBiteTime(bobberBait))
+                    this.waitCountdown = alterBiteTimeAttempt(this.waitCountdown, this.bobberBait)
+            }
         }
     }
 
