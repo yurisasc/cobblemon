@@ -18,7 +18,6 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.text.yellow
-import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.dispatch.InstructionSet
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
@@ -145,11 +144,22 @@ object ShowdownInterpreter {
      *
      */
      fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor): Vec3? {
-        val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-        var entityPos = if (actor is EntityBackedBattleActor<*>) actor.initialPos else null
-        var baseOffset = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.initialPos.let { pos ->
-            pos?.subtract(entityPos)
-        }
+        val entityPosList = battleActor.getSide().actors.mapNotNull { if (it is EntityBackedBattleActor<*>) it.initialPos else null }
+        var entityPos = if (entityPosList.size == 1)
+            entityPosList[0]
+        else if(entityPosList.size > 1)
+            entityPosList.fold(Vec3(0.0, 0.0, 0.0)) { acc, vec3 -> acc.add(vec3.scale(1.0 / entityPosList.size)) }
+        else
+            null
+        val opposingEntityList = battleActor.getSide().getOppositeSide().actors.mapNotNull { if (it is EntityBackedBattleActor<*>) it.initialPos else null }
+        val opposingEntityPos = if (opposingEntityList.size == 1)
+            opposingEntityList[0]
+        else if (opposingEntityList.size > 1)
+            opposingEntityList.fold(Vec3(0.0, 0.0, 0.0)) { acc, vec3 -> acc.add(vec3.scale(1.0 / opposingEntityList.size)) }
+        else null
+        
+        var baseOffset = entityPos?.let { opposingEntityPos?.subtract(it) }
+
         if (baseOffset != null) {
             val minDistance = if(battle.isPvW) 8.0 else 5.0
             val length = baseOffset.length()
