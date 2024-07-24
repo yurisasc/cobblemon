@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.spawning.fishing
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.fishing.FishingBait
@@ -116,9 +117,13 @@ class FishingSpawnCause(
     }
 
     private fun alterNatureAttempt(pokemonEntity: PokemonEntity, effect: FishingBait.Effect) {
+        val baitStat = effect.subcategory?.let { it1 -> Stats.getStat(it1.path).identifier } ?: run {
+            LOGGER.warn("One of your nature baits is missing a subcategory and failed to effect a fished Pokemon")
+            return
+        }
         // TIMNOTE: This replaces the static lists. It's less performant because it's being reviewed every time,
         // but also it's not something that goes off too often.
-        val possibleNatures = Natures.all().filter { it.increasedStat?.identifier == effect.subcategory?.let { it1 -> Stats.getStat(it1.path).identifier } }
+        val possibleNatures = Natures.all().filter { it.increasedStat?.identifier == baitStat }
         if (possibleNatures.isEmpty() || possibleNatures.any { it == pokemonEntity.pokemon.nature }) return
         val takenNature = possibleNatures.random()
 
