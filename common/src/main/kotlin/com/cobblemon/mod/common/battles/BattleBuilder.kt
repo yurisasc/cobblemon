@@ -30,6 +30,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.phys.Vec3
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.Iterable
@@ -109,7 +110,7 @@ object BattleBuilder {
             partyAccessor: (ServerPlayer) -> PartyStore = { it.party() }
     ): BattleStartResult {
         val teams = players.mapIndexed { index, it -> partyAccessor(it).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemon[index]) }
-        val playerActors = teams.mapIndexed { index, team -> PlayerBattleActor(players[index].uuid, team)}
+        val playerActors = teams.mapIndexed { index, team -> PlayerBattleActor(players[index].uuid, team)}.toMutableList()
 
         val errors = ErroredBattleStart()
 
@@ -134,6 +135,21 @@ object BattleBuilder {
             if (BattleRegistry.getBattleByParticipatingPlayer(player) != null) {
                 errors.participantErrors[actor] += BattleStartError.alreadyInBattle(player)
             }
+        }
+
+        // Rearrange actors so that Showdown's player arrangement hopefully matches the player arrangement in the world
+        val playersPositions = players.map { p -> p.position() }
+        val side1Center = playersPositions.subList(0, players.size / 2).fold(Vec3(0.0, 0.0, 0.0)) { acc, vec3 -> acc.add(vec3.scale(1.0 / (players.size / 2))) }
+        val side2Center = playersPositions.subList(players.size / 2, players.size).fold(Vec3(0.0, 0.0, 0.0)) { acc, vec3 -> acc.add(vec3.scale(1.0 / (players.size / 2))) }
+
+        if ((side2Center.x - side1Center.x)*(playersPositions[1].z - side1Center.z) - (side2Center.z - side1Center.z)*(playersPositions[1].x - side1Center.x) < 0) {
+            // swap
+            playerActors.swap(0,1)
+        }
+
+        if ((side1Center.x - side2Center.x)*(playersPositions[3].z - side2Center.z) - (side1Center.z - side2Center.z)*(playersPositions[3].x - side2Center.x) < 0) {
+            // swap
+            playerActors.swap(2,3)
         }
 
         return if (errors.isEmpty) {
