@@ -34,6 +34,6 @@ class RodBaitComponent(val bait: FishingBait, val stack: ItemStack = ItemStack.E
         val PACKET_CODEC: StreamCodec<ByteBuf, RodBaitComponent> = ByteBufCodecs.fromCodec(CODEC)
     }
 
-    override fun hashCode() = bait.hashCode() * 31 + stack.hashCode()
-    override fun equals(other: Any?) = other === this || (other is RodBaitComponent && other.bait == bait && ItemStack.isSameItemSameComponents(other.stack, stack))
+    override fun hashCode() = (bait.hashCode() * 31 + ItemStack.hashItemAndComponents(stack)) * 31 + stack.count
+    override fun equals(other: Any?) = other === this || (other is RodBaitComponent && other.bait == bait && ItemStack.matches(other.stack, stack))
 }

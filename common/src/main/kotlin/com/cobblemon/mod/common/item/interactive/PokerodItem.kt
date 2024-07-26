@@ -198,6 +198,7 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
 
         // If rod is empty and offhand has bait, add bait from offhand
         if (!world.isClientSide && user.fishing == null && offHandBait != null && baitOnRod == null) {
+            playAttachSound(user)
             setBait(itemStack, offHandItem.copy())
             offHandItem.shrink(offHandItem.count)
         }
@@ -284,6 +285,5 @@ class PokerodItem(val pokeRodId: ResourceLocation, settings: Properties) : Fishi
     private fun playDetachSound(entity: Entity) {
         entity.playSound(CobblemonSounds.FISHING_BAIT_DETACH, 1F, 1F)
     }
-
 
 }
