@@ -11,19 +11,18 @@ package com.cobblemon.mod.common.client.net.battle
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ClientBattleChallenge
-import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
 import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeNotificationPacket
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.Minecraft
 
 object BattleChallengeNotificationHandler : ClientNetworkPacketHandler<BattleChallengeNotificationPacket> {
     override fun handle(packet: BattleChallengeNotificationPacket, client: Minecraft) {
-        CobblemonClient.requests.battleChallenges.add(ClientBattleChallenge(packet.battleChallengeId, packet.challengerId, packet.battleFormat))
+        CobblemonClient.requests.battleChallenges.add(ClientBattleChallenge(packet.battleChallengeId, packet.challengerIds.toSet(), packet.battleFormat))
         client.player?.displayClientMessage(
             lang(
                 "challenge.receiver",
-                packet.challengerName,
-                lang("challenge.Singles"),
+                packet.challengerNames.first(),
+                packet.battleFormat.battleType.displayName,
             ),
             true
         )

@@ -77,7 +77,7 @@ object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResp
                     val battleFormat = existingChallenge.battleFormat
 
                     if(packet.accept) {
-                        if(existingChallenge.battleFormat.battleType.name == BattleTypes.MULTI.name) {
+                        if(battleFormat.battleType.name == BattleTypes.MULTI.name) {
                             // Start a multibattle
                             val team1 = BattleRegistry.playerToTeam[targetedEntity.uuid]?.teamPlayersUUID
                             val team2 = BattleRegistry.playerToTeam[player.uuid]?.teamPlayersUUID
@@ -156,7 +156,7 @@ object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResp
                     } else {
                         // Play messages to both sides that the battle was declined
                         // TODO: Will need a more generic condition when more multibattle rulesets are available
-                        if (battleFormat == BattleFormat.GEN_9_MULTI) {
+                        if (battleFormat.battleType.name == BattleTypes.MULTI.name) {
                             val targetedTeam = BattleRegistry.playerToTeam[targetedEntity.uuid]
                             if (targetedTeam != null) {
                                 // Inform everyone involved that the battle was declined

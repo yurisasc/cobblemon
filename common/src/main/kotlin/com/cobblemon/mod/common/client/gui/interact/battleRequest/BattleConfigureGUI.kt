@@ -40,7 +40,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_single.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_overlay.png"),
                                 title = lang("challenge.request_battle_title").bold(),
-                                subTitle = lang("challenge.singlebattle").bold(),
+                                subTitle = lang("battle.types.single").bold(),
                                 onRequest = { packet, battleFormat -> sendBattleRequest(battleFormat, packet) },
                                 onResponse = { packet, accept -> sendBattleResponse(packet, accept) }
                         )
@@ -52,7 +52,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_double.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_overlay.png"),
                                 title = lang("challenge.request_battle_title").bold(),
-                                subTitle = lang("challenge.doublebattle").bold(),
+                                subTitle = lang("battle.types.double").bold(),
                                 onRequest = { packet, battleFormat -> sendBattleRequest(battleFormat, packet) },
                                 onResponse = { packet, accept -> sendBattleResponse(packet, accept) }
                         ),
@@ -64,7 +64,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_triple.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_overlay.png"),
                                 title = lang("challenge.request_battle_title").bold(),
-                                subTitle = lang("challenge.triplebattle").bold(),
+                                subTitle = lang("battle.types.triple").bold(),
                                 onRequest = { packet, battleFormat -> sendBattleRequest(battleFormat, packet) },
                                 onResponse = { packet, accept -> sendBattleResponse(packet, accept) }
                         ),
@@ -76,7 +76,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi_overlay_partner.png"),
                                 title = lang("challenge.request_team_join_title").bold(),
-                                subTitle = lang("challenge.multibattle").bold(),
+                                subTitle = lang("battle.types.multi").bold(),
                                 color = ColourLibrary.SIDE_1_ALLY_BATTLE_COLOUR,
                                 onRequest = { packet, battleFormat -> BattleTeamRequestPacket(packet.numericTargetId).sendToServer()  },
                                 onResponse = { packet, accept -> BattleTeamResponsePacket(packet.numericTargetId, accept).sendToServer() }
@@ -89,7 +89,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi_overlay_partner.png"),
                                 title = lang("challenge.request_team_leave_title").bold(),
-                                subTitle = lang("challenge.multibattle").bold(),
+                                subTitle = lang("battle.types.multi").bold(),
                                 color = ColourLibrary.SIDE_1_ALLY_BATTLE_COLOUR,
                                 onRequest = { _, _ -> BattleTeamLeavePacket().sendToServer() },
                                 onResponse = { _, _ -> Unit }
@@ -102,7 +102,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi_overlay_opponent.png"),
                                 title = lang("challenge.request_battle_title").bold(),
-                                subTitle = lang("challenge.multibattle").bold(),
+                                subTitle = lang("battle.types.multi").bold(),
                                 onRequest = { packet, battleFormat -> sendBattleRequest(battleFormat, packet) },
                                 onResponse = { packet, accept -> sendBattleResponse(packet, accept) }
                         ),
@@ -114,7 +114,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_royal.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_royal_overlay.png"),
                                 title = lang("challenge.request_battle_title").bold(),
-                                subTitle = lang("challenge.royalbattle").bold(),
+                                subTitle = lang("battle.types.freeforall").bold(),
                                 onRequest = { packet, battleFormat -> sendBattleRequest(battleFormat, packet) },
                                 onResponse = { packet, accept -> sendBattleResponse(packet, accept) }
                         ),
@@ -168,9 +168,9 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
         r = ((color shr 16) and 0b11111111) / 255F
         g = ((color shr 8) and 0b11111111) / 255F
         b = (color and 0b11111111) / 255F
-        val challenge = CobblemonClient.requests.battleChallenges.firstOrNull { it.challengerId == packet.targetId }
+        val challenge = CobblemonClient.requests.battleChallenges.firstOrNull { it.challengerIds.contains(packet.targetId) }
         targetName = Minecraft.getInstance().player?.level()?.getPlayerByUUID(packet.targetId)?.name?.plainCopy()?.bold() ?: targetName
-        val hasTeamRequest = CobblemonClient.requests.multiBattleTeamRequests.any { it.challengerId == packet.targetId }
+        val hasTeamRequest = CobblemonClient.requests.multiBattleTeamRequests.any { it.challengerIds.contains(packet.targetId) }
         hasRequest = challenge != null || hasTeamRequest
         if (hasTeamRequest) {
             battleTypeTiles = listOf(battleRequestMap[PlayerInteractOptionsPacket.Options.TEAM_REQUEST]).mapNotNull { it }

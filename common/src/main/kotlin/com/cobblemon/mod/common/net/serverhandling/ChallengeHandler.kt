@@ -85,7 +85,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                     // send a message about there being an existing challenge
                     player.sendSystemMessage(lang("challenge.pending", targetedEntity.name).yellow())
                 } else {
-                    if (packet.battleFormat.battleType == BattleTypes.MULTI) {
+                    if (packet.battleFormat.battleType.name == BattleTypes.MULTI.name) {
                         // check for team
                         val existingPlayerTeam = BattleRegistry.playerToTeam[player.uuid]
                         val existingTargetTeam = BattleRegistry.playerToTeam[targetedEntity.uuid]
@@ -99,14 +99,14 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                             // Notify everyone of the challenge
 
                             // Notify challenging team
-                            existingPlayerTeam.teamPlayersUUID.forEach { UUID ->
-                                val serverPlayerEntity = UUID.getPlayer()
+                            existingPlayerTeam.teamPlayersUUID.forEach { uuid ->
+                                val serverPlayerEntity = uuid.getPlayer()
                                 serverPlayerEntity?.sendSystemMessage(lang("challenge.multi.sender", targetedEntity.name, existingTargetTeam.teamPlayersUUID.size))
                             }
                             // Notify challenged tam
                             CobblemonNetwork.sendPacketToPlayers(
                                 existingTargetTeam.teamPlayersUUID.map { it.getPlayer() }.mapNotNull { it },
-                                BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua(), BattleFormat.GEN_9_MULTI)
+                                BattleChallengeNotificationPacket(challenge.challengeId, existingPlayerTeam.teamPlayersUUID, existingPlayerTeam.teamPlayersUUID.mapNotNull { it.getPlayer()?.name?.copy()?.aqua() }, BattleFormat.GEN_9_MULTI)
                             )
                         }
                     } else {
@@ -117,11 +117,11 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                         }
 
                         val battleFormatLang = when (packet.battleFormat.battleType.name) {
-                            BattleTypes.DOUBLES.name -> "challenge.doublebattle"
-                            BattleTypes.TRIPLES.name -> "challenge.triplebattle"
-                            BattleTypes.MULTI.name -> "challenge.multibattle"
-                            BattleTypes.ROYAL.name -> "challenge.royalBattle"
-                            else -> "challenge.singlebattle"
+                            BattleTypes.DOUBLES.name -> "battle.types.double"
+                            BattleTypes.TRIPLES.name -> "battle.types.triple"
+                            BattleTypes.MULTI.name -> "battle.types.multi"
+                            BattleTypes.ROYAL.name -> "battle.types.freeforall"
+                            else -> "battle.types.single"
                         }
 
                         targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua(), packet.battleFormat))

@@ -17,7 +17,7 @@ import net.minecraft.client.Minecraft
 
 object TeamRequestNotificationHandler : ClientNetworkPacketHandler<TeamRequestNotificationPacket> {
     override fun handle(packet: TeamRequestNotificationPacket, client: Minecraft) {
-        CobblemonClient.requests.multiBattleTeamRequests.add(ClientBattleChallenge(packet.teamRequestId, packet.requesterId))
+        CobblemonClient.requests.multiBattleTeamRequests.add(ClientBattleChallenge(packet.teamRequestId, listOf(packet.requesterId)))
         client.player?.sendSystemMessage(
             lang(
                 "challenge.multi.team_request.receiver",
