@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.entity.fishing
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.ModAPI
 import com.cobblemon.mod.common.api.fishing.FishingBait
 import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.api.spawning.BestSpawner
@@ -598,33 +599,46 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             } else if (this.hookCountdown > 0) {
                 // check if thing caught was an item
                 if (this.typeCaught == TypeCaught.ITEM) {
-                    val lootContextParameterSet = LootParams.Builder(level() as ServerLevel)
-                        .withParameter(LootContextParams.ORIGIN, position())
-                        .withParameter(LootContextParams.TOOL, usedItem)
-                        .withParameter(LootContextParams.THIS_ENTITY, this)
-                        .withOptionalParameter(LootContextParams.ATTACKING_ENTITY, null)
-                        .withLuck(this.luckOfTheSeaLevel.toFloat() + playerEntity.luck)
-                        .create(LootContextParamSets.FISHING)
-                    val lootTable = level().server!!.reloadableRegistries().getLootTable(LOOT_TABLE_ID)
-                    val list: List<ItemStack> = lootTable.getRandomItems(lootContextParameterSet)
-                    CriteriaTriggers.FISHING_ROD_HOOKED.trigger(playerEntity as ServerPlayer, usedItem, this, list)
-                    val var7: Iterator<*> = list.iterator()
-                    while (var7.hasNext()) {
-                        val itemStack = var7.next() as ItemStack
-                        val itemEntity = ItemEntity(level(), this.x, this.y, this.z, itemStack)
-                        val d = playerEntity.getX() - this.x
-                        val e = playerEntity.getY() - this.y
-                        val f = playerEntity.getZ() - this.z
-                        itemEntity.setDeltaMovement(d * 0.1, e * 0.1 + sqrt(sqrt(d * d + e * e + f * f)) * 0.08, f * 0.1)
-                        level().addFreshEntity(itemEntity)
-                        playerEntity.level().addFreshEntity(ExperienceOrb(playerEntity.level(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, random.nextInt(6) + 1))
-                        if (itemStack.`is`(ItemTags.FISHES)) {
-                            playerEntity.awardStat(Stats.FISH_CAUGHT, 1)
+                    val owner = owner
+                    if (owner != null) {
+                        val lootContextParameterSet = LootParams.Builder(level() as ServerLevel)
+                            .withParameter(LootContextParams.ORIGIN, position())
+                            .withParameter(LootContextParams.TOOL, usedItem)
+                            .withParameter(LootContextParams.THIS_ENTITY, this)
+                            .also { if (Cobblemon.implementation.modAPI != ModAPI.FABRIC) it.withParameter(LootContextParams.ATTACKING_ENTITY, owner) }
+                            .create(LootContextParamSets.FISHING)
+                        val lootTable = level().server!!.reloadableRegistries().getLootTable(LOOT_TABLE_ID)
+                        val list: List<ItemStack> = lootTable.getRandomItems(lootContextParameterSet)
+                        CriteriaTriggers.FISHING_ROD_HOOKED.trigger(playerEntity as ServerPlayer, usedItem, this, list)
+                        val var7: Iterator<*> = list.iterator()
+                        while (var7.hasNext()) {
+                            val itemStack = var7.next() as ItemStack
+                            val itemEntity = ItemEntity(level(), this.x, this.y, this.z, itemStack)
+                            val d = playerEntity.getX() - this.x
+                            val e = playerEntity.getY() - this.y
+                            val f = playerEntity.getZ() - this.z
+                            itemEntity.setDeltaMovement(
+                                d * 0.1,
+                                e * 0.1 + sqrt(sqrt(d * d + e * e + f * f)) * 0.08,
+                                f * 0.1
+                            )
+                            level().addFreshEntity(itemEntity)
+                            playerEntity.level().addFreshEntity(
+                                ExperienceOrb(
+                                    playerEntity.level(),
+                                    playerEntity.getX(),
+                                    playerEntity.getY() + 0.5,
+                                    playerEntity.getZ() + 0.5,
+                                    random.nextInt(6) + 1
+                                )
+                            )
+                            if (itemStack.`is`(ItemTags.FISHES)) {
+                                playerEntity.awardStat(Stats.FISH_CAUGHT, 1)
+                            }
                         }
+                        i = 1
                     }
-                    i = 1
-                }
-                else { // logic for spawning Pokemon using rarity
+                } else { // logic for spawning Pokemon using rarity
                     val bobberOwner = playerOwner as ServerPlayer
 
                     // decrememnt the bait count on the rod itself when reeling in a pokemon
@@ -738,13 +752,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     // create small splash particle for small pokemon
                     particleEntityHandler(this, ResourceLocation.fromNamespaceAndPath("cobblemon","small_fish_splash"))
 
-                    // direction and position
-                    val rad = Math.toRadians(player.yRot.toDouble() + 180)
-                    val behindDirection = Vec3(-Math.sin(rad), 0.0, Math.cos(rad))
-                    val targetPos = player.position().add(behindDirection.scale(2.0))
-                    val diff = targetPos.subtract(entity.position())
-                    val distance = diff.horizontalDistance()
-
                     // Example of applying the new velocity
                     lobPokemonTowardsTarget(player, entity)
                 }
@@ -758,8 +765,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             }
         }
 
-        // What if it isn't an entity though
-        hookedEntity = level().getEntity(hookedEntityID!!)
+        if (hookedEntityID != null) {
+            hookedEntity = level().getEntity(hookedEntityID)
+        }
 
         //val spawnedPokemon = spawnAction.entity
         if (spawnedPokemon != null) {
