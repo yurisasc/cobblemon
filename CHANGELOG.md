@@ -172,6 +172,7 @@
   ]
 }
 ```
+- Added support for custom stashes, similar to Gimmighoul's coin and scrap stashes.
 
 ### Localization
 - Updated translations for:
