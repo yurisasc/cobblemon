@@ -208,9 +208,9 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
         isFlatHealth: Boolean
     ) {
         val portraitStartX = x + if (!reversed) PORTRAIT_OFFSET_X else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET_X }
-        val matrices = context.pose()
+        val matrixStack = context.pose()
         blitk(
-            matrixStack = matrices,
+            matrixStack = matrixStack,
             texture = battleInfoUnderlay,
             y = y + PORTRAIT_OFFSET_Y,
             x = portraitStartX,
@@ -226,13 +226,12 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             (portraitStartX + PORTRAIT_DIAMETER).toInt(),
             (y + PORTRAIT_DIAMETER + PORTRAIT_OFFSET_Y).toInt(),
         )
-        val matrixStack = PoseStack()
+        matrixStack.pushPose()
         matrixStack.translate(
             portraitStartX + PORTRAIT_DIAMETER / 2.0,
             y.toDouble() + PORTRAIT_OFFSET_Y - 5.0 ,
-            1000.0
+            0.0
         )
-        matrixStack.pushPose()
         if (ballState != null && ballState.stateEmitter.get() == EmptyPokeBallEntity.CaptureState.SHAKE) {
             drawPokeBall(
                 state = ballState,
@@ -240,7 +239,6 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
                 partialTicks = partialTicks
             )
         } else {
-            matrixStack.pushPose()
             drawPosablePortrait(
                 identifier = species.resourceIdentifier,
                 aspects = aspects,
@@ -252,14 +250,13 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
                 state = state,
                 partialTicks = partialTicks
             )
-            matrixStack.popPose()
         }
         matrixStack.popPose()
         context.disableScissor()
 
         // Third render the tile
         blitk(
-            matrixStack = matrices,
+            matrixStack = matrixStack,
             texture = if (reversed) battleInfoBaseFlipped else battleInfoBase,
             x = x,
             y = y,
@@ -271,7 +268,7 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
         if (colour != null) {
             val (r, g, b) = colour
             blitk(
-                matrixStack = matrices,
+                matrixStack = matrixStack,
                 texture = if (reversed) battleInfoRoleFlipped else battleInfoRole,
                 x = x + if (reversed) 93 else 11,
                 y = y + 1,
@@ -287,7 +284,7 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
         if (status != null) {
             val statusWidth = 37
             blitk(
-                matrixStack = matrices,
+                matrixStack = matrixStack,
                 texture = cobblemonResource("textures/gui/battle/battle_status_" + status.showdownName + ".png"),
                 x = x + if (reversed) 56 else 38,
                 y = y + 28,
@@ -360,7 +357,7 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
         val barWidth = hpRatio * fullWidth
         val barX = if (!reversed) infoBoxX - 2 else infoBoxX + 3 + (fullWidth - barWidth)
         blitk(
-            matrixStack = matrices,
+            matrixStack = matrixStack,
             texture = CobblemonResources.WHITE,
             x = barX,
             y = y + 22,

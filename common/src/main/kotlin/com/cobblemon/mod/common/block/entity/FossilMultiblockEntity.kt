@@ -14,10 +14,10 @@ import com.cobblemon.mod.common.api.multiblock.MultiblockStructure
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.readBlockPosWithFallback
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtUtils
 import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
@@ -59,7 +59,7 @@ open class FossilMultiblockEntity(
     override fun loadAdditional(nbt: CompoundTag, registryLookup: HolderLookup.Provider) {
         val oldMultiblockStructure = this.multiblockStructure as? FossilMultiblockStructure
         multiblockStructure = if (nbt.contains(DataKeys.MULTIBLOCK_STORAGE)) {
-            if(oldMultiblockStructure?.fossilState != null) {
+            if (oldMultiblockStructure?.fossilState != null) {
                 // Copy the fossilState's previous animation time to the new instance
                 // Otherwise the fetus animation gets interrupted on every block update
                 val animAge = oldMultiblockStructure.fossilState.peekAge() // If someone knows a better way to fetch the age, please do.
@@ -72,7 +72,7 @@ open class FossilMultiblockEntity(
             null
         }
         masterBlockPos = if (nbt.contains(DataKeys.CONTROLLER_BLOCK)) {
-            NbtUtils.readBlockPos(nbt, DataKeys.CONTROLLER_BLOCK).get()
+            nbt.readBlockPosWithFallback(DataKeys.CONTROLLER_BLOCK)
         } else {
             null
         }

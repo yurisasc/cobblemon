@@ -29,33 +29,41 @@ import com.cobblemon.mod.common.client.sound.CancellableSoundInstance
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.*
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.HorizontalDirectionalBlock
-import net.minecraft.world.level.block.entity.BlockEntityTicker
+import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.giveOrDropItemStack
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.readBlockPosWithFallback
+import com.cobblemon.mod.common.util.server
+import java.util.UUID
+import kotlin.math.ceil
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.nbt.*
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.NbtOps
+import net.minecraft.nbt.NbtUtils
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundSource
 import net.minecraft.tags.FluidTags
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.InteractionHand
 import net.minecraft.util.RandomSource
 import net.minecraft.world.Containers
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.Pose
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.entity.BlockEntityTicker
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.BlockHitResult
-import java.util.*
-import kotlin.math.ceil
 
 class FossilMultiblockStructure (
     val monitorPos: BlockPos,
@@ -605,18 +613,8 @@ class FossilMultiblockStructure (
             result.putUUID(DataKeys.FOSSIL_OWNER, fossilOwnerUUID)
         result.putInt(DataKeys.ORGANIC_MATERIAL, organicMaterialInside)
         val fossilInv = ListTag()
-        //TODO: Add this back
-        /*
-        fossilInventory.forEach{ item ->
-            fossilInv.add(item.writeNbt(NbtCompound()))
-        }
 
-         */
-
-        fossilInventory.forEach { item ->
-            var result = ItemStack.CODEC.encode(item, NbtOps.INSTANCE, null)
-        }
-
+        fossilInventory.forEach { fossilInv.add(ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, it).orThrow) }
         result.put(DataKeys.FOSSIL_INVENTORY, fossilInv)
         result.putString(DataKeys.CONNECTOR_DIRECTION, tankConnectorDirection?.toString())
 
@@ -643,23 +641,19 @@ class FossilMultiblockStructure (
         const val PROTECTION_TIME = TICKS_PER_MINUTE * 5
 
         fun fromNbt(nbt: CompoundTag, registryLookup: HolderLookup.Provider, animAge: Int = -1, partialTicks: Float = 0f): FossilMultiblockStructure {
-            val monitorPos = NbtUtils.readBlockPos(nbt, DataKeys.MONITOR_POS).get()
-            val compartmentPos = NbtUtils.readBlockPos(nbt, DataKeys.ANALYZER_POS).get()
-            val tankBasePos = NbtUtils.readBlockPos(nbt, DataKeys.TANK_BASE_POS).get()
+            val monitorPos = nbt.readBlockPosWithFallback(DataKeys.MONITOR_POS)
+            val compartmentPos = nbt.readBlockPosWithFallback(DataKeys.ANALYZER_POS)
+            val tankBasePos = nbt.readBlockPosWithFallback(DataKeys.TANK_BASE_POS)
 
             val result = FossilMultiblockStructure(monitorPos, compartmentPos, tankBasePos, animAge, partialTicks)
             result.organicMaterialInside = nbt.getInt(DataKeys.ORGANIC_MATERIAL)
             result.timeRemaining = nbt.getInt(DataKeys.TIME_LEFT)
-            result.protectionTime = if(nbt.contains(DataKeys.PROTECTED_TIME_LEFT)) nbt.getInt(DataKeys.PROTECTED_TIME_LEFT) else -1
-            result.fossilOwnerUUID = if(nbt.contains(DataKeys.FOSSIL_OWNER)) nbt.getUUID(DataKeys.FOSSIL_OWNER) else null
+            result.protectionTime = if (nbt.contains(DataKeys.PROTECTED_TIME_LEFT)) nbt.getInt(DataKeys.PROTECTED_TIME_LEFT) else -1
+            result.fossilOwnerUUID = if (nbt.contains(DataKeys.FOSSIL_OWNER)) nbt.getUUID(DataKeys.FOSSIL_OWNER) else null
 
-            val fossilInv = (nbt.get(DataKeys.FOSSIL_INVENTORY) as ListTag)
+            val fossilInv = if (nbt.contains(DataKeys.FOSSIL_INVENTORY)) { (nbt.get(DataKeys.FOSSIL_INVENTORY) as ListTag) } else ListTag()
             val actualFossilList = mutableListOf<ItemStack>()
-            /*
-            fossilInv.forEach {
-                actualFossilList.add(ItemStack.fromNbt(it as NbtCompound))
-            }
-             */
+            fossilInv.forEach { ItemStack.parse(registryLookup, it).ifPresent(actualFossilList::add) }
             result.fossilInventory = actualFossilList
             result.tankConnectorDirection = Direction.byName(nbt.getString(DataKeys.CONNECTOR_DIRECTION))
 

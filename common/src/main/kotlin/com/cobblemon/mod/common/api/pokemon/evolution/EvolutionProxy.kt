@@ -8,22 +8,19 @@
 
 package com.cobblemon.mod.common.api.pokemon.evolution
 
-import com.cobblemon.mod.common.api.serialization.BufferSerializer
-import com.cobblemon.mod.common.api.serialization.DataSerializer
-import com.google.gson.JsonElement
-import net.minecraft.nbt.Tag
-
 /**
  * Responsible for holding the different [EvolutionController] implementations based on the logical side.
  * If you haven't already checked your side previously you can use [isClient].
  *
  * @param C The type of [EvolutionLike] on the client side.
  * @param S The type of [EvolutionLike] on the server side.
+ * @param CI The type of [PreProcessor] on the client side.
+ * @param SI The type of [PreProcessor] on the server side.
  *
  * @author Licious
  * @since June 18th, 2022
  */
-interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> {
+interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike, CI : PreProcessor, SI : PreProcessor> {
 
     /**
      * Checks if the current logical side is the client.
@@ -39,7 +36,7 @@ interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> {
      *
      * @return The current [EvolutionController].
      */
-    fun current(): EvolutionController<out EvolutionLike>
+    fun current(): EvolutionController<out EvolutionLike, *>
 
     /**
      * The client side implementation of the [EvolutionController].
@@ -48,7 +45,7 @@ interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> {
      *
      * @return The client side implementation of the [EvolutionController] if possible.
      */
-    fun client(): EvolutionController<C>
+    fun client(): EvolutionController<C, CI>
 
     /**
      * The server side implementation of the [EvolutionController].
@@ -57,6 +54,6 @@ interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> {
      *
      * @return The server side implementation of the [EvolutionController] if possible.
      */
-    fun server(): EvolutionController<S>
+    fun server(): EvolutionController<S, SI>
 
 }

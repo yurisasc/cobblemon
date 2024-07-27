@@ -64,8 +64,7 @@ object TestCommand {
         }
 
         try {
-//            this.testCodecOutput(context)
-//            /*
+            //this.testCodecOutput(context)
             val player = context.source.entity as ServerPlayer
             val npc = NPCEntity(player.level())
             npc.setPos(player.x, player.y, player.z)

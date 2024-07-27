@@ -17,7 +17,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "cobblemon:poke_rods"
+            "items": "#cobblemon:poke_rods"
           }
         ]
       }

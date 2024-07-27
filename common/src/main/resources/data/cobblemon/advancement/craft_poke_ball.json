@@ -17,7 +17,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "cobblemon:poke_balls"
+            "items": "#cobblemon:poke_balls"
           }
         ]
       }

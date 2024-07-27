@@ -18,7 +18,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "cobblemon:mutated_berries"
+            "items": "#cobblemon:mutated_berries"
           }
         ]
       }

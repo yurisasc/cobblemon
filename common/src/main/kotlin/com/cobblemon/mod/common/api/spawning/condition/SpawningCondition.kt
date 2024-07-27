@@ -86,11 +86,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (ctx.position.z < minZ.orMin() || ctx.position.z > maxZ.orMax()) {
             return false
-        } else if (dimensions != null && dimensions!!.isNotEmpty() && ctx.world.dimensionType().effectsLocation !in dimensions!!) {
-            return false
         } else if (moonPhase != null && ctx.moonPhase !in moonPhase!!) {
-            return false
-        } else if (biomes != null && biomes!!.isNotEmpty() && biomes!!.none { condition -> condition.fits(ctx.biome, ctx.biomeRegistry) }) {
             return false
         } else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {
             return false
@@ -103,6 +99,10 @@ abstract class SpawningCondition<T : SpawningContext> {
         } else if (isRaining != null && ctx.world.isRaining != isRaining!!) {
             return false
         } else if (isThundering != null && ctx.world.isThundering != isThundering!!) {
+            return false
+        } else if (dimensions != null && dimensions!!.isNotEmpty() && ctx.world.dimensionType().effectsLocation !in dimensions!!) {
+            return false
+        } else if (biomes != null && biomes!!.isNotEmpty() && biomes!!.none { condition -> condition.fits(ctx.biome, ctx.biomeRegistry) }) {
             return false
         } else if (appendages.any { !it.fits(ctx) }) {
             return false

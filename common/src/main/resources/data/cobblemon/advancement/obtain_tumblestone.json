@@ -17,7 +17,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "cobblemon:tumblestones"
+            "items": "#cobblemon:tumblestones"
           }
         ]
       }

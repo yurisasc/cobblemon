@@ -149,7 +149,7 @@ abstract class SpawningContext {
      */
     open fun preFilter(detail: SpawnDetail): Boolean {
         /** Returns true if none of the influences.affectSpawnable return false */
-        return !anyForInfluences { !it.affectSpawnable(detail, this) }
+        return allForInfluences { it.affectSpawnable(detail, this) }
     }
 
     /**
@@ -211,6 +211,16 @@ abstract class SpawningContext {
             if (usage(it)) {
                 return true
             }
+        }
+        return false
+    }
+
+    fun allForInfluences(extraInfluences: List<SpawningInfluence>? = null, usage: (SpawningInfluence) -> Boolean): Boolean {
+        if (influences.all(usage) && usage(cause)) {
+            if (extraInfluences != null) {
+                return extraInfluences.all(usage)
+            }
+            return true
         }
         return false
     }
