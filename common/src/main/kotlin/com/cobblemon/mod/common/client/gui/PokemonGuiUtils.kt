@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.client.gui
 
+import com.cobblemon.mod.common.api.gui.renderSprite
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.client.render.SpriteType
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
@@ -51,6 +53,11 @@ fun drawProfilePokemon(
     partialTicks: Float,
     scale: Float = 20F
 ) {
+    RenderSystem.applyModelViewMatrix()
+    matrixStack.scale(scale, scale, -scale)
+
+    if(PokemonModelRepository.getSprite(species, aspects, SpriteType.PROFILE)?.let { renderSprite(matrixStack, it) } != null) return
+
     val model = PokemonModelRepository.getPoser(species, aspects)
     val texture = PokemonModelRepository.getTexture(species, aspects, state.animationSeconds)
 
@@ -67,9 +74,6 @@ fun drawProfilePokemon(
     state.currentAspects = aspects
 
     val renderType = RenderType.entityCutout(texture)
-
-    RenderSystem.applyModelViewMatrix()
-    matrixStack.scale(scale, scale, -scale)
 
     state.setPoseToFirstSuitable(PoseType.PROFILE)
     state.updatePartialTicks(partialTicks)
