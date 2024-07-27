@@ -57,8 +57,7 @@ class PartySlotButton(
 
     private val renderablePokemon = pokemon.asRenderablePokemon().also { it.aspects = aspects }
 
-    override fun render(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height && enabled
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val alpha = if (enabled) 1.0 else 0.5
         val matrices = context.matrices
 
@@ -69,7 +68,7 @@ class PartySlotButton(
             y = y,
             width = width,
             height = height,
-            vOffset = if (hovered) height else 0,
+            vOffset = if (isHovered || isFocused) height else 0,
             textureHeight = height * 2,
             alpha = alpha
         )
@@ -77,7 +76,7 @@ class PartySlotButton(
         context.matrices.push()
         context.matrices.translate(x.toDouble() + 13, y.toDouble() - 2, 0.0)
 
-//        if (!hovered) {
+//        if (!isHovered) {
 //            state.reset()
 //        }
 

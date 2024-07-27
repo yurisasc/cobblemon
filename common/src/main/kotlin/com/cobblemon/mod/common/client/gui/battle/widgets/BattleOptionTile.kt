@@ -12,32 +12,26 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.render.drawScaledText
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.Drawable
-import net.minecraft.client.gui.Element
-import net.minecraft.client.gui.Selectable
-import net.minecraft.client.gui.Selectable.SelectionType.HOVERED
+import net.minecraft.client.gui.*
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
-import net.minecraft.client.gui.screen.narration.NarrationPart
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.widget.PressableWidget
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
+
 class BattleOptionTile(
     val battleGUI: BattleGUI,
-    val x: Int,
-    val y: Int,
+    x: Int,
+    y: Int,
     val resource: Identifier,
     val text: MutableText,
     val onClick: () -> Unit
-) : Drawable, Element, Selectable {
+) : PressableWidget(x, y, OPTION_WIDTH, OPTION_HEIGHT, text) {
     companion object {
-        const val  OPTION_WIDTH = 90
+        const val OPTION_WIDTH = 90
         const val OPTION_HEIGHT = 26
     }
 
-    private var focused = false
-
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val opacity = CobblemonClient.battleOverlay.opacityRatio
         if (opacity < 0.1) {
             return
@@ -50,7 +44,7 @@ class BattleOptionTile(
             alpha = opacity,
             width = OPTION_WIDTH,
             height = OPTION_HEIGHT,
-            vOffset = if (isHovered(mouseX.toDouble(), mouseY.toDouble())) OPTION_HEIGHT else 0,
+            vOffset = if (isHovered || isFocused) OPTION_HEIGHT else 0,
             textureHeight = OPTION_HEIGHT * 2
         )
 
@@ -66,27 +60,11 @@ class BattleOptionTile(
         )
     }
 
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        if (mouseX < x || mouseY < y || mouseX > x + OPTION_WIDTH || mouseY > y + OPTION_HEIGHT) {
-            return false
-        }
+    override fun onPress() {
         onClick()
-        return true
     }
 
-    override fun setFocused(focused: Boolean) {
-        this.focused = focused
+    override fun appendClickableNarrations(builder: NarrationMessageBuilder) {
+
     }
-
-    override fun isFocused() = focused
-
-    fun isHovered(mouseX: Double, mouseY: Double) = mouseX > x && mouseY > y && mouseX < x + OPTION_WIDTH && mouseY < y + OPTION_HEIGHT
-
-    override fun appendNarrations(builder: NarrationMessageBuilder) {
-        builder.put(NarrationPart.TITLE, text)
-    }
-
-    override fun getType() = HOVERED
-
-
 }

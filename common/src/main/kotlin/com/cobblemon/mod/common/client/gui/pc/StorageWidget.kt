@@ -66,15 +66,75 @@ class StorageWidget(
 
     private val partySlots = arrayListOf<PartyStorageSlot>()
     private val boxSlots = arrayListOf<BoxStorageSlot>()
-    private val releaseButton: ReleaseButton
-    private val releaseYesButton: ReleaseConfirmButton
-    private val releaseNoButton: ReleaseConfirmButton
 
-    var pastureWidget: PastureWidget? = null
+    val pastureWidget: PastureWidget? =
+        if (pcGui.configuration is PasturePCGUIConfiguration) {
+            PastureWidget(
+                this,
+                pcGui.configuration,
+                x + 182, y - 19
+            ).also { addWidget(it) }
+        } else null
+
+    private val releaseButton = ReleaseButton(
+        x = x + 194,
+        y = y + 124,
+        parent = this,
+        onPress = {
+            if (!displayConfirmRelease && canDeleteSelected()) {
+                displayConfirmRelease = true
+                playSound(CobblemonSounds.PC_CLICK)
+            }
+        }
+    ).also { addWidget(it) }
+
+    private val releaseYesButton = ReleaseConfirmButton(
+        x = x + 190,
+        y = y + 131,
+        parent = this,
+        subKey = "ui.generic.yes",
+        onPress = {
+            if (canDeleteSelected() && displayConfirmRelease) {
+                val position = selectedPosition ?: return@ReleaseConfirmButton
+                val pokemon = getSelectedPokemon() ?: return@ReleaseConfirmButton
+
+                val packet = when (position) {
+                    is PartyPosition -> ReleasePartyPokemonPacket(pokemon.uuid, position)
+                    is PCPosition -> ReleasePCPokemonPacket(pokemon.uuid, position)
+                    else -> return@ReleaseConfirmButton
+                }
+
+                CobblemonNetwork.sendPacketToServer(packet)
+                playSound(CobblemonSounds.PC_RELEASE)
+                resetSelected()
+                displayConfirmRelease = false
+            }
+        }
+    ).also { addWidget(it) }
+
+    private val releaseNoButton = ReleaseConfirmButton(
+        x = x + 226,
+        y = y + 131,
+        parent = this,
+        subKey = "ui.generic.no",
+        onPress = {
+            if (displayConfirmRelease) {
+                displayConfirmRelease = false
+                playSound(CobblemonSounds.PC_CLICK)
+            }
+        }
+    ).also { addWidget(it) }
 
     var displayConfirmRelease = false
-    var screenLoaded = false
-    var selectedPosition: StorePosition? = null
+        set(value) {
+            field = value
+            releaseYesButton.active = value
+            releaseNoButton.active = value
+            releaseButton.active = !value
+        }
+
+    private var screenLoaded = false
+    private var selectedPosition: StorePosition? = null
     var grabbedSlot: GrabbedStorageSlot? = null
 
     var box = 0
@@ -91,58 +151,7 @@ class StorageWidget(
     init {
         this.setupStorageSlots()
 
-        this.releaseButton = ReleaseButton(
-            x = x + 194,
-            y = y + 124,
-            parent = this,
-            onPress = {
-                if (!displayConfirmRelease && canDeleteSelected()) {
-                    displayConfirmRelease = true
-                    playSound(CobblemonSounds.PC_CLICK)
-                }
-            }
-        )
-
-        this.releaseYesButton = ReleaseConfirmButton(
-            x = x + 190,
-            y = y + 131,
-            parent = this,
-            subKey = "ui.generic.yes",
-            onPress = {
-                if (canDeleteSelected() && displayConfirmRelease) {
-                    val position = selectedPosition ?: return@ReleaseConfirmButton
-                    val pokemon = getSelectedPokemon() ?: return@ReleaseConfirmButton
-
-                    val packet = when (position) {
-                        is PartyPosition -> ReleasePartyPokemonPacket(pokemon.uuid, position)
-                        is PCPosition -> ReleasePCPokemonPacket(pokemon.uuid, position)
-                        else -> return@ReleaseConfirmButton
-                    }
-
-                    CobblemonNetwork.sendPacketToServer(packet)
-                    playSound(CobblemonSounds.PC_RELEASE)
-                    resetSelected()
-                    displayConfirmRelease = false
-                }
-            }
-        )
-
-        this.releaseNoButton = ReleaseConfirmButton(
-            x = x + 226,
-            y = y + 131,
-            parent = this,
-            subKey = "ui.generic.no",
-            onPress = {
-                if (displayConfirmRelease) {
-                    displayConfirmRelease = false
-                    playSound(CobblemonSounds.PC_CLICK)
-                }
-            }
-        )
-
-        if (pcGui.configuration is PasturePCGUIConfiguration) {
-            this.pastureWidget = PastureWidget(this, pcGui.configuration, x + 182, y - 19)
-        }
+        displayConfirmRelease = false
     }
 
     fun canDeleteSelected(): Boolean {
@@ -216,9 +225,11 @@ class StorageWidget(
         }
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        println(this.focused)
+
         val matrices = context.matrices
-        // Party  Label
+        // Party Label
         if (pcGui.configuration.showParty) {
             blitk(
                 matrixStack = context.matrices,
@@ -250,10 +261,6 @@ class StorageWidget(
                     centered = true
                 )
             }
-
-            this.releaseButton.render(context, mouseX, mouseY, delta)
-            this.releaseYesButton.render(context, mouseX, mouseY, delta)
-            this.releaseNoButton.render(context, mouseX, mouseY, delta)
         }
 
         // Screen Overlay
@@ -269,10 +276,9 @@ class StorageWidget(
 
         if (screenLoaded) {
             this.boxSlots.forEach { slot ->
-                slot.render(context, mouseX, mouseY, delta)
                 val pokemon = slot.getPokemon()
-                if (grabbedSlot == null && slot.isHovered(mouseX, mouseY)
-                    && pokemon != null && pokemon != pcGui.previewPokemon) pcGui.setPreviewPokemon(pokemon)
+                if (grabbedSlot == null && slot.isHovered
+                    && pokemon != null && pokemon != pcGui.previewPokemon) pcGui.previewPokemon = pokemon
             }
         } else {
             if (pcGui.ticksElapsed >= 10)  screenLoaded = true
@@ -283,27 +289,13 @@ class StorageWidget(
             this.partySlots.forEach { slot ->
                 slot.render(context, mouseX, mouseY, delta)
                 val pokemon = slot.getPokemon()
-                if (grabbedSlot == null && slot.isHovered(mouseX, mouseY)
+                if (grabbedSlot == null && slot.isHovered
                     && pokemon != null && pokemon != pcGui.previewPokemon
-                ) pcGui.setPreviewPokemon(pokemon)
+                ) pcGui.previewPokemon = pokemon
             }
         }
 
-        pastureWidget?.renderButton(context, mouseX, mouseY, delta)
-
         grabbedSlot?.render(context, mouseX, mouseY, delta)
-    }
-
-    override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
-        if (displayConfirmRelease) {
-            if (releaseYesButton.isHovered(pMouseX, pMouseY)) releaseYesButton.mouseClicked(pMouseX, pMouseY, pButton)
-            if (releaseNoButton.isHovered(pMouseX, pMouseY)) releaseNoButton.mouseClicked(pMouseX, pMouseY, pButton)
-        } else {
-            if (releaseButton.isHovered(pMouseX, pMouseY)) releaseButton.mouseClicked(pMouseX, pMouseY, pButton)
-        }
-
-        pastureWidget?.mouseClicked(pMouseX, pMouseY, pButton)
-        return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
 
     private fun resetStorageSlots() {
@@ -376,7 +368,7 @@ class StorageWidget(
                 }
 
                 this.selectedPosition = clickedPosition
-                this.pcGui.setPreviewPokemon(clickedPokemon)
+                this.pcGui.previewPokemon = clickedPokemon
                 grabbedSlot = GrabbedStorageSlot(
                     x = button.x,
                     y = button.y,
@@ -435,6 +427,6 @@ class StorageWidget(
     private fun resetSelected() {
         selectedPosition = null
         grabbedSlot = null
-        pcGui.setPreviewPokemon(null)
+        pcGui.previewPokemon = null
     }
 }

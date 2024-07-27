@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.gui.summary
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.gui.ParentWidget
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.api.moves.MoveSet
@@ -49,6 +50,7 @@ import net.minecraft.client.gui.Element
 import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ClickableWidget
+import net.minecraft.client.input.KeyCodes
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.InputUtil
 import net.minecraft.sound.SoundEvent
@@ -62,7 +64,11 @@ import net.minecraft.text.Text
  *
  * @param selection The index the [party] will have as the base [selectedPokemon].
  */
-class Summary private constructor(party: Collection<Pokemon?>, private val editable: Boolean, private val selection: Int): Screen(Text.translatable("cobblemon.ui.summary.title")), Schedulable {
+class Summary private constructor(
+    party: Collection<Pokemon?>,
+    private val editable: Boolean,
+    private val selection: Int
+): Screen(Text.translatable("cobblemon.ui.summary.title")), Schedulable {
 
     companion object {
         const val BASE_WIDTH = 331
@@ -110,7 +116,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     override val schedulingTracker = SchedulingTracker()
 
     internal lateinit var selectedPokemon: Pokemon
-    private lateinit var mainScreen: ClickableWidget
+    private lateinit var mainScreen: ParentWidget
     lateinit var sideScreen: Element
     private lateinit var modelWidget: ModelWidget
     private lateinit var nicknameEntryWidget: NicknameEntryWidget
@@ -609,7 +615,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     }
 
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
-        if ((keyCode == InputUtil.GLFW_KEY_ENTER || keyCode == InputUtil.GLFW_KEY_KP_ENTER)
+        if (KeyCodes.isToggle(keyCode)
             && this::nicknameEntryWidget.isInitialized
             && this.nicknameEntryWidget.isFocused
         ) {

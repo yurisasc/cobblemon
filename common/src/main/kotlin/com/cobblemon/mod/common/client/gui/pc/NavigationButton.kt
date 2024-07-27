@@ -33,7 +33,6 @@ class NavigationButton(
     }
 
     override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        val hovered = (isHovered(pMouseX.toDouble(), pMouseY.toDouble()))
         blitk(
             matrixStack = context.matrices,
             x = x / SCALE,
@@ -41,7 +40,7 @@ class NavigationButton(
             texture = if (forward) forwardButtonResource else backwardsButtonResource,
             width = WIDTH,
             height = HEIGHT,
-            vOffset = if (hovered) HEIGHT else 0,
+            vOffset = if (isHovered || isFocused) HEIGHT else 0,
             textureHeight = HEIGHT * 2,
             scale = SCALE
         )
@@ -50,6 +49,4 @@ class NavigationButton(
     override fun playDownSound(soundManager: SoundManager) {
         soundManager.play(PositionedSoundInstance.master(CobblemonSounds.PC_CLICK, 1.0F))
     }
-
-    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + (WIDTH * SCALE))) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + (HEIGHT * SCALE)))
 }

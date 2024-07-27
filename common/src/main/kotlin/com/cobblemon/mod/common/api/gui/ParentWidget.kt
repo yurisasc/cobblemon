@@ -8,10 +8,12 @@
 
 package com.cobblemon.mod.common.api.gui
 
-import net.minecraft.client.gui.Drawable
-import net.minecraft.client.gui.Element
+import net.minecraft.client.gui.*
+import net.minecraft.client.gui.Selectable.SelectionType
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
-import net.minecraft.client.gui.widget.ClickableWidget
+import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.sound.SoundManager
+import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 
 /**
@@ -19,12 +21,29 @@ import net.minecraft.text.Text
  * (otherwise the Widgets do not react on click/hover)
  */
 abstract class ParentWidget(
-    pX: Int, pY: Int,
-    pWidth: Int, pHeight: Int,
+    var x: Int, var y: Int,
+    val width: Int, val height: Int,
     component: Text
-): Drawable, ClickableWidget(pX, pY, pWidth, pHeight, component) {
+) : AbstractParentElement(), Drawable, Selectable {
+    var hovered = false
+        private set
+    val isHoveredOrFocused: Boolean
+        get() = hovered || isFocused
 
     private val children: MutableList<Element> = mutableListOf()
+
+    final override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        hovered = mouseX in x..(x + width) && mouseY in y..(y + height)
+
+        for (child in children) {
+            if (child is Drawable)
+                child.render(context, mouseX, mouseY, delta)
+        }
+
+        renderWidget(context, mouseX, mouseY, delta)
+    }
+
+    abstract fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float)
 
     /**
      * Adds Widget to the children list
@@ -40,72 +59,20 @@ abstract class ParentWidget(
         children.remove(widget)
     }
 
-    override fun mouseMoved(pMouseX: Double, pMouseY: Double) {
-        children.forEach {
-            it.mouseMoved(pMouseX, pMouseY)
-        }
-        super.mouseMoved(pMouseX, pMouseY)
+    override fun children(): MutableList<out Element> = children
+
+    override fun getNavigationFocus(): ScreenRect = ScreenRect(x, y, width, height)
+
+    override fun getType(): SelectionType = when {
+        isFocused -> SelectionType.FOCUSED
+        else -> SelectionType.NONE
     }
 
-    override fun mouseScrolled(pMouseX: Double, pMouseY: Double, pDelta: Double): Boolean {
-        return children.any {
-            it.mouseScrolled(pMouseX, pMouseY, pDelta)
-        } || super.mouseScrolled(pMouseX, pMouseY, pDelta)
+    override fun appendNarrations(builder: NarrationMessageBuilder) {
+
     }
 
-    override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
-        return children.any {
-            it.mouseClicked(pMouseX, pMouseY, pButton)
-        }
+    protected open fun playDownSound(soundManager: SoundManager) {
+        soundManager.play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }
-
-    override fun mouseReleased(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
-        return children.any {
-            it.mouseReleased(pMouseX, pMouseY, pButton)
-        } || super.mouseReleased(pMouseX, pMouseY, pButton)
-    }
-
-    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, f: Double, g: Double): Boolean {
-        return children.any {
-            it.mouseDragged(mouseX, mouseY, button, f, g)
-        }
-    }
-
-    override fun keyPressed(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
-        return children.any {
-            it.keyPressed(pKeyCode, pScanCode, pModifiers)
-        } || super.keyPressed(pKeyCode, pScanCode, pModifiers)
-    }
-
-    override fun keyReleased(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
-        children.forEach {
-            it.keyReleased(pKeyCode, pScanCode, pModifiers)
-        }
-        return super.keyReleased(pKeyCode, pScanCode, pModifiers)
-    }
-
-    override fun charTyped(pCodePoint: Char, pModifiers: Int): Boolean {
-        children.forEach {
-            it.charTyped(pCodePoint, pModifiers)
-        }
-        return super.charTyped(pCodePoint, pModifiers)
-    }
-
-    override fun appendDefaultNarrations(pNarrationElementOutput: NarrationMessageBuilder) {
-    }
-
-    /**
-     * TODO
-     *
-     * @param mouseX
-     * @param mouseY
-     * @return
-     *
-     * @author Licious
-     * @since April 29th, 2022
-     */
-    fun ishHovered(mouseX: Number, mouseY: Number) = mouseX in this.x..(this.x + this.width) && mouseY in this.y..(this.y + this.height)
-
-    override fun appendClickableNarrations(builder: NarrationMessageBuilder) {}
-
 }

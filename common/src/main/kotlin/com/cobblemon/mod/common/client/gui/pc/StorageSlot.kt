@@ -28,7 +28,7 @@ import org.joml.Vector3f
 
 open class StorageSlot(
     x: Int, y: Int,
-    private val parent: StorageWidget,
+    protected val parent: StorageWidget,
     onPress: PressAction
 ) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("StorageSlot"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
@@ -43,24 +43,31 @@ open class StorageSlot(
         private val slotOverlayMoveIconResource = cobblemonResource("textures/gui/pasture/pc_slot_icon_move.png")
     }
 
-    override fun playDownSound(soundManager: SoundManager) {
-    }
-
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (shouldRender()) {
             renderSlot(context, x, y, delta)
         }
+
+        if (isFocused) {
+            context.matrices.push()
+            context.matrices.translate(0f, 0f, 50f)
+            context.drawBorder(x - 1, y - 1, SIZE + 2, SIZE + 2, -1)
+            context.matrices.pop()
+        }
     }
 
-    fun renderSlot(context: DrawContext, posX: Int, posY: Int, partialTicks: Float) {
+    fun renderSlot(context: DrawContext, posX: Int, posY: Int, partialTicks: Float, scissor: Boolean = true) {
         val pokemon = getPokemon() ?: return
         val matrices = context.matrices
-        context.enableScissor(
-            posX - 2,
-            posY + 2,
-            posX + SIZE + 4,
-            posY + SIZE + 4
-        )
+
+        if (scissor) {
+            context.enableScissor(
+                posX - 2,
+                posY + 2,
+                posX + SIZE + 4,
+                posY + SIZE + 4
+            )
+        }
 
         // Render Pokémon
         matrices.push()
@@ -76,7 +83,9 @@ open class StorageSlot(
         )
         matrices.pop()
 
-        context.disableScissor()
+        if (scissor) {
+            context.disableScissor()
+        }
 
         // Ensure elements are not hidden behind Pokémon render
         matrices.push()
@@ -199,6 +208,13 @@ open class StorageSlot(
         return null
     }
 
+    override fun setFocused(focused: Boolean) {
+        super.setFocused(focused)
+        if (focused) {
+            parent.pcGui.previewPokemon = getPokemon()
+        }
+    }
+
     override fun isSelected(): Boolean {
         return getPokemon() == parent.pcGui.previewPokemon
     }
@@ -207,5 +223,6 @@ open class StorageSlot(
         return true
     }
 
-    fun isHovered(mouseX: Int, mouseY: Int) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + SIZE)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + SIZE))
+    override fun playDownSound(soundManager: SoundManager) {
+    }
 }

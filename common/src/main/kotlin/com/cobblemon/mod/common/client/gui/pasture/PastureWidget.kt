@@ -27,28 +27,37 @@ class PastureWidget(
     val pasturePCGUIConfiguration: PasturePCGUIConfiguration,
     x: Int,
     y: Int
-): SoundlessWidget(
-    x, y, PCGUI.RIGHT_PANEL_WIDTH, PCGUI.RIGHT_PANEL_HEIGHT, Text.literal("PastureWidget")) {
+) : SoundlessWidget(
+    x, y,
+    PCGUI.RIGHT_PANEL_WIDTH, PCGUI.RIGHT_PANEL_HEIGHT,
+    Text.literal("PastureWidget"),
+) {
 
     companion object {
         private val baseResource = cobblemonResource("textures/gui/pasture/pasture_panel.png")
     }
 
-    private val recallButton = RecallButton(
-        x = x + 6,
-        y = y + 153
-    ) {
-        storageWidget.pcGui.playSound(CobblemonSounds.PC_CLICK)
-        UnpastureAllPokemonPacket(pasturePCGUIConfiguration.pastureId).sendToServer()
+    init {
+        RecallButton(
+            x = x + 6,
+            y = y + 153
+        ) {
+            storageWidget.pcGui.playSound(CobblemonSounds.PC_CLICK)
+            UnpastureAllPokemonPacket(pasturePCGUIConfiguration.pastureId).sendToServer()
+        }.also {
+            addWidget(it)
+        }
+
+        PasturePokemonScrollList(
+            x = x + 6,
+            y = y + 31,
+            parent = this
+        ).also {
+            addWidget(it)
+        }
     }
 
-    val pastureScrollList = PasturePokemonScrollList(
-        x = x + 6,
-        y = y + 31,
-        parent = this
-    )
-
-    public override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
             matrixStack = context.matrices,
             texture = baseResource,
@@ -66,15 +75,5 @@ class PastureWidget(
             y = y + 3.5,
             centered = true
         )
-
-        pastureScrollList.render(context, mouseX, mouseY, delta)
-
-        recallButton.render(context, mouseX, mouseY, delta)
-    }
-
-    override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
-        if (recallButton.isHovered(pMouseX, pMouseY)) recallButton.mouseClicked(pMouseX, pMouseY, pButton)
-        if (pastureScrollList.isHovered(pMouseX, pMouseY)) pastureScrollList.mouseClicked(pMouseX, pMouseY, pButton)
-        return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
 }

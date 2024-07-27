@@ -199,8 +199,10 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
         addDrawable(dialogueNameWidget)
         addDrawable(dialogueFaceWidget)
 
-        if (dialogueDTO.dialogueInput.inputType == DialogueInputDTO.InputType.TEXT) {
-            focusOn(dialogueTextInputWidget)
+        when (dialogueDTO.dialogueInput.inputType) {
+            DialogueInputDTO.InputType.TEXT -> focusOn(dialogueTextInputWidget)
+            DialogueInputDTO.InputType.OPTION -> focusOn(dialogueOptionWidgets.first())
+            else -> focusOn(dialogueBox)
         }
 
         dialogueDTO.currentPageDTO.clientActions.flatMap(String::asExpressions).resolve(runtime)

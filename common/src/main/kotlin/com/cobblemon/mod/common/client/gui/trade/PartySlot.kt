@@ -47,8 +47,10 @@ open class PartySlot(
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        hovered = hovered && pokemon?.tradeable != false
+
         val matrices = context.matrices
-        if (!isOpposing && isHovered(mouseX, mouseY)) {
+        if (!isOpposing && isHovered) {
             blitk(
                 matrixStack = matrices,
                 texture = hoverBackgroundResource,
@@ -153,6 +155,4 @@ open class PartySlot(
         val offeredPokemon = if (isOpposing) parent.trade.oppositeOffer.get() else parent.trade.myOffer.get()
         return pokemon?.pokemonId == offeredPokemon?.uuid && pokemon != null
     }
-
-    fun isHovered(mouseX: Int, mouseY: Int) = pokemon?.tradeable != false && mouseX.toFloat() in (x.toFloat()..(x.toFloat() + SIZE)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + SIZE))
 }

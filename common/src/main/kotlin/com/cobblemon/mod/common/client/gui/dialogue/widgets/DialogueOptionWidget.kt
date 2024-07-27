@@ -8,13 +8,13 @@
 
 package com.cobblemon.mod.common.client.gui.dialogue.widgets
 
-import com.cobblemon.mod.common.api.gui.ParentWidget
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawCenteredText
 import com.cobblemon.mod.common.client.gui.dialogue.DialogueScreen
 import com.cobblemon.mod.common.net.messages.server.dialogue.InputToDialoguePacket
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.widget.PressableWidget
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
@@ -29,9 +29,8 @@ class DialogueOptionWidget(
     height: Int,
     val texture: Identifier,
     val overlayTexture: Identifier
-) : ParentWidget(x, y, width, height, text) {
+) : PressableWidget(x, y, width, height, text) {
     override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-
         blitk(
             texture = texture,
             matrixStack = context.matrices,
@@ -39,7 +38,7 @@ class DialogueOptionWidget(
             y = y,
             width = width,
             height = height,
-            vOffset = if (selectable && isHovered) 24 else 0,
+            vOffset = if (selectable && (isHovered || isFocused)) 24 else 0,
             textureHeight = height * 2,
         )
 
@@ -65,16 +64,12 @@ class DialogueOptionWidget(
 
     }
 
-    override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
-        if (!hovered) {
-            return false
+    override fun onPress() {
+        if (selectable && !dialogueScreen.waitingForServerUpdate) {
+            dialogueScreen.sendToServer(InputToDialoguePacket(dialogueScreen.dialogueDTO.dialogueInput.inputId, value))
         }
-        if (!selectable || dialogueScreen.waitingForServerUpdate) {
-            return true // Yes I was clicked but fuck you
-        }
+    }
 
-        dialogueScreen.sendToServer(InputToDialoguePacket(dialogueScreen.dialogueDTO.dialogueInput.inputId, value))
-
-        return true
+    override fun appendClickableNarrations(builder: NarrationMessageBuilder?) {
     }
 }

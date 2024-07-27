@@ -16,9 +16,12 @@ import com.cobblemon.mod.common.battles.*
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.widget.PressableWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvents
+import net.minecraft.text.Text
 
 /**
  * Button for toggling gimmicks during a battle.
@@ -29,8 +32,7 @@ import net.minecraft.sound.SoundEvents
  * @author Segfault Guy
  * @since July 8th, 2023
  */
-abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Float, val y: Float) {
-
+abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, x: Int, y: Int, private val onToggle: BattleGimmickButton.(Boolean) -> Unit) : PressableWidget(x, y, (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.empty()) {
     companion object {
         const val WIDTH = 36
         const val HEIGHT = 34
@@ -40,14 +42,14 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
         const val SPACING = 26
 
         /** Factory for creating an instance of [BattleGimmickButton] based on [ShowdownMoveset.Gimmick]. */
-        fun create(gimmick: ShowdownMoveset.Gimmick, moveSelection: BattleMoveSelection, x: Float, y: Float): BattleGimmickButton {
+        fun create(gimmick: ShowdownMoveset.Gimmick, moveSelection: BattleMoveSelection, x: Int, y: Int, onToggle: BattleGimmickButton.(Boolean) -> Unit): BattleGimmickButton {
             return when(gimmick) {
                 ShowdownMoveset.Gimmick.Z_POWER, ShowdownMoveset.Gimmick.ULTRA_BURST ->
-                    ZPowerButton(moveSelection, x, y)
+                    ZPowerButton(moveSelection, x, y, onToggle)
                 ShowdownMoveset.Gimmick.DYNAMAX ->
-                    DynamaxButton(moveSelection, x, y)
+                    DynamaxButton(moveSelection, x, y, onToggle)
                 else ->
-                    object: BattleGimmickButton(gimmick, x, y) {
+                    object: BattleGimmickButton(gimmick, x, y, onToggle) {
                         override var tiles: List<BattleMoveSelection.MoveTile> = moveSelection.baseTiles.map { tile ->
                             GimmickTile(gimmick, moveSelection, tile.move, tile.x, tile.y)
                         }
@@ -69,18 +71,19 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
             y = y * 2,
             height = HEIGHT,
             width = WIDTH,
-            vOffset = if (toggled || isHovered(mouseX.toDouble(), mouseY.toDouble())) HEIGHT else 0,
+            vOffset = if (toggled || isHovered || isFocused) HEIGHT else 0,
             textureHeight = HEIGHT * 2,
             scale = SCALE
         )
     }
 
-    fun isHovered(mouseX: Double, mouseY: Double) = mouseX >= x && mouseX <= x + XOFF && mouseY >= y && mouseY <= y + YOFF
-
-    fun toggle(): Boolean {
+    override fun onPress() {
         toggled = !toggled
         MinecraftClient.getInstance().soundManager.play(sfx)
-        return toggled
+        onToggle(toggled)
+    }
+
+    override fun appendClickableNarrations(builder: NarrationMessageBuilder) {
     }
 
     /**
@@ -97,8 +100,8 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
         private val gimmick: ShowdownMoveset.Gimmick,
         moveSelection: BattleMoveSelection,
         move: InBattleMove,
-        x: Float,
-        y: Float
+        x: Int,
+        y: Int
     ) : BattleMoveSelection.MoveTile(moveSelection, move, x, y) {
 
         // if there isn't a compatible gimmick for this move, the rendered moveTemplate will default to the base template
@@ -153,7 +156,8 @@ abstract class BattleGimmickButton(gimmick: ShowdownMoveset.Gimmick, val x: Floa
  * @author Segfault Guy
  * @since July 15th, 2023
  */
-class ZPowerButton(moveSelection: BattleMoveSelection, x: Float, y: Float) : BattleGimmickButton(ShowdownMoveset.Gimmick.Z_POWER, x, y) {
+class ZPowerButton(moveSelection: BattleMoveSelection, x: Int, y: Int, onToggle: BattleGimmickButton.(Boolean) -> Unit) :
+    BattleGimmickButton(ShowdownMoveset.Gimmick.Z_POWER, x, y, onToggle) {
 
     override var tiles: List<BattleMoveSelection.MoveTile> = moveSelection.baseTiles.map { tile ->
         ZPowerTile(moveSelection, tile.move, tile.x, tile.y)
@@ -171,8 +175,8 @@ class ZPowerButton(moveSelection: BattleMoveSelection, x: Float, y: Float) : Bat
     class ZPowerTile(
         moveSelection: BattleMoveSelection,
         move: InBattleMove,
-        x: Float,
-        y: Float
+        x: Int,
+        y: Int
     ) : GimmickTile(ShowdownMoveset.Gimmick.Z_POWER, moveSelection, move, x, y) {
         override val selectable: Boolean
             get() = gimmickMove != null && !gimmickMove.disabled
@@ -187,7 +191,8 @@ class ZPowerButton(moveSelection: BattleMoveSelection, x: Float, y: Float) : Bat
  * @author Segfault Guy
  * @since July 27th, 2023
  */
-class DynamaxButton(moveSelection: BattleMoveSelection, x: Float, y: Float) : BattleGimmickButton(ShowdownMoveset.Gimmick.DYNAMAX, x, y) {
+class DynamaxButton(moveSelection: BattleMoveSelection, x: Int, y: Int, onToggle: BattleGimmickButton.(Boolean) -> Unit) :
+    BattleGimmickButton(ShowdownMoveset.Gimmick.DYNAMAX, x, y, onToggle) {
 
     override var tiles: List<BattleMoveSelection.MoveTile> = moveSelection.baseTiles.map { tile ->
         DynamaxTile(moveSelection, tile.move, tile.x, tile.y)
@@ -205,8 +210,8 @@ class DynamaxButton(moveSelection: BattleMoveSelection, x: Float, y: Float) : Ba
     class DynamaxTile(
         moveSelection: BattleMoveSelection,
         move: InBattleMove,
-        x: Float,
-        y: Float
+        x: Int,
+        y: Int
     ) : GimmickTile(ShowdownMoveset.Gimmick.DYNAMAX, moveSelection, move, x, y) {
         override val selectable: Boolean
             get() = gimmickMove != null && !gimmickMove.disabled

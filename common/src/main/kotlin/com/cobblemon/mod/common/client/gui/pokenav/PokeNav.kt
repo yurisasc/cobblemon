@@ -299,9 +299,10 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
             posX, posY,
             getWidthForPos(posX), getHeightFor(posY),
             buttonWidth, buttonHeight,
-            0, 0, 0,
-            identifier, buttonWidth, buttonHeight,
-            onPress, text, canClick
+            identifier,
+            onPress,
+            text,
+            canClick,
         ))
     }
 
@@ -309,8 +310,6 @@ class PokeNav : Screen(Text.translatable("cobblemon.ui.pokenav.title")) {
         posX, posY,
         getWidthForPos(posX), getHeightFor(posY),
         buttonWidth, buttonHeight,
-        0, 0, 0,
-        buttonWidth, buttonHeight
     )
 
     private fun findNextInsertion(): Pair<Int, Int> {

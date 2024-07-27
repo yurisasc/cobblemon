@@ -41,33 +41,34 @@ class MoveSlotWidget(
         const val MOVE_HEIGHT = 22
     }
 
-    private val moveUpButton = ReorderMoveButton(x, y, true) {
-        movesWidget.selectMove(null)
-        movesWidget.reorderMove(this, true)
-    }.apply {
-        addWidget(this)
-    }
-    private val moveDownButton = ReorderMoveButton(x, y, false) {
-        movesWidget.selectMove(null)
-        movesWidget.reorderMove(this, false)
-    }.apply {
-        addWidget(this)
-    }
-
-    private val switchMoveButton = SwapMoveButton(x, y, move.template, movesWidget) {
-        movesWidget.selectMove(null)
-        if (movesWidget.summary.sideScreenIndex == Summary.MOVE_SWAP) {
-            movesWidget.summary.displaySideScreen(Summary.PARTY)
-        } else {
-            movesWidget.summary.displaySideScreen(Summary.MOVE_SWAP, move)
+    init {
+        ReorderMoveButton(x, y, true) {
+            movesWidget.selectMove(null)
+            movesWidget.reorderMove(this, true)
+        }.also {
+            addWidget(it)
         }
-    }.apply {
-        addWidget(this)
+        ReorderMoveButton(x, y, false) {
+            movesWidget.selectMove(null)
+            movesWidget.reorderMove(this, false)
+        }.also {
+            addWidget(it)
+        }
+
+        SwapMoveButton(x, y, move.template, movesWidget) {
+            movesWidget.selectMove(null)
+            if (movesWidget.summary.sideScreenIndex == Summary.MOVE_SWAP) {
+                movesWidget.summary.displaySideScreen(Summary.PARTY)
+            } else {
+                movesWidget.summary.displaySideScreen(Summary.MOVE_SWAP, move)
+            }
+        }.also {
+            addWidget(it)
+        }
     }
 
-    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.matrices
-        hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
 
         val moveTemplate = Moves.getByNameOrDummy(move.name)
         val rgb = moveTemplate.elementalType.hue.toRGB()
@@ -90,7 +91,7 @@ class MoveSlotWidget(
             y = y,
             width = MOVE_WIDTH,
             height = MOVE_HEIGHT,
-            vOffset = if (isHovered) MOVE_HEIGHT else 0,
+            vOffset = if (isHoveredOrFocused) MOVE_HEIGHT else 0,
             textureHeight = MOVE_HEIGHT * 2,
             red = rgb.first,
             green = rgb.second,
@@ -144,19 +145,26 @@ class MoveSlotWidget(
             y = y + 2,
             shadow = true
         )
-
-        // Reorder Buttons
-        moveUpButton.render(context, pMouseX, pMouseY, pPartialTicks)
-        moveDownButton.render(context, pMouseX, pMouseY, pPartialTicks)
-
-        // Switch Move Button
-        switchMoveButton.render(context, pMouseX, pMouseY, pPartialTicks)
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        if (isHovered) {
-            movesWidget.selectMove(move)
+        if (hovered) {
+            onClick()
+            return true
         }
         return super.mouseClicked(mouseX, mouseY, button)
+    }
+
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        if (isFocused) {
+            onClick()
+            return true
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers)
+    }
+
+    private fun onClick() {
+        movesWidget.selectMove(move)
     }
 }

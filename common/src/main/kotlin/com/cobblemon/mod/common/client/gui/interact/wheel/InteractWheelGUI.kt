@@ -20,8 +20,10 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
 import kotlin.math.max
 
-class InteractWheelGUI(private val options: Multimap<Orientation, InteractWheelOption>, title: Text) :
-    Screen(title) {
+class InteractWheelGUI(
+    private val options: Multimap<Orientation, InteractWheelOption>,
+    title: Text
+) : Screen(title) {
     companion object {
         const val SIZE = 138
         const val OPTION_SIZE = 69
@@ -40,11 +42,13 @@ class InteractWheelGUI(private val options: Multimap<Orientation, InteractWheelO
 
     override fun init() {
         calculateMaxPage()
+
         addButton(Orientation.TOP_LEFT, options[Orientation.TOP_LEFT].toList().getOrNull(0))
         addButton(Orientation.TOP_RIGHT, options[Orientation.TOP_RIGHT].toList().getOrNull(0))
         addButton(Orientation.BOTTOM_LEFT, options[Orientation.BOTTOM_LEFT].toList().getOrNull(0))
         addButton(Orientation.BOTTOM_RIGHT, options[Orientation.BOTTOM_RIGHT].toList().getOrNull(0))
-        if(maxPage > 1){
+
+        if (maxPage > 1) {
             addDrawableChild(ArrowButton(
                 // x = left 3rd, y = center
                 pX = (width / 3) - 12,

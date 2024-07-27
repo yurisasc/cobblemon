@@ -15,9 +15,10 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.navigation.GuiNavigation
+import net.minecraft.client.gui.navigation.GuiNavigationPath
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 class ReleaseButton(
@@ -33,8 +34,11 @@ class ReleaseButton(
         private val buttonResource = cobblemonResource("textures/gui/pc/pc_release_button.png")
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        if (parent.canDeleteSelected() && !parent.displayConfirmRelease) {
+    val isVisible: Boolean
+        get() = parent.canDeleteSelected() && !parent.displayConfirmRelease
+
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        if (isVisible) {
             blitk(
                 matrixStack = context.matrices,
                 texture = buttonResource,
@@ -42,7 +46,7 @@ class ReleaseButton(
                 y = y,
                 width = WIDTH,
                 height = HEIGHT,
-                vOffset = if (isHovered(mouseX.toDouble(), mouseY.toDouble())) HEIGHT else 0,
+                vOffset = if (isHovered || isFocused) HEIGHT else 0,
                 textureHeight = HEIGHT * 2
             )
 
@@ -61,5 +65,8 @@ class ReleaseButton(
     override fun playDownSound(pHandler: SoundManager) {
     }
 
-    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + WIDTH)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + HEIGHT))
+    override fun getNavigationPath(navigation: GuiNavigation?): GuiNavigationPath? {
+        // prevent navigation to this element if it's not visible
+        return super.getNavigationPath(navigation).takeIf { isVisible }
+    }
 }

@@ -62,7 +62,7 @@ class MovesWidget(
         addWidget(it)
     }
 
-    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.matrices
         blitk(
             matrixStack = matrices,
@@ -74,7 +74,7 @@ class MovesWidget(
         )
 
         moves.forEach {
-            it.render(context, pMouseX, pMouseY, pPartialTicks)
+            it.render(context, mouseX, mouseY, delta)
         }
 
         // Move icons

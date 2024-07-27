@@ -18,12 +18,10 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.widget.PressableWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.MathHelper.ceil
 class BattleSwitchPokemonSelection(
     battleGUI: BattleGUI,
@@ -42,50 +40,6 @@ class BattleSwitchPokemonSelection(
         const val SWITCH_TILE_HEIGHT = BattleOverlay.TILE_HEIGHT
         const val SWITCH_TILE_HORIZONTAL_SPACING = 10F
         const val SWITCH_TILE_VERTICAL_SPACING = 5F
-    }
-
-    val tiles = mutableListOf<SwitchTile>()
-    val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F )
-
-    class SwitchTile(
-        val selection: BattleSwitchPokemonSelection,
-        val x: Float,
-        val y: Float,
-        val pokemon: Pokemon,
-        val showdownPokemon: ShowdownPokemon
-    ) {
-        fun isHovered(mouseX: Double, mouseY: Double) = mouseX in x..(x + SWITCH_TILE_WIDTH) && mouseY in (y..(y + SWITCH_TILE_HEIGHT))
-        fun render(context: DrawContext, mouseX: Double, mouseY: Double, deltaTicks: Float) {
-            val healthRatioSplits = showdownPokemon.condition.split(" ")[0].split("/")
-            try {
-                val (hp, maxHp) = if (healthRatioSplits.size == 1) {
-                    0 to 0
-                } else {
-                    healthRatioSplits[0].toInt() to pokemon.hp
-                }
-                CobblemonClient.battleOverlay.drawBattleTile(
-                    context = context,
-                    x = x,
-                    y = y,
-                    reversed = false,
-                    species = pokemon.species,
-                    level = pokemon.level,
-                    aspects = pokemon.aspects,
-                    displayName = pokemon.getDisplayName(),
-                    gender = pokemon.gender,
-                    status = pokemon.status?.status,
-                    maxHealth = maxHp,
-                    health = hp.toFloat(),
-                    isFlatHealth = true,
-                    state = null,
-                    colour = null,
-                    opacity = selection.opacity,
-                    partialTicks = deltaTicks
-                )
-            } catch (exception: Exception) {
-                throw exception
-            }
-        }
     }
 
     init {
@@ -114,38 +68,74 @@ class BattleSwitchPokemonSelection(
             val x = this.x.toFloat() + column * (SWITCH_TILE_HORIZONTAL_SPACING + SWITCH_TILE_WIDTH)
             val y = this.y.toFloat() + row * (SWITCH_TILE_VERTICAL_SPACING + SWITCH_TILE_HEIGHT)
 
-            tiles.add(SwitchTile(this, x, y, pokemon, showdownPokemon))
+            SwitchTile(
+                this, x.toInt(), y.toInt(),
+                pokemon, showdownPokemon
+            ).also { addWidget(it) }
         }
+
+        BattleBackButton(x - 3, MinecraftClient.getInstance().window.scaledHeight - 22) {
+            battleGUI.changeActionSelection(null)
+            playDownSound(MinecraftClient.getInstance().soundManager)
+        }.also { addWidget(it) }
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (opacity <= 0.05F) {
             return
         }
-        tiles.forEach { it.render(context, mouseX.toDouble(), mouseY.toDouble(), delta) }
-        backButton.render(context.matrices, mouseX, mouseY, delta)
-    }
-
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        if (backButton.isHovered(mouseX, mouseY)) {
-            battleGUI.changeActionSelection(null)
-            playDownSound(MinecraftClient.getInstance().soundManager)
-            return true
-        }
-        val clicked = tiles.find { it.isHovered(mouseX, mouseY) } ?: return false
-        val pokemon = clicked.pokemon
-        playDownSound(MinecraftClient.getInstance().soundManager)
-        battleGUI.selectAction(request, SwitchActionResponse(pokemon.uuid))
-
-        return true
-    }
-
-    override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
+        // TODO: make widgets not render if opacity is low
     }
 
     override fun playDownSound(soundManager: SoundManager) {
         soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
 
-    override fun getType() = Selectable.SelectionType.HOVERED
+    class SwitchTile(
+        val selection: BattleSwitchPokemonSelection,
+        x: Int,
+        y: Int,
+        val pokemon: Pokemon,
+        val showdownPokemon: ShowdownPokemon
+    ) : PressableWidget(x, y, SWITCH_TILE_WIDTH, SWITCH_TILE_HEIGHT, pokemon.getDisplayName()) {
+        override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, deltaTicks: Float) {
+            val healthRatioSplits = showdownPokemon.condition.split(" ")[0].split("/")
+            try {
+                val (hp, maxHp) = if (healthRatioSplits.size == 1) {
+                    0 to 0
+                } else {
+                    healthRatioSplits[0].toInt() to pokemon.hp
+                }
+                CobblemonClient.battleOverlay.drawBattleTile(
+                    context = context,
+                    x = x.toFloat(),
+                    y = y.toFloat(),
+                    reversed = false,
+                    species = pokemon.species,
+                    level = pokemon.level,
+                    aspects = pokemon.aspects,
+                    displayName = pokemon.getDisplayName(),
+                    gender = pokemon.gender,
+                    status = pokemon.status?.status,
+                    maxHealth = maxHp,
+                    health = hp.toFloat(),
+                    isFlatHealth = true,
+                    state = null,
+                    colour = null,
+                    opacity = selection.opacity,
+                    partialTicks = deltaTicks
+                )
+            } catch (exception: Exception) {
+                throw exception
+            }
+        }
+
+        override fun onPress() {
+            playDownSound(MinecraftClient.getInstance().soundManager)
+            selection.battleGUI.selectAction(selection.request, SwitchActionResponse(pokemon.uuid))
+        }
+
+        override fun appendClickableNarrations(builder: NarrationMessageBuilder) {
+        }
+    }
 }

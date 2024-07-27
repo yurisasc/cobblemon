@@ -68,8 +68,7 @@ class PartySlotWidget(
         return 0
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.matrices
         val isDraggedSlot = partyWidget.swapEnabled && partyWidget.swapSource == index
         val slotPokemon = if (isDraggedSlot) null else pokemon
@@ -82,7 +81,7 @@ class PartySlotWidget(
             y = y,
             width = width,
             height = height,
-            vOffset = getSlotVOffset(slotPokemon, isHovered, isSelected),
+            vOffset = getSlotVOffset(slotPokemon, isHoveredOrFocused, isSelected),
             textureHeight = height * 2,
         )
 
