@@ -236,12 +236,7 @@ abstract class VaryingModelRepository<T : PosableModel> {
     fun getSprite(name: ResourceLocation, aspects: Set<String>, type: SpriteType): ResourceLocation? {
         try {
             return this.variations[name]?.getSprite(aspects, type)
-        } catch (e: IllegalStateException) {
-            System.out.println("BLORP");
-            e.printStackTrace()
-        }
-        System.out.println("GLORP");
-
+        } catch (_: IllegalStateException) {}
         return null
     }
 
