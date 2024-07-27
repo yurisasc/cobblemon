@@ -21,11 +21,12 @@ class BattleRequestNavigationButton(
     pX: Int, pY: Int,
     private val forward: Boolean,
     onPress: OnPress
-): Button(pX, pY, (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Component.literal("Navigation"), onPress, DEFAULT_NARRATION) {
+): Button(pX, pY, (WIDTH * SCALE).toInt(), (CLICK_HEIGHT * SCALE).toInt(), Component.literal("Navigation"), onPress, DEFAULT_NARRATION) {
 
     companion object {
         private const val WIDTH = 9F
         private const val HEIGHT = 16F
+        private const val CLICK_HEIGHT = HEIGHT * 6
         private const val SCALE = 0.5F
         private val forwardButtonResource = cobblemonResource("textures/gui/interact/request/arrow_right.png")
         private val backwardsButtonResource = cobblemonResource("textures/gui/interact/request/arrow_left.png")
@@ -36,11 +37,11 @@ class BattleRequestNavigationButton(
         blitk(
             matrixStack = context.pose(),
             x = x / SCALE,
-            y = y / SCALE,
+            y = (y + (CLICK_HEIGHT - HEIGHT) / 4) / SCALE,
             texture = if (forward) forwardButtonResource else backwardsButtonResource,
             width = WIDTH,
             height = HEIGHT,
-            vOffset = if (hovered) 0 else HEIGHT,
+            vOffset = if (hovered) HEIGHT else 0,
             textureHeight = HEIGHT * 2,
             scale = SCALE
         )
@@ -50,5 +51,5 @@ class BattleRequestNavigationButton(
         soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.PC_CLICK, 1.0F))
     }
 
-    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + (WIDTH * SCALE))) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + (HEIGHT * SCALE)))
+    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + (WIDTH * SCALE))) && mouseY.toFloat() in ((y.toFloat())..(y.toFloat() + (CLICK_HEIGHT * SCALE)))
 }

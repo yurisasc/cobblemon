@@ -54,7 +54,7 @@ object RequestInteractionsHandler : ServerNetworkPacketHandler<RequestPlayerInte
                 val targetPartyCount = (targetPlayerEntity as ServerPlayer).party().count { pokemon -> !pokemon.isFainted() }
                 if (playerPartyCount >= 1 && targetPartyCount >= 1) {
                     options.add(PlayerInteractOptionsPacket.Options.SINGLE_BATTLE)
-                    options.add(PlayerInteractOptionsPacket.Options.ROYAL_BATTLE)
+                    //options.add(PlayerInteractOptionsPacket.Options.ROYAL_BATTLE)
                     if (BattleRegistry.playerToTeam[player.uuid] != null && BattleRegistry.playerToTeam[packet.targetId] !== null) {
                         if(BattleRegistry.playerToTeam[player.uuid]?.teamID != BattleRegistry.playerToTeam[packet.targetId]?.teamID) {
                             options.add(PlayerInteractOptionsPacket.Options.MULTI_BATTLE)

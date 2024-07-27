@@ -13,6 +13,6 @@ import java.util.UUID
 
 class ClientBattleChallenge(
         val challengeId: UUID,
-        val challengerIds: Set<UUID>,
+        val challengerIds: List<UUID>,
         val battleFormat: BattleFormat? = null
 )

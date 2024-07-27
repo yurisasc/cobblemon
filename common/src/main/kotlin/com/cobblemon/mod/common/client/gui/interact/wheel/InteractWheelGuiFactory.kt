@@ -70,16 +70,17 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
             closeGUI()
         }
     )
+    val activeBattleRequest = CobblemonClient.requests.battleChallenges.firstOrNull { it.challengerIds.contains(optionsPacket.targetId) }
+    val activeTeamRequest = CobblemonClient.requests.multiBattleTeamRequests.firstOrNull { it.challengerIds.contains(optionsPacket.targetId) }
     val battle = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"),
-        secondaryIconResource =  if(CobblemonClient.requests.battleChallenges.any { it.challengerIds.contains(optionsPacket.targetId) }
-                || CobblemonClient.requests.multiBattleTeamRequests.any { it.challengerIds.contains(optionsPacket.targetId) })
+        secondaryIconResource =  if(activeBattleRequest != null|| activeTeamRequest != null)
             cobblemonResource("textures/gui/interact/icon_exclamation.png")
             else null,
         colour = { null },
         tooltipText = "cobblemon.ui.interact.battle",
         onPress = {
-            Minecraft.getInstance().setScreen(BattleConfigureGUI(optionsPacket))
+            Minecraft.getInstance().setScreen(BattleConfigureGUI(optionsPacket, activeBattleRequest, activeTeamRequest))
         }
     )
 

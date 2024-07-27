@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonResources
+import com.cobblemon.mod.common.client.battle.ClientBattleChallenge
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.client.PlayerInteractOptionsPacket
 import com.cobblemon.mod.common.net.messages.server.*
@@ -26,7 +27,11 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 
-class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Screen(lang("challenge.request_battle_title")) {
+class BattleConfigureGUI(
+        private val packet: PlayerInteractOptionsPacket,
+        private val activeRequest: ClientBattleChallenge? = null,
+        private val activeTeamRequest: ClientBattleChallenge? = null
+) : Screen(lang("challenge.request_battle_title")) {
     companion object {
         const val SIZE = 113
         private val backgroundResource = cobblemonResource("textures/gui/interact/request/battle_request.png")
@@ -36,6 +41,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                 Pair(
                         PlayerInteractOptionsPacket.Options.SINGLE_BATTLE,
                         BattleTypeTile(
+                                option = PlayerInteractOptionsPacket.Options.SINGLE_BATTLE,
                                 battleFormat = BattleFormat.GEN_9_SINGLES,
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_single.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_overlay.png"),
@@ -48,6 +54,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                 Pair(
                         PlayerInteractOptionsPacket.Options.DOUBLE_BATTLE,
                         BattleTypeTile(
+                                option = PlayerInteractOptionsPacket.Options.DOUBLE_BATTLE,
                                 battleFormat = BattleFormat.GEN_9_DOUBLES,
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_double.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_overlay.png"),
@@ -60,6 +67,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                 Pair(
                         PlayerInteractOptionsPacket.Options.TRIPLE_BATTLE,
                         BattleTypeTile(
+                                option = PlayerInteractOptionsPacket.Options.TRIPLE_BATTLE,
                                 battleFormat = BattleFormat.GEN_9_TRIPLES,
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_triple.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_overlay.png"),
@@ -72,6 +80,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                 Pair(
                         PlayerInteractOptionsPacket.Options.TEAM_REQUEST,
                         BattleTypeTile(
+                                option = PlayerInteractOptionsPacket.Options.TEAM_REQUEST,
                                 battleFormat = BattleFormat.GEN_9_MULTI,
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi_overlay_partner.png"),
@@ -85,6 +94,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                 Pair(
                         PlayerInteractOptionsPacket.Options.TEAM_LEAVE,
                         BattleTypeTile(
+                                option = PlayerInteractOptionsPacket.Options.TEAM_LEAVE,
                                 battleFormat = BattleFormat.GEN_9_MULTI,
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi_overlay_partner.png"),
@@ -98,6 +108,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                 Pair(
                         PlayerInteractOptionsPacket.Options.MULTI_BATTLE,
                         BattleTypeTile(
+                                option = PlayerInteractOptionsPacket.Options.MULTI_BATTLE,
                                 battleFormat = BattleFormat.GEN_9_MULTI,
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_multi_overlay_opponent.png"),
@@ -110,6 +121,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                 Pair(
                         PlayerInteractOptionsPacket.Options.ROYAL_BATTLE,
                         BattleTypeTile(
+                                option = PlayerInteractOptionsPacket.Options.ROYAL_BATTLE,
                                 battleFormat =  BattleFormat.GEN_9_ROYAL,
                                 tileTexture = cobblemonResource("textures/gui/interact/request/battle_request_royal.png"),
                                 overlayTexture = cobblemonResource("textures/gui/interact/request/battle_request_royal_overlay.png"),
@@ -127,11 +139,12 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
         private fun sendBattleResponse(packet: PlayerInteractOptionsPacket, accept: Boolean) {
             BattleChallengeResponsePacket(packet.numericTargetId, packet.selectedPokemonId, accept).sendToServer()
         }
-        private var battleTypeTiles: List<BattleTypeTile> = emptyList()
+        private var options: List<PlayerInteractOptionsPacket.Options> = emptyList()
         private val blinkRate = 35
     }
 
     class BattleTypeTile(
+            val option: PlayerInteractOptionsPacket.Options,
             val battleFormat: BattleFormat,
             val tileTexture: ResourceLocation?,
             val overlayTexture: ResourceLocation?,
@@ -145,45 +158,96 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
     private var currentPage = 0
         set(value) {
             // If value is within min and max
-            field = if (value > 0 && value < battleTypeTiles.count()) value
+            field = if (value > 0 && value < options.count()) value
             // If value is less than zero, wrap around to end
-            else if (value < 0) battleTypeTiles.count() - 1
+            else if (value < 0) options.count() - 1
             // Else it's greater than max, wrap around to start
             else 0
         }
 
-    private var r:Float = 0F
-    private var g:Float = 0F
-    private var b:Float = 0F
     private var targetName = Component.literal("Target Name").bold()
     private var hasRequest = false
     private var ticksPassed = 0F
 
     override fun renderBlurredBackground(delta: Float) { }
-    override fun renderMenuBackground(context: GuiGraphics) {}
+    override fun renderMenuBackground(context: GuiGraphics) { }
 
 
     override fun init() {
-        var color =  ColourLibrary.SIDE_1_BATTLE_COLOUR
-        r = ((color shr 16) and 0b11111111) / 255F
-        g = ((color shr 8) and 0b11111111) / 255F
-        b = (color and 0b11111111) / 255F
-        val challenge = CobblemonClient.requests.battleChallenges.firstOrNull { it.challengerIds.contains(packet.targetId) }
+        val challenge = activeRequest
         targetName = Minecraft.getInstance().player?.level()?.getPlayerByUUID(packet.targetId)?.name?.plainCopy()?.bold() ?: targetName
-        val hasTeamRequest = CobblemonClient.requests.multiBattleTeamRequests.any { it.challengerIds.contains(packet.targetId) }
-        hasRequest = challenge != null || hasTeamRequest
-        if (hasTeamRequest) {
-            battleTypeTiles = listOf(battleRequestMap[PlayerInteractOptionsPacket.Options.TEAM_REQUEST]).mapNotNull { it }
+        hasRequest = challenge != null || activeTeamRequest != null
+        if (activeTeamRequest != null) {
+            options = listOf(PlayerInteractOptionsPacket.Options.TEAM_REQUEST)
         } else if (challenge != null) {
-            battleTypeTiles = listOf(packet.options.mapNotNull { battleRequestMap[it] }.first { it.battleFormat.battleType.name == challenge.battleFormat?.battleType?.name })
+            options =  packet.options.filter { battleRequestMap[it]?.battleFormat?.battleType?.name == challenge.battleFormat?.battleType?.name }
         } else {
-            battleTypeTiles = packet.options.mapNotNull { battleRequestMap[it] }
+            options = packet.options.filter { battleRequestMap.containsKey(it) }.toList()
+        }
+        val (x, y) = getDimensions()
+
+
+        if(hasRequest) {
+            // Draw Accept/Decline buttons
+            this.addRenderableWidget(
+                    BattleResponseButton(
+                            x + 22,
+                            y + 99,
+                            true
+                    ) {
+                        battleRequestMap[options[currentPage]]?.onResponse?.let { it1 -> it1(packet, true) }
+                        closeGUI()
+                    }
+            )
+
+            this.addRenderableWidget(
+                    BattleResponseButton(
+                            x + 56,
+                            y + 99,
+                            false
+                    ) {
+                        battleRequestMap[options[currentPage]]?.onResponse?.let { it1 -> it1(packet, false) }
+                        closeGUI()
+                    }
+            )
+
+        } else {
+            // Draw Challenge button
+            this.addRenderableWidget(
+                    BattleRequestButton(
+                            x + 22,
+                            y + 99,
+                            lang("challenge.challenge"),
+                    ) {
+                        //TODO: add additional battle rules, otherwise this call feels pretty silly
+                        battleRequestMap[options[currentPage]]?.onRequest?.let { it1 ->
+                            it1(packet, battleRequestMap[options[currentPage]]?.battleFormat ?: BattleFormat.GEN_9_SINGLES)  }
+                        closeGUI()
+                    }
+            )
+
+            // Selection buttons
+            this.addRenderableWidget(
+                    BattleRequestNavigationButton(
+                            pX = x + 2,
+                            pY = y + 30,
+                            forward = false
+                    ) { currentPage = (currentPage - 1) % options.count() }
+            )
+
+            this.addRenderableWidget(
+                    BattleRequestNavigationButton(
+                            pX = x + 106,
+                            pY = y + 30,
+                            forward = true
+                    ) { currentPage = (currentPage + 1) % options.count() }
+            )
         }
     }
 
     override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
         ticksPassed += delta
-        val battleTypeData = battleTypeTiles[currentPage]
+        val battleTypeData = battleRequestMap[options[currentPage]] ?: return
         // Render background panel
         val (x, y) = getDimensions()
         blitk(
@@ -226,6 +290,9 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
                 width = 190,
                 height = 120,
                 scale = 0.5F,
+                red = if (battleTypeData.option == PlayerInteractOptionsPacket.Options.TEAM_LEAVE) 1.3 else 1,
+                green = if (battleTypeData.option == PlayerInteractOptionsPacket.Options.TEAM_LEAVE) 0 else 1,
+                blue = if (battleTypeData.option == PlayerInteractOptionsPacket.Options.TEAM_LEAVE) 0 else 1,
             )
         }
 
@@ -241,26 +308,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
             shadow = true
         )
 
-        if(!hasRequest) {
-            // Selection buttons
-            this.addRenderableWidget(
-                    BattleRequestNavigationButton(
-                            pX = x + 2,
-                            pY = y + 50,
-                            forward = false
-                    ) { currentPage = (currentPage - 1) % battleTypeTiles.count() }
-            )
-
-            this.addRenderableWidget(
-                    BattleRequestNavigationButton(
-                            pX = x + 106,
-                            pY = y + 50,
-                            forward = true
-                    ) { currentPage = (currentPage + 1) % battleTypeTiles.count() }
-            )
-        }
-
-        // Opponent Display name
+        // Opponent display name
         drawScaledText(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
@@ -271,7 +319,7 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
             shadow = true
         )
 
-        // Draw Arrows
+        // Draw colored decor arrows
         blitk(
             matrixStack = context.pose(),
             texture = battleArrowsResource,
@@ -284,45 +332,6 @@ class BattleConfigureGUI(private val packet: PlayerInteractOptionsPacket) : Scre
             green = ((battleTypeData.color shr 8) and 0b11111111) / 255F,
             blue = (battleTypeData.color and 0b11111111) / 255F,
         )
-
-        if(hasRequest) {
-            // Draw Accept/Decline buttons
-            this.addRenderableWidget(
-                    BattleResponseButton(
-                            x + 22,
-                            y + 99,
-                            true
-                    ) {
-                        battleTypeTiles[currentPage].onResponse(packet, true)
-                        closeGUI()
-                    }
-            )
-
-            this.addRenderableWidget(
-                    BattleResponseButton(
-                            x + 56,
-                            y + 99,
-                            false
-                    ) {
-                        battleTypeTiles[currentPage].onResponse(packet, false)
-                        closeGUI()
-                    }
-            )
-
-        } else {
-            // Draw Challenge button
-            this.addRenderableWidget(
-                BattleRequestButton(
-                        x + 22,
-                        y + 99,
-                        lang("challenge.challenge"),
-                ) {
-                    //TODO: add additional battle rules, otherwise this call feels pretty silly
-                    battleTypeTiles[currentPage].onRequest(packet, battleTypeTiles[currentPage].battleFormat)
-                    closeGUI()
-                }
-            )
-        }
 
         super.render(context, mouseX, mouseY, delta)
     }
