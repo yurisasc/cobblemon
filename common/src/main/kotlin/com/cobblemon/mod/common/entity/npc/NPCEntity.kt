@@ -280,7 +280,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
             battle.saveToNBT(battleNBT)
             nbt.put(DataKeys.NPC_BATTLE_CONFIGURATION, battleNBT)
         }
-        nbt.putInt("skill", skill)
+        nbt.putInt("skill", skill ?: 0)
         val party = party
         if (party != null) {
             val partyNBT = CompoundTag()

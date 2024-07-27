@@ -206,7 +206,7 @@ object BattleBuilder {
             return errors
         }
 
-        val npcActor = NPCBattleActor(npcEntity, npcParty, npcEntity.skill)
+        val npcActor = NPCBattleActor(npcEntity, npcParty, npcEntity.skill ?: 0)
 //        if (npcEntity.battleIds.get().isPresent) {
 //            errors.participantErrors[npcActor] += BattleStartError.alreadyInBattle(npcActor)
 //        }
