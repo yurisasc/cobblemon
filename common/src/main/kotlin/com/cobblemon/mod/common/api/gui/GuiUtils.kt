@@ -56,7 +56,7 @@ fun blitk(
     blue: Number = 1,
     alpha: Number = 1F,
     blend: Boolean = true,
-    scale: Float = 1F,
+    scale: Float = 1F
 ) {
     RenderSystem.setShader { GameRenderer.getPositionTexShader() }
     texture?.run { RenderSystem.setShaderTexture(0, this) }
@@ -89,7 +89,7 @@ fun drawRectangle(
     minU: Float,
     maxU: Float,
     minV: Float,
-    maxV: Float,
+    maxV: Float
 ) {
     val bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX)
     bufferbuilder.addVertex(matrix, x, endY, blitOffset).setUv(minU, maxV)
@@ -109,7 +109,7 @@ fun drawCenteredText(
     x: Number,
     y: Number,
     colour: Int,
-    shadow: Boolean = true,
+    shadow: Boolean = true
 ) {
     val comp = (text as MutableComponent).let { if (font != null) it.font(font) else it }
     val textRenderer = Minecraft.getInstance().font
@@ -127,7 +127,7 @@ fun drawText(
     colour: Int,
     shadow: Boolean = true,
     pMouseX: Number? = null,
-    pMouseY: Number? = null,
+    pMouseY: Number? = null
 ): Boolean {
     val comp = if (font == null) text else text.setStyle(text.style.withFont(font))
     val textRenderer = Minecraft.getInstance().font
@@ -156,7 +156,7 @@ fun drawText(
     y: Number,
     centered: Boolean = false,
     colour: Int,
-    shadow: Boolean = true,
+    shadow: Boolean = true
 ) {
     val textRenderer = Minecraft.getInstance().font
     var tweakedX = x
