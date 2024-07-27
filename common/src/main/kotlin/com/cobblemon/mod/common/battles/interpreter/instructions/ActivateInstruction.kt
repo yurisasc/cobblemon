@@ -9,11 +9,8 @@
 package com.cobblemon.mod.common.battles.interpreter.instructions
 
 import com.bedrockk.molang.runtime.MoLangRuntime
-import com.bedrockk.molang.runtime.value.MoValue
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
 import com.cobblemon.mod.common.api.moves.animations.UsersProvider
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
@@ -22,13 +19,10 @@ import com.cobblemon.mod.common.battles.dispatch.ActionEffectInstruction
 import com.cobblemon.mod.common.battles.dispatch.CauserInstruction
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.InstructionSet
-import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
-import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.text.Text
-import net.minecraft.util.Identifier
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -84,6 +78,11 @@ class ActivateInstruction(val instructionSet: InstructionSet, val message: Battl
             val effect = message.effectAt(1) ?: return@dispatch GO
             val pokemonName = pokemon.getName()
             val sourceName = message.battlePokemonFromOptional(battle)?.getName() ?: Text.literal("UNKNOWN")
+
+            if (effect.id == "sketch" && pokemon.originalPokemon.moveSet.any { it.name == "sketch" } && pokemon.sketchedMoveName == null && extraEffect is String) {
+                pokemon.sketchedMoveName = extraEffect.replace(" ", "") // Showdown gives the move name with whitespace
+            }
+
             val lang = when (effect.id) {
                 // Includes a 3rd argument being the magnitude level as a number
                 "magnitude" -> battleLang("activate.magnitude", message.argumentAt(2)?.toIntOrNull() ?: 1)

@@ -38,6 +38,10 @@ class MoveSet : Iterable<Move> {
         return moves.filterNotNull()
     }
 
+    fun getMovesWithNulls(): List<Move?> {
+        return moves.toList()
+    }
+
     fun hasSpace() = moves.any { it == null }
 
     /**
@@ -124,6 +128,7 @@ class MoveSet : Iterable<Move> {
         for (i in 0 until MOVE_COUNT) {
             if (moves[i] == null) {
                 moves[i] = move
+                move.observable.subscribe { this.update() }
                 update()
                 return
             }
