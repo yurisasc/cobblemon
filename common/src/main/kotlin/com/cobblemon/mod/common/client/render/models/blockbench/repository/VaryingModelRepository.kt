@@ -123,7 +123,7 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
 
     fun getPoser(name: Identifier, aspects: Set<String>): M {
         try {
-            val poser = this.variations[name]?.getPoser(aspects)
+            val poser = this.variations[cobblemonResource("gholdengo")]?.getPoser(aspects)
             if (poser != null) {
                 return poser
             }
