@@ -11,77 +11,53 @@ package com.cobblemon.mod.common.item
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
-import com.cobblemon.mod.common.client.CobblemonResources
+import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.MAX_OPACITY
+import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.MIN_OPACITY
+import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.OPACITY_CHANGE_PER_SECOND
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.net.messages.client.ui.PokedexUIPacket
 import com.cobblemon.mod.common.net.messages.server.pokedex.MapUpdatePacket
 import com.cobblemon.mod.common.pokemon.Species
-import com.cobblemon.mod.common.util.isLookingAt
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
-import net.minecraft.util.Hand
-import net.minecraft.util.TypedActionResult
-import net.minecraft.world.World
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.Identifier
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import org.lwjgl.glfw.GLFW
-import net.minecraft.client.render.*
-import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.text.Text
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.server
 import net.minecraft.block.BlockState
-import net.minecraft.block.MapColor
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.Framebuffer
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.hud.InGameHud
-import net.minecraft.client.gui.hud.InGameOverlayRenderer
 import net.minecraft.client.network.ClientPlayerEntity
+import net.minecraft.client.render.RenderTickCounter
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.util.ScreenshotRecorder
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.MapIdComponent
-import net.minecraft.entity.effect.StatusEffectInstance
-import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.item.FilledMapItem
-import net.minecraft.item.Items
-import net.minecraft.item.map.MapState
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtInt
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvent
+import net.minecraft.text.Text
+import net.minecraft.util.Hand
+import net.minecraft.util.TypedActionResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.hit.HitResult
-import net.minecraft.util.math.*
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
-import java.awt.Color
-import java.awt.Image
-import java.awt.image.BufferedImage
-import java.io.ByteArrayOutputStream
-import java.nio.ByteBuffer
-import javax.imageio.ImageIO
-import org.lwjgl.BufferUtils
-import org.lwjgl.opengl.GL11
-import java.io.ByteArrayInputStream
-import java.io.File
-import net.minecraft.client.render.*
-import net.minecraft.client.texture.TextureManager
-import net.minecraft.client.util.BufferAllocator
+import net.minecraft.world.World
 import org.joml.Quaternionf
-import org.joml.Vector3f
-import kotlin.math.cos
-import kotlin.math.sin
+import java.awt.image.BufferedImage
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.lang.Double.max
+import java.lang.Double.min
+import javax.imageio.ImageIO
 
 class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
@@ -89,6 +65,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     var zoomLevel: Double = 1.0
     var isScanning = false
     var attackKeyHeldTicks = 0 // to help with detecting pressed and held states of the attack button
+    var usageTicks = 0
     var pokemonInFocus: PokemonEntity? = null
     var lastPokemonInFocus: PokemonEntity? = null
     var pokemonBeingScanned: PokemonEntity? = null
@@ -188,10 +165,15 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         //}
     }
 
+    override fun inventoryTick(stack: ItemStack?, world: World?, entity: Entity?, slot: Int, selected: Boolean) {
+        if (!isScanning && usageTicks > 0) usageTicks--
+    }
+
     override fun usageTick(world: World?, user: LivingEntity?, stack: ItemStack?, remainingUseTicks: Int) {
         if (user is PlayerEntity) {
             // if the item has been used for more than 1 second activate scanning mode
             if (getMaxUseTime(stack, user) - remainingUseTicks > 3) {
+                if (usageTicks < 12) usageTicks++
                 // play the Scanner Open sound only once
                 if (isScanning == false) {
                     playSound(CobblemonSounds.POKEDEX_SCAN_OPEN)
@@ -232,7 +214,6 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 }
 
                 isScanning = true
-
                 // todo try to make it so that the player is able to walk normal speed while in scanner mode
                 //user.addStatusEffect(StatusEffectInstance(StatusEffects.SPEED, 3, 1, true, false, false)) // Remove slowness effect
             }
@@ -267,6 +248,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         bufferImageSnap = false
         zoomLevel = 1.0
         attackKeyHeldTicks = 0
+        //usageTicks = 0
         changeFOV(70.0)
     }
 
@@ -398,41 +380,100 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     }*/
 
     @Environment(EnvType.CLIENT)
-    fun renderPhotodexOverlay(drawContext: DrawContext, scale: Float) {
+    fun renderPhotodexOverlay(drawContext: DrawContext, tickDelta: Float, scale: Float) {
         val client = MinecraftClient.getInstance()
+        val matrices = drawContext.matrices
+
         val screenWidth = client.window.scaledWidth
         val screenHeight = client.window.scaledHeight
 
         // Texture dimensions
         val textureWidth = 345
         val textureHeight = 207
-
-        // Calculate centered position
-        val x = (screenWidth - textureWidth) / 2
-        val y = (screenHeight - textureHeight) / 2
-
-        val pokedexScannerOverlayTexture = cobblemonResource("textures/gui/pokedex/pokedex_scanner.png")
+        val scanScreen = cobblemonResource("textures/gui/pokedex/pokedex_screen_scan.png")
+        val scanOverlayCorners = cobblemonResource("textures/gui/pokedex/scan/overlay_corners.png")
+        val scanOverlayTop = cobblemonResource("textures/gui/pokedex/scan/overlay_border_top.png")
+        val scanOverlayBottom = cobblemonResource("textures/gui/pokedex/scan/overlay_border_bottom.png")
+        val scanOverlayLeft = cobblemonResource("textures/gui/pokedex/scan/overlay_border_left.png")
+        val scanOverlayRight = cobblemonResource("textures/gui/pokedex/scan/overlay_border_right.png")
+        val scanOverlayLines = cobblemonResource("textures/gui/pokedex/scan/overlay_scanlines.png")
 
         RenderSystem.enableBlend()
-        drawContext.drawTexture(pokedexScannerOverlayTexture, x, y, -90, 0.0f, 0.0f, textureWidth, textureHeight, textureWidth, textureHeight)
-        RenderSystem.disableBlend()
+        // Pokédex zoom in/out animation
+        if (usageTicks <= 12) {
+            val scale = 1 + (if (usageTicks <= 2) 0F else ((usageTicks - 2) * 0.075F))
 
-        // draw the black area outside of the texture area
-        drawContext.fill(RenderLayer.getGuiOverlay(), 0, y + textureHeight, screenWidth, screenHeight, -90, -16777216)
-        drawContext.fill(RenderLayer.getGuiOverlay(), 0, 0, screenWidth, y, -90, -16777216)
-        drawContext.fill(RenderLayer.getGuiOverlay(), 0, y, x, y + textureHeight, -90, -16777216)
-        drawContext.fill(RenderLayer.getGuiOverlay(), x + textureWidth, y, screenWidth, y + textureHeight, -90, -16777216)
+            // Calculate centered position
+            val x = (screenWidth - (textureWidth * scale)) / 2
+            val y = (screenHeight - (textureHeight * scale)) / 2
+
+            val opacity = if (usageTicks <= 2) 1F else (10F - (usageTicks.toFloat() - 2F)) / 10F
+            blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/pokedex_base_${type}.png"), x = x / scale, y = y / scale, width = textureWidth, height = textureHeight, scale = scale, alpha = opacity)
+            blitk(matrixStack = matrices, texture = scanScreen, x = x / scale, y = y / scale, width = textureWidth, height = textureHeight, scale = scale, alpha = opacity)
+        }
+
+        // Scanning overlay
+        val opacity = if (usageTicks > 12) 1F else usageTicks/12F
+        // Draw scan lines
+        for (i in 0 until screenHeight) {
+            if (i % 4 == 0) blitk(matrixStack = matrices, texture = scanOverlayLines, x = 0, y = i, width = screenWidth, height = 4, alpha = opacity)
+        }
+
+        // Draw border
+        // Top left corner
+        blitk(matrixStack = matrices, texture = scanOverlayCorners, x = 0, y = 0, width = 4, height = 4, textureWidth = 8, textureHeight = 8, alpha = opacity)
+        // Top right corner
+        blitk(matrixStack = matrices, texture = scanOverlayCorners, x = (screenWidth - 4), y = 0, width = 4, height = 4, textureWidth = 8, textureHeight = 8, uOffset = 4, alpha = opacity)
+        // Bottom left corner
+        blitk(matrixStack = matrices, texture = scanOverlayCorners, x = 0, y = (screenHeight - 4), width = 4, height = 4, textureWidth = 8, textureHeight = 8, vOffset = 4, alpha = opacity)
+        // Bottom right corner
+        blitk(matrixStack = matrices, texture = scanOverlayCorners, x = (screenWidth - 4), y = (screenHeight - 4), width = 4, height = 4, textureWidth = 8, textureHeight = 8, vOffset = 4, uOffset = 4, alpha = opacity)
+
+        // Border sides
+        blitk(matrixStack = matrices, texture = scanOverlayTop, x = 4, y = 0, width = (screenWidth - 8), height = 3, alpha = opacity)
+        blitk(matrixStack = matrices, texture = scanOverlayBottom, x = 4, y = (screenHeight - 3), width = (screenWidth - 8), height = 3, alpha = opacity)
+        blitk(matrixStack = matrices, texture = scanOverlayLeft, x = 0, y = 4, width = 3, height = (screenHeight - 8), alpha = opacity)
+        blitk(matrixStack = matrices, texture = scanOverlayRight, x = (screenWidth - 3), y = 4, width = 3, height = (screenHeight - 8), alpha = opacity)
+
+        blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/scan/circle.png"),
+            x = (screenWidth - 100) / 2,
+            y = (screenHeight - 100) / 2,
+            width = 100, height = 100, alpha = opacity)
+
+//        blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/scan/scan_circle.png"),
+//            x = (screenWidth - 100) / 2,
+//            y = (screenHeight - 2) / 2,
+//            width = 100, height = 2, alpha = opacity)
+
+        matrices.push()
+        matrices.translate((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), 0.0f)
+        for (i in 0 .. 2) {
+            val rotationQuaternion = Quaternionf().rotateZ(Math.toRadians(i * 4.5).toFloat())
+
+            matrices.push()
+            matrices.multiply(rotationQuaternion)
+            blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/scan/scan_circle.png"),
+                x = 0,
+                y = 0,
+                width = 100, height = 2, alpha = opacity)
+            matrices.pop()
+        }
+        matrices.pop()
+
+        RenderSystem.disableBlend()
     }
 
     @Environment(EnvType.CLIENT)
-    fun onRenderOverlay(drawContext: DrawContext) {
-        if (isScanning) {
+    fun onRenderOverlay(drawContext: DrawContext, tickCounter: RenderTickCounter) {
+        val tickDelta = tickCounter.getTickDelta(false)
+        renderPhotodexOverlay(drawContext, tickDelta, 1.0F)
+        //if (isScanning) {
             // render the scanner overlay
-            renderPhotodexOverlay(drawContext, 1.0f)
+            //renderPhotodexOverlay(drawContext, 1.0F)
 
             // render the scan progress
             //renderScanProgress(drawContext, scanningProgress)
-        }
+        //}
     }
 
     @Environment(EnvType.CLIENT)
