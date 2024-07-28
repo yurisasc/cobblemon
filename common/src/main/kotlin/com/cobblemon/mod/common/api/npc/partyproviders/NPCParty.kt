@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.npc.partyproviders
 
+import com.cobblemon.mod.common.api.storage.party.NPCPartyStore
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.IntSize
@@ -39,12 +40,12 @@ sealed interface NPCParty {
 }
 
 /**
- * A simple wrapping around a [PartyStore]. This is a straightforward party that is always the same.
+ * A simple wrapping around a [NPCPartyStore]. This is a straightforward party that is always the same.
  *
  * @author Hiroku
  * @since July 12th, 2024
  */
-class StaticNPCParty(val party: PartyStore) : NPCParty {
+class StaticNPCParty(val party: NPCPartyStore) : NPCParty {
     override fun getParty(player: ServerPlayer, npc: NPCEntity) = party
 
     override fun encode(buffer: RegistryFriendlyByteBuf) {

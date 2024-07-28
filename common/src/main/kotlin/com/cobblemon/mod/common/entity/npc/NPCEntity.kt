@@ -34,7 +34,7 @@ import com.cobblemon.mod.common.api.npc.partyproviders.NPCParty
 import com.cobblemon.mod.common.api.npc.partyproviders.StaticNPCParty
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
-import com.cobblemon.mod.common.api.storage.party.PartyStore
+import com.cobblemon.mod.common.api.storage.party.NPCPartyStore
 import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.ai.AttackAngryAtTask
@@ -310,7 +310,7 @@ class NPCEntity(world: Level) : AgeableMob(CobblemonEntities.NPC, world), Npc, P
         if (!partyNBT.isEmpty) {
             val isStatic = partyNBT.getBoolean(DataKeys.NPC_PARTY_IS_STATIC)
             this.party = if (isStatic) {
-                StaticNPCParty(PartyStore(uuid)).also { it.loadFromNBT(partyNBT) }
+                    StaticNPCParty(NPCPartyStore(this)).also { it.loadFromNBT(partyNBT) }
             } else {
                 val type = partyNBT.getString(DataKeys.NPC_PARTY_TYPE)
                 val clazz = DynamicNPCParty.types[type]

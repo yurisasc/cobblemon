@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.api.npc.partyproviders
 
 import com.cobblemon.mod.common.api.npc.NPCPartyProvider
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
-import com.cobblemon.mod.common.api.storage.party.PartyStore
+import com.cobblemon.mod.common.api.storage.party.NPCPartyStore
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.util.toProperties
 import com.google.gson.JsonElement
@@ -49,7 +49,7 @@ class SimplePartyProvider : NPCPartyProvider {
 
     override fun provide(npc: NPCEntity, level: Int): NPCParty {
         val pokemon = pokemon.map { it.copy().also { it.level = it.level ?: level }.create() }
-        val party = PartyStore(npc.uuid)
+        val party = NPCPartyStore(npc)
         pokemon.forEach(party::add)
         return StaticNPCParty(party)
     }

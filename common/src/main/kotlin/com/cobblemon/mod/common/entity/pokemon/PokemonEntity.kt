@@ -445,7 +445,7 @@ open class PokemonEntity(
     fun isUncatchable() = pokemon.isUncatchable()
 
     fun recallWithAnimation(): CompletableFuture<Pokemon> {
-        val owner = owner
+        val owner = owner ?: pokemon.getOwnerEntity()
         val future = CompletableFuture<Pokemon>()
         if (entityData.get(PHASING_TARGET_ID) == -1 && owner != null) {
             val preamble = if (owner is PokemonSender) {
