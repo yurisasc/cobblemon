@@ -353,8 +353,7 @@ open class Pokemon : ShowdownIdentifiable {
     val effectiveNature: Nature
         get() = mintedNature ?: nature
 
-    var moveSet = MoveSet()
-        internal set
+    val moveSet = MoveSet()
 
     val experienceGroup: ExperienceGroup
         get() = form.experienceGroup
@@ -920,7 +919,7 @@ open class Pokemon : ShowdownIdentifiable {
         this.evs = other.evs
         this.currentHealth = other.currentHealth
         this.gender = other.gender
-        this.moveSet = other.moveSet
+        this.moveSet.copyFrom(other.moveSet)
         this.benchedMoves = other.benchedMoves
         this.scaleModifier = other.scaleModifier
         this.shiny = other.shiny
@@ -1122,13 +1121,9 @@ open class Pokemon : ShowdownIdentifiable {
         // Force the setter to initialize it
         species = species
         checkGender()
-        // This should only be a thing once we have moveset control in properties until then a creation should require a moveset init.
-        /*
-        if (pokemon.moveSet.none { it != null }) {
-            pokemon.initializeMoveset()
+        if (moveSet.getMoves().isEmpty()) {
+            initializeMoveset()
         }
-         */
-        initializeMoveset()
         return this
     }
 
@@ -1515,7 +1510,7 @@ open class Pokemon : ShowdownIdentifiable {
     private val _tradeable = registerObservable(SimpleObservable<Boolean>()) { TradeableUpdatePacket({ this }, it) }
     private val _nature = registerObservable(SimpleObservable<Nature>()) { NatureUpdatePacket({ this }, it, false) }
     private val _mintedNature = registerObservable(SimpleObservable<Nature?>()) { NatureUpdatePacket({ this }, it, true) }
-    private val _moveSet = registerObservable(moveSet.observable) { MoveSetUpdatePacket({ this }, moveSet) }
+    private val _moveSet = registerObservable(moveSet.observable) { MoveSetUpdatePacket({ this }, it) }
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket({ this }, it) }
     private val _status = registerObservable(SimpleObservable<PersistentStatus?>()) { StatusUpdatePacket({ this }, it) }
     private val _caughtBall = registerObservable(SimpleObservable<PokeBall>()) { CaughtBallUpdatePacket({ this }, it) }

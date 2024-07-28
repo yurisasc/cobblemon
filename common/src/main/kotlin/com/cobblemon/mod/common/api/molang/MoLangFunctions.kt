@@ -32,9 +32,9 @@ import com.cobblemon.mod.common.util.getBooleanOrNull
 import com.cobblemon.mod.common.util.getDoubleOrNull
 import com.cobblemon.mod.common.util.isInt
 import com.cobblemon.mod.common.util.itemRegistry
+import com.cobblemon.mod.common.util.server
 import com.cobblemon.mod.common.util.worldRegistry
 import com.mojang.datafixers.util.Either
-import net.minecraft.client.gui.components.tabs.Tab
 import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
@@ -44,10 +44,9 @@ import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.StringTag
 import net.minecraft.nbt.Tag
 import net.minecraft.resources.ResourceKey
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.commands.TagCommand
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.TagKey
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.damagesource.DamageTypes
@@ -101,7 +100,13 @@ object MoLangFunctions {
             runtime.environment.context = params.environment.context
             val script = params.getString(0).asIdentifierDefaultingNamespace()
             CobblemonScripts.run(script, runtime) ?: DoubleValue(0)
-        }
+        },
+        "run_command" to java.util.function.Function { params ->
+            val command = params.getString(0)
+            server()?.let {
+                return@Function DoubleValue(it.commands.dispatcher.execute(command, it.createCommandSourceStack()))
+            } ?: return@Function DoubleValue.ZERO
+        },
     )
     val biomeFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
     val worldFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>()

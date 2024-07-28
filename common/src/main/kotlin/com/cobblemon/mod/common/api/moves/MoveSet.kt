@@ -56,7 +56,7 @@ class MoveSet : Iterable<Move> {
     fun copyFrom(other: MoveSet) {
         doWithoutEmitting {
             clear()
-            other.getMoves().forEach { add(it) }
+            other.getMoves().forEach { add(it.copy()) }
         }
         update()
     }
@@ -125,6 +125,7 @@ class MoveSet : Iterable<Move> {
         for (i in 0 until MOVE_COUNT) {
             if (moves[i] == null) {
                 moves[i] = move
+                move.observable.subscribe { this.update() }
                 update()
                 return
             }
