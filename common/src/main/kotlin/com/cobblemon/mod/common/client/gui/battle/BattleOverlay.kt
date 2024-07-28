@@ -67,7 +67,7 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
         const val VERTICAL_SPACING = 40
         const val INFO_OFFSET_X = 7
 
-        const val TILE_WIDTH = 131
+        const val TILE_WIDTH = 140
         const val TILE_HEIGHT = 40
         const val PORTRAIT_DIAMETER = 28
         const val PORTRAIT_OFFSET_X = 5
@@ -271,9 +271,6 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             height = TILE_HEIGHT,
             width = TILE_WIDTH,
             alpha = opacity,
-            red = if(isSelected) ((BATTLE_COMMAND_COLOUR shr 16) and 0b11111111) / 255F else 1.0f,
-            green = if(isSelected) ((BATTLE_COMMAND_COLOUR shr 8) and 0b11111111) / 255F else 1.0f,
-            blue = if(isSelected) ((BATTLE_COMMAND_COLOUR) and 0b11111111) / 255F else 1.0f
         )
 
         if (colour != null) {
@@ -281,11 +278,13 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             blitk(
                 matrixStack = matrixStack,
                 texture = if (reversed) battleInfoRoleFlipped else battleInfoRole,
-                x = x + if (reversed) 93 else 11,
+                x = x + if (reversed) 102 else 11,
                 y = y + 1,
                 height = 3,
+                textureHeight = 12,
                 width = 27,
                 alpha = opacity,
+                vOffset = 9,
                 red = r,
                 green = g,
                 blue = b
@@ -335,7 +334,7 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
                 context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = textSymbol,
-                x = infoBoxX + 53,
+                x = infoBoxX + 63,
                 y = y + 7,
                 colour = if (isMale) 0x32CBFF else 0xFC5454,
                 opacity = opacity,
@@ -347,7 +346,7 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.lv").bold(),
-            x = infoBoxX + 59,
+            x = infoBoxX + 69,
             y = y + 7,
             opacity = opacity,
             shadow = true
@@ -357,16 +356,16 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = level.toString().text().bold(),
-            x = infoBoxX + 72,
+            x = infoBoxX + 82,
             y = y + 7,
             opacity = opacity,
             shadow = true
         )
         val hpRatio = if (isFlatHealth) health / maxHealth else health
         val (healthRed, healthGreen) = getDepletableRedGreen(hpRatio)
-        val fullWidth = 83
+        val fullWidth = 97
         val barWidth = hpRatio * fullWidth
-        val barX = if (!reversed) infoBoxX - 2 else infoBoxX + 3 + (fullWidth - barWidth)
+        val barX = if (!reversed) infoBoxX - 2 else infoBoxX - 2 + (fullWidth - barWidth)
         blitk(
             matrixStack = matrixStack,
             texture = CobblemonResources.WHITE,
