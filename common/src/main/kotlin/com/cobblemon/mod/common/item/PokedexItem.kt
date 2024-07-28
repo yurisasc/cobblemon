@@ -57,6 +57,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.lang.Double.max
 import java.lang.Double.min
+import java.lang.Math.clamp
 import javax.imageio.ImageIO
 
 class PokedexItem(val type: String) : CobblemonItem(Settings()) {
@@ -400,20 +401,21 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
         RenderSystem.enableBlend()
         // Pokédex zoom in/out animation
-        if (usageTicks <= 12) {
-            val scale = 1 + (if (usageTicks <= 2) 0F else ((usageTicks - 2) * 0.075F))
+        val effectiveTicks = clamp(usageTicks + (if (isScanning) 1 else -1) * tickDelta, 0F, 12F)
+        if (effectiveTicks <= 12) {
+            val scale = 1 + (if (effectiveTicks <= 2) 0F else ((effectiveTicks - 2) * 0.075F))
 
             // Calculate centered position
             val x = (screenWidth - (textureWidth * scale)) / 2
             val y = (screenHeight - (textureHeight * scale)) / 2
 
-            val opacity = if (usageTicks <= 2) 1F else (10F - (usageTicks.toFloat() - 2F)) / 10F
+            val opacity = if (effectiveTicks <= 2) 1F else (10F - (effectiveTicks.toFloat() - 2F)) / 10F
             blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/pokedex_base_${type}.png"), x = x / scale, y = y / scale, width = textureWidth, height = textureHeight, scale = scale, alpha = opacity)
             blitk(matrixStack = matrices, texture = scanScreen, x = x / scale, y = y / scale, width = textureWidth, height = textureHeight, scale = scale, alpha = opacity)
         }
 
         // Scanning overlay
-        val opacity = if (usageTicks > 12) 1F else usageTicks/12F
+        val opacity = if (effectiveTicks > 12) 1F else effectiveTicks/12F
         // Draw scan lines
         for (i in 0 until screenHeight) {
             if (i % 4 == 0) blitk(matrixStack = matrices, texture = scanOverlayLines, x = 0, y = i, width = screenWidth, height = 4, alpha = opacity)
