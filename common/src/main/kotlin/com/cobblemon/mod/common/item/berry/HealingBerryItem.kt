@@ -46,12 +46,22 @@ class HealingBerryItem(block: BerryBlock, val amount: () -> ExpressionLike): Ber
         stack: ItemStack,
         pokemon: Pokemon
     ): InteractionResultHolder<ItemStack>? {
-        if (pokemon.isFullHealth() || pokemon.isFainted()) {
+        if (pokemon.isFullHealth() || pokemon.isFainted() || pokemon.isFull()) {
             return InteractionResultHolder.fail(stack)
         }
 
+        pokemon.feedPokemon(1)
+
+        val fullnessPercent = ((pokemon.currentFullness).toFloat() / (pokemon.getMaxFullness()).toFloat()) * (.5).toFloat()
+
         pokemon.currentHealth = Integer.min(pokemon.currentHealth + genericRuntime.resolveInt(amount(), pokemon), pokemon.hp)
-        player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
+        if (pokemon.currentFullness >= pokemon.getMaxFullness()) {
+            player.playSound(CobblemonSounds.BERRY_EAT_FULL, 1F, 1F)
+        }
+        else {
+            player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F + fullnessPercent)
+        }
+
         if (!player.isCreative) {
             stack.shrink(1)
         }

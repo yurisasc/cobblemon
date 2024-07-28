@@ -81,6 +81,7 @@ import com.cobblemon.mod.common.config.constraint.IntConstraint
 import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.events.AdvancementHandler
+import com.cobblemon.mod.common.events.BellyHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
 import com.cobblemon.mod.common.permission.LaxPermissionValidator
@@ -361,6 +362,7 @@ object Cobblemon {
         }
         LEVEL_UP_EVENT.subscribe { AdvancementHandler.onLevelUp(it) }
         TRADE_COMPLETED.subscribe { AdvancementHandler.onTradeCompleted(it) }
+        BATTLE_VICTORY.subscribe { BellyHandler.onVictory(it) }
 
         BagItems.observable.subscribe {
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")

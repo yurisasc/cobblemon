@@ -40,6 +40,10 @@ class FriendshipRaisingBerryItem(block: BerryBlock, val stat: Stat) : BerryItem(
         stack: ItemStack,
         pokemon: Pokemon
     ): InteractionResultHolder<ItemStack> {
+        if (pokemon.isFull()) {
+            return InteractionResultHolder.fail(stack)
+        }
+
         val friendshipRaiseAmount = genericRuntime.resolveInt(CobblemonMechanics.berries.friendshipRaiseAmount, pokemon)
 
         val increasedFriendship = pokemon.incrementFriendship(friendshipRaiseAmount)
@@ -50,7 +54,17 @@ class FriendshipRaisingBerryItem(block: BerryBlock, val stat: Stat) : BerryItem(
         val decreasedEVs = currentStat != pokemon.evs.getOrDefault(stat)
 
         return if (increasedFriendship || decreasedEVs) {
-            player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
+            pokemon.feedPokemon(1)
+
+            val fullnessPercent = ((pokemon.currentFullness).toFloat() / (pokemon.getMaxFullness()).toFloat()) * (.5).toFloat()
+
+            if (pokemon.currentFullness >= pokemon.getMaxFullness()) {
+                player.playSound(CobblemonSounds.BERRY_EAT_FULL, 1F, 1F)
+            }
+            else {
+                player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F + fullnessPercent)
+            }
+
             if (!player.isCreative) {
                 stack.shrink(1)
             }

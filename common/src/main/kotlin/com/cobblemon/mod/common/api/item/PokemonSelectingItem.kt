@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.advancement.criterion.PokemonInteractContext
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.callback.PartySelectCallbacks
+import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.BagItemActionResponse
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
@@ -127,11 +128,19 @@ interface PokemonSelectingItem {
             canSelect = ::canUseOnPokemon,
             handler = { pk ->
                 if (stack.isHeld(player)) {
-                    applyToPokemon(player, stack, pk)
-                    CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(pk.species.resourceIdentifier, BuiltInRegistries.ITEM.getKey(stack.item)))
+                    if (stack.`is`(CobblemonItemTags.POKE_FOOD)) {
+                        if (!pk.isFull()) {
+                            applyToPokemon(player, stack, pk)
+                            CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(pk.species.resourceIdentifier, BuiltInRegistries.ITEM.getKey(stack.item)))
+                        }
+                    } else {
+                        applyToPokemon(player, stack, pk)
+                        CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(pk.species.resourceIdentifier, BuiltInRegistries.ITEM.getKey(stack.item)))
+                    }
                 }
             }
         )
+
 
         return InteractionResultHolder.success(stack)
     }

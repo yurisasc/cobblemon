@@ -706,6 +706,8 @@ open class Pokemon : ShowdownIdentifiable {
         this.moveSet.partialHeal()
     }
 
+
+
     /**
      * Check if this Pokémon can be healed.
      * This verifies if HP is not maxed, any status is present or any move is not full PP.
@@ -730,6 +732,256 @@ open class Pokemon : ShowdownIdentifiable {
     fun isFireImmune(): Boolean {
         return ElementalTypes.FIRE in types || !form.behaviour.moving.swim.hurtByLava
     }
+
+    // Fullness / Milking mechanics
+
+    // code for Shuckle Berry Juice farming
+    var berryJuiceMeter = 0
+
+    fun getBerryJuice() {
+        if (this.berryJuiceMeter != 0) {
+            this.berryJuiceMeter -= 1
+        }
+    }
+
+    //last time this pokemon was milked (this will increase overtime)
+    var lastMilked = 0
+
+    // reset the lastMilked timer whenever this pokemon is milked
+    fun milk() {
+        lastMilked = 0
+    }
+
+    // Silly Magikarp Jump mechanics
+
+    var jumpPower = 0.0
+
+    // reset Magikarp Jump Power
+    fun resetJumpPower() {
+        this.jumpPower = 0.0
+    }
+
+    // function to add incremental jump power to Magikarp
+    fun addJumpPower(value: Double) {
+        this.jumpPower = value / 100
+    }
+
+    // returns true depending on the type of pokemon
+    fun isMilkable(pokemon: Pokemon): Boolean {
+        if (
+            pokemon.species.name == "Miltank" ||
+            pokemon.species.name == "Camerupt" ||
+            pokemon.species.name == "Vespiqueen" ||
+            pokemon.species.name == "Combee" ||
+            (pokemon.species.name == "Gogoat" && pokemon.gender.name == "Female") ||
+            (pokemon.species.name == "Bouffalant" && pokemon.gender.name == "Female")
+        ) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+
+    // Value of current Fullness level
+    var currentFullness = 0
+
+    // DEPRECATED
+    //base Hunger value for all pokemon
+    var baseFullness = 5
+
+    // function to return the max hunger for the pokemon
+    fun getMaxFullness(): Int {
+        // get base HP stat of the referenced Pokemon
+        //var baseHP = this.species.baseStats.getOrDefault(Stats.HP,0)
+
+        // get weight of the pokemon
+        var weight = this.species.weight.toDouble()
+
+        //return (baseFullness + scaleFullnessRates(baseHP))
+        return ((getGrassKnotPower(weight) / 10 / 2) + 1)
+    }
+
+    // function to get grassKnot power based on weight (in Lbs)
+    fun getGrassKnotPower(weight: Double): Int {
+        return when {
+            weight in 0.1..21.8 -> 20
+            weight in 21.9..54.9 -> 40
+            weight in 55.0..110.1 -> 60
+            weight in 110.2..220.3 -> 80
+            weight in 220.4..440.8 -> 100
+            weight >= 440.9 -> 120
+            else -> 0 // For weights less than 0.1
+        }
+    }
+
+    // Method to add a new feeding time
+    fun feedPokemon(feedCount: Int) {
+        // get the fullness set to 0 in case something weird happens
+        if (this.currentFullness < 0) {
+            this.currentFullness = 0
+        }
+
+        // if pokemon is not full then feed
+        if (this.isFull() == false) {
+            this.currentFullness += feedCount
+
+        }
+
+        // pokemon was fed the first berry so we should reset their metabolism cycle so there is no inconsistencies
+        if (this.currentFullness == 1) {
+            this.resetMetabolismCycle()
+        }
+
+        // Every time Magikarp gets fed his JumpPower increases
+        if (this.species.name == "Magikarp") {
+            this.addJumpPower(feedCount.toDouble())
+        }
+    }
+
+    // decrease a pokemon's Fullness value by a certain amount
+    fun loseFullness(value: Int) {
+        this.currentFullness -= value
+
+        // handle possible case of fullness being less than 0
+        if (this.currentFullness < 0) {
+            this.currentFullness = 0
+        }
+
+        // if that pokemon is Shuckle and the berry juice meter if not full then increase the berry juice meter
+        if (this.species.name == "Shuckle" && this.berryJuiceMeter < 12){
+            this.berryJuiceMeter += 1
+        }
+    }
+
+    // DEPRECATED FOR NOW
+    // function to scale Hunger based off of the base HP stat of a Pokemon
+    fun scaleFullnessRates(stat: Int): Int {
+        // lowest base HP stat of a pokemon before adding more hunger
+        var lowerThreshold = 25
+
+        // highest base HP stat of a pokemon to be at max extra hunger
+        var upperThreshold = 150
+
+        // Value of the highest additional hunger allowed to be given
+        var maxAdditionalHunger = 15
+
+        // To adjust the curvature of the hunger scale increase as base HP gets larger
+        var hungerScaleExponent = 2.0
+
+        return when {
+            stat <= lowerThreshold -> 0
+            stat > upperThreshold -> maxAdditionalHunger
+            else -> {
+                // Scale the thresholds for hunger to be 0-1
+                val scaledStat = (stat - lowerThreshold) / (upperThreshold - lowerThreshold).toDouble()
+                // Apply exponential function for non-linear growth of the hunger increase
+                val result = maxAdditionalHunger * Math.pow(scaledStat, hungerScaleExponent)
+                // Ensure the result is within the bounds of the min and max thresholds
+                result.toInt().coerceIn(0, maxAdditionalHunger)
+            }
+        }
+    }
+
+
+    // Amount of seconds that need to pass for the pokemon to lose 1 fullness value
+    fun getMetabolismRate(): Int {
+
+        val hp = this.species.baseStats.getOrDefault(Stats.HP,0)
+        val atk = this.species.baseStats.getOrDefault(Stats.ATTACK,0)
+        val spatk = this.species.baseStats.getOrDefault(Stats.SPECIAL_ATTACK,0)
+        val def = this.species.baseStats.getOrDefault(Stats.DEFENCE,0)
+        val spdef = this.species.baseStats.getOrDefault(Stats.SPECIAL_DEFENCE,0)
+        val speed = this.species.baseStats.getOrDefault(Stats.SPEED,0)
+
+        // Base Stat Total for the pokemon
+        val BST = hp + atk + spatk + def + spdef + speed
+
+        // multiplying scaling value
+        val multiplier = 4
+
+        //base berry count
+        val baseBerryCount = 20
+
+        //rate of metabolism in seconds
+        var metabolismRate = ((baseBerryCount.toDouble() - ((speed.toDouble() / BST.toDouble()) * baseBerryCount.toDouble()) * multiplier.toDouble()) * 60.0).toInt()
+
+        // returns value in seconds for the onSecondPassed function
+        // check for below 0 value and set to minimum to 1 minute
+        if (metabolismRate <= 0) {
+            return 1    * 60
+        }
+        else {
+            return metabolismRate
+        }
+
+
+
+        /*var baseSpeed = this.species.baseStats.getOrDefault(Stats.SPEED, 0)
+
+        // maximum time it can take for a pokemon to lose 1 fullness
+        val maxRate = 480
+        // minimum time it can take for a pokemon to lose 1 fullness
+        val minRate = 120
+
+        // inflection point of the graph
+        val metabolismInflection = 80
+
+        // steepness of the curve near the inflection point
+        val steepness = 0.1
+
+        val metabolismRate = (maxRate - minRate) / (1 + Math.exp(steepness * (baseSpeed - metabolismInflection))) + minRate
+
+        // Ensure the metabolism rate is within a reasonable range
+        return metabolismRate.toInt().coerceIn(minRate.toInt(), maxRate.toInt())*/
+    }
+
+    // Boolean function that checks if a Pokemon can eat food based on fedTimes
+    fun isFull(): Boolean {
+
+        // Check if the pokemon is at max fullness
+        if (currentFullness >= this.getMaxFullness()) {
+            return true
+        }
+        return false
+    }
+
+    // The value that will increase per second until it hits a Pokemon's metabolism Factor then be set back to zero
+    var metabolismCycle = 0
+
+    // for setting the metabolism cycle of a pokemon back to 0 in certain cases
+    fun resetMetabolismCycle() {
+        this.metabolismCycle = 0
+    }
+
+    /**
+     * Called every second on the Pokémon for their fullness
+     */
+    open fun onSecondPassed(player: ServerPlayer, pokemon: Pokemon) {
+        // have metabolism cycle increase each second
+        metabolismCycle += 1
+
+        // set cap for lastMilked to save on resources potentially  [CURRENTLY SET TO 3 HOURS]
+        if (pokemon.lastMilked != 10800) {
+            pokemon.lastMilked += 1
+        }
+
+        // if the metabolismCycle value equals the Pokemon's metabolism rate then decrease Fullness by 1
+        if (metabolismCycle >= pokemon.getMetabolismRate()) {
+            // as a baseline we will decrement the Fullness by 1 for each metabolism cycle
+            val message = "${pokemon.species.name}'s Fullness went down by 1"
+
+            if (pokemon.currentFullness > 0) {
+                //player.sendMessage(Text.of(message))
+                pokemon.loseFullness(1)
+            }
+
+            //reset the metabolic cycle back to zero
+            metabolismCycle = 0
+        }
+    }
+
 
     fun isPositionSafe(world: Level, pos: Vec3): Boolean {
         return isPositionSafe(world, pos.toBlockPos())

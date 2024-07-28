@@ -104,6 +104,9 @@
   "berry.eat": {
     "sounds": [ "cobblemon:berry_eat" ]
   },
+  "berry.eat.full": {
+    "sounds": [ "cobblemon:berry_eat_full" ]
+  },
   "fossil_machine.activate": {
     "subtitle": "cobblemon.subtitle.fossilmachine.activate",
     "sounds": [ { "name": "cobblemon:block/fossil_machine/fossil_machine_activate", "volume": 0.8 } ]

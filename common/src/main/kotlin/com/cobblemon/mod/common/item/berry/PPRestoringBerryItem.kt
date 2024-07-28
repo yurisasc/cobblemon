@@ -45,12 +45,25 @@ class PPRestoringBerryItem(block: BerryBlock, val amount: () -> ExpressionLike):
     override fun canUseOnMove(move: Move) = move.currentPp < move.maxPp
     override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.moveSet.any(::canUseOnMove)
     override fun applyToPokemon(player: ServerPlayer, stack: ItemStack, pokemon: Pokemon, move: Move) {
-        val moveToRecover = pokemon.moveSet.find { it.template == move.template }
-        if (moveToRecover != null && moveToRecover.currentPp < moveToRecover.maxPp) {
-            moveToRecover.currentPp = min(moveToRecover.maxPp, moveToRecover.currentPp + genericRuntime.resolveInt(amount(), pokemon))
-            player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
-            if (!player.isCreative) {
-                stack.shrink(1)
+        if (!pokemon.isFull()) {
+            pokemon.feedPokemon(1)
+            val moveToRecover = pokemon.moveSet.find { it.template == move.template }
+            if (moveToRecover != null && moveToRecover.currentPp < moveToRecover.maxPp) {
+                moveToRecover.currentPp =
+                    min(moveToRecover.maxPp, moveToRecover.currentPp + genericRuntime.resolveInt(amount(), pokemon))
+
+                val fullnessPercent = ((pokemon.currentFullness).toFloat() / (pokemon.getMaxFullness()).toFloat()) * (.5).toFloat()
+
+                if (pokemon.currentFullness >= pokemon.getMaxFullness()) {
+                    player.playSound(CobblemonSounds.BERRY_EAT_FULL, 1F, 1F)
+                }
+                else {
+                    player.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F + fullnessPercent)
+                }
+
+                if (!player.isCreative) {
+                    stack.shrink(1)
+                }
             }
         }
     }
