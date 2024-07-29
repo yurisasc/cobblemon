@@ -11,12 +11,12 @@
   "party": {
     "type": "simple",
     "pokemon": [
-      "squirtle level=50",
-      "charmander level=50",
-      "bulbasaur level=50",
-      "pikachu level=50",
-      "larvitar level=50",
-      "mimikyu level=50"
+      "spiritomb level=100 moves=darkpulse,shadowball,willowisp,suckerpunch",
+      "porygonz level=100 moves=hyperbeam,shadowball,icebeam,thunderbolt",
+      "togekiss level=100 moves=airslash,dazzlinggleam,aurasphere,thunderwave",
+      "lucario level=100 moves=closecombat,meteormash,earthquake,extremespeed",
+      "milotic level=100 moves=recover,mirrorcoat,icebeam,scald",
+      "garchomp level=100 moves=dragonclaw,earthquake,swordsdance,poisonjab"
     ]
   }
 }
