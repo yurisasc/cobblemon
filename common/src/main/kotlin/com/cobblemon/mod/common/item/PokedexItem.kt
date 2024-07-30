@@ -687,14 +687,17 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
                 val boxVolume = boxWidth * boxHeight * boxDepth
 
-                val minSize = .2 // Smallest bounding box volume (joltik at .2)
-                val maxSize = .6 // Largest bounding box volume (wailord at 21.5)
-                val minSizeScale = 3 // Maximum inflation for getting closer to smallest hitbox
+                val minSize = 0.2 // Smallest bounding box volume (joltik at .2)
+                val maxSize = 3.0 // Largest bounding box volume (wailord at 21.5)
+                val minSizeScale = 2.0 // Maximum inflation for getting closer to smallest hitbox
                 val maxSizeScale = 1.0 // No inflation for getting closer to largest hitbox
+                val steepCoefficient = 20.0
 
-                // Calculate the scaling factor using an exponential function so smaller hitboxes are bigger but bigger ones stay the same
-                val normalizedSize = (boxVolume - minSize) / (maxSize - minSize)
-                val inflationFactor = maxSizeScale + (minSizeScale - maxSizeScale) * Math.max(0.0, (1.0 - Math.pow(normalizedSize, 2.0)))
+                // Normalize the volume within the defined range
+                val normalizedSize = (boxVolume - minSize) / (maxSize - minSize).coerceAtLeast(0.01)
+
+                // Calculate the scaling factor using very steep exponential decay to make smaller hitboxes bigger
+                val inflationFactor = maxSizeScale + (minSizeScale - maxSizeScale) * Math.exp(-steepCoefficient * normalizedSize)
 
                 // Inflate the base bounding box
                 val inflatedBox = entityBox.expand(
