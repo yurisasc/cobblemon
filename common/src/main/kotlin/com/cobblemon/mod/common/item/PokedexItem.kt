@@ -582,6 +582,8 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
             val pokedexData = Cobblemon.playerDataManager.getPokedexData(player)
             pokedexData.onPokemonSeen(species, form)
+            // kill overlay before opening dex
+            isScanning = false
             player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
             PokedexUIPacket(type, species).sendToPlayer(player)
             playSound(CobblemonSounds.POKEDEX_SCAN)
