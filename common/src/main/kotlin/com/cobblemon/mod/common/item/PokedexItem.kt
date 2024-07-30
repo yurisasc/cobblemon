@@ -663,7 +663,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         if (isScanning) {
             val eyePos = user.getCameraPosVec(1.0F)
             val lookVec = user.getRotationVec(1.0F)
-            val maxDistance = 8.0 * zoomLevel  // Adjusted raycast distance based on zoomLevel
+            val maxDistance = 9.0 * zoomLevel  // Adjusted raycast distance based on zoomLevel
             val boundingBoxSize = 12.0 * zoomLevel
             var closestEntity: Entity? = null
             var closestDistance = maxDistance
@@ -730,7 +730,6 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
             } else if (closestEntity == null && gracePeriod < 20) {
                 gracePeriod++
             } else {
-                gracePeriod = 0
                 pokemonInFocus = null
                 lastPokemonInFocus = null
                 if (focusTicks > 0) focusTicks--
