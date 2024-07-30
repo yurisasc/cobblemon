@@ -679,7 +679,31 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
             for (entity in entities) {
                 val entityBox: Box = entity.boundingBox
-                val intersection = entityBox.raycast(eyePos, eyePos.add(lookVec.multiply(maxDistance)))
+
+                // Calculate the size of the bounding box
+                val boxWidth = entityBox.lengthX
+                val boxHeight = entityBox.lengthY
+                val boxDepth = entityBox.lengthZ
+
+                val boxVolume = boxWidth * boxHeight * boxDepth
+
+                val minSize = .2 // Smallest bounding box volume (joltik at .2)
+                val maxSize = .6 // Largest bounding box volume (wailord at 21.5)
+                val minSizeScale = 3 // Maximum inflation for getting closer to smallest hitbox
+                val maxSizeScale = 1.0 // No inflation for getting closer to largest hitbox
+
+                // Calculate the scaling factor using an exponential function so smaller hitboxes are bigger but bigger ones stay the same
+                val normalizedSize = (boxVolume - minSize) / (maxSize - minSize)
+                val inflationFactor = maxSizeScale + (minSizeScale - maxSizeScale) * Math.max(0.0, (1.0 - Math.pow(normalizedSize, 2.0)))
+
+                // Inflate the base bounding box
+                val inflatedBox = entityBox.expand(
+                    (inflationFactor - 1) * boxWidth / 2,
+                    (inflationFactor - 1) * boxHeight / 2,
+                    (inflationFactor - 1) * boxDepth / 2
+                )
+
+                val intersection = inflatedBox.raycast(eyePos, eyePos.add(lookVec.multiply(maxDistance)))
 
                 if (intersection.isPresent) {
                     val distanceToEntity = eyePos.distanceTo(intersection.get())
@@ -703,10 +727,9 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 }
 
                 lastPokemonInFocus = pokemonInFocus
-            } else if (closestEntity == null && gracePeriod < 30) {
+            } else if (closestEntity == null && gracePeriod < 20) {
                 gracePeriod++
-            }
-            else {
+            } else {
                 gracePeriod = 0
                 pokemonInFocus = null
                 lastPokemonInFocus = null
