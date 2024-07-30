@@ -13,9 +13,10 @@ import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
-import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.MAX_OPACITY
-import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.MIN_OPACITY
-import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.OPACITY_CHANGE_PER_SECOND
+import com.cobblemon.mod.common.api.text.bold
+import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.client.CobblemonResources
+import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.net.messages.client.ui.PokedexUIPacket
@@ -55,8 +56,6 @@ import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.lang.Double.max
-import java.lang.Double.min
 import java.lang.Math.clamp
 import javax.imageio.ImageIO
 
@@ -67,6 +66,9 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     var isScanning = false
     var attackKeyHeldTicks = 0 // to help with detecting pressed and held states of the attack button
     var usageTicks = 0
+    var transitionTicks = 0
+    var focusTicks = 0
+    var innerRingRotation = 0
     var pokemonInFocus: PokemonEntity? = null
     var lastPokemonInFocus: PokemonEntity? = null
     var pokemonBeingScanned: PokemonEntity? = null
@@ -76,7 +78,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     var bufferImageSnap:  Boolean = false
 
     override fun getMaxUseTime(stack: ItemStack?, user: LivingEntity?): Int {
-        return 72000  // (vanilla bows use 72000 ticks -> 1 hour of hold time)
+        return 72000 // (vanilla bows use 72000 ticks -> 1 hour of hold time)
     }
 
     override fun postHit(stack: ItemStack?, target: LivingEntity?, attacker: LivingEntity?): Boolean {
@@ -92,6 +94,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     }
 
     override fun use(world: World, player: PlayerEntity, usedHand: Hand): TypedActionResult<ItemStack> {
+        println()
         val itemStack = player.getStackInHand(usedHand)
 
         if (player !is ServerPlayerEntity) return TypedActionResult.success(itemStack, world.isClient) else pokedexUser = player
@@ -167,26 +170,30 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     }
 
     override fun inventoryTick(stack: ItemStack?, world: World?, entity: Entity?, slot: Int, selected: Boolean) {
-        if (!isScanning && usageTicks > 0) usageTicks--
+        if (!isScanning) {
+            if (focusTicks > 0) focusTicks--
+            if (transitionTicks > 0) transitionTicks--
+        }
     }
 
     override fun usageTick(world: World?, user: LivingEntity?, stack: ItemStack?, remainingUseTicks: Int) {
         if (user is PlayerEntity) {
             // if the item has been used for more than 1 second activate scanning mode
             if (getMaxUseTime(stack, user) - remainingUseTicks > 3) {
-                if (usageTicks < 12) usageTicks++
+                usageTicks++
+                if (transitionTicks < 12) transitionTicks++
+                innerRingRotation = (if (pokemonInFocus != null) (innerRingRotation + 10) else (innerRingRotation + 1)) % 360
+
                 // play the Scanner Open sound only once
-                if (isScanning == false) {
+                if (!isScanning) {
                     playSound(CobblemonSounds.POKEDEX_SCAN_OPEN)
                     val client = MinecraftClient.getInstance()
 
-                    // Hide the HUD during scaner mode
+                    // Hide the HUD during scan mode
                     originalHudHidden = client.options.hudHidden
 
                     client.options.hudHidden = true
                 }
-
-
 
                // isScanning = true
 
@@ -401,7 +408,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
         RenderSystem.enableBlend()
         // Pokédex zoom in/out animation
-        val effectiveTicks = clamp(usageTicks + (if (isScanning) 1 else -1) * tickDelta, 0F, 12F)
+        val effectiveTicks = clamp(transitionTicks + (if (isScanning) 1 else -1) * tickDelta, 0F, 12F)
         if (effectiveTicks <= 12) {
             val scale = 1 + (if (effectiveTicks <= 2) 0F else ((effectiveTicks - 2) * 0.075F))
 
@@ -415,7 +422,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         }
 
         // Scanning overlay
-        val opacity = if (effectiveTicks > 12) 1F else effectiveTicks/12F
+        val opacity = if (effectiveTicks >= 10) 1F else effectiveTicks/10F
         // Draw scan lines
         for (i in 0 until screenHeight) {
             if (i % 4 == 0) blitk(matrixStack = matrices, texture = scanOverlayLines, x = 0, y = i, width = screenWidth, height = 4, alpha = opacity)
@@ -432,34 +439,64 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         blitk(matrixStack = matrices, texture = scanOverlayCorners, x = (screenWidth - 4), y = (screenHeight - 4), width = 4, height = 4, textureWidth = 8, textureHeight = 8, vOffset = 4, uOffset = 4, alpha = opacity)
 
         // Border sides
-        blitk(matrixStack = matrices, texture = scanOverlayTop, x = 4, y = 0, width = (screenWidth - 8), height = 3, alpha = opacity)
+        val notchStartX = (screenWidth - 200) / 2
+        blitk(matrixStack = matrices, texture = scanOverlayTop, x = 4, y = 0, width = notchStartX - 4, height = 3, alpha = opacity)
+        blitk(matrixStack = matrices, texture = scanOverlayTop, x = notchStartX + 200, y = 0, width = (screenWidth - (notchStartX + 200 + 4)), height = 3, alpha = opacity)
         blitk(matrixStack = matrices, texture = scanOverlayBottom, x = 4, y = (screenHeight - 3), width = (screenWidth - 8), height = 3, alpha = opacity)
         blitk(matrixStack = matrices, texture = scanOverlayLeft, x = 0, y = 4, width = 3, height = (screenHeight - 8), alpha = opacity)
         blitk(matrixStack = matrices, texture = scanOverlayRight, x = (screenWidth - 3), y = 4, width = 3, height = (screenHeight - 8), alpha = opacity)
+        blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/scan/overlay_notch.png"), x = notchStartX, y = 0, width = 200, height = 12, alpha = opacity)
 
-        blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/scan/circle.png"),
-            x = (screenWidth - 100) / 2,
-            y = (screenHeight - 100) / 2,
-            width = 100, height = 100, alpha = opacity)
+        // Scan info frame
+        if (focusTicks > 0) {
+            blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/scan/scan_info_frame.png"),
+                x = (screenWidth / 2) - 120,
+                y = (screenHeight / 2) - 80,
+                width = 92,
+                height = 55,
+                textureHeight = 550,
+                textureWidth = 92,
+                vOffset = focusTicks * 55,
+                alpha = opacity
+            )
 
-//        blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/scan/scan_circle.png"),
-//            x = (screenWidth - 100) / 2,
-//            y = (screenHeight - 2) / 2,
-//            width = 100, height = 2, alpha = opacity)
+            if (focusTicks == 9 && pokemonInFocus != null) {
+                drawScaledText(
+                    context = drawContext,
+                    font = CobblemonResources.DEFAULT_LARGE,
+                    text = pokemonInFocus!!.pokemon.species.name.text().bold(),
+                    x = (screenWidth / 2) - 74,
+                    y = (screenHeight / 2) - 74,
+                    shadow = true,
+                    centered = true
+                )
+            }
+        }
 
+        val rotation = usageTicks % 360
+
+        // Scan rings
         matrices.push()
         matrices.translate((screenWidth / 2).toFloat(), (screenHeight / 2).toFloat(), 0.0f)
-        for (i in 0 .. 2) {
-            val rotationQuaternion = Quaternionf().rotateZ(Math.toRadians(i * 4.5).toFloat())
 
+        matrices.push()
+        matrices.multiply(Quaternionf().rotateZ(Math.toRadians((-rotation) * 0.5).toFloat()))
+        blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/scan/scan_ring_outer.png"), x = -58, y = -58, width = 116, height = 116, alpha = opacity)
+        matrices.pop()
+
+        for (i in 0 until 80) {
+            val rotationQuaternion = Quaternionf().rotateZ(Math.toRadians((i * 4.5) + (rotation * 0.5)).toFloat())
             matrices.push()
             matrices.multiply(rotationQuaternion)
-            blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/scan/scan_circle.png"),
-                x = 0,
-                y = 0,
-                width = 100, height = 2, alpha = opacity)
+            blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/scan/scan_ring_middle.png"), x = -50, y = -0.5F, width = 100, height = 1, alpha = opacity)
             matrices.pop()
         }
+
+        matrices.push()
+        matrices.multiply(Quaternionf().rotateZ(Math.toRadians(-innerRingRotation.toDouble()).toFloat()))
+        blitk(matrixStack = matrices, texture = cobblemonResource("textures/gui/pokedex/scan/scan_ring_inner.png"), x = -42, y = -42, width = 84, height = 84, alpha = opacity)
+        matrices.pop()
+
         matrices.pop()
 
         RenderSystem.disableBlend()
@@ -613,7 +650,6 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         return Vec3d(this.x, this.y * cos - this.z * sin, this.y * sin + this.z * cos)
     }
 
-
     private fun detectPokemon(world: World, user: PlayerEntity, hand: Hand, currentTick: Int = -1) {
         if (isScanning) {
             val eyePos = user.getCameraPosVec(1.0F)
@@ -647,11 +683,11 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
             if (closestEntity != null && closestEntity is PokemonEntity) {
                 pokemonInFocus = closestEntity
+                if (focusTicks < 9) focusTicks++
 
                 // If detected pokemon is not the same as the last detected pokemon
                 if (pokemonInFocus != lastPokemonInFocus || currentTick == 1) {
-                    user.sendMessage(Text.of("${closestEntity.pokemon.species.name} is in focus!"))
-
+                    // user.sendMessage(Text.of("${closestEntity.pokemon.species.name} is in focus!"))
                     // Play sound for showing details of the focused pokemon
                     playSound(CobblemonSounds.POKEDEX_SCAN_DETAIL)
                 }
@@ -660,7 +696,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
             } else {
                 pokemonInFocus = null
                 lastPokemonInFocus = null
-
+                if (focusTicks > 0) focusTicks--
                 // Play POKEDEX_DETAIL_DISAPPEAR sound here (if necessary)
             }
         }
@@ -887,10 +923,6 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
             isMouseButtonCallbackRegistered = false
         }
     }*/
-
-
-
-
 
     /*override fun use(world: World, player: PlayerEntity, usedHand: Hand): TypedActionResult<ItemStack> {
         val itemStack = player.getStackInHand(usedHand)
