@@ -68,6 +68,7 @@ object DataKeys {
     const val POKEMON_ORIGINAL_TRAINER_TYPE = "PokemonOriginalTrainerType"
 
     const val POKEMON_PROPERTIES_MOVES = "Moves"
+    const val POKEMON_PROPERTIES_HELDITEM = "HeldItem"
 
     // Entity effects
     const val ENTITY_EFFECTS = "EntityEffects"
