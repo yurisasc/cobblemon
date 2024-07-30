@@ -69,6 +69,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     var transitionTicks = 0
     var focusTicks = 0
     var gracePeriod = 0
+    var dexActive = false
     var innerRingRotation = 0
     var pokemonInFocus: PokemonEntity? = null
     var lastPokemonInFocus: PokemonEntity? = null
@@ -97,6 +98,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     override fun use(world: World, player: PlayerEntity, usedHand: Hand): TypedActionResult<ItemStack> {
         println()
         val itemStack = player.getStackInHand(usedHand)
+        dexActive = false
 
         if (player !is ServerPlayerEntity) return TypedActionResult.success(itemStack, world.isClient) else pokedexUser = player
 
@@ -180,7 +182,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     override fun usageTick(world: World?, user: LivingEntity?, stack: ItemStack?, remainingUseTicks: Int) {
         if (user is PlayerEntity) {
             // if the item has been used for more than 1 second activate scanning mode
-            if (getMaxUseTime(stack, user) - remainingUseTicks > 3) {
+            if (getMaxUseTime(stack, user) - remainingUseTicks > 3 && !dexActive) {
                 usageTicks++
                 if (transitionTicks < 12) transitionTicks++
                 innerRingRotation = (if (pokemonInFocus != null) (innerRingRotation + 10) else (innerRingRotation + 1)) % 360
@@ -234,6 +236,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     override fun onStoppedUsing(stack: ItemStack?, world: World, entity: LivingEntity, timeLeft: Int) {
         // todo if less than a second then open GUI
         if (entity is ServerPlayerEntity && (getMaxUseTime(stack, entity) - timeLeft) <= 3) {
+            dexActive = true
             openPokdexGUI(entity)
         } else if (entity !is ServerPlayerEntity && (getMaxUseTime(stack, entity) - timeLeft) > 3){ // any other amount of time assume scanning mode was active
             playSound(CobblemonSounds.POKEDEX_SCAN_CLOSE)
@@ -255,6 +258,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         client.options.hudHidden = originalHudHidden
         isScanning = false
         bufferImageSnap = false
+        dexActive = false
         zoomLevel = 1.0
         attackKeyHeldTicks = 0
         //usageTicks = 0
@@ -505,8 +509,10 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
     @Environment(EnvType.CLIENT)
     fun onRenderOverlay(drawContext: DrawContext, tickCounter: RenderTickCounter) {
-        val tickDelta = tickCounter.getTickDelta(false)
-        renderPhotodexOverlay(drawContext, tickDelta, 1.0F)
+        if (!dexActive && isScanning) {
+            val tickDelta = tickCounter.getTickDelta(false)
+            renderPhotodexOverlay(drawContext, tickDelta, 1.0F)
+        }
         //if (isScanning) {
             // render the scanner overlay
             //renderPhotodexOverlay(drawContext, 1.0F)
@@ -583,7 +589,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
             val pokedexData = Cobblemon.playerDataManager.getPokedexData(player)
             pokedexData.onPokemonSeen(species, form)
             // kill overlay before opening dex
-            isScanning = false
+            dexActive = true
             player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
             PokedexUIPacket(type, species).sendToPlayer(player)
             playSound(CobblemonSounds.POKEDEX_SCAN)
