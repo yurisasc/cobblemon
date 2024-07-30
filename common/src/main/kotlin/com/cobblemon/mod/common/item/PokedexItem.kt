@@ -68,6 +68,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
     var usageTicks = 0
     var transitionTicks = 0
     var focusTicks = 0
+    var gracePeriod = 0
     var innerRingRotation = 0
     var pokemonInFocus: PokemonEntity? = null
     var lastPokemonInFocus: PokemonEntity? = null
@@ -682,6 +683,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
             }
 
             if (closestEntity != null && closestEntity is PokemonEntity) {
+                gracePeriod = 0
                 pokemonInFocus = closestEntity
                 if (focusTicks < 9) focusTicks++
 
@@ -693,7 +695,11 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
                 }
 
                 lastPokemonInFocus = pokemonInFocus
-            } else {
+            } else if (closestEntity == null && gracePeriod < 30) {
+                gracePeriod++
+            }
+            else {
+                gracePeriod = 0
                 pokemonInFocus = null
                 lastPokemonInFocus = null
                 if (focusTicks > 0) focusTicks--
