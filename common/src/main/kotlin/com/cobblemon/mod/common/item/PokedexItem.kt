@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
+import com.cobblemon.mod.common.api.gui.drawText
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.api.text.text
@@ -43,6 +44,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.hit.HitResult
@@ -411,6 +413,29 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         val scanOverlayRight = cobblemonResource("textures/gui/pokedex/scan/overlay_border_right.png")
         val scanOverlayLines = cobblemonResource("textures/gui/pokedex/scan/overlay_scanlines.png")
 
+        // Get player yaw and convert to degrees in a circle
+        val yaw = client.player?.yaw ?: 0f
+        val degrees = (yaw % 360 + 360) % 360  // Normalize the angle
+
+        // Compass configuration
+        val compassPoints = arrayOf("n", "i", "e", "i", "s", "i", "w", "i")
+        val degreesPerSegment = 360 / compassPoints.size
+        val centerIndex = Math.round(degrees / degreesPerSegment) % compassPoints.size
+        val visibleSegments = arrayOfNulls<String>(5)  // Showing 5 segments at a time
+        for (i in visibleSegments.indices) {
+            val index = (centerIndex + i - 2 + compassPoints.size) % compassPoints.size
+            visibleSegments[i] = compassPoints[index]
+        }
+
+        // Render Compass at the Top Center
+        val compassSpacing = 20  // Width of each compass segment texture
+        val compassStartX = (screenWidth - compassSpacing * visibleSegments.size) / 2
+        val compassY = 10  // Top of the screen
+        for (i in visibleSegments.indices) {
+            val segmentTexture = getCompassTexture(visibleSegments[i] ?: "i")  // Assuming a method to get the right texture
+            blitk(matrixStack = matrices, texture = segmentTexture, x = compassStartX + i * compassSpacing, y = compassY, width = 16, height = 16, alpha = 1.0F)
+        }
+
         RenderSystem.enableBlend()
         // Pokédex zoom in/out animation
         val effectiveTicks = clamp(transitionTicks + (if (isScanning) 1 else -1) * tickDelta, 0F, 12F)
@@ -505,6 +530,10 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
         matrices.pop()
 
         RenderSystem.disableBlend()
+    }
+
+    fun getCompassTexture(direction: String): Identifier {
+        return cobblemonResource("textures/gui/pokedex/compass/$direction.png")
     }
 
     @Environment(EnvType.CLIENT)
