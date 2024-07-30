@@ -41,11 +41,13 @@ import com.cobblemon.mod.common.util.simplify
 import com.cobblemon.mod.common.util.splitMap
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.mojang.brigadier.StringReader
 import com.mojang.serialization.Codec
 import java.util.UUID
 import kotlin.math.min
 import kotlin.random.Random
 import net.minecraft.ResourceLocationException
+import net.minecraft.commands.arguments.item.ItemParser
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.CompoundTag
@@ -438,7 +440,12 @@ open class PokemonProperties {
             }
         }
         heldItem?.let { itemKey ->
-            val stack = ItemStack(BuiltInRegistries.ITEM[ResourceLocation.parse(itemKey)])
+            val server = server() ?: return@let
+            val parser = ItemParser(server.registryAccess())
+            val result = parser.parse(StringReader(itemKey))
+
+            val stack = ItemStack(result.item)
+            stack.applyComponents(result.components)
             if (stack.isEmpty) return@let
             pokemon.heldItem = stack
         }
