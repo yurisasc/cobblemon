@@ -1418,6 +1418,7 @@
   "cobblemon.battle.enditem.ejectbutton": "%1$s is switched out with the Eject Button!",
   "cobblemon.battle.enditem.snowball": "%1$s used its Snowball!",
   "cobblemon.battle.enditem.focusband": "%1$s hung on using its Focus Sash!",
+  "cobblemon.battle.enditem.ejectpack": "%1$s is switched out by the Eject Pack!",
 
   "cobblemon.battle.heal.zeffect": "%1$s's HP was restored by the Z-Power!",
   "cobblemon.battle.heal.wish": "%1$s's wish came true!",
