@@ -30,7 +30,7 @@
 ### Additions
 - Added extra visuals to early berry growth stages
 - Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
-- Added Metronome, Protective Pads, Punching Glove, Room Service, Scope Lens, Shed Shell, Terrain Extender, Throat Spray, Utility Umbrella, Wide Lens, and Zoom Lens held items
+- Added Eject Pack, Metronome, Protective Pads, Punching Glove, Room Service, Scope Lens, Shed Shell, Terrain Extender, Throat Spray, Utility Umbrella, Wide Lens, and Zoom Lens held items
 - Added a `battleInvulnerability` gamerule to make players invulnerable to any damage during a battle
 - Added a `mobTargetInBattle` gamerule to exclude players from being targeted by mobs during a battle
 - Added battle log messages for switching out Pokémon
@@ -68,6 +68,7 @@
 - Kakuna, Beedrill, Snorlax, Munchlax, and Lurantis received model updates
 
 ### Developer
+- PokemonBattle now starts on turn 0.
 
 ### Data Pack & Resource Pack Creators
 - Added support for "shedders" similar to Shedinja's evolution logic.
