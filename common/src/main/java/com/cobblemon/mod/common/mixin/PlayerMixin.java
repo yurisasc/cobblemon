@@ -161,8 +161,13 @@ public abstract class PlayerMixin extends LivingEntity {
         }
     }
 
-    @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-    public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> ci) {
-        if (this.getWorld().getGameRules().getBoolean(CobblemonGameRules.BATTLE_INVULNERABILITY)) ci.setReturnValue(false);
+    @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
+    public void isInvulnerableTo(DamageSource source, CallbackInfoReturnable<Boolean> ci) {
+        if (!getWorld().isClient) {
+            ServerPlayerEntity player = (ServerPlayerEntity)(Object)this;
+            boolean invulnerableInBattle = this.getWorld().getGameRules().getBoolean(CobblemonGameRules.BATTLE_INVULNERABILITY);
+            boolean inBattle = Cobblemon.INSTANCE.getBattleRegistry().getBattleByParticipatingPlayer(player) != null;
+            if (invulnerableInBattle && inBattle) ci.setReturnValue(true);
+        }
     }
 }

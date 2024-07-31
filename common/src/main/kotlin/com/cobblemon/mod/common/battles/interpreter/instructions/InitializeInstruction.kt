@@ -54,11 +54,11 @@ class InitializeInstruction(val instructionSet: InstructionSet, val message: Bat
         }
 
         battle.dispatch {
-            battle.started = true
             DispatchResult { !battle.side1.stillSendingOut() && !battle.side2.stillSendingOut() }
         }
 
         battle.dispatchGo {
+            battle.started = true
             battle.side1.playCries()
             afterOnServer(seconds = 1.0F) { battle.side2.playCries() }
         }
