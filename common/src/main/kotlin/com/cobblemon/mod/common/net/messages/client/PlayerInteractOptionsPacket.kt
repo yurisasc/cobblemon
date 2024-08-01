@@ -25,7 +25,7 @@ class PlayerInteractOptionsPacket(
     val options: EnumSet<Options>,
     val targetId: UUID,
     val numericTargetId: Int,
-    val selectedPokemonId: UUID
+    val selectedPokemonId: UUID,
     ) : NetworkPacket<PlayerInteractOptionsPacket> {
     companion object {
         val ID = cobblemonResource("player_interactions")
@@ -46,9 +46,15 @@ class PlayerInteractOptionsPacket(
     }
 
     enum class Options {
-        BATTLE,
+        SINGLE_BATTLE,
+        DOUBLE_BATTLE,
+        TRIPLE_BATTLE,
+        MULTI_BATTLE,
+        ROYAL_BATTLE,
         SPECTATE_BATTLE,
-        TRADE
+        TRADE,
+        TEAM_REQUEST,
+        TEAM_LEAVE,
     }
 
 }

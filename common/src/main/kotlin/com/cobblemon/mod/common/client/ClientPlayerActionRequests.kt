@@ -13,5 +13,6 @@ import com.cobblemon.mod.common.client.trade.ClientTradeOffer
 
 class ClientPlayerActionRequests {
     val battleChallenges = mutableListOf<ClientBattleChallenge>()
+    val multiBattleTeamRequests = mutableListOf<ClientBattleChallenge>()
     val tradeOffers = mutableListOf<ClientTradeOffer>()
 }

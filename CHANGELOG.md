@@ -6,6 +6,7 @@
 - Fixed a scenario where a Pokémon that rolled to spawn with a special Tera type sometimes has a Tera type that is already a part of their natural typing.
 - Fixed PokemonProperty argument suggestions for ``tera`` and ``tera_type`` not suggesting ``stellar``.
 - Fixed being able to stack Relic Coin Pouches on top of each other.
+- Bag Items used during a turn will now be refunded if the battle ends before the next turn begins.
 
 ### Additions
 - Added Pokémon (and item) fishing using modified fishing rods - Poké Rods! You'll need a Poké Rod smithing template, a fishing rod, and some type of Poké Ball. Each Poké Ball makes a differently themed rod. Why not?
@@ -13,6 +14,12 @@
 - Added property chaining support for duplicate CustomPokemonPropertyType elements.
 - Added ``aspect`` and ``unaspect`` PokemonProperty arguments (which also includes commands such as /pokemonedit, /spawnpokemon, and /givepokemon) to allow forcing or un-forcing an aspect on a Pokémon.
 - Added ``type`` alternatively ``elemental_type`` PokemonProperty argument, this is only used for filtering and is not applied to Pokémon. Example ``type=fire`` would be true for Charmander but false for Squirtle.
+- Added support for Double Battles, Triple Battles, and Multi-battles. 
+- Adjusted Pokémon sendout positions for single battles.
+- Wild Pokémon interaction range increased to 12 blocks (from 10 blocks)
+- Player trade range increased to 12 blocks (from 10 blocks)
+- PvP battle range increased to 32 blocks (from 10 blocks)
+- Spectate range increased to 64 blocks (from 10 blocks)
 
 ### Developer
 - SpawnCause is now an implementation of SpawningInfluence.

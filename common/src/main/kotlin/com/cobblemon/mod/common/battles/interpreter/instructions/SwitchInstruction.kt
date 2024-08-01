@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.battles.ActiveBattlePokemon
+import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.dispatch.*
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
@@ -36,9 +37,10 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
 
     override fun invoke(battle: PokemonBattle) {
 
-        val (pnx, _) = publicMessage.pnxAndUuid(0) ?: return
+        val (pnx, pokemonID) = publicMessage.pnxAndUuid(0) ?: return
         val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
+
 
         val imposter = instructionSet.getNextInstruction<TransformInstruction>(this)?.expectedTarget != null
         val illusion = publicMessage.battlePokemonFromOptional(battle, "is")
@@ -58,22 +60,19 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
             }
 
             if (pokemonEntity == null && entity != null) {
-                val targetPos = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.entity?.position()?.let { pos ->
-                    val offset = pos.subtract(entity.position())
-                    val idealPos = entity.position().add(offset.scale(0.33))
-                    idealPos
-                } ?: entity.position()
-
-                actor.stillSendingOutCount++
-                pokemon.effectedPokemon.sendOutWithAnimation(
-                    source = entity,
-                    battleId = battle.battleId,
-                    level = entity.level() as ServerLevel,
-                    doCry = false,
-                    position = targetPos,
-                    illusion = illusion?.let { IllusionEffect(it.effectedPokemon) }
-                ).thenApply {
-                    actor.stillSendingOutCount--
+                val targetPos = ShowdownInterpreter.getSendoutPosition(battle, pnx, battleActor)
+                if (targetPos != null) {
+                    actor.stillSendingOutCount++
+                    pokemon.effectedPokemon.sendOutWithAnimation(
+                            source = entity,
+                            battleId = battle.battleId,
+                            level = entity.level() as ServerLevel,
+                            doCry = false,
+                            position = targetPos,
+                            illusion = illusion?.let { IllusionEffect(it.effectedPokemon) }
+                    ).thenApply {
+                        actor.stillSendingOutCount--
+                    }
                 }
             }
             else if (pokemonEntity != null) {

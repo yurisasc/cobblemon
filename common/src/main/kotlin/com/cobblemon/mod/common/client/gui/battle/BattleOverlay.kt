@@ -54,6 +54,7 @@ import net.minecraft.client.gui.Gui
 import net.minecraft.client.gui.screens.ChatScreen
 import net.minecraft.client.renderer.LightTexture
 import org.joml.Vector3f
+import com.cobblemon.mod.common.api.gui.ColourLibrary.BATTLE_COMMAND_COLOUR
 
 class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
     companion object {
@@ -66,7 +67,7 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
         const val VERTICAL_SPACING = 40
         const val INFO_OFFSET_X = 7
 
-        const val TILE_WIDTH = 131
+        const val TILE_WIDTH = 140
         const val TILE_HEIGHT = 40
         const val PORTRAIT_DIAMETER = 28
         const val PORTRAIT_OFFSET_X = 5
@@ -110,8 +111,13 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
         val side1 = if (battle.side1.actors.any { it.uuid == playerUUID }) battle.side1 else battle.side2
         val side2 = if (side1 == battle.side1) battle.side2 else battle.side1
 
-        side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index) }
-        side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, index) }
+        // Command highlight for Double and Triple Battles
+        val currentScreen = Minecraft.getInstance().screen
+        val isBattleGUIActive = currentScreen is BattleGUI && currentScreen.getCurrentActionSelection() != null
+        val selectedPNX = if((battle.battleFormat.battleType.slotsPerActor > 1 || battle.battleFormat.battleType.actorsPerSide > 1) && isBattleGUIActive) battle.getFirstUnansweredRequest()?.activePokemon?.getPNX() else null
+
+        side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index, activeClientBattlePokemon.getPNX() == selectedPNX) }
+        side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, side2.activeClientBattlePokemon.count() - index - 1) }
 
         if (Minecraft.getInstance().screen !is BattleGUI && battle.mustChoose) {
             val textOpacity = PROMPT_TEXT_OPACITY_CURVE(passedSeconds)
@@ -125,8 +131,6 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             )
         }
 
-        val currentScreen = Minecraft.getInstance().screen
-
         if (currentScreen == null || currentScreen is ChatScreen) {
             if (lastKnownBattle != battle.battleId) {
                 lastKnownBattle = battle.battleId
@@ -137,12 +141,14 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
         }
     }
 
-    fun drawTile(context: GuiGraphics, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int) {
+    fun drawTile(context: GuiGraphics, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int, hasCommand: Boolean = false) {
         val mc = Minecraft.getInstance()
 
         val battlePokemon = activeBattlePokemon.battlePokemon ?: return
         // First render the underlay
-        var x = HORIZONTAL_INSET + rank * HORIZONTAL_SPACING.toFloat()
+        val battle = CobblemonClient.battle ?: return
+        val slotCount = battle.battleFormat.battleType.slotsPerActor
+        var x = HORIZONTAL_INSET + (slotCount - rank - 1) * HORIZONTAL_SPACING.toFloat()
         val y = VERTICAL_INSET + rank * VERTICAL_SPACING
         if (!left) {
             x = mc.window.guiScaledWidth - x - TILE_WIDTH
@@ -183,7 +189,8 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             ballState = activeBattlePokemon.ballCapturing,
             maxHealth = battlePokemon.maxHp.toInt(),
             health = battlePokemon.hpValue,
-            isFlatHealth = battlePokemon.isHpFlat
+            isFlatHealth = battlePokemon.isHpFlat,
+            isSelected = hasCommand
         )
     }
 
@@ -205,7 +212,8 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
         ballState: ClientBallDisplay? = null,
         maxHealth: Int,
         health: Float,
-        isFlatHealth: Boolean
+        isFlatHealth: Boolean,
+        isSelected: Boolean = false
     ) {
         val portraitStartX = x + if (!reversed) PORTRAIT_OFFSET_X else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET_X }
         val matrixStack = context.pose()
@@ -262,7 +270,7 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             y = y,
             height = TILE_HEIGHT,
             width = TILE_WIDTH,
-            alpha = opacity
+            alpha = opacity,
         )
 
         if (colour != null) {
@@ -270,11 +278,13 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             blitk(
                 matrixStack = matrixStack,
                 texture = if (reversed) battleInfoRoleFlipped else battleInfoRole,
-                x = x + if (reversed) 93 else 11,
+                x = x + if (reversed) 102 else 11,
                 y = y + 1,
                 height = 3,
+                textureHeight = 12,
                 width = 27,
                 alpha = opacity,
+                vOffset = 9,
                 red = r,
                 green = g,
                 blue = b
@@ -324,7 +334,7 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
                 context = context,
                 font = CobblemonResources.DEFAULT_LARGE,
                 text = textSymbol,
-                x = infoBoxX + 53,
+                x = infoBoxX + 63,
                 y = y + 7,
                 colour = if (isMale) 0x32CBFF else 0xFC5454,
                 opacity = opacity,
@@ -336,7 +346,7 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = lang("ui.lv").bold(),
-            x = infoBoxX + 59,
+            x = infoBoxX + 69,
             y = y + 7,
             opacity = opacity,
             shadow = true
@@ -346,16 +356,16 @@ class BattleOverlay : Gui(Minecraft.getInstance()), Schedulable {
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = level.toString().text().bold(),
-            x = infoBoxX + 72,
+            x = infoBoxX + 82,
             y = y + 7,
             opacity = opacity,
             shadow = true
         )
         val hpRatio = if (isFlatHealth) health / maxHealth else health
         val (healthRed, healthGreen) = getDepletableRedGreen(hpRatio)
-        val fullWidth = 83
+        val fullWidth = 97
         val barWidth = hpRatio * fullWidth
-        val barX = if (!reversed) infoBoxX - 2 else infoBoxX + 3 + (fullWidth - barWidth)
+        val barX = if (!reversed) infoBoxX - 2 else infoBoxX - 2 + (fullWidth - barWidth)
         blitk(
             matrixStack = matrixStack,
             texture = CobblemonResources.WHITE,
