@@ -538,7 +538,7 @@ class PokedexItem(val type: String) : CobblemonItem(Settings()) {
 
     @Environment(EnvType.CLIENT)
     fun onRenderOverlay(drawContext: DrawContext, tickCounter: RenderTickCounter) {
-        if (!dexActive && isScanning) {
+        if (!dexActive) {
             val tickDelta = tickCounter.getTickDelta(false)
             renderPhotodexOverlay(drawContext, tickDelta, 1.0F)
         }
