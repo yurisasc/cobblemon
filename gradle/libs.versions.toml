@@ -2,7 +2,7 @@
 # Kotlin
 kotlin = "2.0.0"
 annotations = "24.1.0"
-serialization = "2.0.0"
+serialization = "1.7.1"
 
 # Plugins
 licenser = "0.6.1"
