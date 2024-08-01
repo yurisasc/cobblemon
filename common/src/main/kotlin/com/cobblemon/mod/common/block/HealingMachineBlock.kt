@@ -68,11 +68,13 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         // Charge level 6 is used only when healing machine is active
         const val MAX_CHARGE_LEVEL = 5
         val CHARGE_LEVEL: IntProperty = IntProperty.of("charge", 0, MAX_CHARGE_LEVEL + 1)
+        val NATURAL: BooleanProperty = BooleanProperty.of("natural")
     }
 
     init {
         defaultState = this.stateManager.defaultState
             .with(HorizontalFacingBlock.FACING, Direction.NORTH)
+            .with(NATURAL, false)
             .with(CHARGE_LEVEL, 0)
     }
 
@@ -98,7 +100,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(HorizontalFacingBlock.FACING)
+        builder.add(HorizontalFacingBlock.FACING, NATURAL)
         builder.add(*arrayOf<Property<*>>(CHARGE_LEVEL))
     }
 
