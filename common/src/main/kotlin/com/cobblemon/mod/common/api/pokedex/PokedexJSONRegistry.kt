@@ -23,7 +23,6 @@ import com.google.gson.reflect.TypeToken
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
-import java.util.*
 
 object PokedexJSONRegistry : JsonDataRegistry<DexData> {
     override val id = cobblemonResource("pokedexes")
@@ -104,7 +103,49 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
             return _skipAutoNumberingIndexes!!
         }
 
+    // todo define this in JSONs
+    private var orderedDexes: List<Identifier> = listOf(
+        cobblemonResource("national"),
+        cobblemonResource("national_kanto"),
+        cobblemonResource("national_johto"),
+        cobblemonResource("national_hoenn"),
+        cobblemonResource("national_sinnoh"),
+        cobblemonResource("national_unova"),
+        cobblemonResource("national_kalos"),
+        cobblemonResource("national_alola"),
+        cobblemonResource("national_galar"),
+        cobblemonResource("national_hisui"),
+        cobblemonResource("national_paldea"),
+        cobblemonResource("national_unknown")
+    )
 
+    /**
+     * Gets the [Identifier] of the next [DexData] in [orderedDexes]
+     *
+     * @param currentDex The [Identifier] to search [orderedDexes] for
+     * @return The next value
+     */
+    fun getNextDex(currentDex: Identifier): Identifier {
+        return if (orderedDexes.indexOf(currentDex) == orderedDexes.size - 1) {
+            orderedDexes.first()
+        } else {
+            orderedDexes[orderedDexes.indexOf(currentDex) + 1]
+        }
+    }
+
+    /**
+     * Gets the [Identifier] of the previous [DexData] in [orderedDexes]
+     *
+     * @param currentDex The [Identifier] to search [orderedDexes] for
+     * @return The next value
+     */
+    fun getPreviousDex(currentDex: Identifier): Identifier {
+        return if (orderedDexes.indexOf(currentDex) == 0) {
+            orderedDexes.last()
+        } else {
+            orderedDexes[orderedDexes.indexOf(currentDex) - 1]
+        }
+    }
 
     /**
      * Finds a dex by the pathname of their [Identifier].

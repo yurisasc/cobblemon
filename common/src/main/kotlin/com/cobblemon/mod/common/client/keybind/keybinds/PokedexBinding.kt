@@ -9,11 +9,14 @@
 package com.cobblemon.mod.common.client.keybind.keybinds
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUI
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinding
 import com.cobblemon.mod.common.client.keybind.KeybindCategories
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.InputUtil
+import net.minecraft.sound.SoundCategory
 
 object PokedexBinding : CobblemonKeyBinding(
     "key.cobblemon.pokedex",
@@ -24,6 +27,7 @@ object PokedexBinding : CobblemonKeyBinding(
     override fun onPress() {
         try {
             PokedexGUI.open(CobblemonClient.clientPokedexData, "red")
+            MinecraftClient.getInstance().player?.playSoundToPlayer(CobblemonSounds.POKEDEX_SHOW, SoundCategory.PLAYERS, 1F, 1F)
         } catch (e: Exception) {
             Cobblemon.LOGGER.debug("Failed to open the Pokedex from the Pokedex keybind", e)
         }
