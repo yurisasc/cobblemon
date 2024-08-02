@@ -22,6 +22,14 @@
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
+        },
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "cobblemon:pc",
+          "properties": {
+            "natural": "false",
+            "part": "bottom"
+          }
         }
       ]
     },
@@ -42,7 +50,8 @@
           "condition": "minecraft:block_state_property",
           "block": "cobblemon:pc",
           "properties": {
-            "natural": "true"
+            "natural": "true",
+            "part": "bottom"
           }
         }
       ]
@@ -55,7 +64,8 @@
           "condition": "minecraft:block_state_property",
           "block": "cobblemon:pc",
           "properties": {
-            "natural": "false"
+            "natural": "false",
+            "part": "bottom"
           }
         }
       ]
