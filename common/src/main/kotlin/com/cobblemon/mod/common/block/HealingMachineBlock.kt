@@ -28,6 +28,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Property
 import net.minecraft.text.Text
